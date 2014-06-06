@@ -1,0 +1,44 @@
+{
+  "name": "library-skeleton",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "scripts": {
+    "test": "",
+    "release": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.softlayer.local:mmarcum/library-skeleton.git"
+  },
+  "keywords": [
+  ],
+  "author": "Matt Marcum",
+  "license": "",
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "chai-as-promised": "^4.1.1",
+    "mocha": "^1.18.0",
+    "mocha-jshint": "0.0.7",
+    "broccoli": "^0.12.2",
+    "broccoli-cli": "^0.0.1",
+    "broccoli-static-compiler":"",
+    "broccoli-es6-module-filter": "",
+    "broccoli-es6-import-validate": "0.1.0",
+    "broccoli-merge-trees":"",
+    "broccoli-export-tree": "0.3.1",    
+    "ic-ajax": "1.0.4",
+    "bower": "^1.2.8",
+    "rimraf": "^2.2.8",
+    "rsvp": "^3.0.6",
+    "glob": "^3.2.3",
+    "lodash-node": "2.4.1",  
+    "mktemp":"",      
+    "testem": "0.6.15",
+    "ncp":"",
+    "mkdirp":""
+  }
+}
