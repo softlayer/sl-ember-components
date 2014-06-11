@@ -1,44 +1,41 @@
 {
-  "name": "library-skeleton",
-  "version": "0.0.0",
-  "description": "",
+  "name": "interface-components",
+  "version": "0.0.1",
+  "description": "SoftLayer shared Interface UI components",
   "main": "lib/main.js",
-  "scripts": {
-    "test": "mocha"
-  },
   "scripts": {
     "test": "",
     "release": ""
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.softlayer.local:mmarcum/library-skeleton.git"
+    "url": "git@gitlab.softlayer.local:jforisha/interface-components.git"
   },
-  "keywords": [
-  ],
-  "author": "Matt Marcum",
-  "license": "",
+  "keywords": [],
+  "author": "Joshua Forisha <jforisha@softlayer.com>",
+  "license": "MIT",
   "devDependencies": {
-    "chai": "^1.9.1",
-    "chai-as-promised": "^4.1.1",
-    "mocha": "^1.18.0",
+    "bower": "~1.3.5",
+    "broccoli": "~0.12.2",
+    "broccoli-cli": "0.0.1",
+    "broccoli-ember-hbs-template-compiler": "~1.5.0",
+    "broccoli-merge-trees": "~0.1.4",
+    "broccoli-static-compiler": "~0.1.4",
+    "broccoli-template": "~0.1.1",
+    "chai": "~1.9.1",
+    "chai-as-promised": "~4.1.1",
+    "glob": "~4.0.2",
+    "ic-ajax": "~1.0.4",
+    "lodash-node": "~2.4.1",
+    "mkdirp": "~0.5.0",
+    "mktemp": "~0.3.4",
+    "mocha": "~1.20.1",
     "mocha-jshint": "0.0.7",
-    "broccoli": "^0.12.2",
-    "broccoli-cli": "^0.0.1",
-    "broccoli-static-compiler":"",
-    "broccoli-es6-module-filter": "",
-    "broccoli-es6-import-validate": "0.1.0",
-    "broccoli-merge-trees":"",
-    "broccoli-export-tree": "0.3.1",    
-    "ic-ajax": "1.0.4",
-    "bower": "^1.2.8",
-    "rimraf": "^2.2.8",
-    "rsvp": "^3.0.6",
-    "glob": "^3.2.3",
-    "lodash-node": "2.4.1",  
-    "mktemp":"",      
-    "testem": "0.6.15",
-    "ncp":"",
-    "mkdirp":""
+    "ncp": "~0.5.1",
+    "rimraf": "~2.2.8",
+    "rsvp": "~3.0.9",
+    "testem": "~0.6.16",
+    "broccoli-es6-module-filter": "~0.1.9",
+    "broccoli-concat": "0.0.6"
   }
 }

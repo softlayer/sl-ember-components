@@ -1,13 +1,13 @@
 {
-  "name": "library-skeleton",
-  "version": "0.0.0",
+  "name": "interface-components",
+  "version": "0.0.1",
   "authors": [
-    "Matthew Marcum <mmarcum@softlayer.com>"
+    "Joshua Forisha <jforisha@softlayer.com>"
   ],
-  "description": "",
+  "description": "SoftLayer shared Interface UI components",
   "main": "dist/main.js",
   "keywords": [],
-  "license": "?",
+  "license": "MIT",
   "private": true,
   "ignore": [
     "**/.*",
@@ -15,6 +15,9 @@
     "bower_components"
   ],
   "dependencies": {
-    "requirejs": "~2.1.14"
+    "ember": "~1.5.1",
+    "emberui": "~0.2.1",
+    "requirejs": "~2.1.14",
+    "ember-table": "~0.2.0"
   }
 }
