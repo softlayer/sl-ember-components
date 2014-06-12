@@ -19,6 +19,7 @@
     "ember": "~1.5.1",
     "ember-table": "~0.2.0",
     "emberui": "~0.2.1",
-    "requirejs": "~2.1.14"
+    "requirejs": "~2.1.14",
+    "jquery-mousewheel": "~3.1.11"
   }
 }
