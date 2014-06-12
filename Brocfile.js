@@ -25,7 +25,7 @@ function filter( tree ) {
         compatFix:   true,
         main:        'main',
         moduleType:  'amd',
-        packageName: 'interface-components'
+        packageName: 'sl-components'
     });
 }
 
@@ -35,6 +35,6 @@ module.exports = concat(
         filter( scripts )
     ]), {
         inputFiles: [ '**/*.js' ],
-        outputFile: '/interface-components.js'
+        outputFile: '/sl-components.js'
     }
 );

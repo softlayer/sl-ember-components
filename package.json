@@ -1,7 +1,7 @@
 {
-  "name": "interface-components",
+  "name": "sl-components",
   "version": "0.0.1",
-  "description": "SoftLayer shared Interface UI components",
+  "description": "SoftLayer shared UI components",
   "main": "lib/main.js",
   "scripts": {
     "test": "",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.softlayer.local:jforisha/interface-components.git"
+    "url": "git@gitlab.softlayer.local:jforisha/sl-components.git"
   },
   "keywords": [],
   "author": "Joshua Forisha <jforisha@softlayer.com>",

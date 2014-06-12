@@ -1,10 +1,10 @@
 {
-  "name": "interface-components",
+  "name": "sl-components",
   "version": "0.0.1",
   "authors": [
     "Joshua Forisha <jforisha@softlayer.com>"
   ],
-  "description": "SoftLayer shared Interface UI components",
+  "description": "SoftLayer shared UI components",
   "main": "dist/main.js",
   "keywords": [],
   "license": "MIT",
@@ -12,7 +12,8 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components"
+    "bower_components",
+    "vendor"
   ],
   "dependencies": {
     "ember": "~1.5.1",
