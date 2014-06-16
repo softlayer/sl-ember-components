@@ -1,0 +1,13 @@
+{
+    "name": "sl-components",
+    "version": "0.2.0",
+    "description": "SoftLayer shared UI components library",
+    "url": "https://gitlab.softlayer.local/jforisha/sl-components",
+    "options": {
+        "exclude": "node_modules,tmp,vendor",
+        "outdir": "doc",
+        "paths": [
+            "./lib"
+        ]
+    }
+}
