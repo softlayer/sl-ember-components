@@ -1,7 +1,7 @@
 {
   "name": "sl-components",
-  "version": "0.2.0",
-  "description": "SoftLayer shared UI components",
+  "version": "0.3.0",
+  "description": "SoftLayer shared UI components library",
   "main": "lib/main.js",
   "scripts": {
     "test": "",

@@ -1,10 +1,10 @@
 {
   "name": "sl-components",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "authors": [
     "Joshua Forisha <jforisha@softlayer.com>"
   ],
-  "description": "SoftLayer shared UI components",
+  "description": "SoftLayer shared UI components library",
   "main": "dist/main.js",
   "keywords": [],
   "license": "MIT",
@@ -20,6 +20,7 @@
     "ember-table": "~0.2.0",
     "emberui": "~0.2.1",
     "requirejs": "~2.1.14",
-    "jquery-mousewheel": "~3.1.11"
+    "jquery-mousewheel": "~3.1.11",
+    "ember-addons.bs_for_ember": "~0.7.0"
   }
 }
