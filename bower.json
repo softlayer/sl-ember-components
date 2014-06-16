@@ -4,7 +4,7 @@
   "authors": [
     "Joshua Forisha <jforisha@softlayer.com>"
   ],
-  "description": "SoftLayer shared UI components",
+  "description": "SoftLayer shared UI components library",
   "main": "dist/main.js",
   "keywords": [],
   "license": "MIT",
