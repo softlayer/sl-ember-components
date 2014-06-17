@@ -7,18 +7,18 @@ The SoftLayer UI components library used for all Interface Ember projects.
 
 ## sl-button
 
-A simple substitute for a plain <button> element. Currently based on [EmberUI's Button](http://emberui.com/documentation/button).
+A simple substitute for a plain &lt;button&gt; element. Currently based on [EmberUI's Button](http://emberui.com/documentation/button).
 
 ### Parameters
 * _action_ : Name of an action to fire when the button is clicked
-* _class_ : String attribute value for the <button> element
+* _class_ : String attribute value for the &lt;button&gt; element
 * _disabled_ : Boolean that determines whether the button is disabled (default: false)
 * _icon_ : Icon/CSS class name of icon to include with label text
 * _label_ : Text label on the button
 * _loading_ : Boolean to indicate the button's loading state
 * _size_ : String denoting size of button; 'tiny', 'small', 'medium' (default), 'large'
 * _style_ : Aesthetic style of button; 'default' (default), 'primary'
-* _type_ : String attribute value for the <button> element
+* _type_ : String attribute value for the &lt;button&gt; element
 * _width_ : Width of the button, requires CSS unit
 
 ----
@@ -46,10 +46,10 @@ Calendar display with date selection and active month control. Based on [EmberUI
 
 ## sl-checkbox
 
-An Ember-friendly substitute for the default <input type="checkbox"> element. Based on [EmberUI's Checkbox](http://emberui.com/documentation/checkbox)
+An Ember-friendly substitute for the default &lt;input type="checkbox"&gt; element. Based on [EmberUI's Checkbox](http://emberui.com/documentation/checkbox)
 
 ### Parameters
-* _class_ : Text attribute value for the <input> element
+* _class_ : Text attribute value for the &lt;input&gt; element
 * _disabled_ : Boolean to indicate disabled state (default: false)
 * _error_ : Boolean or string to handle error (see [EmberUI error handling](http://emberui.com/documentation/errorhandling))
 * _forceErrorCheck_ : Boolean to force an error check (default: false)
@@ -68,7 +68,7 @@ A combination of a button with a drop-down menu, with triggered actions. Based o
 * _actions_ : Array of objects used for menu, with each menu item having a "label" string and an "action" string
 * _disabled_ : Boolean to disable the button (default: false)
 * _icon_ : Icon/CSS class name of icon to include with label text
-* _label_ : Text displayed on the <button> element
+* _label_ : Text displayed on the &lt;button&gt; element
 * _listWidth_ : Width of the drop-down menu; requires CSS unit with value
 * _loading_ : Boolean to indicate the button's loading state
 * _size_ : String size of the button; same options as {{sl-button}}
@@ -114,17 +114,17 @@ Custom grid table component, based on [Addepar's ember-table](http://addepar.git
 
 ## sl-input
 
-An Ember-friendly substitute for a plain <input>. Based on [EmberUI's Input](http://emberui.com/documentation/input).
+An Ember-friendly substitute for a plain &lt;input&gt;. Based on [EmberUI's Input](http://emberui.com/documentation/input).
 
 ### Parameters
 * _action_ : Action to fire when the user presses `enter` in the input
 * _disabled_ : Boolean to indicate the disabled state of the input
 * _error_ : Boolean or string for error handling; see [EmberUI error handling](http://emberui.com/documentation/errorhandling)
 * _forceErrorCheck_ : Boolean to force an error check on the input
-* _placeholder_ : Placeholder string for the <input> element
+* _placeholder_ : Placeholder string for the &lt;input&gt; element
 * _size_ : String size of the input; 'tiny', 'small', 'medium' (default), 'large'
 * _style_ : Aesthetic style of the input; 'default' (default)
-* _type_ : String attribute value for the <input> element; 'text' (default), 'password'
+* _type_ : String attribute value for the &lt;input&gt; element; 'text' (default), 'password'
 * _value_ : Bound value of the input
 * _width_ : String for the width of the input; requires CSS unit with value
 
@@ -132,7 +132,7 @@ An Ember-friendly substitute for a plain <input>. Based on [EmberUI's Input](htt
 
 ## sl-select
 
-A feature rich substitute for <select>, able to filter dynamically bound options. Based on [EmberUI's Select](http://emberui.com/documentation/select).
+A feature rich substitute for &lt;select&gt;, able to filter dynamically bound options. Based on [EmberUI's Select](http://emberui.com/documentation/select).
 
 ### Parameters
 * _animationStyle_ : String for the style of animation used when toggling the options selection; see [EmberUI animations](http://emberui.com/documentation/animations)
@@ -206,10 +206,10 @@ A custom, unified tab panel component. Combines [bs_for_ember's Tabs](http://emb
 
 ## sl-textarea
 
-An Ember-friendly substitute for a plain <textarea> input. Based on [EmberUI's Textarea](http://emberui.com/documentation/textarea).
+An Ember-friendly substitute for a plain &lt;textarea&gt; input. Based on [EmberUI's Textarea](http://emberui.com/documentation/textarea).
 
 ### Parameters
-* _placeholder_ : String value for the `placeholder` attribute on the <textarea> element
+* _placeholder_ : String value for the `placeholder` attribute on the &lt;textarea&gt; element
 * _value_ : Value of the textarea
 * _style_ : Aesthetic style of the textarea; 'default' (default)
 * _size_ : String for the overall size of the textarea; 'tiny', 'small', 'medium' (default), 'large'
