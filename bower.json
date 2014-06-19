@@ -18,10 +18,10 @@
   ],
   "dependencies": {
     "ember": "~1.5.1",
+    "ember-addons.bs_for_ember": "~0.7.0",
     "ember-table": "~0.2.0",
     "emberui": "~0.2.1",
-    "requirejs": "~2.1.14",
     "jquery-mousewheel": "~3.1.11",
-    "ember-addons.bs_for_ember": "~0.7.0"
+    "requirejs": "~2.1.14"
   }
 }
