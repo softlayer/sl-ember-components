@@ -1,5 +1,5 @@
 # sl-components
-## v0.3.0
+## v0.3.2
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
