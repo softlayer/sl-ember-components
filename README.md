@@ -1,9 +1,9 @@
 # sl-components
-## v0.3.2
+## v0.4.0
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
-----
+---
 
 ## sl-button
 
@@ -21,7 +21,7 @@ A simple substitute for a plain &lt;button&gt; element. Currently based on [Embe
 * _type_ : String attribute value for the &lt;button&gt; element
 * _width_ : Width of the button, requires CSS unit
 
-----
+---
 
 ## sl-calendar
 
@@ -42,7 +42,7 @@ Calendar display with date selection and active month control. Based on [EmberUI
 * _showPrevMonth_ : Boolean to show the previous month (default: false)
 * _style_ : The aesthetic style string of the calendor; 'default' (default), 'popup'
 
-----
+---
 
 ## sl-checkbox
 
@@ -57,7 +57,7 @@ An Ember-friendly substitute for the default &lt;input type="checkbox"&gt; eleme
 * _size_ : String size; 'medium' (default); extended with [EmberUI theming](http://emberui.com/documentation/theming)
 * _style_ : The aesthetic style string of the checkbox; 'default' (default)
 
-----
+---
 
 ## sl-dropbutton
 
@@ -74,7 +74,7 @@ A combination of a button with a drop-down menu, with triggered actions. Based o
 * _size_ : String size of the button; same options as {{sl-button}}
 * _style_ : Aesthetic style of the button; same options as {{sl-button}}
 
-----
+---
 
 ## sl-grid
 
@@ -110,7 +110,7 @@ Custom grid table component, based on [Addepar's ember-table](http://addepar.git
 * _styleBindings_ : String values which are bound to the cell's `style` attribute
 * _templateName_ : Name of the template to be rendered into the cell
 
-----
+---
 
 ## sl-input
 
@@ -128,7 +128,7 @@ An Ember-friendly substitute for a plain &lt;input&gt;. Based on [EmberUI's Inpu
 * _value_ : Bound value of the input
 * _width_ : String for the width of the input; requires CSS unit with value
 
-----
+---
 
 ## sl-select
 
@@ -151,7 +151,7 @@ A feature rich substitute for &lt;select&gt;, able to filter dynamically bound o
 * _value_ : Object that uses `valuePath` to look up the current `selection`
 * _width_ : String for the width of the select; requires CSS unit with value
 
-----
+---
 
 ## sl-selectdate
 
@@ -176,7 +176,7 @@ Special select input to allow selection of a date or date range. Based on [Ember
 * _value_ : Unix time stamp or array of time stamps, equal to the currently selected date(s)
 * _width_ : String width of the select; requires CSS unit with value
 
-----
+---
 
 ## sl-simplemodal
 
@@ -192,7 +192,7 @@ A basic modal intended for use with simpler display of data. Based on [EmberUI's
 * _accept_ : Action used for acceptance of modal
 * _cancel_ : Action called if the user closes the modal by pressing `esc`
 
-----
+---
 
 ## sl-tabpanel
 
@@ -202,7 +202,7 @@ A custom, unified tab panel component. Combines [bs_for_ember's Tabs](http://emb
 * _content_ : Array of objects that contain a column `label` and a template name `template`
 * _selected_ : The currently selected tab pane; `null` to close all panes
 
-----
+---
 
 ## sl-textarea
 
@@ -218,3 +218,27 @@ An Ember-friendly substitute for a plain &lt;textarea&gt; input. Based on [Ember
 * _disabled_ : Boolean used to indicate disabled state for textarea
 * _error_ : Boolean or string for error handling; see [EmberUI error handling](http://emberui.com/documentation/errorhandling)
 * _forceErrorCheck_ : Boolean to force error handling, even when value is blank
+
+---
+
+
+# Development
+
+To setup **sl-components** for development, you'll need to clone this repo, and run:
+
+    $ npm install
+    $ node_modules/.bin/bower install
+
+This will install all the necessary dev tools and client libraries.
+
+To clear the dist/ and build the library, run:
+
+    $ rm -rf dist/
+    $ node_modules/.bin/broccoli build dist/
+
+When incrementing the library's version number, be sure to update it in these files:
+
+* lib/main.js
+* bower.json
+* package.json
+* README.md

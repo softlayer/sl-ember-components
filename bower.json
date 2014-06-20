@@ -1,6 +1,6 @@
 {
   "name": "sl-components",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "authors": [
     "Joshua Forisha <jforisha@softlayer.com>"
   ],
@@ -23,5 +23,10 @@
     "emberui": "~0.2.1",
     "jquery-mousewheel": "~3.1.11",
     "requirejs": "~2.1.14"
+  },
+  "resolutions": {
+    "jquery-mousewheel": "~3.1.11",
+    "ember": "~1.5.1",
+    "jquery": ">= 1.8"
   }
 }

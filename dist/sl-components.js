@@ -43,9 +43,11 @@ define("sl-components/components/sl-dropbutton",
     __exports__["default"] = EmberUI.EuiDropbuttonComponent.extend();
   });
 define("sl-components/components/sl-grid",
-  ["exports"],
-  function(__exports__) {
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
     "use strict";
+    var Ember = __dependency1__["default"] || __dependency1__;
+
     /**
      * Grid component, based on Addepar's ember-table
      */
@@ -96,9 +98,11 @@ define("sl-components/components/sl-simplemodal",
     __exports__["default"] = EmberUI.EuiModalComponent.extend();
   });
 define("sl-components/components/sl-tabpanel",
-  ["exports"],
-  function(__exports__) {
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
     "use strict";
+    var Ember = __dependency1__["default"] || __dependency1__;
+
     /**
      * TabPanel component, wrapping functionality from bs_for_ember's TabsComponent
      * and TabsPanesComponent into a single custom component.
@@ -258,30 +262,31 @@ define("sl-components/initializers/main",
     };
   });
 define("sl-components",
-  ["./components/sl-button","./components/sl-calendar","./components/sl-checkbox","./components/sl-dropbutton","./components/sl-grid","./components/sl-input","./components/sl-select","./components/sl-selectdate","./components/sl-simplemodal","./components/sl-tabpanel","./components/sl-textarea","./initializers/main","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __dependency8__, __dependency9__, __dependency10__, __dependency11__, __dependency12__, __exports__) {
+  ["ember","./components/sl-button","./components/sl-calendar","./components/sl-checkbox","./components/sl-dropbutton","./components/sl-grid","./components/sl-input","./components/sl-select","./components/sl-selectdate","./components/sl-simplemodal","./components/sl-tabpanel","./components/sl-textarea","./initializers/main","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __dependency8__, __dependency9__, __dependency10__, __dependency11__, __dependency12__, __dependency13__, __exports__) {
     "use strict";
-    var SlButtonComponent = __dependency1__["default"] || __dependency1__;
-    var SlCalendarComponent = __dependency2__["default"] || __dependency2__;
-    var SlCheckboxComponent = __dependency3__["default"] || __dependency3__;
-    var SlDropbuttonComponent = __dependency4__["default"] || __dependency4__;
-    var SlGridComponent = __dependency5__["default"] || __dependency5__;
-    var SlInputComponent = __dependency6__["default"] || __dependency6__;
-    var SlSelectComponent = __dependency7__["default"] || __dependency7__;
-    var SlSelectDateComponent = __dependency8__["default"] || __dependency8__;
-    var SlSimpleModalComponent = __dependency9__["default"] || __dependency9__;
-    var SlTabPanelComponent = __dependency10__["default"] || __dependency10__;
-    var SlTextareaComponent = __dependency11__["default"] || __dependency11__;
-    var MainInitializer = __dependency12__["default"] || __dependency12__;
+    var Ember = __dependency1__["default"] || __dependency1__;
+    var SlButtonComponent = __dependency2__["default"] || __dependency2__;
+    var SlCalendarComponent = __dependency3__["default"] || __dependency3__;
+    var SlCheckboxComponent = __dependency4__["default"] || __dependency4__;
+    var SlDropbuttonComponent = __dependency5__["default"] || __dependency5__;
+    var SlGridComponent = __dependency6__["default"] || __dependency6__;
+    var SlInputComponent = __dependency7__["default"] || __dependency7__;
+    var SlSelectComponent = __dependency8__["default"] || __dependency8__;
+    var SlSelectDateComponent = __dependency9__["default"] || __dependency9__;
+    var SlSimpleModalComponent = __dependency10__["default"] || __dependency10__;
+    var SlTabPanelComponent = __dependency11__["default"] || __dependency11__;
+    var SlTextareaComponent = __dependency12__["default"] || __dependency12__;
+    var MainInitializer = __dependency13__["default"] || __dependency13__;
 
     Ember.Application.initializer( MainInitializer );
 
-    Ember.libraries.register( 'sl-components', '0.3.0' );
+    Ember.libraries.register( 'sl-components', '0.4.0' );
 
     /**
      * The sl-components UI component library
      *
-     * @version 0.3.0
+     * @version 0.4.0
      */
     __exports__.MainInitializer = MainInitializer;
     __exports__.SlButtonComponent = SlButtonComponent;

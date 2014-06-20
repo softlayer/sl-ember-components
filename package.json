@@ -1,6 +1,6 @@
 {
   "name": "sl-components",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "SoftLayer shared UI components library",
   "main": "lib/main.js",
   "scripts": {
@@ -17,10 +17,13 @@
   "devDependencies": {
     "bower": "~1.3.5",
     "broccoli": "~0.12.2",
+    "broccoli-bower": "~0.2.1",
     "broccoli-cli": "0.0.1",
     "broccoli-concat": "0.0.6",
     "broccoli-ember-hbs-template-compiler": "~1.5.0",
+    "broccoli-es6-concatenator": "~0.1.6",
     "broccoli-es6-module-filter": "~0.1.9",
+    "broccoli-less-single": "~0.1.4",
     "broccoli-merge-trees": "~0.1.4",
     "broccoli-static-compiler": "~0.1.4",
     "broccoli-template": "~0.1.1",
