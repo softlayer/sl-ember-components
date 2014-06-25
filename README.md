@@ -242,3 +242,4 @@ When incrementing the library's version number, be sure to update it in these fi
 * bower.json
 * package.json
 * README.md
+* yuidoc.json
