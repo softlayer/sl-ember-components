@@ -27,6 +27,7 @@
     "broccoli-merge-trees": "~0.1.4",
     "broccoli-static-compiler": "~0.1.4",
     "broccoli-template": "~0.1.1",
+    "broccoli-timepiece": "0.2.0",
     "chai": "~1.9.1",
     "chai-as-promised": "~4.1.1",
     "glob": "~4.0.2",
