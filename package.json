@@ -1,45 +1,36 @@
 {
   "name": "sl-components",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "SoftLayer shared UI components library",
-  "main": "lib/main.js",
-  "scripts": {
-    "test": "",
-    "release": ""
-  },
+  "ember-addon-main": "lib/sl-components.js",
+  "main": "lib/sl-components.js",
+  "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git@gitlab.softlayer.local:jforisha/sl-components.git"
+    "url": "git@gitlab.softlayer.local:interface/sl-components.git"
   },
-  "keywords": [],
-  "author": "Joshua Forisha <jforisha@softlayer.com>",
+  "keywords": [
+    "ember-addon"
+  ],
+  "authors": [
+    "Joshua Cochran <jcochran@softlayer.com>",
+    "Joshua Forisha <jforisha@softlayer.com>",
+    "Matthew Marcum <mmarcum@softlayer.com>"
+  ],
   "license": "MIT",
   "devDependencies": {
+    "ember-cli": "0.0.37",
+    "originate": "0.1.5",
+    "broccoli-ember-hbs-template-compiler": "^1.5.0",
+    "express": "^4.1.1",
+    "body-parser": "^1.2.0",
+    "glob": "^3.2.9",
+    "ember-cli-ic-ajax": "0.1.0",
+    "ember-cli-ember-data": "0.0.4",
     "bower": "~1.3.5",
-    "broccoli": "~0.12.2",
-    "broccoli-bower": "~0.2.1",
-    "broccoli-cli": "0.0.1",
-    "broccoli-concat": "0.0.6",
-    "broccoli-ember-hbs-template-compiler": "~1.5.0",
-    "broccoli-es6-concatenator": "~0.1.6",
-    "broccoli-es6-module-filter": "~0.1.9",
-    "broccoli-less-single": "~0.1.4",
     "broccoli-merge-trees": "~0.1.4",
-    "broccoli-static-compiler": "~0.1.4",
-    "broccoli-template": "~0.1.1",
     "broccoli-timepiece": "0.2.0",
     "chai": "~1.9.1",
-    "chai-as-promised": "~4.1.1",
-    "glob": "~4.0.2",
-    "ic-ajax": "~1.0.4",
-    "lodash-node": "~2.4.1",
-    "mkdirp": "~0.5.0",
-    "mktemp": "~0.3.4",
-    "mocha": "~1.20.1",
-    "mocha-jshint": "0.0.7",
-    "ncp": "~0.5.1",
-    "rimraf": "~2.2.8",
-    "rsvp": "~3.0.9",
-    "testem": "~0.6.16"
+    "chai-as-promised": "~4.1.1"
   }
 }

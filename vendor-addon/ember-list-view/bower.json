@@ -1,0 +1,12 @@
+{
+  "name": "ember-listview",
+  "version": "0.0.4",
+  "main": "list-view.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

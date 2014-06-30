@@ -1,6 +1,6 @@
 {
     "name": "sl-components",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "SoftLayer shared UI components library",
     "url": "https://gitlab.softlayer.local/jforisha/sl-components",
     "options": {

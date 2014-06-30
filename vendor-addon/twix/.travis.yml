@@ -1,0 +1,11 @@
+language: node_js
+
+node_js:
+  - 0.10
+  - 0.8
+
+before_install:
+  - make configure
+
+before_script:
+  - make build

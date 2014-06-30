@@ -1,43 +1,41 @@
-var compileHandlebars = require( 'broccoli-ember-hbs-template-compiler' );
-var compileLess       = require( 'broccoli-less-single' );
-var concat            = require( 'broccoli-concat' );
-var filterES6Modules  = require( 'broccoli-es6-module-filter' );
-var mergeTrees        = require( 'broccoli-merge-trees' );
-var pickFiles         = require( 'broccoli-static-compiler' );
+var mergeTrees = require( 'broccoli-merge-trees' );
 
-var lib = pickFiles( 'lib', {
-    files:   [ '**/*.js' ],
-    srcDir:  '/',
-    destDir: '/'
+var appTree    = mergeTrees([ 'app', 'app-addon' ], { overwrite: true });
+var stylesTree = mergeTrees([ 'app/styles', 'app-addon/styles' ]);
+var vendorTree = mergeTrees([ 'vendor', 'vendor-addon' ]);
+
+var EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
+
+var app = new EmberApp({
+    trees: {
+        app:    appTree,
+        styles: stylesTree,
+        vendor: vendorTree
+    }
 });
 
-var styles = pickFiles( 'lib', {
-    files:   [ '**/*.less' ],
-    srcDir:  '/styles',
-    destDir: '/styles'
+// Ember UI dependencies and library
+app.import( 'vendor/ember-list-view/list-view.min.js' );
+app.import( 'vendor/moment/min/moment.min.js' );
+app.import( 'vendor/twix/bin/twix.min.js' );
+app.import( 'vendor/Velocity.js/jquery.velocity.min.js' );
+app.import( 'vendor/emberui/dist/named-amd/emberui.js', {
+    exports: {
+        'emberui': [
+            'default'
+        ]
+    }
 });
 
-var templates = pickFiles( 'lib', {
-    files:   [ '**/*.hbs' ],
-    srcDir:  '/templates',
-    destDir: '/templates'
-});
-templates = compileHandlebars( templates, { module: true });
+// Ember Table dependencies and library
+app.import( 'vendor/antiscroll/antiscroll.js' );
+app.import( 'vendor/jquery-mousewheel/jquery.mousewheel.js' );
+app.import( 'vendor/ember-table/dist/ember-table.min.js' );
 
-var jsTrees = mergeTrees([ lib, templates ]);
+// Bootstrap for Ember library components
+app.import( 'vendor/ember-addons.bs_for_ember/dist/js/bs-core.min.js' );
+app.import( 'vendor/ember-addons.bs_for_ember/dist/js/bs-nav.min.js' );
 
-var libCSS = compileLess([ styles ], '/styles/main.less', '/sl-components.css' );
+app.import( 'vendor/font-awesome/css/font-awesome.min.css' );
 
-var libJS = filterES6Modules( jsTrees, {
-    anonymous:   false,
-    compatFix:   true,
-    main:        'main',
-    moduleType:  'amd',
-    packageName: 'sl-components'
-});
-libJS = concat( libJS, {
-    inputFiles: [ '**/*.js' ],
-    outputFile: '/sl-components.js'
-});
-
-module.exports = mergeTrees([ libJS, libCSS ]);
+module.exports = app.toTree();

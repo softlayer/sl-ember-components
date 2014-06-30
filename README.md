@@ -1,5 +1,5 @@
 # sl-components
-## v0.4.0
+## v0.5.0
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
@@ -224,21 +224,8 @@ An Ember-friendly substitute for a plain &lt;textarea&gt; input. Based on [Ember
 
 # Development
 
-To setup **sl-components** for development, you'll need to clone this repo, and run:
-
-    $ npm install
-    $ node_modules/.bin/bower install
-
-This will install all the necessary dev tools and client libraries.
-
-To clear the dist/ and build the library, run:
-
-    $ rm -rf dist/
-    $ node_modules/.bin/broccoli build dist/
-
 When incrementing the library's version number, be sure to update it in these files:
 
-* lib/main.js
 * bower.json
 * package.json
 * README.md

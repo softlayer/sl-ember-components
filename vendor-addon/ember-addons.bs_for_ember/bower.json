@@ -1,0 +1,59 @@
+{
+  "name": "ember-addons.bootstrap_for_ember",
+  "version": "0.7.0",
+  "description": "Bootstrap for Ember.js",
+  "homepage": "http://ember-addons.github.io/bootstrap-for-ember",
+  "authors": [
+    "Asaf Shakarchi <asaf000@gmail.com>"
+  ],
+  "keywords": [
+    "bootstrap",
+    "emberjs",
+    "ember",
+    "coffee",
+    "javascript",
+    "ui",
+    "html5",
+    "css3",
+    "html",
+    "css",
+    "js"
+  ],
+  "main": [
+    "./dist/css/bs-growl-notifications.min.css",
+    "./dist/js/bs-core.min.js",
+    "./dist/js/bs-alert.min.js",
+    "./dist/js/bs-badge.min.js",
+    "./dist/js/bs-basic.min.js",
+    "./dist/js/bs-button.min.js",
+    "./dist/js/bs-growl-notifications.min.js",
+    "./dist/js/bs-items-action-bar.min.js",
+    "./dist/js/bs-label.min.js",
+    "./dist/js/bs-list-group.min.js",
+    "./dist/js/bs-modal.min.js",
+    "./dist/js/bs-nav.min.js",
+    "./dist/js/bs-notifications.min.js",
+    "./dist/js/bs-progressbar.min.js",
+    "./dist/js/bs-wizard.min.js"
+    ],
+  "devDependencies": {
+    "modernizr": "~2.6.2",
+    "jquery": "~1.9.1",
+    "ember": "~1.3.1",
+    "bootstrap": "3.0.0",
+    "highlightjs": "~7.3.0",
+    "font-awesome": "~4.0.3"
+  },
+  "license": "Apache2",
+  "ignore": [
+    "**/.*",
+    "!dist",
+    "!LICENSE",
+    "!README.md",
+    "!bower.json",
+    "!dist/",
+    "!dist/*",
+    "!dist/*/*",
+    "!dist/*/*/*"
+  ]
+}

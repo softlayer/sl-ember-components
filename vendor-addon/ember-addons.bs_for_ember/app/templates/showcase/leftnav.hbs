@@ -1,0 +1,13 @@
+{{#each item in controller}}
+    <li>
+        {{#link-to item.route}}
+            {{item.title}}
+            {{#if item.special}}
+                {{bs-label content="Special" type="danger"}}
+            {{/if}}
+            {{#if item.new}}
+              {{bs-label content="New" type="info"}}
+            {{/if}}
+        {{/link-to}}
+    </li>
+{{/each}}

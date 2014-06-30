@@ -1,0 +1,26 @@
+{{#if heading}}
+    <div class="panel-heading">
+        {{#if collapsible}}
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" {{bind-attr href=collapsibleBodyLink}}>
+                {{heading}}
+            </a>
+        {{else}}
+            {{heading}}
+        {{/if}}
+        {{#if dismiss}}
+            <a class="close" data-dismiss="panel" {{action "close"}}>&times;</a>
+        {{/if}}
+    </div>
+{{/if}}
+
+{{#if collapsible}}
+    <div {{bind-attr id=collapsibleBodyId}} {{bind-attr class=":panel-collapse :collapse open:in"}}>
+        <div class="panel-body">{{yield}}</div>
+    </div>
+{{else}}
+    <div id="collapseOne" class="panel-body">{{yield}}</div>
+{{/if}}
+
+{{#if footer}}
+    <div class="panel-footer">{{footer}}</div>
+{{/if}}
