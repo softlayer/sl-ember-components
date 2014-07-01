@@ -1,6 +1,11 @@
-module EmberUI from 'emberui';
+module Ember from 'ember';
 
 /**
  * Button component, currently based on EmberUI's ButtonComponent
  */
-export default EmberUI.EuiButtonComponent.extend();
+export default Ember.Component.extend({
+
+    attributeBindings: [ 'disabled', 'class', 'href' ],
+
+    tagName: 'button'
+});
