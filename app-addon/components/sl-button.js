@@ -7,13 +7,32 @@ export default Ember.Component.extend( AjaxAware, {
 
     tagName: 'button',
 
+    /**
+     * The text to apply to the button label.  It is preferred you use this to set your "default"
+     * text rather than inactiveLabelText, which will take this value as a default
+     */
     labelText: null,
 
+    /**
+     * This is primarily used internally to avoid losing the "default" value of the label when switching
+     * to the active text
+     */
     inactiveLabelText: null,
 
+    /**
+     * The text to display during AJAX activity
+     */
     activeLabelText: null,
 
+    /**
+     * Whether or not the button should be disabled during AJAX activity
+     */
     disableOnAjax: false,
+
+    /**
+     * Whether or not the button should be hidden during AJAX activity
+     */
+    hideOnAjax: false,
 
     initLabel: function() {
         if ( Ember.isBlank( this.get( 'inactiveLabelText' ))) {
@@ -21,6 +40,9 @@ export default Ember.Component.extend( AjaxAware, {
         }
     }.on( 'init' ),
 
+    /**
+     * Register our behaviors with the convenience method from the AJAX mixin
+     */
     setupHandlers: function() {
         this.registerAjaxBehavior( function() {
             var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
@@ -53,6 +75,9 @@ export default Ember.Component.extend( AjaxAware, {
         }.bind( this ));
     }.on( 'init' ),
 
+    /**
+     * Alert external code about the click
+     */
     click: function() {
         this.sendAction();
     }
