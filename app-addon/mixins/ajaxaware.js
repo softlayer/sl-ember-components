@@ -1,42 +1,75 @@
 import Ember from 'ember';
 
 /**
- *
- * class AjaxAware
+ * @module mixins
+ * @class AjaxAware
  */
 export default Ember.Mixin.create({
 
     /**
      * URL scope can be given as either a string or a regular expression.  It is used to indicate
      * which endpoint(s) AJAX activity we are concerned with
+     * @property urlScope
+     * @default null
      */
     urlScope: null,
 
     /**
      * Used to control whether or not AJAX events are bound to.  If disabled, the instance will not
      * even create the bindings to be made aware of the AJAX activity.
+     * @property ajaxEnabled
+     * @default false
      */
-    ajaxEnabled: true,
+    ajaxEnabled: false,
 
     /**
      * Used internally to track registered AJAX behaviors
+     * @property onActiveBehaviors
      */
     onActiveBehaviors: Ember.A(),
+
+    /**
+     * Used internall to track registered AJAX behaviors
+     * @property onInactiveBehaviors
+     */
     onInactiveBehaviors: Ember.A(),
 
     /**
      * To get around weirdness with method target in AJAX call backs and binding/unbinding
-     * in jQuery, we need a place to hold a pre-bound function for each of our callbacks
+     * in jQuery, we need a place to hold a pre-bound function for each of our callbacks.  This
+     * will be initialized to the proper bound function on init
+     * @property ajaxSendProxyBound
      */
     ajaxSendProxyBound: null,
+
+    /**
+     * To get around weirdness with method target in AJAX call backs and binding/unbinding
+     * in jQuery, we need a place to hold a pre-bound function for each of our callbacks.  This
+     * will be initialized to the proper bound function on init
+     * @property ajaxCompleteProxyBound
+     */
     ajaxCompleteProxyBound: null,
+
+    /**
+     * To get around weirdness with method target in AJAX call backs and binding/unbinding
+     * in jQuery, we need a place to hold a pre-bound function for each of our callbacks.  This
+     * will be initialized to the proper bound function on init
+     * @property ajaxStartProxyBound
+     */
     ajaxStartProxyBound: null,
+
+    /**
+     * To get around weirdness with method target in AJAX call backs and binding/unbinding
+     * in jQuery, we need a place to hold a pre-bound function for each of our callbacks.  This
+     * will be initialized to the proper bound function on init
+     * @property ajaxStopProxyBound
+     */
     ajaxStopProxyBound: null,
 
 
     /**
-     * @method initAjax
      * Initialize AJAX connectivity
+     * @method initAjax
      */
     initAjax: function() {
         this.createProxyMethods();
@@ -99,9 +132,8 @@ export default Ember.Mixin.create({
     },
 
     /**
-     * We proxy calls to allow us to check for URL scoping and also to
-     * check against the registered behaviors
-     * @method ajaxSendProxy Internally used proxy method for ajaxSend
+     * Internally used proxy method for ajaxSend
+     * @method ajaxSendProxy
      */
     ajaxSendProxy: function( event, jqXHR, options ) {
         if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
@@ -114,9 +146,8 @@ export default Ember.Mixin.create({
     },
 
     /**
-     * We proxy calls to allow us to check for URL scoping and also to
-     * check against the registered behaviors
-     * @method ajaxCompleteProxy Internally used proxy method for ajaxComplete
+     * Internally used proxy method for ajaxComplete
+     * @method ajaxCompleteProxy
      */
     ajaxCompleteProxy: function( event, jqXHR, options ) {
         if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
@@ -129,9 +160,8 @@ export default Ember.Mixin.create({
     },
 
     /**
-     * We proxy calls to allow us to check for URL scoping and also to
-     * check against the registered behaviors
-     * @method ajaxStartProxy Internally used proxy method for ajaxStart
+     * Internally used proxy method for ajaxStart
+     * @method ajaxStartProxy
      */
     ajaxStartProxy: function() {
         this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
@@ -142,9 +172,8 @@ export default Ember.Mixin.create({
     },
 
     /**
-     * We proxy calls to allow us to check for URL scoping and also to
-     * check against the registered behaviors
-     * @method ajaxStopProxy Internally used proxy method for ajaxStop
+     * Internally used proxy method for ajaxStop
+     * @method ajaxStopProxy
      */
     ajaxStopProxy: function() {
         this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
@@ -156,21 +185,25 @@ export default Ember.Mixin.create({
 
     /**
      * Empty implementations of AJAX handler to be overriden by client code
+     * @method ajaxSendHandler
      */
     ajaxSendHandler: function(){},
 
     /**
      * Empty implementations of AJAX handler to be overriden by client code
+     * @method ajaxCompleteHandler
      */
     ajaxCompleteHandler: function(){},
 
     /**
      * Empty implementations of AJAX handler to be overriden by client code
+     * @method ajaxStartHandler
      */
     ajaxStartHandler: function(){},
 
     /**
      * Empty implementations of AJAX handler to be overriden by client code
+     * @method ajaxStopHandler
      */
     ajaxStopHandler: function(){},
 
