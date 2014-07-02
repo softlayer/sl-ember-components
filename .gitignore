@@ -4,6 +4,8 @@
 /dist
 /tmp
 
+/doc
+
 # dependencies
 /node_modules
 /vendor/*
