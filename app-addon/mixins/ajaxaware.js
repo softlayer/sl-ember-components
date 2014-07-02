@@ -54,7 +54,7 @@ export default Ember.Mixin.create({
     // We need to proxy ajaxSend & ajaxComplete so we can check against
     // the provided "match" URL.
     ajaxSendProxy: function( event, jqXHR, options ) {
-        if ( this.matchesUrl( this.get( 'forUrl' ), options.url )) {
+        if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
             this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
                 behavior.call( this, event, jqXHR, options );
             }.bind( this ));
@@ -64,7 +64,7 @@ export default Ember.Mixin.create({
     },
 
     ajaxCompleteProxy: function( event, jqXHR, options ) {
-        if ( this.matchesUrl( this.get( 'forUrl' ), options.url )) {
+        if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
             this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
                 behavior.call( this, event, jqXHR, options );
             }.bind( this ));
@@ -95,10 +95,10 @@ export default Ember.Mixin.create({
     ajaxStopHandler: function(){},
 
     connectAjax: function() {
-        var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'forUrl' ]);
+        var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'urlScope' ]);
 
         if ( props.ajaxEnabled === true && !props.ajaxBound ) {
-            if ( !Ember.isBlank( props.forUrl )) {
+            if ( !Ember.isBlank( props.urlScope )) {
                 Ember.$( document )
                     .ajaxSend( this.get( 'ajaxSendProxyBound' ))
                     .ajaxComplete( this.get( 'ajaxCompleteProxyBound' ));
@@ -112,7 +112,7 @@ export default Ember.Mixin.create({
     }.observes( 'ajaxEnabled' ),
 
     disconnectAjax: function() {
-        var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'forUrl' ]);
+        var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'urlScope' ]);
 
         if ( !props.ajaxEnabled && props.ajaxBound ) {
             Ember.$( document ).off( 'ajaxSend', this.get( 'ajaxSendProxyBound' ));
@@ -122,11 +122,11 @@ export default Ember.Mixin.create({
         }
     }.observes( 'ajaxEnabled' ),
 
-    matchesUrl: function( forUrl, ajaxUrl ) {
-        if ( forUrl instanceof RegExp ) {
-            return forUrl.test( ajaxUrl );
-        } else if ( typeof forUrl === 'string' ) {
-            return forUrl.toLowerCase() === ajaxUrl.toLowerCase();
+    matchesUrl: function( urlScope, ajaxUrl ) {
+        if ( urlScope instanceof RegExp ) {
+            return urlScope.test( ajaxUrl );
+        } else if ( typeof urlScope === 'string' ) {
+            return urlScope.toLowerCase() === ajaxUrl.toLowerCase();
         }
 
         return false;
