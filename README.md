@@ -7,19 +7,18 @@ The SoftLayer UI components library used for all Interface Ember projects.
 
 ## sl-button
 
-A simple substitute for a plain &lt;button&gt; element. Currently based on [EmberUI's Button](http://emberui.com/documentation/button).
+A expanded version of the plain &lt;button&gt; element.
 
 ### Parameters
 * _action_ : Name of an action to fire when the button is clicked
 * _class_ : String attribute value for the &lt;button&gt; element
 * _disabled_ : Boolean that determines whether the button is disabled (default: false)
-* _icon_ : Icon/CSS class name of icon to include with label text
-* _label_ : Text label on the button
-* _loading_ : Boolean to indicate the button's loading state
-* _size_ : String denoting size of button; 'tiny', 'small', 'medium' (default), 'large'
-* _style_ : Aesthetic style of button; 'default' (default), 'primary'
-* _type_ : String attribute value for the &lt;button&gt; element
-* _width_ : Width of the button, requires CSS unit
+* _labelText_ : Text label on the button
+* _activeLabelText_ : Text to display during associated AJAX activity (requires ajaxEnabled=true)
+* _disableOnAjax_ : When true, button will become disabled during associated AJAX activity (requires ajaxEnabled=true)
+* _hideOnAjax_ : When true, button will become hidden during associated AJAX activity (requires ajaxEnabled=true)
+* _ajaxEnabled_ : Allow behaviors to be bound to associated AJAX activity
+* _urlScope_ : A String or regular expression used to scope associated AJAX activity
 
 ---
 
