@@ -40,6 +40,7 @@
     "ember": "~1.5.1",
     "ember-resolver": "~0.1.1",
     "jquery": "^1.11.1",
-    "jquery-mousewheel": "~3.1.11"
+    "jquery-mousewheel": "~3.1.11",
+    "ember-list-view": "~0.0.4"
   }
 }
