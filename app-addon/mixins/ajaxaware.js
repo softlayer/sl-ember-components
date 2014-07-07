@@ -136,6 +136,9 @@ export default Ember.Mixin.create({
      * @method ajaxSendProxy
      */
     ajaxSendProxy: function( event, jqXHR, options ) {
+        console.log( 'EVENT:', event );
+        console.log( 'jqXHR:', jqXHR );
+        console.log( 'options:', options );
         if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
             this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
                 behavior.call( this, event, jqXHR, options );
