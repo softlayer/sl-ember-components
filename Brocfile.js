@@ -1,17 +1,8 @@
 var mergeTrees = require( 'broccoli-merge-trees' );
 
-var appTree    = mergeTrees([ 'app', 'app-addon' ], { overwrite: true });
-var stylesTree = mergeTrees([ 'app/styles', 'app-addon/styles' ]);
-var vendorTree = mergeTrees([ 'vendor', 'vendor-addon' ]);
-
 var EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
 
 var app = new EmberApp({
-    trees: {
-        app:    appTree,
-        styles: stylesTree,
-        vendor: vendorTree
-    }
 });
 
 // Ember UI dependencies and library
