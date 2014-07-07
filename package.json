@@ -4,7 +4,9 @@
   "description": "SoftLayer shared UI components library",
   "ember-addon-main": "lib/sl-components.js",
   "main": "lib/sl-components.js",
-  "scripts": {},
+  "scripts": {
+    "postinstall": "bower install"
+  },
   "repository": {
     "type": "git",
     "url": "git@gitlab.softlayer.local:interface/sl-components.git"
