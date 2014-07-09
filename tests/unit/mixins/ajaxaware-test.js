@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { test, moduleFor } from 'ember-qunit';
 import AjaxAwareMixin from 'sl-components/mixins/ajaxaware';
+import AjaxHelper from 'sl-components/tests/helpers/ajax-helper';
 
 var BaseObject = Ember.Object.extend( AjaxAwareMixin, {
     startHandlerCalled: false,
@@ -34,296 +35,198 @@ var BaseObject = Ember.Object.extend( AjaxAwareMixin, {
     }
 });
 
-var testObject;
+var mixin;
 
 module( 'AjaxAware Mixin:Global Scope', {
     setup: function() {
-        testObject = BaseObject.create({
-            ajaxEnabled: true
+        Ember.run( function() {
+            mixin = BaseObject.create({
+                ajaxEnabled: true
+            });
         });
     },
 
     teardown: function() {
-        testObject = null;
+        mixin = null;
     }
 });
 
 test( 'Start Handler is called when URL is global scope', function() {
-    expect( 2 );
+    AjaxHelper.begin();
+    AjaxHelper.begin( 'my/api/endpoint' );
 
-    $( document ).trigger( 'ajaxStart' );
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.startHandlerCalled, true, 'Start Handler called' );
-        equal( testObject.sendHandlerCalled, false, 'Send Handler not called' );
-        start();
-    }, 10 );
+    equal( mixin.startHandlerCalled, true );
+    equal( mixin.sendHandlerCalled, false );
 });
 
 test( 'Stop Handler is called when URL is global scope', function() {
-    expect( 2 );
+    AjaxHelper.end();
+    AjaxHelper.end( 'my/api/endpoint' );
 
-    $( document ).trigger( 'ajaxStop' );
-    $( document ).trigger( 'ajaxComplete', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.stopHandlerCalled, true, 'Stop Handler called' );
-        equal( testObject.completeHandlerCalled, false, 'Complete Handler not called' );
-        start();
-    }, 10 );
+    equal( mixin.stopHandlerCalled, true );
+    equal( mixin.completeHandlerCalled, false );
 });
-
-
 
 module( 'AjaxAware Mixin:URL Scope (String)', {
     setup: function() {
-        testObject = BaseObject.create({
-            ajaxEnabled: true,
-
-            urlScope: 'my/api/endpoint'
+        Ember.run( function() {
+            mixin = BaseObject.create({
+                ajaxEnabled: true,
+                urlScope: 'my/api/endpoint'
+            });
         });
     },
 
     teardown: function() {
-        testObject = null;
+        mixin = null;
     }
 });
 
 test( 'Send Handler is called when URL is specifically scoped', function() {
-    expect( 2 );
+    AjaxHelper.begin();
+    AjaxHelper.begin( 'my/api/endpoint' );
 
-    $( document ).trigger( 'ajaxStart' );
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.sendHandlerCalled, true, 'Send Handler called' );
-        equal( testObject.startHandlerCalled, false, 'Start Handler not called' );
-        start();
-    }, 10 );
+    equal( mixin.sendHandlerCalled, true );
+    equal( mixin.startHandlerCalled, false );
 });
 
 test( 'Complete Handler is called when URL is specifically scoped', function() {
-    expect( 2 );
+    AjaxHelper.end();
+    AjaxHelper.end( 'my/api/endpoint' );
 
-    $( document ).trigger( 'ajaxStop' );
-    $( document ).trigger( 'ajaxComplete', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.completeHandlerCalled, true, 'Complete Handler called' );
-        equal( testObject.stopHandlerCalled, false, 'Stop Handler not called' );
-        start();
-    }, 10 );
+    equal( mixin.completeHandlerCalled, true );
+    equal( mixin.stopHandlerCalled, false );
 });
 
 module( 'AjaxAware Mixin:URL Scope (Regex)', {
     setup: function() {
-        testObject = BaseObject.create({
-            ajaxEnabled: true,
-
-            urlScope: /api\/endpoint/
+        Ember.run( function() {
+            mixin = BaseObject.create({
+                ajaxEnabled: true,
+                urlScope: /api\/endpoint/
+            });
         });
     },
 
     teardown: function() {
-        testObject = null;
+        mixin = null;
     }
 });
 
 test( 'Scopes to specific URL if specified as a regular expression', function() {
-    expect( 2 );
+    AjaxHelper.begin();
+    AjaxHelper.begin( 'my/api/endpoint' );
 
-    $( document ).trigger( 'ajaxStart' );
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.sendHandlerCalled, true, 'Send Handler called' );
-        equal( testObject.startHandlerCalled, false, 'Start Handler not called' );
-        start();
-    }, 10 );
+    equal( mixin.sendHandlerCalled, true );
+    equal( mixin.startHandlerCalled, false );
 });
 
 test( 'Scope supports multiple URLs via regular expression', function() {
-    expect( 3 );
+    AjaxHelper.begin();
+    AjaxHelper.begin( 'my/api/endpoint' );
+    AjaxHelper.begin( 'my/alternate/api/endpoint' );
+    AjaxHelper.begin( 'my/other/alternate/api/endpoint' );
 
-    $( document ).trigger( 'ajaxStart' );
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/api/endpoint' }]);
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/alternate/api/endpoint' }]);
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/other/alternate/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.sendHandlerCalled, true, 'Send Handler called' );
-        equal( testObject.sendHandlerCalledCount, 3, 'Send Handler called for all endpoints' );
-        equal( testObject.startHandlerCalled, false, 'Start Handler not called' );
-        start();
-    }, 10 );
+    equal( mixin.sendHandlerCalled, true );
+    equal( mixin.sendHandlerCalledCount, 3 );
+    equal( mixin.startHandlerCalled, false );
 });
 
 
 module( 'AjaxAware Mixin:Ajax Enabled False (Global)', {
     setup: function() {
-        testObject = BaseObject.create({
-            ajaxEnabled: false
+        Ember.run( function() {
+            mixin = BaseObject.create({
+                ajaxEnabled: false
+            });
         });
     },
 
     teardown: function() {
-        testObject = null;
+        mixin = null;
     }
 });
 
 test( 'Start Handler is not called if ajaxEnabled is false', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxStart' );
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.startHandlerCalled, false, 'Start Handler not called' );
-        start();
-    }, 10 );
+    AjaxHelper.begin();
+    equal( mixin.startHandlerCalled, false );
 });
 
 test( 'Stop Handler is not called if ajaxEnabled is false', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxStop' );
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.stopHandlerCalled, false, 'Stop Handler not called' );
-        start();
-    }, 10 );
+    AjaxHelper.end();
+    equal( mixin.stopHandlerCalled, false );
 });
 
 module( 'AjaxAware Mixin:Ajax Enabled True (Global)', {
     setup: function() {
-        testObject = BaseObject.create({
-            ajaxEnabled: true
+        Ember.run( function() {
+            mixin = BaseObject.create({
+                ajaxEnabled: true
+            });
         });
     },
 
     teardown: function() {
-        testObject = null;
+        mixin = null;
     }
 });
 
 test( 'Start Handler is called if ajaxEnabled is true', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxStart' );
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.startHandlerCalled, true, 'Start Handler called' );
-        start();
-    }, 10 );
+    AjaxHelper.begin();
+    equal( mixin.startHandlerCalled, true );
 });
 
 test( 'Stop Handler is called if ajaxEnabled is true', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxStop' );
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.stopHandlerCalled, true, 'Stop Handler called' );
-        start();
-    }, 10 );
+    AjaxHelper.end();
+    equal( mixin.stopHandlerCalled, true );
 });
 
 module( 'AjaxAware Mixin:Ajax Enabled False (Scoped)', {
     setup: function() {
-        testObject = BaseObject.create({
-            ajaxEnabled: false,
-
-            urlScope: 'my/api/endpoint'
+        Ember.run( function() {
+            mixin = BaseObject.create({
+                ajaxEnabled: false,
+                urlScope: 'my/api/endpoint'
+            });
         });
     },
 
     teardown: function() {
-        testObject = null;
+        mixin = null;
     }
 });
 
 test( 'Send Handler is not called if ajaxEnabled is false', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.sendHandlerCalled, false, 'Send Handler not called' );
-        start();
-    }, 10 );
+    AjaxHelper.begin( 'my/api/endpoint' );
+    equal( mixin.sendHandlerCalled, false );
 });
 
 test( 'Complete Handler is not called if ajaxEnabled is false', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxComplete', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.completeHandlerCalled, false, 'Complete Handler not called' );
-        start();
-    }, 10 );
+    AjaxHelper.end( 'my/api/endpoint' );
+    equal( mixin.completeHandlerCalled, false );
 });
 
 module( 'AjaxAware Mixin:Ajax Enabled True (Scoped)', {
     setup: function() {
-        testObject = BaseObject.create({
-            ajaxEnabled: true,
-
-            urlScope: 'my/api/endpoint'
+        Ember.run( function() {
+            mixin = BaseObject.create({
+                ajaxEnabled: true,
+                urlScope: 'my/api/endpoint'
+            });
         });
     },
 
     teardown: function() {
-        testObject = null;
+        mixin = null;
     }
 });
 
 test( 'Send Handler is called if ajaxEnabled is true', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxSend', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.sendHandlerCalled, true, 'Send Handler called' );
-        start();
-    }, 10 );
+    AjaxHelper.begin( 'my/api/endpoint' );
+    equal( mixin.sendHandlerCalled, true );
 });
 
 test( 'Complete Handler is called if ajaxEnabled is true', function() {
-    expect( 1 );
-
-    $( document ).trigger( 'ajaxComplete', [ null, { url: 'my/api/endpoint' }]);
-
-    stop();
-
-    setTimeout( function() {
-        equal( testObject.completeHandlerCalled, true, 'Complete Handler called' );
-        start();
-    }, 10 );
+    AjaxHelper.end( 'my/api/endpoint' );
+    equal( mixin.completeHandlerCalled, true );
 });
