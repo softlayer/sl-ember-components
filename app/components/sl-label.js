@@ -11,5 +11,5 @@ export default Ember.Component.extend({
 
     tagName: 'span',
 
-    theme: 'primary'
+    theme: 'default'
 });
