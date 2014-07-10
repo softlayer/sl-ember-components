@@ -8,7 +8,7 @@ export default Ember.Component.extend({
     barClass: function () {
         var classes = [
             'progress-bar',
-            'progress-bar-' + this.get( 'type' )
+            'progress-bar-' + this.get( 'theme' )
         ];
 
         if ( this.get( 'active' )) {
@@ -20,11 +20,11 @@ export default Ember.Component.extend({
         }
 
         return classes.join( ' ' );
-    }.property( 'active', 'type' ),
+    }.property( 'active', 'theme' ),
 
     styleString: function () {
         return 'width: ' + this.get( 'value' ) + '%;';
     }.property( 'value' ),
 
-    type: 'default'
+    theme: 'default'
 });

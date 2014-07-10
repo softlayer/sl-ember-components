@@ -9,25 +9,25 @@ export default Ember.Component.extend( AjaxAware, {
 
     attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'title', 'type' ],
 
-    classNameBindings: [ 'buttonTypeClassName' ],
+    classNameBindings: [ 'themeClassName' ],
 
     classNames: [ 'btn' ],
 
     tagName: 'button',
 
     /**
-     * The bootstrap btn- type name
-     * @property {string} buttonType
+     * The bootstrap btn- "theme" name
+     * @property {string} theme
      * @default 'default'
      */
-    buttonType: 'default',
+    theme: 'default',
 
     /**
-     * Assemble the button type's class name
+     * Assemble the button theme's class name
      */
-    buttonTypeClassName: function () {
-        return 'btn-' + this.get( 'buttonType' );
-    }.property( 'buttonType' ),
+    themeClassName: function () {
+        return 'btn-' + this.get( 'theme' );
+    }.property( 'theme' ),
 
     /**
      * The text to apply to the button label.  It is preferred you use this to set your "default"

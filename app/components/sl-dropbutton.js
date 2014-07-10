@@ -7,11 +7,11 @@ export default Ember.Component.extend({
         }
     },
 
-    buttonType: 'default',
+    classNames: [ 'btn-group' ],
 
-    buttonTypeClass: function () {
-        return 'btn-' + this.get( 'buttonType' );
-    }.property( 'buttonType' ),
+    theme: 'default',
 
-    classNames: [ 'btn-group' ]
+    themeClassName: function () {
+        return 'btn-' + this.get( 'theme' );
+    }.property( 'theme' )
 });

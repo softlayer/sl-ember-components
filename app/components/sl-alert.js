@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     attributeBindings: [ 'role' ],
 
-    classNameBindings: [ 'typeClassName', 'dismissable:alert-dismissable' ],
+    classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
 
     classNames: [ 'alert' ],
 
@@ -11,9 +11,9 @@ export default Ember.Component.extend({
 
     role: 'alert',
 
-    type: 'info',
+    theme: 'info',
 
-    typeClassName: function () {
-        return 'alert-' + this.get( 'type' );
-    }.property( 'type' )
+    themeClassName: function () {
+        return 'alert-' + this.get( 'theme' );
+    }.property( 'theme' )
 });

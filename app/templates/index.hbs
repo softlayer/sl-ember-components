@@ -9,67 +9,67 @@
     <tbody>
         <tr>
             <td><a href="#sl-alert">sl-alert</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-button">sl-button</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-calendar">sl-calendar</a></td>
-            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-chart">sl-chart</a></td>
-            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-checkbox">sl-checkbox</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-datepicker">sl-datepicker</a></td>
-            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-dropbutton">sl-dropbutton</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-grid">sl-grid</a></td>
-            <td>{{sl-progressbar label=true type="danger" value="20"}}</td>
+            <td>{{sl-progressbar label=true theme="danger" value="20"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-input">sl-input</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-label">sl-label</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-modal">sl-modal</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-progressbar">sl-progressbar</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-radiogroup">sl-radiogroup</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-select">sl-select</a></td>
-            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-tabpanel">sl-tabpanel</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-textarea">sl-textarea</a></td>
-            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
     </tbody>
 </table>
@@ -77,10 +77,10 @@
 <hr>
 
 <h2 id="sl-alert">sl-alert</h2>
-{{#sl-alert}}<strong>Info</strong> alert type (default){{/sl-alert}}
-{{#sl-alert type="success"}}<strong>Success</strong> alert type{{/sl-alert}}
-{{#sl-alert dismissable=true type="warning"}}<strong>Warning</strong> alert type (with dismissable=true){{/sl-alert}}
-{{#sl-alert type="danger"}}<strong>Danger</strong> alert type{{/sl-alert}}
+{{#sl-alert}}<strong>Info</strong> alert theme (default){{/sl-alert}}
+{{#sl-alert theme="success"}}<strong>Success</strong> alert theme{{/sl-alert}}
+{{#sl-alert dismissable=true theme="warning"}}<strong>Warning</strong> alert theme (with dismissable=true){{/sl-alert}}
+{{#sl-alert theme="danger"}}<strong>Danger</strong> alert theme{{/sl-alert}}
 
 <hr>
 
@@ -89,27 +89,27 @@
     action="pressButton"
     label="Button"
 }}
-{{sl-button buttonType="primary" label="Primary"}}
-{{sl-button buttonType="success" label="Success"}}
-{{sl-button buttonType="warning" label="Warning"}}
-{{sl-button buttonType="danger" label="Danger"}}
+{{sl-button theme="primary" label="Primary"}}
+{{sl-button theme="success" label="Success"}}
+{{sl-button theme="warning" label="Warning"}}
+{{sl-button theme="danger" label="Danger"}}
 {{sl-button disabled=true label="Disabled"}}
 
 <hr>
 
 <h2 id="sl-calendar">sl-calendar</h2>
-{{sl-label text="Coming soon!" type="info"}}
+{{sl-label text="Coming soon!" theme="info"}}
 
 <hr>
 
 <h2 id="sl-chart">sl-chart</h2>
-{{sl-label text="Coming soon!" type="info"}}
+{{sl-label text="Coming soon!" theme="info"}}
 
 <hr>
 
 <h2 id="sl-checkbox">sl-checkbox
     {{#if checkboxValue}}
-        {{sl-label text="Checked!" type="success"}}
+        {{sl-label text="Checked!" theme="success"}}
     {{/if}}
 </h2>
 {{sl-checkbox
@@ -121,7 +121,7 @@
 <hr>
 
 <h2 id="sl-datepicker">sl-datepicker</h2>
-{{sl-label text="Coming soon!" type="info"}}
+{{sl-label text="Coming soon!" theme="info"}}
 
 <hr>
 
@@ -157,11 +157,11 @@
 
 <h2 id="sl-label">sl-label</h2>
 <h3>
-    {{sl-label text="Default" type="default"}}
+    {{sl-label text="Default" theme="default"}}
     &emsp;
-    {{sl-label text="Primary" type="primary"}}
+    {{sl-label text="Primary" theme="primary"}}
     &emsp;
-    {{sl-label text="Warning" type="warning"}}
+    {{sl-label text="Warning" theme="warning"}}
 </h3>
 
 <hr>
@@ -175,9 +175,9 @@
 <hr>
 
 <h2 id="sl-progressbar">sl-progressbar</h2>
-{{sl-progressbar type="danger" value="40"}}
-{{sl-progressbar label=true type="warning" value="60"}}
-{{sl-progressbar label=true type="success" striped=true value="80"}}
+{{sl-progressbar theme="danger" value="40"}}
+{{sl-progressbar label=true theme="warning" value="60"}}
+{{sl-progressbar label=true theme="success" striped=true value="80"}}
 {{sl-progressbar active=true label=true striped=true value="100"}}
 
 <hr>
@@ -193,7 +193,7 @@
 <hr>
 
 <h2 id="sl-select">sl-select</h2>
-{{sl-label text="Coming soon!" type="info"}}
+{{sl-label text="Coming soon!" theme="info"}}
 
 <hr>
 
