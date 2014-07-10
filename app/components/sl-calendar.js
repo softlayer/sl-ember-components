@@ -1,6 +1,6 @@
-module EmberUI from 'emberui';
+import Ember from 'ember';
 
 /**
  * Calendar component, based on EmberUI's CalanderComponent
  */
-export default EmberUI.EuiCalendarComponent.extend();
+export default Ember.Component.extend();

@@ -1,6 +1,8 @@
-module EmberUI from 'emberui';
+import Ember from 'ember';
 
 /**
- * Textarea component, based on EmberUI's TextareaComponent
+ * Textarea component, based on Ember's TextArea
  */
-export default EmberUI.EuiTextareaComponent.extend();
+export default Ember.TextArea.extend({
+    classNames: [ 'form-control' ]
+});

@@ -7,17 +7,35 @@ import AjaxAware from '../mixins/ajaxaware';
  */
 export default Ember.Component.extend( AjaxAware, {
 
-    attributeBindings: [ 'class', 'disabled', 'type' ],
+    attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'title', 'type' ],
+
+    classNameBindings: [ 'buttonTypeClassName' ],
+
+    classNames: [ 'btn' ],
 
     tagName: 'button',
 
     /**
+     * The bootstrap btn- type name
+     * @property {string} buttonType
+     * @default 'default'
+     */
+    buttonType: 'default',
+
+    /**
+     * Assemble the button type's class name
+     */
+    buttonTypeClassName: function () {
+        return 'btn-' + this.get( 'buttonType' );
+    }.property( 'buttonType' ),
+
+    /**
      * The text to apply to the button label.  It is preferred you use this to set your "default"
      * text rather than inactiveLabelText, which will take this value as a default
-     * @property labelText
+     * @property label
      * @default null
      */
-    labelText: null,
+    label: null,
 
     /**
      * This is primarily used internally to avoid losing the "default" value of the label when switching
@@ -54,7 +72,7 @@ export default Ember.Component.extend( AjaxAware, {
      */
     initLabel: function() {
         if ( Ember.isBlank( this.get( 'inactiveLabelText' ))) {
-            this.set( 'inactiveLabelText', this.get( 'labelText' ));
+            this.set( 'inactiveLabelText', this.get( 'label' ));
         }
     }.on( 'init' ),
 
@@ -67,7 +85,7 @@ export default Ember.Component.extend( AjaxAware, {
             var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
             if ( !Ember.isBlank( props.activeLabelText )) {
-                this.set( 'labelText', props.activeLabelText );
+                this.set( 'label', props.activeLabelText );
             }
 
             if ( props.disableOnAjax ) {
@@ -81,7 +99,7 @@ export default Ember.Component.extend( AjaxAware, {
             var props = this.getProperties([ 'activeLabelText', 'inactiveLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
             if ( !Ember.isBlank( 'activeLabelText' )) {
-                this.set( 'labelText', props.inactiveLabelText );
+                this.set( 'label', props.inactiveLabelText );
             }
 
             if ( props.disableOnAjax ) {

@@ -2,6 +2,7 @@
 
 var Application = require('sl-components/app')['default'];
 var Router = require('sl-components/router')['default'];
+import Ember from 'ember';
 
 export default function startApp(attrs) {
   var App;

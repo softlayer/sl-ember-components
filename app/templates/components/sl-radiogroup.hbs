@@ -1,0 +1,18 @@
+{{#each option in options}}
+    {{#if inline}}
+        <label {{bind-attr class=":radio-inline option.disabled:disabled"}}>
+    {{else}}
+        <div {{bind-attr class=":radio option.disabled:disabled"}}>
+            <label>
+    {{/if}}
+
+    <input {{action "change" option.value on="change"}} {{bind-attr disabled=option.disabled name=view.name value=option.value}} type="radio" />
+    {{option.label}}
+
+    {{#if inline}}
+        </label>
+    {{else}}
+            </label>
+        </div>
+    {{/if}}
+{{/each}}

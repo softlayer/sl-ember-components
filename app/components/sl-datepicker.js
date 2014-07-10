@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
 /**
- * Select component, based on EmberUI's SelectComponent
+ * SelectDate component, based on EmberUI's SelectDateComponent
  */
 export default Ember.Component.extend();

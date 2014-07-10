@@ -1,6 +1,10 @@
-module EmberUI from 'emberui';
+import Ember from 'ember';
 
 /**
- * Checkbox component, based on EmberUI's CheckboxComponent
+ * Checkbox component
  */
-export default EmberUI.EuiCheckboxComponent.extend();
+export default Ember.Component.extend({
+    attributeBindings: [ 'checked', 'disabled' ],
+
+    classNames: [ 'checkbox' ]
+});

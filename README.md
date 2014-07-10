@@ -3,7 +3,6 @@
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
----
 
 ## sl-button
 
@@ -20,7 +19,6 @@ A expanded version of the plain &lt;button&gt; element.
 * _ajaxEnabled_ : Allow behaviors to be bound to associated AJAX activity
 * _urlScope_ : A String or regular expression used to scope associated AJAX activity
 
----
 
 ## sl-calendar
 
@@ -41,7 +39,6 @@ Calendar display with date selection and active month control. Based on [EmberUI
 * _showPrevMonth_ : Boolean to show the previous month (default: false)
 * _style_ : The aesthetic style string of the calendor; 'default' (default), 'popup'
 
----
 
 ## sl-checkbox
 

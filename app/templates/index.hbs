@@ -1,0 +1,213 @@
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th width="25%">Component</th>
+            <th>Progress</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="#sl-alert">sl-alert</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-button">sl-button</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-calendar">sl-calendar</a></td>
+            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-chart">sl-chart</a></td>
+            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-checkbox">sl-checkbox</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-datepicker">sl-datepicker</a></td>
+            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-dropbutton">sl-dropbutton</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-grid">sl-grid</a></td>
+            <td>{{sl-progressbar label=true type="danger" value="20"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-input">sl-input</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-label">sl-label</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-modal">sl-modal</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-progressbar">sl-progressbar</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-radiogroup">sl-radiogroup</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-select">sl-select</a></td>
+            <td>{{sl-progressbar label=true type="danger" value="0"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-tabpanel">sl-tabpanel</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-textarea">sl-textarea</a></td>
+            <td>{{sl-progressbar label=true type="success" value="100"}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<h2 id="sl-alert">sl-alert</h2>
+{{#sl-alert}}<strong>Info</strong> alert type (default){{/sl-alert}}
+{{#sl-alert type="success"}}<strong>Success</strong> alert type{{/sl-alert}}
+{{#sl-alert dismissable=true type="warning"}}<strong>Warning</strong> alert type (with dismissable=true){{/sl-alert}}
+{{#sl-alert type="danger"}}<strong>Danger</strong> alert type{{/sl-alert}}
+
+<hr>
+
+<h2 id="sl-button">sl-button</h2>
+{{sl-button
+    action="pressButton"
+    label="Button"
+}}
+{{sl-button buttonType="primary" label="Primary"}}
+{{sl-button buttonType="success" label="Success"}}
+{{sl-button buttonType="warning" label="Warning"}}
+{{sl-button buttonType="danger" label="Danger"}}
+{{sl-button disabled=true label="Disabled"}}
+
+<hr>
+
+<h2 id="sl-calendar">sl-calendar</h2>
+{{sl-label text="Coming soon!" type="info"}}
+
+<hr>
+
+<h2 id="sl-chart">sl-chart</h2>
+{{sl-label text="Coming soon!" type="info"}}
+
+<hr>
+
+<h2 id="sl-checkbox">sl-checkbox
+    {{#if checkboxValue}}
+        {{sl-label text="Checked!" type="success"}}
+    {{/if}}
+</h2>
+{{sl-checkbox
+    label="Checkbox"
+    name="checkbox"
+    value=checkboxValue
+}}
+
+<hr>
+
+<h2 id="sl-datepicker">sl-datepicker</h2>
+{{sl-label text="Coming soon!" type="info"}}
+
+<hr>
+
+<h2 id="sl-dropbutton">sl-dropbutton</h2>
+{{sl-dropbutton
+    label="Dropbutton"
+    options=dropbuttonOptions
+}}
+
+<hr>
+
+<h2 id="sl-grid">sl-grid</h2>
+{{sl-grid
+    columns=gridColumns
+    rows=gridRows
+    striped=true
+}}
+
+<hr>
+
+<h2 id="sl-input">sl-input</h2>
+<p><strong>Input value</strong>: &ldquo;{{inputValue}}&rdquo;</p>
+{{sl-input
+    action="test"
+    help="Example block-level help text here."
+    inputId="inputTest"
+    label="Input field"
+    placeholder="Input goes here"
+    value=inputValue
+}}
+
+<hr>
+
+<h2 id="sl-label">sl-label</h2>
+<h3>
+    {{sl-label text="Default" type="default"}}
+    &emsp;
+    {{sl-label text="Primary" type="primary"}}
+    &emsp;
+    {{sl-label text="Warning" type="warning"}}
+</h3>
+
+<hr>
+
+<h2 id="sl-modal">sl-modal</h2>
+{{sl-button action=openModal data-toggle="modal" data-target="#testModal" label="Open modal"}}
+{{#sl-modal close="closeModal" id="testModal" title="Test Modal"}}
+    Hello world!
+{{/sl-modal}}
+
+<hr>
+
+<h2 id="sl-progressbar">sl-progressbar</h2>
+{{sl-progressbar type="danger" value="40"}}
+{{sl-progressbar label=true type="warning" value="60"}}
+{{sl-progressbar label=true type="success" striped=true value="80"}}
+{{sl-progressbar active=true label=true striped=true value="100"}}
+
+<hr>
+
+<h2 id="sl-radiogroup">sl-radiogroup</h2>
+<p><strong>Selected value</strong>: &ldquo;{{radiogroupValue}}&rdquo;</p>
+{{sl-radiogroup
+    name="radiogroupValue"
+    options=radiogroupOptions
+    value=radiogroupValue
+}}
+
+<hr>
+
+<h2 id="sl-select">sl-select</h2>
+{{sl-label text="Coming soon!" type="info"}}
+
+<hr>
+
+<h2 id="sl-tabpanel">sl-tabpanel</h2>
+{{sl-tabpanel activeTabName="Home" tabs=tabs}}
+
+<hr>
+
+<h2 id="sl-textarea">sl-textarea</h2>
+{{sl-textarea
+    cols="80"
+    rows="6"
+    value=textareaValue
+}}
+<p><strong>Textarea value</strong>: &ldquo;{{textareaValue}}&rdquo;</p>
+
+<hr>

@@ -1,3 +1,15 @@
-{{bs-tabs contentBinding="tabTitles" selectedBinding=selected}}
+<ul class="nav nav-tabs" role="tablist">
+    {{#each tab in tabs}}
+        <li {{bind-attr data-tab-name=tab.name}} class="tab">
+            <a {{action "change" tab.name}} {{bind-attr data-target=tab.name}} data-toggle="tab" role="tab">{{tab.name}}</a>
+        </li>
+    {{/each}}
+</ul>
 
-{{bs-tabs-panes contentBinding=content}}
+<div class="tab-content">
+    {{#each tab in tabs}}
+        <div {{bind-attr data-tab-name=tab.name}} class="tab-pane">
+            {{renderTabPane tab.template}}
+        </div>
+    {{/each}}
+</div>

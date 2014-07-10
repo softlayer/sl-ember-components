@@ -1,36 +1,12 @@
-{{#if primaryAction}}
-    {{eui-button
-        label=primaryAction.label
-        style=view.style
-        size=view.size
-        icon=view.icon
-        loading=view.loading
-        disabled=view.disabled
-        class="eui-primaryaction"
-        action="primaryAction"
-    }}
+<button {{bind-attr class=":btn typeClass :dropdown-toggle"}} data-toggle="dropdown" type="button">
+    {{view.label}}
+    <span class="caret"></span>
+</button>
 
-    {{eui-button
-        style=view.style
-        size=view.size
-        icon="fa fa-caret-down"
-        loading=false
-        disabled=view.disabled
-        classBinding=":eui-trigger poplistIsOpen:eui-active"
-        action="toggleWindow"
-    }}
-
-{{else}}
-    {{eui-button
-        label=view.label
-        style=view.style
-        size=view.size
-        icon=view.icon
-        trailingIcon="fa fa-caret-down"
-        loading=view.loading
-        disabled=view.disabled
-        classBinding="poplistIsOpen:eui-active"
-        action="toggleWindow"
-    }}
-
-{{/if}}
+<ul class="dropdown-menu" role="menu">
+    {{#each option in view.options}}
+        <li class="presentation">
+            <a {{action "click" option.action}} role="menuitem" tab-index="-1">{{option.label}}</a>
+        </li>
+    {{/each}}
+</ul>

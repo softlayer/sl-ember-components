@@ -9,7 +9,6 @@ var App = Ember.Application.extend({
   Resolver: Resolver
 });
 
-loadInitializers( App, 'emberui' );
 loadInitializers( App, 'sl-components' );
 
 export default App;

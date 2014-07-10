@@ -1,10 +1,11 @@
 import Ember from 'ember';
 
 var Router = Ember.Router.extend({
-  location: SlComponentsENV.locationType
+    location: SlComponentsENV.locationType
 });
 
-Router.map(function() {
+Router.map( function () {
+    this.route( 'index', { path: '/' });
 });
 
 export default Router;

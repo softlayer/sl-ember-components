@@ -1,9 +1,17 @@
-{{#if controller.hasHeader}}
-    {{view Ember.Table.HeaderTableContainer}}
-{{/if}}
-{{view Ember.Table.BodyTableContainer}}
-{{#if controller.hasFooter}}
-    {{view Ember.Table.FooterTableContainer}}
-{{/if}}
-{{view Ember.Table.ScrollContainer}}
-{{view Ember.Table.ColumnSortableIndicator}}
+<thead>
+    <tr>
+        {{#each column in columns}}
+            <th>{{column.title}}</th>
+        {{/each}}
+    </tr>
+</thead>
+
+<tbody>
+    {{#each row in rows}}
+        <tr>
+            {{#each column in columns}}
+                <td>{{get-key row column.key}}</td>
+            {{/each}}
+        </tr>
+    {{/each}}
+</tbody>
