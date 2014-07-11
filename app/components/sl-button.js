@@ -15,19 +15,19 @@ export default Ember.Component.extend( AjaxAware, {
     activeLabelText: null,
 
     /**
-     * The attribute bindings array for the button component
+     * Attribute bindings for the button component
      * @property {array} attributeBindings
      */
     attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'title', 'type' ],
 
     /**
-     * The class bindings array for the button component
+     * Class bindings for the button component
      * @property {array} classNameBindings
      */
     classNameBindings: [ 'themeClassName' ],
 
     /**
-     * Array of class strings to apply to the button
+     * Class names to apply to the button
      * @property {array} classNames
      */
     classNames: [ 'btn' ],
@@ -133,6 +133,7 @@ export default Ember.Component.extend( AjaxAware, {
     /**
      * Assemble the button theme's class name
      * @property {string} themeClassName
+     * @default 'btn-default'
      */
     themeClassName: function () {
         return 'btn-' + this.get( 'theme' );

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 /**
- * Calendar component, based on EmberUI's CalanderComponent
+ * @module components
+ * @class sl-calendar
  */
 export default Ember.Component.extend();

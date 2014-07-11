@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 /**
- * Select component, based on EmberUI's SelectComponent
+ * @module components
+ * @class sl-select
  */
 export default Ember.Component.extend();

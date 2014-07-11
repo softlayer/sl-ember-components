@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 /**
- * SelectDate component, based on EmberUI's SelectDateComponent
+ * @module components
+ * @sl-datepicker
  */
 export default Ember.Component.extend();
