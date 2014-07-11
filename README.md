@@ -1,222 +1,197 @@
 # sl-components
-## v0.5.0
+## v0.6.0
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
+---
+
+## sl-alert
+
+A message box component for short alert messages. Based on [Bootstrap - Alert messages](http://getbootstrap.com/javascript/#alerts).
+
+### Properties
+* _dismissable_ : Boolean to show dismiss button (default: false)
+* _theme_ : String for bootstrap style type; 'danger', 'info' (default), 'primary', 'warning'
+
+---
 
 ## sl-button
 
-A expanded version of the plain &lt;button&gt; element.
+An active &lt;button&gt; component. Based on [Bootstrap - Buttons](http://getbootstrap.com/css/#buttons).
 
-### Parameters
+### Properties
 * _action_ : Name of an action to fire when the button is clicked
-* _class_ : String attribute value for the &lt;button&gt; element
-* _disabled_ : Boolean that determines whether the button is disabled (default: false)
-* _labelText_ : Text label on the button
 * _activeLabelText_ : Text to display during associated AJAX activity (requires ajaxEnabled=true)
-* _disableOnAjax_ : When true, button will become disabled during associated AJAX activity (requires ajaxEnabled=true)
-* _hideOnAjax_ : When true, button will become hidden during associated AJAX activity (requires ajaxEnabled=true)
 * _ajaxEnabled_ : Allow behaviors to be bound to associated AJAX activity
-* _urlScope_ : A String or regular expression used to scope associated AJAX activity
+* _class_ : `class` attribute value for the button
+* _disableOnAjax_ : When true, button will become disabled during associated AJAX activity (requires ajaxEnabled=true)
+* _disabled_ : Boolean that determines whether the button is disabled (default: false)
+* _hideOnAjax_ : When true, button will become hidden during associated AJAX activity (requires ajaxEnabled=true)
+* _label_ : Text label on the button
+* _theme_ : String for bootstrap style type; 'danger', 'default' (default), 'info', 'primary', 'success', 'warning'
+* _urlScope_ : A string or regular expression used to scope associated AJAX activity
 
+---
 
 ## sl-calendar
 
-Calendar display with date selection and active month control. Based on [EmberUI's Calendar](http://emberui.com/documentation/calendar).
+*Coming soon*
 
-### Parameters
-* _allowMultiple_ : Boolean to allow user to select multiple days (default: false)
-* _continuousSelection_ : Boolean to allow user to select multiple days that are not adjacent to each other (default: true)
-* _disableFuture_ : Boolean to prevent user from navigating into the future (default: false)
-* _disablePast_ : Boolean to prevent user from navigation into the past (default: false)
-* _disabledDates_ : Array of moment dates to indicate as disabled
-* _maxFutureDate_ : Maximum future date, as a moment date
-* _maxPastDate_ : Maximum past date, as a moment date
-* _month_ : The month to render
-* _selectAction_ : Name of an action to fire when a date is selected
-* _selection_ : Date, or array of dates, to indicate selected, as moment dates
-* _showNextMonth_ : Boolean to show the next month (default: true)
-* _showPrevMonth_ : Boolean to show the previous month (default: false)
-* _style_ : The aesthetic style string of the calendor; 'default' (default), 'popup'
+---
 
+## sl-chart
+
+*Coming soon*
+
+---
 
 ## sl-checkbox
 
-An Ember-friendly substitute for the default &lt;input type="checkbox"&gt; element. Based on [EmberUI's Checkbox](http://emberui.com/documentation/checkbox)
+An improved substitute for the default &lt;input type="checkbox"&gt; element. See [Bootstrap - Supported controls](http://getbootstrap.com/css/#forms-controls) for low-level details.
 
-### Parameters
-* _class_ : Text attribute value for the &lt;input&gt; element
-* _disabled_ : Boolean to indicate disabled state (default: false)
-* _error_ : Boolean or string to handle error (see [EmberUI error handling](http://emberui.com/documentation/errorhandling))
-* _forceErrorCheck_ : Boolean to force an error check (default: false)
-* _label_ : Text displayed next to the checkbox
-* _size_ : String size; 'medium' (default); extended with [EmberUI theming](http://emberui.com/documentation/theming)
-* _style_ : The aesthetic style string of the checkbox; 'default' (default)
+### Properties
+* _disabled_ : Boolean to disable the checkbox (default: false)
+* _label_ : String to display beside the checkbox
+* _name_ : `name` attribute value for the input
+* _value_ : Bound value for the checkbox
+
+---
+
+## sl-datepicker
+
+*Coming soon*
 
 ---
 
 ## sl-dropbutton
 
-A combination of a button with a drop-down menu, with triggered actions. Based on [EmberUI's Dropbutton](http://emberui.com/documentation/dropbutton).
+A combination of a button with a drop-down menu, with triggered actions. Utilizes [Bootstrap - Dropdowns](http://getbootstrap.com/javascript/#dropdowns).
 
-### Parameters
-* _animationStyle_ : String name of the animation style to use when toggling the menu; see [EmberUI animations](http://emberui.com/documentation/animations)
-* _actions_ : Array of objects used for menu, with each menu item having a "label" string and an "action" string
-* _disabled_ : Boolean to disable the button (default: false)
-* _icon_ : Icon/CSS class name of icon to include with label text
-* _label_ : Text displayed on the &lt;button&gt; element
-* _listWidth_ : Width of the drop-down menu; requires CSS unit with value
-* _loading_ : Boolean to indicate the button's loading state
-* _size_ : String size of the button; same options as {{sl-button}}
-* _style_ : Aesthetic style of the button; same options as {{sl-button}}
+### Properties
+* _label_ : String label value for text on the button
+* _options_ : Array of objects representing the dropdown items (see below)
+* _theme_ : String for bootstrap button style type; 'danger', 'default' (default), 'info', 'primary', 'success', 'warning'
+
+### Option item properties
+* _action_ : String for the name of the controller's action to call when option is clicked
+* _label_ : String label for the option label text
 
 ---
 
 ## sl-grid
 
-Custom grid table component, based on [Addepar's ember-table](http://addepar.github.io/#/ember-table/overview).
+Custom grid table component (being worked on currently).
 
-### Parameters
-* __columns__ (required) : Array of column definitions, with these options
-* __content__ (required) : Array of row objects
-* _enableColumnReorder_ : Boolean to allow the reorder of columns (default: true)
-* _footerHeight_ : Minimum footer height, in pixels (default: 30)
-* _forceFillColumns_ : Boolean to expand the columns to fill the given width (default: false)
-* _hasFooter_ : Boolean to show the footer block (default: true)
-* _hasHeader_ : Boolean to show the header block (default: true)
-* _minHeaderHeight_ : Minimum header height, in pixels (default: 30)
-* _numFixedColumns_ : Number of frozen columns from the left of the table (default: 0)
-* _numFooterRow_ : Number of footer rows in the table (default: 0)
-* _rowHeight_ : Row height, in pixels (default: 30)
+### Properties
+* __columns__ : Array of column definitions (required; see below)
+* __rows__ : Array of row objects (required)
 
-### Column Options
-* _canAutoResize_ : Boolean to have column resize to extra space in table (default: true)
-* _contentPath_ : Path of the content for a cell, for a given row object
-* _defaultColumnWidth_ : Width of the column on initialization
-* _headerCellName_ : Text that appears in the column header
-* _isResizable_ : Boolean to allow resizing of the column (default: true)
-* _isSortable_ : Boolean to allow sorting of the column's content (default: true)
-* _maxWidth_ : Maximum width of the column
-* _minWidth_ : Minimum width of the column
-* _textAlign_ : String determining text alignment; 'text-align-left', 'text-align-center', 'text-align-right' (default)
-
-### Cell Options
-* _classNameBindings_ : String used to dynamically associate class names with this cell
-* _classNames_ : Array of string class names
-* _styleBindings_ : String values which are bound to the cell's `style` attribute
-* _templateName_ : Name of the template to be rendered into the cell
+### Column item properties
+* __key__ : String for each row's value lookup (required)
+* __title__ : String for the column header title (required)
 
 ---
 
 ## sl-input
 
-An Ember-friendly substitute for a plain &lt;input&gt;. Based on [EmberUI's Input](http://emberui.com/documentation/input).
+Wrapper component for a text &lt;input&gt; element; includes label and help text options. See [Bootstrap - Forms](http://getbootstrap.com/css/#forms) for low-level details.
 
-### Parameters
-* _action_ : Action to fire when the user presses `enter` in the input
-* _disabled_ : Boolean to indicate the disabled state of the input
-* _error_ : Boolean or string for error handling; see [EmberUI error handling](http://emberui.com/documentation/errorhandling)
-* _forceErrorCheck_ : Boolean to force an error check on the input
-* _placeholder_ : Placeholder string for the &lt;input&gt; element
-* _size_ : String size of the input; 'tiny', 'small', 'medium' (default), 'large'
-* _style_ : Aesthetic style of the input; 'default' (default)
-* _type_ : String attribute value for the &lt;input&gt; element; 'text' (default), 'password'
-* _value_ : Bound value of the input
-* _width_ : String for the width of the input; requires CSS unit with value
+### Properties
+* _disabled_ : Boolean used for disabled indication, and `disabled` attribute value of the input
+* _helpText_ : Text to display below the input element
+* _inputId_ : `id` attribute value of the input (default based on generated component ID)
+* _label_ : String for label text to display above the input
+* _placeholder_ : `placeholder` attribute value of the input
+* _type_ : `type` attribute value of the input (default: 'text')
+* _value_ : Bound value for the input
+
+---
+
+## sl-label
+
+A small component to display a text label in a styled container. Based on [Bootstrap - Labels](http://getbootstrap.com/components/#labels).
+
+### Properties
+* _label_ : Text to display in the label
+* _theme_ : String for bootstrap style type; 'danger', 'default' (default), 'info', 'primary', 'success', 'warning'
+
+---
+
+## sl-modal
+
+A simple modal component used to wrap content in. Based on [Bootstrap - Modals](http://getbootstrap.com/javascript/#modals).
+
+### Properties
+* _accept_ : Action to call when accept button is clicked
+* _acceptText_ : Text label for the accept button (default: 'Accept')
+* _close_ : Action to call when one of the close buttons is clicked
+* _fade_ : Boolean to enable fade animation (default: false)
+* _title_ : Title at the top of the modal (default: null)
+
+---
+
+## sl-progressbar
+
+A component used to display progress. Based on [Bootstrap - Progress bars](http://getbootstrap.com/components/#progress).
+
+### Properties
+* _active_ : Boolean to animate the progress bar's stripes (default: false; requires striped=true)
+* _striped_ : Boolean to style the progress bar with stripes (default: false)
+* _theme_ : String for bootstrap style type; 'danger', 'info', 'primary' (default), 'success', 'warning'
+* __value__ : Bound integer value for the progress \[0-100\] (required)
+
+---
+
+## sl-radiogroup
+
+A component that contains a group of "radio" type inputs. See [Bootstrap - Supported controls](http://getbootstrap.com/css/#forms-controls) for low-level details.
+
+### Properties
+* _inline_ : Boolean to display the radio inputs inline with each other (default: false)
+* _name_ : Shared `name` attribute for the radio inputs
+* __options__ : Array of radio definitions (required, see below)
+
+### Option item properties
+* _disabled_ : `disabled` attribute value
+* _label_ : String label for radio button
+* __value__ : `value` attribute value
 
 ---
 
 ## sl-select
 
-A feature rich substitute for &lt;select&gt;, able to filter dynamically bound options. Based on [EmberUI's Select](http://emberui.com/documentation/select).
-
-### Parameters
-* _animationStyle_ : String for the style of animation used when toggling the options selection; see [EmberUI animations](http://emberui.com/documentation/animations)
-* _disabled_ : Boolean to indicate the select's disabled state
-* _error_ : Boolean or string for error handling; see [EmberUI error handling](http://emberui.com/documentation/errorhandling)
-* _forceErrorCheck_ : Boolean to force an error check, even if value is blank
-* _labelPath_ : String path to the label property for each of `options` (default: 'label')
-* _listWidth_ : String for the width of the options popup; requires CSS unit with value
-* _options_ : Array of objects used for options
-* _placeholder_ : String placeholder label for select
-* _required_ : Boolean to determine if a null value is invalid (default: false)
-* _selection_ : Object value set to the current selection; null if nothing is selected
-* _size_ : String size for the overall width of the select; 'tiny', 'small', 'medium' (default), 'large'
-* _style_ : Aesthetic style of the select; 'default' (default), 'primary'
-* _valuePath_ : String path to the value property for each of `options` (default: 'value')
-* _value_ : Object that uses `valuePath` to look up the current `selection`
-* _width_ : String for the width of the select; requires CSS unit with value
-
----
-
-## sl-selectdate
-
-Special select input to allow selection of a date or date range. Based on [EmberUI's SelectDate](http://emberui.com/documentation/selectdate).
-
-### Parameters
-* _animationStyle_ : String for the name of animation style; see [EmberUI animations](http://emberui.com/documentation/animations)
-* _dateRange_ : Boolean to allow the user to select a range of dates (default: false)
-* _disableFuture_ : Boolean to prevent user from navigating into the future (default: false)
-* _disablePast_ : Boolean to prevent user from navigating into the past (default: false)
-* _disabledDates_ : Array of moment dates to disable on the calendar
-* _disabled_ : Boolean to indicate disabled state of select
-* _error_ : Boolean or string used for error handling; see [EmberUI error handling](http://emberui.com/documentation/errorhandling)
-* _forceErrorCheck_ : Boolean to force error checking, even if value is blank
-* _formatting_ : Hash settings to use when formatting the date for display; see [Twix.js formatting](http://emberui.com/documentation/isaaccambron.com/twix.js/#smartFormatting)
-* _maxFutureDate_ : Maximum future date, as moment date
-* _maxPastDate_ : Maximum past date, as moment date
-* _placeholder_ : Placeholder string for the select input
-* _selection_ : Moment or array of moments, equal to the currently selected date(s)
-* _size_ : String for the overall button size; 'tiny', 'small', 'medium' (default), 'large'
-* _style_ : Aesthetic style of the button; 'default' (default), 'primary'
-* _value_ : Unix time stamp or array of time stamps, equal to the currently selected date(s)
-* _width_ : String width of the select; requires CSS unit with value
-
----
-
-## sl-simplemodal
-
-A basic modal intended for use with simpler display of data. Based on [EmberUI's Modal](http://emberui.com/documentation/modal).
-
-### Parameters
-* _animationStyle_ : Name of the animation style to use for animations; see [EmberUI animations](http://emberui.com/documentation/animations)
-* _class_ : String value for the `class` attribute of the modal's element
-* _style_ : Aesthetic style of the modal; 'default' (default), 'full'
-* _enforceModality_ : Boolean to prevent `esc` from closing the model (default: false)
-* _open_ : Boolean used to show and hide the modal
-* _targetObject_ : Object used as target of triggered events
-* _accept_ : Action used for acceptance of modal
-* _cancel_ : Action called if the user closes the modal by pressing `esc`
+*Coming soon*
 
 ---
 
 ## sl-tabpanel
 
-A custom, unified tab panel component. Combines [bs_for_ember's Tabs](http://ember-addons.github.io/bootstrap-for-ember/#/show_components/tabs) and [bs_for_ember's TabsPanes](http://ember-addons.github.io/bootstrap-for-ember/#/show_components/tabs-panes).
+A combined component with selectable tabs and related tab panes. Based on [Bootstrap - Tooglable tabs](http://getbootstrap.com/javascript/#tabs).
 
-### Parameters
-* _content_ : Array of objects that contain a column `label` and a template name `template`
-* _selected_ : The currently selected tab pane; `null` to close all panes
+### Properties
+* _activeTabName_ : String for the name of the initial tab to open
+* __content__ : Array of tab data objects (required; see below)
+
+### Content item properties
+* __name__ : String for the tab label and internal identification (required)
+* __template__ : String name of the template to render into the tab panel (required)
 
 ---
 
 ## sl-textarea
 
-An Ember-friendly substitute for a plain &lt;textarea&gt; input. Based on [EmberUI's Textarea](http://emberui.com/documentation/textarea).
+A Bootstrap-wrapped component based on Ember's textarea helper.
 
-### Parameters
-* _placeholder_ : String value for the `placeholder` attribute on the &lt;textarea&gt; element
-* _value_ : Value of the textarea
-* _style_ : Aesthetic style of the textarea; 'default' (default)
-* _size_ : String for the overall size of the textarea; 'tiny', 'small', 'medium' (default), 'large'
-* _width_ : String width of the textarea; requires CSS unit with value
-* _height_ : Height of the textarea; requires CSS unit with value
-* _disabled_ : Boolean used to indicate disabled state for textarea
-* _error_ : Boolean or string for error handling; see [EmberUI error handling](http://emberui.com/documentation/errorhandling)
-* _forceErrorCheck_ : Boolean to force error handling, even when value is blank
+### Properties
+* _cols_ : `cols` attribute value
+* _disabled_ : `disabled` attribute value
+* _maxlength_ : `maxlength` attribute value
+* _rows_ : `rows` attribute value
+* _placeholder_ : `placeholder` attribute value
+* _tabindex_ : `tabindex` attribute value
+* _value_ : Bound value for the textarea
 
 ---
-
 
 # Development
 
