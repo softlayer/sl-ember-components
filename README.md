@@ -87,7 +87,8 @@ Custom grid table component (being worked on currently).
 * __rows__ : Array of row objects (required)
 
 ### Column item properties
-* __key__ : String for each row's value lookup (required)
+* _key_ : String for each row's value lookup (required if no template is supplied)
+* template : String name of the template to render (required if no key is supplied)
 * __title__ : String for the column header title (required)
 
 ---
@@ -100,8 +101,9 @@ Wrapper component for a text &lt;input&gt; element; includes label and help text
 * _disabled_ : Boolean used for disabled indication, and `disabled` attribute value of the input
 * _helpText_ : Text to display below the input element
 * _inputId_ : `id` attribute value of the input (default based on generated component ID)
-* _label_ : String for label text to display above the input
+* __label__ : String for label text to display above the input (required)
 * _placeholder_ : `placeholder` attribute value of the input
+* _srOnly_ : Boolean to hide the label for non-screenreaders (default: false)
 * _type_ : `type` attribute value of the input (default: 'text')
 * _value_ : Bound value for the input
 

@@ -1,17 +1,45 @@
-<thead>
-    <tr>
-        {{#each column in columns}}
-            <th>{{column.title}}</th>
-        {{/each}}
-    </tr>
-</thead>
+<header>
+    <span class="sl-grid-page-display">
+        Viewing 1&ndash;2 of 2 Colors
+    </span>
 
-<tbody>
-    {{#each row in rows}}
+    <ul class="pagination">
+        <li><a class="first-page" title="First page"><span class="fa fa-angle-double-left"></span></a></li>
+        <li><a class="previous-page" title="Previous page"><span class="fa fa-angle-left"></span></a></li>
+    </ul>
+
+    <form class="form-inline" role="form">
+        Page {{sl-input class="sl-grid-current-page-input" label="Current Page" srOnly=true value=currentPage}} of {{totalPages}}
+    </form>
+
+    <ul class="pagination">
+        <li><a class="next-page" title="Next page"><span class="fa fa-angle-right"></span></a></li>
+        <li><a class="last-page" title="Last page"><span class="fa fa-angle-double-right"></span></a></li>
+    </ul>
+</header>
+
+<table {{bind-attr class=":table view.striped:table-striped"}}>
+    <thead>
         <tr>
             {{#each column in columns}}
-                <td>{{get-key row column.key}}</td>
+                <th {{action "clickColumnHeader" column on="click"}}>{{column.title}}&ensp;<span class="fa fa-sort-asc"></span></th>
             {{/each}}
         </tr>
-    {{/each}}
-</tbody>
+    </thead>
+
+    <tbody>
+        {{#each row in rows}}
+            <tr>
+                {{#each column in columns}}
+                    {{#if column.key}}
+                        <td>{{get-key row column.key}}</td>
+                    {{else}}
+                        {{#if column.template}}
+                            <td>{{renderTabPane column.template row}}</td>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
