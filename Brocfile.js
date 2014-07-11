@@ -16,4 +16,7 @@ app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap.css' );
 app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap-theme.css' );
 app.import( 'vendor/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
 
+// Font Awesome
+app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
+
 module.exports = app.toTree();
