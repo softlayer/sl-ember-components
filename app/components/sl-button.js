@@ -7,44 +7,6 @@ import AjaxAware from '../mixins/ajaxaware';
  */
 export default Ember.Component.extend( AjaxAware, {
 
-    attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'title', 'type' ],
-
-    classNameBindings: [ 'themeClassName' ],
-
-    classNames: [ 'btn' ],
-
-    tagName: 'button',
-
-    /**
-     * The bootstrap btn- "theme" name
-     * @property {string} theme
-     * @default 'default'
-     */
-    theme: 'default',
-
-    /**
-     * Assemble the button theme's class name
-     */
-    themeClassName: function () {
-        return 'btn-' + this.get( 'theme' );
-    }.property( 'theme' ),
-
-    /**
-     * The text to apply to the button label.  It is preferred you use this to set your "default"
-     * text rather than inactiveLabelText, which will take this value as a default
-     * @property label
-     * @default null
-     */
-    label: null,
-
-    /**
-     * This is primarily used internally to avoid losing the "default" value of the label when switching
-     * to the active text
-     * @property inactiveLabelText
-     * @default null
-     */
-    inactiveLabelText: null,
-
     /**
      * The text to display during AJAX activity
      * @property activeLabelText
@@ -53,18 +15,52 @@ export default Ember.Component.extend( AjaxAware, {
     activeLabelText: null,
 
     /**
+     * The attribute bindings array for the button component
+     * @property {array} attributeBindings
+     */
+    attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'title', 'type' ],
+
+    /**
+     * The class bindings array for the button component
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'themeClassName' ],
+
+    /**
+     * Array of class strings to apply to the button
+     * @property {array} classNames
+     */
+    classNames: [ 'btn' ],
+
+    /**
+     * Alert external code about the click
+     * @method click
+     */
+    click: function() {
+        this.sendAction();
+    },
+
+    /**
      * Whether or not the button should be disabled during AJAX activity
-     * @property disableOnAjax
+     * @property {boolean} disableOnAjax
      * @default false
      */
     disableOnAjax: false,
 
     /**
      * Whether or not the button should be hidden during AJAX activity
-     * @property hideOnAjax
+     * @property {boolean} hideOnAjax
      * @default false
      */
     hideOnAjax: false,
+
+    /**
+     * This is primarily used internally to avoid losing the "default" value of the label when switching
+     * to the active text
+     * @property {string} inactiveLabelText
+     * @default null
+     */
+    inactiveLabelText: null,
 
     /**
      * Initialize labels
@@ -75,6 +71,14 @@ export default Ember.Component.extend( AjaxAware, {
             this.set( 'inactiveLabelText', this.get( 'label' ));
         }
     }.on( 'init' ),
+
+    /**
+     * The text to apply to the button label.  It is preferred you use this to set your "default"
+     * text rather than inactiveLabelText, which will take this value as a default
+     * @property {string} label
+     * @default null
+     */
+    label: null,
 
     /**
      * Register our behaviors with the convenience method from the AJAX mixin
@@ -113,10 +117,24 @@ export default Ember.Component.extend( AjaxAware, {
     }.on( 'init' ),
 
     /**
-     * Alert external code about the click
-     * @method click
+     * The root component element
+     * @property {string} tagName
+     * @default 'button'
      */
-    click: function() {
-        this.sendAction();
-    }
+    tagName: 'button',
+
+    /**
+     * The bootstrap "theme" name
+     * @property {string} theme
+     * @default 'default'
+     */
+    theme: 'default',
+
+    /**
+     * Assemble the button theme's class name
+     * @property {string} themeClassName
+     */
+    themeClassName: function () {
+        return 'btn-' + this.get( 'theme' );
+    }.property( 'theme' )
 });

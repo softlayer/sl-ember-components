@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
- * Modal (simple) component
+ * Simple Bootstrap-based modal component
  */
 export default Ember.Component.extend({
     acceptText: 'Accept',
@@ -16,5 +16,7 @@ export default Ember.Component.extend({
         }
     },
 
-    classNames: [ 'modal', 'fade' ]
+    classNames: [ 'modal', 'fade:fade' ],
+
+    fade: false
 });

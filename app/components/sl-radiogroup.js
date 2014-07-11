@@ -22,7 +22,5 @@ export default Ember.Component.extend({
 
     selectedInput: function () {
         return this.$( 'input[value="' + this.get( 'value' ) + '"]' );
-    }.property( 'value' ),
-
-    value: null
+    }.property( 'value' )
 });

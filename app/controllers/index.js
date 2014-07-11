@@ -91,7 +91,7 @@ export default Ember.Controller.extend({
 
     showModal: false,
 
-    tabs: [
+    tabPanelContent: [
         {
             name: 'Home',
             template: 'tabs/home'
