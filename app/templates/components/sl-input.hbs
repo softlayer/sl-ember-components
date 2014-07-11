@@ -1,5 +1,5 @@
 {{#if label}}
-    <label {{bind-attr for=inputId}}>{{label}}</label>
+    <label {{bind-attr class="srOnly:sr-only" for=inputId}}>{{label}}</label>
 {{/if}}
 
 {{input action="enter" class="form-control" disabled=disabled id=inputId placeholder=placeholder type=type value=value}}
