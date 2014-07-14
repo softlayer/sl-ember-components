@@ -8,7 +8,7 @@ The first of two supporting mixins for modals is the....Modal mixin.  This mixin
  * adds class names 'modal' & 'fade'
  * adds an action handler 'close' that closes the modal the current view is supporting
 
-The most important parts here are the layoutName, which allows us to wrap the bootstrap specified outer DIVs and the class names, which also tie in to bootstrap support.
+The most important parts here are the layoutName, which allows us to wrap the bootstrap specified outer DIVs and the class names, which also tie in to bootstrap support.  To support this layout, sl-components also contains a template/modal.hbs file that includes the DOM to wrap around the template.
 
 ### Mixins/Modal Manager
 The Modal Manager isn't absolutely necessary, but I wanted to abstract the typical use case for launching these modals and this was the best way I could think of initially.  Essentially, this can be added to a controller or route and will add a 'showModal' action handler with the following properties:
