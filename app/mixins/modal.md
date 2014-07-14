@@ -85,7 +85,7 @@ templates/index.hbs:
 
     <ul class="list-unstyled">
     {{#each controller}}
-        <li><button class="btn btn-primary" {{action "showModal" ".hello" "hello" this bubbles=false}}>{{this}}</button></li>
+        <li><button class="btn btn-primary" {{action "showModal" ".hello" "hello" this bubbles=false}}>Check in: {{this}}</button></li>
     {{/each}}
     </ul>
 
