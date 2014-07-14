@@ -106,7 +106,7 @@ export default Ember.ObjectController.extend({
 ```
 
 templates/hello.js:
-```javascript
+```html
 <div class="modal-header">
     Hello {{modalContent}}
 </div>
