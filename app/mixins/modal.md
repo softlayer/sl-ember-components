@@ -25,7 +25,7 @@ To use the modal, you're going to want to do 3 things:
 1) In your View file, mix in the Modal mixin.
 
     import Ember from 'ember';
-    import ModalMixin from 'testapp/mixins/modal';
+    import ModalMixin from 'testapp/sl-components/mixins/modal';
 
     export default Ember.View.extend( ModalMixin, {
 
@@ -48,7 +48,7 @@ The main thing to keep in mind here is whether or not you have created a control
 
 
     import Ember from 'ember';
-    import ModalManagerMixin from 'testapp/mixins/modalmanager';
+    import ModalManager from 'testapp/sl-components/mixins/modalmanager';
 
     export default Ember.Route.extend( ModalManagerMixin, {
     });
@@ -70,7 +70,7 @@ Here is a full example of an application that uses a list of buttons and shares 
 routes/index.js:
 
     import Ember from 'ember';
-    import ModalManager from 'testapp/mixins/modalmanager';
+    import ModalManager from 'testapp/sl-components/mixins/modalmanager';
 
     export default Ember.Route.extend( ModalManager, {
 
@@ -103,7 +103,7 @@ controllers/hello.js:
     });
 
 
-templates/hello.js:
+templates/hello.hbs:
 
     <div class="modal-header">
         Hello {{modalContent}}
@@ -119,7 +119,7 @@ templates/hello.js:
 views/hello.js:
 
     import Ember from 'ember';
-    import ModalMixin from 'testapp/mixins/modal';
+    import ModalMixin from 'testapp/sl-components/mixins/modal';
 
     export default Ember.View.extend( ModalMixin, {
 
