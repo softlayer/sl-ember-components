@@ -23,6 +23,8 @@ app.import( 'vendor/select2/select2.css' );
 app.import( 'vendor/select2/select2-bootstrap.css' );
 app.import( 'vendor/select2/select2.min.js' );
 
+app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
+
 var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     srcDir: '/',
     files: [ 'fontawesome-webfont.woff' ],
