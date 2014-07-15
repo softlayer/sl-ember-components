@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "broccoli-merge-trees": "~0.1.4",
-    "broccoli-static-compiler": "^0.1.4",
+    "broccoli-static-compiler": "^0.1.4"
   },
   "devDependencies": {
     "body-parser": "^1.2.0",
