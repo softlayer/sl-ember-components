@@ -31,7 +31,7 @@ export default Ember.Component.extend({
      * Class names for the component
      * @property {array} classNames
      */
-    classNames: [ 'sl-grid' ],
+    classNames: [ 'sl-grid', 'table' ],
 
     /**
      * Current page number

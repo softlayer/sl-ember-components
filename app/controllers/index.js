@@ -31,6 +31,8 @@ export default Ember.Controller.extend({
         }
     },
 
+    badgeValue: Math.round( Math.random() * 100 ),
+
     checkboxStringValue: function () {
         return this.get( 'checkboxValue' ) ? 'true' : 'false';
     }.property( 'checkboxValue' ),
@@ -73,6 +75,21 @@ export default Ember.Controller.extend({
         }
     ],
 
+    init: function () {
+        var self = this;
+
+        if ( false ) {
+            setTimeout( function () {
+                self.set( 'inputValue', 'New input value' );
+                self.set( 'radiogroupValue', 'two' );
+                self.set( 'selectValue', 'three' );
+                self.set( 'textareaValue', 'New textarea value' );
+            }, 4000 );
+        }
+
+        this._super();
+    },
+
     inputValue: 'test',
 
     radiogroupOptions: [
@@ -88,6 +105,21 @@ export default Ember.Controller.extend({
     radiogroupValue: 'one',
 
     radioValue: 'one',
+
+    selectOptions: [
+        {
+            label: 'First value',
+            value: 'one'
+        }, {
+            label: 'Second value',
+            value: 'two'
+        }, {
+            label: 'Third value',
+            value: 'three'
+        }
+    ],
+
+    selectValue: 'two',
 
     showModal: false,
 

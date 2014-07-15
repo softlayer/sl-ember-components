@@ -1,6 +1,6 @@
 {
   "name": "sl-components",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "SoftLayer shared UI components library",
   "ember-addon-main": "lib/sl-components.js",
   "main": "lib/sl-components.js",
@@ -20,13 +20,15 @@
     "Matthew Marcum <mmarcum@softlayer.com>"
   ],
   "license": "MIT",
+  "dependencies": {
+    "broccoli-merge-trees": "~0.1.4",
+    "broccoli-static-compiler": "^0.1.4"
+  },
   "devDependencies": {
     "body-parser": "^1.2.0",
     "broccoli-asset-rev": "0.0.11",
     "broccoli-ember-hbs-template-compiler": "^1.5.0",
     "broccoli-less-single": "^0.1.4",
-    "broccoli-merge-trees": "~0.1.4",
-    "broccoli-static-compiler": "^0.1.4",
     "broccoli-timepiece": "0.2.0",
     "ember-cli": "0.0.39",
     "ember-cli-ember-data": "0.1.0",
@@ -34,5 +36,9 @@
     "express": "^4.1.1",
     "glob": "^3.2.9",
     "originate": "0.1.5"
+  },
+  "dependencies": {
+    "broccoli-merge-trees": "~0.1.4",
+    "broccoli-static-compiler": "^0.1.4"
   }
 }

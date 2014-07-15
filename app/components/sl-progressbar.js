@@ -17,7 +17,7 @@ export default Ember.Component.extend({
      * Class names for the containing element
      * @property {array} classNames
      */
-    classNames: [ 'progress' ],
+    classNames: [ 'progress', 'sl-progressbar' ],
 
     /**
      * Inline style string for progress bar element

@@ -1,6 +1,6 @@
 {
   "name": "sl-components",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "authors": [
     "Joshua Cochran <jcochran@softlayer.com>",
     "Joshua Forisha <jforisha@softlayer.com>",
@@ -29,9 +29,10 @@
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
     "ember-qunit-notifications": "^0.0.3",
     "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.2",
-    "sl-bootstrap": "git@gitlab.softlayer.local:interface/sl-bootstrap#master",
-    "bower": "*",
-    "moment": "~2.7.0"
+    "sl-bootstrap": "git@gitlab.softlayer.local:interface/sl-bootstrap#0.2.1",
+    "moment": "~2.7.0",
+    "select2": "~3.5.0",
+    "fontawesome": "~4.1.0"
   },
   "resolutions": {
     "jquery": "~2.1.1"

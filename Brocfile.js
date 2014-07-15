@@ -1,6 +1,8 @@
 /* global require, module */
 
 var EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
+var mergeTrees = require( 'broccoli-merge-trees' );
+var pickFiles = require( 'broccoli-static-compiler' );
 
 var app = new EmberApp({
     trees: {
@@ -16,7 +18,21 @@ app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap.css' );
 app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap-theme.css' );
 app.import( 'vendor/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
 
-// Font Awesome
-app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
+// Select2 select
+app.import( 'vendor/select2/select2.css' );
+app.import( 'vendor/select2/select2-bootstrap.css' );
+app.import( 'vendor/select2/select2.min.js' );
 
-module.exports = app.toTree();
+var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
+    srcDir: '/',
+    files: [ 'fontawesome-webfont.woff' ],
+    destDir: '/fonts'
+});
+
+var select2Images = pickFiles( 'vendor/select2', {
+    srcDir: '/',
+    files: [ '*.png', '*.gif' ],
+    destDir: '/assets'
+});
+
+module.exports = mergeTrees([ app.toTree(), fontawesomeFont, select2Images ]);

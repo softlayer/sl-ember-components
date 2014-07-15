@@ -1,5 +1,5 @@
 # sl-components
-## v0.6.0
+## v0.7.0
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
@@ -14,6 +14,14 @@ A message box component for short alert messages. Based on [Bootstrap - Alert me
 * _theme_ : String for bootstrap style type; 'danger', 'info' (default), 'primary', 'warning'
 
 ---
+
+## sl-badge
+
+A simple span used to label counts of objects. Based on [Bootstrap - Badges](http://getbootstrap.com/components/#badges).
+
+### Properties
+* _pullRight_ : Boolean to pull the badge all the way to the right of the containing element (default: false)
+* _value_ : Bound value for the badge's span
 
 ## sl-button
 
@@ -69,10 +77,10 @@ A combination of a button with a drop-down menu, with triggered actions. Utilize
 
 ### Properties
 * _label_ : String label value for text on the button
-* _options_ : Array of objects representing the dropdown items (see below)
+* _content_ : Array of objects representing the dropdown items (see below)
 * _theme_ : String for bootstrap button style type; 'danger', 'default' (default), 'info', 'primary', 'success', 'warning'
 
-### Option item properties
+### Content item properties
 * _action_ : String for the name of the controller's action to call when option is clicked
 * _label_ : String label for the option label text
 
@@ -151,9 +159,9 @@ A component that contains a group of "radio" type inputs. See [Bootstrap - Suppo
 ### Properties
 * _inline_ : Boolean to display the radio inputs inline with each other (default: false)
 * _name_ : Shared `name` attribute for the radio inputs
-* __options__ : Array of radio definitions (required, see below)
+* __content__ : Array of radio definitions (required, see below)
 
-### Option item properties
+### Content item properties
 * _disabled_ : `disabled` attribute value
 * _label_ : String label for radio button
 * __value__ : `value` attribute value
@@ -162,7 +170,14 @@ A component that contains a group of "radio" type inputs. See [Bootstrap - Suppo
 
 ## sl-select
 
-*Coming soon*
+A full-featured select input. Based on [Select2](http://ivaynberg.github.io/select2/).
+
+### Properties
+* _content_ : Bound content for the select's options
+* _optionLabelPath_ : String for option's label field
+* _optionValuePath_ : String for option's value field
+* _placeholder_ : `placeholder` attribute value for the select
+* _value_ : Current/initial value
 
 ---
 

@@ -30,7 +30,7 @@ export default Ember.Component.extend( AjaxAware, {
      * Class names to apply to the button
      * @property {array} classNames
      */
-    classNames: [ 'btn' ],
+    classNames: [ 'btn', 'sl-button' ],
 
     /**
      * Alert external code about the click
