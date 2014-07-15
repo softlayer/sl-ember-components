@@ -25,7 +25,7 @@ export default Ember.Component.extend({
      * Class names for the div element
      * @property {array} classNames
      */
-    classNames: [ 'btn-group' ],
+    classNames: [ 'btn-group', 'sl-dropbutton' ],
 
     /**
      * Bootstrap "theme" style

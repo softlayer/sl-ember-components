@@ -24,7 +24,7 @@ export default Ember.Component.extend({
      * Class names for the containing div
      * @property {array} classNames
      */
-    classNames: [ 'form-group' ],
+    classNames: [ 'form-group', 'sl-input' ],
 
     /**
      * ID for the actual input element

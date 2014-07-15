@@ -52,6 +52,12 @@ export default Ember.Component.extend({
     activeTabName: null,
 
     /**
+     * Class names for the root element
+     * @property {array} classNames
+     */
+    classNames: [ 'sl-tabpanel' ],
+
+    /**
      * Method to setup the initial tabpanel state
      * @method didInsertElement
      */

@@ -16,7 +16,7 @@ export default Ember.Component.extend({
      * Class names for the component element
      * @property {array} classNames
      */
-    classNames: [ 'label' ],
+    classNames: [ 'label', 'sl-label' ],
 
     /**
      * Element-specific class name of the Bootstrap "theme" style

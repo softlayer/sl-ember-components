@@ -10,5 +10,5 @@ export default Ember.TextArea.extend({
      * Class names for the component
      * @property {array} classNames
      */
-    classNames: [ 'form-control' ]
+    classNames: [ 'form-control', 'sl-textarea' ]
 });

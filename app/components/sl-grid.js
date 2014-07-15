@@ -16,7 +16,7 @@ export default Ember.Component.extend({
      * Class names for the table element
      * @property {array} classNames
      */
-    classNames: [ 'table' ],
+    classNames: [ 'sl-grid', 'table' ],
 
     /**
      * The base tag type for the component

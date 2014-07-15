@@ -16,5 +16,5 @@ export default Ember.Component.extend({
      * Class names for containing div
      * @property {array} classNames
      */
-    classNames: [ 'checkbox' ]
+    classNames: [ 'checkbox', 'sl-checkbox' ]
 });

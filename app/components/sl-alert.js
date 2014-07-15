@@ -22,7 +22,7 @@ export default Ember.Component.extend({
      * Array of class names for the alert's div
      * @property {array} classNames
      */
-    classNames: [ 'alert' ],
+    classNames: [ 'alert', 'sl-alert' ],
 
     /**
      * Whether to make the alert dismissable or not

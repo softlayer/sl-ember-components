@@ -12,6 +12,10 @@
             <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
+            <td><a href="#sl-badge">sl-badge</a></td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
+        </tr>
+        <tr>
             <td><a href="#sl-button">sl-button</a></td>
             <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
@@ -61,7 +65,7 @@
         </tr>
         <tr>
             <td><a href="#sl-select">sl-select</a></td>
-            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-tabpanel">sl-tabpanel</a></td>
@@ -81,6 +85,19 @@
 {{#sl-alert theme="success"}}<strong>Success</strong> alert theme{{/sl-alert}}
 {{#sl-alert dismissable=true theme="warning"}}<strong>Warning</strong> alert theme (with dismissable=true){{/sl-alert}}
 {{#sl-alert theme="danger"}}<strong>Danger</strong> alert theme{{/sl-alert}}
+
+<hr>
+
+<h2 id="sl-badge">sl-badge</h2>
+<p><a>Link with badge {{sl-badge value=badgeValue}}</a></p>
+<ul class="nav nav-pills">
+    <li class="active">
+        <a>
+            {{sl-badge pullRight=true value=badgeValue}}
+            Active pill with badge
+        </a>
+    </li>
+</ul>
 
 <hr>
 
@@ -127,8 +144,8 @@
 
 <h2 id="sl-dropbutton">sl-dropbutton</h2>
 {{sl-dropbutton
+    content=dropbuttonOptions
     label="Dropbutton"
-    options=dropbuttonOptions
 }}
 
 <hr>
@@ -168,7 +185,7 @@
 
 <h2 id="sl-modal">sl-modal</h2>
 {{sl-button action=openModal data-toggle="modal" data-target="#testModal" label="Open modal"}}
-{{#sl-modal close="closeModal" id="testModal" title="Test Modal"}}
+{{#sl-modal close="closeModal" fade=true id="testModal" title="Test Modal"}}
     Hello world!
 {{/sl-modal}}
 
@@ -185,20 +202,30 @@
 <h2 id="sl-radiogroup">sl-radiogroup</h2>
 <p><strong>Selected value</strong>: &ldquo;{{radiogroupValue}}&rdquo;</p>
 {{sl-radiogroup
+    content=radiogroupOptions
     name="radiogroupValue"
-    options=radiogroupOptions
     value=radiogroupValue
 }}
 
 <hr>
 
 <h2 id="sl-select">sl-select</h2>
-{{sl-label text="Coming soon!" theme="info"}}
+<p><strong>Selected option</strong>: &ldquo;{{selectValue}}&rdquo;</p>
+{{sl-select
+    content=selectOptions
+    optionLabelPath="content.label"
+    optionValuePath="content.value"
+    placeholder="Select a value"
+    value=selectValue
+}}
 
 <hr>
 
 <h2 id="sl-tabpanel">sl-tabpanel</h2>
-{{sl-tabpanel activeTabName="Home" content=tabPanelContent}}
+{{sl-tabpanel
+    activeTabName="Home"
+    content=tabPanelContent
+}}
 
 <hr>
 

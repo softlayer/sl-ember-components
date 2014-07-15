@@ -46,7 +46,7 @@ export default Ember.Component.extend({
      * Class names for the containing element
      * @property {array} classNames
      */
-    classNames: [ 'modal' ],
+    classNames: [ 'modal', 'sl-modal' ],
 
     /**
      * Whether to animate the modal with a fade effect

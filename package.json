@@ -1,6 +1,6 @@
 {
   "name": "sl-components",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "SoftLayer shared UI components library",
   "ember-addon-main": "lib/sl-components.js",
   "main": "lib/sl-components.js",
@@ -36,5 +36,9 @@
     "express": "^4.1.1",
     "glob": "^3.2.9",
     "originate": "0.1.5"
+  },
+  "dependencies": {
+    "broccoli-merge-trees": "~0.1.4",
+    "broccoli-static-compiler": "^0.1.4"
   }
 }

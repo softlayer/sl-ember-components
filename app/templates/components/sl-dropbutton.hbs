@@ -4,7 +4,7 @@
 </button>
 
 <ul class="dropdown-menu" role="menu">
-    {{#each option in view.options}}
+    {{#each option in view.content}}
         <li class="presentation">
             <a {{action "click" option.action}} role="menuitem" tab-index="-1">{{option.label}}</a>
         </li>

@@ -26,14 +26,14 @@ export default Ember.Component.extend({
      * Class names for the containing element
      * @property {array} classNames
      */
-    classNames: [ 'form-group' ],
+    classNames: [ 'form-group', 'sl-radiogroup' ],
 
     /**
      * Initializes initial radio value, run after the element is added to the DOM
      * @method didInsertElement
      */
     didInsertElement: function () {
-        this.get( 'selectedInput' ).prop( 'checked', true );
+        this.updateSelection();
     },
 
     /**
@@ -49,5 +49,13 @@ export default Ember.Component.extend({
      */
     selectedInput: function () {
         return this.$( 'input[value="' + this.get( 'value' ) + '"]' );
-    }.property( 'value' )
+    }.property( 'value' ),
+
+    /**
+     * Selects the radio input with the current value
+     * @method updateSelection
+     */
+    updateSelection: Ember.observer( 'value', function () {
+        this.get( 'selectedInput' ).prop( 'checked', true );
+    })
 });
