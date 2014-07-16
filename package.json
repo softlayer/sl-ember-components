@@ -5,7 +5,7 @@
   "ember-addon-main": "lib/sl-components.js",
   "main": "lib/sl-components.js",
   "scripts": {
-    "postinstall": "bower install"
+    "postinstall": "bin/bower install"
   },
   "repository": {
     "type": "git",
