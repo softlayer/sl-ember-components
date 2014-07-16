@@ -25,12 +25,21 @@ app.import( 'vendor/select2/select2.min.js' );
 
 app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
 
+// FontAwesome
+app.import( 'vendor/fontawesome/css/font-awesome.css' );
 var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     srcDir: '/',
     files: [ 'fontawesome-webfont.woff' ],
     destDir: '/fonts'
 });
 
+// Moment
+app.import( 'vendor/moment/min/moment-with-langs.min.js' );
+
+// Select2
+app.import( 'vendor/select2/select2.css' );
+app.import( 'vendor/select2/select2-bootstrap.css' );
+app.import( 'vendor/select2/select2.min.js' );
 var select2Images = pickFiles( 'vendor/select2', {
     srcDir: '/',
     files: [ '*.png', '*.gif' ],

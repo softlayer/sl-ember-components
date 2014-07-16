@@ -28,6 +28,13 @@ export default Ember.Component.extend({
     classNames: [ 'btn-group', 'sl-dropbutton' ],
 
     /**
+     * Class string for the button's icon
+     * @property {string} iconClass
+     * @default 'caret'
+     */
+    iconClass: 'caret',
+
+    /**
      * Bootstrap "theme" style
      * @property {string} theme
      * @default 'default'
