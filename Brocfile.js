@@ -18,10 +18,17 @@ app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap.css' );
 app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap-theme.css' );
 app.import( 'vendor/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
 
+// Moment.js
+app.import( 'vendor/moment/min/moment-with-langs.min.js' );
+
 // Select2 select
 app.import( 'vendor/select2/select2.css' );
 app.import( 'vendor/select2/select2-bootstrap.css' );
 app.import( 'vendor/select2/select2.min.js' );
+
+// Bootstrap-Datepicker
+app.import( 'vendor/bootstrap-datepicker/css/datepicker3.css' );
+app.import( 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
 var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     srcDir: '/',

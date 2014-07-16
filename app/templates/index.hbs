@@ -138,7 +138,11 @@
 <hr>
 
 <h2 id="sl-datepicker">sl-datepicker</h2>
-{{sl-label text="Coming soon!" theme="info"}}
+<p><strong>Chosen date</strong>: {{formattedDate}}</p>
+{{sl-datepicker
+    daysOfWeekDisabled="0,6"
+    value=datepickerValue
+}}
 
 <hr>
 

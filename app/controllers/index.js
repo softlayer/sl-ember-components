@@ -39,6 +39,8 @@ export default Ember.Controller.extend({
 
     checkboxValue: false,
 
+    datepickerValue: '07/16/2014',
+
     dropbuttonOptions: [
         {
             label: 'Save',
@@ -51,6 +53,10 @@ export default Ember.Controller.extend({
             action: 'delete'
         }
     ],
+
+    formattedDate: function () {
+        return moment( new Date( this.get( 'datepickerValue' ))).format( 'dddd, MMMM Do YYYY' );
+    }.property( 'datepickerValue' ),
 
     gridColumns: [
         {
@@ -78,8 +84,9 @@ export default Ember.Controller.extend({
     init: function () {
         var self = this;
 
-        if ( false ) {
+        if ( true ) {
             setTimeout( function () {
+                self.set( 'datepickerValue', '01/01/2014' );
                 self.set( 'inputValue', 'New input value' );
                 self.set( 'radiogroupValue', 'two' );
                 self.set( 'selectValue', 'three' );
