@@ -33,6 +33,25 @@ export default Ember.Controller.extend({
 
     badgeValue: Math.round( Math.random() * 100 ),
 
+    calendarData: [
+        {
+            "publishDate":"Wed, 09 Jul 2014 15:19:32 GMT+0000",
+            "title":"Portal Retirement (specific accounts only) - 15:00:00 GMT+00:00",
+            "location":"All",
+            "service":"Portal",
+            "startDate":"Wed, 09 Jul 2014 15:00:00 GMT+0000",
+            "endDate":"Wed, 09 Jul 2014 16:00:00 GMT+0000"
+        }, {
+            "publishDate":"Wed, 02 Jul 2014 17:07:26 GMT+0000",
+            "title":"Portal Retirement (specific accounts only) - All - 07\/09\/2014 - 15:00:00 GMT+00:00",
+            "description":"",
+            "location":"All",
+            "service":"Portal",
+            "startDate":"Wed, 16 Jul 2014 15:00:00 GMT+0000",
+            "endDate":"Wed, 16 Jul 2014 16:00:00 GMT+0000"
+        }
+    ],
+
     checkboxStringValue: function () {
         return this.get( 'checkboxValue' ) ? 'true' : 'false';
     }.property( 'checkboxValue' ),
