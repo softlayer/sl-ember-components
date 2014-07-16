@@ -84,7 +84,7 @@ export default Ember.Controller.extend({
     init: function () {
         var self = this;
 
-        if ( true ) {
+        if ( false ) {
             setTimeout( function () {
                 self.set( 'datepickerValue', '01/01/2014' );
                 self.set( 'inputValue', 'New input value' );
