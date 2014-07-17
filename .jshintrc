@@ -2,7 +2,8 @@
   "predef": {
     "document": true,
     "window": true,
-    "SlComponentsENV": true
+    "SlComponentsENV": true,
+    "moment": true
   },
   "browser" : true,
   "boss" : true,

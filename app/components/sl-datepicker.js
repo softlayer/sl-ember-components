@@ -1,14 +1,23 @@
+import DateHandler from '../mixins/date-handler';
 import Ember from 'ember';
 
 /**
  * @module components
- * @sl-datepicker
+ * @class sl-datepicker
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( DateHandler, {
 
     /**
      * Class names for the root element
      * @property {array} classNames
      */
-    classNames: [ 'sl-datepicker' ]
+    classNames: [ 'date-picker', 'sl-datepicker' ],
+
+    /**
+     * Setup for initial component state
+     * @method didInsertElement
+     */
+    didInsertElement: function () {
+        this.$( 'input.date-picker' ).datepicker( this.get( 'options' ));
+    }
 });
