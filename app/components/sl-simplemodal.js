@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ModalMixin from '../mixins/modal';
+import ModalMixin from '../mixins/slmodal';
 
 /**
  * @module components
