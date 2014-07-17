@@ -52,10 +52,6 @@
             <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
-            <td><a href="#sl-modal">sl-modal</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
             <td><a href="#sl-progressbar">sl-progressbar</a></td>
             <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
@@ -65,6 +61,10 @@
         </tr>
         <tr>
             <td><a href="#sl-select">sl-select</a></td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
+        </tr>
+        <tr>
+            <td><a href="#sl-simplemodal">sl-simplemodal</a></td>
             <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
@@ -183,14 +183,6 @@
 
 <hr>
 
-<h2 id="sl-modal">sl-modal</h2>
-{{sl-button action=openModal data-toggle="modal" data-target="#testModal" label="Open modal"}}
-{{#sl-modal close="closeModal" fade=true id="testModal" title="Test Modal"}}
-    Hello world!
-{{/sl-modal}}
-
-<hr>
-
 <h2 id="sl-progressbar">sl-progressbar</h2>
 {{sl-progressbar theme="danger" value="40"}}
 {{sl-progressbar label=true theme="warning" value="60"}}
@@ -216,6 +208,14 @@
     placeholder="Select a value"
     value=selectValue
 }}
+
+<hr>
+
+<h2 id="sl-simplemodal">sl-simplemodal</h2>
+{{sl-button action=openModal data-toggle="modal" data-target="#testModal" label="Open modal"}}
+{{#sl-simplemodal close="closeModal" fade=true id="testModal" title="Test Modal"}}
+    Hello world!
+{{/sl-simplemodal}}
 
 <hr>
 
