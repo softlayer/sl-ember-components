@@ -103,13 +103,17 @@ export default Ember.Controller.extend({
     init: function () {
         var self = this;
 
-        if ( false ) {
+        if ( true ) {
             setTimeout( function () {
-                self.set( 'datepickerValue', '01/01/2014' );
-                self.set( 'inputValue', 'New input value' );
-                self.set( 'radiogroupValue', 'two' );
-                self.set( 'selectValue', 'three' );
-                self.set( 'textareaValue', 'New textarea value' );
+                self.set( 'calendarData', [
+                    { startDate: new Date( 2014, 6, 4 )},
+                    { startDate: new Date( 2014, 6, 5 )}
+                ]);
+                // self.set( 'datepickerValue', '01/01/2014' );
+                // self.set( 'inputValue', 'New input value' );
+                // self.set( 'radiogroupValue', 'two' );
+                // self.set( 'selectValue', 'three' );
+                // self.set( 'textareaValue', 'New textarea value' );
             }, 4000 );
         }
 
