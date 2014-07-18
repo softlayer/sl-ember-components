@@ -14,18 +14,18 @@ export default Ember.Component.extend( DateHandler, {
     classNames: [ 'sl-calendar' ],
 
     /**
+     * String lookup for the date value on the content objects
+     * @property {string} dateValuePath
+     * @default 'date'
+     */
+    dateValuePath: 'date',
+
+    /**
      * Array of passed-in date objects, indexed by formatted date
      * @property {array} dates
      * @default []
      */
     dates: [],
-
-    /**
-     * Which days of the week to disable
-     * @property {array} daysOfWeekDisabled - 0 (Sunday) to 6 (Saturday)
-     * @default [0, 1, 2, 3, 4, 5, 6]
-     */
-    daysOfWeekDisabled: [],
 
     /**
      * Setup for initial component state
@@ -77,7 +77,7 @@ export default Ember.Component.extend( DateHandler, {
             formattedDate;
 
         this.get( 'content' ).map( function ( item ) {
-            formattedDate = moment( new Date( item[ dateValuePath ])).format( 'MM/DD/YYYY' );
+            formattedDate = moment( new Date( Ember.get( item, dateValuePath ))).format( 'MM/DD/YYYY' );
 
             if ( !dates.hasOwnProperty( formattedDate )) {
                 dates[ formattedDate ] = [];
