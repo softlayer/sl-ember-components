@@ -172,21 +172,21 @@ export default Ember.Component.extend({
     /**
      * The path key for each option object's description
      * @property {string} optionDescriptionPath
-     * @default 'description'
+     * @default "description"
      */
     optionDescriptionPath: 'description',
 
     /**
      * The path key for each option object's label
      * @property {string} optionLabelPath
-     * @default 'label'
+     * @default "label"
      */
     optionLabelPath: 'label',
 
     /**
      * The path key for each option object's value
      * @property {string} optionValuePath
-     * @default 'value'
+     * @default "value"
      */
     optionValuePath: 'value',
 
@@ -209,14 +209,14 @@ export default Ember.Component.extend({
     /**
      * Name of the tag type for select element
      * @property {string} tagName
-     * @default 'input'
+     * @default "input"
      */
     tagName: 'input',
 
     /**
      * Type attribute for the select element
      * @property {string} type
-     * @default 'hidden'
+     * @default "hidden"
      */
     type: 'hidden',
 

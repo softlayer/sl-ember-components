@@ -16,7 +16,7 @@ export default Ember.Component.extend( DateHandler, {
     /**
      * String lookup for the date value on the content objects
      * @property {string} dateValuePath
-     * @default 'date'
+     * @default "date"
      */
     dateValuePath: 'date',
 

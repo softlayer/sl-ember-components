@@ -34,21 +34,21 @@ export default Ember.Component.extend({
     /**
      * The role attribute for the alert's div
      * @property {string} role
-     * @default 'alert'
+     * @default "alert"
      */
     role: 'alert',
 
     /**
      * The Bootstrap "theme" style to apply to the alert
      * @property {string} theme
-     * @default 'info'
+     * @default "info"
      */
     theme: 'info',
 
     /**
      * The generated Bootstrap "theme" style class for the alert
      * @property {string} themeClassName
-     * @default 'alert-info'
+     * @default "alert-info"
      */
     themeClassName: function () {
         return 'alert-' + this.get( 'theme' );

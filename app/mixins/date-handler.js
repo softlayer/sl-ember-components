@@ -74,7 +74,7 @@ export default Ember.Mixin.create({
      * - M, MM: Abbreviated and full month names, respectively
      * - yy, yyyy: 2- and 4-digit years, respectively
      * @property {string} format
-     * @default 'mm/dd/yyyy'
+     * @default "mm/dd/yyyy"
      */
     format: 'mm/dd/yyyy',
 
@@ -97,14 +97,14 @@ export default Ember.Mixin.create({
     /**
      * The IETF code of the language to use for month and day names
      * @property {string} language
-     * @default 'en'
+     * @default "en"
      */
     language: 'en',
 
     /**
-     * Set a limit for the view mode. Accepts 'days', 'months', or 'years'.
+     * Set a limit for the view mode. Accepts "days", "months", or "years".
      * @property {string} minViewMode
-     * @default 'days'
+     * @default "days"
      */
     minViewMode: 'days',
 
@@ -118,7 +118,7 @@ export default Ember.Mixin.create({
     /**
      * The string that will appear between dates when multidate is true
      * @property {string} multidateSeparator
-     * @default ','
+     * @default ","
      */
     multidateSeparator: ',',
 
@@ -155,7 +155,7 @@ export default Ember.Mixin.create({
      * "top" or "bottom", and "auto" (may be omitted). Refers to the location
      * of the picker popup's "anchor".
      * @property {string} orientation
-     * @default 'auto'
+     * @default "auto"
      */
     orientation: 'auto',
 
@@ -170,7 +170,7 @@ export default Ember.Mixin.create({
      * The view that the datepicker should show when it is opened. Accepts
      * "month", "year", or "decade".
      * @property {string} startView
-     * @default 'month'
+     * @default "month"
      */
     startView: 'month',
 

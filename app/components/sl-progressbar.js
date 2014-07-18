@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
- * @module component
+ * @module components
  * @class sl-progressbar
  */
 export default Ember.Component.extend({
@@ -30,14 +30,14 @@ export default Ember.Component.extend({
     /**
      * The Bootstrap "theme" style name
      * @property {string} theme
-     * @default 'default'
+     * @default "default"
      */
     theme: 'default',
 
     /**
      * Element-specific class name for the Bootstrap "theme" style
      * @property {string} themeClassName
-     * @default 'progress-bar-default'
+     * @default "progress-bar-default"
      */
     themeClassName: function () {
         return 'progress-bar-' + this.get( 'theme' );

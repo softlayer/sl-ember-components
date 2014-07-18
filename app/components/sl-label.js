@@ -21,7 +21,7 @@ export default Ember.Component.extend({
     /**
      * Element-specific class name of the Bootstrap "theme" style
      * @property {string} themeClassName
-     * @default 'label-default'
+     * @default "label-default"
      */
     themeClassName: function () {
         return 'label-' + this.get( 'theme' );
@@ -30,14 +30,14 @@ export default Ember.Component.extend({
     /**
      * The tag type of the component element
      * @property {string} tagName
-     * @default 'span'
+     * @default "span"
      */
     tagName: 'span',
 
     /**
      * The Bootstrap "theme" style name/string
      * @property {string} theme
-     * @default 'default'
+     * @default "default"
      */
     theme: 'default'
 });

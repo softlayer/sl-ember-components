@@ -21,7 +21,7 @@ export default Ember.Component.extend({
     /**
      * The base tag type for the component
      * @property {string} tagName
-     * @default 'table'
+     * @default "table"
      */
     tagName: 'table'
 });

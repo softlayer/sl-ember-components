@@ -37,7 +37,7 @@ export default Ember.Component.extend({
     /**
      * Type attribute for the containing div
      * @property {string} type
-     * @default 'text'
+     * @default "text"
      */
     type: 'text'
 });

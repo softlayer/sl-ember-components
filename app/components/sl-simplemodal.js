@@ -10,7 +10,7 @@ export default Ember.Component.extend( ModalMixin, {
     /**
      * Text string for the "accept" button
      * @property {string} acceptText
-     * @default 'Accept'
+     * @default "Accept"
      */
     acceptText: 'Accept',
 

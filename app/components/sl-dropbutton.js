@@ -30,21 +30,21 @@ export default Ember.Component.extend({
     /**
      * Class string for the button's icon
      * @property {string} iconClass
-     * @default 'caret'
+     * @default "caret"
      */
     iconClass: 'caret',
 
     /**
      * Bootstrap "theme" style
      * @property {string} theme
-     * @default 'default'
+     * @default "default"
      */
     theme: 'default',
 
     /**
      * Element-specific class name for Bootstrap "theme" style
      * @property {string} themeClassName
-     * @default 'btn-default'
+     * @default "btn-default"
      */
     themeClassName: function () {
         return 'btn-' + this.get( 'theme' );

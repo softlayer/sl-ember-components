@@ -119,21 +119,21 @@ export default Ember.Component.extend( AjaxAware, {
     /**
      * The root component element
      * @property {string} tagName
-     * @default 'button'
+     * @default "button"
      */
     tagName: 'button',
 
     /**
      * The bootstrap "theme" name
      * @property {string} theme
-     * @default 'default'
+     * @default "default"
      */
     theme: 'default',
 
     /**
      * Assemble the button theme's class name
      * @property {string} themeClassName
-     * @default 'btn-default'
+     * @default "btn-default"
      */
     themeClassName: function () {
         return 'btn-' + this.get( 'theme' );
