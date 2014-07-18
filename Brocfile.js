@@ -30,6 +30,9 @@ var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     destDir: '/fonts'
 });
 
+// Highcharts
+app.import( 'vendor/highcharts/highcharts.js' );
+
 // Moment
 app.import( 'vendor/moment/min/moment-with-langs.min.js' );
 

@@ -86,7 +86,12 @@ A standalone calendar div to display date values from an array of objects. Based
 
 ## sl-chart
 
-*Coming soon*
+A wrapper component for [Highcharts](http://www.highcharts.com/).
+
+### Properties
+* _height_ : CSS string for the height inline style value
+* __options__ : Object of options passed directly to Highcharts initialization
+* _width_ : CSS string for the width inline style value
 
 ---
 
