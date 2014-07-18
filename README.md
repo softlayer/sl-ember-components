@@ -172,8 +172,11 @@ A full-featured select input. Based on [Select2](http://ivaynberg.github.io/sele
 
 ### Properties
 * _content_ : Bound content for the select's options
-* _optionLabelPath_ : String for option's label field
-* _optionValuePath_ : String for option's value field
+* _disableSearch_ : Boolean to disable the search filter input (default: false)
+* _disabled_ : Boolean to disable the select itself (default: false)
+* _multiple_ : Boolean to allow multiple selections (default: false)
+* _optionLabelPath_ : String for option's label field (default: 'label')
+* _optionValuePath_ : String for option's value field (default: 'value')
 * _placeholder_ : `placeholder` attribute value for the select
 * _value_ : Current/initial value
 
