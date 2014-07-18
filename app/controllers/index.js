@@ -31,6 +31,24 @@ export default Ember.Controller.extend({
         }
     },
 
+    advancedSelectOptions: [
+        {
+            label: 'First value',
+            description: 'The first advanced value',
+            value: 'one'
+        }, {
+            label: 'Second value',
+            description: 'The second advanced value',
+            value: 'two'
+        }, {
+            label: 'Third value',
+            description: 'The third advanced value',
+            value: 'three'
+        }
+    ],
+
+    advancedSelectValue: 'two',
+
     badgeValue: Math.round( Math.random() * 100 ),
 
     checkboxStringValue: function () {
@@ -80,11 +98,11 @@ export default Ember.Controller.extend({
 
         if ( false ) {
             setTimeout( function () {
-                self.set( 'inputValue', 'New input value' );
-                self.set( 'radiogroupValue', 'two' );
+                // self.set( 'inputValue', 'New input value' );
+                // self.set( 'radiogroupValue', 'two' );
                 self.set( 'simpleSelectValue', 25 );
                 self.set( 'advancedSelectValue', 'three' );
-                self.set( 'textareaValue', 'New textarea value' );
+                // self.set( 'textareaValue', 'New textarea value' );
             }, 4000 );
         }
 
@@ -106,24 +124,6 @@ export default Ember.Controller.extend({
     radiogroupValue: 'one',
 
     radioValue: 'one',
-
-    advancedSelectOptions: [
-        {
-            label: 'First value',
-            description: 'The first advanced value',
-            value: 'one'
-        }, {
-            label: 'Second value',
-            description: 'The second advanced value',
-            value: 'two'
-        }, {
-            label: 'Third value',
-            description: 'The third advanced value',
-            value: 'three'
-        }
-    ],
-
-    advancedSelectValue: 'two',
 
     simpleSelectOptions: [ 25, 50, 75, 100 ],
 

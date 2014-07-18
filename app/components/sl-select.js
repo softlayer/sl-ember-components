@@ -7,13 +7,13 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     /**
-     * Attribute bindings for the root element
+     * Attribute bindings for the select element
      * @property {array} attributeBindings
      */
-    attributeBindings: [ 'type' ],
+    attributeBindings: [ 'disabled', 'type' ],
 
     /**
-     * Class names for the root element
+     * Class names for the select element
      * @property {array} classNames
      */
     classNames: [ 'form-control', 'sl-select' ],
@@ -31,16 +31,15 @@ export default Ember.Component.extend({
      * @method didInsertElement
      */
     didInsertElement: function () {
-        var escapeExpression = Ember.Handlebars.Utils.escapeExpression,
-            get = Ember.get,
+        var get = Ember.get,
             self = this;
 
-        this.set( 'root', this.$().select2({
-            multiple:    this.get( 'multiple' ),
+        this.set( 'select', this.$().select2({
+            maximumSelectionSize: this.get( 'maximumSelectionSize' ),
+            multiple: this.get( 'multiple' ),
             placeholder: this.get( 'placeholder' ),
 
             formatResult: function ( item ) {
-                console.log( 's2.formatResult:', item );
                 if ( !item ) { return; }
 
                 if ( !( item instanceof Object )) {
@@ -51,21 +50,28 @@ export default Ember.Component.extend({
                     description = get( item, self.get( 'optionDescriptionPath' ));
 
                 if ( description ) {
-                    output += ' <span class="text-muted">' + description + '</span>';
+                    output +=  ' <span class="text-muted">' + description + '</span>';
                 }
 
-                return escapeExpression( output );
+                return output;
             },
 
             formatSelection: function ( item ) {
-                console.log( 's2.formatSelection:', item );
                 if ( !item ) { return; }
 
                 if ( item instanceof Object ) {
-                    return escapeExpression( get( item, self.get( 'optionLabelPath' )));
+                    return get( item, self.get( 'optionLabelPath' ));
                 }
 
-                return escapeExpression( item );
+                return item;
+            },
+
+            id: function ( item ) {
+                if ( item instanceof Object ) {
+                    return get( item, self.get( 'optionValuePath' ));
+                }
+
+                return item;
             },
 
             initSelection: function ( element, callback ) {
@@ -73,8 +79,6 @@ export default Ember.Component.extend({
                     content         = self.get( 'content' ),
                     multiple        = self.get( 'multiple' ),
                     optionValuePath = self.get( 'optionValuePath' );
-
-                console.log( 'initSelection:', value );
 
                 if ( !value || !value.length ) {
                     return callback( [] );
@@ -89,7 +93,7 @@ export default Ember.Component.extend({
                 for ( var i = 0; i < contentLength; i++ ) {
                     item = content[i];
                     text = item instanceof Object ? get( item, optionValuePath ) : item;
-                    matchIndex = values.indexOf( text );
+                    matchIndex = values.indexOf( text.toString() );
 
                     if ( matchIndex !== -1 ) {
                         filteredContent[ matchIndex ] = item;
@@ -100,9 +104,9 @@ export default Ember.Component.extend({
                 }
 
                 if ( unmatchedValues === 0 ) {
-                    self.root.select2( 'readonly', false );
+                    self.select.select2( 'readonly', false );
                 } else {
-                    self.root.select2( 'readonly', true );
+                    self.select.select2( 'readonly', true );
 
                     Ember.warn( 'sl-select:select2#initSelection was not able to map each "' + optionValuePath + '" to an object from "content". The remaining keys are: ' + values + '. The input will be disabled until a) the desired objects are added to the "content" array, or b) the "value" is changed.', !values.length );
                 }
@@ -111,7 +115,6 @@ export default Ember.Component.extend({
             },
 
             query: function ( query ) {
-                console.log( 's2.query:', query );
                 var optionLabelPath = self.get( 'optionLabelPath' ),
                     select2 = this;
 
@@ -119,7 +122,7 @@ export default Ember.Component.extend({
                     results: self.get( 'content' ).reduce( function ( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
-                        if ( select2.matcher( query.term, text )) {
+                        if ( select2.matcher( query.term, text.toString() )) {
                             results.push( item );
                         }
 
@@ -129,12 +132,26 @@ export default Ember.Component.extend({
             }
         }));
 
-        this.root.on( 'change', function () {
-            self.selectionChanged( self.root.select2( 'val' ));
+        this.get( 'select' ).on( 'change', function () {
+            self.selectionChanged( self.select.select2( 'val' ));
         });
 
         this.valueChanged();
     },
+
+    /**
+     * Attribute value for the select
+     * @property {boolean} disabled
+     * @default false
+     */
+    disabled: false,
+
+    /**
+     * The maximum number of selections allowed when `multiple` is enabled
+     * @property {number} maximumSelectionSize
+     * @default null
+     */
+    maximumSelectionSize: null,
 
     /**
      * Whether to allow multiple selections
@@ -165,41 +182,30 @@ export default Ember.Component.extend({
     optionValuePath: 'value',
 
     /**
-     * The root element jQuery binding
-     * @property {object} root
+     * The select element jQuery binding
+     * @property {object} select
      * @default null
      */
-    root: null,
+    select: null,
 
     /**
      * Called when the object selection changes
      * @method selectionChanged
      * @param {mixed} data - Data from the selected option
      */
-    selectionChanged: function ( data ) {
-        console.log( 'selectionChanged:', data );
-        var multiple = this.get( 'multiple' ),
-            optionValuePath = this.get( 'optionValuePath' ),
-            value;
-
-        if ( optionValuePath ) {
-            value = multiple ? data.getEach( optionValuePath ) : Ember.get( data, optionValuePath );
-        } else {
-            value = data;
-        }
-
-        this.set( 'data', value );
+    selectionChanged: function ( value ) {
+        this.set( 'value', value );
     },
 
     /**
-     * Name of the tag type for root element
+     * Name of the tag type for select element
      * @property {string} tagName
      * @default 'input'
      */
     tagName: 'input',
 
     /**
-     * Type attribute for the root element
+     * Type attribute for the select element
      * @property {string} type
      * @default 'hidden'
      */
@@ -210,7 +216,7 @@ export default Ember.Component.extend({
      * @method valueChanged
      */
     valueChanged: Ember.observer( 'value', function () {
-        this.root.select2( 'val', this.get( 'value' ));
+        this.select.select2( this.get( 'optionValuePath' ) ? 'val' : 'data', this.get( 'value' ));
     }),
 
     /**
@@ -218,6 +224,6 @@ export default Ember.Component.extend({
      * @method willDestroyElement
      */
     willDestroyElement: function () {
-        this.root.off( 'change' ).select2( 'destroy' );
+        this.select.off( 'change' ).select2( 'destroy' );
     }
 });
