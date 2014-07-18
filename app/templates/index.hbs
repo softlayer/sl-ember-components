@@ -202,11 +202,19 @@
 <hr>
 
 <h2 id="sl-select">sl-select</h2>
-<p><strong>Selected option</strong>: &ldquo;{{selectValue}}&rdquo;</p>
+<p><strong>Selected simple option</strong>: &ldquo;{{simpleSelectValue}}&rdquo;</p>
 {{sl-select
-    content=selectOptions
-    placeholder="Select a value"
-    value=selectValue
+    content=simpleSelectOptions
+    disableSearch=true
+    placeholder="Select a simple value"
+    value=simpleSelectValue
+}}
+<br><br>
+<p><strong>Selected advanced option</strong>: &ldquo;{{advancedSelectValue}}&rdquo;</p>
+{{sl-select
+    content=advancedSelectOptions
+    placeholder="Select an advanced value"
+    value=advancedSelectValue
 }}
 
 <hr>
