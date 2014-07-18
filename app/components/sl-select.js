@@ -114,6 +114,8 @@ export default Ember.Component.extend({
                 return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ));
             },
 
+            minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
+
             query: function ( query ) {
                 var optionLabelPath = self.get( 'optionLabelPath' ),
                     select2 = this;
@@ -138,6 +140,13 @@ export default Ember.Component.extend({
 
         this.valueChanged();
     },
+
+    /**
+     * Whether to show the search filter input or not
+     * @property {boolean} disableSearch
+     * @default false
+     */
+    disableSearch: false,
 
     /**
      * Attribute value for the select
