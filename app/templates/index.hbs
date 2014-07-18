@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td><a href="#sl-calendar">sl-calendar</a></td>
-            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="warning" value="50"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-chart">sl-chart</a></td>
@@ -116,6 +116,7 @@
 
 <h2 id="sl-calendar">sl-calendar</h2>
 {{sl-calendar
+    action="calendarDateSelect"
     content=calendarData
     dateValuePath="startDate"
     multidate=true

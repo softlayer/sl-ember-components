@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     actions: {
+        calendarDateSelect: function ( selectedDate ) {
+            console.log( selectedDate[0] );
+        },
+
         closeModal: function () {
             this.set( 'showModal', false );
         },
