@@ -31,13 +31,13 @@ export default Ember.Component.extend({
      * @method didInsertElement
      */
     didInsertElement: function () {
-        var get = Ember.get,
+        var get  = Ember.get,
             self = this;
 
-        this.set( 'select', this.$().select2({
+        this.$().select2({
             maximumSelectionSize: this.get( 'maximumSelectionSize' ),
-            multiple: this.get( 'multiple' ),
-            placeholder: this.get( 'placeholder' ),
+            multiple:             this.get( 'multiple' ),
+            placeholder:          this.get( 'placeholder' ),
 
             formatResult: function ( item ) {
                 if ( !item ) { return; }
@@ -104,9 +104,9 @@ export default Ember.Component.extend({
                 }
 
                 if ( unmatchedValues === 0 ) {
-                    self.select.select2( 'readonly', false );
+                    self.$().select2( 'readonly', false );
                 } else {
-                    self.select.select2( 'readonly', true );
+                    self.$().select2( 'readonly', true );
 
                     Ember.warn( 'sl-select:select2#initSelection was not able to map each "' + optionValuePath + '" to an object from "content". The remaining keys are: ' + values + '. The input will be disabled until a) the desired objects are added to the "content" array, or b) the "value" is changed.', !values.length );
                 }
@@ -132,10 +132,10 @@ export default Ember.Component.extend({
                     }, [] )
                 });
             }
-        }));
+        });
 
-        this.get( 'select' ).on( 'change', function () {
-            self.selectionChanged( self.select.select2( 'val' ));
+        this.$().on( 'change', function () {
+            self.selectionChanged( self.$().select2( 'val' ));
         });
 
         this.valueChanged();
@@ -191,13 +191,6 @@ export default Ember.Component.extend({
     optionValuePath: 'value',
 
     /**
-     * The select element jQuery binding
-     * @property {object} select
-     * @default null
-     */
-    select: null,
-
-    /**
      * Called when the object selection changes
      * @method selectionChanged
      * @param {mixed} data - Data from the selected option
@@ -225,7 +218,7 @@ export default Ember.Component.extend({
      * @method valueChanged
      */
     valueChanged: Ember.observer( 'value', function () {
-        this.select.select2( this.get( 'optionValuePath' ) ? 'val' : 'data', this.get( 'value' ));
+        this.$().select2( this.get( 'optionValuePath' ) ? 'val' : 'data', this.get( 'value' ));
     }),
 
     /**
@@ -233,6 +226,6 @@ export default Ember.Component.extend({
      * @method willDestroyElement
      */
     willDestroyElement: function () {
-        this.select.off( 'change' ).select2( 'destroy' );
+        this.$().off( 'change' ).select2( 'destroy' );
     }
 });
