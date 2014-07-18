@@ -3,10 +3,21 @@ import ModalMixin from '../mixins/slmodal';
 
 /**
  * @module components
- * @class sl-modal
+ * @class sl-simplemodal
  */
 export default Ember.Component.extend( ModalMixin, {
 
+    /**
+     * Text string for the "accept" button
+     * @property {string} acceptText
+     * @default 'Accept'
+     */
+    acceptText: 'Accept',
+
+    /**
+     * Attribute bindings for the root element
+     * @property {array} attributeBindings
+     */
     attributeBindings: [ 'class' ]
 
 });
