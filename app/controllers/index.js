@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     actions: {
+        calendarDateSelect: function ( selectedDate ) {
+            console.log( selectedDate[0] );
+        },
+
         closeModal: function () {
             this.set( 'showModal', false );
         },
@@ -51,11 +55,32 @@ export default Ember.Controller.extend({
 
     badgeValue: Math.round( Math.random() * 100 ),
 
+    calendarData: [
+        {
+            "publishDate":"Wed, 09 Jul 2014 15:19:32 GMT+0000",
+            "title":"Portal Retirement (specific accounts only) - 15:00:00 GMT+00:00",
+            "location":"All",
+            "service":"Portal",
+            "startDate":"Wed, 09 Jul 2014 15:00:00 GMT+0000",
+            "endDate":"Wed, 09 Jul 2014 16:00:00 GMT+0000"
+        }, {
+            "publishDate":"Wed, 02 Jul 2014 17:07:26 GMT+0000",
+            "title":"Portal Retirement (specific accounts only) - All - 07\/09\/2014 - 15:00:00 GMT+00:00",
+            "description":"",
+            "location":"All",
+            "service":"Portal",
+            "startDate":"Wed, 16 Jul 2014 15:00:00 GMT+0000",
+            "endDate":"Wed, 16 Jul 2014 16:00:00 GMT+0000"
+        }
+    ],
+
     checkboxStringValue: function () {
         return this.get( 'checkboxValue' ) ? 'true' : 'false';
     }.property( 'checkboxValue' ),
 
     checkboxValue: false,
+
+    datepickerValue: '07/16/2014',
 
     dropbuttonOptions: [
         {
@@ -69,6 +94,10 @@ export default Ember.Controller.extend({
             action: 'delete'
         }
     ],
+
+    formattedDate: function () {
+        return moment( new Date( this.get( 'datepickerValue' ))).format( 'dddd, MMMM Do YYYY' );
+    }.property( 'datepickerValue' ),
 
     gridColumns: [
         {
@@ -96,12 +125,17 @@ export default Ember.Controller.extend({
     init: function () {
         var self = this;
 
-        if ( false ) {
+        if ( true ) {
             setTimeout( function () {
+                self.set( 'calendarData', [
+                    { startDate: new Date( 2014, 6, 4 )},
+                    { startDate: new Date( 2014, 6, 5 )}
+                ]);
+                // self.set( 'datepickerValue', '01/01/2014' );
                 // self.set( 'inputValue', 'New input value' );
                 // self.set( 'radiogroupValue', 'two' );
-                self.set( 'simpleSelectValue', 25 );
-                self.set( 'advancedSelectValue', 'three' );
+                // self.set( 'simpleSelectValue', 25 );
+                // self.set( 'advancedSelectValue', 'three' );
                 // self.set( 'textareaValue', 'New textarea value' );
             }, 4000 );
         }

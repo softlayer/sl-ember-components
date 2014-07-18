@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td><a href="#sl-calendar">sl-calendar</a></td>
-            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="warning" value="50"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-chart">sl-chart</a></td>
@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td><a href="#sl-datepicker">sl-datepicker</a></td>
-            <td>{{sl-progressbar label=true theme="danger" value="0"}}</td>
+            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
         </tr>
         <tr>
             <td><a href="#sl-dropbutton">sl-dropbutton</a></td>
@@ -106,16 +106,21 @@
     action="pressButton"
     label="Button"
 }}
-{{sl-button theme="primary" label="Primary"}}
-{{sl-button theme="success" label="Success"}}
-{{sl-button theme="warning" label="Warning"}}
-{{sl-button theme="danger" label="Danger"}}
+{{sl-button label="Primary" theme="primary"}}
+{{sl-button label="Success" theme="success"}}
+{{sl-button label="Warning" theme="warning"}}
+{{sl-button label="Danger" theme="danger"}}
 {{sl-button disabled=true label="Disabled"}}
 
 <hr>
 
 <h2 id="sl-calendar">sl-calendar</h2>
-{{sl-label text="Coming soon!" theme="info"}}
+{{sl-calendar
+    action="calendarDateSelect"
+    content=calendarData
+    dateValuePath="startDate"
+    multidate=true
+}}
 
 <hr>
 
@@ -138,7 +143,11 @@
 <hr>
 
 <h2 id="sl-datepicker">sl-datepicker</h2>
-{{sl-label text="Coming soon!" theme="info"}}
+<p><strong>Chosen date</strong>: {{formattedDate}}</p>
+{{sl-datepicker
+    daysOfWeekDisabled="0,6"
+    value=datepickerValue
+}}
 
 <hr>
 

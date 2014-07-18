@@ -18,8 +18,12 @@ app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap.css' );
 app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap-theme.css' );
 app.import( 'vendor/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
 
+// Bootstrap-Datepicker
+app.import( 'vendor/bootstrap-datepicker/css/datepicker3.css' );
+app.import( 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.js' );
+
 // FontAwesome
-app.import( 'vendor/fontawesome/css/font-awesome.css' );
+app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
 var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     srcDir: '/',
     files: [ 'fontawesome-webfont.woff' ],
