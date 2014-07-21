@@ -79,16 +79,6 @@ export default Ember.Controller.extend({
             type: 'bar'
         },
 
-        series: [
-            {
-                name: 'Jane',
-                data: [ 1, 0, 4 ]
-            }, {
-                name: 'John',
-                data: [ 5, 7, 3 ]
-            }
-        ],
-
         title: {
             text: 'Fruit Consumption'
         },
@@ -103,6 +93,16 @@ export default Ember.Controller.extend({
             }
         }
     },
+
+    chartSeries: [
+        {
+            name: 'Jane',
+            data: [ 1, 0, 4 ]
+        }, {
+            name: 'John',
+            data: [ 5, 7, 3 ]
+        }
+    ],
 
     checkboxStringValue: function () {
         return this.get( 'checkboxValue' ) ? 'true' : 'false';
@@ -155,18 +155,29 @@ export default Ember.Controller.extend({
     init: function () {
         var self = this;
 
-        if ( true ) {
+        if ( false ) {
             setTimeout( function () {
+                self.set( 'chartSeries', [
+                    {
+                        name: 'Jane',
+                        data: [ 2, 0, 2 ]
+                    }, {
+                        name: 'John',
+                        data: [ 6, 6, 0 ]
+                    }
+                ]);
+
                 self.set( 'calendarData', [
                     { startDate: new Date( 2014, 6, 4 )},
                     { startDate: new Date( 2014, 6, 5 )}
                 ]);
-                // self.set( 'datepickerValue', '01/01/2014' );
-                // self.set( 'inputValue', 'New input value' );
-                // self.set( 'radiogroupValue', 'two' );
-                // self.set( 'simpleSelectValue', 25 );
-                // self.set( 'advancedSelectValue', 'three' );
-                // self.set( 'textareaValue', 'New textarea value' );
+
+                self.set( 'datepickerValue', '01/01/2014' );
+                self.set( 'inputValue', 'New input value' );
+                self.set( 'radiogroupValue', 'two' );
+                self.set( 'simpleSelectValue', 25 );
+                self.set( 'advancedSelectValue', 'three' );
+                self.set( 'textareaValue', 'New textarea value' );
             }, 4000 );
         }
 
