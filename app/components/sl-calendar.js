@@ -70,7 +70,7 @@ export default Ember.Component.extend( DateHandler, {
      * highlighted dates.
      * @method updateDates
      */
-    updateDates: Ember.observer([ 'content', 'dateValuePath' ], function () {
+    updateDates: Ember.observer( 'content', function () {
         var dateValuePath = this.get( 'dateValuePath' ),
             dates   = {},
             dpDates = [],
