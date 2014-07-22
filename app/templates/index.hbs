@@ -82,9 +82,9 @@
 
 <h2 id="sl-alert">sl-alert</h2>
 {{#sl-alert}}<strong>Info</strong> alert theme (default){{/sl-alert}}
-{{#sl-alert theme="success"}}<strong>Success</strong> alert theme{{/sl-alert}}
+{{#sl-alert theme="success" title="Here's a tooltip"}}<strong>Success</strong> alert theme (with tooltip){{/sl-alert}}
 {{#sl-alert dismissable=true theme="warning"}}<strong>Warning</strong> alert theme (with dismissable=true){{/sl-alert}}
-{{#sl-alert theme="danger"}}<strong>Danger</strong> alert theme{{/sl-alert}}
+{{#sl-alert theme="danger"}}<strong>Danger</strong> alert {{#sl-tooltip title="Hidden tooltip!"}}theme{{/sl-tooltip}}{{/sl-alert}}
 
 <hr>
 
@@ -105,6 +105,7 @@
 {{sl-button
     action="pressButton"
     label="Button"
+    title="This is a title!"
 }}
 {{sl-button label="Primary" theme="primary"}}
 {{sl-button label="Success" theme="success"}}

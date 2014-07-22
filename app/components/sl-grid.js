@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-grid
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Class name bindings for the table element

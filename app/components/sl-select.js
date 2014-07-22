@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-select
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Attribute bindings for the select element
