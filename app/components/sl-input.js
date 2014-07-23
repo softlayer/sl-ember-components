@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-input
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Object containing action functions
@@ -37,7 +38,7 @@ export default Ember.Component.extend({
     /**
      * Type attribute for the containing div
      * @property {string} type
-     * @default 'text'
+     * @default "text"
      */
     type: 'text'
 });

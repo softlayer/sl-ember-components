@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-dropbutton
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Object containing action functions
@@ -28,16 +29,23 @@ export default Ember.Component.extend({
     classNames: [ 'btn-group', 'sl-dropbutton' ],
 
     /**
+     * Class string for the button's icon
+     * @property {string} iconClass
+     * @default "caret"
+     */
+    iconClass: 'caret',
+
+    /**
      * Bootstrap "theme" style
      * @property {string} theme
-     * @default 'default'
+     * @default "default"
      */
     theme: 'default',
 
     /**
      * Element-specific class name for Bootstrap "theme" style
      * @property {string} themeClassName
-     * @default 'btn-default'
+     * @default "btn-default"
      */
     themeClassName: function () {
         return 'btn-' + this.get( 'theme' );

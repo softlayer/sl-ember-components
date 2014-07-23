@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-radiogroup
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Object of action functions
@@ -29,14 +30,6 @@ export default Ember.Component.extend({
     classNames: [ 'form-group', 'sl-radiogroup' ],
 
     /**
-     * Initializes initial radio value, run after the element is added to the DOM
-     * @method didInsertElement
-     */
-    didInsertElement: function () {
-        this.updateSelection();
-    },
-
-    /**
      * Whether the radio buttons should be put inline together
      * @property {boolean} inline
      * @default false
@@ -55,7 +48,7 @@ export default Ember.Component.extend({
      * Selects the radio input with the current value
      * @method updateSelection
      */
-    updateSelection: Ember.observer( 'value', function () {
+    updateSelection: function () {
         this.get( 'selectedInput' ).prop( 'checked', true );
-    })
+    }.observes( 'value' ).on( 'didInsertElement' )
 });

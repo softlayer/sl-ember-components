@@ -1,6 +1,10 @@
 <button {{bind-attr class=":btn themeClassName :dropdown-toggle"}} data-toggle="dropdown" type="button">
-    {{view.label}}
-    <span class="caret"></span>
+    {{#if view.label}}
+        {{view.label}}
+        <span {{bind-attr class=iconClass}}></span>
+    {{else}}
+        {{yield}}
+    {{/if}}
 </button>
 
 <ul class="dropdown-menu" role="menu">

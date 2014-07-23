@@ -1,5 +1,5 @@
 # sl-components
-## v0.7.0
+## v0.8.0
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
@@ -43,13 +43,56 @@ An active &lt;button&gt; component. Based on [Bootstrap - Buttons](http://getboo
 
 ## sl-calendar
 
-*Coming soon*
+A standalone calendar div to display date values from an array of objects. Based on [bootstrap-datepicker](http://bootstrap-datepicker.readthedocs.org/en/release/index.html).
+
+### Properties
+* _action_ : Bound action to trigger when a day is clicked that contains one of the content dates. Any content objects with dates occurring on the clicked date will be returned to this action.
+* _autoclose_ : Boolean; whether or not to close the datepicker immediately when a date is selected (default: false)
+* _beforeShowDay_ : A function that takes a date as a parameter and returns one of the following:
+    * undefined to have no effect
+    * A boolean, indicationg whether or not this date is selectable
+    * A string, representing additional CSS classes to apply to the date's cell
+    * An object with the following properties:
+        * _enabled_ : Same as the boolean value above
+        * _classes_ : Same as the string value above
+        * _tooltip_ : A tooltip to apply to this date, via the `title` attribute
+* _calendarWeeks_ : Boolean; whether or not to show week numbers to the left of week rows (default: false)
+* _clearBtn_ : Boolean; if true, displays a "Clear" button at the bottom of the datepicker to clear the input value. If "autoclose" is also set to true, this button will also close the datepicker (default: false)
+* _content_ : Array of objects with date values
+* _dateValuePath_ : String path to the content objects' date value (default: 'date')
+* _daysOfWeekDisabled_ : Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated.
+* _endDate_ : The latest date that may be selected; all later dates will be disabled.
+* _forceParse_ : Boolean; whether or not to force parsing of the input value when the picker is closed. That is, when an invalid date is left in the input field by the user, the picker will forcibly parse that value, and set the input's value to the new, valid date, conforming to the given _format_.
+* _format_ : The date format; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy
+    * d, dd: Numeric date, no leading zero and leading zero, respectively
+    * D, DD: Abbreviated and full weekday names, respectively
+    * m, mm: Numeric month, no leading zero and leading zero, respectively
+    * M, MM: Abbreviated and full month names, respectively
+    * yy, yyyy: 2- and 4-digit years, respectively
+* _inputs_ : A list of inputs to be used in a range picker, which will be attached to the selected element. Allows for explicitly creating a range picker on a non-standard element.
+* _keyboardNavigation_ : Whether or not to allow date navigation by arrow keys
+* _language_ : The IETF code of the language to use for month and day names
+* _minViewMode_ : Set a limit for the view mode. Accepts 'days', 'months', or 'years'
+* _multidate_ : Boolean; enable multidate picking
+* _multidateSeparator_ : The string that will appear between dates when multidate is true
+* _orientation_ : A space-separated string consisting of one or two of "left" or "right", "top" or "bottom", and "auto" (may be omitted). Refers to the location of the picker popup's "anchor".
+* _startDate_ : The earliest date that may be selected; all earlier dates will be disabled
+* _startView_ : The view that the datepicker should show when it is opened. Accepts "month", "year", or "decade".
+* _todayBtn_ : If true or "linked", displays a "Today" button at the bottom of the datepicker to select the current date. If true, the "Today" button will only move the current date into view; if "linked", the current date will also be selected.
+* _todayHighlight_ : Whether to highlight the current date or not
+* _weekStart_ : Day of the week to start on. 0 (Sunday) to 6 (Saturday)
 
 ---
 
 ## sl-chart
 
-*Coming soon*
+A wrapper component for [Highcharts](http://www.highcharts.com/).
+
+### Properties
+* _height_ : CSS string for the height inline style value
+* __options__ : Object of options passed directly to Highcharts initialization
+* __series__ : Array of series data to bind to the component
+* _width_ : CSS string for the width inline style value
 
 ---
 
@@ -67,7 +110,41 @@ An improved substitute for the default &lt;input type="checkbox"&gt; element. Se
 
 ## sl-datepicker
 
-*Coming soon*
+An input component to select date values. Based on [bootstrap-datepicker](http://bootstrap-datepicker.readthedocs.org/en/release/index.html).
+
+### Properties
+* _autoclose_ : Boolean; whether or not to close the datepicker immediately when a date is selected (default: false)
+* _beforeShowDay_ : A function that takes a date as a parameter and returns one of the following:
+    * undefined to have no effect
+    * A boolean, indicationg whether or not this date is selectable
+    * A string, representing additional CSS classes to apply to the date's cell
+    * An object with the following properties:
+        * _enabled_ : Same as the boolean value above
+        * _classes_ : Same as the string value above
+        * _tooltip_ : A tooltip to apply to this date, via the `title` attribute
+* _calendarWeeks_ : Boolean; whether or not to show week numbers to the left of week rows (default: false)
+* _clearBtn_ : Boolean; if true, displays a "Clear" button at the bottom of the datepicker to clear the input value. If "autoclose" is also set to true, this button will also close the datepicker (default: false)
+* _daysOfWeekDisabled_ : Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated.
+* _endDate_ : The latest date that may be selected; all later dates will be disabled.
+* _forceParse_ : Boolean; whether or not to force parsing of the input value when the picker is closed. That is, when an invalid date is left in the input field by the user, the picker will forcibly parse that value, and set the input's value to the new, valid date, conforming to the given _format_.
+* _format_ : The date format; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy
+    * d, dd: Numeric date, no leading zero and leading zero, respectively
+    * D, DD: Abbreviated and full weekday names, respectively
+    * m, mm: Numeric month, no leading zero and leading zero, respectively
+    * M, MM: Abbreviated and full month names, respectively
+    * yy, yyyy: 2- and 4-digit years, respectively
+* _inputs_ : A list of inputs to be used in a range picker, which will be attached to the selected element. Allows for explicitly creating a range picker on a non-standard element.
+* _keyboardNavigation_ : Whether or not to allow date navigation by arrow keys
+* _language_ : The IETF code of the language to use for month and day names
+* _minViewMode_ : Set a limit for the view mode. Accepts 'days', 'months', or 'years'
+* _multidate_ : Boolean; enable multidate picking
+* _multidateSeparator_ : The string that will appear between dates when multidate is true
+* _orientation_ : A space-separated string consisting of one or two of "left" or "right", "top" or "bottom", and "auto" (may be omitted). Refers to the location of the picker popup's "anchor".
+* _startDate_ : The earliest date that may be selected; all earlier dates will be disabled
+* _startView_ : The view that the datepicker should show when it is opened. Accepts "month", "year", or "decade".
+* _todayBtn_ : If true or "linked", displays a "Today" button at the bottom of the datepicker to select the current date. If true, the "Today" button will only move the current date into view; if "linked", the current date will also be selected.
+* _todayHighlight_ : Whether to highlight the current date or not
+* _weekStart_ : Day of the week to start on. 0 (Sunday) to 6 (Saturday)
 
 ---
 
@@ -172,8 +249,11 @@ A full-featured select input. Based on [Select2](http://ivaynberg.github.io/sele
 
 ### Properties
 * _content_ : Bound content for the select's options
-* _optionLabelPath_ : String for option's label field
-* _optionValuePath_ : String for option's value field
+* _disableSearch_ : Boolean to disable the search filter input (default: false)
+* _disabled_ : Boolean to disable the select itself (default: false)
+* _multiple_ : Boolean to allow multiple selections (default: false)
+* _optionLabelPath_ : String for option's label field (default: 'label')
+* _optionValuePath_ : String for option's value field (default: 'value')
 * _placeholder_ : `placeholder` attribute value for the select
 * _value_ : Current/initial value
 
@@ -205,6 +285,15 @@ A Bootstrap-wrapped component based on Ember's textarea helper.
 * _placeholder_ : `placeholder` attribute value
 * _tabindex_ : `tabindex` attribute value
 * _value_ : Bound value for the textarea
+
+---
+
+## sl-tooltip
+
+A basic span component that enables Bootstrap's tooltip.
+
+### Properties
+* _title_ : String to display when tooltip shows
 
 ---
 
