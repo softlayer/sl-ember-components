@@ -21,6 +21,13 @@ var bootstrapCSSMap = pickFiles( 'vendor/sl-bootstrap/dist/css', {
     destDir: '/assets'
 });
 
+// SlBootstrap fonts
+var bootstrapFonts = pickFiles( 'vendor/sl-bootstrap/fonts', {
+    srcDir: '/',
+    files: [ 'benton-sans*' ],
+    destDir: '/fonts'
+});
+
 // Bootstrap-Datepicker
 app.import( 'vendor/bootstrap-datepicker/css/datepicker3.css' );
 app.import( 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.js' );
@@ -49,4 +56,4 @@ var select2Images = pickFiles( 'vendor/select2', {
     destDir: '/assets'
 });
 
-module.exports = mergeTrees([ app.toTree(), bootstrapCSSMap, fontawesomeFont, select2Images ]);
+module.exports = mergeTrees([ app.toTree(), bootstrapCSSMap, bootstrapFonts, fontawesomeFont, select2Images ]);
