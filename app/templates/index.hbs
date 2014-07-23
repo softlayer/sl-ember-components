@@ -1,83 +1,3 @@
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th width="25%">Component</th>
-            <th>Progress</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><a href="#sl-alert">sl-alert</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-badge">sl-badge</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-button">sl-button</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-calendar">sl-calendar</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-chart">sl-chart</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-checkbox">sl-checkbox</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-datepicker">sl-datepicker</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-dropbutton">sl-dropbutton</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-grid">sl-grid</a></td>
-            <td>{{sl-progressbar label=true theme="danger" value="20"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-input">sl-input</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-label">sl-label</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-progressbar">sl-progressbar</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-radiogroup">sl-radiogroup</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-select">sl-select</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-simplemodal">sl-simplemodal</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-tabpanel">sl-tabpanel</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-        <tr>
-            <td><a href="#sl-textarea">sl-textarea</a></td>
-            <td>{{sl-progressbar label=true theme="success" value="100"}}</td>
-        </tr>
-    </tbody>
-</table>
-
 <hr>
 
 <h2 id="sl-alert">sl-alert</h2>
@@ -102,16 +22,22 @@
 <hr>
 
 <h2 id="sl-button">sl-button</h2>
-{{sl-button
-    action="pressButton"
-    label="Button"
-    title="This is a title!"
-}}
-{{sl-button label="Primary" theme="primary"}}
-{{sl-button label="Success" theme="success"}}
-{{sl-button label="Warning" theme="warning"}}
-{{sl-button label="Danger" theme="danger"}}
-{{sl-button disabled=true label="Disabled"}}
+<div>
+    {{sl-button
+        action="pressButton"
+        label="Button"
+    }}
+    {{sl-button label="Primary" theme="primary"}}
+    {{sl-button label="Success" theme="success"}}
+    {{sl-button label="Warning" theme="warning"}}
+    {{sl-button label="Danger" theme="danger"}}
+    {{sl-button disabled=true label="Disabled"}}
+</div>
+<br />
+<div>
+    {{sl-button label="Tooltip button (hover)" title="Tooltip content!"}}
+    {{sl-button label="Popover button (click)" title="Popover title" popover="Popover content!"}}
+</div>
 
 <hr>
 
@@ -234,7 +160,7 @@
 <hr>
 
 <h2 id="sl-simplemodal">sl-simplemodal</h2>
-{{sl-button action=openModal data-toggle="modal" data-target="#testModal" label="Open modal"}}
+{{sl-button action=openModal data-target="#testModal" data-toggle="modal" label="Open modal"}}
 {{#sl-simplemodal close="closeModal" fade=true id="testModal" title="Test Modal"}}
     Hello world!
 {{/sl-simplemodal}}

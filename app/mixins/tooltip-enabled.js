@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
      * Attribute bindings for mixin's component element
      * @property {array} attributeBindings
      */
-    attributeBindings: [ 'data-placement', 'title' ],
+    attributeBindings: [ 'popover', 'title' ],
 
     /**
      * Enables the tooltip functionality, based on a passed-in `title` attribute
@@ -14,7 +14,18 @@ export default Ember.Mixin.create({
      */
     enableTooltip: function () {
         if ( this.get( 'title' )) {
-            this.$().tooltip();
+            var popoverContent = this.get( 'popover' );
+
+            if ( popoverContent ) {
+                this.set( 'data-toggle', 'popover' );
+                this.$().popover({
+                    content: popoverContent,
+                    trigger: 'focus'
+                });
+            } else {
+                this.set( 'data-toggle', 'tooltip' );
+                this.$().tooltip();
+            }
         }
     }.on( 'didInsertElement' )
 });
