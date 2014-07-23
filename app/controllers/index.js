@@ -152,45 +152,6 @@ export default Ember.Controller.extend({
         }
     ],
 
-    init: function () {
-        var self = this;
-
-        if ( false ) {
-            setTimeout( function () {
-                self.setProperties({
-                    advancedSelectValue: 'three',
-
-                    calendarData: [
-                        { startDate: new Date( 2014, 6, 4 )},
-                        { startDate: new Date( 2014, 6, 5 )}
-                    ],
-
-                    chartSeries: [
-                        {
-                            name: 'Jane',
-                            data: [ 2, 0, 2 ]
-                        }, {
-                            name: 'John',
-                            data: [ 6, 6, 0 ]
-                        }
-                    ],
-
-                    datepickerValue: '01/01/2014',
-
-                    inputValue: 'New input value',
-
-                    radiogroupValue: 'two',
-
-                    simpleSelectValue: 25,
-
-                    textareaValue: 'New textarea value'
-                });
-            }, 4000 );
-        }
-
-        this._super();
-    },
-
     inputValue: 'test',
 
     radiogroupOptions: [
