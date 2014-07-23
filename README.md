@@ -91,6 +91,7 @@ A wrapper component for [Highcharts](http://www.highcharts.com/).
 ### Properties
 * _height_ : CSS string for the height inline style value
 * __options__ : Object of options passed directly to Highcharts initialization
+* __series__ : Array of series data to bind to the component
 * _width_ : CSS string for the width inline style value
 
 ---
@@ -284,6 +285,15 @@ A Bootstrap-wrapped component based on Ember's textarea helper.
 * _placeholder_ : `placeholder` attribute value
 * _tabindex_ : `tabindex` attribute value
 * _value_ : Bound value for the textarea
+
+---
+
+## sl-tooltip
+
+A basic span component that enables Bootstrap's tooltip.
+
+### Properties
+* _title_ : String to display when tooltip shows
 
 ---
 
