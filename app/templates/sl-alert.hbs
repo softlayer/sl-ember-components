@@ -13,12 +13,11 @@
         <small class="text-primary">string</small>
         <small class="text-success">default: "info"</small>
     </dt>
-    <dd>Bootstrap contextual color type; "danger", "info", "primary", "warning"</dd>
+    <dd>Bootstrap contextual color type; "danger", "info", "success", "warning"</dd>
 </dl>
 
-<section class="well">
-    <pre>\{{#sl-alert dismissable=true theme="info"}}
-    &lt;strong&gt;Info&lt;/strong&gt; alert message
-\{{/sl-alert}}</pre>
-    {{#sl-alert dismissable=true theme="info"}}<strong>Info</strong> alert message{{/sl-alert}}
-</section>
+<h3>Examples</h3>
+{{#sl-alert dismissable=true theme="info"}}theme="info" dismissable=true{{/sl-alert}}
+{{#sl-alert theme="success"}}theme="success"{{/sl-alert}}
+{{#sl-alert theme="warning"}}theme="warning"{{/sl-alert}}
+{{#sl-alert theme="danger"}}theme="danger"{{/sl-alert}}
