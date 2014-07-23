@@ -14,8 +14,6 @@ var app = new EmberApp({
 });
 
 // Bootstrap
-app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap.css' );
-app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap-theme.css' );
 app.import( 'vendor/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
 var bootstrapCSSMap = pickFiles( 'vendor/sl-bootstrap/dist/css', {
     srcDir: '/',
