@@ -16,9 +16,23 @@ export default Ember.Component.extend( ModalMixin, TooltipEnabled, {
     acceptText: 'Accept',
 
     /**
+     * `aria-hidden` attribute to inform assistive technologies to skip the
+     * modal's DOM elements
+     * @property {string} aria-hidden
+     * @default "true"
+     */
+    'aria-hidden': 'true',
+
+    /**
      * Attribute bindings for the root element
      * @property {array} attributeBindings
      */
-    attributeBindings: [ 'class' ]
+    attributeBindings: [ 'aria-hidden', 'class', 'role' ],
 
+    /**
+     * `role` attribute value
+     * @property {string} role
+     * @default 'dialog'
+     */
+    role: 'dialog'
 });
