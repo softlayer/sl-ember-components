@@ -23,15 +23,73 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Called when the bound content changes
      * @method contentChanged
      */
-    contentChanged: Ember.observer( 'content.@each', function () {
+    contentChanged: function () {
         this.valueChanged();
-    }),
+    }.observes( 'content.@each' ),
+
+    /**
+     * Whether to show the search filter input or not
+     * @property {boolean} disableSearch
+     * @default false
+     */
+    disableSearch: false,
+
+    /**
+     * Attribute value for the select
+     * @property {boolean} disabled
+     * @default false
+     */
+    disabled: false,
+
+    /**
+     * The maximum number of selections allowed when `multiple` is enabled
+     * @property {number} maximumSelectionSize
+     * @default null
+     */
+    maximumSelectionSize: null,
+
+    /**
+     * Whether to allow multiple selections
+     * @property {boolean} multiple
+     * @default false
+     */
+    multiple: false,
+
+    /**
+     * The path key for each option object's description
+     * @property {string} optionDescriptionPath
+     * @default "description"
+     */
+    optionDescriptionPath: 'description',
+
+    /**
+     * The path key for each option object's label
+     * @property {string} optionLabelPath
+     * @default "label"
+     */
+    optionLabelPath: 'label',
+
+    /**
+     * The path key for each option object's value
+     * @property {string} optionValuePath
+     * @default "value"
+     */
+    optionValuePath: 'value',
+
+    /**
+     * Called when the object selection changes
+     * @method selectionChanged
+     * @param {mixed} data - Data from the selected option
+     */
+    selectionChanged: function ( value ) {
+        this.set( 'value', value );
+    },
 
     /**
      * Set up select2 initialization after the element is inserted in the DOM
-     * @method didInsertElement
+     * @method setupSelect2
      */
-    didInsertElement: function () {
+    setupSelect2: function () {
         var get  = Ember.get,
             self = this;
 
@@ -140,65 +198,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         });
 
         this.valueChanged();
-    },
-
-    /**
-     * Whether to show the search filter input or not
-     * @property {boolean} disableSearch
-     * @default false
-     */
-    disableSearch: false,
-
-    /**
-     * Attribute value for the select
-     * @property {boolean} disabled
-     * @default false
-     */
-    disabled: false,
-
-    /**
-     * The maximum number of selections allowed when `multiple` is enabled
-     * @property {number} maximumSelectionSize
-     * @default null
-     */
-    maximumSelectionSize: null,
-
-    /**
-     * Whether to allow multiple selections
-     * @property {boolean} multiple
-     * @default false
-     */
-    multiple: false,
-
-    /**
-     * The path key for each option object's description
-     * @property {string} optionDescriptionPath
-     * @default "description"
-     */
-    optionDescriptionPath: 'description',
-
-    /**
-     * The path key for each option object's label
-     * @property {string} optionLabelPath
-     * @default "label"
-     */
-    optionLabelPath: 'label',
-
-    /**
-     * The path key for each option object's value
-     * @property {string} optionValuePath
-     * @default "value"
-     */
-    optionValuePath: 'value',
-
-    /**
-     * Called when the object selection changes
-     * @method selectionChanged
-     * @param {mixed} data - Data from the selected option
-     */
-    selectionChanged: function ( value ) {
-        this.set( 'value', value );
-    },
+    }.on( 'didInsertElement' ),
 
     /**
      * Name of the tag type for select element
@@ -218,9 +218,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Called when the component's value has changed
      * @method valueChanged
      */
-    valueChanged: Ember.observer( 'value', function () {
+    valueChanged: function () {
         this.$().select2( this.get( 'optionValuePath' ) ? 'val' : 'data', this.get( 'value' ));
-    }),
+    }.observes( 'value' ),
 
     /**
      * Teardown to prevent memory leaks

@@ -27,16 +27,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     classNames: [ 'sl-chart' ],
 
     /**
-     * Sets up highchart initialization
-     * @method didInsertElement
-     */
-    didInsertElement: function () {
-        this.$().highcharts( this.get( 'options' ));
-        this.set( 'chart', this.$().highcharts() );
-        this.updateData();
-    },
-
-    /**
      * Height value used for inline style
      * @property {string} height
      * @default "auto"
@@ -50,6 +40,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     series: null,
 
     /**
+     * Sets up highchart initialization
+     * @method setupChart
+     */
+    setupChart: function () {
+        this.$().highcharts( this.get( 'options' ));
+        this.set( 'chart', this.$().highcharts() );
+        this.updateData();
+    }.on( 'didInsertElement' ),
+
+    /**
      * Inline style containing height and width, required by highcharts
      * @property {string} style
      */
@@ -61,7 +61,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Updates the chart's series data
      * @method updateSeries
      */
-    updateData: Ember.observer( 'series', function () {
+    updateData: function () {
         var chart = this.get( 'chart' ),
             series = this.get( 'series' );
 
@@ -76,7 +76,7 @@ export default Ember.Component.extend( TooltipEnabled, {
                 chart.series[i].setData( series[ i ].data );
             }
         }
-    }),
+    }.observes( 'series' ),
 
     /**
      * Width value used for inline style

@@ -29,10 +29,10 @@ export default Ember.Component.extend( DateHandler, TooltipEnabled, {
     dates: [],
 
     /**
-     * Setup for initial component state
-     * @method didInsertElement
+     * Setup for initial datepicker state
+     * @method setupDatepicker
      */
-    didInsertElement: function () {
+    setupDatepicker: function () {
         var self = this,
             dp   = this.$().datepicker( this.get( 'options' )).data( 'datepicker' );
 
@@ -64,14 +64,14 @@ export default Ember.Component.extend( DateHandler, TooltipEnabled, {
         });
 
         this.updateDates();
-    },
+    }.on( 'didInsertElement' ),
 
     /**
      * Updates both the internally tracked dates, and the datepicker plugin's
      * highlighted dates.
      * @method updateDates
      */
-    updateDates: Ember.observer( 'content', function () {
+    updateDates: function () {
         var dateValuePath = this.get( 'dateValuePath' ),
             dates   = {},
             dpDates = [],
@@ -90,5 +90,5 @@ export default Ember.Component.extend( DateHandler, TooltipEnabled, {
 
         this.set( 'dates', dates );
         this.$().datepicker( 'setDates', dpDates );
-    })
+    }.observes( 'content' )
 });
