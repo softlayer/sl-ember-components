@@ -29,11 +29,9 @@ var bootstrapFonts = pickFiles( 'vendor/sl-bootstrap/fonts', {
 });
 
 // Bootstrap-Datepicker
-app.import( 'vendor/bootstrap-datepicker/css/datepicker3.css' );
 app.import( 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
 // FontAwesome
-app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
 var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     srcDir: '/',
     files: [ 'fontawesome-webfont.woff' ],
