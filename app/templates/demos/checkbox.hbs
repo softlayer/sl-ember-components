@@ -14,24 +14,16 @@
 
 <h3>Properties</h3>
 <div class="list-group">
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">disabled</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
-        <p>When true, the checkbox is disabled.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">label</h4>
-        <p><span class="text-primary">string</span></p>
-        <p>Label text to display beside the checkbox.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">name</h4>
-        <p><span class="text-primary">string</span></p>
-        <p><code>name</code> attribute value for the input</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">value</h4>
-        <p><span class="text-primary">object</span></p>
-        <p>Bound value for the checkbox.</p>
-    </div>
+    {{#property-text name="disabled" type="boolean" default="false"}}
+        When true, the checkbox is disabled.
+    {{/property-text}}
+    {{#property-text name="label" type="string"}}
+        Label text to display beside the checkbox.
+    {{/property-text}}
+    {{#property-text name="name" type="string"}}
+        <code>name</code> attribute value for the input.
+    {{/property-text}}
+    {{#property-text name="value" type="mixed"}}
+        Bound value for the checkbox.
+    {{/property-text}}
 </div>

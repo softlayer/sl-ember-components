@@ -10,24 +10,16 @@
 
 <h3>Properties</h3>
 <div class="list-group">
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">height</h4>
-        <p><span class="text-primary">string</span></p>
-        <p>CSS string for the height inline style value.</p>
-    </div>
-    <div class="list-group-item list-group-item-warning">
-        <h4 class="list-group-item-title">options <small class="text-danger">required</small></h4>
-        <p><span class="text-primary">object</span></p>
-        <p>An object of options passed directly to Highcharts initialization.</p>
-    </div>
-    <div class="list-group-item list-group-item-warning">
-        <h4 class="list-group-item-title">series <small class="text-danger">required</small></h4>
-        <p><span class="text-primary">array</span></p>
-        <p>Array of series data to bind to the component.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">width</h4>
-        <p><span class="text-primary">string</span></p>
-        <p>CSS string for the width inline style value.</p>
-    </div>
+    {{#property-text name="height" type="string"}}
+        CSS string for the height inline style value.
+    {{/property-text}}
+    {{#property-text name="options" required=true type="object"}}
+        An object of options passed directly to Highcharts initialization.
+    {{/property-text}}
+    {{#property-text name="series" required=true type="array"}}
+        Array of series data to bind to the component.
+    {{/property-text}}
+    {{#property-text name="width" type="string"}}
+        CSS string for the width inline style value.
+    {{/property-text}}
 </div>

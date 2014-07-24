@@ -9,20 +9,14 @@
 
 <h3>Properties</h3>
 <div class="list-group">
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">label</h4>
-        <p><span class="text-primary">string</span></span></p>
-        <p>Text label for button text.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">content</h4>
-        <p><span class="text-primary">array</span></p>
-        <p>
-            Array of objects representing the dropdown items. Each object can have the following properties:
-            <ul>
-                <li><strong>action</strong>: String for the name of the controller's action to call when option is clicked.</li>
-                <li><strong>label</strong>: Text label for the option</li>
-            </ul>
-        </p>
-    </div>
+    {{#property-text name="label" type="string"}}
+        Text label for button text.
+    {{/property-text}}
+    {{#property-text name="content" type="array"}}
+        Array of objects representing the dropdown items. Each object can have the following properties:
+        <ul>
+            <li><strong>action</strong>: String for the name of the controller's action to call when option is clicked.</li>
+            <li><strong>label</strong>: Text label for the option</li>
+        </ul>
+    {{/property-text}}
 </div>

@@ -9,14 +9,10 @@
 
 <h3>Properties</h3>
 <div class="list-group">
-    <div class="list-group-item">
-        <h4 class="list-group-item-heading">dismissable</h4>
-        <h5><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></h5>
-        <p>Whether to add a dismiss button</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-heading">theme</h4>
-        <h5><span class="text-primary">string</span>, <span class="text-info">default: "info"</span></h5>
+    {{#property-text name="dismissable" type="boolean" default="false"}}
+        Whether to add a dismiss button.
+    {{/property-text}}
+    {{#property-text name="theme" type="string" default="\"info\""}}
         <p>Bootstrap contextual color type; "danger", "info", "success", "warning"</p>
-    </div>
+    {{/property-text}}
 </div>

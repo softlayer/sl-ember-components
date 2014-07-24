@@ -7,21 +7,14 @@
 
 <h3>Properties</h3>
 <div class="list-group">
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">autoclose</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
-        <p>When true, the datepicker will close immediately when a date is selected</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">action</h4>
-        <p><span class="text-primary">function</span></p>
-        <p>Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">beforeShowDay</h4>
-        <p><span class="text-primary">function</span></p>
-        <p>
-            A function that takes a date as a parameter and returns one of the following:
+    {{#property-text name="autoclose" type="boolean" default="false"}}
+        When true, the datepicker will close immediately when a date is selected.
+    {{/property-text}}
+    {{#property-text name="action" type="function"}}
+        Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
+    {{/property-text}}
+    {{#property-text name="beforeShowDay" type="function"}}
+        A function that takes a date as a parameter and returns one of the following:
             <ul>
                 <li><em>undefined</em> to have no effect</li>
                 <li>A boolean, indicating whether this date is selectable</li>
@@ -34,115 +27,72 @@
                     </ul>
                 </li>
             </ul>
-        </p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">calendarWeeks</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
-        <p>When true, show week numbers to the left of the week rows.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">clearBtn</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
-        <p>When true, displays a "Clear" button at the bottom of the datepicker to clear the input value. If <code>autoclose</code> is also set te true, this button will also close the datepicker.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">content</h4>
-        <p><span class="text-primary">array</span></p>
-        <p>Array of objects with date values. Each object's date value is looked up using the <code>dateValuePath</code> property.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">dateValuePath</h4>
-        <p><span class="text-primary">string</span>, <span class="text-info">default: "date"</span></p>
-        <p>Path to the content objects' date value.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">daysOfWeekDisabled</h4>
-        <p><span class="text-primary">array</span></p>
-        <p>Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">endDate</h4>
-        <p><span class="text-primary">date</span></p>
-        <p>The latest date that may be selected. All later dates will be disabled.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">forceParse</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: true</span></p>
-        <p>When true, forces parsing of the input value when the picker is close. That is, when an invalid date is left in the input field by the user, the picker will forcibly parse that value, and set the input's value to the new, valid date, conforming to the given <code>format</code>.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">format</h4>
-        <p><span class="text-primary">string</span>, <span class="text-info">default: "mm/dd/yyyy"</span></p>
-        <p>
-            The date format; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy
-            <ul>
-                <li>d, dd: Numeric date, no leading zero and leading zero, respectively</li>
-                <li>D, DD: Abbreviated and full weekday names, respectively</li>
-                <li>m, mm: Numeric month, no leading zero and leading zero, respectively</li>
-                <li>M, MM: Abbreviated and full month names, respectively</li>
-                <li>yy, yyyy: 2- and 4-digit years, respectively</li>
-            </ul>
-        </p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">inputs</h4>
-        <p><span class="text-primary">array</span></p>
-        <p>A list of inputs to be used in a range picker, which will be attached to the selected element. Allows for explicitly creating a range picker on a non-standard element.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">keyboardNavigation</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
-        <p>When true, allow date navigation by arrow keys.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">language</h4>
-        <p><span class="text-primary">string</span>, <span class="text-info">default: "en"</span></p>
-        <p>The IETF code of the language to use for month and day names.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">minViewMode</h4>
-        <p><span class="text-primary">string</span></p>
-        <p>Set a limit for the view mode. Accepts "days", "months", or "years".</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">multidate</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
-        <p>Enable multiple date selection</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">multidateSeparator</h4>
-        <p><span class="text-primary">string</span>, <span class="text-info">default: ","</span>, <span class="text-danger">requires multidate</span></p>
-        <p>String to place between multidate selections</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">orientation</h4>
-        <p><span class="text-primary">string</span>, <span class="text-info">default: "auto"</span></p>
-        <p>A space-separated string consisting of one or two of "left" or "right", "top" or "bottom", and "auto" (may be omitted). Refers to the location of the picker popup's "anchor".</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">startDate</h4>
-        <p><span class="text-primary">date</span></p>
-        <p>The earliest date that may be selected. All earlier dates will be disabled.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">startView</h4>
-        <p><span class="text-primary">string</span>, <span class="text-info">default: "month"</span></p>
-        <p>The view that the calendar's datepicker should show when created.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">todayBtn</h4>
-        <p><span class="text-primary">boolean/"linked"</span>, <span class="text-info">default: false</span></p>
-        <p>Displays a "Today" button at the bottom of the datepicker to select the current date. If true, the "Today" button will only move the current date into view. If "linked", the current date will also be selected.</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">todayHighlight</h4>
-        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
-        <p>When true, highlight the current date</p>
-    </div>
-    <div class="list-group-item">
-        <h4 class="list-group-item-title">weekStart</h4>
-        <p><span class="text-primary">number</span></p>
-        <p>Day of the week to start on. 0 (Sunday) to 6 (Saturday).</p>
-    </div>
+    {{/property-text}}
+    {{#property-text name="calendarWeeks" type="boolean" default="false"}}
+        When true, show week numbers to the left of the week rows.
+    {{/property-text}}
+    {{#property-text name="clearBtn" type="boolean" default="false"}}
+        When true, displays a "Clear" button at the bottom of the datepicker to clear the input value. If <code>autoclose</code> is also set te true, this button will also close the datepicker.
+    {{/property-text}}
+    {{#property-text name="content" type="array"}}
+        Array of objects with date values. Each object's date value is looked up using the <code>dateValuePath</code> property.
+    {{/property-text}}
+    {{#property-text name="dateValuePath" type="string" default="\"date\""}}
+        Path to the content objects' date value.
+    {{/property-text}}
+    {{#property-text name="daysOfWeekDisabled" type="array"}}
+        Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated.
+    {{/property-text}}
+    {{#property-text name="endDate" type="date"}}
+        The latest date that may be selected. All later dates will be disabled.
+    {{/property-text}}
+    {{#property-text name="forceParse" type="boolean" default="true"}}
+        When true, forces parsing of the input value when the picker is close. That is, when an invalid date is left in the input field by the user, the picker will forcibly parse that value, and set the input's value to the new, valid date, conforming to the given <code>format</code>.
+    {{/property-text}}
+    {{#property-text name="format" type="string" default="\"mm/dd/yyyy\""}}
+        The date format; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy
+        <ul>
+            <li>d, dd: Numeric date, no leading zero and leading zero, respectively</li>
+            <li>D, DD: Abbreviated and full weekday names, respectively</li>
+            <li>m, mm: Numeric month, no leading zero and leading zero, respectively</li>
+            <li>M, MM: Abbreviated and full month names, respectively</li>
+            <li>yy, yyyy: 2- and 4-digit years, respectively</li>
+        </ul>
+    {{/property-text}}
+    {{#property-text name="inputs" type="array"}}
+        A list of inputs to be used in a range picker, which will be attached to the selected element. Allows for explicitly creating a range picker on a non-standard element.
+    {{/property-text}}
+    {{#property-text name="keyboardNavigation" type="boolean" default="false"}}
+        When true, allow date navigation by arrow keys.
+    {{/property-text}}
+    {{#property-text name="language" type="string" default="\"en\""}}
+        The IETF code of the language to use for month and day names.
+    {{/property-text}}
+    {{#property-text name="minViewMode" type="string"}}
+        Set a limit for the view mode. Accepts "days", "months", or "years".
+    {{/property-text}}
+    {{#property-text name="multidate" type="boolean" default="false"}}
+        Enable multiple date selection.
+    {{/property-text}}
+    {{#property-text name="multidateSeparator" type="\",\"" requires="multidate=true"}}
+        String to place between multidate selections.
+    {{/property-text}}
+    {{#property-text name="orientation" type="string" default="\"auto\""}}
+        A space-separated string consisting of one or two of "left" or "right", "top" or "bottom", and "auto" (may be omitted). Refers to the location of the picker popup's "anchor".
+    {{/property-text}}
+    {{#property-text name="startDate" type="date"}}
+        The earliest date that may be selected. All earlier dates will be disabled.
+    {{/property-text}}
+    {{#property-text name="startView" type="string" default="\"month\""}}
+        The view that the calendar's datepicker should show when created.
+    {{/property-text}}
+    {{#property-text name="todayBtn" type="boolean/\"linked\"" default="false"}}
+        Displays a "Today" button at the bottom of the datepicker to select the current date. If true, the "Today" button will only move the current date into view. If "linked", the current date will also be selected.
+    {{/property-text}}
+    {{#property-text name="todayHighlight" type="boolean" default="false"}}
+        When true, highlight the current date.
+    {{/property-text}}
+    {{#property-text name="weekStart" type="number/string"}}
+        Day of the week to start on. 0 (Sunday) to 6 (Saturday).
+    {{/property-text}}
 </div>

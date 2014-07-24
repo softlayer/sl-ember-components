@@ -5,12 +5,6 @@
     {{/if}}
 </h4>
 <p>
-    <span class="text-primary">{{type}}</span>
-    {{#if default}}
-        , <span class="text-info">default: {{default}}</span>
-    {{/if}}
-    {{#if requires}}
-        , <span class="text-danger">requires {{requires}}</span>
-    {{/if}}
+    <span class="text-primary">{{type}}</span>{{#if default}}, <span class="text-info">default: {{default}}</span>{{/if}}{{#if requires}}, <span class="text-danger">requires {{requires}}</span>{{/if}}
 </p>
 <p>{{yield}}</p>
