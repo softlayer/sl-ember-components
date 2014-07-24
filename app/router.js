@@ -7,21 +7,21 @@ var Router = Ember.Router.extend({
 Router.map( function () {
     this.route( 'index', { path: '/' });
 
-    this.route( 'sl-alert' );
-    this.route( 'sl-button' );
-    this.route( 'sl-calendar' );
-    this.route( 'sl-chart' );
-    this.route( 'sl-checkbox' );
-    this.route( 'sl-datepicker' );
-    this.route( 'sl-dropbutton' );
-    this.route( 'sl-grid' );
-    this.route( 'sl-input' );
-    this.route( 'sl-radiogroup' );
-    this.route( 'sl-select' );
-    this.route( 'sl-simplemodal' );
-    this.route( 'sl-tabpanel' );
-    this.route( 'sl-textarea' );
-    this.route( 'sl-tooltip' );
+    this.route( 'demos/alert',       { path: '/sl-alert' });
+    this.route( 'demos/button',      { path: '/sl-button' });
+    this.route( 'demos/calendar',    { path: '/sl-calendar' });
+    this.route( 'demos/chart',       { path: '/sl-chart' });
+    this.route( 'demos/checkbox',    { path: '/sl-checkbox' });
+    this.route( 'demos/datepicker',  { path: '/sl-datepicker' });
+    this.route( 'demos/dropbutton',  { path: '/sl-dropbutton' });
+    this.route( 'demos/grid',        { path: '/sl-grid' });
+    this.route( 'demos/input',       { path: '/sl-input' });
+    this.route( 'demos/radiogroup',  { path: '/sl-radiogroup' });
+    this.route( 'demos/select',      { path: '/sl-select' });
+    this.route( 'demos/simplemodal', { path: '/sl-simplemodal' });
+    this.route( 'demos/tabpanel',    { path: '/sl-tabpanel' });
+    this.route( 'demos/textarea',    { path: '/sl-textarea' });
+    this.route( 'demos/tooltip',     { path: '/sl-tooltip' });
 });
 
 export default Router;
