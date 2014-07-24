@@ -6,16 +6,8 @@ export default Ember.ArrayController.extend({
             this.set( 'selectedTheme', 'danger' );
         },
 
-        setDefault: function () {
-            this.set( 'selectedTheme', 'default' );
-        },
-
         setInfo: function () {
             this.set( 'selectedTheme', 'info' );
-        },
-
-        setPrimary: function () {
-            this.set( 'selectedTheme', 'primary' );
         },
 
         setWarning: function () {
@@ -27,9 +19,5 @@ export default Ember.ArrayController.extend({
         }
     },
 
-    backgroundClass: function () {
-        return 'bg-' + this.get( 'selectedTheme' );
-    }.property( 'selectedTheme' ),
-
-    selectedTheme: 'default'
+    selectedTheme: 'info'
 });

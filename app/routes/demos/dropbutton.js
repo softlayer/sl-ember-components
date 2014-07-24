@@ -7,14 +7,8 @@ export default Ember.Route.extend({
                 action: 'setDanger',
                 label: 'Danger'
             }, {
-                action: 'setDefault',
-                label: 'Default'
-            }, {
                 action: 'setInfo',
                 label: 'Info'
-            }, {
-                action: 'setPrimary',
-                label: 'Primary'
             }, {
                 action: 'setWarning',
                 label: 'Warning'

@@ -2,10 +2,13 @@
 <p class="lead">A combination of a button with a drop-down menu, with triggered actions. Utilizes <a href="http://getbootstrap.com/javascript/#dropdowns">Bootstrap - Dropdowns</a>.</p>
 
 <h3>Example</h3>
-<div {{bind-attr class=backgroundClass}}>
+<div>
     {{sl-dropbutton content=content label="Select a theme"}}
-    <span>Selected theme: {{selectedTheme}}</span>
 </div>
+
+{{#sl-alert theme=selectedTheme}}
+    Selected theme: {{selectedTheme}}
+{{/sl-alert}}
 
 <h3>Properties</h3>
 <div class="list-group">
