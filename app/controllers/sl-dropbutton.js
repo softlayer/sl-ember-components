@@ -27,5 +27,9 @@ export default Ember.ArrayController.extend({
         }
     },
 
-    selectedTheme: 'primary'
+    backgroundClass: function () {
+        return 'bg-' + this.get( 'selectedTheme' );
+    }.property( 'selectedTheme' ),
+
+    selectedTheme: 'default'
 });
