@@ -1,0 +1,30 @@
+<h2>sl-dropbutton</h2>
+<p class="lead">A combination of a button with a drop-down menu, with triggered actions. Utilizes <a href="http://getbootstrap.com/javascript/#dropdowns">Bootstrap - Dropdowns</a>.</p>
+
+<h3>Example</h3>
+{{sl-dropbutton content=content label="Select a theme" theme=selectedTheme}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">label</h4>
+        <p><span class="text-primary">string</span></span></p>
+        <p>Text label for button text.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">content</h4>
+        <p><span class="text-primary">array</span></p>
+        <p>
+            Array of objects representing the dropdown items. Each object can have the following properties:
+            <ul>
+                <li><strong>action</strong>: String for the name of the controller's action to call when option is clicked.</li>
+                <li><strong>label</strong>: Text label for the option</li>
+            </ul>
+        </p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">theme</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "default"</span></p>
+        <p>Bootstrap contextual style type; "danger", "default", "info", "primary", "success", "warning".</p>
+    </div>
+</div>
