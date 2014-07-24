@@ -1,23 +1,22 @@
 <h2>sl-alert</h2>
 <p class="lead">A message box component for short alert messages. Based on <a href="http://getbootstrap.com/javascript/#alerts">Bootstrap - Alert messages</a>.</p>
 
-<h3>Properties</h3>
-<dl>
-    <dt>dismissable
-        <small class="text-primary">boolean</small>
-        <small class="text-info">default: false</small>
-    </dt>
-    <dd>Whether to add a dismiss button</dd>
-
-    <dt>theme
-        <small class="text-primary">string</small>
-        <small class="text-info">default: "info"</small>
-    </dt>
-    <dd>Bootstrap contextual color type; "danger", "info", "success", "warning"</dd>
-</dl>
-
 <h3>Examples</h3>
 {{#sl-alert dismissable=true theme="info"}}theme="info" dismissable=true{{/sl-alert}}
 {{#sl-alert theme="success"}}theme="success"{{/sl-alert}}
 {{#sl-alert theme="warning"}}theme="warning"{{/sl-alert}}
 {{#sl-alert theme="danger"}}theme="danger"{{/sl-alert}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">dismissable</h4>
+        <h5><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></h5>
+        <p>Whether to add a dismiss button</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">theme</h4>
+        <h5><span class="text-primary">string</span>, <span class="text-info">default: "info"</span></h5>
+        <p>Bootstrap contextual color type; "danger", "info", "success", "warning"</p>
+    </div>
+</div>

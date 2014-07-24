@@ -1,75 +1,6 @@
 <h2>sl-button</h2>
 <p>An active &lt;button&gt; component. Based on <a href="http://getbootstrap.com/css/#buttons">Bootstrap - Buttons</a>.</p>
 
-<h3>Properties</h3>
-<dl>
-    <dt>action
-        <small class="text-primary">function</small>
-    </dt>
-    <dd>An action to fire when the button is clicked</dd>
-
-    <dt>activeLabelText
-        <small class="text-primary">string</small>
-        <small class="text-info">default: null</small>
-    </dt>
-    <dd>Text to display during associated AJAX activity (<span class="text-danger">requires ajaxEnabled=true</span>)</dd>
-
-    <dt>ajaxEnabled
-        <small class="text-primary">boolean</small>
-        <small class="text-info">default: false</small>
-    </dt>
-    <dd>Allow behaviors to be bound to associated AJAX activity</dd>
-
-    <dt>class
-        <small class="text-primary">string</small>
-    </dt>
-    <dd><code>class</code> attribute value for the button</dd>
-
-    <dt>disableOnAjax
-        <small class="text-primary">boolean</small>
-        <small class="text-info">default: false</small>
-    </dt>
-    <dd>When true, button will become disabled during associated AJAX activity (<span class="text-danger">requires ajaxEnabled=true</span>)</dd>
-
-    <dt>disabled
-        <small class="text-primary">boolean</small>
-        <small class="text-info">default: false</small>
-    </dt>
-    <dd>Whether the button is disabled</dd>
-
-    <dt>hideOnAjax
-        <small class="text-primary">boolean</small>
-        <small class="text-info">default: false</small>
-    </dt>
-    <dd>When true, button will become hidden during associated AJAX activity (<span class="text-danger">requires ajaxEnabled=true</span>)</dd>
-
-    <dt>label
-        <small class="text-primary">string</small>
-    </dt>
-    <dd>Text label on the button</dd>
-
-    <dt>popover
-        <small class="text-primary">string</small>
-    </dt>
-    <dd>Popover content string (<span class="text-danger">requires title=""</span>)</span></dd>
-
-    <dt>theme
-        <small class="text-primary">string</small>
-        <small class="text-info">default: "default"</small>
-    </dt>
-    <dd>Bootstrap contextual style type; "danger", "default", "info", "primary", "success", "warning"</dd>
-
-    <dt>title
-        <small class="text-primary">string</small>
-    </dt>
-    <dd>Tooltip text string, or becomes popover content with supplied popover property</dd>
-
-    <dt>urlScope
-        <small class="text-primary">string</small>
-    </dt>
-    <dd>A string or regular expression used to scope associated AJAX activity</dd>
-</dl>
-
 <h3>Examples</h3>
 {{#sl-button theme="default"}}theme="default"{{/sl-button}}
 {{#sl-button theme="primary"}}theme="primary"{{/sl-button}}
@@ -78,8 +9,67 @@
 {{#sl-button theme="warning"}}theme="warning"{{/sl-button}}
 {{#sl-button theme="danger"}}theme="danger"{{/sl-button}}
 {{#sl-button disabled=true}}disabled=true{{/sl-button}}
-<br /><br />
-{{#sl-button title="Tooltip content!"}}title="Tooltip content!"{{/sl-button}}
-{{#sl-button title="Popover title" popover="Popover content!"}}
-    title="Popover title" popover="Popover content!"
-{{/sl-button}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">action</h4>
+        <p><span class="text-primary">function</span></p>
+        <p>An action to fire when the button is clicked</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">activeLabelText</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: null</span>, <span class="text-danger">requires ajaxEnabled=true</span></p>
+        <p>Text to display during associated AJAX activity</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">ajaxEnabled</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>Allow behaviors to be bound to associated AJAX activity</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">class</h4>
+        <p><span class="text-primary">string</span></p>
+        <p><code>class</code> attribute for the button</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">disabledOnAjax</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span>, <span class="text-danger">requires ajaxEnabled=true</span></p>
+        <p>When true, button will become disabled during associated AJAX activity</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">disabled</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>Whether the button is disabled</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">hideOnAjax</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span>, <span class="text-danger">requires ajaxEnabled=true</span><p>
+        <p>When true, button will become hidden during associated AJAX activity</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">label</h4>
+        <p><span class="text-primary">string</span></p>
+        <p>Text label on the button</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">popover</h4>
+        <p><span class="text-primary">string</span>, <span class="text-danger">requires title</span></p>
+        <p>Popover content string</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">theme</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "default"</span></p>
+        <p>Bootstrap contextual style type; "danger", "default", "info", "primary", "success", "warning"</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">title</h4>
+        <p><span class="text-primary">string</span></p>
+        <p>Tooltip text string, or becomes popover title with supplied popover property</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">urlScope</h4>
+        <p><span class="text-primary">string</span></p>
+        <p>A string or regular expression used to scope associated AJAX activity</p>
+    </div>
+</div>
