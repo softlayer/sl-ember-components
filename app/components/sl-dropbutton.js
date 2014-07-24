@@ -33,21 +33,5 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {string} iconClass
      * @default "caret"
      */
-    iconClass: 'caret',
-
-    /**
-     * Bootstrap "theme" style
-     * @property {string} theme
-     * @default "default"
-     */
-    theme: 'default',
-
-    /**
-     * Element-specific class name for Bootstrap "theme" style
-     * @property {string} themeClassName
-     * @default "btn-default"
-     */
-    themeClassName: function () {
-        return 'btn-' + this.get( 'theme' );
-    }.property( 'theme' )
+    iconClass: 'caret'
 });
