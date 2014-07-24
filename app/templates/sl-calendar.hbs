@@ -1,0 +1,97 @@
+<h2>sl-calendar</h2>
+<p class="lead">
+    A standalone calendar div to display date values from an array of objects.
+    <br />
+    Based on <a href="http://bootstrap-datepicker.readthedocs.org/en/release/index.html">bootstrap-datepicker</a>
+</p>
+
+<h3>Examples</h3>
+{{sl-calendar action="alertLabel" content=content}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">action</h4>
+        <p><span class="text-primary">function</span></p>
+        <p>Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">beforeShowDay</h4>
+        <p><span class="text-primary">function</span></p>
+        <p>
+            A function that takes a date as a parameter and returns one of the following:
+            <ul>
+                <li><em>undefined</em> to have no effect</li>
+                <li>A boolean, indicating whether this date is selectable</li>
+                <li>A string, representing additional CSS classes to apply to the date's cell</li>
+                <li>An object with the following properties:
+                    <ul>
+                        <li><strong>enabled</strong>: Same as the boolean value above</li>
+                        <li><strong>classes</strong>: Same as the string value above</li>
+                        <li><strong>tooltip</strong>: A tooltip to apply to this date, via the <code>title</code> attribute</li>
+                    </ul>
+                </li>
+            </ul>
+        </p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">calendarWeeks</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>When true, show week numbers to the left of the week rows.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">content</h4>
+        <p><span class="text-primary">array</span></p>
+        <p>Array of objects with date values. Each object's date value is looked up using the <code>dateValuePath</code> property.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">dateValuePath</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "date"</span></p>
+        <p>Path to the content objects' date value.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">daysOfWeekDisabled</h4>
+        <p><span class="text-primary">array</span></p>
+        <p>Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">endDate</h4>
+        <p><span class="text-primary">date</span></p>
+        <p>The latest date that may be selected. All later dates will be disabled.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">keyboardNavigation</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>When true, allow date navigation by arrow keys.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">language</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "en"</span></p>
+        <p>The IETF code of the language to use for month and day names.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">minViewMode</h4>
+        <p><span class="text-primary">string</span></p>
+        <p>Set a limit for the view mode. Accepts "days", "months", or "years".</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">startDate</h4>
+        <p><span class="text-primary">date</span></p>
+        <p>The earliest date that may be selected. All earlier dates will be disabled.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">startView</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "month"</span></p>
+        <p>The view that the calendar's datepicker should show when created.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">todayHighlight</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>When true, highlight the current date</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">weekStart</h4>
+        <p><span class="text-primary">number</span></p>
+        <p>Day of the week to start on. 0 (Sunday) to 6 (Saturday).</p>
+    </div>
+</div>
