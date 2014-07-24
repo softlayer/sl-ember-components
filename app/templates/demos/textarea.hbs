@@ -1,0 +1,31 @@
+<h2>sl-textarea</h2>
+<p class="lead">A Bootstrap-wrapped component based on Ember's textarea helper.</p>
+
+<h3>Examples</h3>
+{{sl-textarea label="First textarea" placeholder="rows=6 maxlength=80" rows=6}}
+{{sl-textarea disabled=true label="Second textarea" placeholder="disabled=true rows=4" rows=4}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="cols" type="number/string"}}
+        <code>cols</code> attribute value.
+    {{/property-text}}
+    {{#property-text name="disabled" type="boolean" default="false"}}
+        Disables the select.
+    {{/property-text}}
+    {{#property-text name="maxlength" type="number/string"}}
+        <code>maxlength</code> attribute value.
+    {{/property-text}}
+    {{#property-text name="placeholder" type="string"}}
+        <code>placeholder</code> attribute value.
+    {{/property-text}}
+    {{#property-text name="rows" type="number/string" required=true}}
+        <code>rows</code> attribute value.
+    {{/property-text}}
+    {{#property-text name="tabindex" type="string"}}
+        <code>tabindex</code> attribute value.
+    {{/property-text}}
+    {{#property-text name="value" type="mixed"}}
+        The bound value of the textarea.
+    {{/property-text}}
+</div>
