@@ -1,0 +1,71 @@
+<h2>sl-select</h2>
+<p class="lead">A full-featured select input component. Based on <a href="http://ivaynberg.github.io/select2/">Select2</a>.</p>
+
+<h3>Examples</h3>
+{{sl-select content=content label="Single item select"}}
+{{sl-select content=numbers disableSearch=true label="Multiple number select, no search" multiple=true}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    <div class="list-group-item list-group-item-warning">
+        <h4 class="list-group-item-title">content <small class="text-danger">required</small></h4>
+        <p><span class="text-primary">array</span></p>
+        <p>
+            Bound content for the select's options. Each item can be one of the following:
+            <ul>
+                <li>A native value (number, string, etc.) which becomes the option's label and value</li>
+                <li>An object containing values for the option's label, value, and (optional) description. The lookup keys for these values are defined by <code>optionDescriptionPath</code>, <code>optionLabelPath</code>, and <code>optionValuePath</code>.</li>
+            </ul>
+        </p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">disableSearch</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>Disables the search filter</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">disabled</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>Disables the input</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">helpText</h4>
+        <p><span class="text-primary">string</span></p>
+        <p>Help text to display belowe the select input.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">label</h4>
+        <p><span class="text-primary">string</span></p>
+        <p>Text label for the select input.</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">multiple</h4>
+        <p><span class="text-primary">boolean</span>, <span class="text-info">default: false</span></p>
+        <p>Enables multiple selections</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">optionDescriptionPath</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "description"</span></p>
+        <p>Option's description field path</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">optionLabelPath</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "label"</span></p>
+        <p>Option's label field path</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">optionValuePath</h4>
+        <p><span class="text-primary">string</span>, <span class="text-info">default: "value"</span></p>
+        <p>Option's value field path</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">placeholder</h4>
+        <p><span class="text-primary">string</span></p>
+        <p><code>placeholder</code> attribute value for the select</p>
+    </div>
+    <div class="list-group-item">
+        <h4 class="list-group-item-title">value</h4>
+        <p><span class="text-primary">mixed</span></p>
+        <p>Bound value to the selected value</p>
+    </div>
+</div>
