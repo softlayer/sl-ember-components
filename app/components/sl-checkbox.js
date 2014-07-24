@@ -17,5 +17,5 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Class names for containing div
      * @property {array} classNames
      */
-    classNames: [ 'checkbox', 'sl-checkbox' ]
+    classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ]
 });

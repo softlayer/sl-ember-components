@@ -11,7 +11,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Class names for the select element
      * @property {array} classNames
      */
-    classNames: [ 'sl-select' ],
+    classNames: [ 'form-group', 'sl-select' ],
 
     /**
      * Called when the bound content changes
