@@ -1,0 +1,144 @@
+<div class="datepicker datepicker-inline">
+    {{#if viewingDays}}
+        <div class="datepicker-days" style="display: block;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th {{action "changeMonth" -1}} class="prev"><span class="fa fa-angle-left"></span></th>
+                        <th {{action "setView" "months"}}colspan="5" class="datepicker-switch">{{currentMonthString}} {{currentYear}}</th>
+                        <th {{action "changeMonth" 1}}class="next"><span class="fa fa-angle-right"></span></th>
+                    </tr>
+                    <tr>
+                        <th class="dow">Su</th>
+                        <th class="dow">Mo</th>
+                        <th class="dow">Tu</th>
+                        <th class="dow">We</th>
+                        <th class="dow">Th</th>
+                        <th class="dow">Fr</th>
+                        <th class="dow">Sa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="old day">29</td>
+                        <td class="old day">30</td>
+                        <td class="day">1</td>
+                        <td class="day">2</td>
+                        <td class="day">3</td>
+                        <td class="day">4</td>
+                        <td class="day">5</td>
+                    </tr>
+                    <tr>
+                        <td class="day">6</td>
+                        <td class="day">7</td>
+                        <td class="day">8</td>
+                        <td class="day">9</td>
+                        <td class="day">10</td>
+                        <td class="day">11</td>
+                        <td class="day">12</td>
+                    </tr>
+                    <tr>
+                        <td class="day">13</td>
+                        <td class="day">14</td>
+                        <td class="day">15</td>
+                        <td class="day">16</td>
+                        <td class="day">17</td>
+                        <td class="day">18</td>
+                        <td class="day">19</td>
+                    </tr>
+                    <tr>
+                        <td class="day">20</td>
+                        <td class="day">21</td>
+                        <td class="day">22</td>
+                        <td class="day">23</td>
+                        <td class="day">24</td>
+                        <td class="active day">25</td>
+                        <td class="day">26</td>
+                    </tr>
+                    <tr>
+                        <td class="day">27</td>
+                        <td class="day">28</td>
+                        <td class="day">29</td>
+                        <td class="day">30</td>
+                        <td class="day">31</td>
+                        <td class="new day">1</td>
+                        <td class="new day">2</td>
+                    </tr>
+                    <tr>
+                        <td class="new day">3</td>
+                        <td class="new day">4</td>
+                        <td class="new day">5</td>
+                        <td class="new day">6</td>
+                        <td class="new day">7</td>
+                        <td class="new day">8</td>
+                        <td class="new day">9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {{/if}}
+
+    {{#if viewingMonths}}
+        <div class="datepicker-months" style="display: block;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th {{action "changeYear" -1}} class="prev" style="visibility: visible;"><span class="fa fa-angle-left"></span></th>
+                        <th {{action "setView" "years"}} colspan="5" class="datepicker-switch">{{currentYear}}</th>
+                        <th {{action "changeYear" 1}} class="next" style="visibility: visible;"><span class="fa fa-angle-right"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7">
+                            <span {{action "setMonth" 1}} class="month">Jan</span>
+                            <span {{action "setMonth" 2}} class="month">Feb</span>
+                            <span {{action "setMonth" 3}} class="month">Mar</span>
+                            <span {{action "setMonth" 4}} class="month">Apr</span>
+                            <span {{action "setMonth" 5}} class="month">May</span>
+                            <span {{action "setMonth" 6}} class="month">Jun</span>
+                            <span {{action "setMonth" 7}} class="month active">Jul</span>
+                            <span {{action "setMonth" 8}} class="month"}}>Aug</span>
+                            <span {{action "setMonth" 9}} class="month"}}>Sep</span>
+                            <span {{action "setMonth" 10}} class="month">Oct</span>
+                            <span {{action "setMonth" 11}} class="month">Nov</span>
+                            <span {{action "setMonth" 12}} class="month">Dec</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {{/if}}
+
+    {{#if viewingYears}}
+        <div class="datepicker-years" style="display: block;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th class="prev" style="visibility: visible;"><span class="fa fa-angle-left"></span></th>
+                        <th colspan="5" class="datepicker-switch">2010-2019</th>
+                        <th class="next" style="visibility: visible;"><span class="fa fa-angle-right"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7">
+                            <span {{action "setYear" 2009}} class="year old">2009</span>
+                            <span {{action "setYear" 2010}} class="year">2010</span>
+                            <span {{action "setYear" 2011}} class="year">2011</span>
+                            <span {{action "setYear" 2012}} class="year">2012</span>
+                            <span {{action "setYear" 2013}} class="year">2013</span>
+                            <span {{action "setYear" 2014}} class="year active">2014</span>
+                            <span {{action "setYear" 2015}} class="year">2015</span>
+                            <span {{action "setYear" 2016}} class="year">2016</span>
+                            <span {{action "setYear" 2017}} class="year">2017</span>
+                            <span {{action "setYear" 2018}} class="year">2018</span>
+                            <span {{action "setYear" 2019}} class="year">2019</span>
+                            <span {{action "setYear" 2020}} class="year new">2020</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {{/if}}
+</div>

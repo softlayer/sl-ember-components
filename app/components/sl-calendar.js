@@ -1,18 +1,104 @@
-import DateHandler from '../mixins/date-handler';
 import Ember from 'ember';
-import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-calendar
  */
-export default Ember.Component.extend( DateHandler, TooltipEnabled, {
+export default Ember.Component.extend({
+
+    actions: {
+        // TODO: changeDecade
+
+        changeMonth: function ( monthMod ) {
+            var month = this.get( 'currentMonth' ) + monthMod;
+            var year = this.get( 'currentYear' );
+
+            while ( month < 1 ) {
+                month += 12;
+                year -= 1;
+            }
+
+            while ( month > 12 ) {
+                month -= 12;
+                year += 1;
+            }
+
+            this.setProperties({
+                currentYear: year,
+                currentMonth: month
+            });
+        },
+
+        changeYear: function ( yearMod ) {
+            this.setProperties({
+                currentYear: this.get( 'currentYear' ) + yearMod,
+                viewMode: 'months'
+            });
+        },
+
+        // TODO: setDecade
+
+        setMonth: function ( month ) {
+            this.setProperties({
+                currentMonth: month,
+                viewMode: 'days'
+            });
+        },
+
+        setView: function ( view ) {
+            this.set( 'viewMode', view );
+        },
+
+        setYear: function ( year ) {
+            this.setProperties({
+                currentYear: year,
+                viewMode: 'months'
+            });
+        }
+    },
 
     /**
      * Class names for the root element
      * @property {array} classNames
      */
     classNames: [ 'sl-calendar' ],
+
+    currentMonth: function () {
+        var startMonth = this.get( 'startMonth' );
+
+        if ( startMonth ) {
+            return startMonth;
+        }
+
+        return this.get( 'today' ).getMonth() + 1;
+    }.property(),
+
+    currentMonthString: function () {
+        switch ( this.get( 'currentMonth' )) {
+            case 1: return 'January';
+            case 2: return 'February';
+            case 3: return 'March';
+            case 4: return 'April';
+            case 5: return 'May';
+            case 6: return 'June';
+            case 7: return 'July';
+            case 8: return 'August';
+            case 9: return 'September';
+            case 10: return 'October';
+            case 11: return 'November';
+            case 12: return 'December';
+        }
+    }.property( 'currentMonth' ),
+
+    currentYear: function () {
+        var startYear = this.get( 'startYear' );
+
+        if ( startYear ) {
+            return startYear;
+        }
+
+        return this.get( 'today' ).getFullYear();
+    }.property(),
 
     /**
      * String lookup for the date value on the content objects
@@ -21,74 +107,62 @@ export default Ember.Component.extend( DateHandler, TooltipEnabled, {
      */
     dateValuePath: 'date',
 
-    /**
-     * Array of passed-in date objects, indexed by formatted date
-     * @property {array} dates
-     * @default []
-     */
-    dates: [],
+    daysInMonth: function () {
+        switch ( this.get( 'currentMonth' )) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                return this.isLeapYear() ? 29 : 30;
+        }
+    },
 
-    /**
-     * Setup for initial datepicker state
-     * @method setupDatepicker
-     */
-    setupDatepicker: function () {
-        var self = this,
-            dp   = this.$().datepicker( this.get( 'options' )).data( 'datepicker' );
+    didInsertElement: function () {
+        console.log( this.isCurrentMonth( 7 ));
+    },
 
-        this.$( 'tbody' ).on( 'click', function ( event ) {
-            // In days view (0), prevent changing selections
-            if ( dp.viewMode === 0 ) {
-                event.stopPropagation();
-            }
+    isCurrentMonth: function ( month ) {
+        return this.get( 'currentMonth' ) === month;
+    },
 
-            var target = self.$( event.target );
+    isLeapYear: function () {
+        var year = this.get( 'currentYear' );
 
-            if ( target.is( 'td.active.day' )) {
-                var year  = dp.viewDate.getFullYear(),
-                    month = dp.viewDate.getMonth() + 1,
-                    day   = parseInt( target.text(), 10 ),
-                    formattedDate;
+        if ( 0 === year % 400 ) { return true; }
+        if ( 0 === year % 100 ) { return false; }
+        if ( 0 === year % 4 )   { return true; }
+        return false;
+    },
 
-                if ( month < 10 ) {
-                    month = '0' + month;
-                }
+    startMonth: null,
 
-                if ( day < 10 ) {
-                    day = '0' + day;
-                }
+    startYear: null,
 
-                formattedDate = [ month, day, year ].join( '/' );
-                self.sendAction( 'action', self.get( 'dates' )[ formattedDate ]);
-            }
-        });
+    today: function () {
+        return new Date();
+    }.property(),
 
-        this.updateDates();
-    }.on( 'didInsertElement' ),
+    viewingDays: function () {
+        return this.viewMode === 'days';
+    }.property( 'viewMode' ),
 
-    /**
-     * Updates both the internally tracked dates, and the datepicker plugin's
-     * highlighted dates.
-     * @method updateDates
-     */
-    updateDates: function () {
-        var dateValuePath = this.get( 'dateValuePath' ),
-            dates   = {},
-            dpDates = [],
-            formattedDate;
+    viewingMonths: function () {
+        return this.viewMode === 'months';
+    }.property( 'viewMode' ),
 
-        this.get( 'content' ).map( function ( item ) {
-            formattedDate = moment( new Date( Ember.get( item, dateValuePath ))).format( 'MM/DD/YYYY' );
+    viewingYears: function () {
+        return this.viewMode === 'years';
+    }.property( 'viewMode' ),
 
-            if ( !dates.hasOwnProperty( formattedDate )) {
-                dates[ formattedDate ] = [];
-            }
-
-            dates[ formattedDate ].push( item );
-            dpDates.push( formattedDate );
-        });
-
-        this.set( 'dates', dates );
-        this.$().datepicker( 'setDates', dpDates );
-    }.observes( 'content' )
+    viewMode: 'months'
 });
