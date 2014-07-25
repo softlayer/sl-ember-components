@@ -13,6 +13,7 @@
     {{#property-text name="action" type="function"}}
         Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
     {{/property-text}}
+
     {{#property-text name="beforeShowDay" type="function"}}
         A function that takes a date as a parameter and returns one of the following:
         <ul>
@@ -28,39 +29,51 @@
             </li>
         </ul>
     {{/property-text}}
+
     {{#property-text name="calendarWeeks" type="boolean" default="false"}}
         When true, show week numbers to the left of the week rows.
     {{/property-text}}
+
     {{#property-text name="content" type="array"}}
         Array of objects with date values. Each object's date value is looked up using the <code>dateValuePath</code> property.
     {{/property-text}}
+
     {{#property-text name="dateValuePath" type="string" default="\"date\""}}
         Path to the content objects' date value.
     {{/property-text}}
+
     {{#property-text name="daysOfWeekDisabled" type="array"}}
         Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated.
     {{/property-text}}
+
     {{#property-text name="endDate" type="date"}}
         The latest date that may be selected. All later dates will be disabled.
     {{/property-text}}
+
     {{#property-text name="keyboardNavigation" type="boolean" default="false"}}
         When true, allow date navigation by arrow keys.
     {{/property-text}}
+
     {{#property-text name="language" type="string" default="\"en\""}}
         The IETF code of the language to use for month and day names.
     {{/property-text}}
+
     {{#property-text name="minViewMode" type="string"}}
         Set a limit for the view mode. Accepts "days", "months", or "years".
     {{/property-text}}
+
     {{#property-text name="startDate" type="date"}}
         The earliest date that may be selected. All earlier dates will be disabled.
     {{/property-text}}
+
     {{#property-text name="startView" type="string" default="\"month\""}}
         The view that the calendar's datepicker should show when created.
     {{/property-text}}
+
     {{#property-text name="todayHighlight" type="boolean" default="false"}}
         When true, highlight the current date.
     {{/property-text}}
+
     {{#property-text name="weekstart" type="array/number/string"}}
         Day of the week to start on. 0 (Sunday) to 6 (Saturday).
     {{/property-text}}

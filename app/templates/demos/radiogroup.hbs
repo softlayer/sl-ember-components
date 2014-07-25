@@ -15,12 +15,15 @@
             <li><strong class="text-danger">value <small>(required)</small></strong>: <code>value</code> attribute value</li>
         </ul>
     {{/property-text}}
+
     {{#property-text name="inline" type="boolean" default="false"}}
         Display the radio inputs inline with each other.
     {{/property-text}}
+
     {{#property-text name="name" required=true type="string"}}
         Shared <code>name</code> attribute for the radio inputs.
     {{/property-text}}
+
     {{#property-text name="value" type="mixed"}}
         Bound value for the radiogroup component.
     {{/property-text}}
