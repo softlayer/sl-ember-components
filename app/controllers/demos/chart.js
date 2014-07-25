@@ -16,10 +16,6 @@ export default Ember.ArrayController.extend({
             type: 'bar'
         },
 
-        title: {
-            text: 'Fruit Consumption'
-        },
-
         xAxis: {
             categories: [ 'Apples', 'Bananas', 'Oranges' ]
         },

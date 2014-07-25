@@ -1,17 +1,10 @@
 import Ember from 'ember';
-import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-chart
  */
-export default Ember.Component.extend( TooltipEnabled, {
-
-    /**
-     * Attribute bindings for root element
-     * @property {array} attributeBindings
-     */
-    attributeBindings: [ 'style' ],
+export default Ember.Component.extend({
 
     /**
      * The highchart instantiation for the component
@@ -24,7 +17,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Class names for the root element
      * @property {array} classNames
      */
-    classNames: [ 'sl-chart' ],
+    classNames: [ 'panel', 'panel-default', 'sl-chart' ],
 
     /**
      * Height value used for inline style
@@ -44,8 +37,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @method setupChart
      */
     setupChart: function () {
-        this.$().highcharts( this.get( 'options' ));
-        this.set( 'chart', this.$().highcharts() );
+        var chartDiv = this.$( 'div.chart' );
+        var options = this.get( 'options' );
+
+        options.title = '';
+
+        chartDiv.highcharts( options );
+        this.set( 'chart', chartDiv.highcharts() );
         this.updateData();
     }.on( 'didInsertElement' ),
 

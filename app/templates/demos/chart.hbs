@@ -6,7 +6,7 @@
     {{#sl-button action="logOptions"}}Log options{{/sl-button}}
     {{#sl-button action="logSeries"}}Log series{{/sl-button}}
 </div>
-{{sl-chart options=chartOptions series=content width="100%"}}
+{{sl-chart options=chartOptions series=content title="Fruit Consumption"}}
 
 <h3>Properties</h3>
 <div class="list-group">
@@ -20,6 +20,10 @@
 
     {{#property-text name="series" required=true type="array"}}
         Array of series data to bind to the component.
+    {{/property-text}}
+
+    {{#property-text name="title" type="string"}}
+        The title of the chart's panel.
     {{/property-text}}
 
     {{#property-text name="width" type="string"}}
