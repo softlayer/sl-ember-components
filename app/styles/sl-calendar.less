@@ -1,0 +1,49 @@
+.sl-calendar .datepicker {
+  border: 1px solid @gray-light;
+  border-radius: @border-radius-base;
+
+  table {
+    tr {
+      th, td {
+        border-radius: @border-radius-base;
+
+        &.next,
+        &.prev,
+        &.datepicker-switch {
+          color: @brand-primary;
+        }
+
+        &.day {
+          &:hover,
+          &:focus {
+            background: none;
+            cursor: default;
+          }
+
+          &.active:hover {
+            background-color: darken(@btn-primary-bg, 8%);
+            cursor: pointer;
+          }
+        }
+
+        span {
+          border-radius: @border-radius-base;
+
+          &.month,
+          &.year {
+            color: @brand-primary;
+
+            &.active {
+              color: @btn-primary-color;
+            }
+
+            &.new,
+            &.old {
+              color: @gray-light;
+            }
+          }
+        }
+      }
+    }
+  }
+}

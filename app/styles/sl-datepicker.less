@@ -1,0 +1,39 @@
+.datepicker {
+  &.dropdown-menu {
+    background: #fff;
+    border-color: @input-border-focus;
+    border-radius: @border-radius-base;
+    margin-top: 2px;
+
+    &:before {
+      border-bottom-color: @input-border-focus;
+    }
+
+    &.datepicker-orient-bottom:before {
+      border-top-color: @input-border-focus;
+    }
+
+    table {
+      tr {
+        th, td {
+          border-radius: @border-radius-base;
+
+          &.next,
+          &.prev,
+          &.datepicker-switch {
+            color: @brand-primary;
+          }
+
+          &.day.active:hover {
+            background-color: darken(@btn-primary-bg, 8%);
+            cursor: pointer;
+          }
+
+          span {
+            border-radius: @border-radius-base;
+          }
+        }
+      }
+    }
+  }
+}
