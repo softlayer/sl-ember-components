@@ -2,6 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     actions: {
+        calendarDateSelect: function ( selectedDate ) {
+            console.log( selectedDate[0] );
+        },
+
         closeModal: function () {
             this.set( 'showModal', false );
         },
@@ -31,13 +35,82 @@ export default Ember.Controller.extend({
         }
     },
 
+    advancedSelectOptions: [
+        {
+            label: 'First value',
+            description: 'The first advanced value',
+            value: 'one'
+        }, {
+            label: 'Second value',
+            description: 'The second advanced value',
+            value: 'two'
+        }, {
+            label: 'Third value',
+            description: 'The third advanced value',
+            value: 'three'
+        }
+    ],
+
+    advancedSelectValue: 'two',
+
     badgeValue: Math.round( Math.random() * 100 ),
+
+    calendarData: [
+        {
+            "publishDate":"Wed, 09 Jul 2014 15:19:32 GMT+0000",
+            "title":"Portal Retirement (specific accounts only) - 15:00:00 GMT+00:00",
+            "location":"All",
+            "service":"Portal",
+            "startDate":"Wed, 09 Jul 2014 15:00:00 GMT+0000",
+            "endDate":"Wed, 09 Jul 2014 16:00:00 GMT+0000"
+        }, {
+            "publishDate":"Wed, 02 Jul 2014 17:07:26 GMT+0000",
+            "title":"Portal Retirement (specific accounts only) - All - 07\/09\/2014 - 15:00:00 GMT+00:00",
+            "description":"",
+            "location":"All",
+            "service":"Portal",
+            "startDate":"Wed, 16 Jul 2014 15:00:00 GMT+0000",
+            "endDate":"Wed, 16 Jul 2014 16:00:00 GMT+0000"
+        }
+    ],
+
+    chartOptions: {
+        chart: {
+            type: 'bar'
+        },
+
+        title: {
+            text: 'Fruit Consumption'
+        },
+
+        xAxis: {
+            categories: [ 'Apples', 'Bananas', 'Oranges' ]
+        },
+
+        yAxis: {
+            title: {
+                text: 'Fruit Eaten'
+            }
+        }
+    },
+
+    chartSeries: [
+        {
+            name: 'Jane',
+            data: [ 1, 0, 4 ]
+        }, {
+            name: 'John',
+            data: [ 5, 7, 3 ]
+        }
+    ],
 
     checkboxStringValue: function () {
         return this.get( 'checkboxValue' ) ? 'true' : 'false';
     }.property( 'checkboxValue' ),
 
     checkboxValue: false,
+
+    datepickerValue: '07/16/2014',
 
     dropbuttonOptions: [
         {
@@ -51,6 +124,10 @@ export default Ember.Controller.extend({
             action: 'delete'
         }
     ],
+
+    formattedDate: function () {
+        return moment( new Date( this.get( 'datepickerValue' ))).format( 'dddd, MMMM Do YYYY' );
+    }.property( 'datepickerValue' ),
 
     gridColumns: [
         {
@@ -75,21 +152,6 @@ export default Ember.Controller.extend({
         }
     ],
 
-    init: function () {
-        var self = this;
-
-        if ( false ) {
-            setTimeout( function () {
-                self.set( 'inputValue', 'New input value' );
-                self.set( 'radiogroupValue', 'two' );
-                self.set( 'selectValue', 'three' );
-                self.set( 'textareaValue', 'New textarea value' );
-            }, 4000 );
-        }
-
-        this._super();
-    },
-
     inputValue: 'test',
 
     radiogroupOptions: [
@@ -106,20 +168,9 @@ export default Ember.Controller.extend({
 
     radioValue: 'one',
 
-    selectOptions: [
-        {
-            label: 'First value',
-            value: 'one'
-        }, {
-            label: 'Second value',
-            value: 'two'
-        }, {
-            label: 'Third value',
-            value: 'three'
-        }
-    ],
+    simpleSelectOptions: [ 25, 50, 75, 100 ],
 
-    selectValue: 'two',
+    simpleSelectValue: 50,
 
     showModal: false,
 

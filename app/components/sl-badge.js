@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-badge
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Class name bindings for the badge's span component
@@ -28,7 +29,7 @@ export default Ember.Component.extend({
     /**
      * Name of the component element's tag
      * @property {string} tagName
-     * @default 'span'
+     * @default "span"
      */
     tagName: 'span'
 });

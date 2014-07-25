@@ -1,11 +1,12 @@
-import Ember from 'ember';
 import AjaxAware from '../mixins/ajaxaware';
+import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-button
  */
-export default Ember.Component.extend( AjaxAware, {
+export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * The text to display during AJAX activity
@@ -18,7 +19,7 @@ export default Ember.Component.extend( AjaxAware, {
      * Attribute bindings for the button component
      * @property {array} attributeBindings
      */
-    attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'title', 'type' ],
+    attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'type' ],
 
     /**
      * Class bindings for the button component
@@ -119,21 +120,21 @@ export default Ember.Component.extend( AjaxAware, {
     /**
      * The root component element
      * @property {string} tagName
-     * @default 'button'
+     * @default "button"
      */
     tagName: 'button',
 
     /**
      * The bootstrap "theme" name
      * @property {string} theme
-     * @default 'default'
+     * @default "default"
      */
     theme: 'default',
 
     /**
      * Assemble the button theme's class name
      * @property {string} themeClassName
-     * @default 'btn-default'
+     * @default "btn-default"
      */
     themeClassName: function () {
         return 'btn-' + this.get( 'theme' );

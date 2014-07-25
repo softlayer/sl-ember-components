@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-alert
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Array of attribute bindings for the alert's div
@@ -34,21 +35,21 @@ export default Ember.Component.extend({
     /**
      * The role attribute for the alert's div
      * @property {string} role
-     * @default 'alert'
+     * @default "alert"
      */
     role: 'alert',
 
     /**
      * The Bootstrap "theme" style to apply to the alert
      * @property {string} theme
-     * @default 'info'
+     * @default "info"
      */
     theme: 'info',
 
     /**
      * The generated Bootstrap "theme" style class for the alert
      * @property {string} themeClassName
-     * @default 'alert-info'
+     * @default "alert-info"
      */
     themeClassName: function () {
         return 'alert-' + this.get( 'theme' );

@@ -14,9 +14,16 @@ var app = new EmberApp({
 });
 
 // Bootstrap
-app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap.css' );
-app.import( 'vendor/sl-bootstrap/dist/css/sl-bootstrap-theme.css' );
 app.import( 'vendor/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
+var bootstrapCSSMap = pickFiles( 'vendor/sl-bootstrap/dist/css', {
+    srcDir: '/',
+    files: [ 'sl-bootstrap-theme.css.map' ],
+    destDir: '/assets'
+});
+
+// Bootstrap-Datepicker
+app.import( 'vendor/bootstrap-datepicker/css/datepicker3.css' );
+app.import( 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
 // Select2 select
 app.import( 'vendor/select2/select2.css' );
@@ -26,12 +33,15 @@ app.import( 'vendor/select2/select2.min.js' );
 app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
 
 // FontAwesome
-app.import( 'vendor/fontawesome/css/font-awesome.css' );
+app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
 var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     srcDir: '/',
     files: [ 'fontawesome-webfont.woff' ],
     destDir: '/fonts'
 });
+
+// Highcharts
+app.import( 'vendor/highcharts/highcharts.js' );
 
 // Moment
 app.import( 'vendor/moment/min/moment-with-langs.min.js' );
@@ -46,4 +56,4 @@ var select2Images = pickFiles( 'vendor/select2', {
     destDir: '/assets'
 });
 
-module.exports = mergeTrees([ app.toTree(), fontawesomeFont, select2Images ]);
+module.exports = mergeTrees([ app.toTree(), bootstrapCSSMap, fontawesomeFont, select2Images ]);

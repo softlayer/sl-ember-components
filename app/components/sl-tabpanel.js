@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-tabpanel
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Object of action functions
@@ -58,13 +59,13 @@ export default Ember.Component.extend({
     classNames: [ 'sl-tabpanel' ],
 
     /**
-     * Method to setup the initial tabpanel state
-     * @method didInsertElement
+     * Method to setup the initial tabpanel tabs and panes
+     * @method setup
      */
-    didInsertElement: function () {
+    setup: function () {
         this.get( 'activePane' ).addClass( 'active' );
         this.get( 'activeTab' ).addClass( 'active' );
-    }
+    }.on( 'didInsertElement' )
 });
 
 Ember.Handlebars.helper( 'renderTabPane', function ( templateName, options ) {
