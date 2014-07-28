@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
 
     classNames: [ 'modal', 'fade' ],
 
-    attributeBindings: [ 'aria-hidden', 'tabindex', 'role' ],
+    attributeBindings: [ 'aria-hidden', 'tabindex', 'role', 'aria-labelledby', 'aria-describedby' ],
 
     /**
      * `aria-hidden` attribute to inform assistive technologies to skip the modal's DOM elements
@@ -31,6 +31,23 @@ export default Ember.Mixin.create({
      * @default 'dialog'
      */
     role: 'dialog',
+
+    /**
+     * `aria-labelledby` attribute value
+     *
+     * @property {string} aria-labelledby
+     */
+    'aria-labelledby': function() {
+        return 'modalTitle-' + Math.random();
+    }.property(),
+
+    /**
+     * `aria-describedby` attribute value
+     *
+     * @property {string} aria-describedby
+     * @default null
+     */
+    'aria-describedby': null,
 
     /**
      * Overridable method stub
