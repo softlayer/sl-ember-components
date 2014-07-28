@@ -204,13 +204,9 @@ export default Ember.Component.extend( TooltipEnabled, {
                     results: self.get( 'content' ).reduce( function ( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
-                        /*jshint -W069 */
-                        /*jshint -W109 */
                         if ( select2.matcher( query.term, text.toString() )) {
                             results.push( item );
                         }
-                        /*jshint +W069 */
-                        /*jshint +W109 */
 
                         return results;
                     }, [] )
@@ -221,6 +217,10 @@ export default Ember.Component.extend( TooltipEnabled, {
         this.getInput().on( 'change', function () {
             self.selectionChanged( self.getInput().select2( 'val' ));
         });
+
+        if ( !this.get( 'multiple' )) {
+            this.$( 'input.select2-input' ).attr( 'placeholder', 'Search...' );
+        }
 
         this.valueChanged();
     }.on( 'didInsertElement' ),
