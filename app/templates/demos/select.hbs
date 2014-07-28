@@ -20,7 +20,7 @@
     {{/property-text}}
 
     {{#property-text name="disabled" type="boolean" default="false"}}
-        Disables the input.
+        When true, input is disabled.
     {{/property-text}}
 
     {{#property-text name="helpText" type="string"}}
@@ -47,8 +47,28 @@
         Option's value field path.
     {{/property-text}}
 
+    {{#property-text name="optional" type="boolean" default="false"}}
+        When true, the component is styled to reflect optional status.
+    {{/property-text}}
+
     {{#property-text name="placeholder" type="string"}}
         <code>placeholder</code> attribute value for the select.
+    {{/property-text}}
+
+    {{#property-text name="popover" type="string"}}
+        Popover content text.
+    {{/property-text}}
+
+    {{#property-text name="readonly" type="boolean" default="false"}}
+        <code>readonly</code> attribute value for the input.
+    {{/property-text}}
+
+    {{#property-text name="required" type="boolean" default="false"}}
+        When true, the component is styled to reflect required status.
+    {{/property-text}}
+
+    {{#property-text name="title" type="string"}}
+        Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 
     {{#property-text name="value" type="mixed"}}
