@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import InputBased from '../mixins/input-based';
 import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-input
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Object containing action functions
@@ -14,7 +15,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
         /**
          * Sends the primary bound action when `enter` is pressed
-         * @method enter
+         * @method actions.enter
          */
         enter: function () {
             this.sendAction();
@@ -23,13 +24,13 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Class names for the containing div
-     * @property {array} classNames
+     * @property {Array} classNames
      */
     classNames: [ 'form-group', 'sl-input' ],
 
     /**
      * ID for the actual input element
-     * @property {string} inputId
+     * @property {String} inputId
      */
     inputId: function () {
         return this.get( 'elementId' ) + 'Input';
@@ -37,7 +38,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Type attribute for the containing div
-     * @property {string} type
+     * @property {String} type
      * @default "text"
      */
     type: 'text'
