@@ -1,0 +1,9 @@
+{{#if label}}
+    <label {{bind-attr for=inputId}}>{{label}}</label>
+{{/if}}
+
+<input {{bind-attr disabled=disabled id=inputId}} class="form-control" type="hidden" />
+
+{{#if helpText}}
+    <p class="help-block">{{helpText}}</p>
+{{/if}}

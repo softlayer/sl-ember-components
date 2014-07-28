@@ -1,0 +1,9 @@
+{{#if label}}
+    <label {{bind-attr for=inputId}}>{{label}}</label>
+{{/if}}
+
+{{textarea class="form-control" cols=cols disabled=disabled id=inputId maxlength=maxlength placeholder=placeholder rows=rows tabindex=tabindex value=value}}
+
+{{#if helpText}}
+    <p class="help-block">{{helpText}}</p>
+{{/if}}

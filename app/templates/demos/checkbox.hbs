@@ -1,0 +1,32 @@
+<h2>sl-checkbox</h2>
+<p class="lead">An improved substitute for the default &lt;input type="checkbox&gt; element. See <a href="http://getbootstrap.com/css/#forms-controls">Bootstrap - Supported controls</a> for details.</p>
+
+<h3>Examples</h3>
+<form class="form form-inline">
+    <p>
+        {{sl-checkbox inline=true label="Checkbox" name="checkbox" value=checkboxValue}}
+        {{#if checkboxValue}}
+            <span class="label label-success">Checked!</span>
+        {{/if}}
+    </p>
+    <p>{{sl-checkbox disabled=true label="disabled=true"}}</p>
+</form>
+
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="disabled" type="boolean" default="false"}}
+        When true, the checkbox is disabled.
+    {{/property-text}}
+
+    {{#property-text name="label" type="string"}}
+        Label text to display beside the checkbox.
+    {{/property-text}}
+
+    {{#property-text name="name" type="string"}}
+        <code>name</code> attribute value for the input.
+    {{/property-text}}
+
+    {{#property-text name="value" type="mixed"}}
+        Bound value for the checkbox.
+    {{/property-text}}
+</div>

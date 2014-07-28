@@ -1,0 +1,30 @@
+<h2>sl-radiogroup</h2>
+<p class="lead">A component that contains a group of "radio" type inputs. See <a href="http://getbootstrap.com/css/#forms-controls">Bootstrap - Supported controls</a>.</p>
+
+<h3>Example</h3>
+<p>Current color: {{currentColor}}</p>
+{{sl-radiogroup content=content name="colorRadio" value=currentColor}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="content" required=true type="array"}}
+        Radio option definitions. Each item can have the following properties:
+        <ul>
+            <li><strong>disabled</strong>: <code>disabled</code> attribute value</li>
+            <li><strong class="text-danger">label <small>(required)</small></strong>: Text label for the radio button</li>
+            <li><strong class="text-danger">value <small>(required)</small></strong>: <code>value</code> attribute value</li>
+        </ul>
+    {{/property-text}}
+
+    {{#property-text name="inline" type="boolean" default="false"}}
+        Display the radio inputs inline with each other.
+    {{/property-text}}
+
+    {{#property-text name="name" required=true type="string"}}
+        Shared <code>name</code> attribute for the radio inputs.
+    {{/property-text}}
+
+    {{#property-text name="value" type="mixed"}}
+        Bound value for the radiogroup component.
+    {{/property-text}}
+</div>

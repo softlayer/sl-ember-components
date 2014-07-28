@@ -8,16 +8,10 @@ import TooltipEnabled from '../mixins/tooltip-enabled';
 export default Ember.Component.extend( TooltipEnabled, {
 
     /**
-     * Attribute bindings for the select element
-     * @property {array} attributeBindings
-     */
-    attributeBindings: [ 'disabled', 'type' ],
-
-    /**
      * Class names for the select element
      * @property {array} classNames
      */
-    classNames: [ 'form-control', 'sl-select' ],
+    classNames: [ 'form-group', 'sl-select' ],
 
     /**
      * Called when the bound content changes
@@ -40,6 +34,22 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @default false
      */
     disabled: false,
+
+    /**
+     * Get the internal &lt;input&gt; element
+     * @method getInput
+     */
+    getInput: function () {
+        return this.$( '#' + this.get( 'inputId' ));
+    },
+
+    /**
+     * ID of the &lt;input&gt; element
+     * @property {string} selectId
+     */
+    inputId: function () {
+        return this.get( 'elementId' ) + 'Input';
+    }.property( 'elementId' ),
 
     /**
      * The maximum number of selections allowed when `multiple` is enabled
@@ -93,7 +103,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         var get  = Ember.get,
             self = this;
 
-        this.$().select2({
+        this.getInput().select2({
             maximumSelectionSize: this.get( 'maximumSelectionSize' ),
             multiple:             this.get( 'multiple' ),
             placeholder:          this.get( 'placeholder' ),
@@ -152,7 +162,11 @@ export default Ember.Component.extend( TooltipEnabled, {
                 for ( var i = 0; i < contentLength; i++ ) {
                     item = content[i];
                     text = item instanceof Object ? get( item, optionValuePath ) : item;
+                    /*jshint -W069 */
+                    /*jshint -W109 */
                     matchIndex = values.indexOf( text.toString() );
+                    /*jshint +W069 */
+                    /*jshint +W109 */
 
                     if ( matchIndex !== -1 ) {
                         filteredContent[ matchIndex ] = item;
@@ -163,11 +177,18 @@ export default Ember.Component.extend( TooltipEnabled, {
                 }
 
                 if ( unmatchedValues === 0 ) {
-                    self.$().select2( 'readonly', false );
+                    self.getInput().select2( 'readonly', false );
                 } else {
-                    self.$().select2( 'readonly', true );
+                    self.getInput().select2( 'readonly', true );
 
-                    Ember.warn( 'sl-select:select2#initSelection was not able to map each "' + optionValuePath + '" to an object from "content". The remaining keys are: ' + values + '. The input will be disabled until a) the desired objects are added to the "content" array, or b) the "value" is changed.', !values.length );
+                    var warning = 'sl-select:select2#initSelection was not able to map each "';
+                    warning = warning.concat( optionValuePath );
+                    warning = warning.concat( '" to an object from "content". The remaining keys are: ' );
+                    warning = warning.concat( values );
+                    warning = warning.concat( '. The input will be disabled until a) the desired objects are added ');
+                    warning = warning.concat( 'to the "content" array, or b) the "value" is changed.' );
+
+                    Ember.warn( warning, !values.length );
                 }
 
                 return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ));
@@ -193,33 +214,23 @@ export default Ember.Component.extend( TooltipEnabled, {
             }
         });
 
-        this.$().on( 'change', function () {
-            self.selectionChanged( self.$().select2( 'val' ));
+        this.getInput().on( 'change', function () {
+            self.selectionChanged( self.getInput().select2( 'val' ));
         });
+
+        if ( !this.get( 'multiple' )) {
+            this.$( 'input.select2-input' ).attr( 'placeholder', 'Search...' );
+        }
 
         this.valueChanged();
     }.on( 'didInsertElement' ),
-
-    /**
-     * Name of the tag type for select element
-     * @property {string} tagName
-     * @default "input"
-     */
-    tagName: 'input',
-
-    /**
-     * Type attribute for the select element
-     * @property {string} type
-     * @default "hidden"
-     */
-    type: 'hidden',
 
     /**
      * Called when the component's value has changed
      * @method valueChanged
      */
     valueChanged: function () {
-        this.$().select2( this.get( 'optionValuePath' ) ? 'val' : 'data', this.get( 'value' ));
+        this.getInput().select2( this.get( 'optionValuePath' ) ? 'val' : 'data', this.get( 'value' ));
     }.observes( 'value' ),
 
     /**
@@ -227,6 +238,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @method willDestroyElement
      */
     willDestroyElement: function () {
-        this.$().off( 'change' ).select2( 'destroy' );
+        this.getInput().off( 'change' ).select2( 'destroy' );
     }
 });

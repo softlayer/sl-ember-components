@@ -12,7 +12,7 @@ export default Ember.Component.extend( DateHandler, TooltipEnabled, {
      * Class names for the root element
      * @property {array} classNames
      */
-    classNames: [ 'date-picker', 'sl-datepicker' ],
+    classNames: [ 'date-picker', 'form-group', 'sl-datepicker' ],
 
     /**
      * Setup for initial component state

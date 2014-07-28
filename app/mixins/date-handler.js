@@ -131,7 +131,7 @@ export default Ember.Mixin.create({
             autoclose:          this.get( 'autoclose' ),
             beforeShowDay:      this.get( 'beforeShowDay' ),
             calendarWeeks:      this.get( 'calendarWeeks' ),
-            clearBtn:           this.get( 'cleanBtn' ),
+            clearBtn:           this.get( 'clearBtn' ),
             daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
             endDate:            this.get( 'endDate' ),
             forceParse:         this.get( 'forceParse' ),

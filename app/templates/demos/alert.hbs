@@ -1,0 +1,19 @@
+<h2>sl-alert</h2>
+<p class="lead">A message box component for short alert messages. Based on <a href="http://getbootstrap.com/javascript/#alerts">Bootstrap - Alert messages</a>.</p>
+
+<h3>Examples</h3>
+{{#sl-alert dismissable=true theme="info"}}theme="info" dismissable=true{{/sl-alert}}
+{{#sl-alert theme="success"}}theme="success"{{/sl-alert}}
+{{#sl-alert theme="warning"}}theme="warning"{{/sl-alert}}
+{{#sl-alert theme="danger"}}theme="danger"{{/sl-alert}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="dismissable" type="boolean" default="false"}}
+        Whether to add a dismiss button.
+    {{/property-text}}
+
+    {{#property-text name="theme" type="string" default="\"info\""}}
+        <p>Bootstrap contextual color type; "danger", "info", "success", "warning"</p>
+    {{/property-text}}
+</div>

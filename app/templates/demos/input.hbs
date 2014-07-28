@@ -1,0 +1,37 @@
+<h2>sl-input</h2>
+<p class="lead">A wrapper component for &lt;input&gt;. See <a href="http://getbootstrap.com/css/#forms">Bootstrap - Forms</a> for details.</p>
+
+<h3>Examples</h3>
+{{sl-input label="Input with label and helpText" helpText="Help text content goes here" placeholder="Enter some text"}}
+{{sl-input label="Disabled input" disabled=true placeholder="You can't enter anything here"}}
+
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="disabled" type="boolean" default="false"}}
+        When true, input is disabled.
+    {{/property-text}}
+
+    {{#property-text name="helpText" type="string"}}
+        Text to display below the input element.
+    {{/property-text}}
+
+    {{#property-text name="inputId" type="string"}}
+        <code>id</code> attribute for the input element itself.
+    {{/property-text}}
+
+    {{#property-text name="label" type="string"}}
+        String for label text above the input.
+    {{/property-text}}
+
+    {{#property-text name="placeholder" type="string"}}
+        <code>placeholder</code> attribute value for the input.
+    {{/property-text}}
+
+    {{#property-text name="type" type="string" default="\"text\""}}
+        <code>type</code> attribute for the input.
+    {{/property-text}}
+
+    {{#property-text name="value" type="mixed"}}
+        Bound value of the input.
+    {{/property-text}}
+</div>
