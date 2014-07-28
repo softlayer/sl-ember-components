@@ -80,9 +80,13 @@ export default Ember.Component.extend( DateHandler, TooltipEnabled, {
         this.get( 'content' ).map( function ( item ) {
             formattedDate = moment( new Date( Ember.get( item, dateValuePath ))).format( 'MM/DD/YYYY' );
 
-            if ( !dates.hasOwnProperty( formattedDate )) {
+            /*jshint -W069 */
+            /*jshint -W109 */
+            if ( !dates.hasOwnProperty( formattedDate ) ) {
                 dates[ formattedDate ] = [];
             }
+            /*jshint +W069 */
+            /*jshint +W109 */
 
             dates[ formattedDate ].push( item );
             dpDates.push( formattedDate );
