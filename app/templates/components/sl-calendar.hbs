@@ -91,18 +91,9 @@
                 <tbody>
                     <tr>
                         <td colspan="7">
-                            <span {{action "setMonth" 1}} class="month">Jan</span>
-                            <span {{action "setMonth" 2}} class="month">Feb</span>
-                            <span {{action "setMonth" 3}} class="month">Mar</span>
-                            <span {{action "setMonth" 4}} class="month">Apr</span>
-                            <span {{action "setMonth" 5}} class="month">May</span>
-                            <span {{action "setMonth" 6}} class="month">Jun</span>
-                            <span {{action "setMonth" 7}} class="month active">Jul</span>
-                            <span {{action "setMonth" 8}} class="month"}}>Aug</span>
-                            <span {{action "setMonth" 9}} class="month"}}>Sep</span>
-                            <span {{action "setMonth" 10}} class="month">Oct</span>
-                            <span {{action "setMonth" 11}} class="month">Nov</span>
-                            <span {{action "setMonth" 12}} class="month">Dec</span>
+                            {{#each month in monthsInYearView}}
+                                {{sl-calendar-month action="setMonth" active=month.active month=month.month}}
+                            {{/each}}
                         </td>
                     </tr>
                 </tbody>
@@ -115,30 +106,23 @@
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th class="prev" style="visibility: visible;"><span class="fa fa-angle-left"></span></th>
-                        <th colspan="5" class="datepicker-switch">2010-2019</th>
-                        <th class="next" style="visibility: visible;"><span class="fa fa-angle-right"></span></th>
+                        <th {{action "changeDecade" -1}} class="prev" style="visibility: visible;"><span class="fa fa-angle-left"></span></th>
+                        <th colspan="5" class="datepicker-switch">{{decadeStart}}-{{decadeEnd}}</th>
+                        <th {{action "changeDecade" 1}} class="next" style="visibility: visible;"><span class="fa fa-angle-right"></span></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td colspan="7">
-                            <span {{action "setYear" 2009}} class="year old">2009</span>
-                            <span {{action "setYear" 2010}} class="year">2010</span>
-                            <span {{action "setYear" 2011}} class="year">2011</span>
-                            <span {{action "setYear" 2012}} class="year">2012</span>
-                            <span {{action "setYear" 2013}} class="year">2013</span>
-                            <span {{action "setYear" 2014}} class="year active">2014</span>
-                            <span {{action "setYear" 2015}} class="year">2015</span>
-                            <span {{action "setYear" 2016}} class="year">2016</span>
-                            <span {{action "setYear" 2017}} class="year">2017</span>
-                            <span {{action "setYear" 2018}} class="year">2018</span>
-                            <span {{action "setYear" 2019}} class="year">2019</span>
-                            <span {{action "setYear" 2020}} class="year new">2020</span>
+                            {{#each year in yearsInDecadeView}}
+                                {{sl-calendar-year action="setYear" active=year.active old=year.old new=year.new year=year.year}}
+                            {{/each}}
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     {{/if}}
+
+    {{log contentDates}}
 </div>
