@@ -123,17 +123,18 @@ export default Ember.Component.extend({
             case 11:
                 return 30;
             case 2:
-                return this.isLeapYear() ? 29 : 30;
+                return this.get( 'isLeapYear' ) ? 29 : 30;
         }
-    },
+    }.property( 'currentMonth', 'currentYear' ),
 
     didInsertElement: function () {
         console.log( this.isCurrentMonth( 7 ));
     },
 
     isCurrentMonth: function ( month ) {
+        console.log( 'isCurrentMonth:', arguments );
         return this.get( 'currentMonth' ) === month;
-    },
+    }.property( 'currentMonth' ),
 
     isLeapYear: function () {
         var year = this.get( 'currentYear' );
@@ -142,7 +143,7 @@ export default Ember.Component.extend({
         if ( 0 === year % 100 ) { return false; }
         if ( 0 === year % 4 )   { return true; }
         return false;
-    },
+    }.property( 'currentYear' ),
 
     startMonth: null,
 
