@@ -162,7 +162,11 @@ export default Ember.Component.extend( TooltipEnabled, {
                 for ( var i = 0; i < contentLength; i++ ) {
                     item = content[i];
                     text = item instanceof Object ? get( item, optionValuePath ) : item;
+                    /*jshint -W069 */
+                    /*jshint -W109 */
                     matchIndex = values.indexOf( text.toString() );
+                    /*jshint +W069 */
+                    /*jshint +W109 */
 
                     if ( matchIndex !== -1 ) {
                         filteredContent[ matchIndex ] = item;
@@ -177,7 +181,14 @@ export default Ember.Component.extend( TooltipEnabled, {
                 } else {
                     self.getInput().select2( 'readonly', true );
 
-                    Ember.warn( 'sl-select:select2#initSelection was not able to map each "' + optionValuePath + '" to an object from "content". The remaining keys are: ' + values + '. The input will be disabled until a) the desired objects are added to the "content" array, or b) the "value" is changed.', !values.length );
+                    var warning = 'sl-select:select2#initSelection was not able to map each "';
+                    warning = warning.concat( optionValuePath );
+                    warning = warning.concat( '" to an object from "content". The remaining keys are: ' );
+                    warning = warning.concat( values );
+                    warning = warning.concat( '. The input will be disabled until a) the desired objects are added ');
+                    warning = warning.concat( 'to the "content" array, or b) the "value" is changed.' );
+
+                    Ember.warn( warning, !values.length );
                 }
 
                 return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ));
@@ -206,6 +217,10 @@ export default Ember.Component.extend( TooltipEnabled, {
         this.getInput().on( 'change', function () {
             self.selectionChanged( self.getInput().select2( 'val' ));
         });
+
+        if ( !this.get( 'multiple' )) {
+            this.$( 'input.select2-input' ).attr( 'placeholder', 'Search...' );
+        }
 
         this.valueChanged();
     }.on( 'didInsertElement' ),

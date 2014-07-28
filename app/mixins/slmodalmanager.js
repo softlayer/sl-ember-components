@@ -5,11 +5,7 @@ export default Ember.Mixin.create({
     actions: {
 
         showModal: function( selector, controller, model ) {
-            Ember.$( selector ).modal({
-                keyboard : false,
-                show     : true,
-                backdrop : 'static'
-            });
+            Ember.$( selector ).modal( 'show' );
 
             if ( !Ember.isBlank( controller ) && !Ember.isBlank( model )) {
                 if ( typeof controller === 'string' ) {

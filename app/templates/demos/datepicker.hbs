@@ -17,18 +17,18 @@
 
     {{#property-text name="beforeShowDay" type="function"}}
         A function that takes a date as a parameter and returns one of the following:
-            <ul>
-                <li><em>undefined</em> to have no effect</li>
-                <li>A boolean, indicating whether this date is selectable</li>
-                <li>A string, representing additional CSS classes to apply to the date's cell</li>
-                <li>An object with the following properties:
-                    <ul>
-                        <li><strong>enabled</strong>: Same as the boolean value above</li>
-                        <li><strong>classes</strong>: Same as the string value above</li>
-                        <li><strong>tooltip</strong>: A tooltip to apply to this date, via the <code>title</code> attribute</li>
-                    </ul>
-                </li>
-            </ul>
+        <ul>
+            <li><em>undefined</em> to have no effect</li>
+            <li>A boolean, indicating whether this date is selectable</li>
+            <li>A string, representing additional CSS classes to apply to the date's cell</li>
+            <li>An object with the following properties:
+                <ul>
+                    <li><strong>enabled</strong>: Same as the boolean value above</li>
+                    <li><strong>classes</strong>: Same as the string value above</li>
+                    <li><strong>tooltip</strong>: A tooltip to apply to this date, via the <code>title</code> attribute</li>
+                </ul>
+            </li>
+        </ul>
     {{/property-text}}
 
     {{#property-text name="calendarWeeks" type="boolean" default="false"}}
@@ -90,7 +90,7 @@
         Enable multiple date selection.
     {{/property-text}}
 
-    {{#property-text name="multidateSeparator" type="\",\"" requires="multidate=true"}}
+    {{#property-text name="multidateSeparator" type="string" default="\",\"" requires="multidate=true"}}
         String to place between multidate selections.
     {{/property-text}}
 
