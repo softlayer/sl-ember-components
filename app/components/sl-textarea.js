@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import InputBased from '../mixins/input-based';
 import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-textarea
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Class names for the component

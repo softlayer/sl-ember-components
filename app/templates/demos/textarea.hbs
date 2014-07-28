@@ -12,15 +12,39 @@
     {{/property-text}}
 
     {{#property-text name="disabled" type="boolean" default="false"}}
-        Disables the select.
+        When true, the textarea is disabled.
+    {{/property-text}}
+
+    {{#property-text name="helpText" type="string"}}
+        Text to display below the textarea.
+    {{/property-text}}
+
+    {{#property-text name="label" type="string"}}
+        String for label text above the input.
     {{/property-text}}
 
     {{#property-text name="maxlength" type="number/string"}}
         <code>maxlength</code> attribute value.
     {{/property-text}}
 
+    {{#property-text name="optional" type="boolean" default="false"}}
+        When true, the component is styled to reflect optional status.
+    {{/property-text}}
+
     {{#property-text name="placeholder" type="string"}}
-        <code>placeholder</code> attribute value.
+        <code>placeholder</code> attribute value for the textarea.
+    {{/property-text}}
+
+    {{#property-text name="popover" type="string" requires="title"}}
+        Popover content text.
+    {{/property-text}}
+
+    {{#property-text name="readonly" type="boolean" default="false"}}
+        <code>readonly</code> attribute value for the textarea.
+    {{/property-text}}
+
+    {{#property-text name="required" type="boolean" default="false"}}
+        When true, the component is styled to reflect required status.
     {{/property-text}}
 
     {{#property-text name="rows" type="number/string"}}
@@ -29,6 +53,10 @@
 
     {{#property-text name="tabindex" type="string"}}
         <code>tabindex</code> attribute value.
+    {{/property-text}}
+
+    {{#property-text name="title" type="string"}}
+        Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 
     {{#property-text name="value" type="mixed"}}
