@@ -7,6 +7,7 @@ import TooltipEnabled from '../mixins/tooltip-enabled';
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
+
     /**
      * Class names for the select element
      * @property {array} classNames

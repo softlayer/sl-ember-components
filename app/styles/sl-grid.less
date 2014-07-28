@@ -1,16 +1,34 @@
 .sl-grid header {
     border-bottom: 1px solid #aaa;
     margin-bottom: 0;
+    padding-bottom: 10px;
 
-    > .page-display {
+    > .page-info {
         padding-left: 0.6em;
     }
 
     .pagination {
         margin: 0;
+        vertical-align: middle;
+    }
+
+    form.form-inline {
+        display:inline-block;
+    }
+    .sl-grid-page-input{
+        input {
+            width: 50px;
+        }
     }
 }
 
 .sl-grid > .table {
     margin-top: 0;
+    th {
+        white-space: nowrap;
+    }
+    td.loadingIndicator{
+        background-color:rgba(0,0,0,0.1);
+        text-align:center;
+    }
 }

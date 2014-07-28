@@ -1,45 +1,74 @@
-<header>
-    <span class="sl-grid-page-display">
-        Viewing 1&ndash;2 of 2 Colors
-    </span>
-
-    <ul class="pagination">
-        <li><a class="first-page" title="First page"><span class="fa fa-angle-double-left"></span></a></li>
-        <li><a class="previous-page" title="Previous page"><span class="fa fa-angle-left"></span></a></li>
-    </ul>
-
-    <form class="form-inline" role="form">
-        Page {{sl-input class="sl-grid-current-page-input" label="Current Page" srOnly=true value=currentPage}} of {{totalPages}}
-    </form>
-
-    <ul class="pagination">
-        <li><a class="next-page" title="Next page"><span class="fa fa-angle-right"></span></a></li>
-        <li><a class="last-page" title="Last page"><span class="fa fa-angle-double-right"></span></a></li>
-    </ul>
+<header class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+        {{sl-grid-header-info pagingData=pagingData}}
+        {{sl-grid-header-per-page-select perPageOptions=perPageOptions itemCountPerPage=itemCountPerPage}}
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+        {{sl-grid-header-paging currentPageInput=currentPageInput}}
+        {{sl-grid-header-reload}}
+        {{sl-grid-header-settings}}
+    </div>
 </header>
-
 <table {{bind-attr class=":table view.striped:table-striped"}}>
     <thead>
-        <tr>
+        {{#sl-grid-table-row}}
+            {{#if options.rowExpander}}
+                <th>&nbsp;</th>
+            {{/if}}
             {{#each column in columns}}
-                <th {{action "clickColumnHeader" column on="click"}}>{{column.title}}&ensp;<span class="fa fa-sort-asc"></span></th>
+                {{sl-grid-table-header column=column}}
+                {{#unless column.noResize}}
+                    {{sl-grid-table-column-resize header=true}}
+                {{/unless}}
             {{/each}}
-        </tr>
+            {{#if options.actionsColumn}}
+                <th>&nbsp;</th>
+            {{/if}}
+        {{/sl-grid-table-row}}
     </thead>
-
     <tbody>
+    {{#if isLoading}}
+        <tr>
+            <td {{bind-attr class=":loadingIndicator" colspan=columnCount}}>
+                <img src="/images/spinner_48.gif"/>
+            </td>
+        </tr>
+    {{else}}
         {{#each row in rows}}
-            <tr>
+            {{!--
+            {{#sl-grid-table-row}}
+                {{#if options.rowExpander}}
+                    {{sl-grid-table-row-expander}}
+                {{/if}}
                 {{#each column in columns}}
                     {{#if column.key}}
-                        <td>{{get-key row column.key}}</td>
+                        {{#sl-grid-table-cell}}
+                            {{get-key row column.key}}
+                        {{/sl-grid-table-cell}}
                     {{else}}
                         {{#if column.template}}
-                            <td>{{renderTabPane column.template row}}</td>
+                        <td> renderTemplate column.template column</td>
                         {{/if}}
                     {{/if}}
+                    {{#unless column.noResize}}
+                        {{sl-grid-table-column-resize}}
+                    {{/unless}}
                 {{/each}}
+                {{#if options.actionsColumn}}
+                    {{sl-grid-table-cell-actions actions=row.actions}}
+                {{/if}}
+            {{/sl-grid-table-row}}
+            --}}
+            {{#if options.rowExpander}}
+                {{#sl-grid-table-expanded-row}}
+                renderTemplate column.expandedRowTemplate row.expandedRowData
+                {{/sl-grid-table-expanded-row}}
+            {{/if}}
+        {{else}}
+            <tr>
+                <td>No data found</td>
             </tr>
         {{/each}}
+    {{/if}}
     </tbody>
 </table>
