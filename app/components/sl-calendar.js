@@ -35,6 +35,12 @@ export default Ember.Component.extend({
             this.set( 'currentYear', this.get( 'currentYear' ) + yearMod );
         },
 
+        clickDay: function ( dayContent ) {
+            if ( dayContent ) {
+                this.sendAction( 'action', dayContent );
+            }
+        },
+
         setMonth: function ( month ) {
             this.setProperties({
                 currentMonth: month,
@@ -215,6 +221,86 @@ export default Ember.Component.extend({
     }.property( 'viewMode' ),
 
     viewMode: 'days',
+
+    weeksInMonthView: function () {
+        var contentDates = this.get( 'contentDates' ),
+            currentMonth = this.get( 'currentMonth' ),
+            currentYear = this.get( 'currentYear' ),
+            daysInCurrentMonth = this.get( 'daysInMonth' ),
+            firstWeekdayOfCurrentMonth = ( new Date( currentYear, currentMonth - 1, 1 )).getDay(),
+            previousMonth, previousMonthYear, previousMonthDays,
+            nextMonth, nextMonthYear,
+            weeks = [],
+            inNextMonth = false,
+            day, days, inPreviousMonth, isActive, month, year;
+
+        if ( currentMonth === 1 ) {
+            previousMonth = 12;
+            previousMonthYear = currentYear - 1;
+        } else {
+            previousMonth = currentMonth - 1;
+            previousMonthYear = currentYear;
+        }
+
+        previousMonthDays = this.getDaysInMonth( previousMonth, previousMonthYear );
+
+        if ( currentMonth === 12 ) {
+            nextMonth = 1;
+            nextMonthYear = currentYear + 1;
+        } else {
+            nextMonth = currentMonth + 1;
+            nextMonthYear = currentYear;
+        }
+
+        if ( firstWeekdayOfCurrentMonth > 0 ) {
+            inPreviousMonth = true;
+            day = previousMonthDays - firstWeekdayOfCurrentMonth + 1;
+            month = previousMonth;
+            year = previousMonthYear;
+        } else {
+            inPreviousMonth = false;
+            day = 1;
+            month = currentMonth;
+            year = currentYear;
+        }
+
+        for ( var week = 0; week < 6; week++ ) {
+            days = [];
+
+            for ( var wday = 0; wday < 7; wday++ ) {
+                isActive = !inPreviousMonth && !inNextMonth &&
+                    contentDates.hasOwnProperty( year ) &&
+                    contentDates[ year ].hasOwnProperty( month ) &&
+                    contentDates[ year ][ month ].hasOwnProperty( day );
+
+                days.push({
+                    active: isActive,
+                    content: isActive ? contentDates[ year ][ month ][ day ] : null,
+                    day: day++,
+                    new: inNextMonth,
+                    old: inPreviousMonth
+                });
+
+                if ( inPreviousMonth ) {
+                    if ( day > previousMonthDays ) {
+                        inPreviousMonth = false;
+                        day = 1;
+                        month = currentMonth;
+                        year = currentYear;
+                    }
+                } else if ( day > daysInCurrentMonth ) {
+                    inNextMonth = true;
+                    day = 1;
+                    month = nextMonth;
+                    year = nextMonthYear;
+                }
+            }
+
+            weeks.push( days );
+        }
+
+        return weeks;
+    }.property( 'contentDates', 'currentMonth', 'currentYear', 'daysInMonth' ),
 
     yearsInDecadeView: function () {
         var contentDates = this.get( 'contentDates' ),

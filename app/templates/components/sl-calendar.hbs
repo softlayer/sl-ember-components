@@ -19,6 +19,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{#each week in weeksInMonthView}}
+                        <tr>
+                            {{#each day in week}}
+                                {{sl-calendar-day action="clickDay" active=day.active content=day.content day=day.day new=day.new old=day.old}}
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+
+                    {{!
                     <tr>
                         <td class="old day">29</td>
                         <td class="old day">30</td>
@@ -73,6 +82,7 @@
                         <td class="new day">8</td>
                         <td class="new day">9</td>
                     </tr>
+                    }}
                 </tbody>
             </table>
         </div>
@@ -123,6 +133,4 @@
             </table>
         </div>
     {{/if}}
-
-    {{log contentDates}}
 </div>
