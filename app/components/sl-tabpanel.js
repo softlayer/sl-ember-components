@@ -1,11 +1,10 @@
 import Ember from 'ember';
-import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-tabpanel
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend({
 
     /**
      * Object of action functions
