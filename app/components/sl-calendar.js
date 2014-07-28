@@ -6,11 +6,31 @@ import Ember from 'ember';
  */
 export default Ember.Component.extend({
 
+    /**
+     * Object of actions
+     * @property {Object} actions
+     */
     actions: {
+
+        /**
+         * Change the currently-viewed decade by incrementing or decrementing
+         * the decadeStart year number
+         * @method actions.changeDecade
+         * @param {Number} decadeMod - A number to adjust the decadeStart by
+         * (positive to increment, negative to decrement)
+         */
         changeDecade: function ( decadeMod ) {
             this.set( 'decadeStart', this.get( 'decadeStart' ) + ( 10 * decadeMod ));
         },
 
+        /**
+         * Change the currently-viewed month by incrementing or decrementing
+         * the currentMonth (and currentYear if needed)
+         * @method actions.changeMonth
+         * @param {Number} monthMod - A number to adjust the currentMonth by
+         * (positive to increment, negative to decrement). The currentYear is
+         * adjusted as needed.
+         */
         changeMonth: function ( monthMod ) {
             var month = this.get( 'currentMonth' ) + monthMod,
                 year = this.get( 'currentYear' );
@@ -31,16 +51,35 @@ export default Ember.Component.extend({
             });
         },
 
+        /**
+         * Change the currently-viewed year by increment or decrementing the
+         * currentYear
+         * @method actions.changeYear
+         * @param {Number} yearMod - A number to adjust the currentYear by
+         * (positive to increment, negative to decrement)
+         */
         changeYear: function ( yearMod ) {
             this.set( 'currentYear', this.get( 'currentYear' ) + yearMod );
         },
 
-        clickDay: function ( dayContent ) {
-            if ( dayContent ) {
-                this.sendAction( 'action', dayContent );
+        /**
+         * Action to trigger component's bound action and pass back content
+         * values with dates occurring on the clicked date
+         * @method actions.sendDateContent
+         * @param {Array} dateContent - Collection of content objects with date
+         * values of the clicked date
+         */
+        sendDateContent: function ( dateContent ) {
+            if ( dateContent ) {
+                this.sendAction( 'action', dateContent );
             }
         },
 
+        /**
+         * Set the current month and change view mode to that month
+         * @method actions.setMonth
+         * @param {Number} month - The number of the month to change view to
+         */
         setMonth: function ( month ) {
             this.setProperties({
                 currentMonth: month,
@@ -48,10 +87,21 @@ export default Ember.Component.extend({
             });
         },
 
+        /**
+         * Set the view mode of the calendar
+         * @method actions.setView
+         * @param {String} view - The view mode to switch to; "days", "months",
+         * or "years"
+         */
         setView: function ( view ) {
             this.set( 'viewMode', view );
         },
 
+        /**
+         * Set the current year
+         * @method actions.setYear
+         * @param {Number} year - The year to set to the current value
+         */
         setYear: function ( year ) {
             this.setProperties({
                 viewMode: 'months',
@@ -62,10 +112,15 @@ export default Ember.Component.extend({
 
     /**
      * Class names for the root element
-     * @property {array} classNames
+     * @property {Array} classNames
      */
     classNames: [ 'sl-calendar' ],
 
+    /**
+     * Object of nested year, month, and day values, representing the dates
+     * supplied by the calendar's content values
+     * @property {Object} contentDates
+     */
     contentDates: function () {
         var self = this,
             dates = {},
@@ -95,18 +150,19 @@ export default Ember.Component.extend({
         return dates;
     }.property( 'content' ),
 
+    /**
+     * The currently selected/viewed month (1-12)
+     * @property {Number} currentMonth
+     */
     currentMonth: function () {
-        var startMonth = this.get( 'startMonth' );
-
-        if ( startMonth ) {
-            return startMonth;
-        }
-
         return this.get( 'today' ).getMonth() + 1;
     }.property(),
 
+    /**
+     * Name of the currently selected/viewed month
+     * @property {String} currentMonthString
+     */
     currentMonthString: function () {
-        // TODO: Translate these using bootstrap-datepicker's translations
         switch ( this.get( 'currentMonth' )) {
             case 1: return 'January';
             case 2: return 'February';
@@ -123,37 +179,54 @@ export default Ember.Component.extend({
         }
     }.property( 'currentMonth' ),
 
+    /**
+     * The currently selected/viewed year
+     * @property {Number} currentYear
+     */
     currentYear: function () {
-        var startYear = this.get( 'startYear' );
-
-        if ( startYear ) {
-            return startYear;
-        }
-
         return this.get( 'today' ).getFullYear();
     }.property(),
 
     /**
      * String lookup for the date value on the content objects
-     * @property {string} dateValuePath
+     * @property {String} dateValuePath
      * @default "date"
      */
     dateValuePath: 'date',
 
+    /**
+     * The number of days in the current month
+     * @property {Number} daysInMonth
+     */
     daysInMonth: function () {
         return this.getDaysInMonth( this.get( 'currentMonth' ), this.get( 'currentYear' ));
     }.property( 'currentMonth', 'currentYear' ),
 
+    /**
+     * The last year in the currently selected/viewed decade
+     * @property {Number} decadeEnd
+     */
     decadeEnd: function () {
         return this.get( 'decadeStart' ) + 9;
     }.property( 'decadeStart' ),
 
+    /**
+     * The first year in the currently selected/viewed decade
+     * @property {Number} decadeStart
+     */
     decadeStart: function () {
         var currentYear = this.get( 'currentYear' );
 
         return currentYear - ( currentYear % 10 );
     }.property(),
 
+    /**
+     * Get the number of days in a given month
+     * @method getDaysInMonth
+     * @param {Number} month - The number of the month to look up (1-12)
+     * @param {Number} year - The year of the month to look up
+     * @returns {Number}
+     */
     getDaysInMonth: function ( month, year ) {
         switch ( month ) {
             case 1:
@@ -174,6 +247,12 @@ export default Ember.Component.extend({
         }
     },
 
+    /**
+     * Check whether the supplied year is a leap year or not
+     * @method getIsLeapYear
+     * @param {Number} year - The year to check
+     * @returns {Boolean}
+     */
     getIsLeapYear: function ( year ) {
         if ( 0 === year % 400 ) { return true; }
         if ( 0 === year % 100 ) { return false; }
@@ -181,10 +260,13 @@ export default Ember.Component.extend({
         return false;
     },
 
-    isCurrentMonth: function ( month ) {
-        return this.get( 'currentMonth' ) === month;
-    }.property( 'currentMonth' ),
-
+    /**
+     * Get an array of objects representing months in the year view. Each item
+     * contains the following values:
+     * - {Boolean} active - Whether a content item's date occurs on this month
+     * - {Number} month - The month number in the year (1-12)
+     * @property {Array} monthsInYearView
+     */
     monthsInYearView: function () {
         var contentDates = this.get( 'contentDates' ),
             currentYear = this.get( 'currentYear' ),
@@ -200,28 +282,58 @@ export default Ember.Component.extend({
         return months;
     }.property( 'contentDates', 'currentYear' ),
 
-    startMonth: null,
-
-    startYear: null,
-
+    /**
+     * The current date
+     * @property {Date} today
+     */
     today: function () {
         return new Date();
     }.property(),
 
+    /**
+     * Whether the current view is "days"
+     * @property {Boolean} viewingDays
+     * @default true
+     */
     viewingDays: function () {
         return this.viewMode === 'days';
     }.property( 'viewMode' ),
 
+    /**
+     * Whether the current view is "months"
+     * @property {Boolean} viewingMonths
+     * @default false
+     */
     viewingMonths: function () {
         return this.viewMode === 'months';
     }.property( 'viewMode' ),
 
+    /**
+     * Whether the current view is "years"
+     * @property {Boolean} viewingYears
+     * @default false
+     */
     viewingYears: function () {
         return this.viewMode === 'years';
     }.property( 'viewMode' ),
 
+    /**
+     * The current view mode for the calendar
+     * @property {String} viewMode
+     * @default "days"
+     */
     viewMode: 'days',
 
+    /**
+     * An array of objects representing weeks and days in the month view.
+     * Each day object contains the following values:
+     * - {Boolean} active - Whether a content item occurs on this date
+     * - {Array} content - Collection of content items occurring on this date
+     * - {Number} day - The day number of the month (1-31)
+     * - {Boolean} new - Whether the day occurs in the next month
+     * - {Boolean} old - Whether the day occurs in the previous month
+     * @property {Array} weeksInMonthView
+     */
     weeksInMonthView: function () {
         var contentDates = this.get( 'contentDates' ),
             currentMonth = this.get( 'currentMonth' ),
@@ -302,6 +414,15 @@ export default Ember.Component.extend({
         return weeks;
     }.property( 'contentDates', 'currentMonth', 'currentYear', 'daysInMonth' ),
 
+    /**
+     * An array of objects representing years in the decade view. Each object
+     * contains the following values:
+     * - {Boolean} active - Whether a content item occurs on this year
+     * - {Boolean} new - Whether this year is in the next decade range
+     * - {Boolean} old - Whether this year is in the previous decade range
+     * - {Number} year - The year number
+     * @property {Array} yearsInDecadeView
+     */
     yearsInDecadeView: function () {
         var contentDates = this.get( 'contentDates' ),
             decadeStart = this.get( 'decadeStart' ),

@@ -8,4 +8,27 @@
 
 <h3>Properties</h3>
 <div class="list-group">
+    {{#property-text name="action" type="function"}}
+        Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
+    {{/property-text}}
+
+    {{#property-text name="content" type="mixed"}}
+        Bound array of objects with date values, looked up using the <code>dateValuePath</code> property.
+    {{/property-text}}
+
+    {{#property-text name="currentMonth" type="number" default="current month"}}
+        The month number to display (1-12).
+    {{/property-text}}
+
+    {{#property-text name="currentYear" type="number" default="current year"}}
+        The year to display.
+    {{/property-text}}
+
+    {{#property-text name="dateValuePath" type="string" default="\"date\""}}
+        Path to the content objects' date value.
+    {{/property-text}}
+
+    {{#property-text name="viewMode" type="string" default="\"days\""}}
+        The view to display the calendar in; "days", "months", or "years".
+    {{/property-text}}
 </div>

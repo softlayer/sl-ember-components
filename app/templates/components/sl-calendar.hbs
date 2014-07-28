@@ -22,7 +22,7 @@
                     {{#each week in weeksInMonthView}}
                         <tr>
                             {{#each day in week}}
-                                {{sl-calendar-day action="clickDay" active=day.active content=day.content day=day.day new=day.new old=day.old}}
+                                {{sl-calendar-day action="sendDateContent" active=day.active content=day.content day=day.day new=day.new old=day.old}}
                             {{/each}}
                         </tr>
                     {{/each}}
