@@ -18,12 +18,5 @@ export default Ember.Component.extend( ModalMixin, {
      * Attribute bindings for the root element
      * @property {array} attributeBindings
      */
-    attributeBindings: [ 'aria-hidden', 'class', 'role' ],
-
-    /**
-     * `role` attribute value
-     * @property {string} role
-     * @default 'dialog'
-     */
-    role: 'dialog'
+    attributeBindings: [ 'class' ]
 });
