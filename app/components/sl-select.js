@@ -9,6 +9,13 @@ import TooltipEnabled from '../mixins/tooltip-enabled';
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
+     * Display a clear button to clear the input's selection
+     * @property {boolean} allowClear
+     * @default false
+     */
+    allowClear: false,
+
+    /**
      * Class names for the select element
      * @property {array} classNames
      */
@@ -98,6 +105,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             self = this;
 
         this.getInput().select2({
+            allowClear:           this.get( 'allowClear' ),
             maximumSelectionSize: this.get( 'maximumSelectionSize' ),
             multiple:             this.get( 'multiple' ),
             placeholder:          this.get( 'placeholder' ),
