@@ -19,8 +19,7 @@ export default Ember.Mixin.create({
             if ( popoverContent ) {
                 this.set( 'data-toggle', 'popover' );
                 this.$().popover({
-                    content: popoverContent,
-                    trigger: 'focus'
+                    content: popoverContent
                 });
             } else {
                 this.set( 'data-toggle', 'tooltip' );

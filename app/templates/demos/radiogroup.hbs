@@ -3,7 +3,12 @@
 
 <h3>Example</h3>
 <p>Current color: {{currentColor}}</p>
-{{sl-radiogroup content=content name="colorRadio" value=currentColor}}
+{{sl-radiogroup
+    content=content
+    label="Color selection"
+    name="colorRadio"
+    value=currentColor
+}}
 
 <h3>Properties</h3>
 <div class="list-group">
@@ -16,12 +21,32 @@
         </ul>
     {{/property-text}}
 
+    {{#property-text name="disabled" type="boolean" default="false"}}
+        When true, all radio inputs will be disabled.
+    {{/property-text}}
+
     {{#property-text name="inline" type="boolean" default="false"}}
         Display the radio inputs inline with each other.
     {{/property-text}}
 
+    {{#property-text name="label" type="string"}}
+        Text label for radio group as a whole.
+    {{/property-text}}
+
     {{#property-text name="name" required=true type="string"}}
         Shared <code>name</code> attribute for the radio inputs.
+    {{/property-text}}
+
+    {{#property-text name="optional" type="boolean" default="false"}}
+        When true, the component is styled to reflect optional status.
+    {{/property-text}}
+
+    {{#property-text name="readonly" type="boolean" default="false"}}
+        Shared <code>readonly</code> attribute value for the radio inputs.
+    {{/property-text}}
+
+    {{#property-text name="required" type="boolean" default="false"}}
+        When true, the component is styled to reflect required status.
     {{/property-text}}
 
     {{#property-text name="value" type="mixed"}}
