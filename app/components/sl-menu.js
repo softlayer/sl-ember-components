@@ -4,7 +4,7 @@ export default Ember.Component.extend({
 
     attributeBindings: [ 'class' ],
 
-    classNames: [ 'menu' ],
+    classNames: [ 'sl-menu' ],
 
     children: null,
 
@@ -84,7 +84,7 @@ export default Ember.Component.extend({
         this.get( 'children' ).forEach( function( item ) {
             item.handleCloseAll();
         });
-                
+
 	if ( this.get( 'isRoot' )) {
 	   this.set( 'keyHandler', true );
 	}
@@ -178,7 +178,7 @@ export default Ember.Component.extend({
         var fullPath = this.getPath(),
             rootNode = fullPath.root,
             path = fullPath.path;
-        
+
 	rootNode.sendAction( 'selectionMade', path );
 
         if ( this.get( 'menu.items' )) {
@@ -190,14 +190,14 @@ export default Ember.Component.extend({
             }
         } else if ( this.get( 'menu.action' )) {
             var action = this.get( 'menu.action' );
-            
+
             if ( typeof action === 'function' ) {
                 this.get( 'menu.action' ).call( this );
             } else {
                 rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
             }
-	} 
-	
+	}
+
     },
 
     isRoot: false
