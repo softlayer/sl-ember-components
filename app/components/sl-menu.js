@@ -85,9 +85,9 @@ export default Ember.Component.extend({
             item.handleCloseAll();
         });
 
-	if ( this.get( 'isRoot' )) {
-	   this.set( 'keyHandler', true );
-	}
+        if ( this.get( 'isRoot' )) {
+           this.set( 'keyHandler', true );
+        }
     },
 
     handleShowAll: function() {
@@ -160,13 +160,13 @@ export default Ember.Component.extend({
     },
 
     getPath: function() {
-	var path = Ember.A(),
-	    rootNode = this;
+        var path = Ember.A(),
+            rootNode = this;
 
-	while( !rootNode.get( 'isRoot' )) {
-	    path.insertAt( 0, rootNode.get( 'menu.label' ));
-	    rootNode = rootNode.get( 'parentView' );
-	}
+        while( !rootNode.get( 'isRoot' )) {
+            path.insertAt( 0, rootNode.get( 'menu.label' ));
+            rootNode = rootNode.get( 'parentView' );
+        }
 
         return {
             root: rootNode,
@@ -179,7 +179,7 @@ export default Ember.Component.extend({
             rootNode = fullPath.root,
             path = fullPath.path;
 
-	rootNode.sendAction( 'selectionMade', path );
+        rootNode.sendAction( 'selectionMade', path );
 
         if ( this.get( 'menu.items' )) {
             this.showContent();
@@ -196,9 +196,8 @@ export default Ember.Component.extend({
             } else {
                 rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
             }
-	}
-
+        }
     },
 
-    isRoot: false
+    isRoot: true
 });
