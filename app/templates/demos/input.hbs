@@ -3,6 +3,7 @@
 
 <h3>Examples</h3>
 {{sl-input label="Input with label and helpText" helpText="Help text content goes here" placeholder="Enter some text"}}
+{{sl-input label="Input with typeahead suggestions" placeholder="Enter a color" suggestions=colors value=colorValue}}
 {{sl-input label="Disabled input" disabled=true placeholder="You can't enter anything here"}}
 {{sl-input label="Readonly input" readonly=true value="Look but don't touch!"}}
 {{sl-input label="Required input" required=true placeholder="You'd better enter something here"}}
@@ -44,6 +45,10 @@
 
     {{#property-text name="required" type="boolean" default="false"}}
         When true, the component is styled to reflect required status.
+    {{/property-text}}
+
+    {{#property-text name="suggestions" type="array"}}
+        Values to use as typeahead suggestions.
     {{/property-text}}
 
     {{#property-text name="title" type="string"}}

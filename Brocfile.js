@@ -54,4 +54,7 @@ var select2Images = pickFiles( 'vendor/select2', {
     destDir: '/assets'
 });
 
+// Typeahead
+app.import( 'vendor/typeahead.js/dist/typeahead.bundle.min.js' );
+
 module.exports = mergeTrees([ app.toTree(), bootstrapCSSMap, bootstrapFonts, fontawesomeFont, select2Images ]);
