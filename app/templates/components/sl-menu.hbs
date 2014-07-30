@@ -1,0 +1,15 @@
+{{#if menu.label}}
+    {{#if menu.items}}
+        <a href="#" class="submenu" style="text-decoration:none;font-weight:bold;">{{view.menu.label}}</a>
+    {{else}}
+        <a href="#" style="text-decoration:none;font-weight:bold;">{{view.menu.label}}</a>
+    {{/if}}
+{{/if}}
+
+{{#if menu.items}}
+    <ul {{bind-attr class="view.isRoot:list-inline"}}>
+        {{#each item in menu.items}}
+            {{sl-menu menuBinding="item"}}
+        {{/each}}
+    </ul>
+{{/if}}
