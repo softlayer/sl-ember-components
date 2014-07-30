@@ -9,7 +9,7 @@
 {{#if menu.items}}
     <ul {{bind-attr class="view.isRoot:list-inline"}}>
         {{#each item in menu.items}}
-            {{sl-menu menuBinding="item"}}
+            {{sl-menu menuBinding="item" isRoot=false}}
         {{/each}}
     </ul>
 {{/if}}
