@@ -163,20 +163,7 @@ export default Ember.Component.extend({
      * @property {String} currentMonthString
      */
     currentMonthString: function () {
-        switch ( this.get( 'currentMonth' )) {
-            case 1: return 'January';
-            case 2: return 'February';
-            case 3: return 'March';
-            case 4: return 'April';
-            case 5: return 'May';
-            case 6: return 'June';
-            case 7: return 'July';
-            case 8: return 'August';
-            case 9: return 'September';
-            case 10: return 'October';
-            case 11: return 'November';
-            case 12: return 'December';
-        }
+        return moment([ this.get( 'currentYear' ), this.get( 'currentMonth' ) - 1 ]).format( 'MMMM' );
     }.property( 'currentMonth' ),
 
     /**
@@ -199,7 +186,7 @@ export default Ember.Component.extend({
      * @property {Number} daysInMonth
      */
     daysInMonth: function () {
-        return this.getDaysInMonth( this.get( 'currentMonth' ), this.get( 'currentYear' ));
+        return moment([ this.get( 'currentYear' ), this.get( 'currentMonth' ) - 1 ]).daysInMonth();
     }.property( 'currentMonth', 'currentYear' ),
 
     /**
@@ -219,46 +206,6 @@ export default Ember.Component.extend({
 
         return currentYear - ( currentYear % 10 );
     }.property(),
-
-    /**
-     * Get the number of days in a given month
-     * @method getDaysInMonth
-     * @param {Number} month - The number of the month to look up (1-12)
-     * @param {Number} year - The year of the month to look up
-     * @returns {Number}
-     */
-    getDaysInMonth: function ( month, year ) {
-        switch ( month ) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                return 31;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                return 30;
-            case 2:
-                return this.getIsLeapYear( year ) ? 29 : 30;
-        }
-    },
-
-    /**
-     * Check whether the supplied year is a leap year or not
-     * @method getIsLeapYear
-     * @param {Number} year - The year to check
-     * @returns {Boolean}
-     */
-    getIsLeapYear: function ( year ) {
-        if ( 0 === year % 400 ) { return true; }
-        if ( 0 === year % 100 ) { return false; }
-        if ( 0 === year % 4 )   { return true; }
-        return false;
-    },
 
     /**
      * Get an array of objects representing months in the year view. Each item
@@ -281,6 +228,10 @@ export default Ember.Component.extend({
 
         return months;
     }.property( 'contentDates', 'currentYear' ),
+
+    shortWeekDayName: function ( weekday ) {
+        return moment().day( weekday ).format( 'dd' );
+    },
 
     /**
      * The current date
@@ -354,7 +305,7 @@ export default Ember.Component.extend({
             previousMonthYear = currentYear;
         }
 
-        previousMonthDays = this.getDaysInMonth( previousMonth, previousMonthYear );
+        previousMonthDays = moment([ previousMonthYear, previousMonth - 1 ]).daysInMonth();
 
         if ( currentMonth === 12 ) {
             nextMonth = 1;

@@ -9,13 +9,13 @@
                         <th {{action "changeMonth" 1}}class="next"><span class="fa fa-angle-right"></span></th>
                     </tr>
                     <tr>
-                        <th class="dow">Su</th>
-                        <th class="dow">Mo</th>
-                        <th class="dow">Tu</th>
-                        <th class="dow">We</th>
-                        <th class="dow">Th</th>
-                        <th class="dow">Fr</th>
-                        <th class="dow">Sa</th>
+                        <th class="dow">{{shortWeekDayName 0}}</th>
+                        <th class="dow">{{shortWeekDayName 1}}</th>
+                        <th class="dow">{{shortWeekDayName 2}}</th>
+                        <th class="dow">{{shortWeekDayName 3}}</th>
+                        <th class="dow">{{shortWeekDayName 4}}</th>
+                        <th class="dow">{{shortWeekDayName 5}}</th>
+                        <th class="dow">{{shortWeekDayName 6}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,63 +26,6 @@
                             {{/each}}
                         </tr>
                     {{/each}}
-
-                    {{!
-                    <tr>
-                        <td class="old day">29</td>
-                        <td class="old day">30</td>
-                        <td class="day">1</td>
-                        <td class="day">2</td>
-                        <td class="day">3</td>
-                        <td class="day">4</td>
-                        <td class="day">5</td>
-                    </tr>
-                    <tr>
-                        <td class="day">6</td>
-                        <td class="day">7</td>
-                        <td class="day">8</td>
-                        <td class="day">9</td>
-                        <td class="day">10</td>
-                        <td class="day">11</td>
-                        <td class="day">12</td>
-                    </tr>
-                    <tr>
-                        <td class="day">13</td>
-                        <td class="day">14</td>
-                        <td class="day">15</td>
-                        <td class="day">16</td>
-                        <td class="day">17</td>
-                        <td class="day">18</td>
-                        <td class="day">19</td>
-                    </tr>
-                    <tr>
-                        <td class="day">20</td>
-                        <td class="day">21</td>
-                        <td class="day">22</td>
-                        <td class="day">23</td>
-                        <td class="day">24</td>
-                        <td class="active day">25</td>
-                        <td class="day">26</td>
-                    </tr>
-                    <tr>
-                        <td class="day">27</td>
-                        <td class="day">28</td>
-                        <td class="day">29</td>
-                        <td class="day">30</td>
-                        <td class="day">31</td>
-                        <td class="new day">1</td>
-                        <td class="new day">2</td>
-                    </tr>
-                    <tr>
-                        <td class="new day">3</td>
-                        <td class="new day">4</td>
-                        <td class="new day">5</td>
-                        <td class="new day">6</td>
-                        <td class="new day">7</td>
-                        <td class="new day">8</td>
-                        <td class="new day">9</td>
-                    </tr>
-                    }}
                 </tbody>
             </table>
         </div>
