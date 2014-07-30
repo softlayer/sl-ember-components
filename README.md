@@ -202,6 +202,24 @@ A small component to display a text label in a styled container. Based on [Boots
 
 ---
 
+## sl-menu
+
+A component that can be nested to build complex menu hierarchies.
+
+The sl-menu recursively builds itself out after you provide the top level node through the ```menu``` attribute (or binding).  Each node, including the top level, can have the following attributes:
+
+ * label - the label of the menu itself.  This should be ```null``` for top level menus and will provide the name of the sub-menu for sub-menu lists.
+ * items - An array of nodes that will be embed under the ```label``` attribute as a sub-menu.
+ * action - This can either be a string, which will be received by the ```actionInitiated``` binding on the template or can actually be a function that will
+ be executed when the item is selected with either a mouse click or through a keyboard shortcut.
+
+### Properties
+* _actionInitiated_ : Handler for string based actions that are associated with a menu item.  If a given item has an associated action, the handler bound to the actionInitiated property will be called and the name of the action handed as the only parameter.
+* _selectionMade_ : Handler for selection events.  Handler will be given the full path to the selected node.
+* _menu_ : Used to provide the underlying structure of the entire menu.  This expects an Ember.Object with an ```items``` attribute that contains an Ember.Array of other nodes.
+
+---
+
 ## sl-modal
 
 A simple modal component used to wrap content in. Based on [Bootstrap - Modals](http://getbootstrap.com/javascript/#modals).
