@@ -100,7 +100,7 @@ export default Ember.Component.extend({
         });
     },
 
-    tagName: 'li',
+    tagName: 'div',
 
     didInsertElement: function() {
         var parent = this.get( 'parentView' );
@@ -151,7 +151,6 @@ export default Ember.Component.extend({
     },
 
     showContent: function() {
-        this.$().addClass( 'active' );
         this.get( 'parentView' ).set( 'activeChild', this );
     },
 
@@ -175,6 +174,8 @@ export default Ember.Component.extend({
     },
 
     performAction: function() {
+        this.$().addClass( 'active' );
+        
         var fullPath = this.getPath(),
             rootNode = fullPath.root,
             path = fullPath.path;
@@ -193,11 +194,19 @@ export default Ember.Component.extend({
 
             if ( typeof action === 'function' ) {
                 this.get( 'menu.action' ).call( this );
+            } else if ( typeof action === 'object' ) {
+                rootNode.sendAction( 'actionInitiated', this.get( 'menu.action.actionName' ), this.get( 'menu.action.data' ));    
             } else {
                 rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
             }
         }
     },
 
-    isRoot: true
+    isRoot: true,
+
+    actions: {
+        selected: function() {
+            this.performAction();
+        }
+    }
 });
