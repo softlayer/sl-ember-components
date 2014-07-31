@@ -344,7 +344,7 @@ export default Ember.Component.extend({
                     active: isActive,
                     content: isActive ? contentDates[ year ][ month ][ day ] : null,
                     day: day++,
-                    new: inNextMonth,
+                    'new': inNextMonth,
                     old: inPreviousMonth
                 });
 
@@ -387,7 +387,7 @@ export default Ember.Component.extend({
         for ( var year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
             years.push({
                 active: contentDates.hasOwnProperty( year ),
-                new: year > decadeEnd,
+                'new': year > decadeEnd,
                 old: year < decadeStart,
                 year: year
             });
