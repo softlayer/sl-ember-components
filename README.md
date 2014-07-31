@@ -217,7 +217,7 @@ The sl-menu recursively builds itself out after you provide the top level node t
 * _actionInitiated_ : Handler for string based actions that are associated with a menu item.  If a given item has an associated action, the handler bound to the actionInitiated property will be called and the name of the action handed as the only parameter.
 * _selectionMade_ : Handler for selection events.  Handler will be given the full path to the selected node.
 * _menu_ : Used to provide the underlying structure of the entire menu.  This expects an Ember.Object with an ```items``` attribute that contains an Ember.Array of other nodes.
-
+* _keyEvents_ : Used for providing events to the menu.  This can be used in conjunction with the ```utils/slmenukeyadapter``` to provide the proper events to support key presses. 
 ---
 
 ## sl-modal
