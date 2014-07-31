@@ -128,7 +128,7 @@ export default Ember.Component.extend({
     },
 
     activateChild: function( child ) {
-         if ( typeof child === "number" ) {
+         if ( typeof child === 'number' ) {
             child = this.get( 'children' )[child];
         }
 
@@ -187,7 +187,9 @@ export default Ember.Component.extend({
                 if ( typeof action === 'function' ) {
                     this.get( 'menu.action' ).call( this );
                 } else if ( typeof action === 'object' ) {
-                    rootNode.sendAction( 'actionInitiated', this.get( 'menu.action.actionName' ), this.get( 'menu.action.data' ));    
+                    rootNode.sendAction( 'actionInitiated', 
+                            this.get( 'menu.action.actionName' ), 
+                            this.get( 'menu.action.data' ));    
                 } else {
                     rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
                 }
