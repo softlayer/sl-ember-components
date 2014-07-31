@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
 
-    layoutName: 'slmodal',
+    layoutName: 'sl-modal',
 
     classNames: [ 'modal', 'fade' ],
 

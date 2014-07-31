@@ -1,4 +1,4 @@
-import AjaxAware from '../mixins/ajaxaware';
+import AjaxAware from '../mixins/sl-ajax-aware';
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
