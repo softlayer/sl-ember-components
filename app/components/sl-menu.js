@@ -22,15 +22,15 @@ export default Ember.Component.extend({
             this.set( 'keyHandler', true );
 
             ke.on( 'childSelected', function( key ) {
-                this.handleChildSelection( key );
+                this.childSelected( key );
             }.bind( this )).on( 'drillDown', function() {
                 if ( this.get( 'useDrillDownKey' )) {
-                    this.handleDrillDown();
+                    this.drillDown();
                 }
             }.bind( this )).on( 'closeAll', function() {
-                this.handleCloseAll();
+                this.closeAll();
             }.bind( this )).on( 'showAll', function() {
-                this.handleShowAll();
+                this.showAll();
             }.bind( this ));
         }
     }.observes( 'keyEvents' ).on( 'init' ),
@@ -40,28 +40,19 @@ export default Ember.Component.extend({
     keyHandler: false,
 
     // Key events
-    handleChildSelection: function( childIdx ) {
+    childSelected: function( childIdx ) {
         if ( this.get( 'keyHandler' )) {
             this.activateChild( childIdx );
         } else {
             var child = this.get( 'activeChild' );
 
             if ( child ) {
-                child.handleChildSelection( childIdx );
+                child.childSelected( childIdx );
             }
         }
     },
 
-    handlerChange: function() {
-        if ( this.get( 'keyHandler' )) {
-            var label = this.get( 'menu.label' );
-            if ( Ember.isBlank( label )) {
-                label = 'ROOT';
-            }
-        }
-    }.observes( 'keyHandler' ),
-
-    handleDrillDown: function() {
+    drillDown: function() {
         var child = this.get( 'activeChild' );
 
         if ( this.get( 'keyHandler' )) {
@@ -70,11 +61,11 @@ export default Ember.Component.extend({
                 this.set( 'keyHandler', false );
             }
         } else if ( child ) {
-            child.handleDrillDown();
+            child.drillDown();
         }
     },
 
-    handleCloseAll: function() {
+    closeAll: function() {
         if ( this.$() ) {
             this.$().removeClass( 'active' );
         }
@@ -82,7 +73,7 @@ export default Ember.Component.extend({
         this.set( 'keyHandler', false );
 
         this.get( 'children' ).forEach( function( item ) {
-            item.handleCloseAll();
+            item.closeAll();
         });
 
         if ( this.get( 'isRoot' )) {
@@ -90,13 +81,13 @@ export default Ember.Component.extend({
         }
     },
 
-    handleShowAll: function() {
+    showAll: function() {
         if ( this.$() ) {
             this.$().addClass( 'active' );
         }
 
         this.get( 'children' ).forEach( function( item ) {
-            item.handleShowAll();
+            item.showAll();
         });
     },
 
@@ -115,7 +106,7 @@ export default Ember.Component.extend({
     },
 
     mouseLeave: function() {
-        this.handleCloseAll();
+        this.closeAll();
     },
 
     willDestroyElement: function() {
@@ -182,23 +173,27 @@ export default Ember.Component.extend({
 
         rootNode.sendAction( 'selectionMade', path );
 
-        if ( this.get( 'menu.items' )) {
+        if ( this.get( 'menu.pages' )) {
             this.showContent();
 
             if ( !this.get( 'useDrillDownKey' )) {
                 this.set( 'keyHandler', true );
                 this.get( 'parentView' ).set( 'keyHandler', false );
             }
-        } else if ( this.get( 'menu.action' )) {
-            var action = this.get( 'menu.action' );
+        } else {
+            if ( this.get( 'menu.action' )) {
+                var action = this.get( 'menu.action' );
 
-            if ( typeof action === 'function' ) {
-                this.get( 'menu.action' ).call( this );
-            } else if ( typeof action === 'object' ) {
-                rootNode.sendAction( 'actionInitiated', this.get( 'menu.action.actionName' ), this.get( 'menu.action.data' ));    
-            } else {
-                rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
+                if ( typeof action === 'function' ) {
+                    this.get( 'menu.action' ).call( this );
+                } else if ( typeof action === 'object' ) {
+                    rootNode.sendAction( 'actionInitiated', this.get( 'menu.action.actionName' ), this.get( 'menu.action.data' ));    
+                } else {
+                    rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
+                }
             }
+            
+            rootNode.closeAll();
         }
     },
 
