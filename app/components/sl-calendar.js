@@ -221,7 +221,11 @@ export default Ember.Component.extend({
 
         for ( var month = 1; month <= 12; month++ ) {
             months.push({
-                active: contentDates.hasOwnProperty( currentYear ) && contentDates[ currentYear ].hasOwnProperty( month ),
+                active: (
+                    contentDates.hasOwnProperty( currentYear ) &&
+                    contentDates[ currentYear ].hasOwnProperty( month )
+                ),
+
                 month: month
             });
         }
