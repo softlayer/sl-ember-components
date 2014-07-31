@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import InputBased from '../mixins/input-based';
+import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
