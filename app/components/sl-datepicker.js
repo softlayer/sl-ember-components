@@ -1,4 +1,4 @@
-import DateHandler from '../mixins/date-handler';
+import DateHandler from '../mixins/sl-date-handler';
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/tooltip-enabled';
 
