@@ -90,12 +90,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 }
             });
 
+            /* jshint ignore:start */
             var selectItem = function ( event, item ) {
                 self.set( 'value', Ember.get( item, namePath ));
             };
 
             typeahead.on( 'typeahead:autocompleted', selectItem );
             typeahead.on( 'typeahead:selected', selectItem );
+            /* jshint ignore:end */
 
             this.set( 'isTypeaheadSetup', true );
         }

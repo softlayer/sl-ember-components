@@ -164,11 +164,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 for ( var i = 0; i < contentLength; i++ ) {
                     item = content[i];
                     text = item instanceof Object ? get( item, optionValuePath ) : item;
-                    /*jshint -W069 */
-                    /*jshint -W109 */
                     matchIndex = values.indexOf( text.toString() );
-                    /*jshint +W069 */
-                    /*jshint +W109 */
 
                     if ( matchIndex !== -1 ) {
                         filteredContent[ matchIndex ] = item;
@@ -206,13 +202,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     results: self.get( 'content' ).reduce( function ( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
-                        /*jshint -W069 */
-                        /*jshint -W109 */
                         if ( select2.matcher( query.term, text.toString() )) {
                             results.push( item );
                         }
-                        /*jshint +W069 */
-                        /*jshint +W109 */
 
                         return results;
                     }, [] )

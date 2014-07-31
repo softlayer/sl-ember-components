@@ -1,9 +1,11 @@
 {
   "predef": {
-    "document": true,
-    "window": true,
-    "SlComponentsENV": true,
-    "moment": true
+    "alert"           : true,
+    "console"         : true,
+    "document"        : true,
+    "window"          : true,
+    "SlComponentsENV" : true,
+    "moment"          : true
   },
 
   "bitwise"      : true,
