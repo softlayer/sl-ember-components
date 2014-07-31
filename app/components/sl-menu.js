@@ -33,7 +33,7 @@ export default Ember.Component.extend({
                 this.showAll();
             }.bind( this ));
         }
-    }.observes( 'keyEvents' ).on( 'init' ),
+    }.observes( 'keyEvents' ).on( 'didInsertElement' ),
 
     activeChild: null,
 
@@ -101,7 +101,6 @@ export default Ember.Component.extend({
     },
 
     mouseEnter: function() {
-        this.get( 'parentView' ).$( 'li' ).removeClass( 'active' );
         this.$().addClass( 'active' );
     },
 
