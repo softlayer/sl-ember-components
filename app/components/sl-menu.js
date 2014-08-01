@@ -17,11 +17,11 @@ export default Ember.Component.extend({
     useDrillDownKey: false,
 
     initKeyListeners: function() {
-        var ke = this.get( 'keyEvents' );
-        if ( ke ) {
+        var keyEvents = this.get( 'keyEvents' );
+        if ( keyEvents ) {
             this.set( 'keyHandler', true );
 
-            ke.on( 'childSelected', function( key ) {
+            keyEvents.on( 'childSelected', function( key ) {
                 this.childSelected( key );
             }.bind( this )).on( 'drillDown', function() {
                 if ( this.get( 'useDrillDownKey' )) {
@@ -40,14 +40,14 @@ export default Ember.Component.extend({
     keyHandler: false,
 
     // Key events
-    childSelected: function( childIdx ) {
+    childSelected: function( childIndex ) {
         if ( this.get( 'keyHandler' )) {
-            this.activateChild( childIdx );
+            this.activateChild( childIndex );
         } else {
             var child = this.get( 'activeChild' );
 
             if ( child ) {
-                child.childSelected( childIdx );
+                child.childSelected( childIndex );
             }
         }
     },
@@ -165,7 +165,7 @@ export default Ember.Component.extend({
 
     performAction: function() {
         this.$().addClass( 'active' );
-        
+
         var fullPath = this.getPath(),
             rootNode = fullPath.root,
             path = fullPath.path;
@@ -186,14 +186,14 @@ export default Ember.Component.extend({
                 if ( typeof action === 'function' ) {
                     this.get( 'menu.action' ).call( this );
                 } else if ( typeof action === 'object' ) {
-                    rootNode.sendAction( 'actionInitiated', 
-                            this.get( 'menu.action.actionName' ), 
-                            this.get( 'menu.action.data' ));    
+                    rootNode.sendAction( 'actionInitiated',
+                            this.get( 'menu.action.actionName' ),
+                            this.get( 'menu.action.data' ));
                 } else {
                     rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
                 }
             }
-            
+
             rootNode.closeAll();
         }
     },
