@@ -3,6 +3,10 @@ import Ember from 'ember';
 export default Ember.Object.extend( Ember.Evented, {
 
     childSelection: function( key ) {
+        if ( typeof key === 'string' ) {
+            key = parseInt( key, 10 );
+        }
+
         this.trigger( 'childSelected', key );
     },
 
