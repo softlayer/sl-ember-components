@@ -17,11 +17,11 @@ export default Ember.Component.extend({
     useDrillDownKey: false,
 
     initKeyListeners: function() {
-        var keyEvents = this.get( 'keyEvents' );
-        if ( keyEvents ) {
+        var ke = this.get( 'keyEvents' );
+        if ( ke ) {
             this.set( 'keyHandler', true );
 
-            keyEvents.on( 'childSelected', function( key ) {
+            ke.on( 'childSelected', function( key ) {
                 this.childSelected( key );
             }.bind( this )).on( 'drillDown', function() {
                 if ( this.get( 'useDrillDownKey' )) {
@@ -101,6 +101,7 @@ export default Ember.Component.extend({
     },
 
     mouseEnter: function() {
+        this.get( 'parentView' ).$( 'li' ).removeClass( 'active' );
         this.$().addClass( 'active' );
     },
 
@@ -128,7 +129,7 @@ export default Ember.Component.extend({
 
     activateChild: function( child ) {
          if ( typeof child === 'number' ) {
-            child = this.get( 'children' )[child];
+            child = this.get( 'children' )[child - 1]; // convert to 0 base
         }
 
         this.get( 'children' ).forEach( function( item ) {
