@@ -5,7 +5,7 @@ export default Ember.View.extend({
     didInsertElement: function() {
         Ember.$( document ).on( 'keypress', function( e ) {
             if ( e.charCode >= 49 && e.charCode <= 57 ) {
-                var keypressed = e.charCode - 48 - 1; // -1 to make it 0 based
+                var keypressed = e.charCode - 48;
                 this.get( 'controller.keyHandler' ).childSelection( keypressed );
             } else if ( e.charCode === 45 ) {
                 this.get( 'controller.keyHandler' ).drillDown( '-' );
