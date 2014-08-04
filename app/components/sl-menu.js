@@ -67,7 +67,7 @@ export default Ember.Component.extend({
 
     closeAll: function() {
         if ( this.$() ) {
-            this.$().removeClass( 'active' );
+            this.$().removeClass( 'active' ).removeClass( 'showall' );
         }
 
         this.set( 'keyHandler', false );
@@ -83,7 +83,7 @@ export default Ember.Component.extend({
 
     showAll: function() {
         if ( this.$() ) {
-            this.$().addClass( 'active' );
+            this.$().addClass( 'active' ).addClass( 'showall' );
         }
 
         this.get( 'children' ).forEach( function( item ) {
@@ -105,7 +105,9 @@ export default Ember.Component.extend({
     },
 
     mouseLeave: function() {
-        this.closeAll();
+        if ( !this.$().hasClass( 'showall' )) {
+            this.closeAll();
+        }
     },
 
     willDestroyElement: function() {
@@ -128,7 +130,6 @@ export default Ember.Component.extend({
 
     activateChild: function( child ) {
          if ( typeof child === 'number' ) {
-            console.log( 'CHILD:', child );
             child = this.get( 'children' )[child - 1]; // convert to 0 base
         }
 
