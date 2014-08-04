@@ -101,7 +101,6 @@ export default Ember.Component.extend({
     },
 
     mouseEnter: function() {
-        this.get( 'parentView' ).$( 'li' ).removeClass( 'active' );
         this.$().addClass( 'active' );
     },
 
@@ -129,6 +128,7 @@ export default Ember.Component.extend({
 
     activateChild: function( child ) {
          if ( typeof child === 'number' ) {
+            console.log( 'CHILD:', child );
             child = this.get( 'children' )[child - 1]; // convert to 0 base
         }
 
