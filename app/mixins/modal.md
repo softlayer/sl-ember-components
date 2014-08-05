@@ -3,12 +3,14 @@
 In trying to find a good balance between support for complex scenarios (i.e. modals that need the full Ember "stack" of template, view & controller) and supporting ease of use for more lightweight circumstances, I've come to the following implementation for modal support in sl-components.
 
 ### Mixins/Modal
-The first of two supporting mixins for modals is the....Modal mixin.  This mixin is intended to provide basic modal functionality to a traditional Ember View and does so by adding the following things to view:
+The first of two supporting mixins for modals is the....Modal mixin.  This mixin is intended to provide basic modal functionality to a traditional Ember View and does so by adding the following things to the view:
  * sets the layoutName property to 'modal'
  * adds class names 'modal' & 'fade'
+ * sets (or supports the setting of) these attribute values: aria-hidden, tabindex, role, aria-labelledby, aria-describedby
  * adds an action handler 'close' that closes the modal the current view is supporting
+ * provides hooks into the exposed Twitter Bootstrap 3 modal events
 
-The most important parts here are the layoutName, which allows us to wrap the bootstrap specified outer DIVs and the class names, which also tie in to bootstrap support.  To support this layout, sl-components also contains a template/modal.hbs file that includes the DOM to wrap around the template.
+The most important parts here are the layoutName, which allows us to wrap the bootstrap specified outer DIVs and the class names, which also tie into bootstrap support.  To support this layout, sl-components also contain a template/modal.hbs file that includes the DOM to wrap around the template.
 
 ### Mixins/Modal Manager
 The Modal Manager isn't absolutely necessary, but I wanted to abstract the typical use case for launching these modals and this was the best way I could think of initially.  Essentially, this can be added to a controller or route and will add a 'showModal' action handler with the following properties:
@@ -25,7 +27,7 @@ To use the modal, you're going to want to do 3 things:
 1) In your View file, mix in the Modal mixin.
 
     import Ember from 'ember';
-    import ModalMixin from 'testapp/mixins/modal';
+    import ModalMixin from '../../mixins/sl-modal';
 
     export default Ember.View.extend( ModalMixin, {
 
@@ -48,9 +50,9 @@ The main thing to keep in mind here is whether or not you have created a control
 
 
     import Ember from 'ember';
-    import ModalManager from 'testapp/mixins/modalmanager';
+    import ModalManager from '../mixins/sl-modal-manager';
 
-    export default Ember.Route.extend( ModalManagerMixin, {
+    export default Ember.Route.extend( ModalManager, {
     });
 
 
@@ -70,7 +72,7 @@ Here is a full example of an application that uses a list of buttons and shares 
 routes/index.js:
 
     import Ember from 'ember';
-    import ModalManager from 'testapp/mixins/modalmanager';
+    import ModalManager from '../mixins/sl-modal-manager';
 
     export default Ember.Route.extend( ModalManager, {
 
@@ -126,10 +128,36 @@ templates/hello.hbs:
 views/hello.js:
 
     import Ember from 'ember';
-    import ModalMixin from 'testapp/mixins/modal';
+    import ModalMixin from '../../mixins/sl-modal';
 
     export default Ember.View.extend( ModalMixin, {
 
         classNames: [ 'hello' ]
 
     });
+
+
+### ARIA SUPPORT
+
+**aria-labelledby**
+
+It is a good practice to set the *aria-labelledby* attribute.  The Modal mixin can help you do this automatically though you will still need to direct it to the element containing the appropriate information:
+
+    <div class="modal-header">
+        <h4 class="modal-title" {{bind-attr id=view.aria-labelledby}}>Keyboard Shortcuts</h4>
+    </div>
+
+Also note the use of the *modal-title* class.  While not required for aria support it is still considered best practice to use this for styling purposes
+
+
+**aria-describedby**
+
+It is a good practice to set the *aria-describedby* attribute.  To do so set the *aria-describedby* property in your view which contains *The Modal mixin*.  It should be a a space-separated list of element IDs, such as:
+
+    export default Ember.View.extend( ModalMixin, {
+        classNames: [ 'myClassName' ],
+
+        'aria-describedby': 'idOne idTwo idThree'
+    });
+
+These are the IDs of the elements that describe the object. See [Using the aria-describedby attribute](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-describedby_attribute) for more information.

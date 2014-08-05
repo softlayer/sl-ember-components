@@ -5,7 +5,7 @@ The SoftLayer UI components library used for all Interface Ember projects.
 
 ---
 
-## sl-alert
+# Demo
 
 A message box component for short alert messages. Based on [Bootstrap - Alert messages](http://getbootstrap.com/javascript/#alerts).
 
@@ -245,57 +245,9 @@ A component that contains a group of "radio" type inputs. See [Bootstrap - Suppo
 
 ---
 
-## sl-select
+# Using sl-components in an Ember app
 
-A full-featured select input. Based on [Select2](http://ivaynberg.github.io/select2/).
-
-### Properties
-* _content_ : Bound content for the select's options
-* _disableSearch_ : Boolean to disable the search filter input (default: false)
-* _disabled_ : Boolean to disable the select itself (default: false)
-* _multiple_ : Boolean to allow multiple selections (default: false)
-* _optionLabelPath_ : String for option's label field (default: 'label')
-* _optionValuePath_ : String for option's value field (default: 'value')
-* _placeholder_ : `placeholder` attribute value for the select
-* _value_ : Current/initial value
-
----
-
-## sl-tabpanel
-
-A combined component with selectable tabs and related tab panes. Based on [Bootstrap - Tooglable tabs](http://getbootstrap.com/javascript/#tabs).
-
-### Properties
-* _activeTabName_ : String for the name of the initial tab to open
-* __content__ : Array of tab data objects (required; see below)
-
-### Content item properties
-* __name__ : String for the tab label and internal identification (required)
-* __template__ : String name of the template to render into the tab panel (required)
-
----
-
-## sl-textarea
-
-A Bootstrap-wrapped component based on Ember's textarea helper.
-
-### Properties
-* _cols_ : `cols` attribute value
-* _disabled_ : `disabled` attribute value
-* _maxlength_ : `maxlength` attribute value
-* _rows_ : `rows` attribute value
-* _placeholder_ : `placeholder` attribute value
-* _tabindex_ : `tabindex` attribute value
-* _value_ : Bound value for the textarea
-
----
-
-## sl-tooltip
-
-A basic span component that enables Bootstrap's tooltip.
-
-### Properties
-* _title_ : String to display when tooltip shows
+    npm install --save-dev git@gitlab.softlayer.local:interface/sl-components#develop
 
 ---
 

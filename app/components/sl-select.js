@@ -1,11 +1,19 @@
 import Ember from 'ember';
-import TooltipEnabled from '../mixins/tooltip-enabled';
+import InputBased from '../mixins/sl-input-based';
+import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
  * @class sl-select
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
+
+    /**
+     * Display a clear button to clear the input's selection
+     * @property {boolean} allowClear
+     * @default false
+     */
+    allowClear: false,
 
 
     /**
@@ -28,13 +36,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @default false
      */
     disableSearch: false,
-
-    /**
-     * Attribute value for the select
-     * @property {boolean} disabled
-     * @default false
-     */
-    disabled: false,
 
     /**
      * Get the internal &lt;input&gt; element
@@ -105,6 +106,7 @@ export default Ember.Component.extend( TooltipEnabled, {
             self = this;
 
         this.getInput().select2({
+            allowClear:           this.get( 'allowClear' ),
             maximumSelectionSize: this.get( 'maximumSelectionSize' ),
             multiple:             this.get( 'multiple' ),
             placeholder:          this.get( 'placeholder' ),
@@ -163,11 +165,7 @@ export default Ember.Component.extend( TooltipEnabled, {
                 for ( var i = 0; i < contentLength; i++ ) {
                     item = content[i];
                     text = item instanceof Object ? get( item, optionValuePath ) : item;
-                    /*jshint -W069 */
-                    /*jshint -W109 */
                     matchIndex = values.indexOf( text.toString() );
-                    /*jshint +W069 */
-                    /*jshint +W109 */
 
                     if ( matchIndex !== -1 ) {
                         filteredContent[ matchIndex ] = item;
@@ -205,13 +203,9 @@ export default Ember.Component.extend( TooltipEnabled, {
                     results: self.get( 'content' ).reduce( function ( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
-                        /*jshint -W069 */
-                        /*jshint -W109 */
                         if ( select2.matcher( query.term, text.toString() )) {
                             results.push( item );
                         }
-                        /*jshint +W069 */
-                        /*jshint +W109 */
 
                         return results;
                     }, [] )

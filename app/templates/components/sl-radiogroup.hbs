@@ -1,12 +1,26 @@
+{{#if label}}
+    <label>
+        {{label}}
+
+        {{#if optional}}
+            <small class="text-info">Optional</small>
+        {{/if}}
+
+        {{#if required}}
+            <small class="text-danger">Required</small>
+        {{/if}}
+    </label>
+{{/if}}
+
 {{#each option in content}}
     {{#if inline}}
-        <label {{bind-attr class=":radio-inline option.disabled:disabled"}}>
+        <label class="radio-inline" {{bind-attr class=":radio-inline"}}>
     {{else}}
-        <div {{bind-attr class=":radio option.disabled:disabled"}}>
+        <div class="radio">
             <label>
     {{/if}}
 
-    <input {{action "change" option.value on="change"}} {{bind-attr disabled=option.disabled name=view.name value=option.value}} type="radio" />
+    <input {{action "change" option.value on="change"}} {{bind-attr disabled=option.disabled name=view.name readonly=view.readonly value=option.value}} type="radio" />
     {{option.label}}
 
     {{#if inline}}

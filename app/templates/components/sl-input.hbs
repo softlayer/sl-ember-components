@@ -1,8 +1,27 @@
 {{#if label}}
-    <label {{bind-attr class="srOnly:sr-only" for=inputId}}>{{label}}</label>
+    <label {{bind-attr for=inputId}} class="control-label">
+        {{label}}
+
+        {{#if optional}}
+            <small class="text-info">Optional</small>
+        {{/if}}
+
+        {{#if required}}
+            <small class="text-danger">Required</small>
+        {{/if}}
+    </label>
 {{/if}}
 
-{{input action="enter" class="form-control" disabled=disabled id=inputId placeholder=placeholder type=type value=value}}
+{{input
+    action="enter"
+    class=inputClass
+    disabled=disabled
+    id=inputId
+    placeholder=placeholder
+    readonly=readonly
+    type=type
+    value=value
+}}
 
 {{#if helpText}}
     <p class="help-block">{{helpText}}</p>

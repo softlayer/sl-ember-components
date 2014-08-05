@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import TooltipEnabled from '../mixins/tooltip-enabled';
+import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components

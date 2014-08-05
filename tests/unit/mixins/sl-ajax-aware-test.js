@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleFor } from 'ember-qunit';
-import AjaxAwareMixin from 'sl-components/mixins/ajaxaware';
+import AjaxAwareMixin from 'sl-components/mixins/sl-ajax-aware';
 import AjaxHelper from 'sl-components/tests/helpers/ajax-helper';
 
 var BaseObject = Ember.Object.extend( AjaxAwareMixin, {

@@ -1,14 +1,10 @@
 import Ember from 'ember';
-import TooltipEnabled from '../mixins/tooltip-enabled';
 
 /**
  * @module components
  * @class sl-grid
  */
 export default Ember.Component.extend( TooltipEnabled, {
-inserted:function(){
-	console.log('sl-grid:',this);
-}.on('didInsertElement'),
     /**
      * Object of action functions
      * @property {object} actions

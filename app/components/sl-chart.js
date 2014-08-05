@@ -63,13 +63,9 @@ export default Ember.Component.extend({
         var chart = this.get( 'chart' ),
             series = this.get( 'series' );
 
-        /*jshint -W069 */
-        /*jshint -W109 */
         if ( !chart.hasOwnProperty( 'series' ) ) {
             chart.series = [];
         }
-        /*jshint +W069 */
-        /*jshint +W109 */
 
         for ( var i = 0; i < series.length; i++ ) {
             if ( chart.series.length <= i ) {
