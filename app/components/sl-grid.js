@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
@@ -23,11 +24,18 @@ export default Ember.Component.extend( TooltipEnabled, {
                 this.set( 'sortAscending', true );
             }
         },
-        
+
         changePage: function( page ){
-            this.get( 'targetObject' ).send( 'changePage', page );
+            this.sendAction( 'changePage', page );
+        },
+
+        reload: function(){
+            this.sendAction( 'reload' );
         }
     },
+
+    changePage: 'changePage',
+    reload: 'reload',
 
     /**
      * Class names for the component
@@ -35,34 +43,16 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     classNames: [ 'sl-grid' ],
 
-    /**
-     * Whether the sorting column is sorted in ascending order
-     * @property {boolean} sortAscending
-     */
-    sortAscending: true,
-
-    /**
-     * Name of the column that is currently selected for sorting
-     * @property {string} sortColumn
-     */
-    sortColumn: null,
-
+    
     /**
      * indicates whether the promise proxy has fulfilled yet
      * @return {Boolean} [description]
      */
-    isLoading: function(){
-        if( this.get( 'rows.model.isPending' ) ){
-            return true;
-        }
-
-        return false;
-
-    }.property( 'rows.model.isPending' ),
+    isLoading: Ember.computed.alias( 'rows.model.isPending' ),
 
     /**
      * properties for paging info and actions
-     * @return {object} 
+     * @return {object}
      */
     pagingData: function(){
         var pageNumber = this.get( 'currentPage')-1,
@@ -88,9 +78,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     lastLinkDisabled: Ember.computed.equal( 'currentPage', 'pagingData.totalPages' ),
 
-    currentPageInput: Ember.computed.oneWay( 'currentPage' ),
-
-    perPageOptions: Ember.A([                
+    perPageOptions: Ember.A([
         25,
         50,
         100
@@ -98,7 +86,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     columnCount: function(){
         return this.get( 'columns.length' ) +
-            ( this.get( 'columns.length' ) - this.get( 'columns' ).mapBy( 'noColumnResize' ).length )+
+            ( this.get( 'columns.length' ) - this.get( 'columns' ).filterBy( 'noColumnResize' ).length )+
             ( this.get( 'options.rowExpander' ) ? 1 : 0 )+
             ( this.get( 'options.actionsColumn' ) ? 1 : 0 );
     }.property( 'columns.length')

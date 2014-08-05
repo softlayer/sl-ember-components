@@ -4,9 +4,9 @@
         {{sl-grid-header-per-page-select perPageOptions=perPageOptions itemCountPerPage=itemCountPerPage}}
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        {{sl-grid-header-paging currentPageInput=currentPageInput}}
-        {{sl-grid-header-reload}}
-        {{sl-grid-header-settings}}
+        {{sl-pagination action="changePage" disabled=isLoading currentPage=currentPage totalPages=pagingData.totalPages}}
+        {{sl-grid-header-reload action="reload"}}
+        {{sl-grid-header-settings setting=options.settingsMenu}}
     </div>
 </header>
 <table {{bind-attr class=":table view.striped:table-striped"}}>
@@ -16,7 +16,7 @@
                 <th>&nbsp;</th>
             {{/if}}
             {{#each column in columns}}
-                {{sl-grid-table-header column=column}}
+            {{sl-grid-table-header column=column}} 
                 {{#unless column.noResize}}
                     {{sl-grid-table-column-resize header=true}}
                 {{/unless}}
@@ -35,20 +35,17 @@
         </tr>
     {{else}}
         {{#each row in rows}}
-            {{!--
             {{#sl-grid-table-row}}
                 {{#if options.rowExpander}}
-                    {{sl-grid-table-row-expander}}
+                    {{sl-grid-table-cell-row-expander}}
                 {{/if}}
                 {{#each column in columns}}
-                    {{#if column.key}}
+                    {{#if column.template}}
+                        <td> renderTemplate column.template column</td>
+                    {{else}}
                         {{#sl-grid-table-cell}}
                             {{get-key row column.key}}
                         {{/sl-grid-table-cell}}
-                    {{else}}
-                        {{#if column.template}}
-                        <td> renderTemplate column.template column</td>
-                        {{/if}}
                     {{/if}}
                     {{#unless column.noResize}}
                         {{sl-grid-table-column-resize}}
@@ -58,11 +55,10 @@
                     {{sl-grid-table-cell-actions actions=row.actions}}
                 {{/if}}
             {{/sl-grid-table-row}}
-            --}}
             {{#if options.rowExpander}}
-                {{#sl-grid-table-expanded-row}}
+                {{#sl-grid-table-row-expander columnCount=columnCount}}
                 renderTemplate column.expandedRowTemplate row.expandedRowData
-                {{/sl-grid-table-expanded-row}}
+                {{/sl-grid-table-row-expander}}
             {{/if}}
         {{else}}
             <tr>
