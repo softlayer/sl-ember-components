@@ -11,7 +11,7 @@
 </header>
 <table {{bind-attr class=":table view.striped:table-striped"}}>
     <thead>
-        {{#sl-grid-table-row}}
+        <tr>
             {{#if options.rowExpander}}
                 <th>&nbsp;</th>
             {{/if}}
@@ -26,7 +26,7 @@
             {{#if options.actionsColumn}}
                 <th>&nbsp;</th>
             {{/if}}
-        {{/sl-grid-table-row}}
+        </tr>
     </thead>
     <tbody>
     {{#if isLoading}}
@@ -37,28 +37,28 @@
         </tr>
     {{else}}
         {{#each row in rows}}
-            {{#sl-grid-table-row}}
+            <tr>
                 {{#if options.rowExpander}}
                     {{sl-grid-table-cell-row-expander}}
                 {{/if}}
-                {{#each column in columns}}
-                    {{#unless column.hidden}}
-                        {{#if column.template}}
-                            <td> renderTemplate column.template column</td>
-                        {{else}}
-                            {{#sl-grid-table-cell}}
-                                {{get-key row column.key}}
-                            {{/sl-grid-table-cell}}
-                        {{/if}}
-                        {{#unless column.noResize}}
-                            {{sl-grid-table-column-resize}}
+                    {{#each column in columns}}
+                        {{#unless column.hidden}}
+                            {{#if column.template}}
+                                <td> renderTemplate column.template column</td>
+                            {{else}}
+                                {{#sl-grid-table-cell}}
+                                    {{get-key row column.key}}
+                                {{/sl-grid-table-cell}}
+                            {{/if}}
+                            {{#unless column.noResize}}
+                                {{sl-grid-table-column-resize}}
+                            {{/unless}}
                         {{/unless}}
-                    {{/unless}}
-                {{/each}}
+                    {{/each}}
                 {{#if options.actionsColumn}}
                     {{sl-grid-table-cell-actions actions=row.actions}}
                 {{/if}}
-            {{/sl-grid-table-row}}
+            </tr>
             {{#if options.rowExpander}}
                 {{#sl-grid-table-row-expander columnCount=columnCount}}
                 renderTemplate column.expandedRowTemplate row.expandedRowData

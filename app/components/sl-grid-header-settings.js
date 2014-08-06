@@ -5,7 +5,6 @@ export default Ember.Component.extend({
     classNames: [ 'sl-grid-header-settings' ],
     actions: {
         click: function( action, key ){
-            console.log( 'got click', action, key );
             this.sendAction( 'action', action, key );
         }
     },
@@ -27,7 +26,6 @@ export default Ember.Component.extend({
         var hideableColumns = Ember.A([]),
             settings = this.get( 'settings' ),
             columns = this.get( 'columns' );
-        
         if( settings.hideableColumns ){
             
             hideableColumns.pushObjects( columns.rejectBy( 'hideable', false ).map( function( column ){
