@@ -6,7 +6,7 @@
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
         {{sl-pagination action="changePage" disabled=isLoading currentPage=currentPage totalPages=pagingData.totalPages}}
         {{sl-grid-header-reload action="reload"}}
-        {{sl-grid-header-settings setting=options.settingsMenu}}
+        {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
     </div>
 </header>
 <table {{bind-attr class=":table view.striped:table-striped"}}>
@@ -16,9 +16,11 @@
                 <th>&nbsp;</th>
             {{/if}}
             {{#each column in columns}}
-            {{sl-grid-table-header column=column}} 
-                {{#unless column.noResize}}
-                    {{sl-grid-table-column-resize header=true}}
+                {{#unless column.hidden}}
+                    {{sl-grid-table-header column=column}} 
+                    {{#unless column.noResize}}
+                        {{sl-grid-table-column-resize header=true}}
+                    {{/unless}}
                 {{/unless}}
             {{/each}}
             {{#if options.actionsColumn}}
@@ -40,15 +42,17 @@
                     {{sl-grid-table-cell-row-expander}}
                 {{/if}}
                 {{#each column in columns}}
-                    {{#if column.template}}
-                        <td> renderTemplate column.template column</td>
-                    {{else}}
-                        {{#sl-grid-table-cell}}
-                            {{get-key row column.key}}
-                        {{/sl-grid-table-cell}}
-                    {{/if}}
-                    {{#unless column.noResize}}
-                        {{sl-grid-table-column-resize}}
+                    {{#unless column.hidden}}
+                        {{#if column.template}}
+                            <td> renderTemplate column.template column</td>
+                        {{else}}
+                            {{#sl-grid-table-cell}}
+                                {{get-key row column.key}}
+                            {{/sl-grid-table-cell}}
+                        {{/if}}
+                        {{#unless column.noResize}}
+                            {{sl-grid-table-column-resize}}
+                        {{/unless}}
                     {{/unless}}
                 {{/each}}
                 {{#if options.actionsColumn}}

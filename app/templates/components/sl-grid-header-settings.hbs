@@ -1,4 +1,38 @@
-{{#sl-dropbutton }}
+<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">
     <i class="fa fa-cog"></i>
     <span class="caret"></span>
-{{/sl-dropbutton }}
+</button>
+<ul class="dropdown-menu dropdown-menu-right" role="menu">
+    {{#if showActions}}
+        <li class="text-center" role="presentation">Actions</li>
+        <li role="presentation" class="divider"></li>
+        {{#each entry in clickableActions}}
+         <li role="presentation">
+            {{#if entry.action}}
+            <a {{action "click" entry.action}} role="menuitem" tab-index="-1">
+                {{#if entry.icon}}
+                <img {{bind-attr src=entry.icon}}/>
+                {{/if}}
+                {{entry.label}}</a>
+            {{else}}
+                {{entry.label}}
+            {{/if}}
+        </li>
+        {{/each}}
+        <li role="presentation" class="divider"></li>
+    {{/if}}
+    {{#if showColumns}}
+        <li class="text-center" role="presentation">Columns</li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation"><button class="btn btn-primary"{{action "click" "resetColumns"}}>Reset Columns to Default</button></li>
+        {{#each entry in hideableColumns}}
+        <li role="presentation">
+            {{#if entry.action}}
+                <a {{action "click" entry.action entry.key}} role="menuitem" tab-index="-1">{{entry.label}}</a>
+            {{else}}
+                {{entry.label}}
+            {{/if}}
+        </li>
+        {{/each}}
+    {{/if}}
+</ul>

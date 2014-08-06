@@ -31,6 +31,17 @@ export default Ember.Component.extend( TooltipEnabled, {
 
         reload: function(){
             this.sendAction( 'reload' );
+        },
+        
+        bubbleAction: function(){
+            //arguments is not an array - need to extract action and cast the rest of it
+            var action = Array.prototype.shift.call(arguments),
+                args = Array.prototype.map.call(arguments, function(arg){return arg;});
+
+            this.triggerAction({
+                action: action,
+                actionContext: args
+            });
         }
     },
 
