@@ -1,3 +1,40 @@
 .twitter-typeahead {
-    display: block !important;
+  display: block !important;
+
+  .tt-hint {
+    color: @gray;
+  }
+
+  .tt-dropdown-menu {
+    background: #fff;
+    border: 1px solid @brand-primary;
+    border-top-color: @input-border;
+    margin-top: -1px;
+    width: 100%;
+
+    .tt-suggestion {
+      color: @gray;
+      cursor: pointer;
+      padding: @padding-base-vertical @padding-base-horizontal;
+
+      &:hover,
+      &.tt-cursor {
+        color: #fff;
+        background: @brand-primary;
+
+        p strong {
+          color: #fff;
+        }
+      }
+
+      p {
+        margin: 0;
+
+        strong {
+          color: @gray-dark;
+          font-weight: normal;
+        }
+      }
+    }
+  }
 }
