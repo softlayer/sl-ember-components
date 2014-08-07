@@ -129,7 +129,7 @@ export default Ember.Component.extend({
     },
 
     activateChild: function( child ) {
-         if ( typeof child === 'number' ) {
+        if ( typeof child === 'number' ) {
             child = this.get( 'children' )[child - 1]; // convert to 0 base
         }
 
@@ -182,18 +182,20 @@ export default Ember.Component.extend({
                 this.get( 'parentView' ).set( 'keyHandler', false );
             }
         } else {
-            if ( this.get( 'menu.action' )) {
-                var action = this.get( 'menu.action' );
+            if ( this.get( 'menu.emberAction' )) {
+                var action = this.get( 'menu.emberAction' );
 
                 if ( typeof action === 'function' ) {
-                    this.get( 'menu.action' ).call( this );
+                    action.call( this );
                 } else if ( typeof action === 'object' ) {
                     rootNode.sendAction( 'actionInitiated',
-                            this.get( 'menu.action.actionName' ),
-                            this.get( 'menu.action.data' ));
+                            action.get( 'actionName' ),
+                            action.get( 'data' ));
                 } else {
-                    rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
+                    rootNode.sendAction( 'actionInitiated', action);
                 }
+            } else if ( this.get( 'menu.emberRoute' )) {
+                rootNode.sendAction( 'changeRoute', this.get( 'menu.emberRoute' ));
             }
 
             rootNode.closeAll();

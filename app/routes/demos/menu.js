@@ -42,6 +42,12 @@ export default Ember.Route.extend({
                     Ember.Object.create({ label: 'Palo Alto' }),
                     Ember.Object.create({ label: 'Oakland' })
                 ])})
+            ])}),
+            Ember.Object.create({ label: 'Routes', pages: Ember.A([
+                Ember.Object.create({ label: 'Checkbox', emberRoute: 'demos/checkbox' }),
+                Ember.Object.create({ label: 'Button', emberRoute: 'demos/button' }),
+                Ember.Object.create({ label: 'Calendar', emberRoute: 'demos/calendar' }),
+                Ember.Object.create({ label: 'Alert', emberRoute: 'demos/alert' })
             ])})
         ])});
     }
