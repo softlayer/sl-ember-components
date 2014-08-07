@@ -14,7 +14,7 @@ export default Ember.Component.extend({
         this.set( 'children', Ember.A() );
     }.on( 'init' ),
 
-    useDrillDownKey: false,
+    useDrillDownKey: true,
 
     initKeyListeners: function() {
         var ke = this.get( 'keyEvents' );
