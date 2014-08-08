@@ -1,1 +1,7 @@
-{{get-key column "title"}}
+{{#if column.sortable }}
+<a href="#" {{action "sortColumn" column}}>{{get-key column "title"}}
+ <span {{bind-attr class="view.sortClasses"}}/>
+</a>
+{{else}}
+    {{get-key column "title"}}
+{{/if}}

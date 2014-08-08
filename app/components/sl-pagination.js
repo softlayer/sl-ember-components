@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 
     actions: {
         changePage: function( page ){
+            page = page ? page : this.get( 'currentPageInput' );
             this.sendAction( 'action', page );
         }
     },

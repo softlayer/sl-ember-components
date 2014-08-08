@@ -4,7 +4,10 @@ export default Ember.Component.extend({
 	tagName: 'span',
     actions: {
         reload: function(){
-            this.sendAction();
+            this.triggerAction({
+                action: 'bubbleAction', 
+                actionContext: [ 'reload' ]
+            });
             this.$('button').blur();
         }
     }

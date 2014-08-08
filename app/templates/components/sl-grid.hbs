@@ -1,10 +1,10 @@
 <header class="row">
     <div class="col-sm-6 col-md-6 col-lg-6">
         {{sl-grid-header-info pagingData=pagingData}}
-        {{sl-grid-header-per-page-select perPageOptions=perPageOptions itemCountPerPage=itemCountPerPage}}
+        {{sl-grid-header-per-page-select action='changePerPage' perPageOptions=pagingData.perPageOptions itemCountPerPage=pagingData.itemCountPerPage}}
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        {{sl-pagination action="changePage" disabled=isLoading currentPage=currentPage totalPages=pagingData.totalPages}}
+        {{sl-pagination action="changePage" disabled=isLoading currentPage=pagingData.currentPage totalPages=pagingData.totalPages}}
         {{sl-grid-header-reload action="reload"}}
         {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
     </div>
@@ -17,7 +17,7 @@
             {{/if}}
             {{#each column in columns}}
                 {{#unless column.hidden}}
-                    {{sl-grid-table-header column=column}} 
+                    {{sl-grid-table-header action="sortColumn" column=column}} 
                     {{#unless column.noResize}}
                         {{sl-grid-table-column-resize header=true}}
                     {{/unless}}

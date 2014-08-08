@@ -11,28 +11,25 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {object} actions
      */
     actions: {
-        /**
-         * Action triggered by clicking a column header
-         * @method clickColumnHeader
-         * @param {object} column
-         */
-        clickColumnHeader: function ( column ) {
-            if ( column.name === this.get( 'sortColumn' )) {
-                this.toggle( 'sortAscending' );
-            } else {
-                this.set( 'sortColumn', column.name );
-                this.set( 'sortAscending', true );
-            }
+        sortColumn: function( column ){
+            this.triggerAction({
+                action: 'sortColumn',
+                actionContext: column
+            });
         },
-
+        changePerPage: function( perPage ){
+            this.triggerAction({
+                action: 'changePerPage',
+                actionContext: perPage
+            });
+        },
         changePage: function( page ){
-            this.sendAction( 'changePage', page );
+            this.triggerAction({
+                action: 'changePage',
+                actionContext: page
+            });
         },
 
-        reload: function(){
-            this.sendAction( 'reload' );
-        },
-        
         bubbleAction: function(){
             //arguments is not an array - need to extract action and cast the rest of it
             var action = Array.prototype.shift.call(arguments),
@@ -45,15 +42,14 @@ export default Ember.Component.extend( TooltipEnabled, {
         }
     },
 
-    changePage: 'changePage',
-    reload: 'reload',
-
+    columns: Ember.computed.alias( 'grid.columns' ),
+    options: Ember.computed.alias( 'grid.options' ),
+    
     /**
      * Class names for the component
      * @property {array} classNames
      */
     classNames: [ 'sl-grid' ],
-
     
     /**
      * indicates whether the promise proxy has fulfilled yet
@@ -61,39 +57,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     isLoading: Ember.computed.alias( 'rows.model.isPending' ),
 
-    /**
-     * properties for paging info and actions
-     * @return {object}
-     */
-    pagingData: function(){
-        var pageNumber = this.get( 'currentPage')-1,
-            perPage = this.get( 'itemCountPerPage' ),
-            metadata = this.get( 'metaData' ),
-            totalPages = this.getWithDefault( 'metaData.totalPages', 1),
-            firstRow = pageNumber * perPage + 1;
+    firstLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 1 ),
 
-        return metadata ? {
-            pageFirstRow: firstRow,
-            pageLastRow: firstRow + metadata.pageCount -1,
-            totalRows: metadata.totalCount,
-            totalPages: totalPages,
-            modelNames: metadata.modelNames
-        } : null;
-    }.property( 'metaData' ),
+    prevLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 1 ),
 
-    firstLinkDisabled: Ember.computed.equal( 'currentPage', 1 ),
+    nextLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 'pagingData.totalPages' ),
 
-    prevLinkDisabled: Ember.computed.equal( 'currentPage', 1 ),
-
-    nextLinkDisabled: Ember.computed.equal( 'currentPage', 'pagingData.totalPages' ),
-
-    lastLinkDisabled: Ember.computed.equal( 'currentPage', 'pagingData.totalPages' ),
-
-    perPageOptions: Ember.A([
-        25,
-        50,
-        100
-    ]),
+    lastLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 'pagingData.totalPages' ),
 
     columnCount: function(){
         return this.get( 'columns.length' ) +

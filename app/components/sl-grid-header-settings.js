@@ -4,10 +4,23 @@ export default Ember.Component.extend({
 	tagName: 'div',
     classNames: [ 'sl-grid-header-settings' ],
     actions: {
-        click: function( action, key ){
+        click: function( action, key, stayOpen ){
             this.sendAction( 'action', action, key );
         }
     },
+
+    open: false,
+
+    eventManager: Ember.Object.create({
+        click: function( event, view ){
+            if( $( event.target ).closest( '.stay-open' ).length ){
+                return false;
+            } else {
+                view.$( 'button.dropdown-toggle' ).dropdown( 'toggle' );
+            }
+        }
+    }),
+    
     clickableActions: function(){
         var actions = Ember.A([]),
             settings = this.get( 'settings' );
@@ -32,13 +45,21 @@ export default Ember.Component.extend({
                 return {
                     action: 'toggleColumnVisibility',
                     key: column.key,
+                    hidden: column.hidden,
                     label: column.title
                 };
             }));
         }
         return hideableColumns;
 
-    }.property( 'settings', 'columns' ),
+    }.property( 'settings', 'columns.@each.hidden' ),
+
+    columnCheckbox: Ember.Checkbox.extend({
+        checked: Ember.computed.not( 'column.hidden' ),
+        click: function(){
+            this.get( 'parentView' ).send( 'click', this.get( 'column.action'), this.get( 'column.key') );
+        }
+    }),
 
     showColumns: Ember.computed.bool( 'settings.hideableColumns' )
 
