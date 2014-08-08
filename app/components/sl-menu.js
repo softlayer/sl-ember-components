@@ -14,7 +14,7 @@ export default Ember.Component.extend({
         this.set( 'children', Ember.A() );
     }.on( 'init' ),
 
-    useDrillDownKey: false,
+    useDrillDownKey: true,
 
     initKeyListeners: function() {
         var ke = this.get( 'keyEvents' );
@@ -40,14 +40,14 @@ export default Ember.Component.extend({
     keyHandler: false,
 
     // Key events
-    childSelected: function( childIdx ) {
+    childSelected: function( childIndex ) {
         if ( this.get( 'keyHandler' )) {
-            this.activateChild( childIdx );
+            this.activateChild( childIndex );
         } else {
             var child = this.get( 'activeChild' );
 
             if ( child ) {
-                child.childSelected( childIdx );
+                child.childSelected( childIndex );
             }
         }
     },
@@ -67,7 +67,7 @@ export default Ember.Component.extend({
 
     closeAll: function() {
         if ( this.$() ) {
-            this.$().removeClass( 'active' );
+            this.$().removeClass( 'active' ).removeClass( 'showall' );
         }
 
         this.set( 'keyHandler', false );
@@ -83,7 +83,7 @@ export default Ember.Component.extend({
 
     showAll: function() {
         if ( this.$() ) {
-            this.$().addClass( 'active' );
+            this.$().addClass( 'active' ).addClass( 'showall' );
         }
 
         this.get( 'children' ).forEach( function( item ) {
@@ -105,7 +105,9 @@ export default Ember.Component.extend({
     },
 
     mouseLeave: function() {
-        this.closeAll();
+        if ( !this.$().hasClass( 'showall' )) {
+            this.closeAll();
+        }
     },
 
     willDestroyElement: function() {
@@ -127,8 +129,8 @@ export default Ember.Component.extend({
     },
 
     activateChild: function( child ) {
-         if ( typeof child === 'number' ) {
-            child = this.get( 'children' )[child];
+        if ( typeof child === 'number' ) {
+            child = this.get( 'children' )[child - 1]; // convert to 0 base
         }
 
         this.get( 'children' ).forEach( function( item ) {
@@ -165,7 +167,7 @@ export default Ember.Component.extend({
 
     performAction: function() {
         this.$().addClass( 'active' );
-        
+
         var fullPath = this.getPath(),
             rootNode = fullPath.root,
             path = fullPath.path;
@@ -180,20 +182,22 @@ export default Ember.Component.extend({
                 this.get( 'parentView' ).set( 'keyHandler', false );
             }
         } else {
-            if ( this.get( 'menu.action' )) {
-                var action = this.get( 'menu.action' );
+            if ( this.get( 'menu.emberAction' )) {
+                var action = this.get( 'menu.emberAction' );
 
                 if ( typeof action === 'function' ) {
-                    this.get( 'menu.action' ).call( this );
+                    action.call( this );
                 } else if ( typeof action === 'object' ) {
-                    rootNode.sendAction( 'actionInitiated', 
-                            this.get( 'menu.action.actionName' ), 
-                            this.get( 'menu.action.data' ));    
+                    rootNode.sendAction( 'actionInitiated',
+                            action.get( 'actionName' ),
+                            action.get( 'data' ));
                 } else {
-                    rootNode.sendAction( 'actionInitiated', this.get( 'menu.action' ));
+                    rootNode.sendAction( 'actionInitiated', action);
                 }
+            } else if ( this.get( 'menu.emberRoute' )) {
+                rootNode.sendAction( 'changeRoute', this.get( 'menu.emberRoute' ));
             }
-            
+
             rootNode.closeAll();
         }
     },
