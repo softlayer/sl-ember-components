@@ -9,8 +9,19 @@
 {{sl-input label="Required input" required=true placeholder="You'd better enter something here"}}
 {{sl-input label="Optional input" optional=true placeholder="Meh, whatev"}}
 
+{{sl-input clickToEdit=true label="Click-to-edit input" placeholder="Enter value" value="Initial value"}}
+
 <h3>Properties</h3>
 <div class="list-group">
+    {{#property-text name="blur" type="string"}}
+        An action to trigger when the input loses focus.
+    {{/property-text}}
+
+    {{#property-text name="clickToEdit" type="boolean" default="false"}}
+        When true, the input field will be styled similarly to inline text, but
+        when clicked will allow editing.
+    {{/property-text}}
+
     {{#property-text name="disabled" type="boolean" default="false"}}
         When true, input is disabled.
     {{/property-text}}
