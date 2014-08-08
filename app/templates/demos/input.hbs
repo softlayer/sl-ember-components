@@ -13,6 +13,10 @@
 
 <h3>Properties</h3>
 <div class="list-group">
+    {{#property-text name="blur" type="string"}}
+        An action to trigger when the input loses focus.
+    {{/property-text}}
+
     {{#property-text name="clickToEdit" type="boolean" default="false"}}
         When true, the input field will be styled similarly to inline text, but
         when clicked will allow editing.
