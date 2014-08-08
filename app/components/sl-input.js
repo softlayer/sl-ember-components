@@ -30,6 +30,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     classNames: [ 'form-group', 'sl-input' ],
 
     /**
+     * Enable the click to edit styling
+     * @property {boolean} clickToEdit
+     * @default false
+     */
+    clickToEdit: false,
+
+    /**
      * Get a reference to the internal input element
      * @method getInput
      */
@@ -43,6 +50,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     inputClass: function () {
         var classes = [ 'form-control' ];
+
+        if ( this.get( 'clickToEdit' )) {
+            classes.push( 'click-to-edit' );
+        }
 
         if ( this.get( 'suggestions' )) {
             classes.push( 'typeahead' );
