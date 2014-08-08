@@ -15,6 +15,10 @@ export default Ember.ObjectController.extend({
             if ( data ) {
                 console.log( '   data:', data );
             }
+        },
+
+        changeRouteHandler: function( route ) {
+            this.transitionToRoute( route );
         }
     }
 

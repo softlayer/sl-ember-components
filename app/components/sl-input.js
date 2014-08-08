@@ -15,6 +15,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     actions: {
 
         /**
+         * Sends the 'blur' bound action when the input loses focus
+         * @method actions.blurred
+         */
+        blur: function () {
+            this.sendAction( 'blur' );
+        },
+
+        /**
          * Sends the primary bound action when `enter` is pressed
          * @method actions.enter
          */
@@ -36,6 +44,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     classNames: [ 'form-group', 'sl-input' ],
 
     /**
+     * Enable the click to edit styling
+     * @property {boolean} clickToEdit
+     * @default false
+     */
+    clickToEdit: false,
+
+    /**
      * Get a reference to the internal input element
      * @method getInput
      */
@@ -49,6 +64,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     inputClass: function () {
         var classes = [ 'form-control' ];
+
+        if ( this.get( 'clickToEdit' )) {
+            classes.push( 'click-to-edit' );
+        }
 
         if ( this.get( 'suggestions' )) {
             classes.push( 'typeahead' );
@@ -71,6 +90,21 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @default false
      */
     isTypeaheadSetup: false,
+
+    /**
+     * Sets up the input event listeners exposed to the component's
+     * parent controller
+     */
+    setupInputEvents: function () {
+        var blurAction = this.get( 'blur' ),
+            self = this;
+
+        if ( blurAction ) {
+            this.$( 'input' ).on( 'blur', function () {
+                self.sendAction( 'blur' );
+            });
+        }
+    }.on( 'didInsertElement' ),
 
     /**
      * Sets up the typeahead behavior when `suggestions` are supplied
