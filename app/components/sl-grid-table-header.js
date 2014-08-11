@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     tagName: 'th',
+    attributeBindings: Ember.A([ 'style' ]),
 
     actions: {
         sortColumn: function( key ){
@@ -21,9 +22,36 @@ export default Ember.Component.extend({
 
     }.property( 'column.isSorted', 'column.sortAscending' ),
 
-    styleTag: function(){
-        var width = this.get( 'column.width' );
-        return width ? 'width:'+width+'px;' : '';
-    }.property( 'column.width' )
+    style: '',
+
+    /**
+     * columnWidthObserver updates the style string when the width of the
+     * column changes.  If we try to make the style a computed property then
+     * we will get render errors from Ember before the view is inserted into
+     * the dom
+     *
+     * @return {undefined}
+     */
+    columnWidthObserver: function(){
+        var width = this.get( 'column.width' ),
+            elWidth = this.$().width();
+        
+        if( ! width && elWidth > 0 ){
+            width = elWidth;
+        }
+        this.set( 'style', width ? 'width:'+width+'px;' : '' );
+    }.observes( 'column.width' ),
+
+    /**
+     * columnWidthsDidInsert will update the width/style string once the view
+     * has been inserted into the dom.  This avoids causing Ember/view
+     * exceptions.
+     *
+     * @return {undefined}
+     */
+    columnWidthsDidInsert: function(){
+        this.columnWidthObserver();
+    }.on( 'didInsertElement' )
+
 
 });

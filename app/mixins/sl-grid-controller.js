@@ -7,7 +7,6 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     initializer: function(){
         this.loadApplicationState();
-        Ember.run.once( this, 'reloadModel');
     }.on( 'init' ),
 
     actions: {
@@ -62,6 +61,7 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     applicationStateDidLoad: function(){
         this.notifyPropertyChange( 'sortProperties' );
+        Ember.run.once( this, 'reloadModel');
     }.on( 'applicationStateDidLoad' ),
  
     resetColumns: function(){
@@ -82,6 +82,12 @@ export default Ember.Mixin.create( SlApplicationState, {
 
         this.saveApplicationState();
     },
+
+    columnWidthObserver: function(){
+        Ember.run.debounce( this, function(){
+            this.saveApplicationState();
+        }, 500 ); 
+    }.observes( 'columns.@each.width' ),
 
     itemCountPerPage: Ember.computed.alias( 'options.itemCountPerPage' ),
 
