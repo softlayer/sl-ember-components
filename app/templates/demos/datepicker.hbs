@@ -2,15 +2,10 @@
 <p class="lead">An input component to select date values. Based on <a href="http://bootstrap-datepicker.readthedocs.org/en/release/index.html">bootstrap-datepicker</a>.</p>
 
 <h3>Examples</h3>
-{{sl-datepicker label="Single date datepicker" clearBtn="true"}}
-{{sl-datepicker label="Multi date datepicker" multidate=true}}
+{{sl-datepicker label="Datepicker"}}
 
 <h3>Properties</h3>
 <div class="list-group">
-    {{#property-text name="autoclose" type="boolean" default="false"}}
-        When true, the datepicker will close immediately when a date is selected.
-    {{/property-text}}
-
     {{#property-text name="action" type="function"}}
         Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
     {{/property-text}}
@@ -84,14 +79,6 @@
 
     {{#property-text name="minViewMode" type="string"}}
         Set a limit for the view mode. Accepts "days", "months", or "years".
-    {{/property-text}}
-
-    {{#property-text name="multidate" type="boolean" default="false"}}
-        Enable multiple date selection.
-    {{/property-text}}
-
-    {{#property-text name="multidateSeparator" type="string" default="\",\"" requires="multidate=true"}}
-        String to place between multidate selections.
     {{/property-text}}
 
     {{#property-text name="orientation" type="string" default="\"auto\""}}
