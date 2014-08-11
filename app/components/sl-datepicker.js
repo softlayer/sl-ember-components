@@ -34,7 +34,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Class names for the root element
      * @property {array} classNames
      */
-    classNames: [ 'date-picker', 'form-group', 'sl-datepicker' ],
+    classNames: [ 'form-group', 'sl-datepicker' ],
 
     /**
      * If true, displays a "Clear" button at the bottom of the datepicker to
@@ -142,15 +142,37 @@ export default Ember.Component.extend( TooltipEnabled, {
     orientation: 'auto',
 
     /**
-     * Setup for initial component state
+     * Dynamically update the endDate value for the datepicker
+     * @method setEndDate
+     */
+    setEndDate: function () {
+        this.$( 'input.date-picker' ).datepicker( 'setEndDate', this.get( 'endDate' ));
+    }.observes( 'endDate' ),
+
+    /**
+     * Dynamically update the startDate value for the datepicker
+     * @method setStartDate
+     */
+    setStartDate: function () {
+        this.$( 'input.date-picker' ).datepicker( 'setStartDate', this.get( 'startDate' ));
+    }.observes( 'startDate' ),
+
+    /**
+     * Setup the bootstrap-datepicker plugin and events
      * @method setupDatepicker
      */
     setupDatepicker: function () {
-        this.$( 'input.date-picker' ).datepicker( this.get( 'options' ));
+        var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' )),
+            self = this;
+
+        datepicker.on( 'changeDate', function () {
+            self.sendAction( 'change' );
+        });
     }.on( 'didInsertElement' ),
 
     /**
-     * The earliest date that may be selected; all earlier dates will be disabled
+     * The earliest date that may be selected; all earlier dates will
+     * be disabled
      * @property {date} startDate
      * @default null
      */

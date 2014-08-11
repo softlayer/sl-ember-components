@@ -1,0 +1,27 @@
+{{#if label}}
+    <label {{bind-attr for=startDateInputId}}>{{label}}</label>
+{{/if}}
+
+<div class="row">
+    {{sl-datepicker
+        change="startDateChange"
+        class="col-md-6"
+        endDate=latestDate
+        placeholder=startDatePlaceholder
+        startDate=earliestDate
+        value=startDateValue
+    }}
+
+    {{sl-datepicker
+        change="endDateChange"
+        class="col-md-6"
+        endDate=latestDate
+        placeholder=endDatePlaceholder
+        startDate=earliestDate
+        value=endDateValue
+    }}
+</div>
+
+{{#if helpText}}
+    <p class="help-block">{{helpText}}</p>
+{{/if}}
