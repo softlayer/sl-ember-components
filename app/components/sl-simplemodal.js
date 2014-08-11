@@ -15,6 +15,13 @@ export default Ember.Component.extend( ModalMixin, {
     acceptText: 'Accept',
 
     /**
+     * Text string for the "cancel" button
+     * @property {string} cancelText
+     * @default "Cancel"
+     */
+    cancelText: 'Cancel',
+
+    /**
      * Attribute bindings for the root element
      * @property {array} attributeBindings
      */
