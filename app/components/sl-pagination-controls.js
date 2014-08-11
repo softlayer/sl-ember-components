@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 	tagName: 'span',
 
+    classNames: [ 'sl-pagination-controls' ],
+
     actions: {
         changePage: function( page ){
             page = page ? page : this.get( 'currentPageInput' );

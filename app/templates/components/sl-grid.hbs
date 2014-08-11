@@ -19,7 +19,7 @@
                 {{#unless column.hidden}}
                     {{sl-grid-table-header action="sortColumn" column=column}} 
                     {{#unless column.noResize}}
-                        {{sl-grid-table-column-resize header=true}}
+                        {{sl-grid-table-column-resize column=column header=true}}
                     {{/unless}}
                 {{/unless}}
             {{/each}}
