@@ -57,7 +57,8 @@ export default Ember.Mixin.create({
             totalPages: totalPages,
             perPageOptions: this.get( 'perPageOptions' ), 
             itemCountPerPage: this.get( 'itemCountPerPage' ),
-            currentPage: this.get( 'currentPage' )
+            currentPage: this.get( 'currentPage' ),
+            modelNames: this.get( 'metaData.modelNames' )
         };       
     }.property( 'metaData', 'perPageOptions', 'itemCountPerPage', 'currentPage' ),               
 
