@@ -146,8 +146,9 @@ export default Ember.Component.extend({
         this.get( 'parentView' ).set( 'activeChild', this );
     },
 
-    click: function() {
+    click: function( e ) {
         this.performAction();
+        return false;
     },
 
     getPath: function() {
@@ -189,8 +190,8 @@ export default Ember.Component.extend({
                     action.call( this );
                 } else if ( typeof action === 'object' ) {
                     rootNode.sendAction( 'actionInitiated',
-                            action.get( 'actionName' ),
-                            action.get( 'data' ));
+                            action.actionName,
+                            action.data );
                 } else {
                     rootNode.sendAction( 'actionInitiated', action);
                 }
