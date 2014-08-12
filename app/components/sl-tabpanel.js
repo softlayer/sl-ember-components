@@ -52,6 +52,20 @@ export default Ember.Component.extend({
     activeTabName: null,
 
     /**
+     * Determines the alignment of tabs at the top of the panel,
+     * "left" or "right"
+     * @property {string} alignTabs
+     * @default "left"
+     */
+    alignTabs: 'left',
+
+    /**
+     * Class name bindings for the containing element
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'tabAlignmentClass' ],
+
+    /**
      * Class names for the root element
      * @property {array} classNames
      */
@@ -64,7 +78,15 @@ export default Ember.Component.extend({
     setup: function () {
         this.get( 'activePane' ).addClass( 'active' );
         this.get( 'activeTab' ).addClass( 'active' );
-    }.on( 'didInsertElement' )
+    }.on( 'didInsertElement' ),
+
+    /**
+     * The class determining how to align tabs
+     * @property {string} tabAlignmentClass
+     */
+    tabAlignmentClass: function () {
+        return 'align-tabs-' + this.get( 'alignTabs' );
+    }.property( 'alignTabs' )
 });
 
 Ember.Handlebars.helper( 'renderTabPane', function ( templateName, options ) {
