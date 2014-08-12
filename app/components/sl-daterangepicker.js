@@ -77,6 +77,19 @@ export default Ember.Component.extend({
     minDate: null,
 
     /**
+     * Set up a transition that moves focus to the endDate input when the
+     * startDate input is changed
+     * @method setupFocusTransition
+     */
+    setupFocusTransition: function () {
+        var endDateInput = this.$( '.sl-daterange-end-date input' );
+
+        this.$( '.sl-daterange-start-date input' ).on( 'change', function () {
+            endDateInput.focus();
+        });
+    }.on( 'didInsertElement' ),
+
+    /**
      * The value for the startDate input
      * @property {string} startDateValue
      * @default null
