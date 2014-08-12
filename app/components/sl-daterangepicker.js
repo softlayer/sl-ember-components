@@ -6,7 +6,13 @@ import Ember from 'ember';
  */
 export default Ember.Component.extend({
 
-    earliestDate: function () {
+    /**
+     * The earliest selectable endDate, based on minDate and
+     * current startDateValue
+     * @property {date|string} earliestEndDate
+     * @default null
+     */
+    earliestEndDate: function () {
         var minDate = this.get( 'minDate' ),
             startDateValue = this.get( 'startDateValue' );
 
@@ -35,7 +41,13 @@ export default Ember.Component.extend({
      */
     format: 'mm/dd/yyyy',
 
-    latestDate: function () {
+    /**
+     * The latest selectable startDate, based on maxDate and
+     * current endDateValue
+     * @property {date|string} latestStartDate
+     * @default null
+     */
+    latestStartDate: function () {
         var endDateValue = this.get( 'endDateValue' ),
             maxDate = this.get( 'maxDate' );
 

@@ -6,18 +6,18 @@
     {{sl-datepicker
         change="startDateChange"
         class="col-md-6"
-        endDate=latestDate
+        endDate=latestStartDate
         placeholder=startDatePlaceholder
-        startDate=earliestDate
+        startDate=minDate
         value=startDateValue
     }}
 
     {{sl-datepicker
         change="endDateChange"
         class="col-md-6"
-        endDate=latestDate
+        endDate=maxDate
         placeholder=endDatePlaceholder
-        startDate=earliestDate
+        startDate=earliestEndDate
         value=endDateValue
     }}
 </div>
