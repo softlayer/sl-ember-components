@@ -64,14 +64,14 @@ export default Ember.Mixin.create({
     /**
      * Overridable method stub
      * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event
-     * @return {void}
+     * @method hiddenHandler
      */
     hiddenHandler: function () {},
 
     /**
      * Overridable method stub
      * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event
-     * @return {void}
+     * @method hideHandler
      */
     hideHandler: function () {},
 
@@ -85,15 +85,14 @@ export default Ember.Mixin.create({
     /**
      * Overridable method stub
      * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event
-     * @return {void}
+     * @method loadedHandler
      */
     loadedHandler: function () {},
 
     /**
      * On 'didInsertElement', executes any defined handlers for exposed Twitter
      * Bootstrap 3 modal events
-     * @observes didInsertElement
-     * @return {void}
+     * @method modalize
      */
     modalize: function () {
         var modal = this.$().modal({
@@ -110,13 +109,6 @@ export default Ember.Mixin.create({
     }.on( 'didInsertElement' ),
 
     /**
-     * `tabindex` attribute value
-     * @property {string} tab index
-     * @default '-1'
-     */
-    tabindex: '-1',
-
-    /**
      * `role` attribute value
      * @property {string} role
      * @default 'dialog'
@@ -126,15 +118,22 @@ export default Ember.Mixin.create({
     /**
      * Overridable method stub
      * Triggered by Twitter Bootstrap 3 modal's `show.bs.modal` event
-     * @return {void}
+     * @method showHandler
      */
     showHandler: function () {},
 
     /**
      * Overridable method stub
      * Triggered by Twitter Bootstrap 3 modal's `shown.bs.modal` event
-     * @return {void}
+     * @method shownHandler
      */
-    shownHandler: function () {}
+    shownHandler: function () {},
+
+    /**
+     * `tabindex` attribute value
+     * @property {string} tab index
+     * @default '-1'
+     */
+    tabindex: '-1'
 
 });

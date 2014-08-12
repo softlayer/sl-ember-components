@@ -5,19 +5,19 @@
 <div class="row">
     {{sl-datepicker
         change="startDateChange"
-        class="col-md-6"
-        endDate=latestDate
+        class="sl-daterange-start-date col-md-6"
+        endDate=latestStartDate
         placeholder=startDatePlaceholder
-        startDate=earliestDate
+        startDate=minDate
         value=startDateValue
     }}
 
     {{sl-datepicker
         change="endDateChange"
-        class="col-md-6"
-        endDate=latestDate
+        class="sl-daterange-end-date col-md-6"
+        endDate=maxDate
         placeholder=endDatePlaceholder
-        startDate=earliestDate
+        startDate=earliestEndDate
         value=endDateValue
     }}
 </div>
