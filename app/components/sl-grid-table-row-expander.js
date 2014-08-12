@@ -2,10 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     tagName: 'tr',
-    style: 'display:none',
-    actions: {
-        expandRow: function(){
-            console.log( 'expanding row:',this);
-        }
-    }
+    didInsert: false,
+    toggleDidInsert: function(){
+//        Ember.run.later( this, function(){ this.set( 'didInsert', true ); }, 100 );
+    }.on( 'didInsertElement' )
 });

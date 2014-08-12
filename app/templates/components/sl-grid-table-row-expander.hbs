@@ -1,5 +1,5 @@
-<tr {{bind-attr style=style}}
-    <td {{bind-attr colspan=columnCount}}
-    {{yield}}
-    </td>
-</tr>
+<td {{bind-attr colspan=columnCount class=":row-expander-cell"}}>
+    <div {{bind-attr class=":row-expander-container didInsert:slide-open"}}>
+        {{yield}}
+    </div>
+</td>

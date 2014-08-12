@@ -38,15 +38,15 @@
     {{else}}
         {{#each row in rows}}
             <tr>
-                {{#if options.rowExpander}}
-                    {{sl-grid-table-cell-row-expander}}
+                {{#if options.rowExpanderComponent}}
+                    {{sl-grid-table-cell-row-expander row=row}}
                 {{/if}}
                     {{#each column in columns}}
                         {{#unless column.hidden}}
-                            {{#if column.template}}
-                                <td> renderTemplate column.template column</td>
+                            {{#if column.component}}
+                               {{render-component column.component cssClass=column.cssClass column=column row=row}}
                             {{else}}
-                                {{#sl-grid-table-cell}}
+                                {{#sl-grid-table-cell cssClass=column.cssClass}}
                                     {{get-key row column.key}}
                                 {{/sl-grid-table-cell}}
                             {{/if}}
@@ -60,9 +60,9 @@
                     {{sl-grid-table-cell-actions actions=row.actions}}
                 {{/if}}
             </tr>
-            {{#if options.rowExpander}}
-                {{#sl-grid-table-row-expander columnCount=columnCount}}
-                renderTemplate column.expandedRowTemplate row.expandedRowData
+            {{#if row.rowExpanderIsOpen}}
+                {{#sl-grid-table-row-expander row=row columnCount=columnCount}}
+                    {{render-component options.rowExpanderComponent options=options column=column row=row}}
                 {{/sl-grid-table-row-expander}}
             {{/if}}
         {{else}}
