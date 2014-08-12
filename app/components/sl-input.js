@@ -88,6 +88,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Sets up the input event listeners exposed to the component's
      * parent controller
+     * @method setupInputEvents
      */
     setupInputEvents: function () {
         var blurAction = this.get( 'blur' ),
