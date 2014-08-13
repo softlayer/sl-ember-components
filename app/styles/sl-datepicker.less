@@ -18,6 +18,11 @@
         th, td {
           border-radius: @border-radius-base;
 
+          &.active,
+          &.active:hover {
+            text-shadow: none;
+          }
+
           &.next,
           &.prev,
           &.datepicker-switch,
@@ -25,9 +30,45 @@
             color: @brand-primary;
           }
 
-          &.day.active:hover {
-            background-color: darken(@btn-primary-bg, 8%);
-            cursor: pointer;
+          &.next,
+          &.prev {
+            color: transparent;
+            display: inline-block;
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 150%;
+            line-height: 0.8em;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
+
+          &.next::before {
+            color: @brand-primary;
+            content: "\f105";
+            display: block;
+            height: 100%;
+            text-align: center;
+            width: 100%;
+          }
+
+          &.prev::before {
+            color: @brand-primary;
+            content: "\f104";
+            display: block;
+            height: 100%;
+            text-align: center;
+            width: 100%;
+          }
+
+          &.day.active {
+            background-color: @btn-primary-bg;
+
+            &:hover {
+              background-color: darken(@btn-primary-bg, 8%);
+              cursor: pointer;
+            }
           }
 
           span {
