@@ -38,7 +38,7 @@
     {{else}}
         {{#each row in rows}}
             <tr>
-                {{#if options.rowExpanderComponent}}
+                {{#if options.rowExpander}}
                     {{sl-grid-table-cell-row-expander row=row}}
                 {{/if}}
                     {{#each column in columns}}
