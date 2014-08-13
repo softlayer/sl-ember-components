@@ -7,6 +7,12 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     /**
+     * Bound values for the panel component
+     * @property {array} attributeBindings
+     */
+    attributeBindings: [ 'class', 'id' ],
+
+    /**
      * Class names for the panel container
      * @property {array} classNames
      */
