@@ -45,8 +45,6 @@ app.import( 'vendor/highcharts/highcharts.js' );
 app.import( 'vendor/moment/min/moment-with-langs.min.js' );
 
 // Select2
-app.import( 'vendor/select2/select2.css' );
-app.import( 'vendor/select2/select2-bootstrap.css' );
 app.import( 'vendor/select2/select2.min.js' );
 var select2Images = pickFiles( 'vendor/select2', {
     srcDir: '/',

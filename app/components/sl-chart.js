@@ -42,6 +42,54 @@ export default Ember.Component.extend({
 
         options.title = '';
 
+        options.chart.animation = false;
+        options.chart.backgroundColor = 'rgba(255, 255, 255, 0)';
+
+        options.chart.style = {
+            fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            fontSize: '13px'
+        };
+
+        options.colors = [
+            '#298fce',
+            '#94302e',
+            '#00a14b',
+            '#f29c1e',
+            '#fadb00',
+            '#34495d',
+        ];
+
+        options.legend = {
+            itemStyle: options.chart.style
+        };
+
+        options.plotOptions = {
+            bar: {
+                borderColor: 'transparent'
+            },
+            series: {
+                animation: false
+            }
+        };
+
+        options.tooltip = {
+            animation: false,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            borderWidth: 0,
+            shadow: false,
+            style: {
+                color: '#fff'
+            }
+        };
+
+        options.xAxis.labels = {
+            style: options.chart.style
+        };
+
+        options.yAxis.labels = {
+            style: options.chart.style
+        };
+
         chartDiv.highcharts( options );
         this.set( 'chart', chartDiv.highcharts() );
         this.updateData();

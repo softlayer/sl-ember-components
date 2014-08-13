@@ -1,0 +1,77 @@
+.sl-calendar .datepicker {
+  border: 1px solid @gray-light;
+  border-radius: @border-radius-base;
+
+  table {
+    tr {
+      th, td {
+        border-radius: @border-radius-base;
+
+        &.active,
+        &.active:hover {
+          text-shadow: none;
+        }
+
+        &.next,
+        &.prev,
+        &.datepicker-switch {
+          color: @brand-primary;
+        }
+
+        &.next,
+        &.prev {
+          .fa {
+            font-size: 150%;
+            line-height: 16px;
+            vertical-align: -2px;
+          }
+        }
+
+        &.day {
+          &:hover,
+          &:focus {
+            background: none;
+            cursor: default;
+          }
+
+          &.active {
+            background-color: @btn-primary-bg;
+
+            &:hover {
+              background-color: darken(@btn-primary-bg, 8%);
+              cursor: pointer;
+            }
+          }
+        }
+
+        span {
+          border-radius: @border-radius-base;
+
+          &.active {
+            color: @btn-primary-color;
+            text-shadow: none;
+
+            &:hover {
+              background-color: darken(@btn-primary-bg, 8%);
+              cursor: pointer;
+            }
+          }
+
+          &.month,
+          &.year {
+            color: @brand-primary;
+
+            &.active {
+              color: @btn-primary-color;
+            }
+
+            &.new,
+            &.old {
+              color: @gray-light;
+            }
+          }
+        }
+      }
+    }
+  }
+}
