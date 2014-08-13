@@ -50,7 +50,7 @@ export default Ember.Component.extend({
         this.set( 'mouseUpListener', Ember.run.bind( this, function(){
             $('body').removeClass('resizing');
             $('body').off( 'mousemove', this.mouseMoveListener );
-            $('body').off( 'mouseUp', this.mouseUpListener );
+            $('body').off( 'mouseup', this.mouseUpListener );
             this.set( 'column.highlight', false );
             this.set( 'global.isResizing', false );
         }));

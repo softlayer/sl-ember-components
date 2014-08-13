@@ -60,10 +60,12 @@
                     {{sl-grid-table-cell-actions actions=row.actions}}
                 {{/if}}
             </tr>
-            {{#if row.rowExpanderIsOpen}}
-                {{#sl-grid-table-row-expander row=row columnCount=columnCount}}
-                    {{render-component options.rowExpanderComponent options=options column=column row=row}}
-                {{/sl-grid-table-row-expander}}
+            {{#if options.rowExpanderComponent}}
+                {{#if row.rowExpanderIsOpen}}
+                    {{#sl-grid-table-row-expander row=row columnCount=columnCount}}
+                        {{render-component options.rowExpanderComponent options=options column=column row=row}}
+                    {{/sl-grid-table-row-expander}}
+                {{/if}}
             {{/if}}
         {{else}}
             <tr>
