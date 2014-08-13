@@ -3,22 +3,20 @@ import { test, moduleFor, moduleForComponent } from 'ember-qunit';
 import SlButton from 'sl-components/components/sl-button';
 import AjaxHelper from 'sl-components/tests/helpers/ajax-helper';
 
-var testObject;
-
 moduleForComponent( 'sl-button', 'Component: Sl-Button' );
 
 test( 'Label changes during associated AJAX activity', function() {
     var component = this.subject({
         ajaxEnabled: true,
-        labelText: 'Static Text',
+        label: 'Static Text',
         activeLabelText: 'Active Text'
     });
 
     AjaxHelper.begin();
-    equal( component.get( 'labelText' ), 'Active Text' );
+    equal( component.get( 'label' ), 'Active Text' );
 
     AjaxHelper.end();
-    equal( component.get( 'labelText' ), 'Static Text' );
+    equal( component.get( 'label' ), 'Static Text' );
 });
 
 test( 'The element hides during associated AJAX activity', function() {
