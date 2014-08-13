@@ -18,6 +18,7 @@ Router.map( function () {
     this.route( 'demos/grid',            { path: '/sl-grid' });
     this.route( 'demos/input',           { path: '/sl-input' });
     this.route( 'demos/menu',            { path: '/sl-menu' });
+    this.route( 'demos/panel',           { path: '/sl-panel' });
     this.route( 'demos/radiogroup',      { path: '/sl-radiogroup' });
     this.route( 'demos/select',          { path: '/sl-select' });
     this.route( 'demos/simplemodal',     { path: '/sl-simplemodal' });
