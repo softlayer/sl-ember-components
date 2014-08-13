@@ -57,13 +57,15 @@
                         {{/unless}}
                     {{/each}}
                 {{#if options.actionsColumn}}
-                    {{sl-grid-table-cell-actions actions=row.actions}}
+                <td>
+                    {{sl-dropbutton label="Actions" alignRight=true content=row.actionsButton}}
+                </td>
                 {{/if}}
             </tr>
-            {{#if options.rowExpanderComponent}}
+            {{#if options.rowExpander}}
                 {{#if row.rowExpanderIsOpen}}
                     {{#sl-grid-table-row-expander row=row columnCount=columnCount}}
-                        {{render-component options.rowExpanderComponent options=options column=column row=row}}
+                        {{render-component row.rowExpanderComponent options=options device=row}}
                     {{/sl-grid-table-row-expander}}
                 {{/if}}
             {{/if}}
