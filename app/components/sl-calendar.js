@@ -123,29 +123,32 @@ export default Ember.Component.extend({
      */
     contentDates: function () {
         var self = this,
+            content = this.get( 'content' ),
             dates = {},
             date, year, month, day;
 
-        this.get( 'content' ).forEach( function ( item ) {
-            date = new Date( Ember.get( item, self.get( 'dateValuePath' )));
-            year = date.getFullYear();
-            month = date.getMonth() + 1;
-            day = date.getDate();
+        if ( content ) {
+            content.forEach( function ( item ) {
+                date = new Date( Ember.get( item, self.get( 'dateValuePath' )));
+                year = date.getFullYear();
+                month = date.getMonth() + 1;
+                day = date.getDate();
 
-            if ( !dates.hasOwnProperty( year )) {
-                dates[ year ] = {};
-            }
+                if ( !dates.hasOwnProperty( year )) {
+                    dates[ year ] = {};
+                }
 
-            if ( !dates[ year ].hasOwnProperty( month )) {
-                dates[ year ][ month ] = {};
-            }
+                if ( !dates[ year ].hasOwnProperty( month )) {
+                    dates[ year ][ month ] = {};
+                }
 
-            if ( !dates[ year ][ month ].hasOwnProperty( day )) {
-                dates[ year ][ month ][ day ] = [];
-            }
+                if ( !dates[ year ][ month ].hasOwnProperty( day )) {
+                    dates[ year ][ month ][ day ] = [];
+                }
 
-            dates[ year ][ month ][ day ].push( item );
-        });
+                dates[ year ][ month ][ day ].push( item );
+            });
+        }
 
         return dates;
     }.property( 'content' ),
