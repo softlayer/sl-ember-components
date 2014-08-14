@@ -15,7 +15,7 @@
     <thead>
         <tr>
             {{#if options.rowExpander}}
-                <th>&nbsp;</th>
+                <th class="sl-grid-table-cell-row-expander">&nbsp;</th>
             {{/if}}
             {{#each column in columns}}
                 {{#unless column.hidden}}
@@ -26,7 +26,7 @@
                 {{/unless}}
             {{/each}}
             {{#if options.actionsColumn}}
-                <th>&nbsp;</th>
+                <th class="sl-grid-table-cell-actions">&nbsp;</th>
             {{/if}}
         </tr>
     </thead>
