@@ -5,7 +5,9 @@
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
         {{sl-pagination-controls action="changePage" disabled=isLoading currentPage=pagingData.currentPage totalPages=pagingData.totalPages}}
-        {{sl-grid-header-reload action="reload"}}
+        {{#sl-button action="reload"}}
+            <i class="fa fa-refresh"></i>
+        {{/sl-button }}
         {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
     </div>
 </header>
