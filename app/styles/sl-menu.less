@@ -1,95 +1,89 @@
 .sl-menu {
     ul {
+        display: inline-block;
         list-style: none;
-        position: relative;
-        display: inline-table;
 
         &:after {
-            content: "";
             clear: both;
+            content: "";
             display: block;
         }
 
         li {
+            background-color: @gray-darker;
             float: left;
-            // padding: 1px 1px 0 1px;
-            // border-bottom: solid 1px #CFCFCF;
-            border: solid 1px #CFCFCF;
+            padding: 0;
+            position: relative;
+            text-align: left;
+            width: 120px;
 
             a {
+                color: #fff;
                 display: block;
-                padding: 5px 30px;
+                padding: @padding-base-vertical @padding-base-horizontal;
                 text-decoration: none;
+            }
 
-                &.submenu:after {
-                    position: absolute;
-                    content: "";
-                    width: 0;
-                    height: 0;
-                    margin-top: 6px;
-                    margin-left: 4px;
-                    border-style: solid;
-                    border-width: 4px 0 4px 8px;
-                    border-color: transparent transparent transparent #007bff;
-                };
+            &.active {
+                background-color: @gray-dark;
+
+                > ul {
+                    display: block;
+                }
             }
         }
 
         ul {
-            font-size: 9px;
             display: none;
+            left: 0;
+            margin: 0;
             padding: 0;
             position: absolute;
             top: 100%;
+            z-index: 1000;
 
             li {
-                padding: 5px 10px;
+                background-color: fade(@gray-darker, 90%);
+                border: 0;
                 float: none;
+                margin: 0;
                 position: relative;
+
+                a.submenu::after {
+                    content: "\f105";
+                    display: inline-block;
+                    float: right;
+                    font-family: FontAwesome;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 150%;
+                    line-height: 0.9em;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                }
+
+                &.active {
+                    background-color: fade(@gray-dark, 90%);
+                }
             }
 
             ul {
-                position: relative;
-                left: 15px;
-
-                li {
-                    a {
-                        padding: 5px 20px;
-                    }
-                }
                 position: absolute;
                 left: 100%;
                 top: 0;
             }
         }
-
-        li.active > ul {
-            display: block;
-        }
-
-        li.active {
-            background-color: #EEE;
-
-            & ul {
-                // background-color: #BBB;
-            }
-        }
     }
 
     &.showall {
-    ul {
-        li {
-            border-left-width: 0;
-            border-right-width: 0;
-        }
-
         ul {
             ul {
-                position: relative;
-                left: 0;
-                top: 100%;
+                ul {
+                    position: relative;
+                    left: 0;
+                    top: 100%;
+                }
             }
         }
     }
-}
 }
