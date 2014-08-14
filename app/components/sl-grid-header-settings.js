@@ -4,7 +4,7 @@ export default Ember.Component.extend({
 	tagName: 'div',
     classNames: [ 'sl-grid-header-settings' ],
     actions: {
-        click: function( action, key, stayOpen ){
+        click: function( action, key ){
             this.sendAction( 'action', action, key );
         }
     },
