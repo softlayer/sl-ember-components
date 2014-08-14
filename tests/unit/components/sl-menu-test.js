@@ -31,7 +31,7 @@ test( 'Menu creates correct DOM structure', function() {
     var $component = this.append();
 
     expect( 1 );
-    equal( $component.find( 'li' ).length, 11 );
+    equal( $component.find( 'li' ).length, 12 );
 });
 
 test( 'Menu properly hides all but root list', function() {
@@ -41,7 +41,7 @@ test( 'Menu properly hides all but root list', function() {
     var $component = this.append();
 
     expect( 1 );
-    equal( $component.find( 'li:visible' ).length, 3 );
+    equal( $component.find( 'li:visible' ).length, 4 );
 });
 
 test( 'Menu shows child on hover', function() {
@@ -51,10 +51,10 @@ test( 'Menu shows child on hover', function() {
     var $component = this.append();
 
     expect( 2 );
-    equal( $component.find( 'li:visible' ).length, 3 );
+    equal( $component.find( 'li:visible' ).length, 4 );
 
     $component.find( 'li:visible' ).first().mouseenter();
-    equal( $component.find( 'li:visible' ).length, 7 );
+    equal( $component.find( 'li:visible' ).length, 8 );
 });
 
 test( 'Menu closes child on mouse exit', function() {
@@ -64,15 +64,15 @@ test( 'Menu closes child on mouse exit', function() {
     var $component = this.append();
 
     expect( 3 );
-    equal( $component.find( 'li:visible' ).length, 3 );
+    equal( $component.find( 'li:visible' ).length, 4 );
 
     var child = $component.find( 'li:visible' ).first();
 
     child.mouseenter();
-    equal( $component.find( 'li:visible' ).length, 7 );
+    equal( $component.find( 'li:visible' ).length, 8 );
 
     child.mouseleave();
-    equal( $component.find( 'li:visible' ).length, 3 );
+    equal( $component.find( 'li:visible' ).length, 4 );
 });
 
 test( 'Menu click supports native function', function() {

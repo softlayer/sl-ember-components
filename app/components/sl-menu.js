@@ -25,7 +25,11 @@ export default Ember.Component.extend({
          */
         showAll: function() {
             if ( this.$() ) {
-                this.$().addClass( 'active' ).addClass( 'showall' );
+                this.$().addClass( 'active' );
+
+                if ( this.get( 'isRoot' )) {
+                    this.$().addClass( 'showall' );
+                }
             }
 
             this.get( 'children' ).forEach( function( item ) {
@@ -38,7 +42,11 @@ export default Ember.Component.extend({
          */
         closeAll: function() {
             if ( this.$() ) {
-                this.$().removeClass( 'active' ).removeClass( 'showall' );
+                this.$().removeClass( 'active' );
+
+                if ( this.get( 'isRoot' )) {
+                    this.$().removeClass( 'showall' );
+                }
             }
 
             this.set( 'keyHandler', false );
@@ -102,6 +110,10 @@ export default Ember.Component.extend({
      * @method childSelected
      */
     childSelected: function( childIndex ) {
+        if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' )) {
+            this.send( 'closeAll' );
+        }
+
         if ( this.get( 'keyHandler' )) {
             this.activateChild( childIndex );
         } else {
@@ -189,6 +201,21 @@ export default Ember.Component.extend({
         }
     }.observes( 'keyEvents' ).on( 'didInsertElement' ),
 
+    cleanUp: function() {
+        var parent = this.get( 'parentView' );
+        if ( typeof parent.unregisterChild === 'function' ) {
+            parent.unregisterChild( this );
+        }
+
+        var ke = this.get( 'keyEvents' );
+        if ( ke ) {
+            ke.off( 'childSelected' )
+              .off( 'drillDown' )
+              .off( 'closeAll' )
+              .off( 'showAll' );
+        }
+    }.on( 'willDestroyElement' ),
+
     /**
      * @property {boolean} isRoot
      * @default true
@@ -221,6 +248,8 @@ export default Ember.Component.extend({
         if ( this.get( 'isRoot' )) {
             this.send( 'closeAll' );
         }
+
+        this.$().removeClass( 'active' );
     },
 
     /**
@@ -300,16 +329,6 @@ export default Ember.Component.extend({
      * @property {boolean} useDrillDownKey
      */
     useDrillDownKey: true,
-
-    /**
-     * @method willDestroyElement
-     */
-    willDestroyElement: function() {
-        var parent = this.get( 'parentView' );
-        if ( typeof parent.unregisterChild === 'function' ) {
-            parent.unregisterChild( this );
-        }
-    },
 
     AllView: Ember.View.extend({
 
