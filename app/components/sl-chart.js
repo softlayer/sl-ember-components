@@ -61,6 +61,9 @@ export default Ember.Component.extend({
                 '#fadb00',
                 '#34495d'
             ],
+            credits: {
+                enabled: false
+            },
             legend: {
                 itemStyle: chartStyle
             },
