@@ -18,6 +18,54 @@ export default Ember.Component.extend({
          */
         selected: function() {
             this.performAction();
+        },
+
+        /**
+         * @method showAll
+         */
+        showAll: function() {
+            if ( this.$() ) {
+                this.$().addClass( 'active' ).addClass( 'showall' );
+            }
+
+            this.get( 'children' ).forEach( function( item ) {
+                item.send( 'showAll' );
+            });
+        },
+
+        /**
+         * @method closeAll
+         */
+        closeAll: function() {
+            if ( this.$() ) {
+                this.$().removeClass( 'active' ).removeClass( 'showall' );
+            }
+
+            this.set( 'keyHandler', false );
+
+            this.get( 'children' ).forEach( function( item ) {
+                item.send( 'closeAll' );
+            });
+
+            if ( this.get( 'isRoot' )) {
+               this.set( 'keyHandler', true );
+            }
+        },
+
+        /**
+         * @method drillDown
+         */
+        drillDown: function() {
+            var child = this.get( 'activeChild' );
+
+            if ( this.get( 'keyHandler' )) {
+                if ( child ) {
+                    child.set( 'keyHandler', true );
+                    this.set( 'keyHandler', false );
+                }
+            } else if ( child ) {
+                child.drillDown();
+            }
         }
     },
 
@@ -85,47 +133,12 @@ export default Ember.Component.extend({
     },
 
     /**
-     * @method closeAll
-     */
-    closeAll: function() {
-        if ( this.$() ) {
-            this.$().removeClass( 'active' ).removeClass( 'showall' );
-        }
-
-        this.set( 'keyHandler', false );
-
-        this.get( 'children' ).forEach( function( item ) {
-            item.closeAll();
-        });
-
-        if ( this.get( 'isRoot' )) {
-           this.set( 'keyHandler', true );
-        }
-    },
-
-    /**
      * @method didInsertElement
      */
     didInsertElement: function() {
         var parent = this.get( 'parentView' );
         if ( typeof parent.registerChild === 'function' ) {
             parent.registerChild( this );
-        }
-    },
-
-    /**
-     * @method drillDown
-     */
-    drillDown: function() {
-        var child = this.get( 'activeChild' );
-
-        if ( this.get( 'keyHandler' )) {
-            if ( child ) {
-                child.set( 'keyHandler', true );
-                this.set( 'keyHandler', false );
-            }
-        } else if ( child ) {
-            child.drillDown();
         }
     },
 
@@ -166,12 +179,12 @@ export default Ember.Component.extend({
                 this.childSelected( key );
             }.bind( this )).on( 'drillDown', function() {
                 if ( this.get( 'useDrillDownKey' )) {
-                    this.drillDown();
+                    this.send( 'drillDown' );
                 }
             }.bind( this )).on( 'closeAll', function() {
-                this.closeAll();
+                this.send( 'closeAll' );
             }.bind( this )).on( 'showAll', function() {
-                this.showAll();
+                this.send( 'showAll' );
             }.bind( this ));
         }
     }.observes( 'keyEvents' ).on( 'didInsertElement' ),
@@ -205,8 +218,8 @@ export default Ember.Component.extend({
      * @method mouseLeave
      */
     mouseLeave: function() {
-        if ( !this.$().hasClass( 'showall' )) {
-            this.closeAll();
+        if ( this.get( 'isRoot' )) {
+            this.send( 'closeAll' );
         }
     },
 
@@ -246,7 +259,7 @@ export default Ember.Component.extend({
                 rootNode.sendAction( 'changeRoute', this.get( 'menu.emberRoute' ));
             }
 
-            rootNode.closeAll();
+            rootNode.send( 'closeAll' );
         }
     },
 
@@ -257,19 +270,6 @@ export default Ember.Component.extend({
      */
     registerChild: function( child ) {
         this.get( 'children' ).push( child );
-    },
-
-    /**
-     * @method showAll
-     */
-    showAll: function() {
-        if ( this.$() ) {
-            this.$().addClass( 'active' ).addClass( 'showall' );
-        }
-
-        this.get( 'children' ).forEach( function( item ) {
-            item.showAll();
-        });
     },
 
     /**
@@ -309,5 +309,18 @@ export default Ember.Component.extend({
         if ( typeof parent.unregisterChild === 'function' ) {
             parent.unregisterChild( this );
         }
-    }
+    },
+
+    AllView: Ember.View.extend({
+
+        tagName: 'li',
+
+        target: function() {
+            return this.get( 'parentView' );
+        }.property( 'parentView' ),
+
+        mouseEnter: function() {
+            this.send( 'showAll' )
+        }
+    })
 });
