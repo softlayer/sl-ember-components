@@ -46,7 +46,7 @@ export default Ember.Component.extend({
             fontSize: '13px'
         };
 
-        options = $.extend( true, this.get( 'options' ) || {}, {
+        options = $.extend( true, {
             title: '',
             chart: {
                 animation: false,
@@ -94,7 +94,7 @@ export default Ember.Component.extend({
                     style: chartStyle
                 }
             }
-        });
+        }, this.get( 'options' ) || {} );
 
         chartDiv.highcharts( options );
         this.set( 'chart', chartDiv.highcharts() );
