@@ -157,7 +157,6 @@ export default Ember.Component.extend({
     initKeyListeners: function() {
         var ke = this.get( 'keyEvents' );
         if ( ke ) {
-            console.log( 'Init key listeners' );
             this.set( 'keyHandler', true );
 
             ke.on( 'childSelected', function( key ) {
