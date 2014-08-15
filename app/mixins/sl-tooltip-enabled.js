@@ -26,5 +26,5 @@ export default Ember.Mixin.create({
             this.set( 'data-toggle', 'tooltip' );
             this.$().tooltip();
         }
-    }.on( 'didInsertElement' )
+    }.observes( 'popover', 'title' ).on( 'didInsertElement' )
 });
