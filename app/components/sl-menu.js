@@ -145,34 +145,6 @@ export default Ember.Component.extend({
     },
 
     /**
-     * @method didInsertElement
-     */
-    didInsertElement: function() {
-        var parent = this.get( 'parentView' );
-        if ( typeof parent.registerChild === 'function' ) {
-            parent.registerChild( this );
-        }
-    },
-
-    /**
-     * @method getPath
-     */
-    getPath: function() {
-        var path = Ember.A(),
-            rootNode = this;
-
-        while( !rootNode.get( 'isRoot' )) {
-            path.insertAt( 0, rootNode.get( 'menu.label' ));
-            rootNode = rootNode.get( 'parentView' );
-        }
-
-        return {
-            root: rootNode,
-            path: path
-        };
-    },
-
-    /**
      * @method initChildren
      */
     initChildren: function() {
@@ -185,6 +157,7 @@ export default Ember.Component.extend({
     initKeyListeners: function() {
         var ke = this.get( 'keyEvents' );
         if ( ke ) {
+            console.log( 'Init key listeners' );
             this.set( 'keyHandler', true );
 
             ke.on( 'childSelected', function( key ) {
@@ -199,6 +172,26 @@ export default Ember.Component.extend({
                 this.send( 'showAll' );
             }.bind( this ));
         }
+
+        // Register child
+        var parent = this.get( 'parentView' );
+        if ( typeof parent.registerChild === 'function' ) {
+            parent.registerChild( this );
+        }
+
+        // Set path & root info
+        var path = Ember.A(),
+            rootNode = this;
+
+        while( !rootNode.get( 'isRoot' )) {
+            path.insertAt( 0, rootNode.get( 'menu.label' ));
+            rootNode = rootNode.get( 'parentView' );
+        }
+
+        this.setProperties({
+            path: path,
+            rootNode: rootNode
+        });
     }.observes( 'keyEvents' ).on( 'didInsertElement' ),
 
     cleanUp: function() {
@@ -247,9 +240,9 @@ export default Ember.Component.extend({
     mouseLeave: function() {
         if ( this.get( 'isRoot' )) {
             this.send( 'closeAll' );
+        } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' )) {
+            this.$().removeClass( 'active' );
         }
-
-        this.$().removeClass( 'active' );
     },
 
     /**
@@ -258,9 +251,9 @@ export default Ember.Component.extend({
     performAction: function() {
         this.$().addClass( 'active' );
 
-        var fullPath = this.getPath(),
-            rootNode = fullPath.root,
-            path = fullPath.path;
+        var rootNode = this.get( 'rootNode' ),
+            path     = this.get( 'path' );
+
 
         rootNode.sendAction( 'selectionMade', path );
 
@@ -333,6 +326,8 @@ export default Ember.Component.extend({
     AllView: Ember.View.extend({
 
         tagName: 'li',
+
+        classNames: [ 'all' ],
 
         target: function() {
             return this.get( 'parentView' );
