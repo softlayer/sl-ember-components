@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.View.extend({
 
     didInsertElement: function() {
-        Ember.$( document ).on( 'keypress', function( e ) {
+        Ember.$( document ).on( 'keypress.menu', function( e ) {
             if ( e.charCode >= 49 && e.charCode <= 57 ) {
                 var keypressed = e.charCode - 48;
                 this.get( 'controller.keyHandler' ).childSelection( keypressed );
@@ -15,11 +15,15 @@ export default Ember.View.extend({
         }.bind( this ));
 
         // keypress doesn't appear to catch escape key
-        Ember.$( document ).keyup( function( e ) {
+        Ember.$( document ).on( 'keyup.menu', function( e ) {
             if ( e.keyCode === 27 ) {
                 this.get( 'controller.keyHandler' ).closeAll();
             }
         }.bind( this ));
+    },
+
+    willDestroyElement: function() {
+        Ember.$( document ).off( 'keypress.menu' ).off( 'keyup.menu' );
     }
 
 });
