@@ -9,19 +9,30 @@
 }
 
 .sl-grid > .table {
+    table-layout:fixed;
     margin-top: 0;
     th {
         white-space: nowrap;
+    }
+    th,td {
+        min-width: 3em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    th.sl-grid-table-column-resize {
+        min-width: 7px;
+        max-width: 7px;    
     }
     th.sl-grid-table-cell-row-expander {
         width: 30px;
         max-width: 30px;
         min-width: 30px;
     }
-    th.sl-grid-table-cell-actions {
+    .sl-grid-table-cell-actions {
         width: 120px;
         max-width: 120px;
         min-width: 120px;
+        overflow: visible;
     }
     td.loadingIndicator{
         background-color:rgba(0,0,0,0.1);
