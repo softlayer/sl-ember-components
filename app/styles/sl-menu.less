@@ -2,6 +2,7 @@
     ul {
         display: inline-block;
         list-style: none;
+        margin: 0;
 
         &:after {
             clear: both;
@@ -11,6 +12,7 @@
 
         li {
             background-color: @gray-darker;
+            min-height: 35px;
             float: left;
             padding: 0;
             position: relative;
@@ -30,6 +32,10 @@
                 > ul {
                     display: block;
                 }
+            }
+
+            &.all {
+                width: 35px;
             }
         }
 
@@ -76,7 +82,17 @@
     }
 
     &.showall {
+        li {
+            background-color: @gray-dark;
+        }
+
         ul {
+            li {
+                 &:hover {
+                    background-color: fade(@gray-dark, 90%);
+                }
+            }
+
             ul {
                 ul {
                     position: relative;
