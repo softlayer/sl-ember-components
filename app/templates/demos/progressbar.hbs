@@ -1,0 +1,28 @@
+<h2>sl-progressbar</h2>
+<p class="lead">Component for integer-based progress bar.</p>
+
+<h3>Example</h3>
+{{sl-progressbar label=true value=60}}
+
+<h3>Properties</h3>
+<div class="group-list">
+    {{#property-text name="active" type="boolean" default="false"}}
+        When true, the striped progress bar will be animated.
+    {{/property-text}}
+
+    {{#property-text name="label" type="boolean" default="false"}}
+        When true, label text is shown over the bar.
+    {{/property-text}}
+
+    {{#property-text name="striped" type="boolean" default="false"}}
+        When true, the progress bar will be striped.
+    {{/property-text}}
+
+    {{#property-text name="theme" type="string" default="\"default\""}}
+        The Bootstrap contextual theme string to style the progress bar with.
+    {{/property-text}}
+
+    {{#property-text name="value" type="number"}}
+        The bound integer value for the progress (1-100).
+    {{/property-text}}
+</div>
