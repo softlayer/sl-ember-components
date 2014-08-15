@@ -17,6 +17,7 @@ Router.map( function () {
     this.route( 'demos/dropbutton',      { path: '/sl-dropbutton' });
     this.route( 'demos/grid',            { path: '/sl-grid' });
     this.route( 'demos/input',           { path: '/sl-input' });
+    this.route( 'demos/loading-icon',    { path: '/sl-loading-icon' });
     this.route( 'demos/menu',            { path: '/sl-menu' });
     this.route( 'demos/panel',           { path: '/sl-panel' });
     this.route( 'demos/radiogroup',      { path: '/sl-radiogroup' });
