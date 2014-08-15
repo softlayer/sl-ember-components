@@ -24,7 +24,7 @@
     {{#if showColumns}}
         <li class="text-center" role="presentation">Columns</li>
         <li role="presentation" class="divider"></li>
-        <li role="presentation" class="stay-open"><button class="btn btn-primary"{{action "click" "resetColumns"}}>Reset Columns to Default</button></li>
+        <li role="presentation" ><button class="btn btn-primary"{{action "click" "resetColumns"}}>Reset Columns to Default</button></li>
         {{#each column in hideableColumns}}
         <li role="presentation" class="hideableColumn stay-open">
             {{#if column.action}}
