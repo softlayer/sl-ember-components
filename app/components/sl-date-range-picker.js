@@ -7,6 +7,12 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     /**
+     * Class names for the date-range-picker component
+     * @property {array} classNames
+     */
+    classNames: [ 'sl-date-range-picker' ],
+
+    /**
      * The earliest selectable endDate, based on minDate and
      * current startDateValue
      * @property {date|string} earliestEndDate

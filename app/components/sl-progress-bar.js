@@ -18,7 +18,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Class names for the containing element
      * @property {array} classNames
      */
-    classNames: [ 'progress', 'sl-progressbar' ],
+    classNames: [ 'progress', 'sl-progress-bar' ],
 
     /**
      * Inline style string for progress bar element

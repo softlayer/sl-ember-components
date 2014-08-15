@@ -69,7 +69,7 @@ export default Ember.Component.extend({
      * Class names for the root element
      * @property {array} classNames
      */
-    classNames: [ 'sl-tabpanel' ],
+    classNames: [ 'sl-tab-panel' ],
 
     /**
      * Method to setup the initial tabpanel tabs and panes
