@@ -10,7 +10,7 @@ export default Ember.Component.extend({
      * Bindings for component's class names
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'large:sl-loading-icon-large' ],
+    classNameBindings: [ 'inverse:sl-loading-icon-light:sl-loading-icon-dark' ],
 
     /**
      * Class names for the loading icon component
@@ -19,12 +19,11 @@ export default Ember.Component.extend({
     classNames: [ 'sl-loading-icon' ],
 
     /**
-     * When true, a class name is added to indicate that the icon should be of
-     * the large variety.
-     * @property {boolean} large
+     * Whether to use the inverse (lighter colored) icon
+     * @property {boolean} inverse
      * @default false
      */
-    large: false,
+    inverse: false,
 
     /**
      * The HTML element type for this component
