@@ -24,6 +24,7 @@ Router.map( function () {
     this.route( 'demos/radio-group',       { path: '/sl-radio-group' });
     this.route( 'demos/select',            { path: '/sl-select' });
     this.route( 'demos/simple-modal',      { path: '/sl-simple-modal' });
+    this.route( 'demos/span',              { path: '/sl-span' });
     this.route( 'demos/tab-panel',         { path: '/sl-tab-panel' });
     this.route( 'demos/textarea',          { path: '/sl-textarea' });
     this.route( 'demos/tooltip',           { path: '/sl-tooltip' });
