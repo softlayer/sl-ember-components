@@ -14,6 +14,12 @@ export default Ember.Component.extend({
     chart: null,
 
     /**
+     * Bindings for the component's class names
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'isLoading:sl-loading' ],
+
+    /**
      * Class names for the root element
      * @property {array} classNames
      */
@@ -25,6 +31,13 @@ export default Ember.Component.extend({
      * @default "auto"
      */
     height: 'auto',
+
+    /**
+     * When true, the chart's panel body will be in a loading state
+     * @property {boolean} isLoading
+     * @default false
+     */
+    isLoading: false,
 
     /**
      * The collection of series data for the chart
