@@ -20,7 +20,7 @@ export default Ember.Component.extend({
          * (positive to increment, negative to decrement)
          */
         changeDecade: function ( decadeMod ) {
-            if ( this.get( 'lockView' )) {
+            if ( this.get( 'locked' )) {
                 return;
             }
 
@@ -36,7 +36,7 @@ export default Ember.Component.extend({
          * adjusted as needed.
          */
         changeMonth: function ( monthMod ) {
-            if ( this.get( 'lockView' )) {
+            if ( this.get( 'locked' )) {
                 return;
             }
 
@@ -67,7 +67,7 @@ export default Ember.Component.extend({
          * (positive to increment, negative to decrement)
          */
         changeYear: function ( yearMod ) {
-            if ( this.get( 'lockView' )) {
+            if ( this.get( 'locked' )) {
                 return;
             }
 
@@ -93,7 +93,7 @@ export default Ember.Component.extend({
          * @param {number} month - The number of the month to change view to
          */
         setMonth: function ( month ) {
-            if ( this.get( 'lockView' )) {
+            if ( this.get( 'locked' )) {
                 return;
             }
 
@@ -110,7 +110,7 @@ export default Ember.Component.extend({
          * or "years"
          */
         setView: function ( view ) {
-            if ( this.get( 'lockView' )) {
+            if ( this.get( 'locked' )) {
                 return;
             }
 
@@ -123,7 +123,7 @@ export default Ember.Component.extend({
          * @param {number} year - The year to set to the current value
          */
         setYear: function ( year ) {
-            if ( this.get( 'lockView' )) {
+            if ( this.get( 'locked' )) {
                 return;
             }
 
@@ -138,7 +138,7 @@ export default Ember.Component.extend({
      * Bindings for the component's class names
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'lockView:view-locked' ],
+    classNameBindings: [ 'locked:sl-calendar-locked' ],
 
     /**
      * Class names for the root element
@@ -243,10 +243,10 @@ export default Ember.Component.extend({
     /**
      * When true, the view mode is locked and users cannot navigate forward
      * and back.
-     * @property {boolean} lockView
+     * @property {boolean} locked
      * @default false
      */
-    lockView: false,
+    locked: false,
 
     /**
      * Get an array of objects representing months in the year view. Each item
