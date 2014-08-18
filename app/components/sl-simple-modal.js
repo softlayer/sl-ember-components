@@ -22,8 +22,30 @@ export default Ember.Component.extend( ModalMixin, {
     cancelText: 'Cancel',
 
     /**
-     * Attribute bindings for the root element
-     * @property {array} attributeBindings
+     * Custom simple-modal handler for setting the `show` property to false
+     * @method hideHandler
      */
-    attributeBindings: [ 'class' ]
+    hideHandler: function () {
+        this._super();
+        this.set( 'show', false );
+    },
+
+    /**
+     * Binding for whether the modal is shown or not
+     * @property {boolean} show
+     * @default false
+     */
+    show: false,
+
+    /**
+     * Observes the `show` value and appropriately shows or hides the modal
+     * @method toggle
+     */
+    toggle: function () {
+        if ( this.get( 'show' )) {
+            this.$().modal( 'show' );
+        } else {
+            this.$().modal( 'hide' );
+        }
+    }.observes( 'show' )
 });
