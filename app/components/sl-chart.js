@@ -23,7 +23,7 @@ export default Ember.Component.extend({
      * Class names for the root element
      * @property {array} classNames
      */
-    classNames: [ 'panel', 'panel-default', 'sl-chart' ],
+    classNames: [ 'panel', 'panel-default', 'sl-chart', 'sl-panel' ],
 
     /**
      * Height value used for inline style
