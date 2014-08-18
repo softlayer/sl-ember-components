@@ -119,8 +119,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 displayKey: namePath,
 
                 source: function ( query, callback ) {
+                    var pattern = new RegExp( query, 'i' );
+
                     callback( self.get( 'suggestions' ).filter( function ( suggestion ) {
-                        return Ember.get( suggestion, namePath ).indexOf( query ) > -1;
+                        return Ember.get( suggestion, namePath ).match( pattern );
                     }));
                 }
             });

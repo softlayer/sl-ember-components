@@ -9,8 +9,12 @@
 
 <ul class="dropdown-menu" role="menu">
     {{#each option in view.content}}
-        <li class="presentation">
-            <a {{action "click" option.action}} role="menuitem" tab-index="-1">{{option.label}}</a>
-        </li>
+        {{#if option.label}}
+            <li class="presentation">
+                <a {{action "click" option.action}} role="menuitem" tab-index="-1">{{option.label}}</a>
+            </li>
+        {{else}}
+            <li class="divider"></li>
+        {{/if}}
     {{/each}}
 </ul>
