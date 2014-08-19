@@ -33,7 +33,10 @@ export default Ember.Mixin.create({
             this.set( 'isPopover', false );
         } else if ( title ) {
             this.set( 'data-toggle', 'tooltip' );
-            this.$().tooltip({ title: title });
+            this.$().tooltip({
+                container: 'body',
+                title: title
+            });
             this.set( 'isTooltip', true );
         }
     }.observes( 'popover', 'title' ).on( 'didInsertElement' ),
