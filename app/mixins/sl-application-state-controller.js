@@ -51,9 +51,16 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @param {object} preferences 
      */
     setApplicationState: function( preferences ){
-        var definitions = this.get( 'applicationStateDefinition' );
+        var definitions = this.get( 'applicationStateDefinition' ),
+            version = Ember.get( definitions, 'v' );
 
         preferences = preferences || Ember.Object.create();  
+
+        if( version && version > preferences.get( 'v' ) ){
+            this.set( 'applicationStateVariable', definitions );
+            this.saveApplicationState();
+            return;
+        }
         
         Ember.keys( definitions ).forEach( function( key ){
             var preference = Ember.get( preferences, key ),
