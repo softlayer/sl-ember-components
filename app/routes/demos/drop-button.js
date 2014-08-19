@@ -13,6 +13,8 @@ export default Ember.Route.extend({
                 action: 'setWarning',
                 label: 'Warning'
             }, {
+                // divider
+            }, {
                 action: 'setSuccess',
                 label: 'Success'
             }

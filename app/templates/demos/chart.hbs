@@ -15,6 +15,10 @@
         CSS string for the height inline style value.
     {{/property-text}}
 
+    {{#property-text name="isLoading" type="boolean" default="false"}}
+        When true, the chart is masked and a loading icon appears.
+    {{/property-text}}
+
     {{#property-text name="options" required=true type="object"}}
         An object of options passed directly to Highcharts initialization.
     {{/property-text}}

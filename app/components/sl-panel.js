@@ -7,14 +7,21 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     /**
-     * Bound values for the panel component
-     * @property {array} attributeBindings
+     * Class name bindings for the panel component
+     * @property {array} classNameBindings
      */
-    attributeBindings: [ 'class', 'id' ],
+    classNameBindings: [ 'isLoading:sl-loading' ],
 
     /**
      * Class names for the panel container
      * @property {array} classNames
      */
-    classNames: [ 'panel', 'panel-default' ]
+    classNames: [ 'panel', 'panel-default', 'sl-panel' ],
+
+    /**
+     * When true, the panel body will be in a loading state
+     * @property {boolean} isLoading
+     * @default false
+     */
+    isLoading: false
 });

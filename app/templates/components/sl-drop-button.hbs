@@ -9,9 +9,7 @@
 
 <ul {{bind-attr class=":dropdown-menu alignRight:dropdown-menu-right"}} role="menu">
     {{#each option in view.content}}
-        {{#if option.divider}}
-            <li role="presentation" class="divider"></li>
-        {{else}}
+        {{#if option.label}}
             <li class="presentation">
             <a {{action "click" option.action}} role="menuitem" tab-index="-1">
                 {{#if option.icon}}
@@ -21,6 +19,8 @@
             </a>
 
             </li>
+        {{else}}
+            <li class="divider"></li>
         {{/if}}
     {{/each}}
 </ul>

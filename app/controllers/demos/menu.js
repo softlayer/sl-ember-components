@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import KeyManager from 'sl-components/utils/slmenukeyadapter';
+import KeyManager from 'sl-components/utils/sl-menu-key-adapter';
 
 export default Ember.ObjectController.extend({
 

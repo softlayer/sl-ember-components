@@ -1,0 +1,20 @@
+<h2>sl-span</h2>
+<p class="lead">A wrapper to intelligently represent state for inline content.</p>
+
+<h3>Example</h3>
+<p>This will load - {{sl-span class="text-success" isLoading=isLoading value="Done!"}} - after 5 seconds.</p>
+
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="class" type="string"}}
+        The <code>class</code> attribute to apply to the span.
+    {{/property-text}}
+
+    {{#property-text name="isLoading" type="boolean" default="false"}}
+        When true, a loading icon will be displayed in place of content.
+    {{/property-text}}
+
+    {{#property-text name="value" required=true type="mixed"}}
+        The value to display once loaded/ready.
+    {{/property-text}}
+</div>

@@ -18,6 +18,62 @@ export default Ember.Component.extend({
          */
         selected: function() {
             this.performAction();
+        },
+
+        /**
+         * @method showAll
+         */
+        showAll: function() {
+            if ( this.$() ) {
+                this.$().addClass( 'active' );
+
+                if ( this.get( 'isRoot' )) {
+                    this.$().addClass( 'showall' );
+                }
+            }
+
+            this.get( 'children' ).forEach( function( item ) {
+                item.send( 'showAll' );
+            });
+        },
+
+        /**
+         * @method closeAll
+         */
+        closeAll: function() {
+            if ( this.$() ) {
+                this.$().removeClass( 'active' );
+
+                if ( this.get( 'isRoot' )) {
+                    this.$().removeClass( 'showall' );
+                }
+            }
+
+            this.set( 'keyHandler', false );
+
+            this.get( 'children' ).forEach( function( item ) {
+                item.send( 'closeAll' );
+            });
+
+            if ( this.get( 'isRoot' )) {
+               this.set( 'keyHandler', true );
+            }
+        },
+
+        /**
+         * @method drillDown
+         */
+        drillDown: function() {
+            var child = this.get( 'activeChild' );
+
+            if ( this.get( 'keyHandler' )) {
+                if ( child ) {
+                    child.set( 'keyHandler', true );
+                    this.set( 'keyHandler', false );
+                }
+            } else if ( child ) {
+                child.drillDown();
+            }
         }
     },
 
@@ -54,6 +110,10 @@ export default Ember.Component.extend({
      * @method childSelected
      */
     childSelected: function( childIndex ) {
+        if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' )) {
+            this.send( 'closeAll' );
+        }
+
         if ( this.get( 'keyHandler' )) {
             this.activateChild( childIndex );
         } else {
@@ -85,69 +145,6 @@ export default Ember.Component.extend({
     },
 
     /**
-     * @method closeAll
-     */
-    closeAll: function() {
-        if ( this.$() ) {
-            this.$().removeClass( 'active' ).removeClass( 'showall' );
-        }
-
-        this.set( 'keyHandler', false );
-
-        this.get( 'children' ).forEach( function( item ) {
-            item.closeAll();
-        });
-
-        if ( this.get( 'isRoot' )) {
-           this.set( 'keyHandler', true );
-        }
-    },
-
-    /**
-     * @method didInsertElement
-     */
-    didInsertElement: function() {
-        var parent = this.get( 'parentView' );
-        if ( typeof parent.registerChild === 'function' ) {
-            parent.registerChild( this );
-        }
-    },
-
-    /**
-     * @method drillDown
-     */
-    drillDown: function() {
-        var child = this.get( 'activeChild' );
-
-        if ( this.get( 'keyHandler' )) {
-            if ( child ) {
-                child.set( 'keyHandler', true );
-                this.set( 'keyHandler', false );
-            }
-        } else if ( child ) {
-            child.drillDown();
-        }
-    },
-
-    /**
-     * @method getPath
-     */
-    getPath: function() {
-        var path = Ember.A(),
-            rootNode = this;
-
-        while( !rootNode.get( 'isRoot' )) {
-            path.insertAt( 0, rootNode.get( 'menu.label' ));
-            rootNode = rootNode.get( 'parentView' );
-        }
-
-        return {
-            root: rootNode,
-            path: path
-        };
-    },
-
-    /**
      * @method initChildren
      */
     initChildren: function() {
@@ -166,15 +163,50 @@ export default Ember.Component.extend({
                 this.childSelected( key );
             }.bind( this )).on( 'drillDown', function() {
                 if ( this.get( 'useDrillDownKey' )) {
-                    this.drillDown();
+                    this.send( 'drillDown' );
                 }
             }.bind( this )).on( 'closeAll', function() {
-                this.closeAll();
+                this.send( 'closeAll' );
             }.bind( this )).on( 'showAll', function() {
-                this.showAll();
+                this.send( 'showAll' );
             }.bind( this ));
         }
+
+        // Register child
+        var parent = this.get( 'parentView' );
+        if ( typeof parent.registerChild === 'function' ) {
+            parent.registerChild( this );
+        }
+
+        // Set path & root info
+        var path = Ember.A(),
+            rootNode = this;
+
+        while( !rootNode.get( 'isRoot' )) {
+            path.insertAt( 0, rootNode.get( 'menu.label' ));
+            rootNode = rootNode.get( 'parentView' );
+        }
+
+        this.setProperties({
+            path: path,
+            rootNode: rootNode
+        });
     }.observes( 'keyEvents' ).on( 'didInsertElement' ),
+
+    cleanUp: function() {
+        var parent = this.get( 'parentView' );
+        if ( typeof parent.unregisterChild === 'function' ) {
+            parent.unregisterChild( this );
+        }
+
+        var ke = this.get( 'keyEvents' );
+        if ( ke ) {
+            ke.off( 'childSelected' )
+              .off( 'drillDown' )
+              .off( 'closeAll' )
+              .off( 'showAll' );
+        }
+    }.on( 'willDestroyElement' ),
 
     /**
      * @property {boolean} isRoot
@@ -205,8 +237,10 @@ export default Ember.Component.extend({
      * @method mouseLeave
      */
     mouseLeave: function() {
-        if ( !this.$().hasClass( 'showall' )) {
-            this.closeAll();
+        if ( this.get( 'isRoot' )) {
+            this.send( 'closeAll' );
+        } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' )) {
+            this.$().removeClass( 'active' );
         }
     },
 
@@ -216,9 +250,9 @@ export default Ember.Component.extend({
     performAction: function() {
         this.$().addClass( 'active' );
 
-        var fullPath = this.getPath(),
-            rootNode = fullPath.root,
-            path = fullPath.path;
+        var rootNode = this.get( 'rootNode' ),
+            path     = this.get( 'path' );
+
 
         rootNode.sendAction( 'selectionMade', path );
 
@@ -246,7 +280,7 @@ export default Ember.Component.extend({
                 rootNode.sendAction( 'changeRoute', this.get( 'menu.emberRoute' ));
             }
 
-            rootNode.closeAll();
+            rootNode.send( 'closeAll' );
         }
     },
 
@@ -257,19 +291,6 @@ export default Ember.Component.extend({
      */
     registerChild: function( child ) {
         this.get( 'children' ).push( child );
-    },
-
-    /**
-     * @method showAll
-     */
-    showAll: function() {
-        if ( this.$() ) {
-            this.$().addClass( 'active' ).addClass( 'showall' );
-        }
-
-        this.get( 'children' ).forEach( function( item ) {
-            item.showAll();
-        });
     },
 
     /**
@@ -301,13 +322,18 @@ export default Ember.Component.extend({
      */
     useDrillDownKey: true,
 
-    /**
-     * @method willDestroyElement
-     */
-    willDestroyElement: function() {
-        var parent = this.get( 'parentView' );
-        if ( typeof parent.unregisterChild === 'function' ) {
-            parent.unregisterChild( this );
+    AllView: Ember.View.extend({
+
+        tagName: 'li',
+
+        classNames: [ 'all' ],
+
+        target: function() {
+            return this.get( 'parentView' );
+        }.property( 'parentView' ),
+
+        mouseEnter: function() {
+            this.send( 'showAll' );
         }
-    }
+    })
 });

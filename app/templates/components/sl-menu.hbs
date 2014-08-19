@@ -1,9 +1,5 @@
 {{#if menu.label}}
-    {{#if menu.pages}}
-        <a href="#" class="submenu" {{action "selected" target="view" bubbles=false}}>{{view.menu.label}}</a>
-    {{else}}
-        <a href="#" {{action "selected" target="view" bubbles=false}}>{{view.menu.label}}</a>
-    {{/if}}
+    <a href="#" {{bind-attr class="menu.pages:submenu"}} {{action "selected" target="view" bubbles=false}}>{{view.menu.label}}</a>
 {{/if}}
 
 {{#if menu.pages}}
@@ -11,5 +7,11 @@
         {{#each page in menu.pages}}
             {{sl-menu tagName="li" menuBinding="page" isRoot=false}}
         {{/each}}
+
+        {{#if view.isRoot}}
+            {{#view view.AllView}}
+                <a href="#" class="fa fa-chevron-circle-down" style="font-size: 18px;"></a>
+            {{/view}}
+        {{/if}}
     </ul>
 {{/if}}

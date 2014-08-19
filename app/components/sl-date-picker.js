@@ -34,7 +34,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Class names for the root element
      * @property {array} classNames
      */
-    classNames: [ 'form-group', 'sl-datepicker' ],
+    classNames: [ 'form-group', 'sl-date-picker' ],
 
     /**
      * If true, displays a "Clear" button at the bottom of the datepicker to
