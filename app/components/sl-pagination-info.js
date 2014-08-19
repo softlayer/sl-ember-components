@@ -4,5 +4,6 @@ export default Ember.Component.extend({
 
     tagName: 'span',
 
-   classNames: [ 'sl-pagination-info' ]
+    classNames: [ 'sl-pagination-info' ]
+
 });

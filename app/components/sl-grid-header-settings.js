@@ -9,17 +9,11 @@ export default Ember.Component.extend({
         }
     },
 
-    open: false,
-
-    eventManager: Ember.Object.create({
-        click: function( event, view ){
-            if( $( event.target ).closest( '.stay-open' ).length ){
-                return false;
-            } else {
-                view.$( 'button.dropdown-toggle' ).dropdown( 'toggle' );
-            }
+    click: function( event, view ){
+        if( $( event.target ).closest( '.stay-open' ).length ){
+            return false;
         }
-    }),
+    },
     
     clickableActions: function(){
         var actions = Ember.A([]),

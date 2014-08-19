@@ -1,13 +1,21 @@
 <header class="row">
     <div class="col-sm-6 col-md-6 col-lg-6">
-        {{sl-pagination-info pagingData=pagingData}}
-        {{sl-pagination-per-page-select action='changePerPage' perPageOptions=pagingData.perPageOptions itemCountPerPage=pagingData.itemCountPerPage}}
+        {{sl-pagination-info pagingData=pagingData 
+            pagingInfo=translations.pagination.paginationLabel}}
+        {{sl-pagination-per-page-select 
+            displaying=translations.pagination.displaying
+            perPage=translations.pagination.paginationPerPage
+            action='changePerPage' 
+            perPageOptions=pagingData.perPageOptions 
+            itemCountPerPage=pagingData.itemCountPerPage}}
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        {{sl-pagination-controls action="changePage" disabled=isLoading currentPage=pagingData.currentPage totalPages=pagingData.totalPages}}
-        {{#sl-button action="reload"}}
-            <i class="fa fa-refresh"></i>
-        {{/sl-button }}
+        {{sl-pagination-controls 
+            action="changePage" 
+            disabled=isLoading 
+            currentPage=pagingData.currentPage 
+            totalPages=pagingData.totalPages}}
+        <a {{bind-attr class=":btn :btn-default" title="reloadTitle" }}i {{action "reload"}}><i class="fa fa-refresh"></i></a>
         {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
     </div>
 </header>
@@ -49,7 +57,7 @@
                                {{render-component column.component cssClass=column.cssClass column=column row=row}}
                             {{else}}
                                 {{#sl-grid-table-cell cssClass=column.cssClass}}
-                                    {{get-key row column.key}}
+                                    {{get-key row column.key column.defaultText}}
                                 {{/sl-grid-table-cell}}
                             {{/if}}
                             {{#unless column.noResize}}

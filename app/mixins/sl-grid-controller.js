@@ -97,6 +97,9 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     /**
      * reload the model for this controller with the current paging preferences
+     *
+     * override this function with your own model reloading logic if need be
+     *
      */
     reloadModel: function(){
 
@@ -121,13 +124,14 @@ export default Ember.Mixin.create( SlApplicationState, {
                 direction: sortAscending ? 'ASC' : 'DESC'
             }]);
         }
-
+        //this assumes you are using an sl-model like store that can take 
+        //an options hash as a second parameter
         model = this.store.find( modelName, options );
 
         this.set( 'model', model );
 
         model.then( function(){
-            this.set( 'metaData', this.store.metadataFor( this.get('modelName') ) );
+            this.set( 'metaData', this.store.metadataFor( modelName ) );
         }.bind( this ) );
     }
 });

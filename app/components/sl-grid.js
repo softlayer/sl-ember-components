@@ -49,6 +49,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     columns: Ember.computed.alias( 'grid.columns' ),
     options: Ember.computed.alias( 'grid.options' ),
+    translations: Ember.computed.alias( 'grid.translations' ),
     
     /**
      * Class names for the component
@@ -61,14 +62,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @return {Boolean} [description]
      */
     isLoading: Ember.computed.alias( 'rows.model.isPending' ),
-
-    firstLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 1 ),
-
-    prevLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 1 ),
-
-    nextLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 'pagingData.totalPages' ),
-
-    lastLinkDisabled: Ember.computed.equal( 'pagingData.currentPage', 'pagingData.totalPages' ),
 
     columnCount: function(){
         return this.get( 'columns.length' ) +

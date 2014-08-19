@@ -22,18 +22,20 @@
         <li role="presentation" class="divider"></li>
     {{/if}}
     {{#if showColumns}}
-        <li class="text-center" role="presentation">Columns</li>
+        <li class="text-center" role="presentation">{{sl-translate key="PAGINGTOOLBAR_COLUMNS"}}</li>
         <li role="presentation" class="divider"></li>
-        <li role="presentation" ><button class="btn btn-primary"{{action "click" "resetColumns"}}>Reset Columns to Default</button></li>
+        <li role="presentation" >
+            {{sl-translate tagName="a" class="btn btn-primary" action="click" params="resetColumns" key="PAGINGTOOLBAR_RESET_COLUMNS_TO_DEFAULT"}}
+        </li>
         {{#each column in hideableColumns}}
         <li role="presentation" class="hideableColumn stay-open">
             {{#if column.action}}
                 <label {{action "click" column.action column.key}}>
                     {{view view.columnCheckbox column=column}}
-                    {{column.label}}
+                    {{sl-translate key=column.label}}
                 </label>
             {{else}}
-                {{column.label}}
+                {{sl-translate key=column.label}}
             {{/if}}
         </li>
         {{/each}}
