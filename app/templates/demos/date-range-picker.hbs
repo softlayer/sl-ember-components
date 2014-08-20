@@ -1,36 +1,38 @@
 <h2>sl-date-range-picker</h2>
 <p class="lead">A component to use for date ranges, using two {{#link-to "demos/date-picker"}}sl-date-picker{{/link-to}} components.</p>
 
-<h3>Example</h3>
-{{sl-date-range-picker
-    label="Select date range"
-    startDatePlaceholder="Select start date"
-    endDatePlaceholder="Select end date"
-}}
+{{#sl-panel heading="Example"}}
+    {{sl-date-range-picker
+        label="Select date range"
+        startDatePlaceholder="Select start date"
+        endDatePlaceholder="Select end date"
+    }}
+{{/sl-panel}}
 
-<h3>Properties</h3>
-<div class="list-group">
-    {{#property-text name="endDatePlaceholder" type="string"}}
-        The <code>placeholder</code> attribute text for the end date input.
-    {{/property-text}}
+{{#sl-panel heading="Properties"}}
+    <div class="list-group">
+        {{#property-text name="endDatePlaceholder" type="string"}}
+            The <code>placeholder</code> attribute text for the end date input.
+        {{/property-text}}
 
-    {{#property-text name="endDateValue" type="string" default="null"}}
-        The binding value for the endDate input.
-    {{/property-text}}
+        {{#property-text name="endDateValue" type="string" default="null"}}
+            The binding value for the endDate input.
+        {{/property-text}}
 
-    {{#property-text name="maxDate" type="date/string" default="null"}}
-        The latest possible date for the range.
-    {{/property-text}}
+        {{#property-text name="maxDate" type="date/string" default="null"}}
+            The latest possible date for the range.
+        {{/property-text}}
 
-    {{#property-text name="minDate" type="date/string" default="null"}}
-        The earliest possible date for the range.
-    {{/property-text}}
+        {{#property-text name="minDate" type="date/string" default="null"}}
+            The earliest possible date for the range.
+        {{/property-text}}
 
-    {{#property-text name="startDatePlaceholder" type="string"}}
-        The <code>placeholder</code> attribute text for the start date input.
-    {{/property-text}}
+        {{#property-text name="startDatePlaceholder" type="string"}}
+            The <code>placeholder</code> attribute text for the start date input.
+        {{/property-text}}
 
-    {{#property-text name="startDateValue" type="string" default="null"}}
-        The binding value for the startDate input.
-    {{/property-text}}
-</div>
+        {{#property-text name="startDateValue" type="string" default="null"}}
+            The binding value for the startDate input.
+        {{/property-text}}
+    </div>
+{{/sl-panel}}

@@ -1,65 +1,67 @@
 <h2>sl-textarea</h2>
 <p class="lead">A Bootstrap-wrapped component based on Ember's textarea helper.</p>
 
-<h3>Examples</h3>
-{{sl-textarea label="First textarea" placeholder="rows=6 maxlength=80" rows=6}}
-{{sl-textarea disabled=true label="Second textarea" placeholder="disabled=true rows=4" rows=4}}
+{{#sl-panel heading="Examples"}}
+    {{sl-textarea label="First textarea" placeholder="rows=6 maxlength=80" rows=6}}
+    {{sl-textarea disabled=true label="Second textarea" placeholder="disabled=true rows=4" rows=4}}
+{{/sl-panel}}
 
-<h3>Properties</h3>
-<div class="list-group">
-    {{#property-text name="cols" type="number/string"}}
-        <code>cols</code> attribute value.
-    {{/property-text}}
+{{#sl-panel heading="Properties"}}
+    <div class="list-group">
+        {{#property-text name="cols" type="number/string"}}
+            <code>cols</code> attribute value.
+        {{/property-text}}
 
-    {{#property-text name="disabled" type="boolean" default="false"}}
-        When true, the textarea is disabled.
-    {{/property-text}}
+        {{#property-text name="disabled" type="boolean" default="false"}}
+            When true, the textarea is disabled.
+        {{/property-text}}
 
-    {{#property-text name="helpText" type="string"}}
-        Text to display below the textarea.
-    {{/property-text}}
+        {{#property-text name="helpText" type="string"}}
+            Text to display below the textarea.
+        {{/property-text}}
 
-    {{#property-text name="label" type="string"}}
-        String for label text above the input.
-    {{/property-text}}
+        {{#property-text name="label" type="string"}}
+            String for label text above the input.
+        {{/property-text}}
 
-    {{#property-text name="maxlength" type="number/string"}}
-        <code>maxlength</code> attribute value.
-    {{/property-text}}
+        {{#property-text name="maxlength" type="number/string"}}
+            <code>maxlength</code> attribute value.
+        {{/property-text}}
 
-    {{#property-text name="optional" type="boolean" default="false"}}
-        When true, the component is styled to reflect optional status.
-    {{/property-text}}
+        {{#property-text name="optional" type="boolean" default="false"}}
+            When true, the component is styled to reflect optional status.
+        {{/property-text}}
 
-    {{#property-text name="placeholder" type="string"}}
-        <code>placeholder</code> attribute value for the textarea.
-    {{/property-text}}
+        {{#property-text name="placeholder" type="string"}}
+            <code>placeholder</code> attribute value for the textarea.
+        {{/property-text}}
 
-    {{#property-text name="popover" type="string" requires="title"}}
-        Popover content text.
-    {{/property-text}}
+        {{#property-text name="popover" type="string" requires="title"}}
+            Popover content text.
+        {{/property-text}}
 
-    {{#property-text name="readonly" type="boolean" default="false"}}
-        <code>readonly</code> attribute value for the textarea.
-    {{/property-text}}
+        {{#property-text name="readonly" type="boolean" default="false"}}
+            <code>readonly</code> attribute value for the textarea.
+        {{/property-text}}
 
-    {{#property-text name="required" type="boolean" default="false"}}
-        When true, the component is styled to reflect required status.
-    {{/property-text}}
+        {{#property-text name="required" type="boolean" default="false"}}
+            When true, the component is styled to reflect required status.
+        {{/property-text}}
 
-    {{#property-text name="rows" type="number/string"}}
-        <code>rows</code> attribute value.
-    {{/property-text}}
+        {{#property-text name="rows" type="number/string"}}
+            <code>rows</code> attribute value.
+        {{/property-text}}
 
-    {{#property-text name="tabindex" type="string"}}
-        <code>tabindex</code> attribute value.
-    {{/property-text}}
+        {{#property-text name="tabindex" type="string"}}
+            <code>tabindex</code> attribute value.
+        {{/property-text}}
 
-    {{#property-text name="title" type="string"}}
-        Tooltip text string, or becomes popover title with supplied popover property.
-    {{/property-text}}
+        {{#property-text name="title" type="string"}}
+            Tooltip text string, or becomes popover title with supplied popover property.
+        {{/property-text}}
 
-    {{#property-text name="value" type="mixed"}}
-        The bound value of the textarea.
-    {{/property-text}}
-</div>
+        {{#property-text name="value" type="mixed"}}
+            The bound value of the textarea.
+        {{/property-text}}
+    </div>
+{{/sl-panel}}
