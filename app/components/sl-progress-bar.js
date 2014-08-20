@@ -15,10 +15,31 @@ export default Ember.Component.extend( TooltipEnabled, {
     active: false,
 
     /**
+     * Bindings for the progress bar component
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
+
+    /**
      * Class names for the containing element
      * @property {array} classNames
      */
     classNames: [ 'progress', 'sl-progress-bar' ],
+
+    /**
+     * Whether the progress value is below a certain level
+     * @property {boolean} isLowPercentage
+     */
+    isLowPercentage: function () {
+        return this.get( 'value' ) < 50;
+    }.property( 'value' ),
+
+    /**
+     * Whether to display a text value over the progress
+     * @property {boolean} label
+     * @default false
+     */
+    label: false,
 
     /**
      * Inline style string for progress bar element
@@ -42,5 +63,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     themeClassName: function () {
         return 'progress-bar-' + this.get( 'theme' );
-    }.property( 'theme' )
+    }.property( 'theme' ),
+
+    /**
+     * The progress value as an integer (out of 100)
+     * @property {number} value
+     * @default 0
+    */
+    value: 0
 });

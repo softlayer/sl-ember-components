@@ -18,31 +18,13 @@ export default Ember.Component.extend({
          * @param {string} tabName - The name of the tab to change into
          */
         change: function ( tabName ) {
-            this.get( 'activePane' ).removeClass( 'active' );
-            this.get( 'activeTab' ).removeClass( 'active' );
-
-            this.set( 'activeTabName', tabName );
-
-            this.get( 'activePane' ).addClass( 'active' );
-            this.get( 'activeTab' ).addClass( 'active' );
+            if ( this.get( 'activeTabName' ) !== tabName ) {
+                this.set( 'activeTabName', tabName );
+            } else {
+                this.set( 'activeTabName', null );
+            }
         }
     },
-
-    /**
-     * The currently active pane element
-     * @property {object} activePane
-     */
-    activePane: function () {
-        return this.$( '.tab-pane[data-tab-name="' + this.get( 'activeTabName' ) + '"]' );
-    }.property( 'activeTabName' ),
-
-    /**
-     * The currently active tab element
-     * @property {object} activeTab
-     */
-    activeTab: function () {
-        return this.$( '.tab[data-tab-name="' + this.get( 'activeTabName' ) + '"]' );
-    }.property( 'activeTabName' ),
 
     /**
      * The currently active tab name
@@ -72,21 +54,30 @@ export default Ember.Component.extend({
     classNames: [ 'sl-tab-panel' ],
 
     /**
-     * Method to setup the initial tabpanel tabs and panes
-     * @method setup
-     */
-    setup: function () {
-        this.get( 'activePane' ).addClass( 'active' );
-        this.get( 'activeTab' ).addClass( 'active' );
-    }.on( 'didInsertElement' ),
-
-    /**
      * The class determining how to align tabs
      * @property {string} tabAlignmentClass
      */
     tabAlignmentClass: function () {
-        return 'align-tabs-' + this.get( 'alignTabs' );
-    }.property( 'alignTabs' )
+        return 'sl-align-tabs-' + this.get( 'alignTabs' );
+    }.property( 'alignTabs' ),
+
+    /**
+     * Unsets and sets the opened/closed panels
+     * @method updateActiveTab
+     */
+    updateActiveTab: function () {
+        var activeTabName = this.get( 'activeTabName' );
+
+        this.$( '.tab.active' ).removeClass( 'active' );
+        this.$( '.tab-pane.active' ).removeClass( 'active' );
+
+        if ( activeTabName !== null ) {
+            var activeSelector = '[data-tab-name="' + activeTabName + '"]';
+
+            this.$( '.tab' + activeSelector ).tab( 'show' );
+            this.$( '.tab-pane' + activeSelector ).addClass( 'active' );
+        }
+    }.observes( 'activeTabName' ).on( 'didInsertElement' )
 });
 
 Ember.Handlebars.helper( 'renderTabPane', function ( templateName, options ) {

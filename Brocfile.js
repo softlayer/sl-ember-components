@@ -53,13 +53,8 @@ app.import( 'vendor/moment/min/moment-with-langs.min.js' );
 
 // Select2
 app.import( 'vendor/select2/select2.min.js' );
-var select2Images = pickFiles( 'vendor/select2', {
-    srcDir: '/',
-    files: [ '*.png', '*.gif' ],
-    destDir: '/assets'
-});
 
 // Typeahead
 app.import( 'vendor/typeahead.js/dist/typeahead.bundle.min.js' );
 
-module.exports = mergeTrees([ app.toTree(), bootstrapCSSMap, bootstrapFonts, fontawesomeFont, select2Images ]);
+module.exports = mergeTrees([ app.toTree(), bootstrapCSSMap, bootstrapFonts, fontawesomeFont ]);

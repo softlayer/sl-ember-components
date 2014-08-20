@@ -1,12 +1,14 @@
 <h2>sl-loading-icon</h2>
 <p class="lead">A simple loading icon span.</p>
 
-<h3>Examples</h3>
-{{sl-loading-icon}}
+{{#sl-panel heading="Example"}}
+    {{sl-loading-icon}}
+{{/sl-panel}}
 
-<h3>Properties</h3>
-<div class="list-group">
-    {{#property-text name="inverse" type="boolean" default="false"}}
-        When true, a light version of the icon will be used (useful with masks).
-    {{/property-text}}
-</div>
+{{#sl-panel heading="Properties"}}
+    <div class="list-group">
+        {{#property-text name="inverse" type="boolean" default="false"}}
+            When true, a light version of the icon will be used (useful with masks).
+        {{/property-text}}
+    </div>
+{{/sl-panel}}
