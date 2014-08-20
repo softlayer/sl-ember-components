@@ -2,11 +2,11 @@
 <p class="lead">A component with selectable tabs and related tab panes. Based on <a href="http://getbootstrap.com/javascript/#tabs">Bootstrap - Togglable tabs</a>.</p>
 
 {{#sl-panel heading="Examples"}}
-    {{sl-tab-panel activeTabName="One" content=content}}
-    {{sl-tab-panel alignTabs="right" content=content}}
-
-    <p>One's input text: &ldquo;{{one.inputText}}&rdquo;</p>
+    <p><b>Panel One</b>'s input text: &ldquo;{{one.inputText}}&rdquo;</p>
 {{/sl-panel}}
+
+{{sl-tab-panel activeTabName="One" content=content}}
+{{sl-tab-panel alignTabs="right" content=content}}
 
 {{#sl-panel heading="Properties"}}
     <div class="list-group">
