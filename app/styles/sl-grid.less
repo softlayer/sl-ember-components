@@ -28,6 +28,10 @@
         max-width: 30px;
         min-width: 30px;
     }
+    th.reordering {
+        background-color: #eee;
+        position: absolute;
+    }
     .sl-grid-table-cell-actions {
         width: 120px;
         max-width: 120px;
@@ -39,3 +43,20 @@
         text-align:center;
     }
 }
+
+.sl-grid > div.shadow-mask {
+    cursor: wait;
+    display: none;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.6;
+}
+
+.reordering {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor:col-resize; 
+} 
