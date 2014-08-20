@@ -58,11 +58,12 @@ export default Ember.Component.extend({
      * @property {string} tabAlignmentClass
      */
     tabAlignmentClass: function () {
-        return 'align-tabs-' + this.get( 'alignTabs' );
+        return 'sl-align-tabs-' + this.get( 'alignTabs' );
     }.property( 'alignTabs' ),
 
     /**
-     *
+     * Unsets and sets the opened/closed panels
+     * @method updateActiveTab
      */
     updateActiveTab: function () {
         var activeTabName = this.get( 'activeTabName' );
