@@ -4,13 +4,16 @@ export default Ember.Route.extend({
     model: function () {
         return [
             {
-                name: 'One',
+                label: 'One',
+                name: 'one',
                 template: 'demos/tabs/one'
             }, {
-                name: 'Two',
+                label: 'Two',
+                name: 'two',
                 template: 'demos/tabs/two'
             }, {
-                name: 'Three',
+                label: 'Three',
+                name: 'three',
                 template: 'demos/tabs/three'
             }
         ];

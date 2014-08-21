@@ -30,7 +30,8 @@
         {{#property-text name="content" type="mixed" required=true}}
             Array of objects representing the tabs and their panes. Each item should have the following properties:
             <ul>
-                <li><strong class="text-danger">name <small>(required)</small></strong> - Text for the tab label. Also used for internal identification. The <code>activeTabName</code> will match this label text when a tab is selected.</li>
+                <li><strong class="text-danger">label <small>(required)</small></strong> - String for the tab's label text.</li>
+                <li><strong class="text-danger">name <small>(required)</small></strong> - String identifier for the tab. Used for internal identification. The <code>activeTabName</code> will match this label text when a tab is selected.</li>
                 <li><strong class="text-danger">template <small>(required)</small></strong> - String name of the template to render for this tab.</li>
             </ul>
         {{/property-text}}
