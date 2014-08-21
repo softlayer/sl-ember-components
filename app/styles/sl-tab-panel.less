@@ -1,3 +1,60 @@
-.tab a {
-    cursor: pointer;
+.sl-tab-panel {
+  .nav-tabs {
+    > .tab {
+      &.active > a {
+        cursor: default;
+      }
+
+      > a {
+        color: @link-color;
+        cursor: pointer;
+        transition: background-color 0.25s;
+
+        &:hover,
+        &:focus {
+          color: @link-color;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    padding: 0;
+
+    .tab-pane {
+      padding: @padding-base-horizontal;
+    }
+  }
+
+  &.sl-tab-panel-collapsible {
+    .nav-tabs {
+      .tab.active a {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &.sl-tab-panel-collapsed {
+    .tab a {
+      background-color: @gray-lighter;
+      border-bottom: 1px solid fade(@gray-light, 50%);
+      border-radius: @panel-border-radius;
+    }
+
+    .tab-content {
+      visibility: hidden;
+    }
+  }
+
+  &.sl-align-tabs-right {
+    .tab {
+      float: right;
+
+      a {
+        margin-left: 4px;
+        margin-right: 0;
+      }
+    }
+  }
 }
