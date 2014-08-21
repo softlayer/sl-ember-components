@@ -19,8 +19,7 @@
         {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
     </div>
 </header>
-{{view view.mask}}
-{{#view view.table}}
+<table class="table table-stripped">
     <thead>
         <tr>
             {{#if options.rowExpander}}
@@ -87,4 +86,4 @@
         {{/each}}
     {{/if}}
     </tbody>
-{{/view}}
+</table>

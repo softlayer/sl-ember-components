@@ -2,6 +2,10 @@
 @import 'sl-grid-table-column-resize.less';
 @import 'sl-grid-table-row-expander.less';
 
+.sl-grid {
+    position: relative;
+}
+
 .sl-grid header {
     border-bottom: 1px solid #aaa;
     margin-bottom: 0;
@@ -28,10 +32,6 @@
         max-width: 30px;
         min-width: 30px;
     }
-    th.reordering {
-        background-color: #eee;
-        position: absolute;
-    }
     .sl-grid-table-cell-actions {
         width: 120px;
         max-width: 120px;
@@ -48,15 +48,43 @@
     cursor: wait;
     display: none;
     position: absolute;
-    background-color: #000;
-    opacity: 0.6;
+    background-color: @gray-light;
+    opacity: 0.75;
+    z-index: 1000;
+    &::after {
+        -webkit-animation: spin 1s infinite linear;
+        -moz-animation: spin 1s infinite linear;
+        -o-animation: spin 1s infinite linear;
+        animation: spin 1s infinite linear;
+        background-image: url(images/spinner-dark.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 32px 32px;
+        content: "";
+        display: block;
+        height: 32px;
+        left: 50%;
+        margin-top: -16px;
+        margin-left: -16px;
+        position: absolute;
+        top: 50%;
+        width: 32px;
+    }
+}
+body > div.reordering {
+    display: inline-block;
+    background-color: @gray-light;
+    position: absolute;
+    z-index: 1000;
+    opacity: 0.75;
 }
 
-.reordering {
+body.reordering {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
     cursor:col-resize; 
+    position: relative;
 } 

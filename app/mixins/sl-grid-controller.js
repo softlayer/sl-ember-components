@@ -37,6 +37,10 @@ export default Ember.Mixin.create( SlApplicationState, {
 
         resetColumns: function(){ 
             this.resetColumns(); 
+        },
+        
+        reorderColumn: function( column, oldIndex, newIndex ){
+            this.reorderColumn( column, oldIndex, newIndex );            
         }
 
     },
@@ -63,31 +67,37 @@ export default Ember.Mixin.create( SlApplicationState, {
         this.notifyPropertyChange( 'sortProperties' );
         Ember.run.once( this, 'reloadModel');
     }.on( 'applicationStateDidLoad' ),
+
+    reorderColumn: function( column, oldIndex, newIndex ){
+        var columns = this.get( 'columns' ),
+        elementToMove;
+
+        columns.arrayContentWillChange( oldIndex, 1);
+        elementToMove = columns.splice( oldIndex, 1)[0];
+        columns.arrayContentDidChange( oldIndex, 1);
+
+        columns.arrayContentWillChange( newIndex, 0, 1 );
+        columns.splice( newIndex, 0, elementToMove );
+        columns .arrayContentDidChange( newIndex, 0, 1 );
+
+    },
  
     resetColumns: function(){
-        var gridColumnDefs = this.get( 'gridDefinition.columns' );
+        var gridColumnDefs = this.get( 'gridDefinition.columns' ),
+            tmpColumns = Ember.A([]);
         
-        //update each property individually so bindings dont' break triggering a bunch of re-renders
         gridColumnDefs.forEach( function( columnDef ){
-            var column = this.get( 'columns' ).findBy( 'key', columnDef.key );
-            //set all the defined properties back to the definition
-            column.setProperties( columnDef );
-            //remove all the properties not on the definition
-            Ember.keys( column ).forEach( function( key ){
-                if( ! columnDef.hasOwnProperty( key ) ){
-                    column.set( key, undefined );
-                }
-            });
+           tmpColumns.pushObject( Ember.Object.create( columnDef ) );
         }, this );
+        
+        this.set( 'columns', tmpColumns );
 
         this.saveApplicationState();
     },
 
-    columnWidthObserver: function(){
-        Ember.run.debounce( this, function(){
-            this.saveApplicationState();
-        }, 500 ); 
-    }.observes( 'columns.@each.width' ),
+    columnObserver: function(){
+        Ember.run.debounce( this, this.saveApplicationState, 500 ); 
+    }.observes( 'columns.@each' ),
 
     itemCountPerPage: Ember.computed.alias( 'options.itemCountPerPage' ),
 

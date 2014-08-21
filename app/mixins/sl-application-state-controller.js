@@ -35,7 +35,7 @@ export default Ember.Mixin.create( Ember.Evented, {
     },
 
     /**
-     * updateApplicationState
+     * setApplicationState
      *
      * Iterates over the definition and updates it via the preferences passed
      * in.
@@ -56,10 +56,8 @@ export default Ember.Mixin.create( Ember.Evented, {
 
         preferences = preferences || Ember.Object.create();  
 
-        if( version && version > preferences.get( 'v' ) ){
-            this.set( 'applicationStateVariable', definitions );
-            this.saveApplicationState();
-            return;
+        if( ! preferences.get( 'v' ) || ( version && version > preferences.get( 'v' ) ) ){
+            preferences = Ember.Object.create();
         }
         
         Ember.keys( definitions ).forEach( function( key ){
@@ -80,19 +78,31 @@ export default Ember.Mixin.create( Ember.Evented, {
                     definition.forEach( function( item ){
                         Ember.assert( 'Items in arrays on the `definition` must be objects', 
                             Ember.typeOf( item ) === 'object' );
-                                    
-                        var searchTerm = item.id ? 'id' : ( item.key ? 'key' : null ),
-                            preferenceItem,
-                            //make a copy so as not to corrupt the original
-                            mergedItem = Ember.Object.create( item );
 
+                       var searchTerm = item.id ? 'id' : ( item.key ? 'key' : null ),
+                        preferenceItem,
+                        //make a copy so as not to corrupt the original
+                        mergedItem = Ember.Object.create( item );
+                        
                         if( searchTerm && Ember.isArray( preference ) ){
                             preferenceItem = preference.findBy( searchTerm, mergedItem.get( searchTerm ) );
                             Ember.merge( mergedItem, preferenceItem );
                         }
-                        
+                                                                                                          
                         merged.pushObject( mergedItem );
                     });
+                    //now that we have our original defs merged in with thre prefs, lets reorder them
+                    //to match the prefs order if needed
+                    if( Ember.isArray( preference ) ){
+                        preference.forEach( function( item, idx ){
+                            var searchTerm = item.id ? 'id' : ( item.key ? 'key' : null ),
+                            oldIndex;
+                            if( searchTerm ){
+                                oldIndex = merged.indexOf( merged.findBy( searchTerm, item.get( searchTerm ) ) );
+                                merged.splice( idx, 0, merged.splice( oldIndex, 1)[0] );
+                            }
+                        });
+                    }
                     break;
                 default:
                     merged = preference || definition;
