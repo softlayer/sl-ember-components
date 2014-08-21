@@ -71,14 +71,14 @@ export default Ember.Mixin.create( SlApplicationState, {
     reorderColumn: function( column, oldIndex, newIndex ){
         var columns = this.get( 'columns' ),
         elementToMove;
-
+       
         columns.arrayContentWillChange( oldIndex, 1);
         elementToMove = columns.splice( oldIndex, 1)[0];
         columns.arrayContentDidChange( oldIndex, 1);
 
         columns.arrayContentWillChange( newIndex, 0, 1 );
         columns.splice( newIndex, 0, elementToMove );
-        columns .arrayContentDidChange( newIndex, 0, 1 );
+        columns.arrayContentDidChange( newIndex, 0, 1 );
 
     },
  

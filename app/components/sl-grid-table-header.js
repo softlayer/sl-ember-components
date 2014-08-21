@@ -36,12 +36,8 @@ export default Ember.Component.extend({
      * @return {undefined}
      */
     columnWidthObserver: function(){
-        var width = this.get( 'column.width' ),
-            elWidth = this.$().width();
+        var width = this.get( 'column.width' );
         
-        if( ! width && elWidth > 0 ){
-            width = elWidth;
-        }
         this.set( 'style', width ? 'width:'+width+'px;' : '' );
     }.observes( 'column.width' ),
 
