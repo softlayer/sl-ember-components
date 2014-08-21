@@ -22,14 +22,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     classNames: [ 'form-group', 'sl-select' ],
 
     /**
-     * Called when the bound content changes
-     * @method contentChanged
-     */
-    contentChanged: function () {
-        this.valueChanged();
-    }.observes( 'content.@each' ),
-
-    /**
      * Whether to show the search filter input or not
      * @property {boolean} disableSearch
      * @default false
@@ -37,12 +29,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     disableSearch: false,
 
     /**
-     * Get the internal &lt;input&gt; element
-     * @method getInput
+     * The internal input element, used for Select2's bindings
+     * @property {element} input
+     * @default null
      */
-    getInput: function () {
-        return this.$( '#' + this.get( 'inputId' ));
-    },
+    input: null,
 
     /**
      * ID of the &lt;input&gt; element
@@ -87,13 +78,20 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     optionValuePath: 'value',
 
-    /**
-     * Called when the object selection changes
-     * @method selectionChanged
-     * @param {mixed} data - Data from the selected option
-     */
-    selectionChanged: function ( value ) {
-        this.set( 'value', value );
+    selectionChanged: function ( data ) {
+        var multiple = this.get( 'multiple' ),
+            optionValuePath = this.get( 'optionValuePath' ),
+            value;
+
+        if ( optionValuePath ) {
+            if ( multiple ) {
+                value = data.getEach( optionValuePath );
+            } else {
+                value = Ember.get( data, optionValuePath );
+            }
+        } else {
+            value = data;
+        }
     },
 
     /**
@@ -102,13 +100,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     setupSelect2: function () {
         var get  = Ember.get,
-            self = this;
+            self = this,
+            input;
 
-        this.getInput().select2({
-            allowClear:           this.get( 'allowClear' ),
+        input = this.$( '#' + this.get( 'inputId' )).select2({
+            allowClear: this.get( 'allowClear' ),
             maximumSelectionSize: this.get( 'maximumSelectionSize' ),
-            multiple:             this.get( 'multiple' ),
-            placeholder:          this.get( 'placeholder' ),
+            multiple: this.get( 'multiple' ),
+            placeholder: this.get( 'placeholder' ),
 
             formatResult: function ( item ) {
                 if ( !item ) { return; }
@@ -117,8 +116,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     return item;
                 }
 
-                var output      = get( item, self.get( 'optionLabelPath' )),
-                    description = get( item, self.get( 'optionDescriptionPath' ));
+                var description = get( item, self.get( 'optionDescriptionPath' )),
+                    output = get( item, self.get( 'optionLabelPath' ));
 
                 if ( description ) {
                     output +=  ' <span class="text-muted">' + description + '</span>';
@@ -146,18 +145,18 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             },
 
             initSelection: function ( element, callback ) {
-                var value           = element.val(),
-                    content         = self.get( 'content' ),
-                    multiple        = self.get( 'multiple' ),
-                    optionValuePath = self.get( 'optionValuePath' );
+                var value = element.val();
 
                 if ( !value || !value.length ) {
                     return callback( [] );
                 }
 
-                var values          = value.split( ',' ),
-                    filteredContent = [],
+                var content         = self.get( 'content' ),
                     contentLength   = content.length,
+                    filteredContent = [],
+                    multiple        = self.get( 'multiple' ),
+                    optionValuePath = self.get( 'optionValuePath' ),
+                    values          = value.split( ',' ),
                     unmatchedValues = values.length,
                     item, matchIndex, text;
 
@@ -175,15 +174,15 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 }
 
                 if ( unmatchedValues === 0 ) {
-                    self.getInput().select2( 'readonly', false );
+                    self.input.select2( 'readonly', false );
                 } else {
-                    self.getInput().select2( 'readonly', true );
+                    self.input.select2( 'readonly', true );
 
                     var warning = 'sl-select:select2#initSelection was not able to map each "';
                     warning = warning.concat( optionValuePath );
                     warning = warning.concat( '" to an object from "content". The remaining keys are: ' );
                     warning = warning.concat( values );
-                    warning = warning.concat( '. The input will be disabled until a) the desired objects are added ');
+                    warning = warning.concat( '. The input will be disabled until a) the desired objects are added ' );
                     warning = warning.concat( 'to the "content" array, or b) the "value" is changed.' );
 
                     Ember.warn( warning, !values.length );
@@ -212,30 +211,37 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             }
         });
 
-        this.getInput().on( 'change', function () {
-            self.selectionChanged( self.getInput().select2( 'val' ));
+        input.on( 'change', function () {
+            Ember.run( function () {
+                self.set( 'value', input.select2( 'val' ));
+            });
         });
 
         if ( !this.get( 'multiple' )) {
             this.$( 'input.select2-input' ).attr( 'placeholder', 'Search...' );
         }
 
-        this.valueChanged();
+        this.input = input;
     }.on( 'didInsertElement' ),
 
     /**
-     * Called when the component's value has changed
-     * @method valueChanged
+     *
      */
     valueChanged: function () {
-        this.getInput().select2( this.get( 'optionValuePath' ) ? 'val' : 'data', this.get( 'value' ));
-    }.observes( 'value' ),
+        var value = this.get( 'value' );
+
+        if ( this.get( 'optionValuePath' )) {
+            this.input.select2( 'val', value );
+        } else {
+            this.input.select2( 'data', value );
+        }
+    }.observes( 'content.@each', 'value' ),
 
     /**
      * Teardown to prevent memory leaks
      * @method willDestroyElement
      */
     willDestroyElement: function () {
-        this.getInput().off( 'change' ).select2( 'destroy' );
+        this.input.off( 'change' ).select2( 'destroy' );
     }
 });
