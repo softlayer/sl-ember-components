@@ -56,6 +56,13 @@ export default Ember.Mixin.create({
     ],
 
     /**
+     * Bootstrap's modal backdrop option
+     * @property {boolean|string} backdrop
+     * @default true
+     */
+    backdrop: true,
+
+    /**
      * Class names for the containing element.
      * @property {array} classNames
      */
@@ -98,7 +105,7 @@ export default Ember.Mixin.create({
         var modal = this.$().modal({
             keyboard : true,
             show     : false,
-            backdrop : 'static'
+            backdrop : this.get( 'backdrop' )
         });
 
         modal.on( 'show.bs.modal', this.showHandler.bind( this ));
