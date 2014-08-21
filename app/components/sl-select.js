@@ -194,11 +194,12 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
 
             query: function ( query ) {
-                var optionLabelPath = self.get( 'optionLabelPath' ),
+                var content = self.get( 'content' ) || [],
+                    optionLabelPath = self.get( 'optionLabelPath' ),
                     select2 = this;
 
                 query.callback({
-                    results: self.get( 'content' ).reduce( function ( results, item ) {
+                    results: content.reduce( function ( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
                         if ( select2.matcher( query.term, text.toString() )) {
@@ -225,7 +226,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     }.on( 'didInsertElement' ),
 
     /**
-     *
+     * Set data bound value based on changed value
+     * @method valueChanged
      */
     valueChanged: function () {
         var value = this.get( 'value' );
