@@ -278,6 +278,8 @@ export default Ember.Component.extend({
                 }
             } else if ( this.get( 'menu.emberRoute' )) {
                 rootNode.sendAction( 'changeRoute', this.get( 'menu.emberRoute' ));
+            } else if ( this.get( 'menu.emberLink' )) {
+                window.location.href = this.get( 'menu.emberLink' );
             }
 
             rootNode.send( 'closeAll' );
