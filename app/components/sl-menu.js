@@ -335,7 +335,7 @@ export default Ember.Component.extend({
         }.property( 'parentView' ),
 
         mouseEnter: function() {
-            this.send( 'showAll' )
+            this.send( 'showAll' );
         }
     })
 });

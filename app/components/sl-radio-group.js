@@ -34,7 +34,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Class names for the containing element
      * @property {Array} classNames
      */
-    classNames: [ 'form-group', 'sl-radiogroup' ],
+    classNames: [ 'form-group', 'sl-radio-group' ],
 
     /**
      * Whether the radio buttons should be put inline together
