@@ -2,10 +2,15 @@
 <p class="lead">A component with selectable tabs and related tab panes. Based on <a href="http://getbootstrap.com/javascript/#tabs">Bootstrap - Togglable tabs</a>.</p>
 
 {{#sl-panel heading="Examples"}}
+    <p>
+        The first tab panel below is <em>not</em> collapsible, but the second
+        one is.
+    </p>
+
     <p><b>Panel One</b>'s input text: &ldquo;{{one.inputText}}&rdquo;</p>
 {{/sl-panel}}
 
-{{sl-tab-panel activeTabName="One" content=content}}
+{{sl-tab-panel collapsible=false content=content}}
 {{sl-tab-panel alignTabs="right" content=content}}
 
 {{#sl-panel heading="Properties"}}
@@ -18,10 +23,15 @@
             How to align the tabs, "left" or "right".
         {{/property-text}}
 
+        {{#property-text name="collapsible" type="boolean" default="true"}}
+            When true, an open tab can be clicked again to close it, so that all tabs and panes are un-selected. If set to false, and no <code>activeTabName</code> is given, then the first tab will be opened on initialization.
+        {{/property-text}}
+
         {{#property-text name="content" type="mixed" required=true}}
             Array of objects representing the tabs and their panes. Each item should have the following properties:
             <ul>
-                <li><strong class="text-danger">name <small>(required)</small></strong> - Text for the tab label. Also used for internal identification. The <code>activeTabName</code> will match this label text when a tab is selected.</li>
+                <li><strong class="text-danger">label <small>(required)</small></strong> - String for the tab's label text.</li>
+                <li><strong class="text-danger">name <small>(required)</small></strong> - String identifier for the tab. Used for internal identification. The <code>activeTabName</code> will match this label text when a tab is selected.</li>
                 <li><strong class="text-danger">template <small>(required)</small></strong> - String name of the template to render for this tab.</li>
             </ul>
         {{/property-text}}

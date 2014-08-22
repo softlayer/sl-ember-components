@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs" role="tablist">
     {{#each tab in content}}
         <li {{bind-attr data-tab-name=tab.name}} class="tab">
-            <a {{action "change" tab.name}} role="tab">{{tab.name}}</a>
+            <a {{action "change" tab.name}} role="tab">{{tab.label}}</a>
         </li>
     {{/each}}
 </ul>

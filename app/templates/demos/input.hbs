@@ -58,6 +58,10 @@
             When true, the component is styled to reflect required status.
         {{/property-text}}
 
+        {{#property-text name="suggestionNamePath" type="string" default="\"name\""}}
+            The string lookup for each suggestion's "name" value.
+        {{/property-text}}
+
         {{#property-text name="suggestions" type="array"}}
             Values to use as typeahead suggestions.
         {{/property-text}}
