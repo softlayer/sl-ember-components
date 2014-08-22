@@ -202,7 +202,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     results: content.reduce( function ( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
-                        if ( select2.matcher( query.term, text.toString() )) {
+                        if ( text && select2.matcher( query.term, text.toString() )) {
                             results.push( item );
                         }
 
