@@ -6,13 +6,13 @@
     position: relative;
 }
 
-.sl-grid header {
+header.sl-grid {
     border-bottom: 1px solid #aaa;
     margin-bottom: 0;
     padding-bottom: 10px;
 }
 
-.sl-grid > .table {
+table.sl-grid.table {
     table-layout:fixed;
     margin-top: 0;
     th {
@@ -44,9 +44,10 @@
     }
 }
 
-.sl-grid > div.shadow-mask {
+.sl-grid .shadow-mask {
+    width: 100%;
+    min-height: 200px;
     cursor: wait;
-    display: none;
     position: absolute;
     background-color: @gray-light;
     opacity: 0.75;

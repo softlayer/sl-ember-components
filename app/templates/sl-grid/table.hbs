@@ -1,25 +1,4 @@
-<header class="row">
-    <div class="col-sm-6 col-md-6 col-lg-6">
-        {{sl-pagination-info pagingData=pagingData 
-            pagingInfo=translations.pagination.paginationLabel}}
-        {{sl-pagination-per-page-select 
-            displaying=translations.pagination.displaying
-            perPage=translations.pagination.paginationPerPage
-            action='changePerPage' 
-            perPageOptions=pagingData.perPageOptions 
-            itemCountPerPage=pagingData.itemCountPerPage}}
-    </div>
-    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        {{sl-pagination-controls 
-            action="changePage" 
-            disabled=isLoading 
-            currentPage=pagingData.currentPage 
-            totalPages=pagingData.totalPages}}
-        <a {{bind-attr class=":btn :btn-default" title="reloadTitle" }}i {{action "reload"}}><i class="fa fa-refresh"></i></a>
-        {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
-    </div>
-</header>
-<table class="table table-stripped">
+<table class="sl-grid table table-striped">
     <thead>
         <tr>
             {{#if options.rowExpander}}
@@ -41,12 +20,11 @@
     <tbody>
     {{#if isLoading}}
         <tr>
-            <td {{bind-attr class=":loadingIndicator" colspan=columnCount}}>
-                <img src="/images/spinner_48.gif"/>
+            <td {{bind-attr colspan=columnCount class=":shadow-mask"}}>&nbsp;
             </td>
         </tr>
     {{else}}
-        {{#each row in rows}}
+        {{#each row in controller}}
             <tr>
                 {{#if options.rowExpander}}
                     {{sl-grid-table-cell-row-expander row=row}}

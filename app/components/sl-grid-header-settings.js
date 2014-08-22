@@ -5,11 +5,14 @@ export default Ember.Component.extend({
     classNames: [ 'sl-grid-header-settings' ],
     actions: {
         click: function( action, key ){
-            this.sendAction( 'action', action, key );
+            this.triggerAction( {
+                action: action, 
+                actionContext: [ key ]
+            } );
         }
     },
 
-    click: function( event, view ){
+    click: function( event ){
         if( $( event.target ).closest( '.stay-open' ).length ){
             return false;
         }

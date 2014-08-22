@@ -54,6 +54,8 @@ export default Ember.Mixin.create( SlApplicationState, {
     columns: Ember.computed.alias( 'grid.columns' ),
 
     options: Ember.computed.alias( 'grid.options' ),
+
+    translations: Ember.computed.alias( 'grid.translations' ),
     
     applicationStateVariable: Ember.computed.alias( 'grid' ),
 
@@ -67,6 +69,15 @@ export default Ember.Mixin.create( SlApplicationState, {
         this.notifyPropertyChange( 'sortProperties' );
         Ember.run.once( this, 'reloadModel');
     }.on( 'applicationStateDidLoad' ),
+    
+    isLoading: Ember.computed.alias( 'model.isPending' ),
+    
+    columnCount: function(){
+        return this.get( 'columns.length' ) +
+            ( this.get( 'columns.length' ) - this.get( 'columns' ).filterBy( 'noColumnResize' ).length )+
+            ( this.get( 'options.rowExpander' ) ? 1 : 0 )+
+            ( this.get( 'options.actionsColumn' ) ? 1 : 0 );
+    }.property( 'columns.length'),
 
     reorderColumn: function( column, oldIndex, newIndex ){
         var columns = this.get( 'columns' ),
