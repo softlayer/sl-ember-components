@@ -223,6 +223,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
 
         this.input = input;
+
+        if ( this.get( 'value' )) {
+            this.valueChanged();
+        }
     }.on( 'didInsertElement' ),
 
     /**
