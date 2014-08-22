@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create( Ember.Evented, {
-    needs: [ 'user' ],
 
     applicationStateVariable: function(){
         Ember.assert( 'applicationStateVariable is not defined in your class!', false );
@@ -12,17 +11,21 @@ export default Ember.Mixin.create( Ember.Evented, {
     }.property(),
 
     applicationStateNamespace: function(){
-        Ember.assert( 'applicationStateNamespace is not defined in you class!', false );
+        Ember.assert( 'applicationStateNamespace is not defined in your class!', false );
+    }.property(),
+
+    localStorageController: function(){
+        Ember.assert( 'localStorageController is not defined in your class!', false );
     }.property(),
 
     /**
-     * Load the user preferences for this model from localStorage
+     * Load the application state from localStorage
      */
     loadApplicationState: function(){
         var self = this,
-            userController = this.get( 'controllers.user' );
+            localStorageController = this.get( 'localStorageController' );
 
-        userController.getPreferencesByNamespace( this.get( 'applicationStateNamespace' ) )
+        localStorageController.getPreferencesByNamespace( this.get( 'applicationStateNamespace' ) )
         .then( function( applicationState ){
             self.setApplicationState( applicationState );
         })
@@ -130,7 +133,7 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @return {[type]} [description]
      */
     saveApplicationState: function(){
-        this.get( 'controllers.user' ) 
+        this.get( 'localStorageController' ) 
             .setPreferences( 
                 this.get( 'applicationStateVariable' ), 
                 this.get( 'applicationStateNamespace' )

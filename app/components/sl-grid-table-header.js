@@ -53,8 +53,10 @@ export default Ember.Component.extend({
     }.on( 'didInsertElement' ),
 
     mouseDown: function( ){
-        $('body').on( 'mousemove', this.mouseMoveListener );
-        $('body').on( 'mouseup', this.mouseUpListener );
+        if( !this.get( 'disabled' ) ){
+            $('body').on( 'mousemove', this.mouseMoveListener );
+            $('body').on( 'mouseup', this.mouseUpListener );
+        }
     },
     setUpBoundListeners: function(){
 
