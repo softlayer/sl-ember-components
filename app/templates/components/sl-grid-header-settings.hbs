@@ -13,9 +13,9 @@
                 {{#if entry.icon}}
                 <img {{bind-attr src=entry.icon}}/>
                 {{/if}}
-                {{entry.label}}</a>
+                {{sl-translate key=entry.label}}</a>
             {{else}}
-                {{entry.label}}
+                {{sl-translate key=entry.label}}
             {{/if}}
         </li>
         {{/each}}
