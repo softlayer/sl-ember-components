@@ -39,8 +39,8 @@ export default Ember.Mixin.create( SlApplicationState, {
             this.resetColumns(); 
         },
         
-        reorderColumn: function( column, oldIndex, newIndex ){
-            this.reorderColumn( column, oldIndex, newIndex );            
+        reorderColumn: function( oldIndex, newIndex ){
+            this.reorderColumn( oldIndex, newIndex );            
         }
 
     },
@@ -79,7 +79,7 @@ export default Ember.Mixin.create( SlApplicationState, {
             ( this.get( 'options.actionsColumn' ) ? 1 : 0 );
     }.property( 'columns.length'),
 
-    reorderColumn: function( column, oldIndex, newIndex ){
+    reorderColumn: function( oldIndex, newIndex ){
         var columns = this.get( 'columns' ),
         elementToMove;
        

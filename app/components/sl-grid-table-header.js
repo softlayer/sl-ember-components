@@ -81,7 +81,7 @@ export default Ember.Component.extend({
             if( newIndex !== oldIndex ){
                 this.triggerAction({
                     action: 'reorderColumn',
-                    actionContext: [ this.get( 'column' ), oldIndex, newIndex ]
+                    actionContext: [ oldIndex, newIndex ]
                 });
             }
          }));
@@ -133,6 +133,7 @@ export default Ember.Component.extend({
         var headers = this.$().parent().children( 'th.sl-grid-table-header' );
         var currentLeft = this.get( 'reorderCol' ).offset().left;
         var thisId = this.$()[0].id;
+        /*jshint unused: false*/
         var offsets = headers.map( function( index, el ){ 
             if( el.id === thisId ){
                 return this.get( 'oldPosition' );

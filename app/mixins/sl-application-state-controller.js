@@ -21,15 +21,17 @@ export default Ember.Mixin.create( Ember.Evented, {
     loadApplicationState: function(){
         var self = this,
             userController = this.get( 'controllers.user' );
-            
+
         userController.getPreferencesByNamespace( this.get( 'applicationStateNamespace' ) )
         .then( function( applicationState ){
             self.setApplicationState( applicationState );
         })
+        /*jshint quotmark: double */    
         .catch( function(){
             self.setApplicationState(); 
         })
         .finally( function(){
+            /*jshint quotmark: single */    
             self.trigger( 'applicationStateDidLoad' );
         });
     },
