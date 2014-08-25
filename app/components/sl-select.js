@@ -79,6 +79,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     optionValuePath: 'value',
 
+    /**
+     * Update the bound value when the Select2's selection has changed
+     * @method selectionChanged
+     * @param {mixed} data - Select2 data
+     */
     selectionChanged: function ( data ) {
         var multiple = this.get( 'multiple' ),
             optionValuePath = this.get( 'optionValuePath' ),
@@ -217,6 +222,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             Ember.run( function () {
                 self.set( 'value', input.select2( 'val' ));
             });
+        });
+
+        var originalBodyOverflow = document.body.style.overflow || 'auto';
+        input.on( 'select2-open', function () {
+            document.body.style.overflow = 'hidden';
+        });
+        input.on( 'select2-close', function () {
+            document.body.style.overflow = originalBodyOverflow;
         });
 
         if ( !this.get( 'multiple' )) {
