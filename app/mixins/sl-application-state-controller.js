@@ -59,8 +59,6 @@ export default Ember.Mixin.create( Ember.Evented, {
         var definitions = this.get( 'applicationStateDefinition' ),
             version = Ember.get( definitions, 'v' );
 
-        preferences = preferences || Ember.Object.create();  
-
         if( ! preferences.get( 'v' ) || ( version && version > preferences.get( 'v' ) ) ){
             preferences = Ember.Object.create();
         }
@@ -72,6 +70,7 @@ export default Ember.Mixin.create( Ember.Evented, {
            
             switch( Ember.typeOf( definition ) ){
                 case 'object':
+                case 'instance':
                     //need to make a copy of the definition so we don't
                     //corrupt the original
                     merged = Ember.Object.create( definition );
@@ -82,7 +81,7 @@ export default Ember.Mixin.create( Ember.Evented, {
                     //we will only add elements that exist on the definition
                     definition.forEach( function( item ){
                         Ember.assert( 'Items in arrays on the `definition` must be objects', 
-                            Ember.typeOf( item ) === 'object' );
+                            Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'object' );
 
                        var searchTerm = item.id ? 'id' : ( item.key ? 'key' : null ),
                         preferenceItem,
