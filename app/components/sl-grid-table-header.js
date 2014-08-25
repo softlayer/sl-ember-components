@@ -44,18 +44,7 @@ export default Ember.Component.extend({
         var width = this.get( 'column.width' );
         
         this.set( 'style', width ? 'width:'+width+'px;' : '' );
-    }.observes( 'column.width' ),
-
-    /**
-     * columnWidthsDidInsert will update the width/style string once the view
-     * has been inserted into the dom.  This avoids causing Ember/view
-     * exceptions.
-     *
-     * @return {undefined}
-     */
-    columnWidthsDidInsert: function(){
-        this.columnWidthObserver();
-    }.on( 'didInsertElement' ),
+    }.observes( 'column.width' ).on( 'didInsertElement' ),
 
     mouseDown: function( ){
         if( !this.get( 'disabled' ) ){

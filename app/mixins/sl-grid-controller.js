@@ -138,7 +138,8 @@ export default Ember.Mixin.create( SlApplicationState, {
                 reload: true
             },
             model,
-            sortedColumn = this.get( 'columns' ).findBy( 'isSorted', true ),
+            columns = this.get( 'columns' ),
+            sortedColumn = columns ? columns.findBy( 'isSorted', true ) : null,
             sortAscending = sortedColumn ? sortedColumn.get( 'sortAscending' ) : null;
 
         if( sortedColumn ){

@@ -59,7 +59,7 @@ export default Ember.Mixin.create( Ember.Evented, {
         var definitions = this.get( 'applicationStateDefinition' ),
             version = Ember.get( definitions, 'v' );
 
-        if( ! preferences.get( 'v' ) || ( version && version > preferences.get( 'v' ) ) ){
+        if( ! preferences || ! preferences.get( 'v' ) || ( version && version > preferences.get( 'v' ) ) ){
             preferences = Ember.Object.create();
         }
         
