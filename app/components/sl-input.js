@@ -32,6 +32,12 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     },
 
     /**
+     * Attribute bindings for the containing div
+     * @property {array} attributeBindings
+     */
+    attributeBindings: [ 'class' ],
+
+    /**
      * Class names for the containing div
      * @property {array} classNames
      */

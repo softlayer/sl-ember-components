@@ -15,6 +15,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     allowClear: false,
 
+
     /**
      * Class names for the select element
      * @property {array} classNames

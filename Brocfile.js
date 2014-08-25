@@ -31,6 +31,13 @@ var bootstrapFonts = pickFiles( 'vendor/sl-bootstrap/fonts', {
 // Bootstrap-Datepicker
 app.import( 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
+// Select2 select
+app.import( 'vendor/select2/select2.css' );
+app.import( 'vendor/select2/select2-bootstrap.css' );
+app.import( 'vendor/select2/select2.min.js' );
+
+app.import( 'vendor/fontawesome/css/font-awesome.min.css' );
+
 // FontAwesome
 var fontawesomeFont = pickFiles( 'vendor/fontawesome/fonts', {
     srcDir: '/',

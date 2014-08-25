@@ -7,11 +7,17 @@
     {{/if}}
 </button>
 
-<ul class="dropdown-menu" role="menu">
+<ul {{bind-attr class=":dropdown-menu alignRight:dropdown-menu-right"}} role="menu">
     {{#each option in view.content}}
         {{#if option.label}}
             <li class="presentation">
-                <a {{action "click" option.action}} role="menuitem" tab-index="-1">{{option.label}}</a>
+            <a {{action "click" option.action}} role="menuitem" tab-index="-1">
+                {{#if option.icon}}
+                    <img {{bind-attr src=option.icon}}/>
+                {{/if}}
+                {{option.label}}
+            </a>
+
             </li>
         {{else}}
             <li class="divider"></li>

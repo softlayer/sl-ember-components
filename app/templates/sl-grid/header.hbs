@@ -1,0 +1,20 @@
+<header class="sl-grid row">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+        {{sl-pagination-info pagingData=pagingData 
+            pagingInfo=translations.pagination.paginationLabel}}
+        {{sl-pagination-per-page-select 
+            displaying=translations.pagination.displaying
+            perPage=translations.pagination.paginationPerPage
+            perPageOptions=pagingData.perPageOptions 
+            itemCountPerPage=itemCountPerPage}}
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+        {{sl-pagination-controls 
+            action="changePage" 
+            disabled=isLoading 
+            currentPage=pagingData.currentPage 
+            totalPages=pagingData.totalPages}}
+        <a {{bind-attr class=":btn :btn-default" title="reloadTitle" }}i {{action "reload"}}><i class="fa fa-refresh"></i></a>
+        {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
+    </div>
+</header>
