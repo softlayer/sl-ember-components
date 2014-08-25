@@ -122,20 +122,23 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 highlight: true,
                 hint: true
             }, {
-                displayKey: namePath,
+                displayKey: function( obj ){
+                    return Ember.get( obj, namePath );
+                },
 
                 source: function ( query, callback ) {
                     var pattern = new RegExp( query, 'i' );
 
                     callback( self.get( 'suggestions' ).filter( function ( suggestion ) {
-                        return Ember.get( suggestion, namePath ).match( pattern );
+                        var searchCandidate = Ember.get( suggestion, namePath );
+                        return searchCandidate ? searchCandidate.match( pattern ) : false;
                     }));
                 }
             });
 
             /* jshint ignore:start */
             var selectItem = function ( event, item ) {
-                self.set( 'value', Ember.get( item, namePath ));
+                Ember.run( function(){ self.set( 'value', Ember.get( item, namePath )); });
             };
 
             typeahead.on( 'typeahead:autocompleted', selectItem );
