@@ -7,5 +7,6 @@ export default SlGridTableCell.extend({
             this.toggleProperty( 'row.rowExpanderIsOpen' );
         }
     },
+    classNames: [ 'sl-grid-table-cell-expander' ],
     expanded: Ember.computed.bool( 'row.rowExpanderIsOpen' )
 });
