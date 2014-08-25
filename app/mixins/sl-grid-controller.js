@@ -91,6 +91,7 @@ export default Ember.Mixin.create( SlApplicationState, {
         columns.splice( newIndex, 0, elementToMove );
         columns.arrayContentDidChange( newIndex, 0, 1 );
 
+        this.saveApplicationState();
     },
  
     resetColumns: function(){
@@ -106,9 +107,9 @@ export default Ember.Mixin.create( SlApplicationState, {
         this.saveApplicationState();
     },
 
-    columnObserver: function(){
+    columnWidthObserver: function(){
         Ember.run.debounce( this, this.saveApplicationState, 500 ); 
-    }.observes( 'columns.@each' ),
+    }.observes( 'columns.@each.width' ),
 
     itemCountPerPage: Ember.computed.alias( 'options.itemCountPerPage' ),
 

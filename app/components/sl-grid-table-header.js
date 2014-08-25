@@ -13,6 +13,11 @@ export default Ember.Component.extend({
         }
     },
 
+    /**
+     * sortClasses - add css classes if this column is sorted on
+     *
+     * @return {undefined}
+     */
     sortClasses: function(){
         var isSorted = this.get( 'column.isSorted' ),
             sortAscending = this.get( 'column.sortAscending' );
@@ -131,7 +136,7 @@ export default Ember.Component.extend({
     
     setNewColumnIndex: function(){
 
-        //get all siblings and offsetsdd
+        //get all siblings and offsets
         var headers = this.$().parent().children( 'th.sl-grid-table-header' );
         var currentLeft = this.get( 'reorderCol' ).offset().left;
         var thisId = this.$()[0].id;
