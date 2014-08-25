@@ -79,6 +79,17 @@ export default Ember.Mixin.create( SlApplicationState, {
             ( this.get( 'options.actionsColumn' ) ? 1 : 0 );
     }.property( 'columns.length'),
 
+    totalWidthHints: function(){
+        var columns = this.get( 'columns' ),
+            totalWidthHints = 0;
+
+        columns.forEach( function( col ){
+            totalWidthHints += col.getWithDefault( 'widthHint', 1 );
+        });
+
+        return totalWidthHints;
+    }.property( 'columns.@each.widthHint' ),
+
     reorderColumn: function( oldIndex, newIndex ){
         var columns = this.get( 'columns' ),
         elementToMove;

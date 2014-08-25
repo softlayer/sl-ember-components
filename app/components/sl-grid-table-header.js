@@ -41,10 +41,40 @@ export default Ember.Component.extend({
      * @return {undefined}
      */
     columnWidthObserver: function(){
-        var width = this.get( 'column.width' );
+        var width = this.get( 'column.width' ),
+            widthHint,
+            totalWidthHints,
+            resizeCols,
+            resizeColWidth,
+            resizeColCount,
+            actionsColWidth,
+            rowExpanderWidth,
+            tableWidth,
+            totalHintingWidth;
+
+                   
+        if( width ){ 
+            this.set( 'style', width ? 'width:'+width+'px;' : '' );
+            return;
+        }
         
-        this.set( 'style', width ? 'width:'+width+'px;' : '' );
+        widthHint = this.getWithDefault( 'column.widthHint', 1 );
+        totalWidthHints = this.get( 'totalWidthHints' );
+        resizeCols = this.$().siblings( 'th.sl-grid-table-column-resize' );
+        resizeColWidth = resizeCols.outerWidth()||0;
+        resizeColCount = resizeCols.length;
+        actionsColWidth = this.$().siblings( 'th.sl-grid-table-cell-actions' ).outerWidth()||0;
+        rowExpanderWidth = this.$().siblings( 'th.sl-grid-table-cell-row-expander' ).outerWidth()||0;
+        tableWidth = this.$().parents( 'table.sl-grid' ).width();
+
+        totalHintingWidth = tableWidth - rowExpanderWidth - actionsColWidth - resizeColWidth*resizeColCount;
+
+        width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
+
+        this.set( 'style', 'width:'+width+'px;' );
+
     }.observes( 'column.width' ).on( 'didInsertElement' ),
+
 
     mouseDown: function( ){
         if( !this.get( 'disabled' ) ){

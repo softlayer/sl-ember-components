@@ -6,7 +6,7 @@
             {{/if}}
             {{#each column in columns}}
                 {{#unless column.hidden}}
-                    {{sl-grid-table-header action="sortColumn" column=column disabled=isLoading}} 
+                    {{sl-grid-table-header action="sortColumn" column=column disabled=isLoading totalWidthHints=totalWidthHints}} 
                     {{#unless column.noResize}}
                         {{sl-grid-table-column-resize column=column header=true disabled=isLoading}}
                     {{/unless}}
