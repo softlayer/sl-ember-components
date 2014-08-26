@@ -63,7 +63,7 @@ export default Ember.Component.extend({
             }
         });
 
-        this.set( 'contentHeight', parseInt( pane.css( 'height' )));
+        self.set( 'contentHeight', parseInt( pane.css( 'height' )));
     },
 
     /**
@@ -125,7 +125,9 @@ export default Ember.Component.extend({
 
         pane.fadeOut( 'fast', function () {
             if ( collapse ) {
-                self.set( 'isCollapsed', true );
+                Ember.run( function () {
+                    self.set( 'isCollapsed', true );
+                });
             }
 
             pane.removeClass( 'active' );
