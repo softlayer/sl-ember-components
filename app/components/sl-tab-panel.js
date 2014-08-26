@@ -48,23 +48,22 @@ export default Ember.Component.extend({
      * @param {function} callback - Function to call once the pane is activated
      */
     activatePane: function ( tabName, callback ) {
-        var isCollapsed = this.get( 'isCollapsed' );
         var pane = this.paneFor( tabName );
+        var self = this;
 
-        var done = function () {
+        if ( self.get( 'isCollapsed' )) {
+            self.set( 'isCollapsed', false );
+        }
+
+        pane.fadeIn( 'fast', function () {
             pane.addClass( 'active' );
 
             if ( typeof callback === 'function' ) {
                 callback();
             }
-        };
+        });
 
-        if ( isCollapsed ) {
-            this.set( 'isCollapsed', false );
-            pane.slideDown( 'fast', done );
-        } else {
-            pane.fadeIn( 'fast', done );
-        }
+        this.set( 'contentHeight', parseInt( pane.css( 'height' )));
     },
 
     /**
@@ -106,6 +105,13 @@ export default Ember.Component.extend({
     collapsible: true,
 
     /**
+     * The height of the tab-content in pixels
+     * @property {number} contentHeight
+     * @default 0
+     */
+    contentHeight: 0,
+
+    /**
      * Deactivate a tab pane, animating the transition
      * @method deactivatePane
      * @param {string} tabName - The name of the tab to deactivate
@@ -113,24 +119,24 @@ export default Ember.Component.extend({
      */
     deactivatePane: function ( tabName, callback ) {
         var activeTabName = this.get( 'activeTabName' );
+        var collapse = !activeTabName && this.get( 'collapsible' );
         var pane = this.paneFor( tabName );
         var self = this;
 
-        var done = function () {
+        pane.fadeOut( 'fast', function () {
+            if ( collapse ) {
+                self.set( 'isCollapsed', true );
+            }
+
             pane.removeClass( 'active' );
 
             if ( typeof callback === 'function' ) {
                 callback();
             }
-        };
+        });
 
-        if ( activeTabName ) {
-            pane.fadeOut( 'fast', done );
-        } else if ( this.get( 'collapsible' )) {
-            pane.slideUp( 'fast', function () {
-                self.set( 'isCollapsed', true );
-                done();
-            });
+        if ( collapse ) {
+            this.set( 'contentHeight', 0 );
         }
     },
 
@@ -184,6 +190,8 @@ export default Ember.Component.extend({
         if ( initialTabName ) {
             this.setActiveTab( initialTabName );
             this.activatePane( initialTabName );
+        } else {
+            this.updateContentHeight();
         }
     }.on( 'didInsertElement' ),
 
@@ -203,7 +211,15 @@ export default Ember.Component.extend({
      */
     tabFor: function ( tabName ) {
         return this.$( '.tab[data-tab-name="' + tabName + '"]' );
-    }
+    },
+
+    /**
+     * Sets the tab-content div height based on current contentHeight value
+     * @method updateContentHeight
+     */
+    updateContentHeight: function () {
+        this.$( '.tab-content' ).height( this.get( 'contentHeight' ));
+    }.observes( 'contentHeight' )
 });
 
 Ember.Handlebars.helper( 'renderTabPane', function ( templateName, options ) {
