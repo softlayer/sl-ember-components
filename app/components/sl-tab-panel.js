@@ -41,6 +41,12 @@ export default Ember.Component.extend({
         }
     },
 
+    /**
+     * Activate a tab pane, animating the transition
+     * @method activatePane
+     * @param {string} tabName - The name of the tab to activate
+     * @param {function} callback - Function to call once the pane is activated
+     */
     activatePane: function ( tabName, callback ) {
         var isCollapsed = this.get( 'isCollapsed' );
         var pane = this.paneFor( tabName );
@@ -99,6 +105,12 @@ export default Ember.Component.extend({
      */
     collapsible: true,
 
+    /**
+     * Deactivate a tab pane, animating the transition
+     * @method deactivatePane
+     * @param {string} tabName - The name of the tab to deactivate
+     * @param {function} callback - Function called when the pane is deactivated
+     */
     deactivatePane: function ( tabName, callback ) {
         var activeTabName = this.get( 'activeTabName' );
         var pane = this.paneFor( tabName );
@@ -129,10 +141,20 @@ export default Ember.Component.extend({
      */
     isCollapsed: true,
 
+    /**
+     * Get the tab-panel's tab-pane for the specified tabName
+     * @method paneFor
+     * @param {string} tabName - The name of the tab to get the pane for
+     */
     paneFor: function ( tabName ) {
         return this.$( '.tab-pane[data-tab-name="' + tabName + '"]' );
     },
 
+    /**
+     * Update the internal active tab name and handle tabs' statuses
+     * @method setActiveTab
+     * @param {string} tabName - The name of the tab to switch state to
+     */
     setActiveTab: function ( tabName ) {
         var activeTabName = this.get( 'activeTabName' );
 
@@ -173,6 +195,12 @@ export default Ember.Component.extend({
         return 'sl-align-tabs-' + this.get( 'alignTabs' );
     }.property( 'alignTabs' ),
 
+    /**
+     * Get the tab with the specified tabName
+     * @method tabFor
+     * @param {string} tabName - The name for the tab to get
+     * @returns {element}
+     */
     tabFor: function ( tabName ) {
         return this.$( '.tab[data-tab-name="' + tabName + '"]' );
     }
