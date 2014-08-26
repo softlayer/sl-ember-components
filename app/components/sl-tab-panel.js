@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-tabpanel
+ * @class sl-tab-panel
  */
 export default Ember.Component.extend({
 
@@ -14,15 +14,50 @@ export default Ember.Component.extend({
 
         /**
          * Action to trigger when a tab is clicked
-         * @method change
+         * @method actions.change
          * @param {string} tabName - The name of the tab to change into
          */
         change: function ( tabName ) {
-            if ( this.get( 'collapsible' ) && this.get( 'activeTabName' ) === tabName ) {
-                this.set( 'activeTabName', null );
+            var activeTabName = this.get( 'activeTabName' );
+            var collapsible = this.get( 'collapsible' );
+            var self = this;
+
+            if ( activeTabName ) {
+                if ( activeTabName === tabName ) {
+                    if ( collapsible ) {
+                        self.setActiveTab( null );
+                        this.deactivatePane( activeTabName );
+                    }
+                } else {
+                    this.setActiveTab( tabName );
+                    this.deactivatePane( activeTabName, function () {
+                        self.activatePane( tabName );
+                    });
+                }
             } else {
-                this.set( 'activeTabName', tabName );
+                this.setActiveTab( tabName );
+                this.activatePane( tabName );
             }
+        }
+    },
+
+    activatePane: function ( tabName, callback ) {
+        var isCollapsed = this.get( 'isCollapsed' );
+        var pane = this.paneFor( tabName );
+
+        var done = function () {
+            pane.addClass( 'active' );
+
+            if ( typeof callback === 'function' ) {
+                callback();
+            }
+        };
+
+        if ( isCollapsed ) {
+            this.set( 'isCollapsed', false );
+            pane.slideDown( 'fast', done );
+        } else {
+            pane.fadeIn( 'fast', done );
         }
     },
 
@@ -64,24 +99,70 @@ export default Ember.Component.extend({
      */
     collapsible: true,
 
+    deactivatePane: function ( tabName, callback ) {
+        var activeTabName = this.get( 'activeTabName' );
+        var pane = this.paneFor( tabName );
+        var self = this;
+
+        var done = function () {
+            pane.removeClass( 'active' );
+
+            if ( typeof callback === 'function' ) {
+                callback();
+            }
+        };
+
+        if ( activeTabName ) {
+            pane.fadeOut( 'fast', done );
+        } else if ( this.get( 'collapsible' )) {
+            pane.slideUp( 'fast', function () {
+                self.set( 'isCollapsed', true );
+                done();
+            });
+        }
+    },
+
     /**
      * Whether the tab panel is totally collapsed (all tab panes closed)
      * @property {boolean} isCollapsed
+     * @default true
      */
-    isCollapsed: function () {
-        return this.get( 'collapsible' ) && this.get( 'activeTabName' ) === null;
-    }.property( 'activeTabName', 'collapsible' ),
+    isCollapsed: true,
+
+    paneFor: function ( tabName ) {
+        return this.$( '.tab-pane[data-tab-name="' + tabName + '"]' );
+    },
+
+    setActiveTab: function ( tabName ) {
+        var activeTabName = this.get( 'activeTabName' );
+
+        if ( activeTabName ) {
+            this.tabFor( activeTabName ).removeClass( 'active' );
+        }
+
+        this.set( 'activeTabName', tabName );
+
+        if ( tabName !== null ) {
+            this.tabFor( tabName ).addClass( 'active' );
+        }
+    },
 
     /**
      * Handles the setup of the initial tab panel state
      * @method setupInitialTab
      */
     setupInitialTab: function () {
-        if ( !this.get( 'collapsible' ) && !this.get( 'activeTabName' )) {
-            this.set( 'activeTabName', this.$( '.tab:first' ).attr( 'data-tab-name' ));
+        var collapsible = this.get( 'collapsible' );
+        var initialTabName = this.get( 'initialTabName' );
+
+        if ( !initialTabName && !collapsible ) {
+            initialTabName = this.$( '.tab:first' ).attr( 'data-tab-name' );
         }
 
-        this.updateActiveTab();
+        if ( initialTabName ) {
+            this.setActiveTab( initialTabName );
+            this.activatePane( initialTabName );
+        }
     }.on( 'didInsertElement' ),
 
     /**
@@ -92,23 +173,9 @@ export default Ember.Component.extend({
         return 'sl-align-tabs-' + this.get( 'alignTabs' );
     }.property( 'alignTabs' ),
 
-    /**
-     * Unsets and sets the opened/closed panels
-     * @method updateActiveTab
-     */
-    updateActiveTab: function () {
-        var activeTabName = this.get( 'activeTabName' );
-        var activeSelector = '[data-tab-name="' + activeTabName + '"]';
-
-        // Close any currently-open tab pane
-        this.$( '.tab-pane.active' ).removeClass( 'active' );
-        this.$( '.tab.active' ).removeClass( 'active' );
-
-        if ( activeTabName !== null ) {
-            this.$( '.tab' + activeSelector ).tab( 'show' );
-            this.$( '.tab-pane' + activeSelector ).addClass( 'active' );
-        }
-    }.observes( 'activeTabName', 'collapsible' )
+    tabFor: function ( tabName ) {
+        return this.$( '.tab[data-tab-name="' + tabName + '"]' );
+    }
 });
 
 Ember.Handlebars.helper( 'renderTabPane', function ( templateName, options ) {
