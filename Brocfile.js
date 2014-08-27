@@ -57,4 +57,9 @@ app.import( 'vendor/select2/select2.min.js' );
 // Typeahead
 app.import( 'vendor/typeahead.js/dist/typeahead.bundle.min.js' );
 
-module.exports = mergeTrees([ app.toTree(), bootstrapCSSMap, bootstrapFonts, fontawesomeFont ]);
+module.exports = mergeTrees([
+    app.toTree(),
+    bootstrapCSSMap,
+    bootstrapFonts,
+    fontawesomeFont
+]);
