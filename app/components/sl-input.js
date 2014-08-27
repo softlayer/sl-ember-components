@@ -122,15 +122,26 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 highlight: true,
                 hint: true
             }, {
-                displayKey: function( obj ){
-                    return Ember.get( obj, namePath );
+                displayKey: function( item ){
+                    if ( item instanceof Object ) {
+                        return Ember.get( item, namePath );
+                    }
+
+                    return item;
                 },
 
                 source: function ( query, callback ) {
                     var pattern = new RegExp( query, 'i' );
 
                     callback( self.get( 'suggestions' ).filter( function ( suggestion ) {
-                        var searchCandidate = Ember.get( suggestion, namePath );
+                        var searchCandidate;
+
+                        if ( suggestion instanceof Object ) {
+                            searchCandidate = Ember.get( suggestion, namePath );
+                        } else {
+                            searchCandidate = suggestion;
+                        }
+
                         return searchCandidate ? searchCandidate.match( pattern ) : false;
                     }));
                 }
@@ -138,7 +149,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
             /* jshint ignore:start */
             var selectItem = function ( event, item ) {
-                Ember.run( function(){ self.set( 'value', Ember.get( item, namePath )); });
+                Ember.run( function () {
+                    var value = item instanceof Object ? Ember.get( item, namePath ) : item;
+
+                    self.set( 'value', value );
+                });
             };
 
             typeahead.on( 'typeahead:autocompleted', selectItem );
