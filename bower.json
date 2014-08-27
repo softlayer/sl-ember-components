@@ -31,7 +31,7 @@
     "highcharts": "~4.0.3",
     "moment": "~2.7.0",
     "select2": "~3.5.0",
-    "sl-bootstrap": "git@gitlab.softlayer.local:interface/sl-bootstrap#0.5.7",
+    "sl-bootstrap": "git@gitlab.softlayer.local:interface/sl-bootstrap#0.5.8",
     "typeahead.js": "~0.10.4"
   }
 }
