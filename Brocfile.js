@@ -4,14 +4,7 @@ var EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var pickFiles = require( 'broccoli-static-compiler' );
 
-var app = new EmberApp({
-    trees: {
-        app:       'app',
-        styles:    'app/styles',
-        templates: 'app/templates',
-        bower_components:    'bower_components'
-    }
-});
+var app = new EmberApp();
 
 // Bootstrap
 app.import( 'bower_components/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
