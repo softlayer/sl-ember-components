@@ -1,0 +1,29 @@
+<h2>sl-datetime</h2>
+<p class="lead">A formattable date and time component with included tooltip.</p>
+
+{{#sl-panel heading="Examples"}}
+    <p>
+        <strong>"datetime" format</strong>:
+        Today is {{sl-datetime}}.
+    </p>
+    <p>
+        <strong>"relative" format</strong>:
+        The first day of the year was {{sl-datetime format="relative" value=firstDayDate}}.
+    </p>
+    <p>
+        <strong>"date" format</strong>:
+        Three months ago was {{sl-datetime format="date" value=threeMonthsAgoDate}}.
+    </p>
+{{/sl-panel}}
+
+{{#sl-panel heading="Properties"}}
+    <div class="list-group">
+        {{#property-text name="format" type="string" default="\"datetime\""}}
+            The string format to show the datetime text in. Can be "date", "datetime", or "relative".
+        {{/property-text}}
+
+        {{#property-text name="value" type="mixed" default="now"}}
+            The bound date value, parseable by moment.js.
+        {{/property-text}}
+    </div>
+{{/sl-panel}}

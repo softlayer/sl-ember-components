@@ -14,6 +14,7 @@ Router.map( function () {
     this.route( 'demos/checkbox',          { path: '/sl-checkbox' });
     this.route( 'demos/date-picker',       { path: '/sl-date-picker' });
     this.route( 'demos/date-range-picker', { path: '/sl-date-range-picker' });
+    this.route( 'demos/datetime',          { path: '/sl-datetime' });
     this.route( 'demos/drop-button',       { path: '/sl-drop-button' });
     this.route( 'demos/grid',              { path: '/sl-grid' });
     this.route( 'demos/input',             { path: '/sl-input' });
