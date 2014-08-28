@@ -68,8 +68,6 @@ export default Ember.Mixin.create({
         Ember.run.once( this, 'reloadModel');
     }.observes( 'currentPage' ),
 
-    itemCountPerPage:  25,
-
     perPageOptions: Ember.A([ 25, 50, 100 ]),
 
     perPageObserver: function(){

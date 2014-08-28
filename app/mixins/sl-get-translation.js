@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
     get : function( key ){
-        var translationsRegex = /translations\.(.*)/,
+        var translationsRegex = /translate\.(.*)/,
             matches = key.match( translationsRegex );
         if( matches ){
             return this.translate( matches[1] );
