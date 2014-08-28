@@ -3,7 +3,7 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-datepicker
+ * @class sl-date-picker
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

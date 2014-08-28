@@ -3,7 +3,7 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-progressbar
+ * @class sl-progress-bar
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
