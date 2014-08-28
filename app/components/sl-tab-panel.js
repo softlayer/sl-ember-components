@@ -25,7 +25,7 @@ export default Ember.Component.extend({
             if ( activeTabName ) {
                 if ( activeTabName === tabName ) {
                     if ( collapsible ) {
-                        self.setActiveTab( null );
+                        this.setActiveTab( null );
                         this.deactivatePane( activeTabName );
                     }
                 } else {
@@ -37,6 +37,19 @@ export default Ember.Component.extend({
             } else {
                 this.setActiveTab( tabName );
                 this.activatePane( tabName );
+            }
+        },
+
+        /**
+         * Manually collapse the tab panel, usually from within a tab pane
+         * @method actions.collapseTabPanel
+         */
+        collapseTabPanel: function () {
+            if ( this.get( 'collapsible' ) && !this.get( 'isCollapsed' )) {
+                var activeTabName = this.get( 'activeTabName' );
+
+                this.setActiveTab( null );
+                this.deactivatePane( activeTabName );
             }
         }
     },
