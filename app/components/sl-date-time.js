@@ -3,12 +3,12 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-datetime
+ * @class sl-date-time
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
     /**
-     * Bindings for the datetime's attribute values
+     * Bindings for the date-time's attribute values
      * @property {array} attributeBindings
      */
     attributeBindings: [ 'datetime' ],
@@ -20,7 +20,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     classNames: [ 'sl-datetime' ],
 
     /**
-     * The datetime's value formatted as a datetime string
+     * The date-time's value formatted as a datetime string
      * @property {string} datetime
      */
     datetime: function () {
