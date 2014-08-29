@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/sl-components.css">
-    <link rel="stylesheet" href="assets/qunit.css">
+    <link rel="stylesheet" href="assets/test-support.css">
     <style>
       #ember-testing-container {
         position: absolute;
@@ -34,15 +34,15 @@
     <div id="qunit-fixture"></div>
 
     <script>
-      window.SlComponentsENV = {{ENV}};
-      window.EmberENV = window.SlComponentsENV.EmberENV;
     </script>
-    <script src="assets/qunit.js"></script>
-    <script src="assets/qunit-notifications.js"></script>
     <script src="assets/vendor.js"></script>
+    <script src="assets/test-support.js"></script>
     <script src="assets/sl-components.js"></script>
     <script src="testem.js"></script>
     <script>
+      window.SlComponentsENV = require('sl-components/config/environment')['default'];
+      window.EmberENV = window.SlComponentsENV.EmberENV;
+
       require('sl-components/tests/test-helper');
     </script>
     <script src="assets/test-loader.js"></script>

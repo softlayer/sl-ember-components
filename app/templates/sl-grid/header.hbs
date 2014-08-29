@@ -1,10 +1,11 @@
 <header class="sl-grid row">
     <div class="col-sm-6 col-md-6 col-lg-6">
-        {{sl-pagination-info pagingData=pagingData 
-            pagingInfo=translations.pagination.paginationLabel}}
+        {{sl-pagination-info 
+            pagingData=pagingData 
+            pagingInfo=translations.pagination.label}}
         {{sl-pagination-per-page-select 
             displaying=translations.pagination.displaying
-            perPage=translations.pagination.paginationPerPage
+            perPage=translations.pagination.perPage
             perPageOptions=pagingData.perPageOptions 
             itemCountPerPage=itemCountPerPage}}
     </div>

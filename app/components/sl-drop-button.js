@@ -3,7 +3,7 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-dropbutton
+ * @class sl-drop-button
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

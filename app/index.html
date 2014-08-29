@@ -13,13 +13,11 @@
     <link rel="stylesheet" href="assets/sl-components.css">
   </head>
   <body>
-    <script>
-      window.SlComponentsENV = {{ENV}};
-      window.EmberENV = window.SlComponentsENV.EmberENV;
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/sl-components.js"></script>
     <script>
+      window.SlComponentsENV = require('sl-components/config/environment')['default'];
+      window.EmberENV = window.SlComponentsENV.EmberENV;
       window.SlComponents = require('sl-components/app')['default'].create(SlComponentsENV.APP);
     </script>
   </body>
