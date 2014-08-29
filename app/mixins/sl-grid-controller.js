@@ -55,8 +55,6 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     options: Ember.computed.alias( 'grid.options' ),
 
-    translations: Ember.computed.alias( 'grid.translations' ),
-    
     applicationStateVariable: Ember.computed.alias( 'grid' ),
 
     applicationStateDefinition: Ember.computed.alias( 'gridDefinition' ),
@@ -67,7 +65,10 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     applicationStateDidLoad: function(){
         this.notifyPropertyChange( 'sortProperties' );
-        Ember.run.once( this, 'reloadModel');
+        //after we get real data model cacheing laid into sl-model we can make this work right
+        //for now this gets fired twice, once here and once when itemCountPerPage loads from saved
+        //user preferences in localStorage :-/
+        //Ember.run.once( this, 'reloadModel');
     }.on( 'applicationStateDidLoad' ),
     
     isLoading: Ember.computed.alias( 'model.isPending' ),
@@ -128,6 +129,14 @@ export default Ember.Mixin.create( SlApplicationState, {
         this.saveApplicationState();
     }.observes( 'itemCountPerPage' ),
 
+    filters: Ember.A(),
+
+    filtersOberver: function(){
+
+        Ember.run.once( this, this.reloadModel );
+
+    }.observes( 'filters.@each' ),
+
     /**
      * reload the model for this controller with the current paging preferences
      *
@@ -139,6 +148,7 @@ export default Ember.Mixin.create( SlApplicationState, {
         var modelName = this.get( 'modelName' ),
             currentPage = this.get( 'currentPage' ),
             itemCountPerPage = this.get( 'itemCountPerPage' ),
+            filters = this.get( 'filters' ),
             options = {
                 data: {
                     format: 'json',
@@ -158,6 +168,11 @@ export default Ember.Mixin.create( SlApplicationState, {
                 direction: sortAscending ? 'ASC' : 'DESC'
             }]);
         }
+
+        filters.forEach( function( filter ){
+            options.data[ filter.key] = filter.value;
+        });
+
         //this assumes you are using an sl-model like store that can take 
         //an options hash as a second parameter
         model = this.store.find( modelName, options );
