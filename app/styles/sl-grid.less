@@ -6,41 +6,123 @@
     position: relative;
 }
 
+.form-inline {
+    display: inline-block;
+}
+
 header.sl-grid {
-    border-bottom: 1px solid #aaa;
     margin-bottom: 0;
-    padding-bottom: 10px;
+    padding-bottom: @padding-base-vertical / 2;
+
+    .sl-pagination-controls {
+        display: inline-block;
+        padding: 0 @padding-base-horizontal;
+
+        .fa {
+            font-size: 125%;
+            line-height: 0.8;
+            vertical-align: -1px;
+        }
+
+        .sl-pagination-input {
+            padding: 0 @padding-base-horizontal / 2;
+        }
+
+        .sl-pagination-links {
+            display: inline-block;
+        }
+    }
+
+    .sl-grid-manipulation-buttons {
+        display: inline-block;
+
+        > span {
+            display: inline-block;
+        }
+    }
+
+    .sl-pagination-per-page-select {
+        padding-left: @padding-base-horizontal;
+
+        > span {
+            display: inline-block;
+            padding: @padding-base-vertical 0;
+            border: 1px solid transparent;
+        }
+    }
+
+    .sl-pagination-info {
+        display: inline-block;
+
+        > span {
+            display: inline-block;
+            padding: @padding-base-vertical 0;
+            border: 1px solid transparent;
+        }
+    }
+
+    span {
+        vertical-align: middle;
+    }
 }
 
 table.sl-grid.table {
-    table-layout:fixed;
+    background-color: white;
     margin-top: 0;
+    table-layout: fixed;
+
     th {
+        background-color: @gray-dark;
+        font-weight: normal;
+
+        &:first-of-type {
+            border-top-left-radius: @border-radius-base;
+        }
+
+        &:last-of-type {
+            border-top-right-radius: @border-radius-base;
+        }
+
+        span {
+            color: white;
+        }
     }
-    th,td {
+
+    th, td {
         min-width: 3em;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
     th.sl-grid-table-column-resize {
         min-width: 7px;
         max-width: 7px;    
     }
+
     th.sl-grid-table-cell-row-expander {
         width: 30px;
         max-width: 30px;
         min-width: 30px;
     }
+
     .sl-grid-table-cell-actions {
         width: 120px;
         max-width: 120px;
         min-width: 120px;
         overflow: visible;
+        padding-top: @padding-base-vertical / 2;
+        padding-bottom: @padding-base-vertical / 2;
     }
+
     td.loadingIndicator{
         background-color:rgba(0,0,0,0.1);
         text-align:center;
+    }
+
+    .btn {
+        padding-top: @padding-base-vertical / 2;
+        padding-bottom: @padding-base-vertical / 2 - 1;
     }
 }
 

@@ -14,7 +14,10 @@
             disabled=isLoading 
             currentPage=pagingData.currentPage 
             totalPages=pagingData.totalPages}}
-        <a {{bind-attr class=":btn :btn-default" title="reloadTitle" }}i {{action "reload"}}><i class="fa fa-refresh"></i></a>
-        {{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}
+        <div class="sl-grid-manipulation-buttons">
+            {{#sl-button title="Refresh" action="reload"}}<i class="fa fa-refresh"></i>{{/sl-button}}
+            {{#sl-button title="Filter" action="filter"}}<i class="fa fa-filter"></i>{{/sl-button}}
+            {{#sl-tooltip title="Configuration"}}{{sl-grid-header-settings action="bubbleAction" settings=options.settingsMenu columns=columns}}{{/sl-tooltip}}
+        </div>
     </div>
 </header>
