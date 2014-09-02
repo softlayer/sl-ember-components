@@ -24,7 +24,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {string} datetime
      */
     datetime: function () {
-        return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm A [GMT]ZZ' );
+        return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
     }.property( 'format', 'value' ),
 
     /**
@@ -39,14 +39,24 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {string} formattedValue
      */
     formattedValue: function () {
-        var momentValue = moment( this.get( 'value' ));
+        var momentValue = this.get( 'momentValue' );
 
         switch ( this.get( 'format' )) {
             case 'date':     return momentValue.format( 'YYYY-MM-DD' );
-            case 'datetime': return momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' );
             case 'relative': return momentValue.fromNow();
+
+            default:
+            case 'datetime': return momentValue.format( 'dddd, MMMM Do YYYY, h:mm A ' ) + this.get( 'timezoneString' );
         }
-    }.property( 'format', 'value' ),
+    }.property( 'format', 'momentValue' ),
+
+    /**
+     * The component's current value wrapped in moment
+     * @property {object} momentValue
+     */
+    momentValue: function () {
+        return moment( this.get( 'value' ));
+    }.property( 'value' ),
 
     /**
      * The HTML tag type of the component's root element
@@ -54,6 +64,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @default "time"
      */
     tagName: 'time',
+
+    /**
+     * Formatted timezone string based on component's timezone value
+     * @property {string} timezoneString
+     */
+    timezoneString: function () {
+        return this.get( 'momentValue' ).tz( this.get( 'timezone' )).format( 'z' );
+    }.property( 'timezone', 'momentValue' ),
 
     /**
      * The text to use for the component's tooltip

@@ -37,6 +37,7 @@ app.import( 'bower_components/highcharts/highcharts.js' );
 
 // Moment
 app.import( 'bower_components/moment/min/moment-with-langs.min.js' );
+app.import( 'bower_components/moment-timezone/builds/moment-timezone-with-data.min.js' );
 
 // Select2
 app.import( 'bower_components/select2/select2.min.js' );
