@@ -9,6 +9,8 @@
     {{#sl-button theme="warning"}}theme="warning"{{/sl-button}}
     {{#sl-button theme="danger"}}theme="danger"{{/sl-button}}
     {{#sl-button disabled=true}}disabled=true{{/sl-button}}
+    {{#sl-button theme="hover"}}theme="hover"{{/sl-button}}
+    {{#sl-button theme="link"}}theme="link"{{/sl-button}}
 {{/sl-panel}}
 
 {{#sl-panel heading="Properties"}}
@@ -50,7 +52,7 @@
         {{/property-text}}
 
         {{#property-text name="theme" type="string" default="\"default\""}}
-            Bootstrap contextual style type; "danger", "default", "info", "primary", "success", "warning".
+            Bootstrap contextual style type; "danger", "default", "hover", "info", "link", "primary", "success", "warning".
         {{/property-text}}
 
         {{#property-text name="title" type="string"}}

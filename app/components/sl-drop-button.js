@@ -23,6 +23,12 @@ export default Ember.Component.extend( TooltipEnabled, {
     },
 
     /**
+     * Class attribute bindings for the button
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'themeClass' ],
+
+    /**
      * Class names for the div element
      * @property {array} classNames
      */
@@ -33,5 +39,20 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {string} iconClass
      * @default "caret"
      */
-    iconClass: 'caret'
+    iconClass: 'caret',
+
+    /**
+     * The string name of the style theme for the button
+     * @property {string} theme
+     * @default "default"
+     */
+    theme: 'default',
+
+    /**
+     * The class value for the drop-button based on the current "theme"
+     * @property {string} themeClass
+     */
+    themeClass: function () {
+        return 'btn-' + this.get( 'theme' );
+    }.property( 'theme' )
 });
