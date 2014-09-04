@@ -1,14 +1,30 @@
-.sl-grid-header-settings {
+.sl-grid-header-settings.dropdown {
     display: inline-block;
     position: relative;
-    ul {
+
+    ul.dropdown-menu {
         li {
-            .btn {
-                margin: 0 @padding-base-horizontal / 2;
+            a.btn {
+                color: white;
+                margin: @padding-base-horizontal;
             }
-        }
-        li.hideableColumn {
-            padding-left: @padding-base-horizontal / 2;
+
+            label {
+                cursor: pointer;
+                display: block;
+                font-weight: normal;
+                margin-bottom: 0;
+                padding: @padding-base-vertical @padding-base-horizontal;
+
+                &:hover {
+                    background: @brand-primary;
+                    color: white;
+                }
+
+                input {
+                    margin-right: @padding-base-horizontal / 2;
+                }
+            }
         }
     }
 }
