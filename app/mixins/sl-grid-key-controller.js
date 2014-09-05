@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
 
     actions: {
 
-        viewDidInsertElements: function() {
+        viewDidInsertElement: function() {
             this.bindKeys();
         },
 
