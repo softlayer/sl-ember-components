@@ -37,6 +37,7 @@
     "ember-cli-ic-ajax": "0.1.1",
     "ember-cli-qunit": "0.0.5",
     "express": "^4.8.5",
-    "glob": "^4.0.5"
+    "glob": "^4.0.5",
+    "sl-translate": "git+ssh://git@gitlab.softlayer.local:interface/sl-translate.git#develop"
   }
 }

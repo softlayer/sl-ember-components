@@ -20,6 +20,7 @@ Router.map( function () {
     this.route( 'demos/input',             { path: '/sl-input' });
     this.route( 'demos/loading-icon',      { path: '/sl-loading-icon' });
     this.route( 'demos/menu',              { path: '/sl-menu' });
+    this.route( 'demos/pagination',        { path: '/sl-pagination' });
     this.route( 'demos/panel',             { path: '/sl-panel' });
     this.route( 'demos/progress-bar',      { path: '/sl-progress-bar' });
     this.route( 'demos/radio-group',       { path: '/sl-radio-group' });
