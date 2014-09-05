@@ -32,7 +32,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Class names for the div element
      * @property {array} classNames
      */
-    classNames: [ 'btn-group', 'sl-drop-button' ],
+    classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
 
     /**
      * Class string for the button's icon
@@ -53,6 +53,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {string} themeClass
      */
     themeClass: function () {
-        return 'btn-' + this.get( 'theme' );
+        return 'dropdown-' + this.get( 'theme' );
     }.property( 'theme' )
 });
