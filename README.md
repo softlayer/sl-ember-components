@@ -1,5 +1,4 @@
 # sl-components
-## v0.8.0
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
@@ -35,5 +34,4 @@ When incrementing the library's version number, be sure to update it in these fi
 
 * bower.json
 * package.json
-* README.md
 * yuidoc.json
