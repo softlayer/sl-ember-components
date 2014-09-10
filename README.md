@@ -1,25 +1,39 @@
-# Sl-components
+# sl-components
+## v0.8.0
 
-This README outlines the details of collaborating on this Ember addon.
+The SoftLayer UI components library used for all Interface Ember projects.
 
-## Installation
+---
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+# Demo
 
-## Running
+Run the addon as its own Ember app to view the demo pages.
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+```sh
+ember serve
+```
 
-## Running Tests
+You can also simply build it as an Ember app, then view the `dist/` folder, or change its `--output-path`.
 
-* `ember test`
-* `ember test --server`
+```sh
+ember build --output-path somewhere/else/
+```
 
-## Building
+---
 
-* `ember build`
+# Using sl-components in an Ember app
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+```sh
+npm install --save-dev git@gitlab.softlayer.local:interface/sl-components#develop
+```
+
+---
+
+# Development
+
+When incrementing the library's version number, be sure to update it in these files:
+
+* bower.json
+* package.json
+* README.md
+* yuidoc.json
