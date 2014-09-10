@@ -25,7 +25,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     datetime: function () {
         return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
-    }.property( 'format', 'value' ),
+    }.property( 'timezoneString', 'value' ),
 
     /**
      * String name for the format to render inline. Can be "date", "datetime",
