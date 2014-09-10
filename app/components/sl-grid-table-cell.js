@@ -1,6 +1,3 @@
-import Ember from 'ember';
+import SlGridTableCell from 'sl-components/components/sl-grid-table-cell';
 
-export default Ember.Component.extend({
-    tagName: 'td',
-    classNameBindings: [ 'cssClass' ]   
-});
+export default SlGridTableCell;

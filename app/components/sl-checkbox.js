@@ -1,21 +1,3 @@
-import Ember from 'ember';
-import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import SlCheckbox from 'sl-components/components/sl-checkbox';
 
-/**
- * @module components
- * @class sl-checkbox
- */
-export default Ember.Component.extend( TooltipEnabled, {
-
-    /**
-     * Attribute bindings for containing div
-     * @property {array} attributeBindings
-     */
-    attributeBindings: [ 'checked', 'disabled' ],
-
-    /**
-     * Class names for containing div
-     * @property {array} classNames
-     */
-    classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ]
-});
+export default SlCheckbox;

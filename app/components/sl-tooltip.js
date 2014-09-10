@@ -1,16 +1,3 @@
-import Ember from 'ember';
-import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import SlTooltip from 'sl-components/components/sl-tooltip';
 
-/**
- * @module components
- * @class sl-tooltip
- */
-export default Ember.Component.extend( TooltipEnabled, {
-
-    /**
-     * The tag type of the root element
-     * @property {String} tagName
-     * @default 'span'
-     */
-    tagName: 'span'
-});
+export default SlTooltip;

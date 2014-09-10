@@ -1,9 +1,9 @@
 import resolver from './helpers/resolver';
 import { setResolver } from 'ember-qunit';
 
-setResolver(resolver);
+setResolver( resolver );
 
-document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
+document.write( '<div id="ember-testing-container"><div id="ember-testing"></div></div>' );
 
 QUnit.config.urlConfig.push({ id: 'nocontainer', label: 'Hide container' });
 if ( QUnit.urlParams.nocontainer ) {

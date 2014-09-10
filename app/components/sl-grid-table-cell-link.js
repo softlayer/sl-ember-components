@@ -1,4 +1,3 @@
-import SlGridTableCell from './sl-grid-table-cell';
+import SlGridTableCellLink from 'sl-components/components/sl-grid-table-cell-link';
 
-export default SlGridTableCell.extend({
-});
+export default SlGridTableCellLink;

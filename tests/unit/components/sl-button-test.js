@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
 import SlButton from 'sl-components/components/sl-button';
-import AjaxHelper from 'sl-components/tests/helpers/ajax-helper';
+import AjaxHelper from '../../helpers/ajax-helper';
 
 moduleForComponent( 'sl-button', 'Component: Sl-Button' );
 

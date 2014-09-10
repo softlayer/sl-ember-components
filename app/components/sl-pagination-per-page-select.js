@@ -1,6 +1,3 @@
-import Ember from 'ember';
+import SlPaginationPerPageSelect from 'sl-components/components/sl-pagination-per-page-select';
 
-export default Ember.Component.extend({
-    tagName: 'span',
-    classNames: [ 'sl-pagination-per-page-select form-inline' ]
-});
+export default SlPaginationPerPageSelect;
