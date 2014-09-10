@@ -1,38 +1,42 @@
 {
   "name": "sl-components",
-  "private": true,
   "version": "0.8.0",
   "description": "SoftLayer shared UI components library",
-  "ember-addon": {
-    "main": "lib/sl-components.js"
+  "private": true,
+  "directories": {
+    "doc": "doc",
+    "test": "test"
   },
-  "main": "lib/sl-components.js",
   "scripts": {
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "start": "ember server",
+    "build": "ember build",
+    "test": "ember test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.softlayer.local:interface/sl-components.git"
+  "repository": "git@gitlab.softlayer.local:interface/sl-components.git",
+  "engines": {
+    "node": ">= 0.10.0"
   },
   "keywords": [
     "ember-addon"
   ],
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  },
   "authors": [
     "Joshua Cochran <jcochran@softlayer.com>",
     "Joshua Forisha <jforisha@softlayer.com>",
     "Matthew Marcum <mmarcum@softlayer.com>"
   ],
   "license": "MIT",
-  "dependencies": {
-    "broccoli-merge-trees": "^0.1.4",
-    "broccoli-static-compiler": "^0.1.4"
-  },
   "devDependencies": {
     "body-parser": "^1.2.0",
     "broccoli-asset-rev": "0.0.17",
     "broccoli-ember-hbs-template-compiler": "^1.6.1",
     "broccoli-less-single": "^0.1.4",
-    "ember-cli": "0.0.42",
+    "broccoli-merge-trees": "^0.1.4",
+    "broccoli-static-compiler": "^0.1.4",
+    "ember-cli": "0.0.44",
     "ember-cli-ember-data": "0.1.0",
     "ember-cli-ic-ajax": "0.1.1",
     "ember-cli-qunit": "0.0.5",

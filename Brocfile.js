@@ -1,10 +1,10 @@
 /* global require, module */
 
-var EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
+var EmberAddon = require( 'ember-cli/lib/broccoli/ember-addon' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var pickFiles = require( 'broccoli-static-compiler' );
 
-var app = new EmberApp();
+var app = new EmberAddon();
 
 // Bootstrap
 app.import( 'bower_components/sl-bootstrap/dist/js/sl-bootstrap.min.js' );
