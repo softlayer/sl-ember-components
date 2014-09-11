@@ -60,10 +60,10 @@ module.exports = {
                 destDir: '/fonts'
             }),
 
-            pickFiles( 'public/assets/images/', {
+            pickFiles( 'node_modules/sl-components/public/assets/images/', {
                 srcDir: '/',
-                files: [ '*.png' ],
-                destDir: '/'
+                files: [ 'spinner-*.png' ],
+                destDir: '/assets/images'
             })
         ]);
     }
