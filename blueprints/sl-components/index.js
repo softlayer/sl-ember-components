@@ -4,27 +4,27 @@ module.exports = {
     afterInstall: function () {
         var self = this;
 
-        this.addBowerPackageToProject('bootstrap-datepicker')
+        return this.addBowerPackageToProject( 'bootstrap-datepicker' )
             .then(function () {
-                return self.addBowerPackageToProject('momentjs');
+                return self.addBowerPackageToProject( 'momentjs' );
             })
             .then(function () {
-                return self.addBowerPackageToProject('fontawesome');
+                return self.addBowerPackageToProject( 'fontawesome' );
             })
             .then(function () {
-                return self.addBowerPackageToProject('highcharts');
+                return self.addBowerPackageToProject( 'highcharts' );
             })
             .then(function () {
-                return self.addBowerPackageToProject('moment');
+                return self.addBowerPackageToProject( 'moment' );
             })
             .then(function () {
-                return self.addBowerPackageToProject('moment-timezone');
+                return self.addBowerPackageToProject( 'moment-timezone' );
             })
             .then(function () {
-                return self.addBowerPackageToProject('select2');
+                return self.addBowerPackageToProject( 'select2' );
             })
             .then(function () {
-                return self.addBowerPackageToProject('typeahead.js');
+                return self.addBowerPackageToProject( 'typeahead.js' );
             });
     },
 

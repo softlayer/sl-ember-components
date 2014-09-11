@@ -27,8 +27,8 @@ module.exports = {
         });
 
         app.import({
-            development: 'bower_components/moment/min/moment-with-langs.js',
-            production:  'bower_components/moment/min/moment-with-langs.min.js'
+            development: 'bower_components/moment/min/moment-with-locales.js',
+            production:  'bower_components/moment/min/moment-with-locales.min.js'
         });
 
         app.import({
