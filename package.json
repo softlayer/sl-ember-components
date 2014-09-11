@@ -29,6 +29,10 @@
     "Matthew Marcum <mmarcum@softlayer.com>"
   ],
   "license": "MIT",
+  "dependencies": {
+    "broccoli-merge-trees": "~0.1.4",
+    "broccoli-static-compiler": "~0.1.4"
+  },
   "devDependencies": {
     "body-parser": "^1.2.0",
     "broccoli-asset-rev": "0.0.17",
@@ -40,8 +44,6 @@
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "broccoli-less-single": "~0.1.4",
-    "broccoli-merge-trees": "~0.1.4",
-    "broccoli-static-compiler": "~0.1.4",
     "sl-translate": "git+ssh://git@gitlab.softlayer.local:interface/sl-translate.git#develop"
   }
 }
