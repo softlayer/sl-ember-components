@@ -1,7 +1,6 @@
-/* globals module */
+/* globals module, require */
 
 var mergeTrees = require( 'broccoli-merge-trees' );
-var path       = require( 'path' );
 var pickFiles  = require( 'broccoli-static-compiler' );
 
 module.exports = {
@@ -59,6 +58,12 @@ module.exports = {
                 srcDir: '/',
                 files: [ 'fontawesome-webfont.woff' ],
                 destDir: '/fonts'
+            }),
+
+            pickFiles( 'public/assets/images/', {
+                srcDir: '/',
+                files: [ '*.png' ],
+                destDir: '/'
             })
         ]);
     }
