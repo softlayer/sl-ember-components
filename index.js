@@ -58,12 +58,6 @@ module.exports = {
                 srcDir: '/',
                 files: [ 'fontawesome-webfont.woff' ],
                 destDir: '/fonts'
-            }),
-
-            pickFiles( 'node_modules/sl-components/public/assets/images/', {
-                srcDir: '/',
-                files: [ 'spinner-*.png' ],
-                destDir: '/assets/images'
             })
         ]);
     }
