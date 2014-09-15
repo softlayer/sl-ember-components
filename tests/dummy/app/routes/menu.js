@@ -1,4 +1,5 @@
 import Ember from 'ember';
+/* global alert */
 
 export default Ember.Route.extend({
 

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+/* global moment */
 
 /**
  * @module components

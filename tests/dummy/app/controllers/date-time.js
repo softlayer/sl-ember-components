@@ -1,4 +1,5 @@
 import Ember from 'ember';
+/* global moment */
 
 export default Ember.Controller.extend({
     firstDayDate: function () {

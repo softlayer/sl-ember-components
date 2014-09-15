@@ -1,4 +1,5 @@
 import Ember from 'ember';
+/* global moment */
 
 /**
  * @module components
