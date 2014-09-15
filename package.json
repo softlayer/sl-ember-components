@@ -30,7 +30,8 @@
   "license": "MIT",
   "dependencies": {
     "broccoli-merge-trees": "~0.1.4",
-    "broccoli-static-compiler": "~0.1.4"
+    "broccoli-static-compiler": "~0.1.4",
+    "sl-translate": "git+ssh://git@gitlab.softlayer.local:interface/sl-translate.git#develop"
   },
   "devDependencies": {
     "body-parser": "^1.2.0",
@@ -41,7 +42,6 @@
     "ember-cli-qunit": "0.0.5",
     "express": "^4.8.5",
     "glob": "^4.0.5",
-    "broccoli-less-single": "~0.1.4",
-    "sl-translate": "git+ssh://git@gitlab.softlayer.local:interface/sl-translate.git#develop"
+    "broccoli-less-single": "~0.1.4"
   }
 }
