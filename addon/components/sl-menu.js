@@ -329,6 +329,18 @@ export default Ember.Component.extend({
      * @method mouseEnter
      */
     mouseEnter: function() {
+        var currentActiveRootNodeIndex = this._getCurrentRootNodeIndex(),
+            query;
+
+        if ( this.get( 'keyboardInUse' ) ) {
+            if ( null !== currentActiveRootNodeIndex ) {
+                query = 'a:contains("' + this.get( 'rootNode.menu.pages' )[currentActiveRootNodeIndex].label + '")';
+                this.$(query).parent().removeClass( 'active' );
+            }
+
+            this.set( 'keyboardInUse', false );
+        }
+
         this.$().addClass( 'active' );
     },
 
