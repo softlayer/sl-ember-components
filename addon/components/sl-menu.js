@@ -74,6 +74,66 @@ export default Ember.Component.extend({
             } else if ( child ) {
                 child.drillDown();
             }
+        },
+
+        /**
+         * Cycle rootNode selection forward
+         *
+         * If last rootNode then moves forwards to "Show All" option
+         * If "Show All" option wraps around to first option
+         *
+         * @return {void}
+         */
+        cycleRootSelectionNext: function() {
+            var currentIndex = this._getCurrentRootNodeIndex();
+
+            // Not on "Show All"
+            if ( null !== currentIndex ) {
+
+                // Cycling forward, wrapping around last option to first option
+                if ( (currentIndex + 2 ) > this.get( 'rootNode.menu.pages' ).length ) {
+                    this.send( 'showAll' );
+                    this.set( 'activeChild', null );
+
+                // Cycle forward, selecting next rootNode
+                } else {
+                    this.childSelected( currentIndex + 2 );
+                }
+
+            // Select first rootNode
+            } else {
+                this.childSelected( 1 );
+            }
+        },
+
+        /**
+         * Cycle rootNode selection backwards
+         *
+         * If first rootNode then wraps around to "Show All" option
+         * If "Show All" option moves backwards to previous option
+         *
+         * @return {void}
+         */
+        cycleRootSelectionPrevious: function() {
+            var currentIndex = this._getCurrentRootNodeIndex();
+
+            // Not on "Show All"
+            if ( null !== currentIndex ) {
+
+                // Cycling backwards, wrapping around first option to last option
+                if ( 0 === currentIndex ) {
+                    this.send( 'showAll' );
+                    this.set( 'activeChild', null );
+
+                // Cycle backwards, selecting previous rootNode
+                } else {
+                    this.childSelected( currentIndex );
+                }
+
+            // Select last rootNode
+            } else {
+                this.childSelected( this.get( 'rootNode.menu.pages' ).length );
+            }
         }
     },
 
@@ -145,6 +205,26 @@ export default Ember.Component.extend({
     },
 
     /**
+     * Get index of rootNode currently on
+     *
+     * @method _getCurrentRootNodeIndex
+     * @return {integer}
+     */
+    _getCurrentRootNodeIndex: function() {
+        var rootOptionsLength = this.get( 'rootNode.menu.pages' ).length,
+            currentIndex      = null;
+
+        // Determine index of rootNode currently on
+        this.get( 'rootNode.menu.pages' ).forEach( function( item, index, enumerable ) {
+            if ( item.label === this.get( 'activeChild.menu.label' ) ) {
+                currentIndex = index;
+            }
+        }, this );
+
+        return currentIndex;
+    },
+
+    /**
      * @method initChildren
      */
     initChildren: function() {
@@ -165,6 +245,10 @@ export default Ember.Component.extend({
                 if ( this.get( 'useDrillDownKey' )) {
                     this.send( 'drillDown' );
                 }
+            }.bind( this )).on( 'cycleRootSelectionNext', function( e ) {
+                this.send( 'cycleRootSelectionNext', e );
+            }.bind( this )).on( 'cycleRootSelectionPrevious', function( e ) {
+                this.send( 'cycleRootSelectionPrevious', e );
             }.bind( this )).on( 'closeAll', function() {
                 this.send( 'closeAll' );
             }.bind( this )).on( 'showAll', function() {
@@ -204,7 +288,9 @@ export default Ember.Component.extend({
             ke.off( 'childSelected' )
               .off( 'drillDown' )
               .off( 'closeAll' )
-              .off( 'showAll' );
+              .off( 'showAll' )
+              .off( 'cycleRootSelectionNext' )
+              .off( 'cycleRootSelectionPrevious' );
         }
     }.on( 'willDestroyElement' ),
 
@@ -252,7 +338,6 @@ export default Ember.Component.extend({
 
         var rootNode = this.get( 'rootNode' ),
             path     = this.get( 'path' );
-
 
         rootNode.sendAction( 'selectionMade', path );
 

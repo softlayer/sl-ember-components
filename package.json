@@ -23,6 +23,7 @@
     "configPath": "tests/dummy/config"
   },
   "authors": [
+    "Jeremy Brown <jebrown@softlayer.com>",
     "Joshua Cochran <jcochran@softlayer.com>",
     "Joshua Forisha <jforisha@softlayer.com>",
     "Matthew Marcum <mmarcum@softlayer.com>"

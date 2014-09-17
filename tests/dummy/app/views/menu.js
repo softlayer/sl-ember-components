@@ -14,11 +14,16 @@ export default Ember.View.extend({
             }
         }.bind( this ));
 
-        // keypress doesn't appear to catch escape key
+        // keypress doesn't appear to catch escape or tab key
         Ember.$( document ).on( 'keyup.menu', function( e ) {
             if ( e.keyCode === 27 ) {
                 this.get( 'controller.keyHandler' ).closeAll();
+            } else if ( e.shiftKey && e.keyCode === 72 ) { //9 tab  72 h
+                this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
+            } else if ( e.keyCode === 72 ) { //9 tab  72 h
+                this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
             }
+
         }.bind( this ));
     },
 

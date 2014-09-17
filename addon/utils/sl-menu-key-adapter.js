@@ -14,6 +14,14 @@ export default Ember.Object.extend( Ember.Evented, {
         this.trigger( 'drillDown', key );
     },
 
+    cycleRootSelectionNext: function() {
+        this.trigger( 'cycleRootSelectionNext' );
+    },
+
+    cycleRootSelectionPrevious: function() {
+        this.trigger( 'cycleRootSelectionPrevious' );
+    },
+
     closeAll: function() {
         this.trigger( 'closeAll' );
     },
