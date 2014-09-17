@@ -79,13 +79,18 @@ export default Ember.Component.extend({
         /**
          * Cycle rootNode selection forward
          *
-         * If last rootNode then moves forwards to "Show All" option
+         * Only cycles through rootNodes if node was initially selected via keyboard
+         * If last rootNode then moves forward to "Show All" option
          * If "Show All" option wraps around to first option
          *
          * @return {void}
          */
         cycleRootSelectionNext: function() {
             var currentIndex = this._getCurrentRootNodeIndex();
+
+            if ( !this.get( 'keyboardInUse' ) ) {
+                return;
+            }
 
             // Not on "Show All"
             if ( null !== currentIndex ) {
@@ -109,13 +114,18 @@ export default Ember.Component.extend({
         /**
          * Cycle rootNode selection backwards
          *
+         * Only cycles through rootNodes if node was initially selected via keyboard
          * If first rootNode then wraps around to "Show All" option
-         * If "Show All" option moves backwards to previous option
+         * If "Show All" option moves backward to previous option
          *
          * @return {void}
          */
         cycleRootSelectionPrevious: function() {
             var currentIndex = this._getCurrentRootNodeIndex();
+
+            if ( !this.get( 'keyboardInUse' ) ) {
+                return;
+            }
 
             // Not on "Show All"
             if ( null !== currentIndex ) {
@@ -240,6 +250,7 @@ export default Ember.Component.extend({
             this.set( 'keyHandler', true );
 
             ke.on( 'childSelected', function( key ) {
+                this.set( 'keyboardInUse', true );
                 this.childSelected( key );
             }.bind( this )).on( 'drillDown', function() {
                 if ( this.get( 'useDrillDownKey' )) {
@@ -250,8 +261,10 @@ export default Ember.Component.extend({
             }.bind( this )).on( 'cycleRootSelectionPrevious', function( e ) {
                 this.send( 'cycleRootSelectionPrevious', e );
             }.bind( this )).on( 'closeAll', function() {
+                this.set( 'keyboardInUse', false );
                 this.send( 'closeAll' );
             }.bind( this )).on( 'showAll', function() {
+                this.set( 'keyboardInUse', true );
                 this.send( 'showAll' );
             }.bind( this ));
         }
@@ -408,6 +421,13 @@ export default Ember.Component.extend({
      * @property {boolean} useDrillDownKey
      */
     useDrillDownKey: true,
+
+    /**
+     * Is the menu being interacted with via the keyboard?
+     *
+     * @param {oolean}
+     */
+    keyboardInUse: false,
 
     AllView: Ember.View.extend({
 
