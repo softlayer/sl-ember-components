@@ -22,8 +22,11 @@ ember build --output-path somewhere/else/
 
 # Using sl-components in an Ember app
 
+The sl-components library needs to be included as a Node module, then its blueprint should be run to properly pull in all dependency libraries.
+
 ```sh
 npm install --save-dev git@gitlab.softlayer.local:interface/sl-components#develop
+ember generate sl-components
 ```
 
 ---
