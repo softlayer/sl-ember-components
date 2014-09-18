@@ -1,5 +1,6 @@
 <h2>sl-tab-panel</h2>
 <p class="lead">A component with selectable tabs and related tab panes. Based on <a href="http://getbootstrap.com/javascript/#tabs">Bootstrap - Togglable tabs</a>.</p>
+<p>Each <code>sl-tab-panel</code> wraps a number of <code>tab-pane</code>s. See {{#link-to "tab-pane"}}sl-tab-pane{{/link-to}} for pane details.</p>
 
 {{#sl-panel heading="Examples"}}
     <p>
@@ -10,8 +11,23 @@
     <p><b>Panel One</b>'s input text: &ldquo;{{one.inputText}}&rdquo;</p>
 {{/sl-panel}}
 
-{{sl-tab-panel collapsible=false content=content}}
-{{sl-tab-panel alignTabs="right" content=content}}
+{{#sl-tab-panel}}
+    {{#sl-tab-pane label="One" name="one"}}
+        {{render "tabs/one"}}
+    {{/sl-tab-pane}}
+    {{#sl-tab-pane label="Two" name="two"}}
+        {{render "tabs/two"}}
+    {{/sl-tab-pane}}
+    {{#sl-tab-pane label="Three" name="three"}}
+        {{render "tabs/three"}}
+    {{/sl-tab-pane}}
+{{/sl-tab-panel}}
+
+{{#sl-tab-panel alignTabs="right" collapsible=true}}
+    {{#sl-tab-pane label="Test" name="test"}}
+        <p>Uncollapsed pane!</p>
+    {{/sl-tab-pane}}
+{{/sl-tab-panel}}
 
 {{#sl-panel heading="Properties"}}
     <div class="list-group">
@@ -23,17 +39,8 @@
             How to align the tabs, "left" or "right".
         {{/property-text}}
 
-        {{#property-text name="collapsible" type="boolean" default="true"}}
+        {{#property-text name="collapsible" type="boolean" default="false"}}
             When true, an open tab can be clicked again to close it, so that all tabs and panes are un-selected. If set to false, and no <code>activeTabName</code> is given, then the first tab will be opened on initialization.
-        {{/property-text}}
-
-        {{#property-text name="content" type="mixed" required=true}}
-            Array of objects representing the tabs and their panes. Each item should have the following properties:
-            <ul>
-                <li><strong class="text-danger">label <small>(required)</small></strong> - String for the tab's label text.</li>
-                <li><strong class="text-danger">name <small>(required)</small></strong> - String identifier for the tab. Used for internal identification. The <code>activeTabName</code> will match this label text when a tab is selected.</li>
-                <li><strong class="text-danger">template <small>(required)</small></strong> - String name of the template to render for this tab.</li>
-            </ul>
         {{/property-text}}
     </div>
 {{/sl-panel}}

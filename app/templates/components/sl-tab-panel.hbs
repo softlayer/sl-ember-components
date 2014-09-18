@@ -1,15 +1,11 @@
 <ul class="nav nav-tabs" role="tablist">
-    {{#each tab in content}}
-        <li {{bind-attr data-tab-name=tab.name}} class="tab">
+    {{#each tab in tabs}}
+        <li {{bind-attr class=":tab tab.active" data-tab-name=tab.name}}>
             <a {{action "change" tab.name}} role="tab">{{tab.label}}</a>
         </li>
     {{/each}}
 </ul>
 
 <div class="tab-content">
-    {{#each tab in content}}
-        <div {{bind-attr data-tab-name=tab.name}} class="tab-pane">
-            {{renderTabPane tab.template}}
-        </div>
-    {{/each}}
+    {{yield}}
 </div>

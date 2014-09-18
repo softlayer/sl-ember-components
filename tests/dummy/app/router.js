@@ -27,6 +27,7 @@ Router.map(function() {
     this.route( 'select',            { path: '/sl-select' });
     this.route( 'simple-modal',      { path: '/sl-simple-modal' });
     this.route( 'span',              { path: '/sl-span' });
+    this.route( 'tab-pane',          { path: '/sl-tab-pane' });
     this.route( 'tab-panel',         { path: '/sl-tab-panel' });
     this.route( 'textarea',          { path: '/sl-textarea' });
     this.route( 'tooltip',           { path: '/sl-tooltip' });

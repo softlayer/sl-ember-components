@@ -1,0 +1,29 @@
+<h2>sl-tab-pane</h2>
+<p class="lead">Nested inside {{#link-to "tab-panel"}}sl-tab-panel{{/link-to}}, sl-tab-pane represents a single pane of content.</p>
+
+{{#sl-panel heading="Examples"}}
+    <p>The tab panel below has two <code>sl-tab-pane</code>s in it.</p>
+{{/sl-panel}}
+
+{{#sl-tab-panel}}
+    {{#sl-tab-pane label="First" name="first"}}
+        <p>label="First" name="first"</p>
+    {{/sl-tab-pane}}
+
+    {{#sl-tab-pane label="Second" name="second"}}
+        <p>label="Second" name="second"</p>
+    {{/sl-tab-pane}}
+{{/sl-tab-panel}}
+
+{{#sl-panel heading="Properties"}}
+    <ul class="list-group">
+        {{#property-text name="label" type="string" required=true}}
+            The text label for the tab pane's tab.
+        {{/property-text}}
+
+        {{#property-text name="name" type="string" required=true}}
+            The text name of the tab, used only internally to the pane's parent
+            tab-panel.
+        {{/property-text}}
+    </ul>
+{{/sl-panel}}

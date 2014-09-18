@@ -8,12 +8,14 @@ export default Ember.Component.extend({
 
     /**
      * Object of action functions
+     *
      * @property {object} actions
      */
     actions: {
 
         /**
          * Action to trigger when a tab is clicked
+         *
          * @method actions.change
          * @param {string} tabName - The name of the tab to change into
          */
@@ -42,6 +44,7 @@ export default Ember.Component.extend({
 
         /**
          * Manually collapse the tab panel, usually from within a tab pane
+         *
          * @method actions.collapseTabPanel
          */
         collapseTabPanel: function () {
@@ -55,6 +58,7 @@ export default Ember.Component.extend({
 
         /**
          * Manually cause a tab-content height recalculation
+         *
          * @method actions.updateTabPanelHeight
          */
         updateTabPanelHeight: function () {
@@ -64,6 +68,7 @@ export default Ember.Component.extend({
 
     /**
      * Activate a tab pane, animating the transition
+     *
      * @method activatePane
      * @param {string} tabName - The name of the tab to activate
      * @param {function} callback - Function to call once the pane is activated
@@ -89,6 +94,7 @@ export default Ember.Component.extend({
 
     /**
      * The currently active tab name
+     *
      * @property {string} activeTabName
      * @default null
      */
@@ -97,6 +103,7 @@ export default Ember.Component.extend({
     /**
      * Determines the alignment of tabs at the top of the panel,
      * "left" or "right"
+     *
      * @property {string} alignTabs
      * @default "left"
      */
@@ -104,6 +111,7 @@ export default Ember.Component.extend({
 
     /**
      * Class name bindings for the containing element
+     *
      * @property {array} classNameBindings
      */
     classNameBindings: [
@@ -114,19 +122,22 @@ export default Ember.Component.extend({
 
     /**
      * Class names for the root element
+     *
      * @property {array} classNames
      */
     classNames: [ 'sl-tab-panel' ],
 
     /**
      * Whether all of the tabs can be closed, resulting in a collapsed panel
+     *
      * @property {boolean} collapsible
-     * @default true
+     * @default false
      */
-    collapsible: true,
+    collapsible: false,
 
     /**
      * The height of the tab-content in pixels
+     *
      * @property {number} contentHeight
      * @default 0
      */
@@ -134,6 +145,7 @@ export default Ember.Component.extend({
 
     /**
      * Deactivate a tab pane, animating the transition
+     *
      * @method deactivatePane
      * @param {string} tabName - The name of the tab to deactivate
      * @param {function} callback - Function called when the pane is deactivated
@@ -165,6 +177,7 @@ export default Ember.Component.extend({
 
     /**
      * Whether the tab panel is totally collapsed (all tab panes closed)
+     *
      * @property {boolean} isCollapsed
      * @default true
      */
@@ -172,6 +185,7 @@ export default Ember.Component.extend({
 
     /**
      * Get the tab-panel's tab-pane for the specified tabName
+     *
      * @method paneFor
      * @param {string} tabName - The name of the tab to get the pane for
      */
@@ -181,6 +195,7 @@ export default Ember.Component.extend({
 
     /**
      * Update the internal active tab name and handle tabs' statuses
+     *
      * @method setActiveTab
      * @param {string} tabName - The name of the tab to switch state to
      */
@@ -199,15 +214,19 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Handles the setup of the initial tab panel state
-     * @method setupInitialTab
+     * Sets up the initial tab, and parses the content of the tab panel to
+     * determine tab labels and names.
+     *
+     * @method setupTabs
      */
-    setupInitialTab: function () {
+    setupTabs: function () {
         var collapsible = this.get( 'collapsible' );
         var initialTabName = this.get( 'initialTabName' );
+        var tabName;
+        var tabs = [];
 
         if ( !initialTabName && !collapsible ) {
-            initialTabName = this.$( '.tab:first' ).attr( 'data-tab-name' );
+            initialTabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
         }
 
         if ( initialTabName ) {
@@ -216,10 +235,23 @@ export default Ember.Component.extend({
         } else {
             this.updateContentHeight();
         }
+
+        this.$( '.tab-pane' ).each( function () {
+            tabName = this.getAttribute( 'data-tab-name' );
+
+            tabs.push({
+                active: tabName === initialTabName,
+                label: this.getAttribute( 'data-tab-label' ),
+                name: tabName
+            });
+        });
+
+        this.set( 'tabs', tabs );
     }.on( 'didInsertElement' ),
 
     /**
      * The class determining how to align tabs
+     *
      * @property {string} tabAlignmentClass
      */
     tabAlignmentClass: function () {
@@ -228,6 +260,7 @@ export default Ember.Component.extend({
 
     /**
      * Get the tab with the specified tabName
+     *
      * @method tabFor
      * @param {string} tabName - The name for the tab to get
      * @returns {element}
@@ -238,14 +271,10 @@ export default Ember.Component.extend({
 
     /**
      * Sets the tab-content div height based on current contentHeight value
+     *
      * @method updateContentHeight
      */
     updateContentHeight: function () {
         this.$( '.tab-content' ).height( this.get( 'contentHeight' ));
     }.observes( 'contentHeight' )
-});
-
-Ember.Handlebars.helper( 'renderTabPane', function ( templateName, options ) {
-    options.types[0] = 'STRING';
-    return Ember.Handlebars.helpers.render.call( this, templateName, options );
 });
