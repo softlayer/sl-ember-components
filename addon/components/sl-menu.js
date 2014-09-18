@@ -437,7 +437,7 @@ export default Ember.Component.extend({
     /**
      * Is the menu being interacted with via the keyboard?
      *
-     * @param {oolean}
+     * @param {boolean}
      */
     keyboardInUse: false,
 

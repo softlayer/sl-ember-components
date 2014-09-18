@@ -14,21 +14,33 @@ export default Ember.View.extend({
             }
         }.bind( this ));
 
-        // keypress doesn't appear to catch escape or tab key
+        // keypress doesn't appear to catch ESC
         Ember.$( document ).on( 'keyup.menu', function( e ) {
             if ( e.keyCode === 27 ) {
                 this.get( 'controller.keyHandler' ).closeAll();
-            } else if ( e.shiftKey && e.keyCode === 72 ) { //9 tab  72 h
-                this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
-            } else if ( e.keyCode === 72 ) { //9 tab  72 h
-                this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
+            // } else if ( e.shiftKey && e.keyCode === 72 ) { //9 tab  72 h
+            //     this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
+            // } else if ( e.keyCode === 72 ) { //9 tab  72 h
+            //     this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
             }
+        }.bind( this ));
 
+        // need to capture TAB key with keydown event
+        Ember.$( document ).on( 'keydown.menu', function( e ) {
+            if ( 9 === e.keyCode && this.get( 'controller.keyboardInUse' ) ) {
+                e.preventDefault();
+
+                if ( e.shiftKey ) {
+                    this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
+                } else {
+                    this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
+                }
+            }
         }.bind( this ));
     },
 
     willDestroyElement: function() {
-        Ember.$( document ).off( 'keypress.menu' ).off( 'keyup.menu' );
+        Ember.$( document ).off( 'keypress.menu' ).off( 'keyup.menu' ).off( 'keydown.menu' );
     }
 
 });
