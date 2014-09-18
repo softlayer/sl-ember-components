@@ -6,15 +6,15 @@ export default Ember.Route.extend({
             {
                 label: 'One',
                 name: 'one',
-                template: 'demos/tabs/one'
+                template: 'tabs/one'
             }, {
                 label: 'Two',
                 name: 'two',
-                template: 'demos/tabs/two'
+                template: 'tabs/two'
             }, {
                 label: 'Three',
                 name: 'three',
-                template: 'demos/tabs/three'
+                template: 'tabs/three'
             }
         ];
     }
