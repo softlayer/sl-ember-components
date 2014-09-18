@@ -3,38 +3,35 @@
     A standalone calendar to display date values from an array of objects.
 </p>
 
-{{#sl-panel heading="Example"}}
-    {{sl-calendar action="alertLabel" content=content}}
-{{/sl-panel}}
+<h3>Example</h3>
+<pre>\{{sl-calendar action="alertLabel" content=content}}</pre>
+{{sl-calendar action="alertLabel" content=content}}
 
-{{#sl-panel heading="Properties"}}
-    <div class="list-group">
-        {{#property-text name="action" type="function"}}
-            Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
-        {{/property-text}}
+<h3>Properties</h3>
+{{#property-text name="action" type="function"}}
+    Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
+{{/property-text}}
 
-        {{#property-text name="content" type="mixed"}}
-            Bound array of objects with date values, looked up using the <code>dateValuePath</code> property.
-        {{/property-text}}
+{{#property-text name="content" type="mixed"}}
+    Bound array of objects with date values, looked up using the <code>dateValuePath</code> property.
+{{/property-text}}
 
-        {{#property-text name="currentMonth" type="number" default="current month"}}
-            The month number to display (1-12).
-        {{/property-text}}
+{{#property-text name="currentMonth" type="number" default="current month"}}
+    The month number to display (1-12).
+{{/property-text}}
 
-        {{#property-text name="currentYear" type="number" default="current year"}}
-            The year to display.
-        {{/property-text}}
+{{#property-text name="currentYear" type="number" default="current year"}}
+    The year to display.
+{{/property-text}}
 
-        {{#property-text name="dateValuePath" type="string" default="\"date\""}}
-            Path to the content objects' date value.
-        {{/property-text}}
+{{#property-text name="dateValuePath" type="string" default="\"date\""}}
+    Path to the content objects' date value.
+{{/property-text}}
 
-        {{#property-text name="locked" type="boolean" default="false"}}
-            When true, the view is locked in the initial mode, and forward and back buttons are disabled.
-        {{/property-text}}
+{{#property-text name="locked" type="boolean" default="false"}}
+    When true, the view is locked in the initial mode, and forward and back buttons are disabled.
+{{/property-text}}
 
-        {{#property-text name="viewMode" type="string" default="\"days\""}}
-            The view to display the calendar in; "days", "months", or "years".
-        {{/property-text}}
-    </div>
-{{/sl-panel}}
+{{#property-text name="viewMode" type="string" default="\"days\""}}
+    The view to display the calendar in; "days", "months", or "years".
+{{/property-text}}

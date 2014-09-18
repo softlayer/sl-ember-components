@@ -1,81 +1,92 @@
 <h2>sl-input</h2>
 <p class="lead">A wrapper component for &lt;input&gt;. See <a href="http://getbootstrap.com/css/#forms">Bootstrap - Forms</a> for details.</p>
 
-{{#sl-panel heading="Examples"}}
-    {{sl-input label="Input with label and helpText" helpText="Help text content goes here" placeholder="Enter some text"}}
-    {{sl-input label="Input with typeahead suggestions" placeholder="Enter a color" suggestions=colors value=colorValue}}
-    {{sl-input label="Disabled input" disabled=true placeholder="You can't enter anything here"}}
-    {{sl-input label="Readonly input" readonly=true value="Look but don't touch!"}}
-    {{sl-input label="Required input" required=true placeholder="You'd better enter something here"}}
-    {{sl-input label="Optional input" optional=true placeholder="Meh, whatev"}}
-    {{sl-input clickToEdit=true label="Click-to-edit input" placeholder="Enter value" value="Initial value"}}
-{{/sl-panel}}
+<h3>Examples</h3>
+<pre>\{{sl-input label="Input with label and helpText" helpText="Help text content goes here" placeholder="Enter some text"}}</pre>
+{{sl-input label="Input with label and helpText" helpText="Help text content goes here" placeholder="Enter some text"}}
+<hr>
+<pre>\{{sl-input label="Input with typeahead suggestions" placeholder="Enter a color" suggestions=colors value=colorValue}}</pre>
+{{sl-input label="Input with typeahead suggestions" placeholder="Enter a color" suggestions=colors value=colorValue}}
+<hr>
+<pre>\{{sl-input label="Disabled input" disabled=true placeholder="You can't enter anything here"}}</pre>
+{{sl-input label="Disabled input" disabled=true placeholder="You can't enter anything here"}}
+<hr>
+<pre>\{{sl-input label="Readonly input" readonly=true value="Look but don't touch!"}}</pre>
+{{sl-input label="Readonly input" readonly=true value="Look but don't touch!"}}
+<hr>
+<pre>\{{sl-input label="Required input" required=true placeholder="You'd better enter something here"}}</pre>
+{{sl-input label="Required input" required=true placeholder="You'd better enter something here"}}
+<hr>
+<pre>\{{sl-input label="Optional input" optional=true placeholder="Meh, whatev"}}</pre>
+{{sl-input label="Optional input" optional=true placeholder="Meh, whatev"}}
+<hr>
+<pre>\{{sl-input clickToEdit=true label="Click-to-edit input" placeholder="Enter value" value="Initial value"}}</pre>
+{{sl-input clickToEdit=true label="Click-to-edit input" placeholder="Enter value" value="Initial value"}}
 
-{{#sl-panel heading="Properties"}}
-    <div class="list-group">
-        {{#property-text name="blur" type="string"}}
-            An action to trigger when the input loses focus.
-        {{/property-text}}
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="blur" type="string"}}
+        An action to trigger when the input loses focus.
+    {{/property-text}}
 
-        {{#property-text name="clickToEdit" type="boolean" default="false"}}
-            When true, the input field will be styled similarly to inline text, but
-            when clicked will allow editing.
-        {{/property-text}}
+    {{#property-text name="clickToEdit" type="boolean" default="false"}}
+        When true, the input field will be styled similarly to inline text, but
+        when clicked will allow editing.
+    {{/property-text}}
 
-        {{#property-text name="disabled" type="boolean" default="false"}}
-            When true, input is disabled.
-        {{/property-text}}
+    {{#property-text name="disabled" type="boolean" default="false"}}
+        When true, input is disabled.
+    {{/property-text}}
 
-        {{#property-text name="helpText" type="string"}}
-            Text to display below the input element.
-        {{/property-text}}
+    {{#property-text name="helpText" type="string"}}
+        Text to display below the input element.
+    {{/property-text}}
 
-        {{#property-text name="inputId" type="string"}}
-            <code>id</code> attribute for the input element itself.
-        {{/property-text}}
+    {{#property-text name="inputId" type="string"}}
+        <code>id</code> attribute for the input element itself.
+    {{/property-text}}
 
-        {{#property-text name="label" type="string"}}
-            String for label text above the input.
-        {{/property-text}}
+    {{#property-text name="label" type="string"}}
+        String for label text above the input.
+    {{/property-text}}
 
-        {{#property-text name="optional" type="boolean" default="false"}}
-            When true, the component is styled to reflect optional status.
-        {{/property-text}}
+    {{#property-text name="optional" type="boolean" default="false"}}
+        When true, the component is styled to reflect optional status.
+    {{/property-text}}
 
-        {{#property-text name="placeholder" type="string"}}
-            <code>placeholder</code> attribute value for the input.
-        {{/property-text}}
+    {{#property-text name="placeholder" type="string"}}
+        <code>placeholder</code> attribute value for the input.
+    {{/property-text}}
 
-        {{#property-text name="popover" type="string" requires="title"}}
-            Popover content text.
-        {{/property-text}}
+    {{#property-text name="popover" type="string" requires="title"}}
+        Popover content text.
+    {{/property-text}}
 
-        {{#property-text name="readonly" type="boolean" default="false"}}
-            <code>readonly</code> attribute value for the input.
-        {{/property-text}}
+    {{#property-text name="readonly" type="boolean" default="false"}}
+        <code>readonly</code> attribute value for the input.
+    {{/property-text}}
 
-        {{#property-text name="required" type="boolean" default="false"}}
-            When true, the component is styled to reflect required status.
-        {{/property-text}}
+    {{#property-text name="required" type="boolean" default="false"}}
+        When true, the component is styled to reflect required status.
+    {{/property-text}}
 
-        {{#property-text name="suggestionNamePath" type="string" default="\"name\""}}
-            The string lookup for each suggestion's "name" value.
-        {{/property-text}}
+    {{#property-text name="suggestionNamePath" type="string" default="\"name\""}}
+        The string lookup for each suggestion's "name" value.
+    {{/property-text}}
 
-        {{#property-text name="suggestions" type="array"}}
-            Values to use as typeahead suggestions.
-        {{/property-text}}
+    {{#property-text name="suggestions" type="array"}}
+        Values to use as typeahead suggestions.
+    {{/property-text}}
 
-        {{#property-text name="title" type="string"}}
-            Tooltip text string, or becomes popover title with supplied popover property.
-        {{/property-text}}
+    {{#property-text name="title" type="string"}}
+        Tooltip text string, or becomes popover title with supplied popover property.
+    {{/property-text}}
 
-        {{#property-text name="type" type="string" default="\"text\""}}
-            <code>type</code> attribute for the input.
-        {{/property-text}}
+    {{#property-text name="type" type="string" default="\"text\""}}
+        <code>type</code> attribute for the input.
+    {{/property-text}}
 
-        {{#property-text name="value" type="mixed"}}
-            Bound value of the input.
-        {{/property-text}}
-    </div>
-{{/sl-panel}}
+    {{#property-text name="value" type="mixed"}}
+        Bound value of the input.
+    {{/property-text}}
+</div>

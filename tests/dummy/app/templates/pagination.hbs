@@ -1,15 +1,12 @@
-<h2>sl-pagination</h2
+<h2>sl-pagination</h2>
 <p class="lead">Pagination components to navigate multiple pages of data.</p>
 
-
-<h3>sl-pagintion-info</h3>
-{{#sl-panel heading="Examples"}}
-
+<h2>sl-pagination-info</h2>
+    <h3>Example</h3>
+    <pre>\{{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}</pre>
     {{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}
 
-{{/sl-panel}}
-{{#sl-panel heading="Properties"}}
-
+    <h3>Properties</h3>
     <div class="list-group">
         {{#property-text name="pagingData" type="object"}}
             An object with the following properties:<br/>
@@ -28,15 +25,20 @@
         {{/property-text}}
     </div>
 
-{{/sl-panel}}
+<h2>sl-pagination-per-page-select</h2>
+    <h3>Example</h3>
+    <pre>\{{sl-pagination-per-page-select
+    itemCountPerPage=pagingData.itemCountPerPage
+    perPage=translations.perPage
+    perPageOptions=pagingData.perPageOptions
+}}</pre>
+    {{sl-pagination-per-page-select
+        itemCountPerPage=pagingData.itemCountPerPage
+        perPage=translations.perPage
+        perPageOptions=pagingData.perPageOptions
+    }}
 
-<h3>sl-pagination-per-page-select</h3>
-{{#sl-panel heading="Examples"}}
-    {{sl-pagination-per-page-select perPage=translations.perPage perPageOptions=pagingData.perPageOptions itemCountPerPage=pagingData.itemCountPerPage}}
-
-{{/sl-panel}}
-
-{{#sl-panel heading="Properties"}}
+    <h3>Properties</h3>
     <div class="list-group">
         {{#property-text name="perPage" type="string"}}
             Text to be translated using an sl-translate component, ex: English: 'per page'.
@@ -49,22 +51,19 @@
             The value of the select box, this value will be observed and changes to it will trigger appropriate changes on the page.
         {{/property-text}}
     </div>
-{{/sl-panel}}
 
-
-<h3>sl-pagination-controls</h3>
-{{#sl-panel heading="Examples"}}
+<h2>sl-pagination-controls</h2>
+    <h3>Example</h3>
+    <pre>\{{sl-pagination-controls currentPage=1 totalPages=5}}</pre>
     {{sl-pagination-controls currentPage=1 totalPages=5}}
-{{/sl-panel}}
 
-{{#sl-panel heading="Properties"}}
+    <h3>Properties</h3>
     <div class="list-group">
         {{#property-text name="currentPage" type="number"}}
         The page number of the currentPage, ex: 1
         {{/property-text}}
-        
+
         {{#property-text name="totalPages" type="number"}}
         The total number of pages.
         {{/property-text}}
     </div>
-{{/sl-panel}}

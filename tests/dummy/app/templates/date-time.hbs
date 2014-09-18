@@ -1,29 +1,27 @@
 <h2>sl-date-time</h2>
 <p class="lead">A formattable date and time component with included tooltip.</p>
 
-{{#sl-panel heading="Examples"}}
-    <h5>"datetime" Format</h5>
-    <p>Today is: {{sl-date-time timezone="America/Chicago"}}.</p>
+<h3>Examples</h3>
+<pre>\{{sl-date-time timezone="America/Chicago"}}</pre>
+<h4>{{sl-date-time timezone="America/Chicago"}}</h4>
+<hr>
+<pre>\{{sl-date-time format="relative" timezone="America/Chicago" value=firstDayDate}}</pre>
+<h4>{{sl-date-time format="relative" timezone="America/Chicago" value=firstDayDate}}</h4>
+<hr>
+<pre>\{{sl-date-time format="date" timezone="America/Chicago" value=threeMonthsAgoDate}}</pre>
+<h4>{{sl-date-time format="date" timezone="America/Chicago" value=threeMonthsAgoDate}}</h4>
 
-    <h5>"relative" Format</h5>
-    <p>The first day of the year was: {{sl-date-time format="relative" timezone="America/Chicago" value=firstDayDate}}.</p>
+<h3>Properties</h3>
+<div class="list-group">
+    {{#property-text name="format" type="string" default="\"datetime\""}}
+        The string format to show the datetime text in. Can be "date", "datetime", or "relative".
+    {{/property-text}}
 
-    <h5>"date" Format</h5>
-    <p>Three months ago was: {{sl-date-time format="date" timezone="America/Chicago" value=threeMonthsAgoDate}}.</p>
-{{/sl-panel}}
+    {{#property-text name="timezone" type="string" required=true}}
+        The string value for the current timezone name (i.e., "America/Chicago").
+    {{/property-text}}
 
-{{#sl-panel heading="Properties"}}
-    <div class="list-group">
-        {{#property-text name="format" type="string" default="\"datetime\""}}
-            The string format to show the datetime text in. Can be "date", "datetime", or "relative".
-        {{/property-text}}
-
-        {{#property-text name="timezone" type="string" required=true}}
-            The string value for the current timezone name (i.e., "America/Chicago").
-        {{/property-text}}
-
-        {{#property-text name="value" type="mixed" default="now"}}
-            The bound date value, parseable by moment.js. If not supplied, the current date and time is used.
-        {{/property-text}}
-    </div>
-{{/sl-panel}}
+    {{#property-text name="value" type="mixed" default="now"}}
+        The bound date value, parseable by moment.js. If not supplied, the current date and time is used.
+    {{/property-text}}
+</div>
