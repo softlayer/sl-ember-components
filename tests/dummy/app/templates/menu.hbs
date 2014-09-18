@@ -2,7 +2,7 @@
 <p class="lead">A component that can be nested to build complex menu hierarchies.</p>
 
 {{#sl-panel heading="Example"}}
-    {{sl-menu menuBinding="controller.content" changeRoute="changeRouteHandler" selectionMade="selectionMadeHandler" actionInitiated="actionInitiatedHandler" keyEventsBinding="controller.keyHandler"}}
+    {{sl-menu menuBinding="controller.content" changeRoute="changeRouteHandler" selectionMade="selectionMadeHandler" actionInitiated="actionInitiatedHandler" keyEventsBinding="controller.keyHandler" keyboardInUseBinding="controller.keyboardInUse"}}
 {{/sl-panel}}
 
 {{#sl-panel heading="Properties"}}
@@ -32,6 +32,10 @@
 
         {{#property-text name="changeRoute" type="function"}}
             Handler for handling the selection of menu items that have a corresponding emberRoute.  Typically, this will be a simple <code>transitionTo</code> or <code>transitionToRoute</code> call.
+        {{/property-text}}
+
+        {{#property-text name="keyboardInUse" type="boolean"}}
+            Indicates whether the menu is being interacted with via the keyboard.  This value gets set by the inner workings of the component and is exposed for use by view logic.  One example of how to use this value is to be able to use the <code>TAB</code> key to navigate through the menu options, where its default event needs to suppressed while doing so.
         {{/property-text}}
     </ul>
 {{/sl-panel}}
