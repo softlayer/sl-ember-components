@@ -1,43 +1,50 @@
 <h2>sl-tab-panel</h2>
 <p class="lead">A component with selectable tabs and related tab panes. Based on <a href="http://getbootstrap.com/javascript/#tabs">Bootstrap - Togglable tabs</a>.</p>
-<p>Each <code>sl-tab-panel</code> wraps a number of <code>tab-pane</code>s. See {{#link-to "tab-pane"}}sl-tab-pane{{/link-to}} for pane details.</p>
 
 <h3>Examples</h3>
-<pre>\{{#sl-tab-panel}}
+<div class="row">
+    <pre class="col-sm-6">\{{#sl-tab-panel}}
     \{{#sl-tab-pane label="One" name="one"}}
         \{{render "tabs/one"}}
     \{{/sl-tab-pane}}
+
     \{{#sl-tab-pane label="Two" name="two"}}
         \{{render "tabs/two"}}
     \{{/sl-tab-pane}}
+
     \{{#sl-tab-pane label="Three" name="three"}}
         \{{render "tabs/three"}}
     \{{/sl-tab-pane}}
 \{{/sl-tab-panel}}</pre>
-{{#sl-tab-panel}}
-    {{#sl-tab-pane label="One" name="one"}}
-        {{render "tabs/one"}}
-    {{/sl-tab-pane}}
-    {{#sl-tab-pane label="Two" name="two"}}
-        {{render "tabs/two"}}
-    {{/sl-tab-pane}}
-    {{#sl-tab-pane label="Three" name="three"}}
-        {{render "tabs/three"}}
-    {{/sl-tab-pane}}
-{{/sl-tab-panel}}
-<hr>
-<pre>\{{#sl-tab-panel alignTabs="right" collapsible=true}}
+    {{#sl-tab-panel class="col-sm-6"}}
+        {{#sl-tab-pane label="One" name="one"}}
+            {{render "tabs/one"}}
+        {{/sl-tab-pane}}
+
+        {{#sl-tab-pane label="Two" name="two"}}
+            {{render "tabs/two"}}
+        {{/sl-tab-pane}}
+
+        {{#sl-tab-pane label="Three" name="three"}}
+            {{render "tabs/three"}}
+        {{/sl-tab-pane}}
+    {{/sl-tab-panel}}
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{#sl-tab-panel alignTabs="right" collapsible=true}}
     \{{#sl-tab-pane label="Test" name="test"}}
         &lt;p&gt;Uncollapsed pane!&lt;/p&gt;
     \{{/sl-tab-pane}}
 \{{/sl-tab-panel}}</pre>
-{{#sl-tab-panel alignTabs="right" collapsible=true}}
-    {{#sl-tab-pane label="Test" name="test"}}
-        <p>Uncollapsed pane!</p>
-    {{/sl-tab-pane}}
-{{/sl-tab-panel}}
+    {{#sl-tab-panel alignTabs="right" class="col-sm-6" collapsible=true}}
+        {{#sl-tab-pane label="Test" name="test"}}
+            <p>Uncollapsed pane!</p>
+        {{/sl-tab-pane}}
+    {{/sl-tab-panel}}
+</div>
 
-<h3>Properties</h3>
+<h3>sl-tab-panel Properties</h3>
 <div class="list-group">
     {{#property-text name="activeTabName" type="string"}}
         Name of the initial active tab.
@@ -51,3 +58,15 @@
         When true, an open tab can be clicked again to close it, so that all tabs and panes are un-selected. If set to false, and no <code>activeTabName</code> is given, then the first tab will be opened on initialization.
     {{/property-text}}
 </div>
+
+<h3>sl-tab-pane Properties</h3>
+<ul class="list-group">
+    {{#property-text name="label" type="string" required=true}}
+        The text label for the tab pane's tab.
+    {{/property-text}}
+
+    {{#property-text name="name" type="string" required=true}}
+        The text name of the tab, used only internally to the pane's parent
+        tab-panel.
+    {{/property-text}}
+</ul>
