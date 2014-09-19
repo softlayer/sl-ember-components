@@ -2,16 +2,26 @@
 <p class="lead">An improved substitute for the default &lt;input type="checkbox&gt; element. See <a href="http://getbootstrap.com/css/#forms-controls">Bootstrap - Supported controls</a> for details.</p>
 
 <h3>Example</h3>
-<pre>\{{sl-checkbox label="Checkbox" name="checkbox" value=checkboxValue}}</pre>
-{{sl-checkbox label="Checkbox" name="checkbox" value=checkboxValue}}
-{{#if checkboxValue}}
-    <span class="label label-success">Checked!</span>
-{{/if}}
 
-<hr>
+<div class="row">
+    <pre class="col-sm-8">\{{sl-checkbox label="Checkbox" name="checkbox" value=checkboxValue}}</pre>
 
-<pre>\{{sl-checkbox disabled=true label="Disabled checkbox"}}</pre>
-{{sl-checkbox disabled=true label="Disabled checkbox"}}
+    <div class="col-sm-4">
+        {{sl-checkbox label="Checkbox" name="checkbox" value=checkboxValue}}
+
+        {{#if checkboxValue}}
+            <span class="label label-success">Checked!</span>
+        {{/if}}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-8">\{{sl-checkbox disabled=true label="Disabled checkbox"}}</pre>
+
+    <div class="col-sm-4">
+        {{sl-checkbox disabled=true label="Disabled checkbox"}}
+    </div>
+</div>
 
 <h3>Properties</h3>
 <div class="list-group">

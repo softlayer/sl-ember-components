@@ -2,7 +2,10 @@
 <p class="lead">A wrapper component for <a href="http://www.highcharts.com">Highcharts</a>.</p>
 
 <h3>Example</h3>
-<pre>chartOptions: {
+<pre>\{{sl-chart options=chartOptions series=content title="Fruit Consumption"}}</pre>
+<div class="row">
+    <div class="col-sm-6">
+        <pre>chartOptions: {
     chart: {
         type: 'bar'
     },
@@ -17,7 +20,7 @@
         }
     }
 }</pre>
-<pre>content = [
+        <pre>content = [
     {
         name: 'Jane',
         data: [ 1, 0, 4 ]
@@ -25,9 +28,12 @@
         name: 'John',
         data: [ 5, 7, 3 ]
     }
-];</pre>
-<pre>\{{sl-chart options=chartOptions series=content title="Fruit Consumption"}}</pre>
-{{sl-chart options=chartOptions series=content title="Fruit Consumption"}}
+]</pre>
+    </div>
+
+    {{sl-chart class="col-sm-6" options=chartOptions series=content title="Fruit Consumption"}}
+</div>
+
 
 <h3>Properties</h3>
 <div class="list-group">

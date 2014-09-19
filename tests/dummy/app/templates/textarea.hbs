@@ -2,11 +2,40 @@
 <p class="lead">A Bootstrap-wrapped component based on Ember's textarea helper.</p>
 
 <h3>Examples</h3>
-<pre>\{{sl-textarea label="First textarea" placeholder="Enter some text!" rows=6}}</pre>
-{{sl-textarea label="First textarea" placeholder="Enter some text!" rows=6}}
-<hr>
-<pre>\{{sl-textarea disabled=true label="Second textarea" placeholder="You can't enter anything..." rows=4}}</pre>
-{{sl-textarea disabled=true label="Second textarea" placeholder="You can't enter anything..." rows=4}}
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-textarea
+    label="First textarea"
+    placeholder="Enter some text!"
+    rows=6
+}}</pre>
+
+    <div class="col-sm-6">
+        {{sl-textarea
+            label="First textarea"
+            placeholder="Enter some text!"
+            rows=6
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-textarea
+    disabled=true
+    label="Second textarea"
+    placeholder="You can't enter anything..."
+    rows=4
+}}</pre>
+
+    <div class="col-sm-6">
+        {{sl-textarea
+            disabled=true
+            label="Second textarea"
+            placeholder="You can't enter anything..."
+            rows=4
+        }}
+    </div>
+</div>
 
 <h3>Properties</h3>
 <div class="list-group">

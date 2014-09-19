@@ -2,15 +2,43 @@
 <p class="lead">Component for integer-based progress bar.</p>
 
 <h3>Examples</h3>
-<pre>\{{sl-progress-bar label=true value=60}}</pre>
-{{sl-progress-bar label=true value=60}}
-<hr>
-<pre>\{{sl-progress-bar label=true theme="success" value=40}}</pre>
-{{sl-progress-bar label=true theme="success" value=40}}
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-progress-bar label=true value=60}}</pre>
+    {{sl-progress-bar class="col-sm-6" label=true value=60}}
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-progress-bar label=true theme="success" value=40}}</pre>
+    {{sl-progress-bar class="col-sm-6" label=true theme="success" value=40}}
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-progress-bar striped=true theme="warning" value=70}}</pre>
+    {{sl-progress-bar class="col-sm-6" striped=true theme="warning" value=70}}
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-progress-bar
+    animated=true
+    label=true
+    striped=true
+    theme="danger"
+    value=90
+}}</pre>
+    {{sl-progress-bar
+        animated=true
+        class="col-sm-6"
+        label=true
+        striped=true
+        theme="danger"
+        value=90
+    }}
+</div>
 
 <h3>Properties</h3>
 <div class="group-list">
-    {{#property-text name="active" type="boolean" default="false"}}
+    {{#property-text name="animated" type="boolean" default="false" requires="striped=true"}}
         When true, the striped progress bar will be animated.
     {{/property-text}}
 

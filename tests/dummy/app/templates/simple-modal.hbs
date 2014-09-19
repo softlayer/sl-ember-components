@@ -2,11 +2,16 @@
 <p class="lead">A simple modal component used to wrap content in. Based on <a href="http://getbootstrap.com/javascript/#modals">Bootstrap - Modals</a>.</p>
 
 <h3>Example</h3>
-<pre>\{{#sl-simple-modal id="testModal" show=showModal title="Test Modal"}}
+
+<div class="row">
+    <pre class="col-sm-8">\{{#sl-simple-modal id="testModal" show=showModal title="Test Modal"}}
     &lt;p&gt;Hello world!&lt;/p&gt;
 \{{/sl-simple-modal}}</pre>
 
-{{sl-button action="openModal" label="Open modal"}}
+    <div class="col-sm-4">
+        {{sl-button action="openModal" label="Open Modal"}}
+    </div>
+</div>
 
 {{#sl-simple-modal id="testModal" show=showModal title="Test Modal"}}
     <p>Hello world!</p>

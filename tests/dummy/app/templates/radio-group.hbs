@@ -2,18 +2,22 @@
 <p class="lead">A component that contains a group of "radio" type inputs. See <a href="http://getbootstrap.com/css/#forms-controls">Bootstrap - Supported controls</a>.</p>
 
 <h3>Example</h3>
-<pre>\{{sl-radio-group
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-radio-group
     content=content
     label="Color selection"
     name="colorRadio"
     value=currentColor
 }}</pre>
-{{sl-radio-group
-    content=content
-    label="Color selection"
-    name="colorRadio"
-    value=currentColor
-}}
+    {{sl-radio-group
+        class="col-sm-6"
+        content=content
+        label="Color selection"
+        name="colorRadio"
+        value=currentColor
+    }}
+</div>
 
 <h3>Properties</h3>
 <div class="list-group">

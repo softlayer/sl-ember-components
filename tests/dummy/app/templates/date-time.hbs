@@ -2,14 +2,41 @@
 <p class="lead">A formattable date and time component with included tooltip.</p>
 
 <h3>Examples</h3>
-<pre>\{{sl-date-time timezone="America/Chicago"}}</pre>
-<h4>{{sl-date-time timezone="America/Chicago"}}</h4>
-<hr>
-<pre>\{{sl-date-time format="relative" timezone="America/Chicago" value=firstDayDate}}</pre>
-<h4>{{sl-date-time format="relative" timezone="America/Chicago" value=firstDayDate}}</h4>
-<hr>
-<pre>\{{sl-date-time format="date" timezone="America/Chicago" value=threeMonthsAgoDate}}</pre>
-<h4>{{sl-date-time format="date" timezone="America/Chicago" value=threeMonthsAgoDate}}</h4>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-date-time timezone="America/Chicago"}}</pre>
+    <h4 class="col-sm-6">{{sl-date-time timezone="America/Chicago"}}</h4>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-date-time
+    format="relative"
+    timezone="America/Chicago"
+    value=firstDayDate
+}}</pre>
+    <h4 class="col-sm-6">
+        {{sl-date-time
+            format="relative"
+            timezone="America/Chicago"
+            value=firstDayDate
+        }}
+    </h4>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-date-time
+    format="date"
+    timezone="America/Chicago"
+    value=threeMonthsAgoDate
+}}</pre>
+    <h4 class="col-sm-6">
+        {{sl-date-time
+            format="date"
+            timezone="America/Chicago"
+            value=threeMonthsAgoDate
+        }}
+    </h4>
+</div>
 
 <h3>Properties</h3>
 <div class="list-group">

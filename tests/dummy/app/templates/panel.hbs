@@ -2,12 +2,15 @@
 <p class="lead">A basic content wrapper for <a href="http://getbootstrap.com/components/#panels">Bootstrap - Panels</a>.</p>
 
 <h3>Example</h3>
-<pre>\{{#sl-panel heading="Test Panel"}}
+
+<div class="row">
+    <pre class="col-sm-6">\{{#sl-panel heading="Test Panel"}}
     &lt;p&gt;Hello world!&lt;/p&gt;
 \{{/sl-panel}}</pre>
-{{#sl-panel heading="Test Panel"}}
-    <p>Hello world!</p>
-{{/sl-panel}}
+    {{#sl-panel class="col-sm-6" heading="Test Panel"}}
+        <p>Hello world!</p>
+    {{/sl-panel}}
+</div>
 
 <h3>Properties</h3>
 <div class="list-group">

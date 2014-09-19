@@ -2,11 +2,23 @@
 <p class="lead">A simple component that surrounds content to enable Bootstrap's <a href="http://getbootstrap.com/javascript/#tooltips">tooltip</a> and <a href="http://getbootstrap.com/javascript/#popovers">popover</a> behavior.</p>
 
 <h3>Examples</h3>
-<pre>\{{#sl-tooltip title="Tooltip text!"}}&lt;u&gt;Tooltip example&lt;/u&gt;\{{/sl-tooltip}}</pre>
-<p>{{#sl-tooltip title="Tooltip text!"}}<u>Tooltip example</u>{{/sl-tooltip}}</p>
-<hr>
-<pre>\{{#sl-tooltip title="Popover title" popover="Popover content!"}}&lt;u&gt;Popover example&lt;/u&gt;\{{/sl-tooltip}}</pre>
-<p>{{#sl-tooltip title="Popover title" popover="Popover content!"}}<u>Popover example</u>{{/sl-tooltip}}</p>
+
+<div class="row">
+    <pre class="col-sm-8">\{{#sl-tooltip title="Tooltip text!"}}Tooltip example\{{/sl-tooltip}}</pre>
+    <p class="col-sm-4">{{#sl-tooltip title="Tooltip text!"}}Tooltip example{{/sl-tooltip}}</p>
+</div>
+
+<div class="row">
+    <pre class="col-sm-8">\{{#sl-tooltip title="Popover title" popover="Popover content!"}}
+    Popover example
+\{{/sl-tooltip}}</pre>
+
+    <p class="col-sm-4">
+        {{#sl-tooltip popover="Popover content!" title="Popover title"}}
+            Popover example
+        {{/sl-tooltip}}
+    </p>
+</div>
 
 <h3>Properties</h3>
 <ul class="list-group">

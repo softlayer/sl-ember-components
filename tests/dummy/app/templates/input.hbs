@@ -2,26 +2,114 @@
 <p class="lead">A wrapper component for &lt;input&gt;. See <a href="http://getbootstrap.com/css/#forms">Bootstrap - Forms</a> for details.</p>
 
 <h3>Examples</h3>
-<pre>\{{sl-input label="Input with label and helpText" helpText="Help text content goes here" placeholder="Enter some text"}}</pre>
-{{sl-input label="Input with label and helpText" helpText="Help text content goes here" placeholder="Enter some text"}}
-<hr>
-<pre>\{{sl-input label="Input with typeahead suggestions" placeholder="Enter a color" suggestions=colors value=colorValue}}</pre>
-{{sl-input label="Input with typeahead suggestions" placeholder="Enter a color" suggestions=colors value=colorValue}}
-<hr>
-<pre>\{{sl-input label="Disabled input" disabled=true placeholder="You can't enter anything here"}}</pre>
-{{sl-input label="Disabled input" disabled=true placeholder="You can't enter anything here"}}
-<hr>
-<pre>\{{sl-input label="Readonly input" readonly=true value="Look but don't touch!"}}</pre>
-{{sl-input label="Readonly input" readonly=true value="Look but don't touch!"}}
-<hr>
-<pre>\{{sl-input label="Required input" required=true placeholder="You'd better enter something here"}}</pre>
-{{sl-input label="Required input" required=true placeholder="You'd better enter something here"}}
-<hr>
-<pre>\{{sl-input label="Optional input" optional=true placeholder="Meh, whatev"}}</pre>
-{{sl-input label="Optional input" optional=true placeholder="Meh, whatev"}}
-<hr>
-<pre>\{{sl-input clickToEdit=true label="Click-to-edit input" placeholder="Enter value" value="Initial value"}}</pre>
-{{sl-input clickToEdit=true label="Click-to-edit input" placeholder="Enter value" value="Initial value"}}
+<div class="row">
+    <pre class="col-sm-6">\{{sl-input
+    label="Input with label and helpText"
+    helpText="Help text content goes here"
+    placeholder="Enter some text"
+}}</pre>
+    <div class="col-sm-6">
+        {{sl-input
+            label="Input with label and helpText"
+            helpText="Help text content goes here"
+            placeholder="Enter some text"
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-input
+    label="Input with typeahead suggestions"
+    placeholder="Enter a color"
+    suggestions=colors
+    value=colorValue
+}}</pre>
+    <div class="col-sm-6">
+        {{sl-input
+            label="Input with typeahead suggestions"
+            placeholder="Enter a color"
+            suggestions=colors
+            value=colorValue
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-input
+    label="Disabled input"
+    disabled=true
+    placeholder="You can't enter anything here"
+}}</pre>
+    <div class="col-sm-6">
+        {{sl-input
+            label="Disabled input"
+            disabled=true
+            placeholder="You can't enter anything here"
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-input
+    label="Readonly input"
+    readonly=true
+    value="Look but don't touch!"
+}}</pre>
+    <div class="col-sm-6">
+        {{sl-input
+            label="Readonly input"
+            readonly=true
+            value="Look but don't touch!"
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-input
+    label="Required input"
+    required=true
+    placeholder="You'd better enter something here"
+}}</pre>
+    <div class="col-sm-6">
+        {{sl-input
+            label="Required input"
+            required=true
+            placeholder="You'd better enter something here"
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-input
+    label="Optional input"
+    optional=true
+    placeholder="Meh, whatev"
+}}</pre>
+    <div class="col-sm-6">
+        {{sl-input
+            label="Optional input"
+            optional=true
+            placeholder="Meh, whatev"
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <pre class="col-sm-6">\{{sl-input
+    clickToEdit=true
+    label="Click-to-edit input"
+    placeholder="Enter value"
+    value="Initial value"
+}}</pre>
+    <div class="col-sm-6">
+        {{sl-input
+            clickToEdit=true
+            label="Click-to-edit input"
+            placeholder="Enter value"
+            value="Initial value"
+        }}
+    </div>
+</div>
 
 <h3>Properties</h3>
 <div class="list-group">

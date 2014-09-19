@@ -12,7 +12,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {boolean} active
      * @default false
      */
-    active: false,
+    animated: false,
 
     /**
      * Bindings for the progress bar component

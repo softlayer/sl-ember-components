@@ -3,8 +3,10 @@
 
 <h2>sl-pagination-info</h2>
     <h3>Example</h3>
-    <pre>\{{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}</pre>
-    {{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}
+    <div class="row">
+        <pre class="col-sm-8">\{{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}</pre>
+        {{sl-pagination-info class="col-sm-4" pagingData=pagingData pagingInfo=translations.label}}
+    </div>
 
     <h3>Properties</h3>
     <div class="list-group">
@@ -27,16 +29,19 @@
 
 <h2>sl-pagination-per-page-select</h2>
     <h3>Example</h3>
-    <pre>\{{sl-pagination-per-page-select
+    <div class="row">
+        <pre class="col-sm-8">\{{sl-pagination-per-page-select
     itemCountPerPage=pagingData.itemCountPerPage
     perPage=translations.perPage
     perPageOptions=pagingData.perPageOptions
 }}</pre>
-    {{sl-pagination-per-page-select
-        itemCountPerPage=pagingData.itemCountPerPage
-        perPage=translations.perPage
-        perPageOptions=pagingData.perPageOptions
-    }}
+        {{sl-pagination-per-page-select
+            class="col-sm-4"
+            itemCountPerPage=pagingData.itemCountPerPage
+            perPage=translations.perPage
+            perPageOptions=pagingData.perPageOptions
+        }}
+    </div>
 
     <h3>Properties</h3>
     <div class="list-group">
@@ -54,8 +59,10 @@
 
 <h2>sl-pagination-controls</h2>
     <h3>Example</h3>
-    <pre>\{{sl-pagination-controls currentPage=1 totalPages=5}}</pre>
-    {{sl-pagination-controls currentPage=1 totalPages=5}}
+    <div class="row">
+        <pre class="col-sm-8">\{{sl-pagination-controls currentPage=1 totalPages=5}}</pre>
+        {{sl-pagination-controls class="col-sm-4" currentPage=1 totalPages=5}}
+    </div>
 
     <h3>Properties</h3>
     <div class="list-group">

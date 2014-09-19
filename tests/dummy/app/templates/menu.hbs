@@ -2,7 +2,8 @@
 <p class="lead">A component that can be nested to build complex menu hierarchies.</p>
 
 <h3>Example</h3>
-<pre>\{{sl-menu
+<div class="row">
+    <pre class="col-sm-6">\{{sl-menu
     actionInitiated="actionInitiatedHandler"
     changeRoute="changeRouteHandler"
     keyEventsBinding="controller.keyHandler"
@@ -10,14 +11,16 @@
     menuBinding="controller.content"
     selectionMade="selectionMadeHandler"
 }}</pre>
-{{sl-menu
-    actionInitiated="actionInitiatedHandler"
-    changeRoute="changeRouteHandler"
-    keyEventsBinding="controller.keyHandler"
-    keyboardInUseBinding="controller.keyboardInUse"
-    menuBinding="controller.content"
-    selectionMade="selectionMadeHandler"
-}}
+    {{sl-menu
+        actionInitiated="actionInitiatedHandler"
+        changeRoute="changeRouteHandler"
+        class="col-sm-6"
+        keyEventsBinding="controller.keyHandler"
+        keyboardInUseBinding="controller.keyboardInUse"
+        menuBinding="controller.content"
+        selectionMade="selectionMadeHandler"
+    }}
+</div>
 
 <h3>Properties</h3>
 <ul class="list-group">

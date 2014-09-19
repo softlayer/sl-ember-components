@@ -2,8 +2,29 @@
 <p class="lead">A combination of a button with a drop-down menu, with triggered actions. Utilizes <a href="http://getbootstrap.com/javascript/#dropdowns">Bootstrap - Dropdowns</a>.</p>
 
 <h3>Example</h3>
+
 <pre>\{{sl-drop-button content=content label="Select a theme"}}</pre>
-{{sl-drop-button content=content label="Select a theme"}}
+
+<div class="row">
+    <pre class="col-sm-6">content = [
+    {
+        action: 'setDanger',
+        label: 'Danger'
+    }, {
+        action: 'setInfo',
+        label: 'Info'
+    }, {
+        action: 'setWarning',
+        label: 'Warning'
+    }, {
+        // divider
+    }, {
+        action: 'setSuccess',
+        label: 'Success'
+    }
+]</pre>
+    {{sl-drop-button class="col-sm-6" content=content label="Select a theme"}}
+</div>
 
 <h3>Properties</h3>
 <div class="list-group">
