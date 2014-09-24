@@ -1,14 +1,26 @@
 <h2>sl-date-picker</h2>
 <p class="lead">An input component to select date values. Based on <a href="http://bootstrap-datepicker.readthedocs.org/en/release/index.html">bootstrap-datepicker</a>.</p>
 
+<hr>
+
 <h3>Example</h3>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-date-picker label="Date picker"}}</pre>
-    {{sl-date-picker class="col-sm-6" label="Date picker"}}
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-date-picker label="Date picker"}}</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-date-picker label="Date picker"}}
+    </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="action" type="function"}}
         Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
