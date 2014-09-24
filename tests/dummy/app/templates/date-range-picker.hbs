@@ -1,23 +1,34 @@
 <h2>sl-date-range-picker</h2>
 <p class="lead">A component to use for date ranges, using two {{#link-to "date-picker"}}sl-date-picker{{/link-to}} components.</p>
 
+<hr>
+
 <h3>Example</h3>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-date-range-picker
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-date-range-picker
     label="Select date range"
     startDatePlaceholder="Select start date"
     endDatePlaceholder="Select end date"
 }}</pre>
-    {{sl-date-range-picker
-        class="col-sm-6"
-        label="Select date range"
-        startDatePlaceholder="Select start date"
-        endDatePlaceholder="Select end date"
-    }}
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-date-range-picker
+            label="Select date range"
+            startDatePlaceholder="Select start date"
+            endDatePlaceholder="Select end date"
+        }}
+    </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="endDatePlaceholder" type="string"}}
         The <code>placeholder</code> attribute text for the end date input.
