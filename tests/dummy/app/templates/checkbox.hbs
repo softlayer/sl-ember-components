@@ -1,12 +1,22 @@
 <h2>sl-checkbox</h2>
 <p class="lead">An improved substitute for the default &lt;input type="checkbox&gt; element. See <a href="http://getbootstrap.com/css/#forms-controls">Bootstrap - Supported controls</a> for details.</p>
 
+<hr>
+
 <h3>Example</h3>
 
 <div class="row">
-    <pre class="col-sm-8">\{{sl-checkbox label="Checkbox" name="checkbox" value=checkboxValue}}</pre>
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-checkbox
+    label="Checkbox"
+    name="checkbox"
+    value=checkboxValue
+}}</pre>
+    </div>
 
-    <div class="col-sm-4">
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-checkbox label="Checkbox" name="checkbox" value=checkboxValue}}
 
         {{#if checkboxValue}}
@@ -16,14 +26,24 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-8">\{{sl-checkbox disabled=true label="Disabled checkbox"}}</pre>
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-checkbox
+    disabled=true
+    label="Disabled checkbox"
+}}</pre>
+    </div>
 
-    <div class="col-sm-4">
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-checkbox disabled=true label="Disabled checkbox"}}
     </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="disabled" type="boolean" default="false"}}
         When true, the checkbox is disabled.
