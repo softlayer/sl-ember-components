@@ -1,10 +1,20 @@
 <h2>sl-chart</h2>
 <p class="lead">A wrapper component for <a href="http://www.highcharts.com">Highcharts</a>.</p>
 
+<hr>
+
 <h3>Example</h3>
-<pre>\{{sl-chart options=chartOptions series=content title="Fruit Consumption"}}</pre>
+
 <div class="row">
     <div class="col-sm-6">
+        <h6>Template</h6>
+        <pre>\{{sl-chart
+    options=chartOptions
+    series=content
+    title="Fruit Consumption"
+}}</pre>
+
+        <h6>Controller</h6>
         <pre>chartOptions: {
     chart: {
         type: 'bar'
@@ -20,6 +30,8 @@
         }
     }
 }</pre>
+
+        <h6>Route</h6>
         <pre>content = [
     {
         name: 'Jane',
@@ -31,11 +43,16 @@
 ]</pre>
     </div>
 
-    {{sl-chart class="col-sm-6" options=chartOptions series=content title="Fruit Consumption"}}
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-chart options=chartOptions series=content title="Fruit Consumption"}}
+    </div>
 </div>
 
+<hr>
 
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="height" type="string"}}
         CSS string for the height inline style value.
