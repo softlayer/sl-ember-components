@@ -6,18 +6,18 @@ export default Ember.Component.extend({
     actions: {
         click: function( action, key ){
             this.triggerAction( {
-                action: action, 
+                action: action,
                 actionContext: [ key ]
             } );
         }
     },
 
     click: function( event ){
-        if( $( event.target ).closest( '.stay-open' ).length ){
+        if( Ember.$( event.target ).closest( '.stay-open' ).length ){
             return false;
         }
     },
-    
+
     clickableActions: function(){
         var actions = Ember.A([]),
             settings = this.get( 'settings' );
@@ -32,12 +32,12 @@ export default Ember.Component.extend({
 
     showActions: Ember.computed.bool( 'settings.actions' ),
 
-    hideableColumns: function(){    
+    hideableColumns: function(){
         var hideableColumns = Ember.A([]),
             settings = this.get( 'settings' ),
             columns = this.get( 'columns' );
         if( settings.hideableColumns ){
-            
+
             hideableColumns.pushObjects( columns.rejectBy( 'hideable', false ).map( function( column ){
                 return {
                     action: 'toggleColumnVisibility',

@@ -1,18 +1,17 @@
 import { test, moduleForComponent } from 'ember-qunit';
 
-moduleForComponent('sl-grid-table-cell-link', 'SlGridTableCellLinkComponent', {
-  // specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+moduleForComponent( 'sl-grid-table-cell-link', 'Component: Sl-Grid-Table-Cell-Link', {
+    needs: [ 'helper:get-key' ]
 });
 
-test('it renders', function() {
-  expect(2);
+test( 'it renders', function() {
+  expect( 2 );
 
-  // creates the component instance
+  // Creates the component instance
   var component = this.subject();
-  equal(component.state, 'preRender');
+  equal( component.state, 'preRender' );
 
-  // appends the component to the page
+  // Appends the component to the page
   this.append();
-  equal(component.state, 'inDOM');
+  equal( component.state, 'inDOM' );
 });

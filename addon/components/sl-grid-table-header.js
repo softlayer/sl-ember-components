@@ -1,192 +1,263 @@
 import Ember from 'ember';
 
+/**
+ * @module components
+ * @class sl-grid-table-header
+ */
 export default Ember.Component.extend({
-    tagName: 'th',
 
-    attributeBindings: Ember.A([ 'style' ]),
-
-    classNameBindings: [ ':sl-grid-table-header' ],
-
+    /**
+     * Component actions hash
+     *
+     * @property {object} actions
+     */
     actions: {
-        sortColumn: function( key ){
+
+        /**
+         * Fire primary action when a column is sorted.
+         *
+         * @method actions.sortColumn
+         * @param {string} key - The key for the sorted column
+         */
+        sortColumn: function( key ) {
             this.sendAction( 'action', key );
         }
     },
 
     /**
-     * sortClasses - add css classes if this column is sorted on
+     * Bindings for the base component's attributes
      *
-     * @return {undefined}
+     * @property {array} attributeBindings
      */
-    sortClasses: function(){
-        var isSorted = this.get( 'column.isSorted' ),
-            sortAscending = this.get( 'column.sortAscending' );
-
-        if( isSorted ){
-            return 'fa '+( sortAscending ? 'fa-chevron-up' : 'fa-chevron-down' );
-        }
-        
-        return '';
-
-    }.property( 'column.isSorted', 'column.sortAscending' ),
-
-    style: '',
+    attributeBindings: [ 'style' ],
 
     /**
-     * columnWidthObserver updates the style string when the width of the
-     * column changes.  If we try to make the style a computed property then
-     * we will get render errors from Ember before the view is inserted into
-     * the dom
+     * The base component's class names
      *
-     * @return {undefined}
+     * @property {array} classNameBindings
      */
-    columnWidthObserver: function(){
-        var width = this.get( 'column.width' ),
-            widthHint,
-            totalWidthHints,
-            resizeCols,
-            resizeColWidth,
-            resizeColCount,
-            actionsColWidth,
-            rowExpanderWidth,
-            tableWidth,
-            totalHintingWidth;
+    classNames: [ 'sl-grid-table-header' ],
 
-                   
-        if( width ){ 
-            this.set( 'style', width ? 'width:'+width+'px;' : '' );
+    /**
+     * Update the style string when the width of the column changes. If we try
+     * to make the style a computed property then we will get render errors from
+     * Ember before the view is inserted into the DOM.
+     *
+     * @method columnWidthObserver
+     */
+    columnWidthObserver: function() {
+        var actionsColWidth;
+        var resizeColCount;
+        var resizeColWidth;
+        var resizeCols;
+        var rowExpanderWidth;
+        var tableWidth;
+        var totalHintingWidth;
+        var totalWidthHints;
+        var width = this.get( 'column.width' );
+        var widthHint;
+
+        if ( width ) {
+            this.set( 'style', width ? 'width:' + width + 'px;' : '' );
             return;
         }
-        
-        widthHint = this.getWithDefault( 'column.widthHint', 1 );
-        totalWidthHints = this.get( 'totalWidthHints' );
-        resizeCols = this.$().siblings( 'th.sl-grid-table-column-resize' );
-        resizeColWidth = resizeCols.outerWidth()||0;
-        resizeColCount = resizeCols.length;
-        actionsColWidth = this.$().siblings( 'th.sl-grid-table-cell-actions' ).outerWidth()||0;
-        rowExpanderWidth = this.$().siblings( 'th.sl-grid-table-cell-row-expander' ).outerWidth()||0;
-        tableWidth = this.$().parents( 'table.sl-grid' ).width();
 
+        actionsColWidth = this.$().siblings( 'th.sl-grid-table-cell-actions' ).outerWidth() || 0;
+        resizeCols = this.$().siblings( 'th.sl-grid-table-column-resize' );
+        rowExpanderWidth = this.$().siblings( 'th.sl-grid-table-cell-row-expander' ).outerWidth() || 0;
+        tableWidth = this.$().parents( 'table.sl-grid' ).width();
+        totalWidthHints = this.get( 'totalWidthHints' );
+        widthHint = this.getWithDefault( 'column.widthHint', 1 );
+
+        resizeColCount = resizeCols.length;
+        resizeColWidth = resizeCols.outerWidth() || 0;
         totalHintingWidth = tableWidth - rowExpanderWidth - actionsColWidth - resizeColWidth*resizeColCount;
 
-        width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
+        width = Math.floor(( totalHintingWidth / totalWidthHints ) * widthHint );
 
-        this.set( 'style', 'width:'+width+'px;' );
-
+        this.set( 'style', 'width:' + width + 'px;' );
     }.observes( 'column.width' ).on( 'didInsertElement' ),
 
+    /**
+     * Get the index of the currently sorted column
+     *
+     * @method getCurrentColumnIndex
+     * @returns {number} - The index of the column
+     */
+    getCurrentColumnIndex: function() {
+        return this.$().parent().children( 'th.sl-grid-table-header' ).index( this.$() );
+    },
 
-    mouseDown: function( ){
-        if( !this.get( 'disabled' ) ){
-            $('body').on( 'mousemove', this.mouseMoveListener );
-            $('body').on( 'mouseup', this.mouseUpListener );
+    /**
+     * Get the position of the specified column
+     *
+     * @method getPosition
+     * @param {element} element - The element to get the position of
+     */
+    getPosition: function( element ){
+        var leftOffset = Ember.$( element ).offset().left;
+
+        return {
+            id: element.id,
+            left: leftOffset,
+        };
+    },
+
+    /**
+     * Setup mouse events when the mouseDown is triggered
+     *
+     * @method mouseDown
+     */
+    mouseDown: function() {
+        if ( !this.get( 'disabled' )) {
+            Ember.$( 'body' ).on( 'mousemove', this.mouseMoveListener );
+            Ember.$( 'body' ).on( 'mouseup', this.mouseUpListener );
         }
     },
-    setUpBoundListeners: function(){
 
-        this.set( 'mouseUpListener', Ember.run.bind( this, function(){
-            var newIndex = this.get( 'newIndex' ),
-                oldIndex = this.get( 'oldIndex' ),
-                reorderCol = this.get( 'reorderCol' ),
-                hlReorderCol = this.get( 'hlReorderCol' );
+    /**
+     * Set a new column index on the relevant column.
+     *
+     * @method setNewColumnIndex
+     */
+    setNewColumnIndex: function() {
+        var currentLeft = this.get( 'reorderCol' ).offset().left;
+        var headers;
+        var id = this.get( 'elementId' );
+        var self = this;
 
-            if( reorderCol ){
+        // Get all siblings and offsets
+        headers = this.$().parent().children( 'th.sl-grid-table-header' );
+
+        /* jshint unused: false */
+        var offsets = headers.map( function( index, el ) {
+            if ( el.id === id ) {
+                return this.get( 'oldPosition' );
+            }
+
+            return this.getPosition( el );
+        }.bind( this ));
+
+        var lastIndex = this.get( 'newIndex' );
+
+        var currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {
+            return currentLeft > el.left ? index : prev;
+        }, 0 );
+
+        if ( lastIndex !== currentIndex ) {
+            var hlReorderCol = this.get( 'hlReorderCol' );
+
+            if ( hlReorderCol ) {
+                hlReorderCol.remove();
+            }
+
+            hlReorderCol = Ember.$( '<div class="reordering">&nbsp;</div>' );
+            hlReorderCol.css({
+                top: this.$().offset().top + 'px',
+                left: offsets[ currentIndex ].left + 'px',
+                width: '8px',
+                height: this.$().parents( 'table' ).outerHeight() + 'px',
+            });
+            hlReorderCol.appendTo( Ember.$( 'body' ));
+            this.set( 'hlReorderCol', hlReorderCol );
+        }
+        this.set( 'newIndex', currentIndex );
+    },
+
+    /**
+     * Setup listeners for bound actions.
+     *
+     * @method setupBoundListeners
+     */
+    setupBoundListeners: function() {
+        this.set( 'mouseUpListener', Ember.run.bind( this, function() {
+            var hlReorderCol = this.get( 'hlReorderCol' );
+            var newIndex = this.get( 'newIndex' );
+            var oldIndex = this.get( 'oldIndex' );
+            var reorderCol = this.get( 'reorderCol' );
+
+            if ( reorderCol ) {
                 reorderCol.remove();
                 this.set( 'reorderCol', null );
             }
-            if( hlReorderCol ){
+
+            if ( hlReorderCol ) {
                 hlReorderCol.remove();
                 this.set( 'hlReorderCol', null );
             }
 
+            Ember.$( 'body' ).removeClass( 'reordering' )
+                .off( 'mousemove', this.mouseMoveListener )
+                .off( 'mouseup', this.mouseUpListener );
 
-            $('body').removeClass( 'reordering' );
-            $('body').off( 'mousemove', this.mouseMoveListener );
-            $('body').off( 'mouseup', this.mouseUpListener );
-
-            if( newIndex !== oldIndex ){
+            if ( newIndex !== oldIndex ) {
                 this.triggerAction({
                     action: 'reorderColumn',
                     actionContext: [ oldIndex, newIndex ]
                 });
             }
-         }));
-        
-        this.set( 'mouseMoveListener', Ember.run.bind( this, function( e ){
-            var reorderCol = this.get( 'reorderCol' ); 
-            
-            if( ! reorderCol ){ 
-                $('body').addClass( 'reordering' );
-                
-                reorderCol = $('<div class="reordering"></div>');
-                reorderCol.text( this.$()[0].textContent );
-                reorderCol.css( {
-                    top: this.$().offset().top+'px',
-                    left: this.$().offset().left+'px',
+        }));
+
+        this.set( 'mouseMoveListener', Ember.run.bind( this, function( event ) {
+            var reorderCol = this.get( 'reorderCol' );
+
+            if ( !reorderCol ) {
+                Ember.$( 'body' ).addClass( 'reordering' );
+
+                reorderCol = Ember.$( '<div class="reordering"></div>' );
+                reorderCol.text( this.$()[ 0 ].textContent );
+                reorderCol.css({
+                    top:     this.$().offset().top + 'px',
+                    left:    this.$().offset().left + 'px',
                     padding: this.$().css( 'padding' ),
-                    width: this.$().width()+'px',
-                    height: this.$().parents( 'table' ).outerHeight()+'px',
-                    font: this.$().css( 'font' )
+                    width:   this.$().width() + 'px',
+                    height:  this.$().parents( 'table' ).outerHeight() + 'px',
+                    font:    this.$().css( 'font' )
                 });
-                reorderCol.appendTo($('body')); 
+
+                reorderCol.appendTo( Ember.$( 'body' ));
+
                 this.set( 'reorderCol', reorderCol );
-                
                 this.set( 'oldIndex', this.getCurrentColumnIndex() );
                 this.set( 'newIndex', this.get( 'oldIndex' ) );
                 this.set( 'oldPosition', this.getPosition( reorderCol ) );
             }
-            reorderCol.offset( { left: e.pageX } );
+
+            reorderCol.offset({ left: event.pageX });
             this.setNewColumnIndex();
+
             return false;
         }));
-    }.on( 'init' ),
+    }.on( 'didInsertElement' ),
 
-    getCurrentColumnIndex: function(){
-        return this.$().parent().children( 'th.sl-grid-table-header' ).index( this.$() );
-    },
+    /**
+     * Add CSS classes if this column is being sorted on.
+     *
+     * @property {string} sortClasses
+     */
+    sortClasses: function() {
+        var isSorted = this.get( 'column.isSorted' );
 
-    getPosition: function( el ){
-        var elLeft = $( el ).offset().left;
-        return { 
-            id: el.id,
-            left: elLeft,
-        };
-    },
-    
-    setNewColumnIndex: function(){
+        if ( isSorted ) {
+            return 'fa ' + ( this.get( 'column.sortAscending' ) ? 'fa-chevron-up' : 'fa-chevron-down' );
+        }
 
-        //get all siblings and offsets
-        var headers = this.$().parent().children( 'th.sl-grid-table-header' );
-        var currentLeft = this.get( 'reorderCol' ).offset().left;
-        var thisId = this.$()[0].id;
-        /*jshint unused: false*/
-        var offsets = headers.map( function( index, el ){ 
-            if( el.id === thisId ){
-                return this.get( 'oldPosition' );
-            }
-            return this.getPosition( el );
-        }.bind( this ) );
-        var lastIndex = this.get( 'newIndex' );
-       
-        var currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ){ 
-            return currentLeft > el.left ? index : prev;
-        }, 0);
-        if( lastIndex !== currentIndex ){
-            var hlReorderCol = this.get( 'hlReorderCol' );
-            if( hlReorderCol ){
-                hlReorderCol.remove();
-            }
-            hlReorderCol = $( '<div class="reordering">&nbsp;</div>');
-            hlReorderCol.css({
-                top: this.$().offset().top+'px',
-                left: offsets[ currentIndex ].left+'px',
-                width: '8px',
-                height: this.$().parents( 'table' ).outerHeight()+'px',
-            });
-            hlReorderCol.appendTo( $('body') );
-            this.set( 'hlReorderCol', hlReorderCol );
-        }     
-        this.set( 'newIndex', currentIndex );
-    }
+        return '';
+    }.property( 'column.isSorted', 'column.sortAscending' ),
+
+    /**
+     * Inline style string for the base component.
+     *
+     * @property {string} style
+     */
+    style: '',
+
+    /**
+     * HTML tag to use for base component.
+     *
+     * @property {string} tagName
+     * @default "th"
+     */
+    tagName: 'th'
 
 });

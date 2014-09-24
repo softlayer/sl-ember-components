@@ -221,12 +221,11 @@ export default Ember.Component.extend({
      * @return {integer}
      */
     _getCurrentRootNodeIndex: function() {
-        var rootOptionsLength = this.get( 'rootNode.menu.pages' ).length,
-            currentIndex      = null;
+        var currentIndex = null;
 
         // Determine index of rootNode currently on
-        this.get( 'rootNode.menu.pages' ).forEach( function( item, index, enumerable ) {
-            if ( item.label === this.get( 'activeChild.menu.label' ) ) {
+        this.get( 'rootNode.menu.pages' ).forEach( function( item, index ) {
+            if ( item.label === this.get( 'activeChild.menu.label' )) {
                 currentIndex = index;
             }
         }, this );

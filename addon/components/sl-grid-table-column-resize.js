@@ -36,25 +36,25 @@ export default Ember.Component.extend({
 
         if( ! this.get( 'disabled' ) ) {
             this.set( 'global.isResizing', true );
-            $('body').addClass('resizing');
-            $('body').on( 'mousemove', this.mouseMoveListener );
-            $('body').on( 'mouseup', this.mouseUpListener );
+            Ember.$('body').addClass('resizing');
+            Ember.$('body').on( 'mousemove', this.mouseMoveListener );
+            Ember.$('body').on( 'mouseup', this.mouseUpListener );
 
             this.set('startX', e.pageX);
-            this.set('startWidth',  $( this.$().prevAll(tag)[0] ).width());
+            this.set('startWidth', Ember.$( this.$().prevAll(tag)[0] ).width());
 
         }
     },
 
     setUpBoundListeners: function(){
         this.set( 'mouseUpListener', Ember.run.bind( this, function(){
-            $('body').removeClass('resizing');
-            $('body').off( 'mousemove', this.mouseMoveListener );
-            $('body').off( 'mouseup', this.mouseUpListener );
+            Ember.$('body').removeClass('resizing');
+            Ember.$('body').off( 'mousemove', this.mouseMoveListener );
+            Ember.$('body').off( 'mouseup', this.mouseUpListener );
             this.set( 'column.highlight', false );
             this.set( 'global.isResizing', false );
         }));
-        
+
         this.set( 'mouseMoveListener', Ember.run.bind( this, function( e ){
             var startWidth = this.get( 'startWidth' ),
                 widthDelta = e.pageX - this.get('startX'),

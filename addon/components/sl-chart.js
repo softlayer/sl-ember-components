@@ -59,7 +59,7 @@ export default Ember.Component.extend({
             fontSize: '13px'
         };
 
-        options = $.extend( true, {
+        options = Ember.$.extend( true, {
             title: '',
             chart: {
                 animation: false,
