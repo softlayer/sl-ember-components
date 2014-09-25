@@ -1,25 +1,53 @@
 <h2>sl-radio-group</h2>
 <p class="lead">A component that contains a group of "radio" type inputs. See <a href="http://getbootstrap.com/css/#forms-controls">Bootstrap - Supported controls</a>.</p>
 
+<hr>
+
 <h3>Example</h3>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-radio-group
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-radio-group
     content=content
     label="Color selection"
     name="colorRadio"
     value=currentColor
 }}</pre>
-    {{sl-radio-group
-        class="col-sm-6"
-        content=content
-        label="Color selection"
-        name="colorRadio"
-        value=currentColor
-    }}
+
+        <h6>Route</h6>
+        <pre>model: [
+    {
+        label: 'Red',
+        value: 'red'
+    }, {
+        label: 'Green',
+        value: 'green'
+    }, {
+        label: 'Blue',
+        value: 'blue'
+    }, {
+        label: 'Splorge',
+        disabled: true
+    }
+]</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-radio-group
+            content=content
+            label="Color selection"
+            name="colorRadio"
+            value=currentColor
+        }}
+    </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="content" required=true type="array"}}
         Radio option definitions. Each item can have the following properties:
