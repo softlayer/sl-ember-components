@@ -159,7 +159,7 @@ export default Ember.Component.extend({
      * Activate specified child
      *
      * @method activateChild
-     * @param {number} child - Which number child to activate
+     * @param {mixed} child - Which child to activate
      */
     activateChild: function( child ) {
         if ( typeof child === 'number' ) {
@@ -209,8 +209,9 @@ export default Ember.Component.extend({
      * Collection of children items
      *
      * @property {array} children
+     * @default null
      */
-    children: [],
+    children: null,
 
     /**
      * Class names for the root element
@@ -272,6 +273,15 @@ export default Ember.Component.extend({
 
         return currentIndex;
     },
+
+    /**
+     * Initialize children array
+     *
+     * @method initChildren
+     */
+    initChildren: function() {
+        this.set( 'children', Ember.A() );
+    }.on( 'didInsertElement' ),
 
     /**
      *
@@ -350,6 +360,8 @@ export default Ember.Component.extend({
     keyboardInUse: false,
 
     /**
+     * Method triggered on mouseenter event
+     *
      * @method mouseEnter
      */
     mouseEnter: function() {
@@ -369,6 +381,8 @@ export default Ember.Component.extend({
     },
 
     /**
+     * Method triggered on mouseleave event
+     *
      * @method mouseLeave
      */
     mouseLeave: function() {
@@ -380,6 +394,8 @@ export default Ember.Component.extend({
     },
 
     /**
+     * Send the primary action
+     *
      * @method performAction
      */
     performAction: function() {
