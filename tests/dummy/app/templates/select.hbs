@@ -1,41 +1,58 @@
 <h2>sl-select</h2>
 <p class="lead">A full-featured select input component. Based on <a href="http://ivaynberg.github.io/select2/">Select2</a>.</p>
 
+<hr>
+
 <h3>Examples</h3>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-select
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-select
     content=content
     label="Single item select"
     placeholder="Select a color"
 }}</pre>
-    {{sl-select
-        class="col-sm-6"
-        content=content
-        label="Single item select"
-        placeholder="Select a color"
-    }}
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-select
+            content=content
+            label="Single item select"
+            placeholder="Select a color"
+        }}
+    </div>
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-select
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-select
     content=numbers
     disableSearch=true
     label="Multiple number select, no search"
     multiple=true
     placeholder="Select number(s)"
 }}</pre>
-    {{sl-select
-        class="col-sm-6"
-        content=numbers
-        disableSearch=true
-        label="Multiple number select, no search"
-        multiple=true
-        placeholder="Select number(s)"
-    }}
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-select
+            content=numbers
+            disableSearch=true
+            label="Multiple number select, no search"
+            multiple=true
+            placeholder="Select number(s)"
+        }}
+    </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="content" required=true type="array"}}
         Bound content for the select's options. Each item can be one of the following:
