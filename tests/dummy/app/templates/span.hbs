@@ -1,17 +1,32 @@
 <h2>sl-span</h2>
 <p class="lead">A wrapper to intelligently represent state for inline content.</p>
 
+<hr>
+
 <h3>Example</h3>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-span class="text-success" isLoading=isLoading value="Done!"}}</pre>
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>&lt;p&gt;
+    Loads in 5 seconds:&amp;emsp;\{{sl-span
+        class="text-success"
+        isLoading=isLoading
+        value="Done!"
+    }}
+&lt;/p&gt;</pre>
+    </div>
 
-    <div class="col-sm-6">
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         <p>Loads in 5 seconds:&emsp;{{sl-span class="text-success" isLoading=isLoading value="Done!"}}</p>
     </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="class" type="string"}}
         The <code>class</code> attribute to apply to the span.

@@ -1,9 +1,14 @@
 <h2>sl-tab-panel</h2>
 <p class="lead">A component with selectable tabs and related tab panes. Based on <a href="http://getbootstrap.com/javascript/#tabs">Bootstrap - Togglable tabs</a>.</p>
 
+<hr>
+
 <h3>Examples</h3>
+
 <div class="row">
-    <pre class="col-sm-6">\{{#sl-tab-panel}}
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{#sl-tab-panel}}
     \{{#sl-tab-pane label="One" name="one"}}
         \{{render "tabs/one"}}
     \{{/sl-tab-pane}}
@@ -16,35 +21,50 @@
         \{{render "tabs/three"}}
     \{{/sl-tab-pane}}
 \{{/sl-tab-panel}}</pre>
-    {{#sl-tab-panel class="col-sm-6"}}
-        {{#sl-tab-pane label="One" name="one"}}
-            {{render "tabs/one"}}
-        {{/sl-tab-pane}}
+    </div>
 
-        {{#sl-tab-pane label="Two" name="two"}}
-            {{render "tabs/two"}}
-        {{/sl-tab-pane}}
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{#sl-tab-panel}}
+            {{#sl-tab-pane label="One" name="one"}}
+                {{render "tabs/one"}}
+            {{/sl-tab-pane}}
 
-        {{#sl-tab-pane label="Three" name="three"}}
-            {{render "tabs/three"}}
-        {{/sl-tab-pane}}
-    {{/sl-tab-panel}}
+            {{#sl-tab-pane label="Two" name="two"}}
+                {{render "tabs/two"}}
+            {{/sl-tab-pane}}
+
+            {{#sl-tab-pane label="Three" name="three"}}
+                {{render "tabs/three"}}
+            {{/sl-tab-pane}}
+        {{/sl-tab-panel}}
+    </div>
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{#sl-tab-panel alignTabs="right" collapsible=true}}
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{#sl-tab-panel alignTabs="right" collapsible=true}}
     \{{#sl-tab-pane label="Test" name="test"}}
         &lt;p&gt;Uncollapsed pane!&lt;/p&gt;
     \{{/sl-tab-pane}}
 \{{/sl-tab-panel}}</pre>
-    {{#sl-tab-panel alignTabs="right" class="col-sm-6" collapsible=true}}
-        {{#sl-tab-pane label="Test" name="test"}}
-            <p>Uncollapsed pane!</p>
-        {{/sl-tab-pane}}
-    {{/sl-tab-panel}}
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{#sl-tab-panel alignTabs="right" collapsible=true}}
+            {{#sl-tab-pane label="Test" name="test"}}
+                <p>Uncollapsed pane!</p>
+            {{/sl-tab-pane}}
+        {{/sl-tab-panel}}
+    </div>
 </div>
 
-<h3>sl-tab-panel Properties</h3>
+<hr>
+
+<h3>Sl-Tab-Panel Properties</h3>
+
 <div class="list-group">
     {{#property-text name="activeTabName" type="string"}}
         Name of the initial active tab.
@@ -59,7 +79,10 @@
     {{/property-text}}
 </div>
 
-<h3>sl-tab-pane Properties</h3>
+<hr>
+
+<h3>Sl-Tab-Pane Properties</h3>
+
 <ul class="list-group">
     {{#property-text name="label" type="string" required=true}}
         The text label for the tab pane's tab.
