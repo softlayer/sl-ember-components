@@ -1,14 +1,23 @@
 <h2>sl-simple-modal</h2>
 <p class="lead">A simple modal component used to wrap content in. Based on <a href="http://getbootstrap.com/javascript/#modals">Bootstrap - Modals</a>.</p>
 
+<hr>
+
 <h3>Example</h3>
 
 <div class="row">
-    <pre class="col-sm-8">\{{#sl-simple-modal id="testModal" show=showModal title="Test Modal"}}
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{#sl-simple-modal
+    id="testModal"
+    show=showModal
+    title="Test Modal"}}
     &lt;p&gt;Hello world!&lt;/p&gt;
 \{{/sl-simple-modal}}</pre>
+    </div>
 
-    <div class="col-sm-4">
+    <div class="col-lg-6">
+        <h6>Click to Show Component</h6>
         {{sl-button action="openModal" label="Open Modal"}}
     </div>
 </div>
@@ -17,8 +26,11 @@
     <p>Hello world!</p>
 {{/sl-simple-modal}}
 
+<hr>
+
 <h3>Properties</h3>
-<div class="item-group">
+
+<div class="list-group">
     {{#property-text name="accept" type="function"}}
         Action to call when accept button is clicked.
     {{/property-text}}
