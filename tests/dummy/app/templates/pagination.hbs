@@ -1,14 +1,36 @@
 <h2>sl-pagination</h2>
 <p class="lead">Pagination components to navigate multiple pages of data.</p>
 
-<h2>sl-pagination-info</h2>
+<section class="col-sm-12">
+
+    <hr>
+
+    <h2>sl-pagination-info</h2>
+    <p class="lead">Displays the current page information as a string.</p>
+
+    <hr>
+
     <h3>Example</h3>
+
     <div class="row">
-        <pre class="col-sm-8">\{{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}</pre>
-        {{sl-pagination-info class="col-sm-4" pagingData=pagingData pagingInfo=translations.label}}
+        <div class="col-lg-6">
+            <h6>Template</h6>
+            <pre>\{{sl-pagination-info
+    pagingData=pagingData
+    pagingInfo=translations.label
+}}</pre>
+        </div>
+
+        <div class="col-lg-6">
+            <h6>Rendered Component</h6>
+            {{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}
+        </div>
     </div>
 
+    <hr>
+
     <h3>Properties</h3>
+
     <div class="list-group">
         {{#property-text name="pagingData" type="object"}}
             An object with the following properties:<br/>
@@ -21,56 +43,101 @@
                 <dd>The total number of rows for all the pages</dd>
             </dl>
         {{/property-text}}
+
         {{#property-text name="pagingInfo" type="string"}}
-            A string with tokens to be translated with the sl-translate component<br/>
+            A string with tokens to be translated with the sl-translate component.
             Should be of the format: "Viewing {0} to {1} of {2} Items"
         {{/property-text}}
     </div>
 
-<h2>sl-pagination-per-page-select</h2>
+</section>
+
+<section class="col-sm-12">
+
+    <hr>
+
+    <h2>sl-pagination-per-page-select</h2>
+    <p class="lead">Displays limit number per page, and lets user modify the number.</p>
+
+    <hr>
+
     <h3>Example</h3>
+
     <div class="row">
-        <pre class="col-sm-8">\{{sl-pagination-per-page-select
+        <div class="col-lg-6">
+            <h6>Template</h6>
+            <pre>\{{sl-pagination-per-page-select
     itemCountPerPage=pagingData.itemCountPerPage
     perPage=translations.perPage
     perPageOptions=pagingData.perPageOptions
 }}</pre>
-        {{sl-pagination-per-page-select
-            class="col-sm-4"
-            itemCountPerPage=pagingData.itemCountPerPage
-            perPage=translations.perPage
-            perPageOptions=pagingData.perPageOptions
-        }}
+        </div>
+
+        <div class="col-lg-6">
+            <h6>Rendered Component</h6>
+            {{sl-pagination-per-page-select
+                itemCountPerPage=pagingData.itemCountPerPage
+                perPage=translations.perPage
+                perPageOptions=pagingData.perPageOptions
+            }}
+        </div>
     </div>
 
+    <hr>
+
     <h3>Properties</h3>
+
     <div class="list-group">
         {{#property-text name="perPage" type="string"}}
             Text to be translated using an sl-translate component, ex: English: 'per page'.
         {{/property-text}}
 
-        {{#property-text name="perPageOptions" type="arrary"}}
+        {{#property-text name="perPageOptions" type="array"}}
            Array of numbers for the different item counts per page that can be selected.
         {{/property-text}}
+
         {{#property-text name="itemCountPerPage" type="number"}}
             The value of the select box, this value will be observed and changes to it will trigger appropriate changes on the page.
         {{/property-text}}
     </div>
 
-<h2>sl-pagination-controls</h2>
+</section>
+
+<section class="col-sm-12">
+
+    <hr>
+
+    <h2>sl-pagination-controls</h2>
+    <p class="lead">Supplies buttons for changing pages.</p>
+
+    <hr>
+
     <h3>Example</h3>
+
     <div class="row">
-        <pre class="col-sm-8">\{{sl-pagination-controls currentPage=1 totalPages=5}}</pre>
-        {{sl-pagination-controls class="col-sm-4" currentPage=1 totalPages=5}}
+        <div class="col-lg-6">
+            <h6>Template</h6>
+            <pre>\{{sl-pagination-controls currentPage=1 totalPages=5}}</pre>
+        </div>
+
+        <div class="col-lg-6">
+            <h6>Rendered Component</h6>
+            {{sl-pagination-controls currentPage=1 totalPages=5}}
+        </div>
     </div>
 
+    <hr>
+
     <h3>Properties</h3>
+
     <div class="list-group">
         {{#property-text name="currentPage" type="number"}}
-        The page number of the currentPage, ex: 1
+            The page number of the currentPage, ex: 1
         {{/property-text}}
 
         {{#property-text name="totalPages" type="number"}}
-        The total number of pages.
+            The total number of pages.
         {{/property-text}}
     </div>
+
+</section>
