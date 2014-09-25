@@ -8,6 +8,7 @@ export default Ember.Component.extend({
 
     /**
      * Whether to show the loading icon or content
+     *
      * @property {boolean} isLoading
      * @default false
      */
@@ -15,6 +16,7 @@ export default Ember.Component.extend({
 
     /**
      * The HTML tag name of the component
+     *
      * @property {string} tagname
      * @default "span"
      */

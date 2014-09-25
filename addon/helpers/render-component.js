@@ -8,7 +8,7 @@ import Ember from 'ember';
  * @example
  * {{render-component 'sl-grid-table-cell-link' foo=bar doo=car }}
  */
-export default function ( componentPath ) {
+export default function( componentPath ) {
     var options = arguments[ arguments.length - 1 ],
         component = Ember.Handlebars.get( this, componentPath, options ),
         helper = Ember.Handlebars.resolveHelper( options.data.view.container, component );

@@ -19,7 +19,7 @@ export default Ember.Component.extend({
          * @method actions.change
          * @param {string} tabName - The name of the tab to change into
          */
-        change: function ( tabName ) {
+        change: function( tabName ) {
             var activeTabName = this.get( 'activeTabName' );
             var collapsible = this.get( 'collapsible' );
             var self = this;
@@ -32,7 +32,7 @@ export default Ember.Component.extend({
                     }
                 } else {
                     this.setActiveTab( tabName );
-                    this.deactivatePane( activeTabName, function () {
+                    this.deactivatePane( activeTabName, function() {
                         self.activatePane( tabName );
                     });
                 }
@@ -47,7 +47,7 @@ export default Ember.Component.extend({
          *
          * @method actions.collapseTabPanel
          */
-        collapseTabPanel: function () {
+        collapseTabPanel: function() {
             if ( this.get( 'collapsible' ) && !this.get( 'isCollapsed' )) {
                 var activeTabName = this.get( 'activeTabName' );
 
@@ -61,7 +61,7 @@ export default Ember.Component.extend({
          *
          * @method actions.updateTabPanelHeight
          */
-        updateTabPanelHeight: function () {
+        updateTabPanelHeight: function() {
             this.set( 'contentHeight', parseInt( this.paneFor( this.get( 'activeTabName' )).css( 'height' )));
         }
     },
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
      * @param {string} tabName - The name of the tab to activate
      * @param {function} callback - Function to call once the pane is activated
      */
-    activatePane: function ( tabName, callback ) {
+    activatePane: function( tabName, callback ) {
         var pane = this.paneFor( tabName );
         var self = this;
 
@@ -81,7 +81,7 @@ export default Ember.Component.extend({
             self.set( 'isCollapsed', false );
         }
 
-        pane.fadeIn( 'fast', function () {
+        pane.fadeIn( 'fast', function() {
             pane.addClass( 'active' );
 
             if ( typeof callback === 'function' ) {
@@ -150,15 +150,15 @@ export default Ember.Component.extend({
      * @param {string} tabName - The name of the tab to deactivate
      * @param {function} callback - Function called when the pane is deactivated
      */
-    deactivatePane: function ( tabName, callback ) {
+    deactivatePane: function( tabName, callback ) {
         var activeTabName = this.get( 'activeTabName' );
         var collapse = !activeTabName && this.get( 'collapsible' );
         var pane = this.paneFor( tabName );
         var self = this;
 
-        pane.fadeOut( 'fast', function () {
+        pane.fadeOut( 'fast', function() {
             if ( collapse ) {
-                Ember.run( function () {
+                Ember.run( function() {
                     self.set( 'isCollapsed', true );
                 });
             }
@@ -189,7 +189,7 @@ export default Ember.Component.extend({
      * @method paneFor
      * @param {string} tabName - The name of the tab to get the pane for
      */
-    paneFor: function ( tabName ) {
+    paneFor: function( tabName ) {
         return this.$( '.tab-pane[data-tab-name="' + tabName + '"]' );
     },
 
@@ -199,7 +199,7 @@ export default Ember.Component.extend({
      * @method setActiveTab
      * @param {string} tabName - The name of the tab to switch state to
      */
-    setActiveTab: function ( tabName ) {
+    setActiveTab: function( tabName ) {
         var activeTabName = this.get( 'activeTabName' );
 
         if ( activeTabName ) {
@@ -219,7 +219,7 @@ export default Ember.Component.extend({
      *
      * @method setupTabs
      */
-    setupTabs: function () {
+    setupTabs: function() {
         var collapsible = this.get( 'collapsible' );
         var initialTabName = this.get( 'initialTabName' );
         var tabName;
@@ -236,7 +236,7 @@ export default Ember.Component.extend({
             this.updateContentHeight();
         }
 
-        this.$( '.tab-pane' ).each( function () {
+        this.$( '.tab-pane' ).each( function() {
             tabName = this.getAttribute( 'data-tab-name' );
 
             tabs.push({
@@ -254,7 +254,7 @@ export default Ember.Component.extend({
      *
      * @property {string} tabAlignmentClass
      */
-    tabAlignmentClass: function () {
+    tabAlignmentClass: function() {
         return 'sl-align-tabs-' + this.get( 'alignTabs' );
     }.property( 'alignTabs' ),
 
@@ -265,7 +265,7 @@ export default Ember.Component.extend({
      * @param {string} tabName - The name for the tab to get
      * @returns {element}
      */
-    tabFor: function ( tabName ) {
+    tabFor: function( tabName ) {
         return this.$( '.tab[data-tab-name="' + tabName + '"]' );
     },
 
@@ -274,7 +274,7 @@ export default Ember.Component.extend({
      *
      * @method updateContentHeight
      */
-    updateContentHeight: function () {
+    updateContentHeight: function() {
         this.$( '.tab-content' ).height( this.get( 'contentHeight' ));
     }.observes( 'contentHeight' )
 });

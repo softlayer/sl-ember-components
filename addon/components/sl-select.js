@@ -10,6 +10,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Display a clear button to clear the input's selection
+     *
      * @property {boolean} allowClear
      * @default false
      */
@@ -18,12 +19,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Class names for the select element
+     *
      * @property {array} classNames
      */
     classNames: [ 'form-group', 'sl-select' ],
 
     /**
      * Whether to show the search filter input or not
+     *
      * @property {boolean} disableSearch
      * @default false
      */
@@ -31,6 +34,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * The internal input element, used for Select2's bindings
+     *
      * @property {element} input
      * @default null
      */
@@ -38,14 +42,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * ID of the &lt;input&gt; element
+     *
      * @property {string} selectId
      */
-    inputId: function () {
+    inputId: function() {
         return this.get( 'elementId' ) + 'Input';
     }.property( 'elementId' ),
 
     /**
      * The maximum number of selections allowed when `multiple` is enabled
+     *
      * @property {number} maximumSelectionSize
      * @default null
      */
@@ -53,6 +59,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Whether to allow multiple selections
+     *
      * @property {boolean} multiple
      * @default false
      */
@@ -60,6 +67,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * The path key for each option object's description
+     *
      * @property {string} optionDescriptionPath
      * @default "description"
      */
@@ -67,6 +75,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * The path key for each option object's label
+     *
      * @property {string} optionLabelPath
      * @default "label"
      */
@@ -74,6 +83,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * The path key for each option object's value
+     *
      * @property {string} optionValuePath
      * @default "value"
      */
@@ -81,10 +91,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Update the bound value when the Select2's selection has changed
+     *
      * @method selectionChanged
      * @param {mixed} data - Select2 data
      */
-    selectionChanged: function ( data ) {
+    selectionChanged: function( data ) {
         var multiple = this.get( 'multiple' ),
             optionValuePath = this.get( 'optionValuePath' ),
             value;
@@ -102,9 +113,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Set up select2 initialization after the element is inserted in the DOM
+     *
      * @method setupSelect2
      */
-    setupSelect2: function () {
+    setupSelect2: function() {
         var get  = Ember.get,
             self = this,
             input;
@@ -115,7 +127,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             multiple: this.get( 'multiple' ),
             placeholder: this.get( 'placeholder' ),
 
-            formatResult: function ( item ) {
+            formatResult: function( item ) {
                 if ( !item ) { return; }
 
                 if ( !( item instanceof Object )) {
@@ -132,7 +144,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 return output;
             },
 
-            formatSelection: function ( item ) {
+            formatSelection: function( item ) {
                 if ( !item ) { return; }
 
                 if ( item instanceof Object ) {
@@ -142,7 +154,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 return item;
             },
 
-            id: function ( item ) {
+            id: function( item ) {
                 if ( item instanceof Object ) {
                     return get( item, self.get( 'optionValuePath' ));
                 }
@@ -150,7 +162,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 return item;
             },
 
-            initSelection: function ( element, callback ) {
+            initSelection: function( element, callback ) {
                 var value = element.val();
 
                 if ( !value || !value.length ) {
@@ -199,13 +211,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
             minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
 
-            query: function ( query ) {
+            query: function( query ) {
                 var content = self.get( 'content' ) || [],
                     optionLabelPath = self.get( 'optionLabelPath' ),
                     select2 = this;
 
                 query.callback({
-                    results: content.reduce( function ( results, item ) {
+                    results: content.reduce( function( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
                         if ( text && select2.matcher( query.term, text.toString() )) {
@@ -218,17 +230,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             }
         });
 
-        input.on( 'change', function () {
-            Ember.run( function () {
+        input.on( 'change', function() {
+            Ember.run( function() {
                 self.set( 'value', input.select2( 'val' ));
             });
         });
 
         var originalBodyOverflow = document.body.style.overflow || 'auto';
-        input.on( 'select2-open', function () {
+        input.on( 'select2-open', function() {
             document.body.style.overflow = 'hidden';
         });
-        input.on( 'select2-close', function () {
+        input.on( 'select2-close', function() {
             document.body.style.overflow = originalBodyOverflow;
         });
 
@@ -245,9 +257,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Set data bound value based on changed value
+     *
      * @method valueChanged
      */
-    valueChanged: function () {
+    valueChanged: function() {
         var value = this.get( 'value' );
 
         if ( this.get( 'optionValuePath' )) {
@@ -259,9 +272,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Teardown to prevent memory leaks
+     *
      * @method willDestroyElement
      */
-    willDestroyElement: function () {
+    willDestroyElement: function() {
         this.input.off( 'change' ).select2( 'destroy' );
     }
 });
