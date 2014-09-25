@@ -11,7 +11,7 @@ export default Ember.Component.extend({
      *
      * @property {array} classNames
      */
-    classNames: [ 'sl-pagination-info' ]
+    classNames: [ 'sl-pagination-info' ],
 
     /**
      * HTML tag name for the root element
@@ -19,5 +19,5 @@ export default Ember.Component.extend({
      * @property {string} tagName
      * @default "span"
      */
-    tagName: 'span',
+    tagName: 'span'
 });
