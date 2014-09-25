@@ -19,7 +19,6 @@ export default Ember.Mixin.create( SlApplicationState, {
                 column.set( 'sortAscending', column.getWithDefault( 'sortAscending', true ) );
             }
             this.saveApplicationState();
-            this.reloadModel(); 
         },
 
         reload: function(){
@@ -45,6 +44,14 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     },
 
+    sortProperties: function(){
+        return this.getWithDefault( 'columns', [] ).filterBy( 'isSorted' ).mapBy( 'key' );
+    }.property( 'columns.@each.isSorted' ),
+
+    sortAscending: function(){
+        return this.getWithDefault( 'columns', [] ).findBy( 'isSorted' ).get( 'sortAscending' );
+    }.property( 'columns.@each.sortAscending' ),
+
     grid: Ember.Object.create(),
 
     gridDefinition: function(){
@@ -68,7 +75,7 @@ export default Ember.Mixin.create( SlApplicationState, {
         //after we get real data model cacheing laid into sl-model we can make this work right
         //for now this gets fired twice, once here and once when itemCountPerPage loads from saved
         //user preferences in localStorage :-/
-        //Ember.run.once( this, 'reloadModel');
+        Ember.run.once( this, 'reloadModel');
     }.on( 'applicationStateDidLoad' ),
     
     isLoading: Ember.computed.alias( 'model.isPending' ),
@@ -130,13 +137,7 @@ export default Ember.Mixin.create( SlApplicationState, {
     }.observes( 'itemCountPerPage' ),
 
     filters: Ember.A(),
-
-    filtersOberver: function(){
-
-        Ember.run.once( this, this.reloadModel );
-
-    }.observes( 'filters.@each' ),
-
+    
     /**
      * reload the model for this controller with the current paging preferences
      *
@@ -146,36 +147,9 @@ export default Ember.Mixin.create( SlApplicationState, {
     reloadModel: function(){
 
         var modelName = this.get( 'modelName' ),
-            currentPage = this.get( 'currentPage' ),
-            itemCountPerPage = this.get( 'itemCountPerPage' ),
-            filters = this.get( 'filters' ),
-            options = {
-                data: {
-                    format: 'json',
-                    itemCountPerPage: itemCountPerPage,
-                    page: currentPage,
-                    start: ( currentPage - 1) * itemCountPerPage
-                },
-                reload: true
-            },
-            model,
-            columns = this.get( 'columns' ),
-            sortedColumn = columns ? columns.findBy( 'isSorted', true ) : null,
-            sortAscending = sortedColumn ? sortedColumn.get( 'sortAscending' ) : null;
+            model;
 
-        if( sortedColumn ){
-            options.data.sort = JSON.stringify([ { property: sortedColumn.get( 'key' ), 
-                direction: sortAscending ? 'ASC' : 'DESC'
-            }]);
-        }
-
-        filters.forEach( function( filter ){
-            options.data[ filter.key] = filter.value;
-        });
-
-        //this assumes you are using an sl-model like store that can take 
-        //an options hash as a second parameter
-        model = this.store.find( modelName, options );
+        model = this.store.find( modelName );
 
         this.set( 'model', model );
 
