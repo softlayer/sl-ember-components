@@ -8,34 +8,39 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 export default Ember.Component.extend( TooltipEnabled, {
 
     /**
-     * Object containing action functions
+     * Component actions hash
+     *
      * @property {object} actions
      */
     actions: {
 
         /**
          * Used to trigger specific option-bound action
+         *
          * @method click
          */
-        click: function ( action ) {
+        click: function( action ) {
             this.triggerAction({ action: action });
         }
     },
 
     /**
      * Class attribute bindings for the button
+     *
      * @property {array} classNameBindings
      */
     classNameBindings: [ 'themeClass' ],
 
     /**
      * Class names for the div element
+     *
      * @property {array} classNames
      */
     classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
 
     /**
      * Class string for the button's icon
+     *
      * @property {string} iconClass
      * @default "caret"
      */
@@ -43,6 +48,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * The string name of the style theme for the button
+     *
      * @property {string} theme
      * @default "default"
      */
@@ -50,9 +56,10 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * The class value for the drop-button based on the current "theme"
+     *
      * @property {string} themeClass
      */
-    themeClass: function () {
+    themeClass: function() {
         return 'dropdown-' + this.get( 'theme' );
     }.property( 'theme' )
 });

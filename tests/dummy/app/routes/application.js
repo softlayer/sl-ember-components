@@ -9,6 +9,5 @@ export default Ember.Route.extend({
         });
 
         this.controllerFor( 'pagination' ).get( 'translateService' ).setDictionary( translations );
-
     }
 });

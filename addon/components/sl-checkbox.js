@@ -9,12 +9,14 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * Attribute bindings for containing div
+     *
      * @property {array} attributeBindings
      */
     attributeBindings: [ 'checked', 'disabled' ],
 
     /**
      * Class names for containing div
+     *
      * @property {array} classNames
      */
     classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ]

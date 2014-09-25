@@ -1,14 +1,12 @@
 import Ember from 'ember';
 
 /**
- * render-component will render the component stored in the variable that is
- * passed to this help as the first argument.  Bound properties can be passed
- * to the component in the normal fashion.
+ * Render the component stored in the variable that is passed to this helper as
+ * the first argument. Bound properties can be passed to the component in the
+ * normal fashion.
  *
- * Ex:
- * {{render-component somecontext.componentVar foo=bar doo=car }}
- *
- * where componentVar might hold the string: 'sl-grid-table-cell-link'
+ * @example
+ * {{render-component 'sl-grid-table-cell-link' foo=bar doo=car }}
  */
 export default function ( componentPath ) {
     var options = arguments[ arguments.length - 1 ],

@@ -7,26 +7,30 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     /**
-     * The highchart instantiation for the component
+     * The highchart instantiation
+     *
      * @property {object} chart
      * @default null
      */
     chart: null,
 
     /**
-     * Bindings for the component's class names
+     * Class name bindings for the root element
+     *
      * @property {array} classNameBindings
      */
     classNameBindings: [ 'isLoading:sl-loading' ],
 
     /**
      * Class names for the root element
+     *
      * @property {array} classNames
      */
     classNames: [ 'panel', 'panel-default', 'sl-chart', 'sl-panel' ],
 
     /**
      * Height value used for inline style
+     *
      * @property {string} height
      * @default "auto"
      */
@@ -34,6 +38,7 @@ export default Ember.Component.extend({
 
     /**
      * When true, the chart's panel body will be in a loading state
+     *
      * @property {boolean} isLoading
      * @default false
      */
@@ -41,18 +46,20 @@ export default Ember.Component.extend({
 
     /**
      * The collection of series data for the chart
+     *
      * @property {array} series
      */
     series: null,
 
     /**
      * Sets up highchart initialization
+     *
      * @method setupChart
      */
-    setupChart: function () {
-        var chartDiv = this.$( 'div.chart' );
-        var chartStyle;
-        var options;
+    setupChart: function() {
+        var chartDiv = this.$( 'div.chart' ),
+            chartStyle,
+            options;
 
         chartStyle = {
             fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
@@ -116,17 +123,19 @@ export default Ember.Component.extend({
 
     /**
      * Inline style containing height and width, required by highcharts
+     *
      * @property {string} style
      */
-    style: function () {
+    style: function() {
         return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
     }.property( 'height', 'width' ),
 
     /**
      * Updates the chart's series data
+     *
      * @method updateSeries
      */
-    updateData: function () {
+    updateData: function() {
         var chart = this.get( 'chart' ),
             series = this.get( 'series' );
 
@@ -145,6 +154,7 @@ export default Ember.Component.extend({
 
     /**
      * Width value used for inline style
+     *
      * @property {string} width
      * @default "auto"
      */

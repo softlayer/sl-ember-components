@@ -1,59 +1,111 @@
 import Ember from 'ember';
 
+/**
+ * @module mixins
+ * @class sl-filter-controller
+ */
 export default Ember.Mixin.create( {
 
+    /**
+     * Controller actions hash
+     *
+     * @property {object} actions
+     */
     actions: {
+
+        /**
+         * Apply filter settings to the underlying data
+         *
+         * @method actions.applyFilter
+         */
         applyFilter: function () {
-            var gridFilters = this.get( 'gridFilters' );
+            var filters = this.get( 'filters' ),
+                gridFilters = this.get( 'gridFilters' ),
+                self = this;
 
             gridFilters.clear();
 
-            Ember.keys( this.get( 'filters' ) ).forEach( function( key ){
-                var filter = this.get( 'filters.'+key );
-                if( Ember.get( filter, 'value' ) ){
+            Ember.keys( filters ).forEach( function( key ) {
+                var filter = self.get( 'filters.' + key );
+
+                if ( Ember.get( filter, 'value' )) {
                     gridFilters.pushObject( filter );
                 }
-            }, this );
+            });
 
             this.set( 'filterApplied', true );
-            Ember.run.next( function(){ this.send( 'updateTabPanelHeight' ); }.bind( this ) );
+
+            Ember.run.next( function() {
+                self.send( 'updateTabPanelHeight' );
+            });
         },
 
-        modifyFilter: function() {
+        /**
+         * Clear all the grid filter settings
+         *
+         * @method actions.clearAll
+         */
+        clearAll: function() {
+            var gridFilters = this.get( 'gridFilters' ),
+                self = this;
+
+            Ember.keys( this.get( 'filters' )).forEach( function( key ) {
+                var filter = self.get( 'filters' )[ key ];
+
+                Ember.set( filter, 'value', null );
+                gridFilters.removeObject( filter );
+            });
+
+            this.send( 'collapseTabPanel' );
             this.set( 'filterApplied', false );
-            Ember.run.next( function(){ this.send( 'updateTabPanelHeight' ); }.bind( this ) );
         },
 
-        clearFilter: function ( key ){
-            var filter = this.get( 'filters.'+key ),
-                gridFilters = this.get( 'gridFilters' );
+        /**
+         * Clear a specific filter
+         *
+         * @method actions.clearFilter
+         * @param {string} key - The key for the filter to clear
+         */
+        clearFilter: function( key ) {
+            var filter = this.get( 'filters.' + key ),
+                gridFilters = this.get( 'gridFilters' ),
+                self = this;
 
             gridFilters.removeObject( filter );
-            this.set( 'filters.'+key+'.value', null );
+            this.set( 'filters.' + key + '.value', null );
 
-            if( ! gridFilters.get( 'length' ) ){
+            if ( !gridFilters.get( 'length' )) {
                 this.send( 'collapseTabPanel' );
-                Ember.run.next( function(){ this.set( 'filterApplied', false ); }.bind( this ) );
+
+                Ember.run.next( function() {
+                    self.set( 'filterApplied', false );
+                });
             }
         },
 
-        clearAll: function () {
-            var gridFilters = this.get( 'gridFilters' );
-
-            Ember.keys( this.get( 'filters' ) ).forEach( function( key ){
-                var filter = this.get( 'filters' )[ key ];
-                Ember.set( filter, 'value', null );
-                gridFilters.removeObject( filter );
-            }, this );
+        /**
+         * Trigger a collapse of the surrounding tab panel
+         *
+         * @method actions.closeFilterTab
+         */
+        closeFilterTab: function() {
             this.send( 'collapseTabPanel' );
-            this.set( 'filterApplied', false );
         },
 
-        closeFilterTab: function () {
-            console.log( 'Closing filter tab  - jf said he will add a method to do this :-) ' );
-            this.send( 'collapseTabPanel' );
+        /**
+         * Change filter settings
+         *
+         * @method actions.modifyFilter
+         */
+        modifyFilter: function() {
+            var self = this;
+
+            this.set( 'filterApplied', false );
+
+            Ember.run.next( function() {
+                self.send( 'updateTabPanelHeight' );
+            });
         }
     }
 
-} );
- 
+});
