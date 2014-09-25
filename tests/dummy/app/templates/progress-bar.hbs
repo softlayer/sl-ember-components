@@ -1,42 +1,73 @@
 <h2>sl-progress-bar</h2>
 <p class="lead">Component for integer-based progress bar.</p>
 
+<hr>
+
 <h3>Examples</h3>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-progress-bar label=true value=60}}</pre>
-    {{sl-progress-bar class="col-sm-6" label=true value=60}}
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-progress-bar label=true value=60}}</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-progress-bar label=true value=60}}
+    </div>
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-progress-bar label=true theme="success" value=40}}</pre>
-    {{sl-progress-bar class="col-sm-6" label=true theme="success" value=40}}
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-progress-bar label=true theme="success" value=40}}</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-progress-bar label=true theme="success" value=40}}
+    </div>
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-progress-bar striped=true theme="warning" value=70}}</pre>
-    {{sl-progress-bar class="col-sm-6" striped=true theme="warning" value=70}}
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-progress-bar striped=true theme="warning" value=70}}</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-progress-bar striped=true theme="warning" value=70}}
+    </div>
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-progress-bar
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-progress-bar
     animated=true
     label=true
     striped=true
     theme="danger"
     value=90
-}}</pre>
-    {{sl-progress-bar
-        animated=true
-        class="col-sm-6"
-        label=true
-        striped=true
-        theme="danger"
-        value=90
-    }}
+}}</pre></div>
+
+<div class="col-lg-6">
+    <h6>Rendered Component</h6>
+        {{sl-progress-bar
+            animated=true
+            label=true
+            striped=true
+            theme="danger"
+            value=90
+        }}
+    </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="group-list">
     {{#property-text name="animated" type="boolean" default="false" requires="striped=true"}}
         When true, the striped progress bar will be animated.
