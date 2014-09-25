@@ -1,63 +1,123 @@
 import Ember from 'ember';
 
+/**
+ * @module components
+ * @class sl-grid-header-settings
+ */
 export default Ember.Component.extend({
-	tagName: 'div',
-    classNames: [ 'sl-grid-header-settings' ],
+
+    /**
+     * Component actions hash
+     *
+     * @property {object} actions
+     */
     actions: {
-        click: function( action, key ){
-            this.triggerAction( {
+
+        /**
+         * Action to fire when header is clicked
+         *
+         * @method actions.click
+         * @param {string} action - Name of action to trigger
+         * @param {integer} key - Key of context to pass to triggered action
+         */
+        click: function( action, key ) {
+            this.triggerAction({
                 action: action,
                 actionContext: [ key ]
-            } );
+            });
         }
     },
 
-    click: function( event ){
-        if( Ember.$( event.target ).closest( '.stay-open' ).length ){
+    /**
+     * Class names for the root element
+     *
+     * @property {array} classNames
+     */
+    classNames: [ 'sl-grid-header-settings' ],
+
+    /**
+     * Method triggered when header is clicked
+     *
+     * @method click
+     * @param {event} event - The click event
+     */
+    click: function( event ) {
+        if ( Ember.$( event.target ).closest( '.stay-open' ).length ) {
             return false;
         }
     },
 
-    clickableActions: function(){
+    /**
+     * Get the settings' actions
+     *
+     * @property {array} clickableActions
+     */
+    clickableActions: function() {
         var actions = Ember.A([]),
             settings = this.get( 'settings' );
 
-        if( settings.actions ){
+        if ( settings.actions ) {
             actions.pushObjects( settings.actions );
         }
 
         return actions;
-
     }.property( 'settings' ),
 
-    showActions: Ember.computed.bool( 'settings.actions' ),
+    /**
+     * A checkbox that binds click event for a related action
+     *
+     * @property {component} columnCheckbox
+     */
+    columnCheckbox: Ember.Checkbox.extend({
+        checked: Ember.computed.not( 'column.hidden' ),
 
-    hideableColumns: function(){
-        var hideableColumns = Ember.A([]),
-            settings = this.get( 'settings' ),
-            columns = this.get( 'columns' );
-        if( settings.hideableColumns ){
+        click: function() {
+            this.get( 'parentView' ).send( 'click', this.get( 'column.action' ), this.get( 'column.key' ));
+        }
+    }),
 
-            hideableColumns.pushObjects( columns.rejectBy( 'hideable', false ).map( function( column ){
+    /**
+     * Get the columns in the header that are hideable
+     *
+     * @property {array} hideableColumns
+     */
+    hideableColumns: function() {
+        var columns = this.get( 'columns' ),
+            hideableColumns = Ember.A( [] ),
+            settings = this.get( 'settings' );
+
+        if ( settings.hideableColumns ) {
+            hideableColumns.pushObjects( columns.rejectBy( 'hideable', false ).map( function( column ) {
                 return {
-                    action: 'toggleColumnVisibility',
-                    key: column.key,
-                    hidden: column.hidden,
-                    label: column.title
+                    action : 'toggleColumnVisibility',
+                    hidden : column.hidden,
+                    key    : column.key,
+                    label  : column.title
                 };
             }));
         }
         return hideableColumns;
-
     }.property( 'settings', 'columns.@each.hidden' ),
 
-    columnCheckbox: Ember.Checkbox.extend({
-        checked: Ember.computed.not( 'column.hidden' ),
-        click: function(){
-            this.get( 'parentView' ).send( 'click', this.get( 'column.action'), this.get( 'column.key') );
-        }
-    }),
+    /**
+     * Whether to show actions
+     *
+     * @property {boolean} showActions
+     */
+    showActions: Ember.computed.bool( 'settings.actions' ),
 
-    showColumns: Ember.computed.bool( 'settings.hideableColumns' )
+    /**
+     * Whether to show columns
+     *
+     * @property {boolean} showColumns
+     */
+    showColumns: Ember.computed.bool( 'settings.hideableColumns' ),
 
+    /**
+     * HTML tag name for the root element
+     *
+     * @property {string} tagName
+     * @default "div"
+     */
+    tagName: 'div'
 });

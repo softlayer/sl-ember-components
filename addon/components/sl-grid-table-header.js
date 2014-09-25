@@ -25,23 +25,24 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Bindings for the base component's attributes
+     * Bindings for the base element's attributes
      *
      * @property {array} attributeBindings
      */
     attributeBindings: [ 'style' ],
 
     /**
-     * The base component's class names
+     * The base element's class names
      *
      * @property {array} classNameBindings
      */
     classNames: [ 'sl-grid-table-header' ],
 
     /**
-     * Update the style string when the width of the column changes. If we try
-     * to make the style a computed property then we will get render errors from
-     * Ember before the view is inserted into the DOM.
+     * Update the style string when the width of the column changes
+     *
+     * If we try to make the style a computed property then we will get render
+     * errors from Ember before the view is inserted into the DOM.
      *
      * @method columnWidthObserver
      */
@@ -116,7 +117,7 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Set a new column index on the relevant column.
+     * Set a new column index on the relevant column
      *
      * @method setNewColumnIndex
      */
@@ -165,7 +166,7 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Setup listeners for bound actions.
+     * Setup listeners for bound actions
      *
      * @method setupBoundListeners
      */
@@ -231,7 +232,7 @@ export default Ember.Component.extend({
     }.on( 'didInsertElement' ),
 
     /**
-     * Add CSS classes if this column is being sorted on.
+     * Add CSS classes if this column is being sorted on
      *
      * @property {string} sortClasses
      */
@@ -246,14 +247,14 @@ export default Ember.Component.extend({
     }.property( 'column.isSorted', 'column.sortAscending' ),
 
     /**
-     * Inline style string for the base component.
+     * Inline style string for the base element
      *
      * @property {string} style
      */
     style: '',
 
     /**
-     * HTML tag to use for base component.
+     * HTML tag to use for base element
      *
      * @property {string} tagName
      * @default "th"
