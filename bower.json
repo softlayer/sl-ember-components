@@ -1,23 +1,5 @@
 {
   "name": "dummy",
-  "name": "sl-components",
-  "version": "0.8.0",
-  "authors": [
-    "Joshua Cochran <jcochran@softlayer.com>",
-    "Joshua Forisha <jforisha@softlayer.com>",
-    "Matthew Marcum <mmarcum@softlayer.com>"
-  ],
-  "description": "SoftLayer shared UI components library",
-  "main": "dist/sl-components.js",
-  "keywords": [],
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "test",
-    "tmp"
-  ],
   "dependencies": {
     "handlebars": "~1.3.0",
     "jquery": "^1.11.1",
