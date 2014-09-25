@@ -1,14 +1,22 @@
 <h2>sl-input</h2>
 <p class="lead">A wrapper component for &lt;input&gt;. See <a href="http://getbootstrap.com/css/#forms">Bootstrap - Forms</a> for details.</p>
 
+<hr>
+
 <h3>Examples</h3>
+
 <div class="row">
-    <pre class="col-sm-6">\{{sl-input
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
     label="Input with label and helpText"
     helpText="Help text content goes here"
     placeholder="Enter some text"
 }}</pre>
-    <div class="col-sm-6">
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-input
             label="Input with label and helpText"
             helpText="Help text content goes here"
@@ -18,13 +26,18 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-input
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
     label="Input with typeahead suggestions"
     placeholder="Enter a color"
     suggestions=colors
     value=colorValue
 }}</pre>
-    <div class="col-sm-6">
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-input
             label="Input with typeahead suggestions"
             placeholder="Enter a color"
@@ -35,12 +48,17 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-input
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
     label="Disabled input"
     disabled=true
     placeholder="You can't enter anything here"
 }}</pre>
-    <div class="col-sm-6">
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-input
             label="Disabled input"
             disabled=true
@@ -50,12 +68,17 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-input
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
     label="Readonly input"
     readonly=true
     value="Look but don't touch!"
 }}</pre>
-    <div class="col-sm-6">
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-input
             label="Readonly input"
             readonly=true
@@ -65,12 +88,17 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-input
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
     label="Required input"
     required=true
     placeholder="You'd better enter something here"
 }}</pre>
-    <div class="col-sm-6">
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-input
             label="Required input"
             required=true
@@ -80,12 +108,17 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-input
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
     label="Optional input"
     optional=true
     placeholder="Meh, whatev"
 }}</pre>
-    <div class="col-sm-6">
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-input
             label="Optional input"
             optional=true
@@ -95,13 +128,18 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-input
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
     clickToEdit=true
     label="Click-to-edit input"
     placeholder="Enter value"
     value="Initial value"
 }}</pre>
-    <div class="col-sm-6">
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-input
             clickToEdit=true
             label="Click-to-edit input"
@@ -111,7 +149,10 @@
     </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="blur" type="string"}}
         An action to trigger when the input loses focus.
