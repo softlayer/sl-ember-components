@@ -12,11 +12,24 @@
     pagingData=pagingData
     pagingInfo=translations.label
 }}</pre>
+
+        <h6>Controller</h6>
+        <pre>pagingData: {
+    perPageOptions: [ 25, 50, 100 ],
+    itemCountPerPage: 25,
+    pageFirstRow: 1,
+    pageLastRow: 2,
+    totalRows: 125,
+    modelNames: 'Items'
+}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{sl-pagination-info pagingData=pagingData pagingInfo=translations.label}}
+        {{sl-pagination-info
+            pagingData=controllers.pagination.pagingData
+            pagingInfo=controllers.pagination.translations.label
+        }}
     </div>
 </div>
 

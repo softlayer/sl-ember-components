@@ -13,14 +13,24 @@
     perPage=translations.perPage
     perPageOptions=pagingData.perPageOptions
 }}</pre>
+
+        <h6>Controller</h6>
+        <pre>pagingData: {
+    perPageOptions: [ 25, 50, 100 ],
+    itemCountPerPage: 25,
+    pageFirstRow: 1,
+    pageLastRow: 2,
+    totalRows: 125,
+    modelNames: 'Items'
+}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{sl-pagination-per-page-select
-            itemCountPerPage=pagingData.itemCountPerPage
-            perPage=translations.perPage
-            perPageOptions=pagingData.perPageOptions
+            itemCountPerPage=controllers.pagination.pagingData.itemCountPerPage
+            perPage=controllers.pagination.translations.perPage
+            perPageOptions=controllers.pagination.pagingData.perPageOptions
         }}
     </div>
 </div>
