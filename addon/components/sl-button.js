@@ -10,6 +10,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * The text to display during AJAX activity
+     *
      * @property activeLabelText
      * @default null
      */
@@ -17,24 +18,28 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * Attribute bindings for the button component
+     *
      * @property {array} attributeBindings
      */
     attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'type' ],
 
     /**
      * Class bindings for the button component
+     *
      * @property {array} classNameBindings
      */
     classNameBindings: [ 'themeClassName' ],
 
     /**
      * Class names to apply to the button
+     *
      * @property {array} classNames
      */
     classNames: [ 'btn', 'sl-button' ],
 
     /**
      * Alert external code about the click
+     *
      * @method click
      */
     click: function() {
@@ -43,6 +48,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * Whether or not the button should be disabled during AJAX activity
+     *
      * @property {boolean} disableOnAjax
      * @default false
      */
@@ -50,14 +56,16 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * Whether or not the button should be hidden during AJAX activity
+     *
      * @property {boolean} hideOnAjax
      * @default false
      */
     hideOnAjax: false,
 
     /**
-     * This is primarily used internally to avoid losing the "default" value of the label when switching
-     * to the active text
+     * This is primarily used internally to avoid losing the "default" value of
+     * the label when switching to the active text
+     *
      * @property {string} inactiveLabelText
      * @default null
      */
@@ -65,6 +73,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * Initialize labels
+     *
      * @method initLabel
      */
     initLabel: function() {
@@ -74,8 +83,11 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     }.on( 'init' ),
 
     /**
-     * The text to apply to the button label.  It is preferred you use this to set your "default"
-     * text rather than inactiveLabelText, which will take this value as a default
+     * Text to apply to the button label
+     *
+     * It is preferred you use this to set your "default" text rather than
+     * inactiveLabelText, which will take this value as a default.
+     *
      * @property {string} label
      * @default null
      */
@@ -83,6 +95,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * Register our behaviors with the convenience method from the AJAX mixin
+     *
      * @method setupHandlers
      */
     setupHandlers: function() {
@@ -119,6 +132,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * The root component element
+     *
      * @property {string} tagName
      * @default "button"
      */
@@ -126,6 +140,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * The bootstrap "theme" name
+     *
      * @property {string} theme
      * @default "default"
      */
@@ -133,6 +148,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
      * Assemble the button theme's class name
+     *
      * @property {string} themeClassName
      * @default "btn-default"
      */
