@@ -1,16 +1,22 @@
 <h2>sl-textarea</h2>
 <p class="lead">A Bootstrap-wrapped component based on Ember's textarea helper.</p>
 
+<hr>
+
 <h3>Examples</h3>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-textarea
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-textarea
     label="First textarea"
     placeholder="Enter some text!"
     rows=6
 }}</pre>
+    </div>
 
-    <div class="col-sm-6">
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-textarea
             label="First textarea"
             placeholder="Enter some text!"
@@ -20,14 +26,18 @@
 </div>
 
 <div class="row">
-    <pre class="col-sm-6">\{{sl-textarea
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-textarea
     disabled=true
     label="Second textarea"
     placeholder="You can't enter anything..."
     rows=4
 }}</pre>
+    </div>
 
-    <div class="col-sm-6">
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
         {{sl-textarea
             disabled=true
             label="Second textarea"
@@ -37,7 +47,10 @@
     </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
     {{#property-text name="cols" type="number/string"}}
         <code>cols</code> attribute value.
