@@ -1,9 +1,14 @@
 <h2>sl-menu</h2>
 <p class="lead">A component that can be nested to build complex menu hierarchies.</p>
 
+<hr>
+
 <h3>Example</h3>
+
 <div class="row">
-    <pre class="col-sm-6">\{{sl-menu
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-menu
     actionInitiated="actionInitiatedHandler"
     changeRoute="changeRouteHandler"
     keyEventsBinding="controller.keyHandler"
@@ -11,18 +16,25 @@
     menuBinding="controller.content"
     selectionMade="selectionMadeHandler"
 }}</pre>
-    {{sl-menu
-        actionInitiated="actionInitiatedHandler"
-        changeRoute="changeRouteHandler"
-        class="col-sm-6"
-        keyEventsBinding="controller.keyHandler"
-        keyboardInUseBinding="controller.keyboardInUse"
-        menuBinding="controller.content"
-        selectionMade="selectionMadeHandler"
-    }}
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-menu
+            actionInitiated="actionInitiatedHandler"
+            changeRoute="changeRouteHandler"
+            keyEventsBinding="controller.keyHandler"
+            keyboardInUseBinding="controller.keyboardInUse"
+            menuBinding="controller.content"
+            selectionMade="selectionMadeHandler"
+        }}
+    </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <ul class="list-group">
     {{#property-text name="actionInitiated" type="function"}}
         Handler for string based actions that are associated with a menu item. If a given item has an associated action, the handler bound to the actionInitiated property will be called and the name of the action handed as the only parameter.
