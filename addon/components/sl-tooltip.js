@@ -9,6 +9,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * The tag type of the root element
+     *
      * @property {String} tagName
      * @default 'span'
      */

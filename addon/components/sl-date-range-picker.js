@@ -8,6 +8,7 @@ export default Ember.Component.extend({
 
     /**
      * Class names for the date-range-picker component
+     *
      * @property {array} classNames
      */
     classNames: [ 'sl-date-range-picker' ],
@@ -15,10 +16,11 @@ export default Ember.Component.extend({
     /**
      * The earliest selectable endDate, based on minDate and
      * current startDateValue
+     *
      * @property {date|string} earliestEndDate
      * @default null
      */
-    earliestEndDate: function () {
+    earliestEndDate: function() {
         var minDate = this.get( 'minDate' ),
             startDateValue = this.get( 'startDateValue' );
 
@@ -35,6 +37,7 @@ export default Ember.Component.extend({
 
     /**
      * The value for the endDate input
+     *
      * @property {string} endDateValue
      * @default null
      */
@@ -42,6 +45,7 @@ export default Ember.Component.extend({
 
     /**
      * The string format for date values
+     *
      * @property {string} format
      * @default "mm/dd/yyyy"
      */
@@ -50,10 +54,11 @@ export default Ember.Component.extend({
     /**
      * The latest selectable startDate, based on maxDate and
      * current endDateValue
+     *
      * @property {date|string} latestStartDate
      * @default null
      */
-    latestStartDate: function () {
+    latestStartDate: function() {
         var endDateValue = this.get( 'endDateValue' ),
             maxDate = this.get( 'maxDate' );
 
@@ -70,6 +75,7 @@ export default Ember.Component.extend({
 
     /**
      * The last valid date for the date range
+     *
      * @property {date|string} endDate
      * @default null
      */
@@ -77,6 +83,7 @@ export default Ember.Component.extend({
 
     /**
      * The earliest date selectable in the range
+     *
      * @property {date|string} minDate
      * @default null
      */
@@ -85,18 +92,20 @@ export default Ember.Component.extend({
     /**
      * Set up a transition that moves focus to the endDate input when the
      * startDate input is changed
+     *
      * @method setupFocusTransition
      */
-    setupFocusTransition: function () {
+    setupFocusTransition: function() {
         var endDateInput = this.$( '.sl-daterange-end-date input' );
 
-        this.$( '.sl-daterange-start-date input' ).on( 'change', function () {
+        this.$( '.sl-daterange-start-date input' ).on( 'change', function() {
             endDateInput.focus();
         });
     }.on( 'didInsertElement' ),
 
     /**
      * The value for the startDate input
+     *
      * @property {string} startDateValue
      * @default null
      */

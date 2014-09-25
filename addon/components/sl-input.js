@@ -9,42 +9,47 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
-     * Object containing action functions
+     * Component actions hash
      * @property {object} actions
      */
     actions: {
 
         /**
          * Sends the 'blur' bound action when the input loses focus
+         *
          * @method actions.blurred
          */
-        blur: function () {
+        blur: function() {
             this.sendAction( 'blur' );
         },
 
         /**
          * Sends the primary bound action when `enter` is pressed
+         *
          * @method actions.enter
          */
-        enter: function () {
+        enter: function() {
             this.sendAction();
         }
     },
 
     /**
      * Attribute bindings for the containing div
+     *
      * @property {array} attributeBindings
      */
     attributeBindings: [ 'class' ],
 
     /**
      * Class names for the containing div
+     *
      * @property {array} classNames
      */
     classNames: [ 'form-group', 'sl-input' ],
 
     /**
      * Enable the click to edit styling
+     *
      * @property {boolean} clickToEdit
      * @default false
      */
@@ -52,17 +57,19 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Get a reference to the internal input element
+     *
      * @method getInput
      */
-    getInput: function () {
+    getInput: function() {
         return this.$( '#' + this.get( 'inputId' ));
     },
 
     /**
      * Class string for the internal input element
+     *
      * @property {string} inputClass
      */
-    inputClass: function () {
+    inputClass: function() {
         var classes = [ 'form-control' ];
 
         if ( this.get( 'clickToEdit' )) {
@@ -78,14 +85,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * ID for the actual input element
+     *
      * @property {string} inputId
      */
-    inputId: function () {
+    inputId: function() {
         return this.get( 'elementId' ) + 'Input';
     }.property( 'elementId' ),
 
     /**
      * Whether the typeahead.js functionality has been setup
+     *
      * @property {boolean} isTypeaheadSetup
      * @default false
      */
@@ -94,14 +103,15 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Sets up the input event listeners exposed to the component's
      * parent controller
+     *
      * @method setupInputEvents
      */
-    setupInputEvents: function () {
+    setupInputEvents: function() {
         var blurAction = this.get( 'blur' ),
             self = this;
 
         if ( blurAction ) {
-            this.$( 'input' ).on( 'blur', function () {
+            this.$( 'input' ).on( 'blur', function() {
                 self.sendAction( 'blur' );
             });
         }
@@ -109,14 +119,15 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Sets up the typeahead behavior when `suggestions` are supplied
+     *
      * @method setupTypeahead
      */
-    setupTypeahead: function () {
+    setupTypeahead: function() {
         var self = this;
 
         if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' )) {
-            var namePath = this.get( 'suggestionNamePath' );
-            var typeahead;
+            var namePath = this.get( 'suggestionNamePath' ),
+                typeahead;
 
             typeahead = this.getInput().typeahead({
                 highlight: true,
@@ -130,10 +141,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     return item;
                 },
 
-                source: function ( query, callback ) {
+                source: function( query, callback ) {
                     var pattern = new RegExp( query, 'i' );
 
-                    callback( self.get( 'suggestions' ).filter( function ( suggestion ) {
+                    callback( self.get( 'suggestions' ).filter( function( suggestion ) {
                         var searchCandidate;
 
                         if ( suggestion instanceof Object ) {
@@ -148,8 +159,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             });
 
             /* jshint ignore:start */
-            var selectItem = function ( event, item ) {
-                Ember.run( function () {
+            selectItem = function( event, item ) {
+                Ember.run( function() {
                     var value = item instanceof Object ? Ember.get( item, namePath ) : item;
 
                     self.set( 'value', value );
@@ -166,6 +177,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Lookup path for the suggestion items' name
+     *
      * @property {string} suggestionLabelPath
      * @default "name"
      */
@@ -173,6 +185,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
      * Type attribute for the containing div
+     *
      * @property {string} type
      * @default "text"
      */

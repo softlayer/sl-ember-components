@@ -9,60 +9,68 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
-     * Object of action functions
-     * @property {Object} actions
+     * Component actions hash
+     *
+     * @property {object} actions
      */
     actions: {
 
         /**
          * Action to take when a radio button has been changed
+         *
          * @method actions.change
          * @param {mixed} value - The value of the radio input that triggered change
          */
-        change: function ( value ) {
+        change: function( value ) {
             this.set( 'value', value );
         }
     },
 
     /**
      * Attribute bindings for the component's root element
-     * @property {Array} attributeBindings
+     *
+     * @property {array} attributeBindings
      */
     attributeBindings: [ 'disabled' ],
 
     /**
      * Class names for the containing element
-     * @property {Array} classNames
+     *
+     * @property {array} classNames
      */
     classNames: [ 'form-group', 'sl-radio-group' ],
 
     /**
      * Whether the radio buttons should be put inline together
-     * @property {Boolean} inline
+     *
+     * @property {boolean} inline
      * @default false
      */
     inline: false,
 
     /**
      * The currently selected radio input
-     * @property {Object} selectedInput
+     *
+     * @property {object} selectedInput
      */
-    selectedInput: function () {
+    selectedInput: function() {
         return this.$( 'input[value="' + this.get( 'value' ) + '"]' );
     }.property( 'value' ),
 
     /**
      * HTML tag name for the component's root element
-     * @property {String} tagName
+     *
+     * @property {string} tagName
      * @default "fieldset"
      */
     tagName: 'fieldset',
 
     /**
      * Selects the radio input with the current value
+     *
      * @method updateSelection
      */
-    updateSelection: function () {
+    updateSelection: function() {
         this.get( 'selectedInput' ).prop( 'checked', true );
     }.observes( 'value' ).on( 'didInsertElement' )
 });

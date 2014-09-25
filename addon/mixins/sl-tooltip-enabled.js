@@ -12,8 +12,8 @@ export default Ember.Mixin.create({
      * @method enableTooltip
      */
     enableTooltip: function () {
-        var popoverContent = this.get( 'popover' );
-        var title = this.get( 'title' );
+        var popoverContent = this.get( 'popover' ),
+            title = this.get( 'title' );
 
         if ( !popoverContent && !title ) {
             return;

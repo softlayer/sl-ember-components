@@ -1,71 +1,139 @@
 import Ember from 'ember';
 
+/**
+ * @module components
+ * @class sl-grid-table-column-resize
+ */
 export default Ember.Component.extend({
-    classNames: [ 'sl-grid-table-column-resize' ],
-    classNameBindings: [ 'isHighlighted:columnHighlight' ],
 
-    isHighlighted: Ember.computed.alias( 'column.highlight' ),
-
-    changeTag: function(){
-        if( this.get( 'header' ) ){
+    /**
+     * Change the root element's tagName
+     *
+     * @method changeTag
+     */
+    changeTag: function() {
+        if ( this.get( 'header' )) {
             this.set( 'tagName', 'th' );
         }
-    }.on('init'),
+    }.on( 'init' ),
 
-    tagName: 'td',
+    /**
+     * Class names array for root element
+     *
+     * @property {array} classNames
+     */
+    classNames: [ 'sl-grid-table-column-resize' ],
 
-    startX: 0,
+    /**
+     * Class name bindings for root element
+     *
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'isHighlighted:columnHighlight' ],
 
+    /**
+     * Grid table column global hash
+     *
+     * @property {object} global
+     */
     global: {
         isResizing: false
     },
 
-    mouseEnter: function(){
-        if( ! this.get( 'global.isResizing' ) ){
+    /**
+     * Whether the column is highlighted
+     *
+     * @property {boolean} isHighlighted
+     * @default false
+     */
+    isHighlighted: Ember.computed.alias( 'column.highlight' ),
+
+    /**
+     * Action triggered when mousedown event is triggered
+     *
+     * @method mouseDown
+     * @param {event} event - The mousedown event
+     */
+    mouseDown: function( event ) {
+        var tag = this.get( 'tagName' );
+
+        if ( !this.get( 'disabled' )) {
+            Ember.$( 'body' ).addClass( 'resizing' )
+                .on( 'mousemove', this.mouseMoveListener )
+                .on( 'mouseup', this.mouseUpListener );
+
+            this.setProperties({
+                'global.isResizing': true,
+                startWidth: Ember.$( this.$().prevAll( tag )[ 0 ] ).width(),
+                startX: event.pageX
+            });
+        }
+    },
+
+    /**
+     * Method triggered on mouseenter event
+     *
+     * @method mouseEnter
+     */
+    mouseEnter: function() {
+        if ( !this.get( 'global.isResizing' )) {
             this.set( 'column.highlight', true );
         }
     },
 
-    mouseLeave: function(){
-        if( ! this.get( 'global.isResizing' ) ){
+    /**
+     * Method triggered on mouseleave event
+     *
+     * @method mouseLeave
+     */
+    mouseLeave: function() {
+        if ( !this.get( 'global.isResizing' )) {
             this.set( 'column.highlight', false );
         }
     },
-    mouseDown: function(e){
-        var tag = this.get( 'tagName' );
 
-        if( ! this.get( 'disabled' ) ) {
-            this.set( 'global.isResizing', true );
-            Ember.$('body').addClass('resizing');
-            Ember.$('body').on( 'mousemove', this.mouseMoveListener );
-            Ember.$('body').on( 'mouseup', this.mouseUpListener );
+    /**
+     * Setup listeners for mouse events
+     *
+     * @method setupBoundListeners
+     */
+    setupBoundListeners: function() {
+        var self = this;
 
-            this.set('startX', e.pageX);
-            this.set('startWidth', Ember.$( this.$().prevAll(tag)[0] ).width());
+        this.set( 'mouseUpListener', function() {
+            Ember.$( 'body' ).removeClass( 'resizing' )
+                .off( 'mousemove', self.mouseMoveListener )
+                .off( 'mouseup', self.mouseUpListener );
 
-        }
-    },
+            self.setProperties({
+                'column.highlight': false,
+                'global.isResizing': false
+            });
+        });
 
-    setUpBoundListeners: function(){
-        this.set( 'mouseUpListener', Ember.run.bind( this, function(){
-            Ember.$('body').removeClass('resizing');
-            Ember.$('body').off( 'mousemove', this.mouseMoveListener );
-            Ember.$('body').off( 'mouseup', this.mouseUpListener );
-            this.set( 'column.highlight', false );
-            this.set( 'global.isResizing', false );
-        }));
-
-        this.set( 'mouseMoveListener', Ember.run.bind( this, function( e ){
-            var startWidth = this.get( 'startWidth' ),
-                widthDelta = e.pageX - this.get('startX'),
+        this.set( 'mouseMoveListener', function( event ) {
+            var startWidth = self.get( 'startWidth' ),
+                widthDelta = event.pageX - self.get('startX'),
                 finalWidth = startWidth + widthDelta,
-                minWidth = this.getWithDefault( 'column.minWidth', 20 );
+                minWidth = self.getWithDefault( 'column.minWidth', 20 );
 
-            if( finalWidth < minWidth ){
-                finalWidth = minWidth;
-            }
-            this.set( 'column.width', finalWidth );
+            self.set( 'column.width', Math.max( minWidth, finalWidth ));
+
             return false;
-        }));
-    }.on( 'init' )
+        });
+    }.on( 'didInsertElement' ),
+
+    /**
+     * Starting x offset
+     *
+     * @property {number} startX
+     */
+    startX: 0,
+
+    /**
+     * HTML tag name for root element
+     *
+     * @property {string} tagName
+     */
+    tagName: 'td'
 });

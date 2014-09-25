@@ -8,27 +8,31 @@ export default Ember.Component.extend({
 
     /**
      * Class name bindings for the component
-     * @property {Array} classNameBindings
+     *
+     * @property {array} classNameBindings
      */
     classNameBindings: [ 'active', 'new', 'old' ],
 
     /**
      * Class names for the component's root element
-     * @property {Array} classNames
+     *
+     * @property {array} classNames
      */
     classNames: [ 'day' ],
 
     /**
      * Function triggered by clicking a calendar day
+     *
      * @method click
      */
-    click: function () {
+    click: function() {
         this.sendAction( 'action', this.get( 'content' ));
     },
 
     /**
      * The HTML tag name of the component's root element
-     * @property {String} tagName
+     *
+     * @property {string} tagName
      * @default "td"
      */
     tagName: 'td'

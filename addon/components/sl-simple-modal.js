@@ -9,6 +9,7 @@ export default Ember.Component.extend( ModalMixin, {
 
     /**
      * Text string for the "accept" button
+     *
      * @property {string} acceptText
      * @default "Accept"
      */
@@ -16,6 +17,7 @@ export default Ember.Component.extend( ModalMixin, {
 
     /**
      * Text string for the "cancel" button
+     *
      * @property {string} cancelText
      * @default "Cancel"
      */
@@ -23,15 +25,17 @@ export default Ember.Component.extend( ModalMixin, {
 
     /**
      * Custom simple-modal handler for setting the `show` property to false
+     *
      * @method hideHandler
      */
-    hideHandler: function () {
+    hideHandler: function() {
         this._super();
         this.set( 'show', false );
     },
 
     /**
      * Binding for whether the modal is shown or not
+     *
      * @property {boolean} show
      * @default false
      */
@@ -39,13 +43,10 @@ export default Ember.Component.extend( ModalMixin, {
 
     /**
      * Observes the `show` value and appropriately shows or hides the modal
+     *
      * @method toggle
      */
-    toggle: function () {
-        if ( this.get( 'show' )) {
-            this.$().modal( 'show' );
-        } else {
-            this.$().modal( 'hide' );
-        }
+    toggle: function() {
+        this.$().modal( this.get( 'show' ) ? 'show' : 'hide' );
     }.observes( 'show' )
 });

@@ -5,7 +5,7 @@ import Ember from 'ember';
  * the result is returned.  If the result is falsy and a defaultKey is supplied then the defaultKey
  * is resolved on the object and that result is returned
  *
- * @return {mixed}
+ * @returns {mixed}
  */
 export default Ember.Handlebars.makeBoundHelper( function ( object, key, defaultKey ) {
     var value;
