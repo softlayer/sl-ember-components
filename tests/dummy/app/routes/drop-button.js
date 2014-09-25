@@ -4,19 +4,19 @@ export default Ember.Route.extend({
     model: function () {
         return [
             {
-                action: 'setDanger',
-                label: 'Danger'
+                action: 'alertRed',
+                label: 'Red'
             }, {
-                action: 'setInfo',
-                label: 'Info'
+                action: 'alertGreen',
+                label: 'Green'
             }, {
-                action: 'setWarning',
-                label: 'Warning'
+                action: 'alertBlue',
+                label: 'Blue'
             }, {
                 // divider
             }, {
-                action: 'setSuccess',
-                label: 'Success'
+                action: 'alertWhite',
+                label: 'White'
             }
         ];
     }

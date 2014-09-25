@@ -1,21 +1,23 @@
+/* globals alert */
+
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
     actions: {
-        setDanger: function () {
-            this.set( 'selectedTheme', 'danger' );
+        alertRed: function() {
+            alert( 'Red!' );
         },
 
-        setInfo: function () {
-            this.set( 'selectedTheme', 'info' );
+        alertGreen: function() {
+            alert( 'Green!' );
         },
 
-        setWarning: function () {
-            this.set( 'selectedTheme', 'warning' );
+        alertBlue: function() {
+            alert( 'Blue!' );
         },
 
-        setSuccess: function () {
-            this.set( 'selectedTheme', 'success' );
+        alertWhite: function() {
+            alert( 'White!' );
         }
     },
 

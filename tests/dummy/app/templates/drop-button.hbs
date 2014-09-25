@@ -1,34 +1,47 @@
 <h2>sl-drop-button</h2>
 <p class="lead">A combination of a button with a drop-down menu, with triggered actions. Utilizes <a href="http://getbootstrap.com/javascript/#dropdowns">Bootstrap - Dropdowns</a>.</p>
 
+<hr>
+
 <h3>Example</h3>
 
-<pre>\{{sl-drop-button content=content label="Select a theme"}}</pre>
-
 <div class="row">
-    <pre class="col-sm-6">content = [
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-drop-button content=content label="Select a color"}}</pre>
+
+        <h6>Controller</h6>
+        <pre>content = [
     {
-        action: 'setDanger',
-        label: 'Danger'
+        action: 'alertRed',
+        label: 'Red'
     }, {
-        action: 'setInfo',
-        label: 'Info'
+        action: 'alertGreen',
+        label: 'Green'
     }, {
-        action: 'setWarning',
-        label: 'Warning'
+        action: 'alertBlue',
+        label: 'Blue'
     }, {
         // divider
     }, {
-        action: 'setSuccess',
-        label: 'Success'
+        action: 'alertWhite',
+        label: 'White'
     }
 ]</pre>
-    {{sl-drop-button class="col-sm-6" content=content label="Select a theme"}}
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-drop-button content=content label="Select a theme"}}
+    </div>
 </div>
 
+<hr>
+
 <h3>Properties</h3>
+
 <div class="list-group">
-    {{#property-text name="content" type="array"}}
+    {{#property-text name="content" type="array" required=true}}
         Array of objects representing the dropdown items. Each object can have the following properties:
         <ul>
             <li><strong>action</strong> - String for the name of the controller's action to call when option is clicked.</li>
