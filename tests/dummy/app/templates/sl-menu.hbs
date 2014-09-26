@@ -47,9 +47,9 @@
     {{#property-text name="menu" required=true type="object"}}
         Used to provide the underlying structure of the entire menu. This expects an Ember.Object with a <code>pages</code> attribute that contains an Ember.Array of other nodes. Each node, including the top level, can have the following attributes:
         <ul>
-            <li><strong>emberAction</strong> - This can either be a string, which will be received by the <code>actionInitiated</code> binding on the template or can actually be a function that will be executed when the item is selected with either a mouse click or through a keyboard shortcut.</li>
-            <li><strong>emberRoute</strong> - This can be used to specify a route to which the application will transition if the menu item is selected.
-            <li><strong>emberLink</strong> - This can be used to specify a link to another page.  This should be used to link to pages outside of the Ember app. </li>
+            <li><strong>action</strong> - This can either be a string, which will be received by the <code>actionInitiated</code> binding on the template or can actually be a function that will be executed when the item is selected with either a mouse click or through a keyboard shortcut.</li>
+            <li><strong>route</strong> - This can be used to specify a route to which the application will transition if the menu item is selected.
+            <li><strong>link</strong> - This can be used to specify a link to another page.  This should be used to link to pages outside of the Ember app. </li>
             <li><strong>pages</strong> - An array of nodes that will be embedded under the <code>label</code> attribute as a sub-menu.</li>
             <li><strong>label</strong> - The label of the menu itself. This should be <em>null</em> for top level menus and will provide the name of the sub-menu for sub-menu lists</li>
         </ul>
@@ -60,7 +60,7 @@
     {{/property-text}}
 
     {{#property-text name="changeRoute" type="function"}}
-        Handler for handling the selection of menu items that have a corresponding emberRoute.  Typically, this will be a simple <code>transitionTo</code> or <code>transitionToRoute</code> call.
+        Handler for handling the selection of menu items that have a corresponding route property.  Typically, this will be a simple <code>transitionTo</code> or <code>transitionToRoute</code> call.
     {{/property-text}}
 
     {{#property-text name="keyboardInUse" type="boolean"}}

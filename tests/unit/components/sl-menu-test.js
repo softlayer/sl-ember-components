@@ -7,9 +7,9 @@ var clickCounter = 0,
             label: null,
             pages: Ember.A([
                 Ember.Object.create({ label: 'Top Level A', pages: Ember.A([
-                    Ember.Object.create({ label: 'Option A1', emberAction: 'MyAction' }),
-                    Ember.Object.create({ label: 'Option A2', emberAction: function(){ clickCounter = 0; clickCounter++; }}),
-                    Ember.Object.create({ label: 'Option A3', emberAction: { actionName: 'MyAction', data: { name: 'Joe' }}}),
+                    Ember.Object.create({ label: 'Option A1', action: 'MyAction' }),
+                    Ember.Object.create({ label: 'Option A2', action: function(){ clickCounter = 0; clickCounter++; }}),
+                    Ember.Object.create({ label: 'Option A3', action: { actionName: 'MyAction', data: { name: 'Joe' }}}),
                     Ember.Object.create({ label: 'Sub Menu A3', pages: Ember.A([
                         Ember.Object.create({ label: 'Sub Sub Menu A3.1' }),
                         Ember.Object.create({ label: 'Sub Sub Menu A3.2' }),

@@ -406,16 +406,16 @@ export default Ember.Component.extend({
 
         rootNode.sendAction( 'selectionMade', path );
 
-        if ( this.get( 'menu.pages' )) {
+        if ( this.get( 'menu.pages' ) ) {
             this.showContent();
 
-            if ( !this.get( 'useDrillDownKey' )) {
+            if ( !this.get( 'useDrillDownKey' ) ) {
                 this.set( 'keyHandler', true );
                 this.get( 'parentView' ).set( 'keyHandler', false );
             }
         } else {
-            if ( this.get( 'menu.emberAction' )) {
-                var action = this.get( 'menu.emberAction' );
+            if ( this.get( 'menu.action' )) {
+                var action = this.get( 'menu.action' );
 
                 if ( typeof action === 'function' ) {
                     action.call( this );
@@ -424,12 +424,12 @@ export default Ember.Component.extend({
                             action.actionName,
                             action.data );
                 } else {
-                    rootNode.sendAction( 'actionInitiated', action);
+                    rootNode.sendAction( 'actionInitiated', action );
                 }
-            } else if ( this.get( 'menu.emberRoute' )) {
-                rootNode.sendAction( 'changeRoute', this.get( 'menu.emberRoute' ));
-            } else if ( this.get( 'menu.emberLink' )) {
-                window.location.href = this.get( 'menu.emberLink' );
+            } else if ( this.get( 'menu.route' ) ) {
+                rootNode.sendAction( 'changeRoute', this.get( 'menu.route' ) );
+            } else if ( this.get( 'menu.link' ) ) {
+                window.location.href = this.get( 'menu.link' );
             }
 
             rootNode.send( 'closeAll' );
