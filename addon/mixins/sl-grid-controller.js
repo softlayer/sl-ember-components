@@ -53,13 +53,17 @@ export default Ember.Mixin.create( SlApplicationState, {
             arrangedContent = this._super();
         
         return filterProperties.reduce( function( previousValues, filterProperty ){
-            
+            var filterRegex = new RegExp( '.*'+filterProperty.value+'.*' );
+
             if( filterProperty.keyArray ){
                 return previousValues.filter( function( item ) {
                     return item.get( filterProperty.key ).contains( filterProperty.value );
                 });
             }
-            return previousValues.filterBy( filterProperty.key, filterProperty.value );
+            return previousValues.filter( function( item ){
+                return filterRegex.test( item.get( filterProperty.key ) );
+            }); 
+                                         
         }, arrangedContent );
 
     }.property( 'content', 
