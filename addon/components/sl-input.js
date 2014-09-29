@@ -159,7 +159,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             });
 
             /* jshint ignore:start */
-            selectItem = function( event, item ) {
+            var selectItem = function( event, item ) {
                 Ember.run( function() {
                     var value = item instanceof Object ? Ember.get( item, namePath ) : item;
 

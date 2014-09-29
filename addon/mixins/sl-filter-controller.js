@@ -20,7 +20,7 @@ export default Ember.Mixin.create( {
          */
         applyFilter: function () {
             var filters = this.get( 'filters' ),
-                gridFilters = this.get( 'gridFilters' ),
+                gridFilters = this.get( 'gridFilterProperties' ),
                 self = this;
 
             gridFilters.clear();
@@ -33,12 +33,10 @@ export default Ember.Mixin.create( {
                 }
             });
 
-            this.set( 'filterApplied', true );
-
-            Ember.run.next( function() {
-                self.send( 'updateTabPanelHeight' );
-            });
-        },
+            if( gridFilters.length ){
+                this.set( 'filterApplied', true );
+            }
+       },
 
         /**
          * Clear all the grid filter settings
@@ -46,7 +44,7 @@ export default Ember.Mixin.create( {
          * @method actions.clearAll
          */
         clearAll: function() {
-            var gridFilters = this.get( 'gridFilters' ),
+            var gridFilters = this.get( 'gridFilterProperties' ),
                 self = this;
 
             Ember.keys( this.get( 'filters' )).forEach( function( key ) {
@@ -56,7 +54,6 @@ export default Ember.Mixin.create( {
                 gridFilters.removeObject( filter );
             });
 
-            this.send( 'collapseTabPanel' );
             this.set( 'filterApplied', false );
         },
 
@@ -68,14 +65,13 @@ export default Ember.Mixin.create( {
          */
         clearFilter: function( key ) {
             var filter = this.get( 'filters.' + key ),
-                gridFilters = this.get( 'gridFilters' ),
+                gridFilters = this.get( 'gridFilterProperties' ),
                 self = this;
 
             gridFilters.removeObject( filter );
             this.set( 'filters.' + key + '.value', null );
 
             if ( !gridFilters.get( 'length' )) {
-                this.send( 'collapseTabPanel' );
 
                 Ember.run.next( function() {
                     self.set( 'filterApplied', false );

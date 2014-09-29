@@ -22,7 +22,7 @@ export default Ember.Mixin.create( SlApplicationState, {
         },
 
         reload: function(){
-            this.reloadModel();
+            this.reloadModel( true );
         },
 
         toggleColumnVisibility: function( columnName ){
@@ -40,9 +40,32 @@ export default Ember.Mixin.create( SlApplicationState, {
         
         reorderColumn: function( oldIndex, newIndex ){
             this.reorderColumn( oldIndex, newIndex );            
+        },
+
+        toggleFilter: function(){
+            this.toggleProperty( 'showFilterPanel' );
         }
 
     },
+
+    arrangedContent: function(){
+        var filterProperties = this.get( 'filterProperties' ),
+            arrangedContent = this._super();
+        
+        return filterProperties.reduce( function( previousValues, filterProperty ){
+            
+            if( filterProperty.keyArray ){
+                return previousValues.filter( function( item ) {
+                    return item.get( filterProperty.key ).contains( filterProperty.value );
+                });
+            }
+            return previousValues.filterBy( filterProperty.key, filterProperty.value );
+        }, arrangedContent );
+
+    }.property( 'content', 
+                'sortProperties.@each', 'sortAscending', 
+                'currentPage', 'itemCountPerPage', 
+                'filterProperties.@each' ),
 
     sortProperties: function(){
         return this.getWithDefault( 'columns', [] ).filterBy( 'isSorted' ).mapBy( 'key' );
@@ -51,6 +74,8 @@ export default Ember.Mixin.create( SlApplicationState, {
     sortAscending: function(){
         return this.getWithDefault( 'columns', [] ).findBy( 'isSorted' ).get( 'sortAscending' );
     }.property( 'columns.@each.sortAscending' ),
+
+    filterProperties: Ember.A(),
 
     grid: Ember.Object.create(),
 
@@ -71,11 +96,11 @@ export default Ember.Mixin.create( SlApplicationState, {
     }.property( 'modelName' ),
 
     applicationStateDidLoad: function(){
+        
         this.notifyPropertyChange( 'sortProperties' );
-        //after we get real data model cacheing laid into sl-model we can make this work right
-        //for now this gets fired twice, once here and once when itemCountPerPage loads from saved
-        //user preferences in localStorage :-/
+
         Ember.run.once( this, 'reloadModel');
+
     }.on( 'applicationStateDidLoad' ),
     
     isLoading: Ember.computed.alias( 'model.isPending' ),
@@ -136,7 +161,6 @@ export default Ember.Mixin.create( SlApplicationState, {
         this.saveApplicationState();
     }.observes( 'itemCountPerPage' ),
 
-    filters: Ember.A(),
     
     /**
      * reload the model for this controller with the current paging preferences
@@ -144,12 +168,12 @@ export default Ember.Mixin.create( SlApplicationState, {
      * override this function with your own model reloading logic if need be
      *
      */
-    reloadModel: function(){
+    reloadModel: function( fromServer ){
 
         var modelName = this.get( 'modelName' ),
             model;
 
-        model = this.store.find( modelName );
+        model = this.store.find( modelName, { reload: fromServer } );
 
         this.set( 'model', model );
 

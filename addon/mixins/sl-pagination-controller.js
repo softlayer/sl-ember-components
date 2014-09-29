@@ -54,7 +54,10 @@ export default Ember.Mixin.create({
 
         return content.slice( start, end );
 
-    }.property( 'content', 'currentPage', 'itemCountPerPage', 'sortProperties.@each', 'sortAscending' ),
+    }.property( 'content', 
+               'currentPage', 'itemCountPerPage', 
+               'sortProperties.@each', 'sortAscending', 
+               'filterProperties.@each'),
     
     /**
      * pagingData - holds paging data for the grid to pass to its pagination controls 
