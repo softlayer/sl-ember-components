@@ -58,6 +58,10 @@
         </ul>
     {{/property-text}}
 
+    {{#property-text name="name" required=true type="string"}}
+        Shared <code>name</code> attribute for the radio inputs.
+    {{/property-text}}
+
     {{#property-text name="disabled" type="boolean" default="false"}}
         When true, all radio inputs will be disabled.
     {{/property-text}}
@@ -68,10 +72,6 @@
 
     {{#property-text name="label" type="string"}}
         Text label for radio group as a whole.
-    {{/property-text}}
-
-    {{#property-text name="name" required=true type="string"}}
-        Shared <code>name</code> attribute for the radio inputs.
     {{/property-text}}
 
     {{#property-text name="optional" type="boolean" default="false"}}
