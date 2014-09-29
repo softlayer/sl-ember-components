@@ -1,0 +1,81 @@
+<h2>sl-split-grid</h2>
+<p class="lead">Dan's split panel grid table list thing.</p>
+
+<hr>
+
+<h3>Example</h3>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-split-grid
+    columns=splitGridColumns
+    rows=content
+}}</pre>
+
+        <h6>Route</h6>
+        <pre>model: [
+    {
+        name: 'red',
+        fruit: 'apple',
+        hexCode: '#ff0000'
+    }, {
+        name: 'orange',
+        fruit: 'orange',
+        hexCode: '#ff7700'
+    }, {
+        name: 'yellow',
+        fruit: 'banana',
+        hexCode: '#ffff00'
+    }, {
+        name: 'green',
+        fruit: 'lime',
+        hexCode: '#00ff00'
+    }, {
+        name: 'blue',
+        fruit: 'blueberry',
+        hexCode: '#0000ff'
+    }, {
+        name: 'purple',
+        fruit: 'grape',
+        hexCode: '#ff00ff'
+    }
+]</pre>
+
+        <h6>Controller</h6>
+        <pre>splitGridColumns: [
+    {
+        path: 'name',
+        title: 'Color'
+    }, {
+        path: 'fruit',
+        title: 'Fruit'
+    }, {
+        path: 'hexCode',
+        title: 'Hex Code'
+    }
+]</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-split-grid
+            columns=splitGridColumns
+            rows=content
+        }}
+    </div>
+</div>
+
+<hr>
+
+<h3>Properties</h3>
+
+<div class="list-group">
+    {{#property-text name="columns" type="array" required=true}}
+        An array of column definition objects.
+    {{/property-text}}
+
+    {{#property-text name="rows" type="array" required=true}}
+        An array of records.
+    {{/property-text}}
+</div>

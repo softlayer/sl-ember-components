@@ -1,0 +1,33 @@
+<header>
+    <p>Header content goes here.</p>
+</header>
+
+<main>
+    <table class="table">
+        <thead>
+            <tr>
+                {{#each column in columns}}
+                    <th>{{column.title}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+    </table>
+
+    <div class="scrollable-content">
+        <table class="table">
+            <tbody>
+                {{#each row in rows}}
+                    <tr>
+                        {{#each column in columns}}
+                            <td>{{display-value path}}</td>
+                        {{/each}}
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <p>Footer content goes here.</p>
+</footer>
