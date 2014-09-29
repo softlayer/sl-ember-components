@@ -163,7 +163,6 @@ export default Ember.Component.extend({
      */
     setupTabs: function() {
         var initialTabName = this.get( 'initialTabName' ),
-            self = this,
             tabName,
             tabs = [];
 
