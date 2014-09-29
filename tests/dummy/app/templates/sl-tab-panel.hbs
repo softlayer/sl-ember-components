@@ -9,16 +9,11 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{#sl-tab-panel}}
-    \{{#sl-tab-pane label="One" name="one"}}
-        \{{render "tabs/one"}}
-    \{{/sl-tab-pane}}
-
-    \{{#sl-tab-pane label="Two" name="two"}}
-        \{{render "tabs/two"}}
-    \{{/sl-tab-pane}}
+    \{{sl-tab-pane label="One" name="one" templateName="tabs/one"}}
+    \{{sl-tab-pane label="Two" name="two" templateName="tabs/two"}}
 
     \{{#sl-tab-pane label="Three" name="three"}}
-        \{{render "tabs/three"}}
+        &lt;p&gt;Content for tab three!&lt;/p&gt;
     \{{/sl-tab-pane}}
 \{{/sl-tab-panel}}</pre>
     </div>
@@ -26,36 +21,11 @@
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{#sl-tab-panel}}
-            {{#sl-tab-pane label="One" name="one"}}
-                {{render "tabs/one"}}
-            {{/sl-tab-pane}}
-
-            {{#sl-tab-pane label="Two" name="two"}}
-                {{render "tabs/two"}}
-            {{/sl-tab-pane}}
+            {{sl-tab-pane label="One" name="one" templateName="tabs/one"}}
+            {{sl-tab-pane label="Two" name="two" templateName="tabs/two"}}
 
             {{#sl-tab-pane label="Three" name="three"}}
-                {{render "tabs/three"}}
-            {{/sl-tab-pane}}
-        {{/sl-tab-panel}}
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-6">
-        <h6>Template</h6>
-        <pre>\{{#sl-tab-panel alignTabs="right" collapsible=true}}
-    \{{#sl-tab-pane label="Test" name="test"}}
-        &lt;p&gt;Uncollapsed pane!&lt;/p&gt;
-    \{{/sl-tab-pane}}
-\{{/sl-tab-panel}}</pre>
-    </div>
-
-    <div class="col-lg-6">
-        <h6>Rendered Component</h6>
-        {{#sl-tab-panel alignTabs="right" collapsible=true}}
-            {{#sl-tab-pane label="Test" name="test"}}
-                <p>Uncollapsed pane!</p>
+                <p>Content for tab three!</p>
             {{/sl-tab-pane}}
         {{/sl-tab-panel}}
     </div>
@@ -73,10 +43,6 @@
     {{#property-text name="alignTabs" type="string" default="\"left\""}}
         How to align the tabs, "left" or "right".
     {{/property-text}}
-
-    {{#property-text name="collapsible" type="boolean" default="false"}}
-        When true, an open tab can be clicked again to close it, so that all tabs and panes are un-selected. If set to false, and no <code>activeTabName</code> is given, then the first tab will be opened on initialization.
-    {{/property-text}}
 </div>
 
 <hr>
@@ -89,7 +55,10 @@
     {{/property-text}}
 
     {{#property-text name="name" type="string" required=true}}
-        The text name of the tab, used only internally to the pane's parent
-        tab-panel.
+        The text name of the tab, used only internally to the pane's parent tab-panel.
+    {{/property-text}}
+
+    {{#property-text name="templateName" type="string"}}
+        Name of the template to render in the tab pane. If omitted, the component will render content from its block.
     {{/property-text}}
 </ul>

@@ -7,6 +7,30 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     /**
+     * Component actions hash
+     */
+    actions: {
+
+        /**
+         * Action to trigger collapse of parent tab-panel
+         *
+         * @method actions.collapseTabPanel
+         */
+        collapseTabPanel: function() {
+            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.collapse' );
+        },
+
+        /**
+         * Action to trigger parent tab-panel content height recalculation
+         *
+         * @method actions.updateContentHeight
+         */
+        updateContentHeight: function() {
+            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.resize' );
+        }
+    },
+
+    /**
      * Bindings for HTML attributes on the tab pane
      *
      * @property {array} attributeBindings
