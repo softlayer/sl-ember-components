@@ -85,7 +85,7 @@ export default Ember.Mixin.create( {
          * @method actions.closeFilterTab
          */
         closeFilterTab: function() {
-            this.send( 'collapseTabPanel' );
+            this.send( 'toggleFilter' );
         },
 
         /**
@@ -98,9 +98,6 @@ export default Ember.Mixin.create( {
 
             this.set( 'filterApplied', false );
 
-            Ember.run.next( function() {
-                self.send( 'updateTabPanelHeight' );
-            });
         }
     }
 
