@@ -25,6 +25,7 @@ Router.map(function() {
     this.route( 'sl-pagination-per-page-select' );
     this.route( 'sl-panel' );
     this.route( 'sl-progress-bar' );
+    this.route( 'sl-radio' );
     this.route( 'sl-radio-group' );
     this.route( 'sl-select' );
     this.route( 'sl-simple-modal' );
