@@ -272,7 +272,7 @@ export default Ember.Component.extend({
         }, this );
 
         return currentIndex;
-    },
+    }.property().volatile(),
 
     /**
      * Initialize children array
