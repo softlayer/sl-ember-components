@@ -18,25 +18,25 @@ export default Ember.Mixin.create( {
          *
          * @method actions.applyFilter
          */
-        applyFilter: function () {
-            var filters = this.get( 'filters' ),
+        applyFilter: function() {
+            var filters     = this.get( 'filters' ),
                 gridFilters = this.get( 'gridFilterProperties' ),
-                self = this;
+                self        = this;
 
             gridFilters.clear();
 
             Ember.keys( filters ).forEach( function( key ) {
                 var filter = self.get( 'filters.' + key );
 
-                if ( Ember.get( filter, 'value' )) {
+                if ( Ember.get( filter, 'value' ) ) {
                     gridFilters.pushObject( filter );
                 }
             });
 
-            if( gridFilters.length ){
+            if( gridFilters.length ) {
                 this.set( 'filterApplied', true );
             }
-       },
+        },
 
         /**
          * Clear all the grid filter settings
@@ -45,9 +45,9 @@ export default Ember.Mixin.create( {
          */
         clearAll: function() {
             var gridFilters = this.get( 'gridFilterProperties' ),
-                self = this;
+                self        = this;
 
-            Ember.keys( this.get( 'filters' )).forEach( function( key ) {
+            Ember.keys( this.get( 'filters' ) ).forEach( function( key ) {
                 var filter = self.get( 'filters' )[ key ];
 
                 Ember.set( filter, 'value', null );
@@ -64,15 +64,14 @@ export default Ember.Mixin.create( {
          * @param {string} key - The key for the filter to clear
          */
         clearFilter: function( key ) {
-            var filter = this.get( 'filters.' + key ),
+            var filter      = this.get( 'filters.' + key ),
                 gridFilters = this.get( 'gridFilterProperties' ),
-                self = this;
+                self        = this;
 
             gridFilters.removeObject( filter );
             this.set( 'filters.' + key + '.value', null );
 
-            if ( !gridFilters.get( 'length' )) {
-
+            if ( !gridFilters.get( 'length' ) ) {
                 Ember.run.next( function() {
                     self.set( 'filterApplied', false );
                 });
