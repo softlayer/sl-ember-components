@@ -284,6 +284,7 @@ export default Ember.Component.extend({
     }.on( 'didInsertElement' ),
 
     /**
+     * Initialize keyboard event listeners
      *
      * @method initKeyListeners
      */
