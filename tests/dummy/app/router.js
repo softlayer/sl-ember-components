@@ -8,7 +8,6 @@ var Router = Ember.Router.extend({
 Router.map(function() {
     this.route( 'index', { path: '/' });
 
-    this.route( 'pagination' );
     this.route( 'sl-alert' );
     this.route( 'sl-button' );
     this.route( 'sl-calendar' );
@@ -26,6 +25,7 @@ Router.map(function() {
     this.route( 'sl-pagination-per-page-select' );
     this.route( 'sl-panel' );
     this.route( 'sl-progress-bar' );
+    this.route( 'sl-radio' );
     this.route( 'sl-radio-group' );
     this.route( 'sl-select' );
     this.route( 'sl-simple-modal' );

@@ -69,9 +69,12 @@ export default Ember.Component.extend({
         /**
          * Cycle rootNode selection forward
          *
-         * Only cycles through rootNodes if node was initially selected via
-         * keyboard. If last rootNode then moves forward to "Show All" option.
-         * If "Show All" option wraps around to first option.
+         * Only cycles through rootNodes if node was initially selected via keyboard.
+         * If "Show All" enabled:
+         *     If last rootNode then moves forward to "Show All" option.
+         *     If "Show All" option wraps around to first option.
+         * If "Show All" disabled:
+         *     If last rootNode then wraps around to first option.
          *
          * @method cylceRootSelectionNext
          */
@@ -82,32 +85,50 @@ export default Ember.Component.extend({
                 return;
             }
 
-            // Not on "Show All"
-            if ( null !== currentIndex ) {
+            // Whether "Show All" is enabled
+            if ( this.get( 'showAllBoolean' ) ) {
 
-                // Cycling forward, wrapping around last option to first option
-                if ( this.get( 'rootNode.menu.pages.length' ) < currentIndex + 2 ) {
-                    this.send( 'showAll' );
-                    this.set( 'activeChild', null );
+                // Not on "Show All"
+                if ( null !== currentIndex ) {
 
-                // Cycle forward, selecting next rootNode
+                    // Cycling forward, wrapping around last option to first option
+                    if ( this.get( 'rootNode.menu.pages.length' ) < currentIndex + 2 ) {
+                        this.send( 'showAll' );
+                        this.set( 'activeChild', null );
+
+                    // Cycle forward, selecting next rootNode
+                    } else {
+                        this.childSelected( currentIndex + 2 );
+                    }
+
+                // Select first rootNode
                 } else {
-                    this.childSelected( currentIndex + 2 );
+                    this.childSelected( 1 );
                 }
 
-            // Select first rootNode
             } else {
-                this.childSelected( 1 );
+
+                // Cycle forward, wrapping around last option to first option
+                if ( this.get( 'rootNode.menu.pages.length' ) < currentIndex + 2 ) {
+                    // Select first rootNode
+                    this.childSelected( 1 );
+
+                } else {
+                    // Cycle forward, selecting next rootNode
+                    this.childSelected( currentIndex + 2 );
+                }
             }
         },
 
         /**
          * Cycle rootNode selection backwards
          *
-         * Only cycles through rootNodes if node was initially selected via
-         * keyboard. If first rootNode then wraps around to "Show All" option.
-         * If "Show All" option moves backward to previous option
-         *
+         * Only cycles through rootNodes if node was initially selected via keyboard.
+         * If "Show All" enabled:
+         *     If first rootNode then wraps around to "Show All" option.
+         *     If "Show All" option moves backward to previous option
+         * If "Show All" disabled:
+         *     If first rootNode then wraps around to last option.
          * @method cycleRootSelectionPrevious
          */
         cycleRootSelectionPrevious: function() {
@@ -117,22 +138,38 @@ export default Ember.Component.extend({
                 return;
             }
 
-            // Not on "Show All"
-            if ( null !== currentIndex ) {
+            // Whether "Show All" is enabled
+            if ( this.get( 'showAllBoolean' ) ) {
 
-                // Cycling backwards, wrapping around first option to last option
-                if ( 0 === currentIndex ) {
-                    this.send( 'showAll' );
-                    this.set( 'activeChild', null );
+                // Not on "Show All"
+                if ( null !== currentIndex ) {
 
-                // Cycle backwards, selecting previous rootNode
+                    // Cycling backwards, wrapping around first option to last option
+                    if ( 0 === currentIndex ) {
+                        this.send( 'showAll' );
+                        this.set( 'activeChild', null );
+
+                    // Cycle backwards, selecting previous rootNode
+                    } else {
+                        this.childSelected( currentIndex );
+                    }
+
+                // Select last rootNode
                 } else {
-                    this.childSelected( currentIndex );
+                    this.childSelected( this.get( 'rootNode.menu.pages' ).length );
                 }
 
-            // Select last rootNode
             } else {
-                this.childSelected( this.get( 'rootNode.menu.pages' ).length );
+
+                // Cycle backwards, wrapping around first option to last option
+                if ( 0 === currentIndex ) {
+                    // Select last rootNode
+                    this.childSelected( this.get( 'rootNode.menu.pages.length' ) );
+
+                } else {
+                    // Cycle backward, selecting previous rootNode
+                    this.childSelected( currentIndex );
+                }
             }
         },
 
@@ -272,7 +309,7 @@ export default Ember.Component.extend({
         }, this );
 
         return currentIndex;
-    },
+    }.property().volatile(),
 
     /**
      * Initialize children array
@@ -284,6 +321,7 @@ export default Ember.Component.extend({
     }.on( 'didInsertElement' ),
 
     /**
+     * Initialize keyboard event listeners
      *
      * @method initKeyListeners
      */
@@ -358,6 +396,32 @@ export default Ember.Component.extend({
      * @default false
      */
     keyboardInUse: false,
+
+    /**
+     * Is "Show All" icon and functionalty desired?
+     *
+     * @param {boolean} showAll
+     * @default false
+     */
+    showAll: 'false',
+
+    /**
+     * Boolean representation of showAll property
+     *
+     * @return {boolean}
+     */
+    showAllBoolean: function() {
+        return ( 'true' === this.get( 'showAll' ) ) ? true : false;
+    }.property( 'showAll' ),
+
+    /**
+     * Whether to display the AllView view
+     *
+     * @return {boolean}
+     */
+    displayShowAll: function() {
+        return this.get( 'isRoot' ) && this.get( 'showAllBoolean' );
+    }.property( 'isRoot', 'showAllBoolean' ),
 
     /**
      * Method triggered on mouseenter event

@@ -12,21 +12,4 @@
     </label>
 {{/if}}
 
-{{#each option in content}}
-    {{#if inline}}
-        <label class="radio-inline" {{bind-attr class=":radio-inline"}}>
-    {{else}}
-        <div class="radio">
-            <label>
-    {{/if}}
-
-    <input {{action "change" option.value on="change"}} {{bind-attr disabled=option.disabled name=view.name readonly=view.readonly value=option.value}} type="radio" />
-    {{option.label}}
-
-    {{#if inline}}
-        </label>
-    {{else}}
-            </label>
-        </div>
-    {{/if}}
-{{/each}}
+{{yield}}
