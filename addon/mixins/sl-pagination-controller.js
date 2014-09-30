@@ -156,7 +156,7 @@ export default Ember.Mixin.create({
      */
     resetCurrentPage: function() {
         this.set( 'currentPage', 1 );
-    }.observes( 'itemCountPerPage' )
+    }.observes( 'itemCountPerPage' ),
 
     /**
      * Update metaData properties when relevant values is changed

@@ -361,6 +361,32 @@ export default Ember.Component.extend({
     keyboardInUse: false,
 
     /**
+     * Is "Show All" icon and functionalty desired?
+     *
+     * @param {boolean} showAll
+     * @default false
+     */
+    showAll: 'false',
+
+    /**
+     * Boolean representation of showAll property
+     *
+     * @return {boolean}
+     */
+    showAllBoolean: function() {
+        return ( 'true' === this.get( 'showAll' ) ) ? true : false;
+    }.property( 'showAll' ),
+
+    /**
+     * Whether to display the AllView view
+     *
+     * @return {boolean}
+     */
+    displayShowAll: function() {
+        return this.get( 'isRoot' ) && this.get( 'showAllBoolean' );
+    }.property( 'isRoot', 'showAllBoolean' ),
+
+    /**
      * Method triggered on mouseenter event
      *
      * @method mouseEnter
