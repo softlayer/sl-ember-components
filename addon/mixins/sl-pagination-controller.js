@@ -61,7 +61,7 @@ export default Ember.Mixin.create({
          *
          * @method actions.changePerPage
          */
-        changePerPage: function( perPage ){
+        changePerPage: function( perPage ) {
             perPage = parseInt( perPage );
             perPage = isNaN( perPage ) ? this.get( 'perPageOptions.firstObject' ) : perPage;
             this.set( 'itemCountPerPage', perPage );
@@ -74,14 +74,14 @@ export default Ember.Mixin.create({
      * @property {mixed} arrangedContent
      */
     arrangedContent: function() {
-        var self = this,
-            content = this._super(),
-            currentPage = parseInt( this.get( 'currentPage' )),
-            itemCount = parseInt( this.get( 'itemCountPerPage' )),
-            start = ( currentPage - 1 ) * itemCount,
-            end = start + itemCount;
+        var self        = this,
+            content     = this._super(),
+            currentPage = parseInt( this.get( 'currentPage' ) ),
+            itemCount   = parseInt( this.get( 'itemCountPerPage' ) ),
+            start       = ( currentPage - 1 ) * itemCount,
+            end         = start + itemCount;
 
-        if ( content.then && ( !content.isFulfilled && !content.isRejected )) {
+        if ( content.then && ( !content.isFulfilled && !content.isRejected ) ) {
             content.then( function() {
                 self.notifyPropertyChange( 'content' );
             });
@@ -112,21 +112,21 @@ export default Ember.Mixin.create({
      */
     pagingData: function() {
         var pageNumber = this.get( 'currentPage' ) - 1,
-            pageCount = this.getWithDefault( 'metaData.pageCount', null ),
-            total = this.getWithDefault( 'metaData.total', null ),
-            perPage = this.get( 'itemCountPerPage' ),
+            pageCount  = this.getWithDefault( 'metaData.pageCount', null ),
+            total      = this.getWithDefault( 'metaData.total', null ),
+            perPage    = this.get( 'itemCountPerPage' ),
             totalPages = this.getWithDefault( 'metaData.totalPages', 1 ),
-            firstRow = pageNumber * perPage + 1;
+            firstRow   = pageNumber * perPage + 1;
 
         return {
-            pageFirstRow: firstRow,
-            pageLastRow: firstRow + pageCount - 1,
-            totalRows: total,
-            totalPages: totalPages,
-            perPageOptions: this.get( 'perPageOptions' ),
-            itemCountPerPage: this.get( 'itemCountPerPage' ),
-            currentPage: this.get( 'currentPage' ),
-            modelNames: this.get( 'metaData.modelNames' )
+            pageFirstRow     : firstRow,
+            pageLastRow      : firstRow + pageCount - 1,
+            totalRows        : total,
+            totalPages       : totalPages,
+            perPageOptions   : this.get( 'perPageOptions' ),
+            itemCountPerPage : this.get( 'itemCountPerPage' ),
+            currentPage      : this.get( 'currentPage' ),
+            modelNames       : this.get( 'metaData.modelNames' )
         };
     }.property(
         'currentPage',
@@ -164,12 +164,12 @@ export default Ember.Mixin.create({
      * @method setupMetaData
      */
     updateMetaData: function() {
-        var total = parseInt( this.get( 'metaData.total' )),
-            itemCount = parseInt( this.get( 'itemCountPerPage' )),
+        var total       = parseInt( this.get( 'metaData.total' )),
+            itemCount   = parseInt( this.get( 'itemCountPerPage' )),
             currentPage = parseInt( this.get( 'currentPage' )),
-            start = ( currentPage - 1 ) * itemCount,
-            end = start + itemCount,
-            pageCount = ( start + end ) < total ? itemCount : total - start;
+            start       = ( currentPage - 1 ) * itemCount,
+            end         = start + itemCount,
+            pageCount   = ( start + end ) < total ? itemCount : total - start;
 
         this.setProperties({
             'metaData.pageCount': pageCount,
