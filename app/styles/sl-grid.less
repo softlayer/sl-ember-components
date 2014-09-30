@@ -134,11 +134,12 @@ table.sl-grid.table {
     background-color: @gray-light;
     opacity: 0.75;
     z-index: 1000;
+
     &::after {
-        -webkit-animation: spin 1s infinite linear;
-        -moz-animation: spin 1s infinite linear;
-        -o-animation: spin 1s infinite linear;
-        animation: spin 1s infinite linear;
+        -webkit-animation: fa-spin 1s infinite linear;
+        -moz-animation: fa-spin 1s infinite linear;
+        -o-animation: fa-spin 1s infinite linear;
+        animation: fa-spin 1s infinite linear;
         background-image: url(images/spinner-dark.png);
         background-position: center;
         background-repeat: no-repeat;
@@ -154,20 +155,21 @@ table.sl-grid.table {
         width: 32px;
     }
 }
+
 body > div.reordering {
-    display: inline-block;
     background-color: @gray-light;
+    display: inline-block;
+    opacity: 0.75;
     position: absolute;
     z-index: 1000;
-    opacity: 0.75;
 }
 
 body.reordering {
-    -webkit-user-select: none;
+    cursor: col-resize;
+    position: relative;
+    user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
-    user-select: none;
-    cursor:col-resize; 
-    position: relative;
+    -webkit-user-select: none;
 } 

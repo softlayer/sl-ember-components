@@ -9,24 +9,6 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
-     * Component actions hash
-     *
-     * @property {object} actions
-     */
-    actions: {
-
-        /**
-         * Action to take when a radio button has been changed
-         *
-         * @method actions.change
-         * @param {mixed} value - The value of the radio input that triggered change
-         */
-        change: function( value ) {
-            this.set( 'value', value );
-        }
-    },
-
-    /**
      * Attribute bindings for the component's root element
      *
      * @property {array} attributeBindings
@@ -39,6 +21,47 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @property {array} classNames
      */
     classNames: [ 'form-group', 'sl-radio-group' ],
+
+    /**
+     * Whether the radio buttons should be disabled
+     *
+     * @property {boolean} disabled
+     * @default false
+     */
+    disabled: false,
+
+    /**
+     * Initialize the group-wide options and setup child radio buttons
+     *
+     * @method initialize
+     */
+    initialize: function() {
+        var name = this.get( 'name' ),
+            isDisabled = this.get( 'disabled' ),
+            isInline = this.get( 'inline' ),
+            self = this;
+
+        this.$( '.sl-radio' ).each( function () {
+            var radio = Ember.$( this ),
+                input = Ember.$( 'input', radio );
+
+            input.attr( 'name', name );
+
+            if ( isDisabled ) {
+                radio.prop( 'disabled', true );
+                radio.addClass( 'disabled' );
+            }
+
+            if ( isInline ) {
+                radio.addClass( 'radio-inline' );
+                radio.removeClass( 'radio' );
+            }
+        });
+
+        this.$().on( 'sl-radio-group.changeValue', function( event, value ) {
+            self.set( 'value', value );
+        });
+    }.on( 'didInsertElement' ),
 
     /**
      * Whether the radio buttons should be put inline together

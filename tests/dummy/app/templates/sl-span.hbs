@@ -1,4 +1,4 @@
-<h2>Sl-Span</h2>
+<h2>sl-span</h2>
 <p class="lead">A wrapper to intelligently represent state for inline content.</p>
 
 <hr>
@@ -28,6 +28,10 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="value" required=true type="mixed"}}
+        The value to display once loaded/ready.
+    {{/property-text}}
+
     {{#property-text name="class" type="string"}}
         The <code>class</code> attribute to apply to the span.
     {{/property-text}}
@@ -36,7 +40,4 @@
         When true, a loading icon will be displayed in place of content.
     {{/property-text}}
 
-    {{#property-text name="value" required=true type="mixed"}}
-        The value to display once loaded/ready.
-    {{/property-text}}
 </div>

@@ -1,1 +1,5 @@
-{{yield}}
+{{#if templateName}}
+    {{render-tab-pane templateName}}
+{{else}}
+    {{yield}}
+{{/if}}

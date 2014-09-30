@@ -1,5 +1,7 @@
-<h2>Sl-Radio-Group</h2>
+<h2>sl-radio-group</h2>
 <p class="lead">A component that contains a group of "radio" type inputs. See <a href="http://getbootstrap.com/css/#forms-controls">Bootstrap - Supported controls</a>.</p>
+
+<p>The <em>sl-radio-group</em> component wraps a number of <em>sl-radio</em> components. See {{#link-to "sl-radio"}}sl-radio{{/link-to}} for radio-specific options.</p>
 
 <hr>
 
@@ -8,54 +10,43 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-radio-group
-    content=content
+        <pre>\{{#sl-radio-group
     label="Color selection"
     name="colorRadio"
     value=currentColor
-}}</pre>
-
-        <h6>Route</h6>
-        <pre>model: [
-    {
-        label: 'Red',
-        value: 'red'
-    }, {
-        label: 'Green',
-        value: 'green'
-    }, {
-        label: 'Blue',
-        value: 'blue'
-    }, {
-        label: 'Splorge',
-        disabled: true
-    }
-]</pre>
+}}
+    \{{sl-radio label="Red" value="red"}}
+    \{{sl-radio label="Green" value="green"}}
+    \{{sl-radio label="Blue" value="blue"}}
+    \{{sl-radio label="Splorge" disabled=true}}
+\{{/sl-radio-group}}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{sl-radio-group
-            content=content
+        {{#sl-radio-group
             label="Color selection"
             name="colorRadio"
             value=currentColor
         }}
+            {{sl-radio label="Red" value="red"}}
+            {{sl-radio label="Green" value="green"}}
+            {{sl-radio label="Blue" value="blue"}}
+            {{sl-radio label="Splorge" disabled=true}}
+        {{/sl-radio-group}}
+
+        <h4>Current color: {{currentColor}}</h4>
     </div>
 </div>
 
+
 <hr>
 
-<h3>Properties</h3>
+<h3>sl-radio-group Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="content" required=true type="array"}}
-        Radio option definitions. Each item can have the following properties:
-        <ul>
-            <li><strong>disabled</strong> - <code>disabled</code> attribute value</li>
-            <li><strong class="text-danger">label <small>(required)</small></strong> - Text label for the radio button</li>
-            <li><strong class="text-danger">value <small>(required)</small></strong> - <code>value</code> attribute value</li>
-        </ul>
+    {{#property-text name="name" required=true type="string"}}
+        Shared <code>name</code> attribute for the radio inputs. The child <em>sl-radio</em> components should not set their own <code>name</code> properties, as the <em>sl-radio-group</em> should do the setting for them directly.
     {{/property-text}}
 
     {{#property-text name="disabled" type="boolean" default="false"}}
@@ -68,10 +59,6 @@
 
     {{#property-text name="label" type="string"}}
         Text label for radio group as a whole.
-    {{/property-text}}
-
-    {{#property-text name="name" required=true type="string"}}
-        Shared <code>name</code> attribute for the radio inputs.
     {{/property-text}}
 
     {{#property-text name="optional" type="boolean" default="false"}}

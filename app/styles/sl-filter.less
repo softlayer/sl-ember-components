@@ -1,9 +1,17 @@
-div.filter-term {
-    float:left;
-    margin: 5px;
-    padding: 10px;
-	background-color: @gray-lightest;
+div.filter-panel {
+    background-color: @gray-lightest;
+    display: none;
 }
-div.filter-term:first-of-type {
-    margin-left: 10px;
+div.filter-panel.visible {
+    display: block;
+}
+div.filter-term {
+    background-color: @gray-lightest;
+    float: left;
+    margin: @padding-base-vertical;
+    padding: @padding-base-horizontal;
+
+    &:first-of-type {
+        margin-left: @padding-base-horizontal;
+    }
 }
