@@ -94,11 +94,7 @@ export default Ember.Mixin.create( {
          * @method actions.modifyFilter
          */
         modifyFilter: function() {
-            var self = this;
-
             this.set( 'filterApplied', false );
-
         }
     }
-
 });
