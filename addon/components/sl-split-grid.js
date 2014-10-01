@@ -7,6 +7,13 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     /**
+     * Class names for the root element
+     *
+     * @property {array} classNames
+     */
+    classNames: [ 'sl-split-grid' ],
+
+    /**
      * HTML tag name of the root element
      *
      * @property {string} tagName

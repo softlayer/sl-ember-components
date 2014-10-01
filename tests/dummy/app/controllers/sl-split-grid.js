@@ -7,10 +7,12 @@ export default Ember.ArrayController.extend({
             title: 'Color'
         }, {
             path: 'fruit',
-            title: 'Fruit'
+            title: 'Fruit',
+            width: 100
         }, {
             path: 'hexCode',
-            title: 'Hex Code'
+            title: 'Hex Code',
+            width: 150
         }
     ]
 });

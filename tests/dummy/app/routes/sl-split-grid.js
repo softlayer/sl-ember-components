@@ -4,28 +4,28 @@ export default Ember.Route.extend({
     model: function() {
         return [
             {
-                name: 'red',
-                fruit: 'apple',
+                name: 'Red',
+                fruit: 'Apple',
                 hexCode: '#ff0000'
             }, {
-                name: 'orange',
-                fruit: 'orange',
+                name: 'Orange',
+                fruit: 'Orange',
                 hexCode: '#ff7700'
             }, {
-                name: 'yellow',
-                fruit: 'banana',
+                name: 'Yellow',
+                fruit: 'Banana',
                 hexCode: '#ffff00'
             }, {
-                name: 'green',
-                fruit: 'lime',
+                name: 'Green',
+                fruit: 'Lime',
                 hexCode: '#00ff00'
             }, {
-                name: 'blue',
-                fruit: 'blueberry',
+                name: 'Blue',
+                fruit: 'Blueberry',
                 hexCode: '#0000ff'
             }, {
-                name: 'purple',
-                fruit: 'grape',
+                name: 'Purple',
+                fruit: 'Grape',
                 hexCode: '#ff00ff'
             }
         ];
