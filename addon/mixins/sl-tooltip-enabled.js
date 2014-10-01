@@ -7,7 +7,7 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
 
     /**
-     * Enables the tooltip functionality, based on component's `title` attribute
+     * Enable the tooltip functionality, based on component's `title` attribute
      *
      * @method enableTooltip
      */
@@ -15,7 +15,7 @@ export default Ember.Mixin.create({
         var popoverContent = this.get( 'popover' ),
             title = this.get( 'title' );
 
-        if ( !popoverContent && !title ) {
+        if ( !title ) {
             return;
         }
 
@@ -25,7 +25,7 @@ export default Ember.Mixin.create({
                 content: popoverContent,
                 placement: 'top'
             });
-        } else if ( title ) {
+        } else {
             this.set( 'data-toggle', 'tooltip' );
             this.$().tooltip({
                 container: 'body',
