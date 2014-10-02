@@ -34,6 +34,8 @@ Router.map(function() {
     this.route( 'sl-tab-panel' );
     this.route( 'sl-textarea' );
     this.route( 'sl-tooltip' );
+
+    this.route( 'split-grid' );
 });
 
 export default Router;

@@ -3,7 +3,36 @@
         background-color: @gray-light;
     }
 
-    .sl-split-grid-footer {
-        background-color: @gray-light;
+    .sl-split-grid-head {
+        margin-bottom: 0;
+    }
+
+    .sl-split-grid-body {
+        overflow-y: scroll;
+
+        table {
+            margin-bottom: 0;
+            table-layout: fixed;
+
+            tr {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .sl-column-tiny {
+        width: 150px;
+    }
+
+    .sl-column-small {
+        width: 300px;
+    }
+
+    .sl-column-medium {
+        width: 450px;
+    }
+
+    .sl-column-large {
+        width: 600px;
     }
 }
