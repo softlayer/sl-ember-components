@@ -28,7 +28,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      *
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'themeClassName' ],
+    classNameBindings: [ 'sizeClass', 'themeClass' ],
 
     /**
      * Class names to apply to the button
@@ -131,6 +131,20 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     }.on( 'init' ),
 
     /**
+     * Converted size string to Bootstrap button class
+     *
+     * @property {string} sizeClass
+     * @default undefined
+     */
+    sizeClass: function() {
+        var size = this.get( 'size' );
+
+        if ( size ) {
+            return 'btn-' + size;
+        }
+    }.property( 'size' ),
+
+    /**
      * The root component element
      *
      * @property {string} tagName
@@ -147,12 +161,12 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     theme: 'default',
 
     /**
-     * Assemble the button theme's class name
+     * Converted theme string to Bootstrap button class
      *
-     * @property {string} themeClassName
+     * @property {string} themeClass
      * @default "btn-default"
      */
-    themeClassName: function () {
+    themeClass: function () {
         return 'btn-' + this.get( 'theme' );
     }.property( 'theme' )
 });

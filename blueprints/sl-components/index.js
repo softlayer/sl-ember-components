@@ -1,32 +1,32 @@
 /* globals module */
 
 module.exports = {
-    afterInstall: function () {
+    afterInstall: function() {
         var self = this;
 
         return this.addBowerPackageToProject( 'bootstrap-datepicker' )
-            .then(function () {
+            .then( function() {
                 return self.addBowerPackageToProject( 'momentjs' );
             })
-            .then(function () {
+            .then( function() {
                 return self.addBowerPackageToProject( 'fontawesome' );
             })
-            .then(function () {
+            .then( function() {
                 return self.addBowerPackageToProject( 'highcharts' );
             })
-            .then(function () {
+            .then( function() {
                 return self.addBowerPackageToProject( 'moment' );
             })
-            .then(function () {
+            .then( function() {
                 return self.addBowerPackageToProject( 'moment-timezone' );
             })
-            .then(function () {
+            .then( function() {
                 return self.addBowerPackageToProject( 'select2' );
             })
-            .then(function () {
+            .then( function() {
                 return self.addBowerPackageToProject( 'typeahead.js' );
             });
     },
 
-    normalizeEntityName: function () {}
+    normalizeEntityName: function() {}
 };
