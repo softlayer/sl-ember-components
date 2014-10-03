@@ -36,7 +36,7 @@
 
                         {{#if rowActions}}
                             <td {{bind-attr style=actionsColumnStyle}}>
-                                {{#sl-drop-button class="btn-sm" label=actionsButtonLabel}}
+                                {{#sl-drop-button label=actionsButtonLabel size="sm"}}
                                     {{#each rowAction in rowActions}}
                                         {{sl-drop-option action=rowAction.action label=rowAction.label}}
                                     {{/each}}
