@@ -1,5 +1,29 @@
 .sl-split-grid {
-    .sl-split-grid-header {
+
+    &.details-open {
+        .sl-split-grid-list-pane {
+            width: 20%;
+
+            tr {
+                th:first-of-type,
+                td:first-of-type {
+                    width: 100%;
+                }
+
+                th:not(:first-of-type),
+                td:not(:first-of-type) {
+                    display: none;
+                }
+            }
+        }
+
+        .sl-split-grid-detail-pane {
+            display: inline-block;
+            width: 80%;
+        }
+    }
+
+    header {
         background-color: @gray-lighter;
         border-bottom: 1px solid @gray-light;
     }
@@ -13,16 +37,40 @@
         }
     }
 
-    .sl-split-grid-body {
-        overflow-y: scroll;
+    .sl-split-grid-list-pane {
+        float: left;
+        width: 100%;
 
-        table {
+        .sl-split-grid-body {
             margin-bottom: 0;
+            overflow-y: scroll;
             table-layout: fixed;
 
             tr {
                 cursor: pointer;
             }
+        }
+    }
+
+    .sl-split-grid-detail-pane {
+        background-color: @gray-white;
+        border-left: 1px solid @gray-light;
+        display: none;
+        position: relative;
+
+        header {
+            background-color: @gray-lightest;
+            height: 33px;
+            line-height: 33px;
+            padding: 0 0.5em;
+
+            .close-button {
+                float: right;
+            }
+        }
+
+        .content {
+            padding: 0.5em;
         }
     }
 

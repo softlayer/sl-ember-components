@@ -1,16 +1,16 @@
-<div class="sl-split-grid-header">
+<header>
     <div class="row">
         <div class="col-sm-6">
-            <span class="sl-split-grid-title">{{title}}</span>
+            <span class="title">{{title}}</span>
         </div>
 
         <div class="col-sm-6 text-right">
             {{#sl-button}}Filter{{/sl-button}}
         </div>
     </div>
-</div>
+</header>
 
-<div class="sl-split-grid-content">
+<div class="sl-split-grid-list-pane">
     <table class="table sl-split-grid-head">
         <thead>
             <tr>
@@ -25,13 +25,15 @@
         </thead>
     </table>
 
-    <div class="sl-split-grid-body">
+    <div class="sl-split-grid-body content">
         <table class="table table-hover">
             <tbody>
                 {{#each row in content itemController="sl-split-grid-row"}}
-                    <tr>
+                    <tr {{action "openDetailsPane" row on="click"}}>
                         {{#each column in columns itemController="sl-split-grid-column"}}
-                            <td {{bind-attr class="column.primaryClass column.sizeClass" style=column.style}}>{{split-grid-cell-value}}</td>
+                            <td {{bind-attr class="column.sizeClass" style=column.style}}>
+                                {{split-grid-cell-value}}
+                            </td>
                         {{/each}}
 
                         {{#if rowActions}}
@@ -47,5 +49,16 @@
                 {{/each}}
             </tbody>
         </table>
+    </div>
+</div>
+
+<div class="sl-split-grid-detail-pane">
+    <header>
+        <span class="title">Detail Pane</span>
+        <a {{action "closeDetailsPane"}} class="btn close-button">&times;</a>
+    </header>
+
+    <div class="content">
+        <p>Content goes here</p>
     </div>
 </div>

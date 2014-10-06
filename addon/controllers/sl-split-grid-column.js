@@ -6,12 +6,11 @@ import Ember from 'ember';
  */
 export default Ember.ObjectController.extend({
 
-    primaryClass: function() {
-        if ( this.get( 'primary' )) {
-            return 'text-primary';
-        }
-    }.property( 'primary' ),
-
+    /**
+     * Converted class name string from size string
+     *
+     * @property {string} sizeClass
+     */
     sizeClass: function() {
         var size = this.get( 'size' );
 

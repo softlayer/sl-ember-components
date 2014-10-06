@@ -8,6 +8,33 @@ import template from '../templates/components/sl-split-grid';
 export default Ember.Component.extend({
 
     /**
+     * Component actions hash
+     *
+     * @property {object} actions
+     */
+    actions: {
+
+        /**
+         * Close the details pane
+         *
+         * @method actions.closeDetailsPane
+         */
+        closeDetailsPane: function() {
+            this.set( 'detailsOpen', false );
+        },
+
+        /**
+         * Open the details pane with a specific row object
+         *
+         * @method actions.openDetailsPane
+         * @param {object} row - The object that the clicked row represents
+         */
+        openDetailsPane: function( row ) {
+            this.set( 'detailsOpen', true );
+        }
+    },
+
+    /**
      * The text label for the rows' actions buttons
      *
      * @property {string} actionsButtonLabel
@@ -33,12 +60,11 @@ export default Ember.Component.extend({
     actionsColumnWidth: 120,
 
     /**
-     * The overall height of the split-grid, in pixels
+     * Class name bindings for the root element
      *
-     * @property {number} height
-     * @default 600
+     * @property {array} classNameBindings
      */
-    bodyHeight: 600,
+    classNameBindings: [ 'detailsOpen:details-open' ],
 
     /**
      * Class names for the root element
@@ -46,6 +72,22 @@ export default Ember.Component.extend({
      * @property {array} classNames
      */
     classNames: [ 'sl-split-grid' ],
+
+    /**
+     * The height of the split-grid content areas, in pixels
+     *
+     * @property {number} contentHeight
+     * @default 600
+     */
+    contentHeight: 600,
+
+    /**
+     * Indicates when the details pane is open
+     *
+     * @property {boolean} detailsOpen
+     * @default false
+     */
+    detailsOpen: false,
 
     /**
      * The component's layout template
@@ -60,7 +102,7 @@ export default Ember.Component.extend({
      * @method resize
      */
     resize: function() {
-        this.$( '.sl-split-grid-body' ).height( this.get( 'bodyHeight' ));
+        this.$( '.content' ).height( this.get( 'contentHeight' ));
     }.observes( 'bodyHeight' ).on( 'didInsertElement' ),
 
     /**
