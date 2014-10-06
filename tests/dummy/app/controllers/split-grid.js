@@ -35,22 +35,5 @@ export default Ember.ArrayController.extend({
 
     setupUpdateGridHeight: function() {
         Ember.$( window ).on( 'resize', this.updateGridHeight );
-    }.on( 'init' ),
-
-    updateGridHeight: function() {
-        // TEMP: This is just a proof of concept for dynamically sizing the
-        // sl-split-grid-body's height dependending on viewport and other
-        // elements. This logic will eventually be optionally built into the
-        // component itself.
-
-        setTimeout( function() {
-            var viewportHeight = Ember.$( window ).innerHeight(),
-                topPosition = Ember.$( '.sl-split-grid' ).position().top,
-                gridHeaderHeight = Ember.$( '.sl-split-grid-header' ).height(),
-                gridHeadHeight = Ember.$( '.sl-split-grid-head' ).height(),
-                newGridBodyHeight = Math.max( 0, viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight - 2 );
-
-            Ember.$( '.sl-split-grid-body' ).height( newGridBodyHeight );
-        }, 200 );
     }.on( 'init' )
 });

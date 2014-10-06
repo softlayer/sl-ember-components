@@ -60,6 +60,15 @@ export default Ember.Component.extend({
     actionsColumnWidth: 120,
 
     /**
+     * When true, the component's content areas will be automatically resized
+     * to the available viewport height when the viewport changes
+     *
+     * @property {boolean} autoResize
+     * @default true
+     */
+    autoResize: true,
+
+    /**
      * Class name bindings for the root element
      *
      * @property {array} classNameBindings
@@ -90,6 +99,18 @@ export default Ember.Component.extend({
     detailsOpen: false,
 
     /**
+     * Setup the auto resize of content height
+     *
+     * @method setupAutoResize
+     */
+    setupAutoResize: function() {
+        if ( this.get( 'autoResize' )) {
+            Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ));
+            this.updateContentHeight();
+        }
+    }.observes( 'autoResize' ).on( 'didInsertElement' ),
+
+    /**
      * The component's layout template
      *
      * @property {function} layout
@@ -97,13 +118,13 @@ export default Ember.Component.extend({
     layout: template,
 
     /**
-     * Resize the component to the set height value
+     * Resize the split-grid's content to the set height value
      *
-     * @method resize
+     * @method resizeContent
      */
-    resize: function() {
+    resizeContent: function() {
         this.$( '.content' ).height( this.get( 'contentHeight' ));
-    }.observes( 'bodyHeight' ).on( 'didInsertElement' ),
+    }.observes( 'contentHeight' ).on( 'didInsertElement' ),
 
     /**
      * HTML tag name of the root element
@@ -111,5 +132,20 @@ export default Ember.Component.extend({
      * @property {string} tagName
      * @default "div"
      */
-    tagName: 'div'
+    tagName: 'div',
+
+    /**
+     * Calculate the possible content height, based on available viewport space
+     *
+     * @method updateContentHeight
+     */
+    updateContentHeight: function() {
+        var viewportHeight = Ember.$( window ).innerHeight(),
+            topPosition = this.$().position().top,
+            gridHeaderHeight = parseInt( this.$( 'header' ).css( 'height' )),
+            gridHeadHeight = parseInt( this.$( '.sl-split-grid-head' ).css( 'height' )),
+            contentHeight = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight;
+
+        this.set( 'contentHeight', contentHeight );
+    }
 });
