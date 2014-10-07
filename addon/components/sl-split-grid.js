@@ -20,7 +20,17 @@ export default Ember.Component.extend({
          * @method actions.closeDetailsPane
          */
         closeDetailsPane: function() {
-            this.set( 'detailsOpen', false );
+            var activeRecord = this.get( 'activeRecord' );
+
+            if ( activeRecord ) {
+                Ember.set( activeRecord, 'active', false );
+                console.log( activeRecord );
+                this.set( 'activeRecord', null );
+            }
+
+            if ( this.get( 'detailsOpen' )) {
+                this.set( 'detailsOpen', false );
+            }
         },
 
         /**
@@ -30,7 +40,18 @@ export default Ember.Component.extend({
          * @param {object} row - The object that the clicked row represents
          */
         openDetailsPane: function( row ) {
-            this.set( 'detailsOpen', true );
+            var activeRecord = this.get( 'activeRecord' );
+
+            if ( activeRecord ) {
+                Ember.set( activeRecord, 'active', false );
+            }
+
+            Ember.set( row, 'active', true );
+            this.set( 'activeRecord', row );
+
+            if ( !this.get( 'detailsOpen' )) {
+                this.set( 'detailsOpen', true );
+            }
         }
     },
 
@@ -60,13 +81,21 @@ export default Ember.Component.extend({
     actionsColumnWidth: 120,
 
     /**
+     * The row record that is currently active in the detail pane
+     *
+     * @property {object} activeRecord
+     * @default null
+     */
+    activeRecord: null,
+
+    /**
      * When true, the component's content areas will be automatically resized
      * to the available viewport height when the viewport changes
      *
-     * @property {boolean} autoResize
+     * @property {boolean} autoHeight
      * @default true
      */
-    autoResize: true,
+    autoHeight: true,
 
     /**
      * Class name bindings for the root element
@@ -99,18 +128,6 @@ export default Ember.Component.extend({
     detailsOpen: false,
 
     /**
-     * Setup the auto resize of content height
-     *
-     * @method setupAutoResize
-     */
-    setupAutoResize: function() {
-        if ( this.get( 'autoResize' )) {
-            Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ));
-            this.updateContentHeight();
-        }
-    }.observes( 'autoResize' ).on( 'didInsertElement' ),
-
-    /**
      * The component's layout template
      *
      * @property {function} layout
@@ -125,6 +142,18 @@ export default Ember.Component.extend({
     resizeContent: function() {
         this.$( '.content' ).height( this.get( 'contentHeight' ));
     }.observes( 'contentHeight' ).on( 'didInsertElement' ),
+
+    /**
+     * Setup the auto resize of content height
+     *
+     * @method setupAutoResize
+     */
+    setupAutoResize: function() {
+        if ( this.get( 'autoHeight' )) {
+            Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ));
+            this.updateContentHeight();
+        }
+    }.observes( 'autoHeight' ).on( 'didInsertElement' ),
 
     /**
      * HTML tag name of the root element
