@@ -60,7 +60,9 @@
 
     <div class="content">
         <div class="detail-content">
-            {{detailTemplate}}
+            {{#with activeRecord}}
+                {{split-grid-detail-content}}
+            {{/with}}
         </div>
     </div>
 </div>
