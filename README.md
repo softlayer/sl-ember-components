@@ -1,33 +1,58 @@
+
+Ember CLI version: **0.0.46**
+
+NPM package name: **sl-component**
+
+License: [MIT](LICENSE.md)
+
+
+
 # sl-components
 
 The SoftLayer UI components library used for all Interface Ember projects.
 
 ---
 
-# Demo
 
-Run the addon as its own Ember app to view the demo pages.
 
-```sh
-ember serve
+
+# Working Demo
+
+## Installation
+
+* `git clone` this repository
+* `npm install`
+* `bower install`
+
+## Running
+
+* `ember server`
+* View the demo at http://localhost:4200
+
+For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
+
+
+# How to use this addon in your application
+
+## Install this addon as a Node module
+
+```
+npm install sl-translate
+
 ```
 
-You can also simply build it as an Ember app, then view the `dist/` folder, or change its `--output-path`.
+## Run its blueprint
 
-```sh
-ember build --output-path somewhere/else/
 ```
-
----
-
-# Using sl-components in an Ember app
-
-The sl-components library needs to be included as a Node module, then its blueprint should be run to properly pull in all dependency libraries.
-
-```sh
-npm install --save-dev git@gitlab.softlayer.local:interface/sl-components#develop
 ember generate sl-components
+
 ```
+
+
+
+
+
 
 ---
 
