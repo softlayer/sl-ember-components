@@ -33,15 +33,6 @@ export default Ember.Component.extend({
         },
 
         /**
-         * Close the filter pane
-         *
-         * @method actions.closeFilterPane
-         */
-        closeFilterPane: function() {
-            // TODO
-        },
-
-        /**
          * Open the details pane with a specific row object
          *
          * @method actions.openDetailsPane
@@ -63,12 +54,16 @@ export default Ember.Component.extend({
         },
 
         /**
-         * Open the filter pane
+         * Opens/closes the filter pane
          *
-         * @method actions.openFilterPane
+         * @method actions toggleFilterPane
          */
-        openFilterPane: function() {
-            // TODO
+        toggleFilterPane: function() {
+            this.set( 'filterOpen', !this.get( 'filterOpen' ));
+
+            if ( this.get( 'autoHeight' )) {
+                Ember.run.next( this.updateContentHeight.bind( this ));
+            }
         }
     },
 
@@ -136,6 +131,11 @@ export default Ember.Component.extend({
      */
     contentHeight: 600,
 
+    /**
+     * The desired title for the detail pane, based on `detailTitlePath`
+     *
+     * @property {string} detailTitle
+     */
     detailTitle: function() {
         return Ember.get( this.get( 'activeRecord' ), this.get( 'detailTitlePath' ));
     }.property( 'activeRecord', 'detailTitlePath' ),
@@ -147,6 +147,13 @@ export default Ember.Component.extend({
      * @default false
      */
     detailsOpen: false,
+
+    /**
+     * Indicates when the filter pane is open
+     *
+     * @property {boolean} filterOpen
+     */
+    filterOpen: false,
 
     /**
      * The component's layout template
@@ -194,7 +201,13 @@ export default Ember.Component.extend({
             topPosition = this.$().position().top,
             gridHeaderHeight = parseInt( this.$( 'header' ).css( 'height' )),
             gridHeadHeight = parseInt( this.$( '.sl-split-grid-head' ).css( 'height' )),
-            contentHeight = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight;
+            contentHeight = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight,
+            filterPaneHeight;
+
+        if ( this.get( 'filterOpen' )) {
+            filterPaneHeight = parseInt( this.$( '.sl-split-grid-filter-pane' ).css( 'height' ));
+            contentHeight -= filterPaneHeight;
+        }
 
         this.set( 'contentHeight', contentHeight );
     }

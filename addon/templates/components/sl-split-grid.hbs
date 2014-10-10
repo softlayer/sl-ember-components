@@ -5,10 +5,18 @@
         </div>
 
         <div class="col-sm-6 text-right">
-            {{#sl-button}}Filter{{/sl-button}}
+            {{#sl-button action="toggleFilterPane"}}Filter{{/sl-button}}
         </div>
     </div>
 </header>
+
+{{#if filterOpen}}
+    <div class="sl-split-grid-filter-pane">
+        <div class="filter-content">
+            Filter content goes here.
+        </div>
+    </div>
+{{/if}}
 
 <div class="sl-split-grid-list-pane">
     <table class="table sl-split-grid-head">
