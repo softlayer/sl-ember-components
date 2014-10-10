@@ -9,8 +9,11 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{sl-split-grid
-    columns=splitGridColumns
-    rows=content
+    columns=columns
+    content=content
+    detailTemplate="color"
+    detailTitlePath="name"
+    title="Colors"
 }}</pre>
 
         <h6>Route</h6>
@@ -43,18 +46,18 @@
 ]</pre>
 
         <h6>Controller</h6>
-        <pre>splitGridColumns: [
+        <pre>columns: [
     {
         path: 'name',
         title: 'Color'
     }, {
         path: 'fruit',
-        title: 'Fruit',
-        width: 100
+        size: 'tiny',
+        title: 'Fruit'
     }, {
         path: 'hexCode',
-        title: 'Hex Code',
-        width: 150
+        size: 'tiny',
+        title: 'Hex Code'
     }
 ]</pre>
     </div>
@@ -62,8 +65,11 @@
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{sl-split-grid
-            columns=splitGridColumns
-            rows=content
+            columns=columns
+            content=content
+            detailTemplate="color"
+            detailTitlePath="name"
+            title="Colors"
         }}
     </div>
 </div>
@@ -77,7 +83,19 @@
         An array of column definition objects.
     {{/property-text}}
 
-    {{#property-text name="rows" type="array" required=true}}
-        An array of records.
+    {{#property-text name="content" type="array" required=true}}
+        Array of records to display as the rows.
+    {{/property-text}}
+
+    {{#property-text name="detailTemplate" type="string" required=true}}
+        The name of the template to render for the detail pane.
+    {{/property-text}}
+
+    {{#property-text name="detailTitlePath" type="string" required=true}}
+        The name of the record's property to display as the title of the detail pane.
+    {{/property-text}}
+
+    {{#property-text name="title" type="string"}}
+        The title of the split-grid.
     {{/property-text}}
 </div>

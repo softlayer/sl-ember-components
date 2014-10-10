@@ -1,18 +1,18 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-    splitGridColumns: [
+    columns: [
         {
             path: 'name',
             title: 'Color'
         }, {
             path: 'fruit',
-            title: 'Fruit',
-            width: 100
+            size: 'tiny',
+            title: 'Fruit'
         }, {
             path: 'hexCode',
-            title: 'Hex Code',
-            width: 150
+            size: 'tiny',
+            title: 'Hex Code'
         }
     ]
 });
