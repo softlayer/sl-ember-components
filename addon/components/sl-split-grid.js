@@ -24,13 +24,21 @@ export default Ember.Component.extend({
 
             if ( activeRecord ) {
                 Ember.set( activeRecord, 'active', false );
-                console.log( activeRecord );
                 this.set( 'activeRecord', null );
             }
 
             if ( this.get( 'detailsOpen' )) {
                 this.set( 'detailsOpen', false );
             }
+        },
+
+        /**
+         * Close the filter pane
+         *
+         * @method actions.closeFilterPane
+         */
+        closeFilterPane: function() {
+            // TODO
         },
 
         /**
@@ -52,6 +60,15 @@ export default Ember.Component.extend({
             if ( !this.get( 'detailsOpen' )) {
                 this.set( 'detailsOpen', true );
             }
+        },
+
+        /**
+         * Open the filter pane
+         *
+         * @method actions.openFilterPane
+         */
+        openFilterPane: function() {
+            // TODO
         }
     },
 
@@ -118,6 +135,10 @@ export default Ember.Component.extend({
      * @default 600
      */
     contentHeight: 600,
+
+    detailTitle: function() {
+        return Ember.get( this.get( 'activeRecord' ), this.get( 'detailTitlePath' ));
+    }.property( 'activeRecord', 'detailTitlePath' ),
 
     /**
      * Indicates when the details pane is open
