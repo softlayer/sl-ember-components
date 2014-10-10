@@ -9,6 +9,7 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{sl-split-grid
+    autoHeight=false
     columns=columns
     content=content
     detailTemplate="color"
@@ -65,6 +66,7 @@
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{sl-split-grid
+            autoHeight=false
             columns=columns
             content=content
             detailTemplate="color"
@@ -93,6 +95,14 @@
 
     {{#property-text name="detailTitlePath" type="string" required=true}}
         The name of the record's property to display as the title of the detail pane.
+    {{/property-text}}
+
+    {{#property-text name="autoHeight" type="boolean" default="true"}}
+        Determines whether the content areas of the split-grid will dynamically calculate their allowed heights within the viewport when the window is resized. When false, the <code>height</code> property is used to determine the content areas' heights manually.
+    {{/property-text}}
+
+    {{#property-text name="height" type="number" default="600"}}
+        Determines the content areas' heights in pixels. Will only be used when <code>autoHeight</code> is <em>false</em>.
     {{/property-text}}
 
     {{#property-text name="title" type="string"}}
