@@ -5,7 +5,7 @@ NPM package name: **sl-components**
 
 License: [MIT](LICENSE.md)
 
-
+---
 
 # sl-components
 
@@ -31,7 +31,7 @@ The SoftLayer UI components library used for all Interface Ember projects.
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
 
-
+---
 
 # How to use this addon in your application
 
