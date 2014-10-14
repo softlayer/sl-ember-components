@@ -60,6 +60,133 @@ Other libraries that are not MIT licensed, though it should not pose a problem, 
 * [Bootstrap-Datepicker](https://github.com/eternicode/bootstrap-datepicker/blob/release/LICENSE)
 
 
+---
+
+# Supported browsers
+
+As not all of the components in sl-components are based upon the same third-party libraries it is possible that there is
+varying support for browser versions across the different components.
+
+Below is a list of each component's library dependencies. Beneath this list is the supported browsers for said libraries.
+
+* sl-alert
+    * Twitter Bootstrap
+* sl-button
+    * Twitter Bootstrap
+* sl-calendar
+    * sl-components
+* sl-chart
+    * Highcharts
+* sl-checkbox
+    * Twitter Bootstrap
+* sl-date-picker
+    * Bootstrap-Datepicker
+* sl-date-range-picker
+    * Bootstrap-Datepicker
+* sl-date-time
+    * sl-components
+* sl-drop-button
+    * Twitter Bootstrap
+* sl-input
+    * Twitter Bootstrap
+    * typeahead.js
+* sl-loading-icon
+    * sl-components
+* sl-menu
+    * sl-components
+* sl-pagination-controls
+    * sl-components
+* sl-pagination-info
+    * sl-components
+* sl-pagination-per-page-select
+    * sl-components
+    * Select2
+* sl-panel
+    * Twitter Bootstrap
+* sl-progress-bar
+    * sl-components
+* sl-radio
+    * sl-components
+* sl-radio-group
+    * Twitter Bootstrap
+* sl-select
+    * Select2
+* sl-simple-modal
+    * Twitter Bootstrap
+* sl-span
+    * sl-components
+* sl-tab-panel
+    * Twitter Bootstrap
+* sl-textarea
+    * sl-components
+* sl-tooltip
+    * Twitter Bootstrap
+
+
+### Twitter Bootstrap
+
+From http://getbootstrap.com/getting-started/#support
+
+Generally the latest versions of browsers are supported.  On Windows, Internet Explorer 8-11 are supported.
+
+See provided link for most up-to-date information.
+
+
+### sl-components
+
+Latest versions of browsers plus one version prior.
+
+
+
+### Highcharts
+
+From http://www.highcharts.com/products/highcharts/#compatible
+
+Works in all modern mobile and desktop browsers including the iPhone/iPad and Internet Explorer from version 6. On iOS
+and Android, multitouch support provides a seamless user experience. Standard browsers use SVG for the graphics
+rendering. In legacy Internet Explorer graphics are drawn using VML.
+
+See provided link for most up-to-date information.
+
+
+### Bootstrap-Datepicker
+
+From http://bootstrap-datepicker.readthedocs.org/en/release/#
+
+Has a dependency on Twitter Bootstrap so same support previously listed.
+
+See provided link for most up-to-date information.
+
+
+### typeahead.js
+
+From https://github.com/twitter/typeahead.js
+
+* Chrome
+* Firefox 3.5+
+* Safari 4+
+* Internet Explorer 7+
+* Opera 11+
+* Not tested on mobile browsers
+
+See provided link for most up-to-date information.
+
+
+### Select2
+
+From http://ivaynberg.github.io/select2/
+
+* IE 8+
+* Chrome 8+
+* Firefox 10+
+* Safari 3+
+* Opera 10.6+
+
+See provided link for most up-to-date information.
+
+
+
+
 
 ---
 
