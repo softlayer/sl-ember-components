@@ -15,7 +15,7 @@ A UI components library compatible with Ember.js.  Components included in this l
 * sl-alert
 * sl-button
 * sl-calendar
-* sl-chart (only free for non-commercial use without a [Highchart](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) license)
+* sl-chart (only free for non-commercial use without a [Highcharts](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) license)
 * sl-checkbox
 * sl-date-picker
 * sl-date-range-picker
