@@ -5,15 +5,45 @@ NPM package name: **sl-components**
 
 License: [MIT](LICENSE.md)
 
----
-
-# sl-components
-
-The SoftLayer UI components library used for all Interface Ember projects.
 
 ---
 
+# What sl-components is
 
+An Ember-ized implementation of a lot of the functionality provided by the [Twitter Bootstrap](http://getbootstrap.com/)
+project.
+
+The components provided by this library include:
+
+* sl-alert
+* sl-button
+* sl-calendar
+* sl-chart
+* sl-checkbox
+* sl-date-picker
+* sl-date-range-picker
+* sl-date-time
+* sl-drop-button
+* sl-input
+* sl-loading-icon
+* sl-menu
+* sl-pagination-controls
+* sl-pagination-info
+* sl-pagination-per-page-select
+* sl-panel
+* sl-progress-bar
+* sl-radio
+* sl-radio-group
+* sl-select
+* sl-simple-modal
+* sl-span
+* sl-tab-panel
+* sl-textarea
+* sl-tooltip
+
+
+
+---
 
 
 # Working Demo
@@ -30,6 +60,7 @@ The SoftLayer UI components library used for all Interface Ember projects.
 * View the demo at http://localhost:4200
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
 
 ---
 
