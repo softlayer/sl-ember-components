@@ -3,7 +3,7 @@ Ember CLI version: **0.0.46**
 
 NPM package name: **sl-components**
 
-License: [MIT](LICENSE.md)
+License: [MIT](LICENSE.md) (though see the "License Warning" section)
 
 
 ---
