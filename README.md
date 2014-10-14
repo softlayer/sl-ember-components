@@ -134,7 +134,7 @@ See provided link for most up-to-date information.
 
 ### sl-components
 
-Latest versions of browsers plus one version prior.
+Latest versions of browsers plus one version prior.  For version 1.0.0 Internet Explorer 10+ is supported.
 
 
 
