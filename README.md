@@ -10,10 +10,7 @@ License: [MIT](LICENSE.md)
 
 # What sl-components is
 
-An Ember-ized implementation of a lot of the functionality provided by the [Twitter Bootstrap](http://getbootstrap.com/)
-project.
-
-The components provided by this library include:
+A UI components library compatible with Ember.js.  Components included in this library include:
 
 * sl-alert
 * sl-button
@@ -40,6 +37,27 @@ The components provided by this library include:
 * sl-tab-panel
 * sl-textarea
 * sl-tooltip
+
+This functionality is provided through a combination of leveraging the best-of-breed of other component offerings as
+well as our own implementations when the existing offerings were deficient.  Existing offerings that were leveraged
+include:
+
+* [Twitter Bootstrap](http://getbootstrap.com/)
+* [Bootstrap-Datepicker](http://bootstrap-datepicker.readthedocs.org/en/release/#)
+* [Highcharts](http://www.highcharts.com/)
+* [Select2](http://ivaynberg.github.io/select2/)
+* [typeahead.js](https://twitter.github.io/typeahead.js/)
+
+## LICENSE WARNING
+
+While this library is MIT licensed not all of the 3rd-party component libraries are.  Specifically, Highcharts is only
+free for non-commercial use and requires a license for any other use. See
+[this FAQ page](http://shop.highsoft.com/faq/non-commercial#w hat-is-commercial-website) for more information.
+
+Other libraries that are not MIT licensed, though it should not pose a problem, are:
+
+* [Select2](https://github.com/ivaynberg/select2/blob/master/LICENSE)
+* [Bootstrap-Datepicker](https://github.com/eternicode/bootstrap-datepicker/blob/release/LICENSE)
 
 
 
