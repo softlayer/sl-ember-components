@@ -10,7 +10,12 @@ License: [MIT](LICENSE.md)
 
 # What sl-components is
 
-A UI components library compatible with Ember.js.  Components included in this library include:
+A UI components library compatible with Ember.js
+
+Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-components/ which
+is served from the *gh-pages* branch of this repository.
+
+Components in this library include:
 
 * sl-alert
 * sl-button
