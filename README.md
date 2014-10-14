@@ -230,6 +230,9 @@ ember generate sl-components
 
 ```
 
+## Examples and documentation on how to use each component
+
+Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-components/
 
 
 
