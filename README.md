@@ -15,7 +15,7 @@ A UI components library compatible with Ember.js.  Components included in this l
 * sl-alert
 * sl-button
 * sl-calendar
-* sl-chart
+* sl-chart (only free for non-commercial use without a [Highchart](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) license)
 * sl-checkbox
 * sl-date-picker
 * sl-date-range-picker
@@ -50,9 +50,9 @@ include:
 
 ## LICENSE WARNING
 
-While this library is MIT licensed not all of the 3rd-party component libraries are.  Specifically, Highcharts is only
+While this library is MIT licensed not all of the third-party component libraries are.  Specifically, Highcharts is only
 free for non-commercial use and requires a license for any other use. See
-[this FAQ page](http://shop.highsoft.com/faq/non-commercial#w hat-is-commercial-website) for more information.
+[this FAQ page](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) for more information.
 
 Other libraries that are not MIT licensed, though it should not pose a problem, are:
 
@@ -116,9 +116,21 @@ Employs [Semantic Versioning 2.0.0](http://semver.org/)
 ---
 
 # Copyright and License
-sl-components and its source files are Copyright © 2014 [SoftLayer Technologies, Inc.](http://www.softlayer.com/) The software is [MIT Licensed](LICENSE.md)
+sl-components and its source files are Copyright © 2014 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
+The software is [MIT Licensed](LICENSE.md)
+
+sl-components leverages several third-party libraries which are not all MIT licensed.  Specifically, Highcharts is only
+free for non-commercial use and requires a license for any other use. See
+[this FAQ page](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) for more information.
+
+Other libraries that are not MIT licensed, though it should not pose a problem, are:
+
+* [Select2](https://github.com/ivaynberg/select2/blob/master/LICENSE)
+* [Bootstrap-Datepicker](https://github.com/eternicode/bootstrap-datepicker/blob/release/LICENSE)
+
 
 ---
 
 # Warranty
-This software is provided “as is” and without any express or implied warranties, including, without limitation, the implied warranties of merchantability and fitness for a particular purpose.
+This software is provided “as is” and without any express or implied warranties, including, without limitation, the
+implied warranties of merchantability and fitness for a particular purpose.
