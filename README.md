@@ -15,7 +15,7 @@ A UI components library compatible with Ember.js
 Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-components/ which
 is served from the *gh-pages* branch of this repository.
 
-Components in this library include:
+**Components**
 
 * sl-alert
 * sl-button
@@ -43,7 +43,6 @@ Components in this library include:
 * sl-textarea
 * sl-tooltip
 
-Additional functionality provided by this library beyond the list above includes:
 
 **Mixins**
 
@@ -127,7 +126,7 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 Most usually employed by a controller being used to back an implementation of the *sl-grid* component, this mixin should
 be used whenever pagination support for a data set is desired.
 
-
+---
 
 All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings
 as well as our own implementations when the existing offerings were deficient.  Existing offerings that were leveraged
