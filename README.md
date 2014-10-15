@@ -126,6 +126,23 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 Most usually employed by a controller being used to back an implementation of the *sl-grid* component, this mixin should
 be used whenever pagination support for a data set is desired.
 
+
+
+**Helpers**
+
+*get-key*
+arguments: an object, a key, a default key
+
+The key is resolved on the object and returned unless it is falsy.  In this case, and if a default key is supplied, the
+default key is resolved on the object and that result is returned.
+
+
+*render-component*
+arguments: component name, optional bound properties
+
+Render the component referenced by name. Bound properties can be passed to the component in the normal fashion.
+
+
 ---
 
 All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings
