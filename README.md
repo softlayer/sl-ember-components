@@ -43,8 +43,94 @@ Components in this library include:
 * sl-textarea
 * sl-tooltip
 
-This functionality is provided through a combination of leveraging the best-of-breed of other component offerings as
-well as our own implementations when the existing offerings were deficient.  Existing offerings that were leveraged
+Additional functionality provided by this library beyond the list above includes:
+
+**Mixins**
+
+*sl-ajax-aware*
+
+A common use case for this mixin is to initialize particular behaviors during AJAX activity and fall back to other,
+default, behaviors when no AJAX activity is ongoing.  This is mixed into the *sl-button* component by default but can be
+applied to other situations as needed.
+
+*sl-filter-controller*
+
+?????
+
+*sl-application-state-controller*
+
+?????
+
+*sl-filter-controller*
+
+?????
+
+link to more documentation
+
+
+*sl-grid-controller*
+
+A controller should use this mixin when it is being used to back an implementation of the *sl-grid* component.
+
+link to more documentation
+
+
+*sl-grid-key-controller*
+
+A controller should use this mixin when it is being used to back an implementation of the *sl-grid* component and wishes
+to bind keyboard events to any of the following supported actions on the *sl-grid* component:
+
+* navigate to the first page of records
+* navigate to the last page of records
+* navigate to the next page of records
+* navigate to the previous page of records
+* refresh the grid
+
+link to more documentation
+
+
+*sl-modal-manager*
+
+?????
+
+link to more documentation
+
+
+*sl-modal*
+
+?????
+
+link to more documentation
+
+
+*sl-notify-view*
+
+Use this mixin on a view when you need to notify its controller of any of the following events:
+
+* didInsertElement
+* willClearRender
+* willDestroyElement
+* willInsertElement
+
+
+*sl-notify-view*
+
+Use this mixin on a view when you need to notify its controller of any of the following events:
+
+* didInsertElement
+* willClearRender
+* willDestroyElement
+* willInsertElement
+
+*sl-pagination-controller*
+
+Most usually employed by a controller being used to back an implementation of the *sl-grid* component, this mixin should
+be used whenever pagination support for a data set is desired.
+
+
+
+All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings
+as well as our own implementations when the existing offerings were deficient.  Existing offerings that were leveraged
 include:
 
 * [Twitter Bootstrap](http://getbootstrap.com/)
