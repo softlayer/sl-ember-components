@@ -145,6 +145,22 @@ arguments: component name, optional bound properties
 Render the component referenced by name. Bound properties can be passed to the component in the normal fashion.
 
 
+
+**Utility Classes**
+
+*sl-grid-key-adapter*
+
+Provides an abstraction between the events the *sl-grid* component listens for and the ability to associate any keyboard
+shortcuts in your application to trigger them.
+
+*sl-menu-key-adapter*
+
+Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard
+shortcuts in your application to trigger them.
+
+
+
+
 ---
 
 All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings
