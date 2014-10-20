@@ -62,28 +62,42 @@
 
 <h3>Aria support</h3>
 
-<div class="row">
-    <div class="col-lg-12">
+<div class="list-group">
+    <div class="list-group-item">
         <h6>role</h6>
-        <p>This attribute is automatically rendered as role="dialog"</p>
 
+        <p>This attribute is automatically rendered as <em>role="dialog"</em></p>
+    </div>
+
+    <div class="list-group-item">
         <h6>aria-hidden</h6>
-        <p>This attribute is automatically rendered as aria-hidden="true"</p>
 
+        <p>This attribute is automatically rendered and defaults to <em>aria-hidden="true"</em></p>
+    </div>
+
+    <div class="list-group-item">
         <h6>aria-labelledby</h6>
-        <p>Partial automatic support</p>
-        <p>This attribute is automatically rendered as aria-labelledby="X", where "X" is a string composed of the value "modalTitle-" followed by a random number.</p>
-        <p>This is only part of what is necessary though to achieve support for this Aria property.  The other part requires you to identify a section of text that serves as the label for this dialog and to give it the same id value assigned to the "aria-labelledby" attribute.</p>
-        <p>To facilitate this, the "aria-labelledby" property is exposed on the sl-simple-modal component for use in your template.  <strong>Note:</strong> <a href="https://github.com/emberjs/ember.js/issues/4985">Issue 4985</a> (which was spawned from <a href="https://github.com/emberjs/ember.js/issues/2917">Issue 2987</a>) currently prevents accessing this property as expected or desired.  In order to access it in your template you must use:</p>
-        <pre>\{{bind-attr id=_view.parentView.aria-labelledby}}</pre>
-        <p>where you're having to use the private API property of "_view"</p>
 
+        <p>Partial automatic support</p>
+
+        <p>This attribute is automatically rendered as <em>aria-labelledby="X"</em>, where "X" is a string composed of the value "modalTitle-" followed by a random number.</p>
+
+        <p>This is only part of what is necessary though to achieve support for this Aria property.  The other part requires you to identify a section of text that serves as the label for this dialog and to give it the same id value assigned to the <em>aria-labelledby</em> attribute.</p>
+
+        <p>To facilitate this, the <em>aria-labelledby</em> property is exposed on this component for use in your template.  <strong>Note:</strong> <a href="https://github.com/emberjs/ember.js/issues/4985">Issue 4985</a> (which was spawned from <a href="https://github.com/emberjs/ember.js/issues/2917">Issue 2987</a>) currently prevents accessing this property as expected or desired.  In order to access it in your template you must use:</p>
+
+        <pre>\{{bind-attr id=_view.parentView.aria-labelledby}}</pre>
+
+        <p>where you're having to use the private API property of <em>_view</em></p>
+    </div>
+
+    <div class="list-group-item">
         <h6>aria-describedby</h6>
         <p>There is no automatic support for this attribute</p>
 
         <hr>
 
         <h6>Advanced Implementation</h6>
-        <p>If you do not like the idea of having to use a private API property to achieve aria-labelledby support, or are in need of aria-describedby support, then you should use the advanced implemention of the modal component, which is described in detail at ???.</p>
+        <p>If you do not like the idea of having to use a private API property to achieve <em>aria-labelledby</em> support, or are in need of <em>aria-describedby</em> support, then you should use the advanced implemention of the modal component, which is described in detail at ???.</p>
     </div>
 </div>
