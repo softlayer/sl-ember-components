@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.View.extend({
 
-    didInsertElement: function() {
+    registerKeyListeners: function() {
         Ember.$( document ).on( 'keypress.menu', function( e ) {
             if ( e.charCode >= 49 && e.charCode <= 57 ) {
                 var keypressed = e.charCode - 48;
@@ -33,10 +33,10 @@ export default Ember.View.extend({
                 }
             }
         }.bind( this ));
-    },
+    }.on( 'didInsertElement' ),
 
-    willDestroyElement: function() {
+    unregisterKeyListeners: function() {
         Ember.$( document ).off( 'keypress.menu' ).off( 'keyup.menu' ).off( 'keydown.menu' );
-    }
+    }.on( 'willClearRender' )
 
 });
