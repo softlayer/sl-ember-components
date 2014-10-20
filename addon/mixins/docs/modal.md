@@ -11,7 +11,12 @@ This mixin is intended to provide basic modal functionality to a traditional Emb
     * aria-labelledby
     * aria-describedby
  * adds an action handler 'close' that closes the modal the current view is supporting
- * provides hooks into the exposed Twitter Bootstrap 3 modal events
+ * provides hooks into the exposed Twitter Bootstrap 3 modal events:
+    * show.bs.modal
+    * shown.bs.modal
+    * hide.bs.modal
+    * hidden.bs.modal
+    * loaded.bs.modal
 
 The most important parts here are the layoutName, which allows us to wrap the Twitter Bootstrap-specified outer DIVs and the class names, which also tie into Twitter Bootstrap support.  To support this layout, sl-components also contains a *template/modal.hbs* file that includes the DOM to wrap around the template.
 
@@ -178,7 +183,15 @@ views/modals/keyboard-shortcut-list.js:
     import ModalMixin from 'sl-components/mixins/sl-modal';
 
     export default Ember.View.extend( ModalMixin, {
-        'aria-describedby': 'describe-kb-global'
+        'aria-describedby': 'describe-kb-global',
+
+        showHandler: function() {
+            // pause keyboard bindings on modal show
+        },
+
+        hideHandler: function() {
+            // unpause keyboard bindings on modal hide
+        },
     });
 
 
