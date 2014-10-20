@@ -52,13 +52,11 @@ A common use case for this mixin is to initialize particular behaviors during AJ
 default, behaviors when no AJAX activity is ongoing.  This is mixed into the *sl-button* component by default but can be
 applied to other situations as needed.
 
-*sl-filter-controller*
-
-@TODO
 
 *sl-application-state-controller*
 
 @TODO
+
 
 *sl-filter-controller*
 
