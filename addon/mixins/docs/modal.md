@@ -175,7 +175,7 @@ views/hello.js:
 
 ## Code Example #2
 
-This is an example of implementing ARIA support:
+This is an example of implementing ARIA support and tying into Twitter Bootstrap 3's modal events:
 
 views/modals/keyboard-shortcut-list.js:
 
