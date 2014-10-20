@@ -90,16 +90,16 @@ link to more documentation
 
 *sl-modal-manager*
 
-?????
+Provides an advanced implemention of the modal component.
 
-link to more documentation
+The documentation is viewable at [addon/mixins/docs/modal.md](addon/mixins/docs/modal.md)
 
 
 *sl-modal*
 
-?????
+Provides an advanced implemention of the modal component.
 
-link to more documentation
+The documentation is viewable at [addon/mixins/docs/modal.md](addon/mixins/docs/modal.md)
 
 
 *sl-notify-view*
