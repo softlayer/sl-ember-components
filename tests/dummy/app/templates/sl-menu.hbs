@@ -92,3 +92,127 @@
         Whether a "Show All" icon appears, displaying all of the menu options when interacted with.
     {{/property-text}}
 </ul>
+
+<hr>
+
+<h3>Keyboard Shortcuts</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <h6>Hooks</h6>
+        <p>The <strong>utils/sl-menu-key-adapter</strong> provides the following hooks into the menu component onto which to attach keyboard events:</p>
+
+        <ul>
+        <li>
+            childSelection
+            <ul>
+            <li>Select a menu option</li>
+            </ul>
+        </li>
+        <li>
+            drillDown
+            <ul>
+            <li>Select a sub-menu</li>
+            </ul>
+        </li>
+        <li>
+            cycleRootSelectionNext
+            <ul>
+            <li>Select the next top-level menu option</li>
+            </ul>
+        </li>
+        <li>
+            cycleRootSelectionPrevious
+            <ul>
+            <li>Select the previous top-level menu option</li>
+            </ul>
+        </li>
+        <li>
+            closeAll
+            <ul>
+            <li>Close all menu options</li>
+            </ul>
+        </li>
+        <li>
+            showAll
+            <ul>
+            <li>Show all menu options</li>
+            </ul>
+        </li>
+        </ul>
+    </div>
+
+    <div class="list-group-item">
+        <h6>Code Example</h6>
+
+        <p>The keyboard shortcuts for this demo are configured in <a href="https://github.com/softlayer/sl-components/tests/dummy/app/views/sl-menu.js">https://github.com/softlayer/sl-components/tests/dummy/app/views/sl-menu.js</a> and <a href="https://github.com/softlayer/sl-components/tests/dummy/app/controllers/sl-menu.js">https://github.com/softlayer/sl-components/tests/dummy/app/controllers/sl-menu.js</a>, relevant excerpts of which are presented below:</p>
+
+        <p><strong>tests/dummy/app/controllers/sl-menu.js</strong></p>
+<pre>
+import Ember from 'ember';
+import KeyManager from 'sl-components/utils/sl-menu-key-adapter';
+
+export default Ember.ObjectController.extend({
+
+    keyHandler: KeyManager.create(),
+
+    /**
+     * Is the menu being interacted with via the keyboard?
+     *
+     * This value gets set by the inner workings of the component and is exposed for use by view logic
+     *
+     * @param {boolean}
+     */
+    keyboardInUse: null
+});
+</pre>
+
+        <p><strong>tests/dummy/app/views/sl-menu.js</strong></p>
+<pre>
+import Ember from 'ember';
+
+export default Ember.View.extend({
+
+    registerKeyListeners: function() {
+        Ember.$( document ).on( 'keypress.menu', function( e ) {
+            if ( e.charCode >= 49 && e.charCode <= 57 ) {
+                var keypressed = e.charCode - 48;
+                this.get( 'controller.keyHandler' ).childSelection( keypressed );
+            } else if ( e.charCode === 45 ) {
+                this.get( 'controller.keyHandler' ).drillDown( '-' );
+            } else if ( e.charCode === 48 ) {
+                this.get( 'controller.keyHandler' ).showAll();
+            }
+        }.bind( this ));
+
+        // keypress doesn't appear to catch ESC
+        Ember.$( document ).on( 'keyup.menu', function( e ) {
+            if ( e.keyCode === 27 ) {
+                this.get( 'controller.keyHandler' ).closeAll();
+            }
+        }.bind( this ));
+
+        // need to capture TAB key with keydown event
+        Ember.$( document ).on( 'keydown.menu', function( e ) {
+            if ( 9 === e.keyCode && this.get( 'controller.keyboardInUse' ) ) {
+                e.preventDefault();
+
+                if ( e.shiftKey ) {
+                    this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
+                } else {
+                    this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
+                }
+            }
+        }.bind( this ));
+    }.on( 'didInsertElement' ),
+
+    unregisterKeyListeners: function() {
+        Ember.$( document ).off( 'keypress.menu' ).off( 'keyup.menu' ).off( 'keydown.menu' );
+    }.on( 'willClearRender' )
+
+});
+</pre>
+
+
+    </div>
+</div>
