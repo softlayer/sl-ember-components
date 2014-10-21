@@ -1,81 +1,85 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/**
- * @module components
- * @class sl-alert
- */
+/** @module sl-components/components/sl-alert */
 export default Ember.Component.extend( TooltipEnabled, {
 
     /**
-     * Actions for the alert component
+     * Array of class names for the alert's div
      *
-     * @property {object} actions
+     * @property {array}       classNames
+     * @type     {Ember.Array}
      */
-    actions: {
-
-        /**
-         * Trigger a bound "dismiss" action when the alert is dismissed
-         *
-         * @method actions.dismiss
-         */
-        dismiss: function () {
-            this.sendAction( 'dismiss' );
-        }
-    },
+    classNames: [ 'alert', 'sl-alert' ],
 
     /**
      * Array of attribute bindings for the alert's div
      *
-     * @property {array} attributeBindings
+     * @property {array}       attributeBindings
+     * @type     {Ember.Array}
      */
     attributeBindings: [ 'role' ],
 
     /**
      * Array of class name bindings for the alert's div
      *
-     * @property {array} classNameBindings
+     * @property {array}       classNameBindings
+     * @type     {Ember.Array}
      */
     classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
 
     /**
-     * Array of class names for the alert's div
+     * Actions for the alert component
      *
-     * @property {array} classNames
+     * @property {object}       actions
+     * @type     {Ember.Object}
      */
-    classNames: [ 'alert', 'sl-alert' ],
+    actions: {
+
+        /**
+         * Trigger a bound "dismiss" action when the alert is dismissed
+         *
+         * @function actions.dismiss
+         * @return   {void}
+         */
+        dismiss: function() {
+            this.sendAction( 'dismiss' );
+        }
+    },
 
     /**
      * Whether to make the alert dismissable or not
      *
      * @property {boolean} dismissable
-     * @default false
+     * @default  false
      */
     dismissable: false,
 
     /**
      * The role attribute for the alert's div
      *
-     * @property {string} role
-     * @default "alert"
+     * @property {string}       role
+     * @type     {Ember.String}
+     * @default  "alert"
      */
     role: 'alert',
 
     /**
      * The Bootstrap "theme" style to apply to the alert
      *
-     * @property {string} theme
-     * @default "info"
+     * @property {string}       theme
+     * @type     {Ember.String}
+     * @default  "info"
      */
     theme: 'info',
 
     /**
      * The generated Bootstrap "theme" style class for the alert
      *
-     * @property {string} themeClassName
-     * @default "alert-info"
+     * @function themeClassName
+     * @return   {Ember.String}  Defaults to "alert-info"
      */
-    themeClassName: function () {
+    themeClassName: function() {
         return 'alert-' + this.get( 'theme' );
     }.property( 'theme' )
 });

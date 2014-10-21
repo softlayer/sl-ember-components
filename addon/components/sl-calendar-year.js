@@ -1,15 +1,22 @@
 import Ember from 'ember';
 
-/**
- * @module components
- * @class sl-calendar-year
- */
+/** @module sl-components/components/sl-calendar-year */
 export default Ember.Component.extend({
+
+    /**
+     * HTML tag name for the component's root element
+     *
+     * @property {string}       tagName
+     * @type     {Ember.String}
+     * @default  "span"
+     */
+    tagName: 'span',
 
     /**
      * Class name bindings for the component's root element
      *
-     * @property {array} classNameBindings
+     * @property {array}       classNameBindings
+     * @type     {Ember.Array}
      */
     classNameBindings: [ 'active', 'new', 'old' ],
 
@@ -17,17 +24,10 @@ export default Ember.Component.extend({
      * Function triggered by clicking the year; sends back primary action with
      * this year value
      *
-     * @method click
+     * @function click
+     * @return   {void}
      */
     click: function() {
-        this.sendAction( 'action', this.get( 'year' ));
-    },
-
-    /**
-     * HTML tag name for the component's root element
-     *
-     * @property {string} tagName
-     * @default "span"
-     */
-    tagName: 'span'
+        this.sendAction( 'action', this.get( 'year' ) );
+    }
 });

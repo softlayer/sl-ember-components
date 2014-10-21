@@ -1,56 +1,67 @@
-import AjaxAware from '../mixins/sl-ajax-aware';
 import Ember from 'ember';
+import AjaxAware from '../mixins/sl-ajax-aware';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/**
- * @module components
- * @class sl-button
- */
+/** @module sl-components/components/sl-button */
 export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     /**
-     * The text to display during AJAX activity
+     * The root component element
      *
-     * @property activeLabelText
-     * @default null
+     * @property {string}       tagName
+     * @type     {Ember.String}
+     * @default  "button"
      */
-    activeLabelText: null,
+    tagName: 'button',
+
+    /**
+     * Class names to apply to the button
+     *
+     * @property {array}       classNames
+     * @type     {Ember.Array}
+     */
+    classNames: [ 'btn', 'sl-button' ],
 
     /**
      * Attribute bindings for the button component
      *
-     * @property {array} attributeBindings
+     * @property {array}       attributeBindings
+     * @type     {Ember.Array}
      */
     attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'type' ],
 
     /**
      * Class bindings for the button component
      *
-     * @property {array} classNameBindings
+     * @property {array}       classNameBindings
+     * @type     {Ember.Array}
      */
     classNameBindings: [ 'sizeClass', 'themeClass' ],
 
     /**
-     * Class names to apply to the button
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'btn', 'sl-button' ],
-
-    /**
      * Alert external code about the click
      *
-     * @method click
+     * @function click
+     * @return   {void}
      */
     click: function() {
         this.sendAction();
     },
 
     /**
+     * The text to display during AJAX activity
+     *
+     * @property {string}       activeLabelText
+     * @type     {Ember.String}
+     * @default  null
+     */
+    activeLabelText: null,
+
+    /**
      * Whether or not the button should be disabled during AJAX activity
      *
      * @property {boolean} disableOnAjax
-     * @default false
+     * @default  false
      */
     disableOnAjax: false,
 
@@ -58,7 +69,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Whether or not the button should be hidden during AJAX activity
      *
      * @property {boolean} hideOnAjax
-     * @default false
+     * @default  false
      */
     hideOnAjax: false,
 
@@ -66,21 +77,11 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * This is primarily used internally to avoid losing the "default" value of
      * the label when switching to the active text
      *
-     * @property {string} inactiveLabelText
-     * @default null
+     * @property {string}       inactiveLabelText
+     * @type     {Ember.String}
+     * @default  null
      */
     inactiveLabelText: null,
-
-    /**
-     * Initialize labels
-     *
-     * @method initLabel
-     */
-    initLabel: function() {
-        if ( Ember.isBlank( this.get( 'inactiveLabelText' ))) {
-            this.set( 'inactiveLabelText', this.get( 'label' ));
-        }
-    }.on( 'init' ),
 
     /**
      * Text to apply to the button label
@@ -88,21 +89,44 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * It is preferred you use this to set your "default" text rather than
      * inactiveLabelText, which will take this value as a default.
      *
-     * @property {string} label
-     * @default null
+     * @property {string}       label
+     * @type     {Ember.String}
+     * @default  null
      */
     label: null,
 
     /**
+     * The bootstrap "theme" name
+     *
+     * @property {string}       theme
+     * @type     {Ember.String}
+     * @default  "default"
+     */
+    theme: 'default',
+
+    /**
+     * Initialize labels
+     *
+     * @function initLabel
+     * @return   {void}
+     */
+    initLabel: function() {
+        if ( Ember.isBlank( this.get( 'inactiveLabelText' ) ) ) {
+            this.set( 'inactiveLabelText', this.get( 'label' ) );
+        }
+    }.on( 'init' ),
+
+    /**
      * Register our behaviors with the convenience method from the AJAX mixin
      *
-     * @method setupHandlers
+     * @function setupHandlers
+     * @return   {void}
      */
     setupHandlers: function() {
         this.registerAjaxBehavior( function() {
             var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
-            if ( !Ember.isBlank( props.activeLabelText )) {
+            if ( !Ember.isBlank( props.activeLabelText ) ) {
                 this.set( 'label', props.activeLabelText );
             }
 
@@ -116,7 +140,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
         }.bind( this ), function() {
             var props = this.getProperties([ 'activeLabelText', 'inactiveLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
-            if ( !Ember.isBlank( 'activeLabelText' )) {
+            if ( !Ember.isBlank( 'activeLabelText' ) ) {
                 this.set( 'label', props.inactiveLabelText );
             }
 
@@ -133,8 +157,8 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * Converted size string to Bootstrap button class
      *
-     * @property {string} sizeClass
-     * @default undefined
+     * @function {string}       sizeClass
+     * @return   {Ember.String} Defaults to undefined
      */
     sizeClass: function() {
         var size = this.get( 'size' );
@@ -145,28 +169,12 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     }.property( 'size' ),
 
     /**
-     * The root component element
-     *
-     * @property {string} tagName
-     * @default "button"
-     */
-    tagName: 'button',
-
-    /**
-     * The bootstrap "theme" name
-     *
-     * @property {string} theme
-     * @default "default"
-     */
-    theme: 'default',
-
-    /**
      * Converted theme string to Bootstrap button class
      *
-     * @property {string} themeClass
-     * @default "btn-default"
+     * @function {string}       themeClass
+     * @return   {Ember.String} Defaults to "btn-default"
      */
-    themeClass: function () {
+    themeClass: function() {
         return 'btn-' + this.get( 'theme' );
     }.property( 'theme' )
 });
