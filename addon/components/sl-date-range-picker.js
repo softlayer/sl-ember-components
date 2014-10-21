@@ -6,7 +6,8 @@ export default Ember.Component.extend({
     /**
      * Class names for the date-range-picker component
      *
-     * @property {array} classNames
+     * @property {array}       classNames
+     * @type     {Ember.Array}
      */
     classNames: [ 'sl-date-range-picker' ],
 

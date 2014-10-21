@@ -3,53 +3,66 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/**
- * @module components
- * @class sl-date-time
- */
+/** @module sl-components/components/sl-date-time */
 export default Ember.Component.extend( TooltipEnabled, {
 
     /**
-     * Bindings for the date-time's attribute values
+     * The HTML tag type of the component's root element
      *
-     * @property {array} attributeBindings
+     * @property {string}       tagName
+     * @type     {Ember.String}
+     * @default  "time"
      */
-    attributeBindings: [ 'datetime' ],
+    tagName: 'time',
 
     /**
      * Class names for the component's root element, <time>
      *
-     * @property {array} classNames
+     * @property {array}       classNames
+     * @type     {Ember.Array}
      */
     classNames: [ 'sl-datetime' ],
 
     /**
-     * The date-time's value formatted as a datetime string
+     * Bindings for the date-time's attribute values
      *
-     * @property {string} datetime
+     * @property {array}       attributeBindings
+     * @type     {Ember.Array}
      */
-    datetime: function() {
-        return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
-    }.property( 'timezoneString', 'value' ),
+    attributeBindings: [ 'datetime' ],
 
     /**
      * String name for the format to render inline; can be "date", "datetime",
      * or "relative"
      *
      * @property {string} format
-     * @default "datetime"
+     * @type     {Ember.String}
+     * @default  "datetime"
      */
     format: 'datetime',
 
     /**
+     * The date-time's value formatted as a datetime string
+     *
+     * @function datetime
+     * @observes 'timezoneString', 'value'
+     * @return   {string}
+     */
+    datetime: function() {
+        return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
+    }.property( 'timezoneString', 'value' ),
+
+    /**
      * Formatted string based on value and supplied format
      *
-     * @property {string} formattedValue
+     * @function formattedValue
+     * @observes 'format', 'momentValue'
+     * @return   {string}
      */
     formattedValue: function() {
         var momentValue = this.get( 'momentValue' );
 
-        switch ( this.get( 'format' )) {
+        switch ( this.get( 'format' ) ) {
             case 'date':
                 return momentValue.format( 'YYYY-MM-DD' );
 
@@ -65,33 +78,28 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The component's current value wrapped in moment
      *
-     * @property {object} momentValue
+     * @function momentValue
+     * @return   {object}
      */
     momentValue: function() {
-        return moment( this.get( 'value' ));
+        return moment( this.get( 'value' ) );
     }.property( 'value' ),
-
-    /**
-     * The HTML tag type of the component's root element
-     *
-     * @property {string} tagName
-     * @default "time"
-     */
-    tagName: 'time',
 
     /**
      * Formatted timezone string based on component's timezone value
      *
-     * @property {string} timezoneString
+     * @functon timezoneString
+     * @return  {string}
      */
     timezoneString: function() {
-        return this.get( 'momentValue' ).tz( this.get( 'timezone' )).format( 'z' );
+        return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
     }.property( 'timezone', 'momentValue' ),
 
     /**
      * The text to use for the component's tooltip
      *
-     * @property {string} title
+     * @function title
+     * @return   {string}
      */
     title: function() {
         return this.get( 'datetime' );
@@ -100,8 +108,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The bound value of the component's date value
      *
-     * @property {date|string} value
-     * @default new Date()
+     * @function value
+     * @return   {date}
      */
     value: function() {
         return new Date();
