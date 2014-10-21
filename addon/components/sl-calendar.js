@@ -361,7 +361,7 @@ export default Ember.Component.extend({
      * @return   {boolean}
      */
     viewingDays: function() {
-        return this.viewMode === 'days';
+        return this.get( 'viewMode' ) === 'days';
     }.property( 'viewMode' ),
 
     /**
@@ -372,7 +372,7 @@ export default Ember.Component.extend({
      * @return   {boolean}
      */
     viewingMonths: function() {
-        return this.viewMode === 'months';
+        return this.get( 'viewMode' ) === 'months';
     }.property( 'viewMode' ),
 
     /**
@@ -383,7 +383,7 @@ export default Ember.Component.extend({
      * @return   {boolean}
      */
     viewingYears: function() {
-        return this.viewMode === 'years';
+        return this.get( 'viewMode' ) === 'years';
     }.property( 'viewMode' ),
 
     /**
