@@ -182,6 +182,7 @@ export default Ember.Component.extend({
      * and back
      *
      * @property {boolean} locked
+     * @type     {boolean}
      * @default  false
      */
     locked: false,

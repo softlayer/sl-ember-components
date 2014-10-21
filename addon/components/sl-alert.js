@@ -51,6 +51,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether to make the alert dismissable or not
      *
      * @property {boolean} dismissable
+     * @type     {boolean}
      * @default  false
      */
     dismissable: false,

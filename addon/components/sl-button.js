@@ -61,6 +61,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Whether or not the button should be disabled during AJAX activity
      *
      * @property {boolean} disableOnAjax
+     * @type     {boolean}
      * @default  false
      */
     disableOnAjax: false,
@@ -69,6 +70,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Whether or not the button should be hidden during AJAX activity
      *
      * @property {boolean} hideOnAjax
+     * @type     {boolean}
      * @default  false
      */
     hideOnAjax: false,

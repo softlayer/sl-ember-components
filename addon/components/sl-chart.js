@@ -41,6 +41,7 @@ export default Ember.Component.extend({
      * When true, the chart's panel body will be in a loading state
      *
      * @property {boolean} isLoading
+     * @type     {boolean}
      * @default  false
      */
     isLoading: false,
