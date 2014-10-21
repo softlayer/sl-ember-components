@@ -1,3 +1,5 @@
+
+<h3>Components</h3>
 <div class="list-group">
     {{#link-to "split-grid" class="list-group-item"}}Split Grid{{/link-to}}
     {{#link-to "sl-alert" class="list-group-item"}}sl-alert{{/link-to}}
@@ -26,4 +28,118 @@
     {{#link-to "sl-tab-panel" class="list-group-item"}}sl-tab-panel{{/link-to}}
     {{#link-to "sl-textarea" class="list-group-item"}}sl-textarea{{/link-to}}
     {{#link-to "sl-tooltip" class="list-group-item"}}sl-tooltip{{/link-to}}
+</div>
+
+<hr>
+
+<h3>Mixins</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h6>sl-ajax-aware</h6>
+        <p>A common use case for this mixin is to initialize particular behaviors during AJAX activity and fall back to
+        other, default, behaviors when no AJAX activity is ongoing.  This is mixed into the <em>sl-button</em> component
+        by default but can be applied to other situations as needed.</p>
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-application-state-controller</h6>
+        <p>@TODO </p>
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-filter-controller</h6>
+        <p>@TODO </p>
+
+@TODO link to more documentation
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-grid-controller</h6>
+        <p>A controller should use this mixin when it is being used to back an implementation of the <em>sl-grid</em>
+        component.</p>
+
+@TODO link to more documentation
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-grid-key-controller</h6>
+        <p>A controller should use this mixin when it is being used to back an implementation of the <em>sl-grid</em>
+        component and wishes to bind keyboard events to any of the following supported actions on the <em>sl-grid</em>
+        component:</p>
+        <ul>
+            <li>navigate to the first page of records</li>
+            <li>navigate to the last page of records</li>
+            <li>navigate to the next page of records</li>
+            <li>navigate to the previous page of records</li>
+            <li>refresh the grid</li>
+        </ul>
+
+@TODO link to more documentation
+
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-modal-manager</h6>
+        <p>Provides an advanced implemention of the modal component.</p>
+        <p>The documentation is viewable at <a href="https://github.com/softlayer/sl-components/addon/mixins/docs/modal.md">https://github.com/softlayer/sl-components/addon/mixins/docs/modal.md</a></p>
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-modal</h6>
+        <p>Provides an advanced implemention of the modal component.</p>
+        <p>The documentation is viewable at <a href="https://github.com/softlayer/sl-components/addon/mixins/docs/modal.md">https://github.com/softlayer/sl-components/addon/mixins/docs/modal.md</a></p>
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-notify-view</h6>
+        <p>Use this mixin on a view when you need to notify its controller of any of the following events:</p>
+        <ul>
+            <li>didInsertElement</li>
+            <li>willClearRender</li>
+            <li>willDestroyElement</li>
+            <li>willInsertElement</li>
+        </ul>
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-pagination-controller</h6>
+        <p>Most usually employed by a controller being used to back an implementation of the <em>sl-grid</em> component,
+        this mixin should be used whenever pagination support for a data set is desired.</p>
+    </div>
+</div>
+
+<hr>
+
+<h3>Helpers</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h6>get-key</h6>
+        <p><strong>arguments:</strong> an object, a key, a default key</p>
+        <p>The key is resolved on the object, to be returned.  If it is falsy, and a default key is supplied, the default
+        key is resolved on the object and that result is returned.</p>
+    </div>
+
+    <div class="list-group-item">
+        <h6>render-component</h6>
+        <p><strong>arguments:</strong> component name, optional bound properties</p>
+        <p>Render the component referenced by name. Bound properties can be passed to the component in the normal
+        fashion.</p>
+    </div>
+</div>
+
+<hr>
+
+<h3>Utility Classes</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h6>sl-grid-key-adapter</h6>
+        <p>Provides an abstraction between the events the <em>sl-grid</em> component listens for and the ability to associate
+        any keyboard shortcuts in your application to trigger them.</p>
+    </div>
+
+    <div class="list-group-item">
+        <h6>sl-menu-key-adapter</h6>
+        <p>Provides an abstraction between the events the <em>sl-menu</em> component listens for and the ability to associate
+        any keyboard shortcuts in your application to trigger them.</p>
+    </div>
 </div>
