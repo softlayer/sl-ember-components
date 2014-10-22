@@ -6,9 +6,12 @@ export default Ember.Component.extend({
     /**
      * Class names for the date-range-picker component
      *
-     * @property {Ember.Array}       classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-date-range-picker' ],
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * The value for the endDate input
@@ -50,12 +53,15 @@ export default Ember.Component.extend({
      */
     startDateValue: null,
 
+    // -------------------------------------------------------------------------
+    // Observers
+
     /**
      * Set up a transition that moves focus to the endDate input when the
      * startDate input is changed
      *
      * @function setupFocusTransition
-     * @observes 'didInsertElement event
+     * @observes 'didInsertElement' event
      * @return   {void}
      */
     setupFocusTransition: function() {
@@ -65,6 +71,9 @@ export default Ember.Component.extend({
             endDateInput.focus();
         });
     }.on( 'didInsertElement' ),
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * The earliest selectable endDate, based on minDate and
@@ -93,7 +102,7 @@ export default Ember.Component.extend({
      * The latest selectable startDate, based on maxDate and
      * current endDateValue
      *
-     * @property latestStartDate
+     * @function latestStartDate
      * @observes endDateValue, maxDate
      * @return   {date|Ember.String}  Defaults to null
      */

@@ -25,11 +25,14 @@ export default Ember.Component.extend({
      */
     classNameBindings: [ 'active', 'new', 'old' ],
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Function triggered by clicking a calendar day
      *
      * @function click
-     * @return   {void}
+     * @returns  {void}
      */
     click: function() {
         this.sendAction( 'action', this.get( 'content' ) );

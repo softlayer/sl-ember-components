@@ -32,11 +32,14 @@ export default Ember.Component.extend({
      * bound action with this month number
      *
      * @function click
-     * @return   {void}
+     * @returns  {void}
      */
     click: function() {
         this.sendAction( 'action', this.get( 'month' ) );
     },
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * The short string name of the represented month

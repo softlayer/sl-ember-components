@@ -5,16 +5,17 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 export default Ember.Component.extend( TooltipEnabled, {
 
     /**
-     * Class names for containing div
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ],
-
-    /**
      * Attribute bindings for containing div
      *
      * @property {Ember.Array} attributeBindings
      */
-    attributeBindings: [ 'checked', 'disabled' ]
+    attributeBindings: [ 'checked', 'disabled' ],
+
+    /**
+     * Class names for containing div
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ]
+
 });

@@ -5,18 +5,18 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 export default Ember.Component.extend( TooltipEnabled, {
 
     /**
-     * Array of class names for the alert's div
-     *
-     * @property {Ember.Array}  classNames
-     */
-    classNames: [ 'alert', 'sl-alert' ],
-
-    /**
      * Array of attribute bindings for the alert's div
      *
      * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'role' ],
+
+    /**
+     * Array of class names for the alert's div
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'alert', 'sl-alert' ],
 
     /**
      * Array of class name bindings for the alert's div
@@ -36,12 +36,15 @@ export default Ember.Component.extend( TooltipEnabled, {
          * Trigger a bound "dismiss" action when the alert is dismissed
          *
          * @function actions.dismiss
-         * @return   {void}
+         * @returns  {void}
          */
         dismiss: function() {
             this.sendAction( 'dismiss' );
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Whether to make the alert dismissable or not
@@ -67,12 +70,15 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     theme: 'info',
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * The generated Bootstrap "theme" style class for the alert
      *
      * @function themeClassName
      * @observes theme
-     * @return   {Ember.String}  Defaults to "alert-info"
+     * @returns  {Ember.String}  Defaults to "alert-info"
      */
     themeClassName: function() {
         return 'alert-' + this.get( 'theme' );

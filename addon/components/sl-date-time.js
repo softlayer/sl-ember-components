@@ -21,6 +21,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     classNames: [ 'sl-datetime' ],
 
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * Bindings for the date-time's attribute values
      *
@@ -36,6 +39,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @default  "datetime"
      */
     format: 'datetime',
+
+    // -------------------------------------------------------------------------
+    // Functions
 
     /**
      * The date-time's value formatted as a datetime string

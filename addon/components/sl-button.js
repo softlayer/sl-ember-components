@@ -14,18 +14,18 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     tagName: 'button',
 
     /**
-     * Class names to apply to the button
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'btn', 'sl-button' ],
-
-    /**
      * Attribute bindings for the button component
      *
      * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'type' ],
+
+    /**
+     * Class names to apply to the button
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'btn', 'sl-button' ],
 
     /**
      * Class bindings for the button component
@@ -34,15 +34,8 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      */
     classNameBindings: [ 'sizeClass', 'themeClass' ],
 
-    /**
-     * Alert external code about the click
-     *
-     * @function click
-     * @return   {void}
-     */
-    click: function() {
-        this.sendAction();
-    },
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * The text to display during AJAX activity
@@ -97,11 +90,24 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     theme: 'default',
 
     /**
+     * Alert external code about the click
+     *
+     * @function click
+     * @returns  {void}
+     */
+    click: function() {
+        this.sendAction();
+    },
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
      * Initialize labels
      *
-     * @function initLabel
-     * @observes init event
-     * @return   {void}
+     * @method   initLabel
+     * @observes "init" event
+     * @returns  {void}
      */
     initLabel: function() {
         if ( Ember.isBlank( this.get( 'inactiveLabelText' ) ) ) {
@@ -113,8 +119,8 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Register our behaviors with the convenience method from the AJAX mixin
      *
      * @function setupHandlers
-     * @observes init event
-     * @return   {void}
+     * @observes "init" event
+     * @returns  {void}
      */
     setupHandlers: function() {
         this.registerAjaxBehavior( function() {
@@ -148,12 +154,15 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
         }.bind( this ));
     }.on( 'init' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Converted size string to Bootstrap button class
      *
      * @function {string}       sizeClass
      * @observes size
-     * @return   {Ember.String} Defaults to undefined
+     * @returns  {Ember.String} Defaults to undefined
      */
     sizeClass: function() {
         var size = this.get( 'size' );
@@ -168,7 +177,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      *
      * @function {string}       themeClass
      * @observes theme
-     * @return   {Ember.String} Defaults to "btn-default"
+     * @returns  {Ember.String} Defaults to "btn-default"
      */
     themeClass: function() {
         return 'btn-' + this.get( 'theme' );

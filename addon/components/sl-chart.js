@@ -17,6 +17,9 @@ export default Ember.Component.extend({
      */
     classNameBindings: [ 'isLoading:sl-loading' ],
 
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * The highchart instantiation
      *
@@ -57,12 +60,15 @@ export default Ember.Component.extend({
      */
     width: 'auto',
 
+    // -------------------------------------------------------------------------
+    // Observers
+
     /**
      * Sets up Highcharts initialization
      *
      * @function setupChart
      * @observes didInsertElement event
-     * @return   {void}
+     * @returns  {void}
      */
     setupChart: function() {
         var chartDiv = this.$( 'div.chart' ),
@@ -134,7 +140,7 @@ export default Ember.Component.extend({
      *
      * @function updateSeries
      * @observes series
-     * @return   {void}
+     * @returns  {void}
      */
     updateData: function() {
         var chart  = this.get( 'chart' ),
@@ -153,12 +159,15 @@ export default Ember.Component.extend({
         }
     }.observes( 'series' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Inline style containing height and width, required by Highcharts
      *
      * @function style
      * @observes height, width
-     * @return   {Ember.String}
+     * @returns  {Ember.String}
      */
     style: function() {
         return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';

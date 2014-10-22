@@ -23,7 +23,7 @@ export default Ember.Component.extend({
      * this year value
      *
      * @function click
-     * @return   {void}
+     * @returns  {void}
      */
     click: function() {
         this.sendAction( 'action', this.get( 'year' ) );

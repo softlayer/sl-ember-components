@@ -11,6 +11,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     classNames: [ 'form-group', 'sl-date-picker' ],
 
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * Whether or not to show week numbers to the left of week rows
      *
@@ -161,12 +164,15 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     weekStart: 0,
 
+    // -------------------------------------------------------------------------
+    // Observers
+
     /**
      * Setup the bootstrap-datepicker plugin and events
      *
      * @function setupDatepicker
      * @observes didInsertElement event
-     * @return   {void}
+     * @returns  {void}
      */
     setupDatepicker: function() {
         var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' ) ),
@@ -182,7 +188,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function setEndDate
      * @observes endDate
-     * @return   {void}
+     * @returns  {void}
      */
     setEndDate: function() {
         this.$( 'input.date-picker' ).datepicker( 'setEndDate', this.get( 'endDate' ) );
@@ -193,11 +199,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function setStartDate
      * @observes startDate
-     * @return   {void}
+     * @returns  {void}
      */
     setStartDate: function() {
         this.$( 'input.date-picker' ).datepicker( 'setStartDate', this.get( 'startDate' ) );
     }.observes( 'startDate' ),
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * Placeholder for the following logic
@@ -224,7 +233,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Datepicker plugin options
      *
      * @function options
-     * @return   {Ember.Object}
+     * @returns  {Ember.Object}
      */
     options: function() {
         return {
