@@ -1,22 +1,35 @@
 import Ember from 'ember';
 
-/**
- * @module components
- * @class sl-menu
- */
+/** @module sl-components/components/sl-menu */
 export default Ember.Component.extend({
+
+    /**
+     * Root element HTML tag type
+     *
+     * @property {Ember.String} tagName
+     * @default  "div"
+     */
+    tagName: 'div',
+
+    /**
+     * Class names for the root element
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'sl-menu' ],
 
     /**
      * Component actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
         /**
          * Send selected action when menu item is selected
          *
-         * @method actions.selected
+         * @function actions.selected
+         * @return   {void}
          */
         selected: function() {
             this.performAction();
@@ -25,7 +38,8 @@ export default Ember.Component.extend({
         /**
          * Show all of the sub menus
          *
-         * @method actions.showAll
+         * @function actions.showAll
+         * @return   {void}
          */
         showAll: function() {
             if ( this.$() ) {
@@ -44,7 +58,8 @@ export default Ember.Component.extend({
         /**
          * Close all of the sub menus
          *
-         * @method actions.closeAll
+         * @function actions.closeAll
+         * @return   {void}
          */
         closeAll: function() {
             if ( this.$() ) {
@@ -76,7 +91,8 @@ export default Ember.Component.extend({
          * If "Show All" disabled:
          *     If last rootNode then wraps around to first option.
          *
-         * @method cylceRootSelectionNext
+         * @function cylceRootSelectionNext
+         * @return   {void}
          */
         cycleRootSelectionNext: function() {
             var currentIndex = this.get( 'currentRootNodeIndex' );
@@ -129,7 +145,8 @@ export default Ember.Component.extend({
          *     If "Show All" option moves backward to previous option
          * If "Show All" disabled:
          *     If first rootNode then wraps around to last option.
-         * @method cycleRootSelectionPrevious
+         * @function cycleRootSelectionPrevious
+         * @return   {void}
          */
         cycleRootSelectionPrevious: function() {
             var currentIndex = this.get( 'currentRootNodeIndex' );
@@ -176,7 +193,8 @@ export default Ember.Component.extend({
         /**
          * Recursively open sub menus
          *
-         * @method actions.drillDown
+         * @function actions.drillDown
+         * @return   {void}
          */
         drillDown: function() {
             var child = this.get( 'activeChild' );
@@ -193,98 +211,10 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Activate specified child
-     *
-     * @method activateChild
-     * @param {mixed} child - Which child to activate
-     */
-    activateChild: function( child ) {
-        if ( typeof child === 'number' ) {
-            child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
-        }
-
-        this.get( 'children' ).forEach( function( item ) {
-            if ( item === child ) {
-                child.performAction();
-            } else {
-                item.$().removeClass( 'active' );
-            }
-        }.bind( this ));
-    },
-
-    /**
-     * Currently active child
-     *
-     * @property {number} activeChild
-     * @default null
-     */
-    activeChild: null,
-
-    /**
-     * Handle child selection event
-     *
-     * @method childSelected
-     * @param {number} childIndex - Index of the child that is being selected
-     */
-    childSelected: function( childIndex ) {
-        if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' )) {
-            this.send( 'closeAll' );
-        }
-
-        if ( this.get( 'keyHandler' )) {
-            this.activateChild( childIndex );
-        } else {
-            var child = this.get( 'activeChild' );
-
-            if ( child ) {
-                child.childSelected( childIndex );
-            }
-        }
-    },
-
-    /**
-     * Collection of children items
-     *
-     * @property {array} children
-     * @default null
-     */
-    children: null,
-
-    /**
-     * Class names for the root element
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'sl-menu' ],
-
-    /**
-     * Remove bound events and current menu state
-     *
-     * @method cleanUp
-     */
-    cleanUp: function() {
-        var keyEvents = this.get( 'keyEvents' ),
-            parent = this.get( 'parentView' );
-
-        if ( typeof parent.unregisterChild === 'function' ) {
-            parent.unregisterChild( this );
-        }
-
-        if ( keyEvents ) {
-            keyEvents.off( 'childSelected' )
-                .off( 'drillDown' )
-                .off( 'closeAll' )
-                .off( 'showAll' )
-                .off( 'cycleRootSelectionNext' )
-                .off( 'cycleRootSelectionPrevious' );
-        }
-    }.on( 'willDestroyElement' ),
-
-    /**
      * Method called when menu is clicked
      *
-     * @method click
-     * @returns false
+     * @function click
+     * @return   (boolean) false
      */
     click: function() {
         this.performAction();
@@ -293,28 +223,107 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Get index of rootNode currently on
+     * Method triggered on mouseenter event
      *
-     * @method currentRootNodeIndex
-     * @return {integer} - The current root node index
+     * @function mouseEnter
+     * @return   {void}
      */
-    currentRootNodeIndex: function() {
-        var currentIndex = null;
+    mouseEnter: function() {
+        var currentActiveRootNodeIndex = this.get( 'currentRootNodeIndex' ),
+            query;
 
-        // Determine index of rootNode currently on
-        this.get( 'rootNode.menu.pages' ).forEach( function( item, index ) {
-            if ( item.label === this.get( 'activeChild.menu.label' )) {
-                currentIndex = index;
+        if ( this.get( 'keyboardInUse' ) ) {
+            if ( null !== currentActiveRootNodeIndex ) {
+                query = 'a:contains("' + this.get( 'rootNode.menu.pages' )[currentActiveRootNodeIndex].label + '")';
+                this.$(query).parent().removeClass( 'active' );
             }
-        }, this );
 
-        return currentIndex;
-    }.property().volatile(),
+            this.set( 'keyboardInUse', false );
+        }
+
+        this.$().addClass( 'active' );
+    },
+
+    /**
+     * Method triggered on mouseleave event
+     *
+     * @function mouseLeave
+     * @return   {void}
+     */
+    mouseLeave: function() {
+        if ( this.get( 'isRoot' )) {
+            this.send( 'closeAll' );
+        } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' )) {
+            this.$().removeClass( 'active' );
+        }
+    },
+
+    /**
+     * Currently active child
+     *
+     * @property {number} activeChild
+     * @default  null
+     */
+    activeChild: null,
+
+    /**
+     * Collection of children items
+     *
+     * @property {Ember.Array} children
+     * @default  null
+     */
+    children: null,
+
+    /**
+     * @property {boolean} isRoot
+     * @default  true
+     */
+    isRoot: true,
+
+    /**
+     * @property {Ember.Array} keyEvents
+     * @default  null
+     */
+    keyEvents: null,
+
+    /**
+     * @property {boolean} keyHandler
+     * @default  false
+     */
+    keyHandler: false,
+
+    /**
+     * Is the menu being interacted with via the keyboard?
+     *
+     * @property {boolean} keyboardInUse
+     * @default  false
+     */
+    keyboardInUse: false,
+
+    /**
+     * Is "Show All" icon and functionalty desired?
+     *
+     * Is a string representaton of a boolean state
+     *
+     * @property {string} showAll
+     * @default  "false"
+     */
+    showAll: 'false',
+
+    /**
+     * When true, allows key binding to drill down
+     *
+     * @property {boolean} useDrillDownKey
+     * @default  true
+     */
+    useDrillDownKey: true,
 
     /**
      * Initialize children array
      *
-     * @method initChildren
+     * @function initChildren
+     * @observes didInsertElement event
+     * @return   {void}
      */
     initChildren: function() {
         this.set( 'children', Ember.A() );
@@ -323,7 +332,9 @@ export default Ember.Component.extend({
     /**
      * Initialize keyboard event listeners
      *
-     * @method initKeyListeners
+     * @function initKeyListeners
+     * @observes didInsertElement event, keyEvents
+     * @return   {void}
      */
     initKeyListeners: function() {
         var ke = this.get( 'keyEvents' );
@@ -366,49 +377,105 @@ export default Ember.Component.extend({
         }
 
         this.setProperties({
-            path: path,
-            rootNode: rootNode
+            path     : path,
+            rootNode : rootNode
         });
     }.observes( 'keyEvents' ).on( 'didInsertElement' ),
 
     /**
-     * @property {boolean} isRoot
-     * @default true
-     */
-    isRoot: true,
-
-    /**
-     * @property {array} keyEvents
-     * @default null
-     */
-    keyEvents: null,
-
-    /**
-     * @property {boolean} keyHandler
-     * @default false
-     */
-    keyHandler: false,
-
-    /**
-     * Is the menu being interacted with via the keyboard?
+     * Remove bound events and current menu state
      *
-     * @param {boolean} keyboardInUse
-     * @default false
+     * @function cleanUp
+     * @observes willDestroyElement event
+     * @return   {void}
      */
-    keyboardInUse: false,
+    cleanUp: function() {
+        var keyEvents = this.get( 'keyEvents' ),
+            parent = this.get( 'parentView' );
+
+        if ( typeof parent.unregisterChild === 'function' ) {
+            parent.unregisterChild( this );
+        }
+
+        if ( keyEvents ) {
+            keyEvents.off( 'childSelected' )
+                .off( 'drillDown' )
+                .off( 'closeAll' )
+                .off( 'showAll' )
+                .off( 'cycleRootSelectionNext' )
+                .off( 'cycleRootSelectionPrevious' );
+        }
+    }.on( 'willDestroyElement' ),
 
     /**
-     * Is "Show All" icon and functionalty desired?
+     * Activate specified child
      *
-     * @param {boolean} showAll
-     * @default false
+     * @function activateChild
+     * @argument {mixed} child - Which child to activate
+     * @return   {void}
      */
-    showAll: 'false',
+    activateChild: function( child ) {
+        if ( typeof child === 'number' ) {
+            child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
+        }
+
+        this.get( 'children' ).forEach( function( item ) {
+            if ( item === child ) {
+                child.performAction();
+            } else {
+                item.$().removeClass( 'active' );
+            }
+        }.bind( this ));
+    },
+
+    /**
+     * Handle child selection event
+     *
+     * @function childSelected
+     * @argument {number} childIndex - Index of the child that is being selected
+     * @return   {void}
+     */
+    childSelected: function( childIndex ) {
+        if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' )) {
+            this.send( 'closeAll' );
+        }
+
+        if ( this.get( 'keyHandler' )) {
+            this.activateChild( childIndex );
+        } else {
+            var child = this.get( 'activeChild' );
+
+            if ( child ) {
+                child.childSelected( childIndex );
+            }
+        }
+    },
+
+    /**
+     * Get index of rootNode currently on
+     *
+     * @function currentRootNodeIndex
+     * @return   {number} - The current root node index
+     */
+    currentRootNodeIndex: function() {
+        var currentIndex = null;
+
+        // Determine index of rootNode currently on
+        this.get( 'rootNode.menu.pages' ).forEach( function( item, index ) {
+            if ( item.label === this.get( 'activeChild.menu.label' ) ) {
+                currentIndex = index;
+            }
+        }, this );
+
+        return currentIndex;
+    }.property().volatile(),
 
     /**
      * Boolean representation of showAll property
      *
-     * @return {boolean}
+     * @function showAllBoolean
+     * @observes showAll
+     * @return   {boolean}
      */
     showAllBoolean: function() {
         return ( 'true' === this.get( 'showAll' ) ) ? true : false;
@@ -417,50 +484,19 @@ export default Ember.Component.extend({
     /**
      * Whether to display the AllView view
      *
-     * @return {boolean}
+     * @function displayShowAll
+     * @observes isRoot, showAllBoolean
+     * @return   {boolean}
      */
     displayShowAll: function() {
         return this.get( 'isRoot' ) && this.get( 'showAllBoolean' );
     }.property( 'isRoot', 'showAllBoolean' ),
 
     /**
-     * Method triggered on mouseenter event
-     *
-     * @method mouseEnter
-     */
-    mouseEnter: function() {
-        var currentActiveRootNodeIndex = this.get( 'currentRootNodeIndex' ),
-            query;
-
-        if ( this.get( 'keyboardInUse' ) ) {
-            if ( null !== currentActiveRootNodeIndex ) {
-                query = 'a:contains("' + this.get( 'rootNode.menu.pages' )[currentActiveRootNodeIndex].label + '")';
-                this.$(query).parent().removeClass( 'active' );
-            }
-
-            this.set( 'keyboardInUse', false );
-        }
-
-        this.$().addClass( 'active' );
-    },
-
-    /**
-     * Method triggered on mouseleave event
-     *
-     * @method mouseLeave
-     */
-    mouseLeave: function() {
-        if ( this.get( 'isRoot' )) {
-            this.send( 'closeAll' );
-        } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' )) {
-            this.$().removeClass( 'active' );
-        }
-    },
-
-    /**
      * Send the primary action
      *
-     * @method performAction
+     * @function performAction
+     * @return   {void}
      */
     performAction: function() {
         this.$().addClass( 'active' );
@@ -503,8 +539,9 @@ export default Ember.Component.extend({
     /**
      * Append a child to the children array
      *
-     * @method registerChild
-     * @param {mixed} child
+     * @function registerChild
+     * @argument {mixed} child
+     * @return   {void}
      */
     registerChild: function( child ) {
         this.get( 'children' ).push( child );
@@ -513,25 +550,19 @@ export default Ember.Component.extend({
     /**
      * Show the active child content of this menu
      *
-     * @method showContent
+     * @function showContent
+     * @return   {void}
      */
     showContent: function() {
         this.get( 'parentView' ).set( 'activeChild', this );
     },
 
     /**
-     * Root element HTML tag type
-     *
-     * @property {string} tagName
-     * @default "div"
-     */
-    tagName: 'div',
-
-    /**
      * Un-register the specified child
      *
-     * @method unregisterChild
-     * @param {mixed} child - The child to un-register from this menu
+     * @function unregisterChild
+     * @argument {mixed} child - The child to un-register from this menu
+     * @return   {void}
      */
     unregisterChild: function( child ) {
         if ( child === this.get( 'activeChild' )) {
@@ -542,31 +573,32 @@ export default Ember.Component.extend({
     },
 
     /**
-     * When true, allows key binding to drill down
-     *
-     * @property {boolean} useDrillDownKey
-     * @default true
-     */
-    useDrillDownKey: true,
-
-    /**
      * Embedded Ember View representing the "Show All"
      *
-     * @property {view} AllView
+     * @property {Ember.View} AllView
      */
     AllView: Ember.View.extend({
 
         /**
+         * HTML tag name of the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "li"
+         */
+        tagName: 'li',
+
+        /**
          * Class names for the AllView view
          *
-         * @property {array} AllView.classNames
+         * @property {Ember.Array} AllView.classNames
          */
         classNames: [ 'all' ],
 
         /**
          * Method called on mouseenter event
          *
-         * @method AllView.mouseEnter
+         * @function AllView.mouseEnter
+         * @return   {void}
          */
         mouseEnter: function() {
             this.send( 'showAll' );
@@ -576,17 +608,11 @@ export default Ember.Component.extend({
          * Target pointer to the parent view
          *
          * @property {component|view} AllView.target
+         * @observes parentView
+         * @return   {Ember.View}
          */
         target: function() {
             return this.get( 'parentView' );
-        }.property( 'parentView' ),
-
-        /**
-         * HTML tag name of the root element
-         *
-         * @property {string} AllView.tagName
-         * @default "li"
-         */
-        tagName: 'li'
+        }.property( 'parentView' )
     })
 });
