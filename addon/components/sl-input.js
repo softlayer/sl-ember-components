@@ -2,22 +2,35 @@ import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/**
- * @module components
- * @class sl-input
- */
+/** @module sl-components/components/sl-input */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /**
+     * Class names for the containing div
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'form-group', 'sl-input' ],
+
+    /**
+     * Attribute bindings for the containing div
+     *
+     * @property {Ember.Array} attributeBindings
+     */
+    attributeBindings: [ 'class' ],
+
+    /**
      * Component actions hash
-     * @property {object} actions
+     *
+     * @property {Ember.Object} actions
      */
     actions: {
 
         /**
          * Sends the 'blur' bound action when the input loses focus
          *
-         * @method actions.blurred
+         * @function actions.blurred
+         * @return   {void}
          */
         blur: function() {
             this.sendAction( 'blur' );
@@ -26,7 +39,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         /**
          * Sends the primary bound action when `enter` is pressed
          *
-         * @method actions.enter
+         * @function actions.enter
+         * @return   {void}
          */
         enter: function() {
             this.sendAction();
@@ -34,69 +48,34 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     },
 
     /**
-     * Attribute bindings for the containing div
-     *
-     * @property {array} attributeBindings
-     */
-    attributeBindings: [ 'class' ],
-
-    /**
-     * Class names for the containing div
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'form-group', 'sl-input' ],
-
-    /**
      * Enable the click to edit styling
      *
      * @property {boolean} clickToEdit
-     * @default false
+     * @default  false
      */
     clickToEdit: false,
 
     /**
-     * Get a reference to the internal input element
+     * Lookup path for the suggestion items' name
      *
-     * @method getInput
+     * @property {Ember.String} suggestionLabelPath
+     * @default  "name"
      */
-    getInput: function() {
-        return this.$( '#' + this.get( 'inputId' ));
-    },
+    suggestionNamePath: 'name',
 
     /**
-     * Class string for the internal input element
+     * Type attribute for the containing div
      *
-     * @property {string} inputClass
+     * @property {Ember.String} type
+     * @default  "text"
      */
-    inputClass: function() {
-        var classes = [ 'form-control' ];
-
-        if ( this.get( 'clickToEdit' )) {
-            classes.push( 'click-to-edit' );
-        }
-
-        if ( this.get( 'suggestions' )) {
-            classes.push( 'typeahead' );
-        }
-
-        return classes.join( ' ' );
-    }.property(),
-
-    /**
-     * ID for the actual input element
-     *
-     * @property {string} inputId
-     */
-    inputId: function() {
-        return this.get( 'elementId' ) + 'Input';
-    }.property( 'elementId' ),
+    type: 'text',
 
     /**
      * Whether the typeahead.js functionality has been setup
      *
      * @property {boolean} isTypeaheadSetup
-     * @default false
+     * @default  false
      */
     isTypeaheadSetup: false,
 
@@ -104,11 +83,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Sets up the input event listeners exposed to the component's
      * parent controller
      *
-     * @method setupInputEvents
+     * @function setupInputEvents
+     * @observes didInsertElement event
+     * @return   {void}
      */
     setupInputEvents: function() {
         var blurAction = this.get( 'blur' ),
-            self = this;
+            self       = this;
 
         if ( blurAction ) {
             this.$( 'input' ).on( 'blur', function() {
@@ -120,20 +101,22 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Sets up the typeahead behavior when `suggestions` are supplied
      *
-     * @method setupTypeahead
+     * @function setupTypeahead
+     * @observes didInsertElement event, suggestions
+     * @return   {void}
      */
     setupTypeahead: function() {
         var self = this;
 
-        if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' )) {
+        if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' ) ) {
             var namePath = this.get( 'suggestionNamePath' ),
                 typeahead;
 
             typeahead = this.getInput().typeahead({
-                highlight: true,
-                hint: true
+                highlight : true,
+                hint      : true
             }, {
-                displayKey: function( item ){
+                displayKey: function( item ) {
                     if ( item instanceof Object ) {
                         return Ember.get( item, namePath );
                     }
@@ -176,18 +159,42 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     }.on( 'didInsertElement' ).observes( 'suggestions' ),
 
     /**
-     * Lookup path for the suggestion items' name
+     * Get a reference to the internal input element
      *
-     * @property {string} suggestionLabelPath
-     * @default "name"
+     * @function getInput
+     * @return   {object}
      */
-    suggestionNamePath: 'name',
+    getInput: function() {
+        return this.$( '#' + this.get( 'inputId' ) );
+    },
 
     /**
-     * Type attribute for the containing div
+     * Class string for the internal input element
      *
-     * @property {string} type
-     * @default "text"
+     * @property inputClass
+     * @return   {string}
      */
-    type: 'text'
+    inputClass: function() {
+        var classes = [ 'form-control' ];
+
+        if ( this.get( 'clickToEdit' ) ) {
+            classes.push( 'click-to-edit' );
+        }
+
+        if ( this.get( 'suggestions' ) ) {
+            classes.push( 'typeahead' );
+        }
+
+        return classes.join( ' ' );
+    }.property(),
+
+    /**
+     * ID for the actual input element
+     *
+     * @property inputId
+     * @return   {string}
+     */
+    inputId: function() {
+        return this.get( 'elementId' ) + 'Input';
+    }.property( 'elementId' )
 });
