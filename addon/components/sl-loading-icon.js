@@ -1,38 +1,35 @@
 import Ember from 'ember';
 
-/**
- * @module components
- * @class sl-loading-icon
- */
+/** @module sl-components/components/sl-loading-icon */
 export default Ember.Component.extend({
 
     /**
-     * Class name bindings for the root element
+     * The HTML element type for this component
      *
-     * @property {array} classNameBindings
+     * @property {Ember.String} tagName
+     * @default  "span"
      */
-    classNameBindings: [ 'inverse:sl-loading-icon-light:sl-loading-icon-dark' ],
+    tagName: 'span',
 
     /**
      * Class names for the root element
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-loading-icon' ],
+
+    /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'inverse:sl-loading-icon-light:sl-loading-icon-dark' ],
 
     /**
      * Whether to use the inverse (lighter colored) icon
      *
      * @property {boolean} inverse
-     * @default false
+     * @default  false
      */
-    inverse: false,
-
-    /**
-     * The HTML element type for this component
-     *
-     * @property {string} tagName
-     * @default "span"
-     */
-    tagName: 'span'
+    inverse: false
 });
