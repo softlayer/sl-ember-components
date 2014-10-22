@@ -68,7 +68,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             default:
             case 'datetime':
-                formattedString = momentValue.format( 'dddd, MMMM Do YYYY, h:mm A ' ) + this.get( 'timezoneString' );
+                formattedString = momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) + ' ' + this.get( 'timezoneString' );
         }
 
         return formattedString;
