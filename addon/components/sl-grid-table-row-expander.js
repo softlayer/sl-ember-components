@@ -6,8 +6,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag name for root element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "tr"
      */
     tagName: 'tr'

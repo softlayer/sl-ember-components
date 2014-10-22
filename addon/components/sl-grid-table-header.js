@@ -6,8 +6,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag to use for base element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "th"
      */
     tagName: 'th',
@@ -15,24 +14,21 @@ export default Ember.Component.extend({
     /**
      * The base element's class names
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-grid-table-header' ],
 
     /**
      * Bindings for the base element's attributes
      *
-     * @property {array}       attributeBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'style' ],
 
     /**
      * Component actions hash
      *
-     * @property {object}       actions
-     * @type     {Ember.Object}
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -64,8 +60,7 @@ export default Ember.Component.extend({
     /**
      * Inline style string for the base element
      *
-     * @property {string} style
-     * @type     {Ember.String}
+     * @property {Ember.String} style
      * @default  ''
      */
     style: '',

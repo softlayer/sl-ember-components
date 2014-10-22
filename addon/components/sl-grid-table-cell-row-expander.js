@@ -7,8 +7,7 @@ export default SlGridTableCell.extend({
     /**
      * Class names array for root element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-grid-table-cell-expander' ],
 
@@ -26,7 +25,6 @@ export default SlGridTableCell.extend({
      * Whether the row expander is open
      *
      * @property {boolean} expanded
-     * @type     {boolean}
      */
     expanded: Ember.computed.bool( 'row.rowExpanderIsOpen' )
 });

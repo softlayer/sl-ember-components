@@ -8,24 +8,21 @@ export default Ember.Component.extend({
     /**
      * Class names for the root element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-calendar' ],
 
     /**
      * Bindings for the component's class names
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'locked:sl-calendar-locked' ],
 
     /**
      * Object of actions
      *
-     * @property {object}       actions
-     * @type     {Ember.Object}
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -171,8 +168,7 @@ export default Ember.Component.extend({
     /**
      * String lookup for the date value on the content objects
      *
-     * @property {string} dateValuePath
-     * @type     {Ember.String}
+     * @property {Ember.String} dateValuePath
      * @default  "date"
      */
     dateValuePath: 'date',
@@ -182,7 +178,6 @@ export default Ember.Component.extend({
      * and back
      *
      * @property {boolean} locked
-     * @type     {boolean}
      * @default  false
      */
     locked: false,
@@ -190,8 +185,7 @@ export default Ember.Component.extend({
     /**
      * The current view mode for the calendar
      *
-     * @property {string} viewMode
-     * @type     {Ember.String}
+     * @property {Ember.String} viewMode
      * @default  "days"
      */
     viewMode: 'days',

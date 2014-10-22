@@ -7,7 +7,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Class names for the root element
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'form-group', 'sl-date-picker' ],
 
@@ -15,7 +15,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether or not to show week numbers to the left of week rows
      *
      * @property {boolean} calendarWeeks
-     * @type     {boolean}
      * @default  false
      */
     calendarWeeks: false,
@@ -27,7 +26,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * the datepicker.
      *
      * @property {boolean} clearBtn
-     * @type     {boolean}
      * @default  false
      */
     clearBtn: false,
@@ -38,8 +36,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Values are 0 (Sunday) to 6 (Saturday). Multiple values should be
      * comma-separated.
      *
-     * @property {array|string} daysOfWeekDisabled
-     * @type     {Ember.Array|Ember.String}
+     * @property {Ember.Array|Ember.String} daysOfWeekDisabled
      * @default  []
      */
     daysOfWeekDisabled: [],
@@ -48,7 +45,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The latest date that may be selected; all later dates will be disabled
      *
      * @property {date} endDate
-     * @type     {date}
      * @default  null
      */
     endDate: null,
@@ -62,7 +58,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * valid date, conforming to the given _format_.
      *
      * @property {boolean} forceParse
-     * @type     {boolean}
      * @default  true
      */
     forceParse: true,
@@ -77,8 +72,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * - M, MM: Abbreviated and full month names, respectively
      * - yy, yyyy: 2- and 4-digit years, respectively
      *
-     * @property {string} format
-     * @type     {Ember.String}
+     * @property {Ember.String} format
      * @default  "mm/dd/yyyy"
      */
     format: 'mm/dd/yyyy',
@@ -89,8 +83,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The inputs will be attached to the selected element. Allows for
      * explicitly creating a range picker on a non-standard element.
      *
-     * @property {array} inputs
-     * @type     {Ember.Array}
+     * @property {Ember.Array} inputs
      * @default  null
      */
     inputs: null,
@@ -98,8 +91,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The IETF code of the language to use for month and day names
      *
-     * @property {string} language
-     * @type     {Ember.String}
+     * @property {Ember.String} language
      * @default  "en"
      */
     language: 'en',
@@ -107,8 +99,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Set a limit for the view mode; accepts "days", "months", or "years"
      *
-     * @property {string} minViewMode
-     * @type     {Ember.String}
+     * @property {Ember.String} minViewMode
      * @default  "days"
      */
     minViewMode: 'days',
@@ -119,8 +110,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Consists of one or two of "left" or "right", "top" or "bottom",
      * and "auto" (may be omitted).
      *
-     * @property {string} orientation
-     * @type     {Ember.String}
+     * @property {Ember.String} orientation
      * @default  "auto"
      */
     orientation: 'auto',
@@ -130,7 +120,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * be disabled
      *
      * @property {date} startDate
-     * @type     {date}
      * @default  null
      */
     startDate: null,
@@ -139,8 +128,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The view that the datepicker should show when it is opened; accepts
      * "month", "year", or "decade"
      *
-     * @property {string} startView
-     * @type     {Ember.String}
+     * @property {Ember.String} startView
      * @default  "month"
      */
     startView: 'month',
@@ -152,8 +140,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * If true, the "Today" button will only move the current date into view.
      * If "linked", the current date will also be selected.
      *
-     * @property {boolean|string} todayBtn
-     * @type     {boolean|Ember.String}
+     * @property {boolean|Ember.String} todayBtn
      * @default  false
      */
     todayBtn: false,
@@ -162,7 +149,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether to highlight the current date or not
      *
      * @property {boolean} todayHighlight
-     * @type     {boolean}
      * @default  false
      */
     todayHighlight: false,
@@ -171,7 +157,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
      *
      * @property {number} weekStart
-     * @type     {number}
      * @default  0
      */
     weekStart: 0,

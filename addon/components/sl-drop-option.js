@@ -6,8 +6,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag name for the root element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "li"
      */
     tagName: 'li',
@@ -15,24 +14,21 @@ export default Ember.Component.extend({
     /**
      * Class names for the root element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-drop-option' ],
 
     /**
      * Class name bindings for the root element
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'optionType' ],
 
     /**
      * Component actions hash
      *
-     * @property {object}       actions
-     * @type     {Ember.Object}
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -52,9 +48,8 @@ export default Ember.Component.extend({
      * "presentation" otherwise
      *
      * @function optionType
-     * @type     {Ember.String}
      * @observes label
-     * @return   {string}
+     * @return   {Ember.String}
      */
     optionType: function() {
         return this.get( 'label' ) ? 'presentation' : 'divider';

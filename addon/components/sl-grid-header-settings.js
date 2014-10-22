@@ -6,8 +6,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag name for the root element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "div"
      */
     tagName: 'div',
@@ -15,16 +14,14 @@ export default Ember.Component.extend({
     /**
      * Class names for the root element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-grid-header-settings' ],
 
     /**
      * Component actions hash
      *
-     * @property {object}       actions
-     * @type     {Ember.Object}
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -48,7 +45,6 @@ export default Ember.Component.extend({
      * Whether to show actions
      *
      * @property {boolean} showActions
-     * @type     {boolean}
      */
     showActions: Ember.computed.bool( 'settings.actions' ),
 
@@ -56,15 +52,13 @@ export default Ember.Component.extend({
      * Whether to show columns
      *
      * @property {boolean} showColumns
-     * @type     {boolean}
      */
     showColumns: Ember.computed.bool( 'settings.hideableColumns' ),
 
     /**
      * A checkbox that binds click event for a related action
      *
-     * @property {object}         columnCheckbox
-     * @type     {Ember.Checkbox}
+     * @property {Ember.Checkbox} columnCheckbox
      */
     columnCheckbox: Ember.Checkbox.extend({
         checked: Ember.computed.not( 'column.hidden' ),

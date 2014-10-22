@@ -9,8 +9,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The HTML tag type of the component's root element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "time"
      */
     tagName: 'time',
@@ -18,16 +17,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Class names for the component's root element, <time>
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-datetime' ],
 
     /**
      * Bindings for the date-time's attribute values
      *
-     * @property {array}       attributeBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'datetime' ],
 
@@ -35,8 +32,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * String name for the format to render inline; can be "date", "datetime",
      * or "relative"
      *
-     * @property {string} format
-     * @type     {Ember.String}
+     * @property {Ember.String} format
      * @default  "datetime"
      */
     format: 'datetime',

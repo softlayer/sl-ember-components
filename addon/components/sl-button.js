@@ -8,8 +8,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * The root component element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "button"
      */
     tagName: 'button',
@@ -17,24 +16,21 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * Class names to apply to the button
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'btn', 'sl-button' ],
 
     /**
      * Attribute bindings for the button component
      *
-     * @property {array}       attributeBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'type' ],
 
     /**
      * Class bindings for the button component
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'sizeClass', 'themeClass' ],
 
@@ -51,8 +47,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * The text to display during AJAX activity
      *
-     * @property {string}       activeLabelText
-     * @type     {Ember.String}
+     * @property {Ember.String} activeLabelText
      * @default  null
      */
     activeLabelText: null,
@@ -61,7 +56,6 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Whether or not the button should be disabled during AJAX activity
      *
      * @property {boolean} disableOnAjax
-     * @type     {boolean}
      * @default  false
      */
     disableOnAjax: false,
@@ -70,7 +64,6 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Whether or not the button should be hidden during AJAX activity
      *
      * @property {boolean} hideOnAjax
-     * @type     {boolean}
      * @default  false
      */
     hideOnAjax: false,
@@ -79,8 +72,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * This is primarily used internally to avoid losing the "default" value of
      * the label when switching to the active text
      *
-     * @property {string}       inactiveLabelText
-     * @type     {Ember.String}
+     * @property {Ember.String} inactiveLabelText
      * @default  null
      */
     inactiveLabelText: null,
@@ -91,8 +83,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * It is preferred you use this to set your "default" text rather than
      * inactiveLabelText, which will take this value as a default.
      *
-     * @property {string}       label
-     * @type     {Ember.String}
+     * @property {Ember.String} label
      * @default  null
      */
     label: null,
@@ -100,8 +91,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * The bootstrap "theme" name
      *
-     * @property {string}       theme
-     * @type     {Ember.String}
+     * @property {Ember.String} theme
      * @default  "default"
      */
     theme: 'default',

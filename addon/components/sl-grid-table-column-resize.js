@@ -6,8 +6,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag name for root element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "td"
      */
     tagName: 'td',
@@ -15,16 +14,14 @@ export default Ember.Component.extend({
     /**
      * Class names array for root element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-grid-table-column-resize' ],
 
     /**
      * Class name bindings for root element
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'isHighlighted:columnHighlight' ],
 
@@ -32,7 +29,6 @@ export default Ember.Component.extend({
      * Whether the column is highlighted
      *
      * @property {boolean} isHighlighted
-     * @type     {boolean}
      * @default false
      */
     isHighlighted: Ember.computed.alias( 'column.highlight' ),
@@ -40,8 +36,7 @@ export default Ember.Component.extend({
     /**
      * Grid table column global hash
      *
-     * @property {object} global
-     * @type     {Ember.Object}
+     * @property {Ember.Object} global
      */
     global: {
         isResizing: false
@@ -51,7 +46,6 @@ export default Ember.Component.extend({
      * Starting x offset
      *
      * @property {number} startX
-     * @type     {number}
      * @default  0
      */
     startX: 0,

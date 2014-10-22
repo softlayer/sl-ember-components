@@ -6,16 +6,14 @@ export default Ember.Component.extend({
     /**
      * Class names for the date-range-picker component
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array}       classNames
      */
     classNames: [ 'sl-date-range-picker' ],
 
     /**
      * The value for the endDate input
      *
-     * @property {string} endDateValue
-     * @type     {Ember.String}
+     * @property {Ember.String} endDateValue
      * @default  null
      */
     endDateValue: null,
@@ -23,8 +21,7 @@ export default Ember.Component.extend({
     /**
      * The string format for date values
      *
-     * @property {string} format
-     * @type     {Ember.String}
+     * @property {Ember.String} format
      * @default  "mm/dd/yyyy"
      */
     format: 'mm/dd/yyyy',
@@ -32,8 +29,7 @@ export default Ember.Component.extend({
     /**
      * The last valid date for the date range
      *
-     * @property {date|string} endDate
-     * @type     {date|Ember.String}
+     * @property {date|Ember.String} endDate
      * @default  null
      */
     maxDate: null,
@@ -41,8 +37,7 @@ export default Ember.Component.extend({
     /**
      * The earliest date selectable in the range
      *
-     * @property {date|string} minDate
-     * @type     {date|Ember.String}
+     * @property {date|Ember.String} minDate
      * @default  null
      */
     minDate: null,
@@ -50,8 +45,7 @@ export default Ember.Component.extend({
     /**
      * The value for the startDate input
      *
-     * @property {string} startDateValue
-     * @type     {Ember.String}
+     * @property {Ember.String} startDateValue
      * @default null
      */
     startDateValue: null,

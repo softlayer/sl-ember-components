@@ -8,8 +8,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag name of the component's root element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "span"
      */
     tagName: 'span',
@@ -17,16 +16,14 @@ export default Ember.Component.extend({
     /**
      * Class names for the component's root element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'month' ],
 
     /**
      * Class name bindings for the component's root element
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'active' ],
 

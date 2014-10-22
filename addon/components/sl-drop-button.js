@@ -7,24 +7,21 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Class names for the div element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
 
     /**
      * Class attribute bindings for the button
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'themeClass' ],
 
     /**
      * Component actions hash
      *
-     * @property {object}       actions
-     * @type     {Ember.Object}
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -43,8 +40,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Class string for the button's icon
      *
-     * @property {string} iconClass
-     * @type     {Ember.String}
+     * @property {Ember.String} iconClass
      * @default  "caret"
      */
     iconClass: 'caret',
@@ -52,8 +48,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The string name of the style theme for the button
      *
-     * @property {string} theme
-     * @type     {Ember.String}
+     * @property {Ember.String} theme
      * @default  "default"
      */
     theme: 'default',

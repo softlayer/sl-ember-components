@@ -6,8 +6,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag name for the base element
      *
-     * @property {string}       tagName
-     * @type     {Ember.String}
+     * @property {Ember.String} tagName
      * @default  "td"
      */
     tagName: 'td',
@@ -15,8 +14,7 @@ export default Ember.Component.extend({
     /**
      * Class name bindings for the root element
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'cssClass' ]
 });

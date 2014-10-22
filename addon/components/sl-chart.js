@@ -6,24 +6,21 @@ export default Ember.Component.extend({
     /**
      * Class names for the root element
      *
-     * @property {array}       classNames
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'panel', 'panel-default', 'sl-chart', 'sl-panel' ],
 
     /**
      * Class name bindings for the root element
      *
-     * @property {array}       classNameBindings
-     * @type     {Ember.Array}
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'isLoading:sl-loading' ],
 
     /**
      * The highchart instantiation
      *
-     * @property {object} chart
-     * @type     {Ember.Object}
+     * @property {Ember.Object} chart
      * @default  null
      */
     chart: null,
@@ -31,8 +28,7 @@ export default Ember.Component.extend({
     /**
      * Height value used for inline style
      *
-     * @property {string} height
-     * @type     {Ember.String}
+     * @property {Ember.String} height
      * @default  "auto"
      */
     height: 'auto',
@@ -41,7 +37,6 @@ export default Ember.Component.extend({
      * When true, the chart's panel body will be in a loading state
      *
      * @property {boolean} isLoading
-     * @type     {boolean}
      * @default  false
      */
     isLoading: false,
@@ -49,8 +44,7 @@ export default Ember.Component.extend({
     /**
      * The collection of series data for the chart
      *
-     * @property {array} series
-     * @type     {Ember.Array}
+     * @property {Ember.Array} series
      * @default  null
      */
     series: null,
@@ -58,8 +52,7 @@ export default Ember.Component.extend({
     /**
      * Width value used for inline style
      *
-     * @property {string} width
-     * @type     {Ember.String}
+     * @property {Ember.String} width
      * @default  "auto"
      */
     width: 'auto',
