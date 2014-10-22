@@ -56,19 +56,22 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @return   {string}
      */
     formattedValue: function() {
-        var momentValue = this.get( 'momentValue' );
+        var momentValue     = this.get( 'momentValue' ),
+            formattedString = '';
 
         switch ( this.get( 'format' ) ) {
             case 'date':
-                return momentValue.format( 'YYYY-MM-DD' );
+                formattedString = momentValue.format( 'YYYY-MM-DD' );
 
             case 'relative':
-                return momentValue.fromNow();
+                formattedString = momentValue.fromNow();
 
             default:
             case 'datetime':
-                return momentValue.format( 'dddd, MMMM Do YYYY, h:mm A ' ) + this.get( 'timezoneString' );
+                formattedString = momentValue.format( 'dddd, MMMM Do YYYY, h:mm A ' ) + this.get( 'timezoneString' );
         }
+
+        return formattedString;
     }.property( 'format', 'momentValue' ),
 
     /**
