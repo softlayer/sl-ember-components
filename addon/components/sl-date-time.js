@@ -62,9 +62,11 @@ export default Ember.Component.extend( TooltipEnabled, {
         switch ( this.get( 'format' ) ) {
             case 'date':
                 formattedString = momentValue.format( 'YYYY-MM-DD' );
+                break;
 
             case 'relative':
                 formattedString = momentValue.fromNow();
+                break;
 
             default:
             case 'datetime':
