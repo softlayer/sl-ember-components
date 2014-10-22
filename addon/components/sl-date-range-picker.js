@@ -93,7 +93,7 @@ export default Ember.Component.extend({
      * The latest selectable startDate, based on maxDate and
      * current endDateValue
      *
-     * @property latestStartDate
+     * @function latestStartDate
      * @observes endDateValue, maxDate
      * @return   {date|Ember.String}  Defaults to null
      */
