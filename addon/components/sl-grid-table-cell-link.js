@@ -1,8 +1,5 @@
 import SlGridTableCell from './sl-grid-table-cell';
 
-/**
- * @module components
- * @class sl-grid-table-cell-link
- */
+/** @module sl-components/components/sl-grid-table-cell-link */
 export default SlGridTableCell.extend({
 });
