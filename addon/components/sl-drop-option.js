@@ -53,7 +53,7 @@ export default Ember.Component.extend({
      *
      * @function optionType
      * @type     {Ember.String}
-     * @observes 'label'
+     * @observes label
      * @return   {string}
      */
     optionType: function() {

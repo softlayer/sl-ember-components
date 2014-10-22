@@ -61,7 +61,7 @@ export default Ember.Component.extend({
      * startDate input is changed
      *
      * @function setupFocusTransition
-     * @observes 'didInsertElement'
+     * @observes 'didInsertElement event
      * @return   {void}
      */
     setupFocusTransition: function() {
@@ -77,7 +77,7 @@ export default Ember.Component.extend({
      * current startDateValue
      *
      * @function earliestEndDate
-     * @observes 'minDate', 'startDateValue'
+     * @observes minDate, startDateValue
      * @return   {date|Ember.String}  Defaults to null
      */
     earliestEndDate: function() {
@@ -100,7 +100,7 @@ export default Ember.Component.extend({
      * current endDateValue
      *
      * @property latestStartDate
-     * @observes 'endDateValue', 'maxDate'
+     * @observes endDateValue, maxDate
      * @return   {date|Ember.String}  Defaults to null
      */
     latestStartDate: function() {

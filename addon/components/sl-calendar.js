@@ -201,7 +201,7 @@ export default Ember.Component.extend({
      * supplied by the calendar's content values
      *
      * @function contentDates
-     * @observes 'content'
+     * @observes content
      * @return   {Ember.Object}
      */
     contentDates: function() {
@@ -253,7 +253,7 @@ export default Ember.Component.extend({
      * Name of the currently selected/viewed month
      *
      * @function currentMonthstring
-     * @observes 'currentMonth'
+     * @observes currentMonth
      * @return   {Ember.String}
      */
     currentMonthstring: function() {
@@ -274,7 +274,7 @@ export default Ember.Component.extend({
      * The number of days in the current month
      *
      * @function daysInMonth
-     * @observes 'currentMonth', 'currentYear'
+     * @observes currentMonth, currentYear
      * @return   {number}
      */
     daysInMonth: function() {
@@ -285,7 +285,7 @@ export default Ember.Component.extend({
      * The last year in the currently selected/viewed decade
      *
      * @function decadeEnd
-     * @observes 'decadeStart'
+     * @observes decadeStart
      * @return   {number}
      */
     decadeEnd: function() {
@@ -312,7 +312,7 @@ export default Ember.Component.extend({
      * - {number}  month  - The month number in the year (1-12)
      *
      * @function monthsInYearView
-     * @observes 'contentDates', 'currentYear'
+     * @observes contentDates, currentYear
      * @return   {Ember.Array}
      */
     monthsInYearView: function() {
@@ -358,7 +358,7 @@ export default Ember.Component.extend({
      * Whether the current view is "days"
      *
      * @function viewingDays
-     * @observes 'viewMode'
+     * @observes viewMode
      * @return   {boolean}
      */
     viewingDays: function() {
@@ -369,7 +369,7 @@ export default Ember.Component.extend({
      * Whether the current view is "months"
      *
      * @function viewingMonths
-     * @observes 'viewMode'
+     * @observes viewMode
      * @return   {boolean}
      */
     viewingMonths: function() {
@@ -380,7 +380,7 @@ export default Ember.Component.extend({
      * Whether the current view is "years"
      *
      * @function viewingYears
-     * @observes 'viewMode'
+     * @observes viewMode
      * @return   {boolean}
      */
     viewingYears: function() {
@@ -398,7 +398,7 @@ export default Ember.Component.extend({
      * - {boolean} old - Whether the day occurs in the previous month
      *
      * @function weeksInMonthView
-     * @observes 'contentDates', 'currentMonth', 'currentYear', 'daysInMonth'
+     * @observes contentDates, currentMonth, currentYear, daysInMonth
      * @returns  {Ember.Array}
      */
     weeksInMonthView: function() {
@@ -499,7 +499,7 @@ export default Ember.Component.extend({
      * - {number} year - The year number
      *
      * @function yearsInDecadeView
-     * @observes 'contentDates', 'decadeEnd', 'decadeStart'
+     * @observes contentDates, decadeEnd, decadeStart
      * @return   {Ember.Array}
      */
     yearsInDecadeView: function() {

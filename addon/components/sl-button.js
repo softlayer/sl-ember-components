@@ -110,6 +110,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Initialize labels
      *
      * @function initLabel
+     * @observes init event
      * @return   {void}
      */
     initLabel: function() {
@@ -122,6 +123,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Register our behaviors with the convenience method from the AJAX mixin
      *
      * @function setupHandlers
+     * @observes init event
      * @return   {void}
      */
     setupHandlers: function() {
@@ -160,6 +162,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Converted size string to Bootstrap button class
      *
      * @function {string}       sizeClass
+     * @observes size
      * @return   {Ember.String} Defaults to undefined
      */
     sizeClass: function() {
@@ -174,6 +177,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Converted theme string to Bootstrap button class
      *
      * @function {string}       themeClass
+     * @observes theme
      * @return   {Ember.String} Defaults to "btn-default"
      */
     themeClass: function() {

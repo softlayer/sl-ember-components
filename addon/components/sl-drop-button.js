@@ -62,7 +62,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The class value for the drop-button based on the current "theme"
      *
      * @function themeClass
-     * @observes 'theme'
+     * @observes theme
      * @return   {string}
      */
     themeClass: function() {
