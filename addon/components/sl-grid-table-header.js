@@ -211,14 +211,17 @@ export default Ember.Component.extend({
     setNewColumnIndex: function() {
         var currentLeft = this.get( 'reorderCol' ).offset().left,
             id          = this.get( 'elementId' ),
+            lastIndex   = this.get( 'newIndex' ),
             self        = this,
-            headers;
+            headers,
+            offsets,
+            currentIndex;
 
         // Get all siblings and offsets
         headers = this.$().parent().children( 'th.sl-grid-table-header' );
 
         /* jshint unused: false */
-        var offsets = headers.map( function( index, el ) {
+        offsets = headers.map( function( index, el ) {
             if ( el.id === id ) {
                 return this.get( 'oldPosition' );
             }
@@ -226,9 +229,7 @@ export default Ember.Component.extend({
             return this.getPosition( el );
         }.bind( this ));
 
-        var lastIndex = this.get( 'newIndex' );
-
-        var currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {
+        currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {
             return currentLeft > el.left ? index : prev;
         }, 0 );
 
@@ -249,6 +250,7 @@ export default Ember.Component.extend({
             hlReorderCol.appendTo( Ember.$( 'body' ));
             this.set( 'hlReorderCol', hlReorderCol );
         }
+
         this.set( 'newIndex', currentIndex );
     },
 
