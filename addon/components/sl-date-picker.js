@@ -209,27 +209,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Methods
 
     /**
-     * Placeholder for the following logic
-     *
-     * Takes a date as a parameter and returns one of the following:
-     * - undefined to have no effect
-     * - A boolean, indicationg whether or not this date is selectable
-     * - A string, representing additional CSS classes to apply to the date's cell
-     * - An object with the following properties:
-     *   - `enabled` : same as the boolean value above
-     *   - `classes` : same as the string value above
-     *   - `tooltip` : a tooltip to apply to this date, via the `title` attribute
-     *
-     * @todo Implement the preceding logic
-     *
-     * @function {mixed} beforeShowDay
-     * @default  jQuery.noop
-     */
-    beforeShowDay: function() {
-        return this.$.noop;
-    }.property(),
-
-    /**
      * Datepicker plugin options
      *
      * @function options
@@ -238,7 +217,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     options: function() {
         return {
             autoclose          : true,
-            beforeShowDay      : this.get( 'beforeShowDay' ),
             calendarWeeks      : this.get( 'calendarWeeks' ),
             clearBtn           : this.get( 'clearBtn' ),
             daysOfWeekDisabled : this.get( 'daysOfWeekDisabled' ),
