@@ -307,8 +307,8 @@ export default Ember.Component.extend({
         /**
          * Method called on mouseenter event
          *
-         * @function  AllView.mouseEnter
-         * @returns {void}
+         * @function AllView.mouseEnter
+         * @returns  {void}
          */
         mouseEnter: function() {
             this.send( 'showAll' );
@@ -320,7 +320,7 @@ export default Ember.Component.extend({
         /**
          * Target pointer to the parent view
          *
-         * @function   AllView.target
+         * @function AllView.target
          * @observes parentView
          * @return   {Ember.View}
          */

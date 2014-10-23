@@ -59,8 +59,8 @@ export default Ember.Component.extend({
     /**
      * Setup mouse events when the mouseDown is triggered
      *
-     * @function  mouseDown
-     * @returns {void}
+     * @function mouseDown
+     * @returns  {void}
      */
     mouseDown: function() {
         if ( !this.get( 'disabled' ) ) {
@@ -76,7 +76,7 @@ export default Ember.Component.extend({
      * Inline style string for the base element
      *
      * @property {Ember.String} style
-     * @default  ''
+     * @default  ""
      */
     style: '',
 
@@ -89,7 +89,7 @@ export default Ember.Component.extend({
      * If we try to make the style a computed property then we will get render
      * errors from Ember before the view is inserted into the DOM.
      *
-     * @function   columnWidthObserver
+     * @function columnWidthObserver
      * @observes didInsertElement event, column.width
      * @returns  {void}
      */
@@ -129,7 +129,7 @@ export default Ember.Component.extend({
     /**
      * Setup listeners for bound actions
      *
-     * @function   setupBoundListeners
+     * @function setupBoundListeners
      * @observes didInsertElement event
      * @returns  {void}
      */

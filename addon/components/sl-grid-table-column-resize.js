@@ -40,8 +40,8 @@ export default Ember.Component.extend({
     /**
      * Action triggered when mousedown event is triggered
      *
-     * @method   mouseDown
-     * @argument {event} event - The mousedown event
+     * @function mouseDown
+     * @param    {event} event - The mousedown event
      * @returns  {void}
      */
     mouseDown: function( event ) {
@@ -63,8 +63,8 @@ export default Ember.Component.extend({
     /**
      * Method triggered on mouseenter event
      *
-     * @method  mouseEnter
-     * @returns {void}
+     * @function mouseEnter
+     * @returns  {void}
      */
     mouseEnter: function() {
         if ( !this.get( 'global.isResizing' ) ) {
@@ -75,8 +75,8 @@ export default Ember.Component.extend({
     /**
      * Method triggered on mouseleave event
      *
-     * @method  mouseLeave
-     * @returns {void}
+     * @function mouseLeave
+     * @returns  {void}
      */
     mouseLeave: function() {
         if ( !this.get( 'global.isResizing' ) ) {
@@ -100,7 +100,7 @@ export default Ember.Component.extend({
      * Whether the column is highlighted
      *
      * @property {boolean} isHighlighted
-     * @default false
+     * @default  false
      */
     isHighlighted: Ember.computed.alias( 'column.highlight' ),
 
@@ -118,8 +118,8 @@ export default Ember.Component.extend({
     /**
      * Change the root element's tagName
      *
-     * @method   changeTag
-     * @observes init event
+     * @function changeTag
+     * @observes "init" event
      * @returns  {void}
      */
     changeTag: function() {
@@ -131,8 +131,8 @@ export default Ember.Component.extend({
     /**
      * Setup listeners for mouse events
      *
-     * @method   setupBoundListeners
-     * @observes didInsertElement event
+     * @function setupBoundListeners
+     * @observes "didInsertElement" event
      * @returns  {void}
      */
     setupBoundListeners: function() {
