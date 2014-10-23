@@ -6,29 +6,19 @@ import Ember from 'ember';
  */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
-     * Component actions hash
+     * HTML tag for tab-pane component
+     *
+     * @property {string} tagName
+     * @default "div"
      */
-    actions: {
-
-        /**
-         * Action to trigger collapse of parent tab-panel
-         *
-         * @method actions.collapseTabPanel
-         */
-        collapseTabPanel: function() {
-            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.collapse' );
-        },
-
-        /**
-         * Action to trigger parent tab-panel content height recalculation
-         *
-         * @method actions.updateContentHeight
-         */
-        updateContentHeight: function() {
-            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.resize' );
-        }
-    },
+    tagName: 'div',
 
     /**
      * Bindings for HTML attributes on the tab pane
@@ -44,6 +34,43 @@ export default Ember.Component.extend({
      */
     classNames: [ 'sl-tab-pane', 'tab-pane' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    /**
+     * Component actions hash
+     *
+     * @property {Ember.Object} actions
+     */
+    actions: {
+
+        /**
+         * Action to trigger collapse of parent tab-panel
+         *
+         * @function actions.collapseTabPanel
+         * @returns  {void}
+         */
+        collapseTabPanel: function() {
+            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.collapse' );
+        },
+
+        /**
+         * Action to trigger parent tab-panel content height recalculation
+         *
+         * @function actions.updateContentHeight
+         * @returns  {void}
+         */
+        updateContentHeight: function() {
+            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.resize' );
+        }
+    },
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * Label text for the displayed tab name
      *
@@ -58,11 +85,13 @@ export default Ember.Component.extend({
      */
     'data-tab-name': Ember.computed.alias( 'name' ),
 
-    /**
-     * HTML tag for tab-pane component
-     *
-     * @property {string} tagName
-     * @default "div"
-     */
-    tagName: 'div'
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });
