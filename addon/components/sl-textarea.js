@@ -8,6 +8,12 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Class names for the component
      *
@@ -15,12 +21,33 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     classNames: [ 'form-group', 'sl-textarea' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * The ID of the textarea input element
      *
-     * @property {string} inputId
+     * @function inputId
+     * @observes elementId
+     * @returns  {string}
      */
     inputId: function() {
         return this.get( 'elementId' ) + 'Input';
     }.property( 'elementId' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });
