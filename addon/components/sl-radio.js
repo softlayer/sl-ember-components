@@ -6,6 +6,37 @@ import Ember from 'ember';
  */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * HTML tag name for the root element
+     *
+     * @property {string} tagName
+     * @default  "div"
+     */
+    tagName: 'div',
+
+    /**
+     * Class names for the root element
+     *
+     * @property {array} classNames
+     */
+    classNames: [ 'radio', 'sl-radio' ],
+
+    /**
+     * Class name bindings for the root element
+     *
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'disabled' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Component actions hash
      *
@@ -16,26 +47,18 @@ export default Ember.Component.extend({
         /**
          * Trigger a change of value for a parent sl-radio-group component
          *
-         * @method actions.change
+         * @function actions.change
          */
         change: function( value ) {
             this.$().closest( '.sl-radio-group' ).trigger( 'sl-radio-group.changeValue', value );
         }
     },
 
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {array} classNameBindings
-     */
-    classNameBindings: [ 'disabled' ],
+    // -------------------------------------------------------------------------
+    // Events
 
-    /**
-     * Class names for the root element
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'radio', 'sl-radio' ],
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * ID attribute for the radio input
@@ -46,21 +69,23 @@ export default Ember.Component.extend({
         return this.get( 'elementId' ) + '-input';
     }.property( 'elementId' ),
 
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
-     * Type of radio button; "radio-inline" for inline, "radio" default
+     * Type of radio button; "radio-inline" when inline, "radio" default
      *
      * @property {string} radioType
-     * @default "radio"
+     * @default  "radio"
      */
     radioType: function() {
         return this.get( 'inline' ) ? 'radio-inline' : 'radio';
-    }.property( 'inline' ),
+    }.property( 'inline' )
 
-    /**
-     * HTML tag name for the root element
-     *
-     * @property {string} tagName
-     * @default "div"
-     */
-    tagName: 'div'
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

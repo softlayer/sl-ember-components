@@ -8,14 +8,11 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
-    /**
-     * Display a clear button to clear the input's selection
-     *
-     * @property {boolean} allowClear
-     * @default false
-     */
-    allowClear: false,
+    // -------------------------------------------------------------------------
+    // Dependencies
 
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * Class names for the select element
@@ -24,11 +21,28 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     classNames: [ 'form-group', 'sl-select' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * Display a clear button to clear the input's selection
+     *
+     * @property {boolean} allowClear
+     * @default  false
+     */
+    allowClear: false,
+
     /**
      * Whether to show the search filter input or not
      *
      * @property {boolean} disableSearch
-     * @default false
+     * @default  false
      */
     disableSearch: false,
 
@@ -36,24 +50,15 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * The internal input element, used for Select2's bindings
      *
      * @property {element} input
-     * @default null
+     * @default  null
      */
     input: null,
-
-    /**
-     * ID of the &lt;input&gt; element
-     *
-     * @property {string} selectId
-     */
-    inputId: function() {
-        return this.get( 'elementId' ) + 'Input';
-    }.property( 'elementId' ),
 
     /**
      * The maximum number of selections allowed when `multiple` is enabled
      *
      * @property {number} maximumSelectionSize
-     * @default null
+     * @default  null
      */
     maximumSelectionSize: null,
 
@@ -61,7 +66,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Whether to allow multiple selections
      *
      * @property {boolean} multiple
-     * @default false
+     * @default  false
      */
     multiple: false,
 
@@ -69,7 +74,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * The path key for each option object's description
      *
      * @property {string} optionDescriptionPath
-     * @default "description"
+     * @default  "description"
      */
     optionDescriptionPath: 'description',
 
@@ -77,7 +82,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * The path key for each option object's label
      *
      * @property {string} optionLabelPath
-     * @default "label"
+     * @default  "label"
      */
     optionLabelPath: 'label',
 
@@ -85,36 +90,19 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * The path key for each option object's value
      *
      * @property {string} optionValuePath
-     * @default "value"
+     * @default  "value"
      */
     optionValuePath: 'value',
 
-    /**
-     * Update the bound value when the Select2's selection has changed
-     *
-     * @method selectionChanged
-     * @param {mixed} data - Select2 data
-     */
-    selectionChanged: function( data ) {
-        var multiple = this.get( 'multiple' ),
-            optionValuePath = this.get( 'optionValuePath' ),
-            value;
-
-        if ( optionValuePath ) {
-            if ( multiple ) {
-                value = data.getEach( optionValuePath );
-            } else {
-                value = Ember.get( data, optionValuePath );
-            }
-        } else {
-            value = data;
-        }
-    },
+    // -------------------------------------------------------------------------
+    // Observers
 
     /**
      * Set up select2 initialization after the element is inserted in the DOM
      *
-     * @method setupSelect2
+     * @function setupSelect2
+     * @observes "didInsertElement" event
+     * @returns  {void}
      */
     setupSelect2: function() {
         var get  = Ember.get,
@@ -258,7 +246,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Set data bound value based on changed value
      *
-     * @method valueChanged
+     * @function valueChanged
+     * @observes content, value
+     * @returns  {void}
      */
     valueChanged: function() {
         var value = this.get( 'value' );
@@ -270,12 +260,53 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
     }.observes( 'content.@each', 'value' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * ID of the &lt;input&gt; element
+     *
+     * @function selectId
+     * @observes elementId
+     * @returns  {string}
+     */
+    inputId: function() {
+        return this.get( 'elementId' ) + 'Input';
+    }.property( 'elementId' ),
+
+    /**
+     * Update the bound value when the Select2's selection has changed
+     *
+     * @function selectionChanged
+     * @param    {mixed} data - Select2 data
+     */
+    selectionChanged: function( data ) {
+        var multiple = this.get( 'multiple' ),
+            optionValuePath = this.get( 'optionValuePath' ),
+            value;
+
+        if ( optionValuePath ) {
+            if ( multiple ) {
+                value = data.getEach( optionValuePath );
+            } else {
+                value = Ember.get( data, optionValuePath );
+            }
+        } else {
+            value = data;
+        }
+    },
+
     /**
      * Teardown to prevent memory leaks
      *
-     * @method willDestroyElement
+     * @function willDestroyElement
+     * @returns  {void}
      */
     willDestroyElement: function() {
         this.input.off( 'change' ).select2( 'destroy' );
     }
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

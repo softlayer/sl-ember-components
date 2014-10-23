@@ -15,7 +15,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * HTML tag name for the component's root element
      *
      * @property {string} tagName
-     * @default "fieldset"
+     * @default  "fieldset"
      */
     tagName: 'fieldset',
 
@@ -46,7 +46,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Whether the radio buttons should be disabled
      *
      * @property {boolean} disabled
-     * @default false
+     * @default  false
      */
     disabled: false,
 
@@ -54,7 +54,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Whether the radio buttons should be put inline together
      *
      * @property {boolean} inline
-     * @default false
+     * @default  false
      */
     inline: false,
 
