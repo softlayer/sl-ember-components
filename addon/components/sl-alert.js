@@ -4,6 +4,12 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 /** @module sl-components/components/sl-alert */
 export default Ember.Component.extend( TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Array of attribute bindings for the alert's div
      *
@@ -25,6 +31,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Actions for the alert component
      *
@@ -42,6 +51,9 @@ export default Ember.Component.extend( TooltipEnabled, {
             this.sendAction( 'dismiss' );
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -71,6 +83,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     theme: 'info',
 
     // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
     // Methods
 
     /**
@@ -83,4 +98,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     themeClassName: function() {
         return 'alert-' + this.get( 'theme' );
     }.property( 'theme' )
+
+    // -------------------------------------------------------------------------
+    // Private methods
+
+
 });
