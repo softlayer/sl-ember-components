@@ -104,8 +104,8 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * Alert external code about the click
      *
-     * @method  click
-     * @returns {void}
+     * @function click
+     * @returns  {void}
      */
     click: function() {
         this.sendAction();
@@ -117,7 +117,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * Initialize labels
      *
-     * @method   initLabel
+     * @function initLabel
      * @observes "init" event
      * @returns  {void}
      */
@@ -130,7 +130,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * Register our behaviors with the convenience method from the AJAX mixin
      *
-     * @method   setupHandlers
+     * @function setupHandlers
      * @observes "init" event
      * @returns  {void}
      */
@@ -172,7 +172,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * Converted size string to Bootstrap button class
      *
-     * @method   sizeClass
+     * @function sizeClass
      * @observes size
      * @returns  {Ember.String} Defaults to undefined
      */
@@ -187,7 +187,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     /**
      * Converted theme string to Bootstrap button class
      *
-     * @method   themeClass
+     * @function themeClass
      * @observes theme
      * @returns  {Ember.String} Defaults to "btn-default"
      */

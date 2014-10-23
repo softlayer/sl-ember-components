@@ -72,7 +72,7 @@ export default Ember.Component.extend({
      * Set up a transition that moves focus to the endDate input when the
      * startDate input is changed
      *
-     * @method   setupFocusTransition
+     * @function setupFocusTransition
      * @observes 'didInsertElement' event
      * @returns  {void}
      */
@@ -91,7 +91,7 @@ export default Ember.Component.extend({
      * The earliest selectable endDate, based on minDate and
      * current startDateValue
      *
-     * @method   earliestEndDate
+     * @function earliestEndDate
      * @observes minDate, startDateValue
      * @returns  {date|Ember.String}  Defaults to null
      */
@@ -114,7 +114,7 @@ export default Ember.Component.extend({
      * The latest selectable startDate, based on maxDate and
      * current endDateValue
      *
-     * @method   latestStartDate
+     * @function latestStartDate
      * @observes endDateValue, maxDate
      * @returns  {date|Ember.String}  Defaults to null
      */

@@ -40,11 +40,10 @@ export default Ember.Component.extend({
     // Events
 
     /**
-     * Function triggered by clicking a calendar month; sends back the primary
-     * bound action with this month number
+     * Send back the primary bound action with this month number
      *
-     * @method  click
-     * @returns {void}
+     * @function click
+     * @returns  {void}
      */
     click: function() {
         this.sendAction( 'action', this.get( 'month' ) );
@@ -62,8 +61,8 @@ export default Ember.Component.extend({
     /**
      * The short string name of the represented month
      *
-     * @method  shortName
-     * @returns {Ember.String}
+     * @function shortName
+     * @returns  {Ember.String}
      */
     shortName: function() {
         return moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );

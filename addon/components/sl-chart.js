@@ -78,7 +78,7 @@ export default Ember.Component.extend({
     /**
      * Sets up Highcharts initialization
      *
-     * @method   setupChart
+     * @function setupChart
      * @observes didInsertElement event
      * @returns  {void}
      */
@@ -150,7 +150,7 @@ export default Ember.Component.extend({
     /**
      * Updates the chart's series data
      *
-     * @method   updateSeries
+     * @function updateSeries
      * @observes series
      * @returns  {void}
      */
@@ -177,7 +177,7 @@ export default Ember.Component.extend({
     /**
      * Inline style containing height and width, required by Highcharts
      *
-     * @method   style
+     * @function style
      * @observes height, width
      * @returns  {Ember.String}
      */

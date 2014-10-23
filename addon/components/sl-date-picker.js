@@ -182,7 +182,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Setup the bootstrap-datepicker plugin and events
      *
-     * @method   setupDatepicker
+     * @function setupDatepicker
      * @observes didInsertElement event
      * @returns  {void}
      */
@@ -198,7 +198,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Dynamically update the endDate value for the datepicker
      *
-     * @method   setEndDate
+     * @function setEndDate
      * @observes endDate
      * @returns  {void}
      */
@@ -209,7 +209,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Dynamically update the startDate value for the datepicker
      *
-     * @method   setStartDate
+     * @function setStartDate
      * @observes startDate
      * @returns  {void}
      */
@@ -223,8 +223,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Datepicker plugin options
      *
-     * @method  options
-     * @returns {Ember.Object}
+     * @function options
+     * @returns  {Ember.Object}
      */
     options: function() {
         return {

@@ -49,8 +49,8 @@ export default Ember.Component.extend({
     /**
      * Function triggered by clicking a calendar day
      *
-     * @method  click
-     * @returns {void}
+     * @function click
+     * @returns  {void}
      */
     click: function() {
         this.sendAction( 'action', this.get( 'content' ) );

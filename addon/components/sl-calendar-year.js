@@ -31,8 +31,7 @@ export default Ember.Component.extend({
     // Events
 
     /**
-     * Function triggered by clicking the year; sends back primary action with
-     * this year value
+     * Send back primary action with this year value
      *
      * @function click
      * @returns  {void}
