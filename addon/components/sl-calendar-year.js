@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-calendar-year */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * HTML tag name for the component's root element
      *
@@ -18,6 +24,12 @@ export default Ember.Component.extend({
      */
     classNameBindings: [ 'active', 'new', 'old' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
     /**
      * Function triggered by clicking the year; sends back primary action with
      * this year value
@@ -28,4 +40,16 @@ export default Ember.Component.extend({
     click: function() {
         this.sendAction( 'action', this.get( 'year' ) );
     }
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    // -------------------------------------------------------------------------
+    // Private Methods
 });
