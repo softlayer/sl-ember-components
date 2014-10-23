@@ -5,6 +5,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-calendar-month */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * HTML tag name of the component's root element
      *
@@ -27,6 +33,12 @@ export default Ember.Component.extend({
      */
     classNameBindings: [ 'active' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
     /**
      * Function triggered by clicking a calendar month; sends back the primary
      * bound action with this month number
@@ -37,6 +49,12 @@ export default Ember.Component.extend({
     click: function() {
         this.sendAction( 'action', this.get( 'month' ) );
     },
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
 
     // -------------------------------------------------------------------------
     // Methods
@@ -50,4 +68,8 @@ export default Ember.Component.extend({
     shortName: function() {
         return moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );
     }.property()
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });
