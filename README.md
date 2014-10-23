@@ -221,6 +221,8 @@ Below is a list of each component's library dependencies. Beneath this list is t
     * sl-components
 * sl-pagination-info
     * sl-components
+    * [sl-translate](https://github.com/softlayer/sl-translate)
+    * [sl-model](https://github.com/softlayer/sl-model) (optional)
 * sl-pagination-per-page-select
     * sl-components
     * Select2
