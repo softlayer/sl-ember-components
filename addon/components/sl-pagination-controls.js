@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-pagination-controls */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * HTML tag name for the root element
      *
@@ -18,6 +24,9 @@ export default Ember.Component.extend({
      */
     classNames: [ 'sl-pagination-controls' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Component actions hash
      *
@@ -28,14 +37,17 @@ export default Ember.Component.extend({
         /**
          * Action triggered for changing pages
          *
-         * @method   actions.changePage
-         * @argument {number} page - The page number being changed to
+         * @function actions.changePage
+         * @param    {number} page - The page number being changed to
          * @returns  {void}
          */
         changePage: function( page ) {
             this.sendAction( 'action', page ? page : this.get( 'currentPageInput' ) );
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -72,12 +84,15 @@ export default Ember.Component.extend({
     prevLinkDisabled: Ember.computed.alias( 'firstLinkDisabled' ),
 
     // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
     // Methods
 
     /**
      * When true, the first link control is disabled
      *
-     * @method   firstLinkDisabled
+     * @function firstLinkDisabled
      * @observes currentPage, disabled
      * @returns  {boolean}
      */
@@ -88,11 +103,15 @@ export default Ember.Component.extend({
     /**
      * When true, the next link control is disabled
      *
-     * @method   nextLinkDisabled
+     * @function nextLinkDisabled
      * @observes currentPage, disabled, totalPages
      * @returns  {boolean}
      */
     nextLinkDisabled: function() {
         return this.get( 'disabled' ) || this.get( 'currentPage' ) === this.get( 'totalPages' );
     }.property( 'currentPage', 'disabled', 'totalPages' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

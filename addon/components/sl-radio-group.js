@@ -2,11 +2,22 @@ import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/**
- * @module components
- * @class sl-radio-group
- */
+/** @module sl-components/components/sl-radio-group */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * HTML tag name for the component's root element
+     *
+     * @property {string} tagName
+     * @default "fieldset"
+     */
+    tagName: 'fieldset',
 
     /**
      * Attribute bindings for the component's root element
@@ -22,6 +33,15 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     classNames: [ 'form-group', 'sl-radio-group' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * Whether the radio buttons should be disabled
      *
@@ -31,9 +51,22 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     disabled: false,
 
     /**
+     * Whether the radio buttons should be put inline together
+     *
+     * @property {boolean} inline
+     * @default false
+     */
+    inline: false,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
      * Initialize the group-wide options and setup child radio buttons
      *
-     * @method initialize
+     * @function initialize
+     * @observes "didInsertElement" event
+     * @returns  {void}
      */
     initialize: function() {
         var name = this.get( 'name' ),
@@ -64,12 +97,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     }.on( 'didInsertElement' ),
 
     /**
-     * Whether the radio buttons should be put inline together
+     * Selects the radio input with the current value
      *
-     * @property {boolean} inline
-     * @default false
+     * @function updateSelection
+     * @observes "didInsertElement" event, value
      */
-    inline: false,
+    updateSelection: function() {
+        this.get( 'selectedInput' ).prop( 'checked', true );
+    }.observes( 'value' ).on( 'didInsertElement' ),
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * The currently selected radio input
@@ -78,22 +116,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     selectedInput: function() {
         return this.$( 'input[value="' + this.get( 'value' ) + '"]' );
-    }.property( 'value' ),
+    }.property( 'value' )
 
-    /**
-     * HTML tag name for the component's root element
-     *
-     * @property {string} tagName
-     * @default "fieldset"
-     */
-    tagName: 'fieldset',
+    // -------------------------------------------------------------------------
+    // Private Methods
 
-    /**
-     * Selects the radio input with the current value
-     *
-     * @method updateSelection
-     */
-    updateSelection: function() {
-        this.get( 'selectedInput' ).prop( 'checked', true );
-    }.observes( 'value' ).on( 'didInsertElement' )
 });

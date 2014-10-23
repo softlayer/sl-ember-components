@@ -1,10 +1,13 @@
 import Ember from 'ember';
 
-/**
- * @module components
- * @class sl-panel
- */
+/** @module sl-components/componetns/sl-panel */
 export default Ember.Component.extend({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * Class name bindings for the panel component
@@ -20,11 +23,30 @@ export default Ember.Component.extend({
      */
     classNames: [ 'panel', 'panel-default', 'sl-panel' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * When true, the panel body will be in a loading state
      *
      * @property {boolean} isLoading
-     * @default false
+     * @default  false
      */
     isLoading: false
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

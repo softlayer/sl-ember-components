@@ -1,19 +1,21 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/**
- * @module components
- * @class sl-progress-bar
- */
+/** @module sl-components/components/sl-progress-bar */
 export default Ember.Component.extend( TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
-     * Whether to animate the progress bar or not
+     * Class names for the root element
      *
-     * @property {boolean} active
-     * @default false
+     * @property {array} classNames
      */
-    animated: false,
+    classNames: [ 'progress', 'sl-progress-bar' ],
 
     /**
      * Class name bindings for the root element
@@ -22,12 +24,52 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
-     * Class names for the root element
+     * Whether to animate the progress bar or not
      *
-     * @property {array} classNames
+     * @property {boolean} active
+     * @default  false
      */
-    classNames: [ 'progress', 'sl-progress-bar' ],
+    animated: false,
+
+    /**
+     * Whether to display a text value over the progress
+     *
+     * @property {boolean} label
+     * @default  false
+     */
+    label: false,
+
+    /**
+     * The Bootstrap "theme" style name
+     *
+     * @property {string} theme
+     * @default  "default"
+     */
+    theme: 'default',
+
+    /**
+     * The progress value as an integer (out of 100)
+     *
+     * @property {number} value
+     * @default  0
+    */
+    value: 0,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * Whether the progress value is below a certain level
@@ -39,14 +81,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     }.property( 'value' ),
 
     /**
-     * Whether to display a text value over the progress
-     *
-     * @property {boolean} label
-     * @default false
-     */
-    label: false,
-
-    /**
      * Inline style string for progress bar element
      *
      * @property {string} styleString
@@ -54,14 +88,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     styleString: function() {
         return 'width: ' + this.get( 'value' ) + '%;';
     }.property( 'value' ),
-
-    /**
-     * The Bootstrap "theme" style name
-     *
-     * @property {string} theme
-     * @default "default"
-     */
-    theme: 'default',
 
     /**
      * Element-specific class name for the Bootstrap "theme" style
@@ -73,11 +99,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         return 'progress-bar-' + this.get( 'theme' );
     }.property( 'theme' ),
 
-    /**
-     * The progress value as an integer (out of 100)
-     *
-     * @property {number} value
-     * @default 0
-    */
-    value: 0
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });
