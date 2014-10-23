@@ -100,7 +100,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     }.property( 'theme' )
 
     // -------------------------------------------------------------------------
-    // Private methods
+    // Private Methods
 
 
 });

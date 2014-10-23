@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-calendar-day */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * The HTML tag name of the component's root element
      *
@@ -26,6 +32,18 @@ export default Ember.Component.extend({
     classNameBindings: [ 'active', 'new', 'old' ],
 
     // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
     // Methods
 
     /**
@@ -37,4 +55,8 @@ export default Ember.Component.extend({
     click: function() {
         this.sendAction( 'action', this.get( 'content' ) );
     }
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

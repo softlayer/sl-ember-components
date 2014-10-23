@@ -5,6 +5,12 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 /** @module sl-components/components/sl-button */
 export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * The root component element
      *
@@ -33,6 +39,12 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'sizeClass', 'themeClass' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -182,4 +194,9 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     themeClass: function() {
         return 'btn-' + this.get( 'theme' );
     }.property( 'theme' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
+
 });
