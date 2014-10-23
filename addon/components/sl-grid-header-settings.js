@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-grid-header-settings */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * HTML tag name for the root element
      *
@@ -18,6 +24,9 @@ export default Ember.Component.extend({
      */
     classNames: [ 'sl-grid-header-settings' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Component actions hash
      *
@@ -28,9 +37,9 @@ export default Ember.Component.extend({
         /**
          * Action to fire when header is clicked
          *
-         * @method   actions.click
-         * @argument {string}  action - Name of action to trigger
-         * @argument {integer} key    - Key of context to pass to triggered action
+         * @function actions.click
+         * @param    {string}  action - Name of action to trigger
+         * @param    {integer} key    - Key of context to pass to triggered action
          * @returns  {void}
          */
         click: function( action, key ) {
@@ -41,11 +50,14 @@ export default Ember.Component.extend({
         }
     },
 
+    // -------------------------------------------------------------------------
+    // Events
+
     /**
      * Method triggered when header is clicked
      *
-     * @method   click
-     * @argument {event} event - The click event
+     * @function click
+     * @param    {event} event - The click event
      * @returns  {false|void}
      */
     click: function( event ) {
@@ -85,12 +97,15 @@ export default Ember.Component.extend({
     }),
 
     // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
     // Methods
 
     /**
      * Get the settings' actions
      *
-     * @method   clickableActions
+     * @function clickableActions
      * @observes settings
      * @returns  {Ember.Array}
      */
@@ -108,7 +123,7 @@ export default Ember.Component.extend({
     /**
      * Get the columns in the header that are hideable
      *
-     * @method   hideableColumns
+     * @function hideableColumns
      * @observes settings, columns.@each.hidden
      * @returns  {Ember.Array}
      */
@@ -129,4 +144,8 @@ export default Ember.Component.extend({
         }
         return hideableColumns;
     }.property( 'settings', 'columns.@each.hidden' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

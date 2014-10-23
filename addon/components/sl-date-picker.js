@@ -4,12 +4,24 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 /** @module sl-components/components/sl-date-picker */
 export default Ember.Component.extend( TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Class names for the root element
      *
      * @property {Ember.Array} classNames
      */
     classNames: [ 'form-group', 'sl-date-picker' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -235,4 +247,8 @@ export default Ember.Component.extend( TooltipEnabled, {
             weekStart          : this.get( 'weekStart' )
         };
     }.property()
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

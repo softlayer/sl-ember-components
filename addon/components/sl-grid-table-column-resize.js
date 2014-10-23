@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-grid-table-column-resize */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * HTML tag name for root element
      *
@@ -24,6 +30,12 @@ export default Ember.Component.extend({
      * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'isHighlighted:columnHighlight' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
 
     /**
      * Action triggered when mousedown event is triggered
@@ -76,14 +88,6 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * Whether the column is highlighted
-     *
-     * @property {boolean} isHighlighted
-     * @default false
-     */
-    isHighlighted: Ember.computed.alias( 'column.highlight' ),
-
-    /**
      * Grid table column global hash
      *
      * @property {Ember.Object} global
@@ -91,6 +95,14 @@ export default Ember.Component.extend({
     global: {
         isResizing: false
     },
+
+    /**
+     * Whether the column is highlighted
+     *
+     * @property {boolean} isHighlighted
+     * @default false
+     */
+    isHighlighted: Ember.computed.alias( 'column.highlight' ),
 
     /**
      * Starting x offset
@@ -148,4 +160,11 @@ export default Ember.Component.extend({
             return false;
         });
     }.on( 'didInsertElement' )
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

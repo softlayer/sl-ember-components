@@ -6,6 +6,12 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 /** @module sl-components/components/sl-date-time */
 export default Ember.Component.extend( TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * The HTML tag type of the component's root element
      *
@@ -20,6 +26,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-datetime' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -41,7 +53,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     format: 'datetime',
 
     // -------------------------------------------------------------------------
-    // Functions
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * The date-time's value formatted as a datetime string
@@ -124,4 +139,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     value: function() {
         return new Date();
     }.property()
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

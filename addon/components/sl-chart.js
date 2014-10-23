@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-calendar-chart */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Class names for the root element
      *
@@ -16,6 +22,12 @@ export default Ember.Component.extend({
      * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'isLoading:sl-loading' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -172,4 +184,8 @@ export default Ember.Component.extend({
     style: function() {
         return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
     }.property( 'height', 'width' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

@@ -4,6 +4,12 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 /** @module sl-components/components/sl-drop-button */
 export default Ember.Component.extend( TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Class names for the div element
      *
@@ -18,6 +24,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     classNameBindings: [ 'themeClass' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Component actions hash
      *
@@ -29,13 +38,16 @@ export default Ember.Component.extend( TooltipEnabled, {
          * Used to trigger specific option-bound action
          *
          * @function click
-         * @argument {string}  action to trigger
-         * @return   {void}
+         * @param    {string} action to trigger
+         * @returns  {void}
          */
         click: function( action ) {
             this.triggerAction({ action: action });
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -57,16 +69,23 @@ export default Ember.Component.extend( TooltipEnabled, {
     theme: 'default',
 
     // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
     // Methods
 
     /**
      * The class value for the drop-button based on the current "theme"
      *
-     * @method  themeClass
+     * @function themeClass
      * @observes theme
      * @returns  {string}
      */
     themeClass: function() {
         return 'dropdown-' + this.get( 'theme' );
     }.property( 'theme' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

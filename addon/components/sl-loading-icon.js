@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-loading-icon */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * The HTML element type for this component
      *
@@ -26,6 +32,12 @@ export default Ember.Component.extend({
     classNameBindings: [ 'inverse:sl-loading-icon-light:sl-loading-icon-dark' ],
 
     // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
     // Properties
 
     /**
@@ -35,4 +47,14 @@ export default Ember.Component.extend({
      * @default  false
      */
     inverse: false
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

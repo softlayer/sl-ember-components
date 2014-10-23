@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-drop-option */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * HTML tag name for the root element
      *
@@ -25,6 +31,9 @@ export default Ember.Component.extend({
      */
     classNameBindings: [ 'optionType' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Component actions hash
      *
@@ -35,13 +44,22 @@ export default Ember.Component.extend({
         /**
          * Send the primary action when the click action is triggered
          *
-         * @method  actions.click
-         * @returns {void}
+         * @function actions.click
+         * @returns  {void}
          */
         click: function() {
             this.sendAction( 'action' );
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
 
     // -------------------------------------------------------------------------
     // Methods
@@ -50,11 +68,15 @@ export default Ember.Component.extend({
      * Represents the type of option; "divider" if the label is undefined, or
      * "presentation" otherwise
      *
-     * @method   optionType
+     * @function optionType
      * @observes label
      * @returns  {Ember.String}
      */
     optionType: function() {
         return this.get( 'label' ) ? 'presentation' : 'divider';
     }.property( 'label' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

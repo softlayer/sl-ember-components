@@ -4,6 +4,12 @@ import SlGridTableCell from './sl-grid-table-cell';
 /** @module sl-components/components/sl-grid-table-cell-row-expander */
 export default SlGridTableCell.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Class names array for root element
      *
@@ -11,11 +17,17 @@ export default SlGridTableCell.extend({
      */
     classNames: [ 'sl-grid-table-cell-expander' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
     /**
      * Action triggered when cell is clicked
      *
-     * @method click
-     * @returns {void}
+     * @function click
+     * @returns  {void}
      */
     click: function() {
         this.toggleProperty( 'row.rowExpanderIsOpen' );
@@ -30,4 +42,13 @@ export default SlGridTableCell.extend({
      * @property {boolean} expanded
      */
     expanded: Ember.computed.bool( 'row.rowExpanderIsOpen' )
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    // -------------------------------------------------------------------------
+    // Private Methods
 });

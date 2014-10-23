@@ -5,6 +5,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-calendar-calendar */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Class names for the root element
      *
@@ -18,6 +24,9 @@ export default Ember.Component.extend({
      * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'locked:sl-calendar-locked' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Object of actions
@@ -166,6 +175,9 @@ export default Ember.Component.extend({
     },
 
     // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
     // Properties
 
     /**
@@ -192,6 +204,9 @@ export default Ember.Component.extend({
      * @default  "days"
      */
     viewMode: 'days',
+
+    // -------------------------------------------------------------------------
+    // Observers
 
     // -------------------------------------------------------------------------
     // Methods
@@ -519,4 +534,8 @@ export default Ember.Component.extend({
 
         return years;
     }.property( 'contentDates', 'decadeEnd', 'decadeStart' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

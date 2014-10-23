@@ -3,6 +3,12 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-grid-table-header */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * HTML tag to use for base element
      *
@@ -25,6 +31,9 @@ export default Ember.Component.extend({
      */
     attributeBindings: [ 'style' ],
 
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Component actions hash
      *
@@ -35,8 +44,8 @@ export default Ember.Component.extend({
         /**
          * Fire primary action when a column is sorted.
          *
-         * @method   actions.sortColumn
-         * @argument {string} key - The key for the sorted column
+         * @function actions.sortColumn
+         * @param    {string} key - The key for the sorted column
          * @returns  {void}
          */
         sortColumn: function( key ) {
@@ -44,10 +53,13 @@ export default Ember.Component.extend({
         }
     },
 
+    // -------------------------------------------------------------------------
+    // Events
+
     /**
      * Setup mouse events when the mouseDown is triggered
      *
-     * @method  mouseDown
+     * @function  mouseDown
      * @returns {void}
      */
     mouseDown: function() {
@@ -72,9 +84,52 @@ export default Ember.Component.extend({
     // Observers
 
     /**
+     * Update the style string when the width of the column changes
+     *
+     * If we try to make the style a computed property then we will get render
+     * errors from Ember before the view is inserted into the DOM.
+     *
+     * @function   columnWidthObserver
+     * @observes didInsertElement event, column.width
+     * @returns  {void}
+     */
+    columnWidthObserver: function() {
+        var width = this.get( 'column.width' ),
+            actionsColWidth,
+            resizeColCount,
+            resizeColWidth,
+            resizeCols,
+            rowExpanderWidth,
+            tableWidth,
+            totalHintingWidth,
+            totalWidthHints,
+            widthHint;
+
+        if ( width ) {
+            this.set( 'style', width ? 'width:' + width + 'px;' : '' );
+            return;
+        }
+
+        actionsColWidth  = this.$().siblings( 'th.sl-grid-table-cell-actions' ).outerWidth() || 0;
+        resizeCols       = this.$().siblings( 'th.sl-grid-table-column-resize' );
+        rowExpanderWidth = this.$().siblings( 'th.sl-grid-table-cell-row-expander' ).outerWidth() || 0;
+        tableWidth       = this.$().parents( 'table.sl-grid' ).width();
+        totalWidthHints  = this.get( 'totalWidthHints' );
+        widthHint        = this.getWithDefault( 'column.widthHint', 1 );
+
+        resizeColCount    = resizeCols.length;
+        resizeColWidth    = resizeCols.outerWidth() || 0;
+        totalHintingWidth = tableWidth - rowExpanderWidth - actionsColWidth - resizeColWidth*resizeColCount;
+
+        width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
+
+        this.set( 'style', 'width:' + width + 'px;' );
+    }.observes( 'column.width' ).on( 'didInsertElement' ),
+
+    /**
      * Setup listeners for bound actions
      *
-     * @method   setupBoundListeners
+     * @function   setupBoundListeners
      * @observes didInsertElement event
      * @returns  {void}
      */
@@ -139,57 +194,14 @@ export default Ember.Component.extend({
         }));
     }.on( 'didInsertElement' ),
 
-    /**
-     * Update the style string when the width of the column changes
-     *
-     * If we try to make the style a computed property then we will get render
-     * errors from Ember before the view is inserted into the DOM.
-     *
-     * @method   columnWidthObserver
-     * @observes didInsertElement event, column.width
-     * @returns  {void}
-     */
-    columnWidthObserver: function() {
-        var width = this.get( 'column.width' ),
-            actionsColWidth,
-            resizeColCount,
-            resizeColWidth,
-            resizeCols,
-            rowExpanderWidth,
-            tableWidth,
-            totalHintingWidth,
-            totalWidthHints,
-            widthHint;
-
-        if ( width ) {
-            this.set( 'style', width ? 'width:' + width + 'px;' : '' );
-            return;
-        }
-
-        actionsColWidth  = this.$().siblings( 'th.sl-grid-table-cell-actions' ).outerWidth() || 0;
-        resizeCols       = this.$().siblings( 'th.sl-grid-table-column-resize' );
-        rowExpanderWidth = this.$().siblings( 'th.sl-grid-table-cell-row-expander' ).outerWidth() || 0;
-        tableWidth       = this.$().parents( 'table.sl-grid' ).width();
-        totalWidthHints  = this.get( 'totalWidthHints' );
-        widthHint        = this.getWithDefault( 'column.widthHint', 1 );
-
-        resizeColCount    = resizeCols.length;
-        resizeColWidth    = resizeCols.outerWidth() || 0;
-        totalHintingWidth = tableWidth - rowExpanderWidth - actionsColWidth - resizeColWidth*resizeColCount;
-
-        width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
-
-        this.set( 'style', 'width:' + width + 'px;' );
-    }.observes( 'column.width' ).on( 'didInsertElement' ),
-
     // -------------------------------------------------------------------------
     // Methods
 
     /**
      * Get the index of the currently sorted column
      *
-     * @method  getCurrentColumnIndex
-     * @returns {number} - The index of the column
+     * @function getCurrentColumnIndex
+     * @returns  {number} The index of the column
      */
     getCurrentColumnIndex: function() {
         return this.$().parent().children( 'th.sl-grid-table-header' ).index( this.$() );
@@ -198,8 +210,8 @@ export default Ember.Component.extend({
     /**
      * Get the position of the specified column
      *
-     * @method   getPosition
-     * @argument {object} element - The element to get the position of
+     * @function getPosition
+     * @param    {object} element - The element to get the position of
      * @returns  {Ember.Object}
      */
     getPosition: function( element ) {
@@ -214,8 +226,8 @@ export default Ember.Component.extend({
     /**
      * Set a new column index on the relevant column
      *
-     * @fmethod setNewColumnIndex
-     * @returns {void}
+     * @function setNewColumnIndex
+     * @returns  {void}
      */
     setNewColumnIndex: function() {
         var currentLeft = this.get( 'reorderCol' ).offset().left,
@@ -266,7 +278,7 @@ export default Ember.Component.extend({
     /**
      * Add CSS classes if this column is being sorted on
      *
-     * @method   sortClasses
+     * @function sortClasses
      * @observes column.isSorted, column.sortAscending
      * @returns  {Ember.String}
      */
@@ -280,4 +292,8 @@ export default Ember.Component.extend({
 
         return classString;
     }.property( 'column.isSorted', 'column.sortAscending' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });

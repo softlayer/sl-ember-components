@@ -3,12 +3,24 @@ import Ember from 'ember';
 /** @module sl-components/components/sl-date-range-picker */
 export default Ember.Component.extend({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
      * Class names for the date-range-picker component
      *
      * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-date-range-picker' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
 
     // -------------------------------------------------------------------------
     // Properties
@@ -120,4 +132,8 @@ export default Ember.Component.extend({
 
         return null;
     }.property( 'endDateValue', 'maxDate' )
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });
