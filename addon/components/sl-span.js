@@ -6,19 +6,44 @@ import Ember from 'ember';
  */
 export default Ember.Component.extend({
 
-    /**
-     * Whether to show the loading icon or content
-     *
-     * @property {boolean} isLoading
-     * @default false
-     */
-    isLoading: false,
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * The HTML tag name of the component
      *
      * @property {string} tagname
-     * @default "span"
+     * @default  "span"
      */
-    tagName: 'span'
+    tagName: 'span',
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * Whether to show the loading icon or content
+     *
+     * @property {boolean} isLoading
+     * @default  false
+     */
+    isLoading: false
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    // -------------------------------------------------------------------------
+    // Private Methods
+
 });
