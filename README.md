@@ -225,6 +225,7 @@ Below is a list of each component's library dependencies. Beneath this list is t
     * [sl-model](https://github.com/softlayer/sl-model) (optional)
 * sl-pagination-per-page-select
     * sl-components
+    * [sl-translate](https://github.com/softlayer/sl-translate)
     * Select2
 * sl-panel
     * Twitter Bootstrap
