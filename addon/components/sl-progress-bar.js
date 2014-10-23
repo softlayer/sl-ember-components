@@ -16,14 +16,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Class names for the root element
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'progress', 'sl-progress-bar' ],
 
     /**
      * Class name bindings for the root element
      *
-     * @property {array} classNameBindings
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
 
@@ -55,7 +55,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The Bootstrap "theme" style name
      *
-     * @property {string} theme
+     * @property {Ember.String} theme
      * @default  "default"
      */
     theme: 'default',
