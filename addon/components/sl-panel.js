@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/componetns/sl-panel */
+/**
+ * @module components
+ * @class  sl-panel
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

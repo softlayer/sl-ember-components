@@ -1,7 +1,10 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/** @module sl-components/components/sl-alert */
+/**
+ * @module components
+ * @class  sl-alert
+ */
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------

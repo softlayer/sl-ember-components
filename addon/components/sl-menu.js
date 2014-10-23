@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-menu */
+/**
+ * @module components
+ * @class  sl-menu
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

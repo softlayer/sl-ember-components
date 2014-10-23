@@ -4,7 +4,7 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-textarea
+ * @class  sl-textarea
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 

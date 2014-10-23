@@ -2,7 +2,10 @@ import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/** @module sl-components/components/sl-radio-group */
+/**
+ * @module components
+ * @class  sl-radio-group
+ */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------

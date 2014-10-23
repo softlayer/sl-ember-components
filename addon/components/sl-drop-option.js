@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-drop-option */
+/**
+ * @module components
+ * @class  sl-drop-option
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

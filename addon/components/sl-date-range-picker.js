@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-date-range-picker */
+/**
+ * @module components
+ * @class  sl-date-range-picker
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

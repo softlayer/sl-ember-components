@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-grid-table-row-expander */
+/**
+ * @module components
+ * @class  sl-grid-table-row-expander
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

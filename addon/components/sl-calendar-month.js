@@ -2,7 +2,10 @@
 
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-calendar-month */
+/**
+ * @module components
+ * @class  sl-calendar-month
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

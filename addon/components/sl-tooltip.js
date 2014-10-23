@@ -3,7 +3,7 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-tooltip
+ * @class  sl-tooltip
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

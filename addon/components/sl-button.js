@@ -2,7 +2,10 @@ import Ember from 'ember';
 import AjaxAware from '../mixins/sl-ajax-aware';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/** @module sl-components/components/sl-button */
+/**
+ * @module components
+ * @class  sl-button
+ */
 export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
     // -------------------------------------------------------------------------

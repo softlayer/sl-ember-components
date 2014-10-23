@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-pagination-per-page-select */
+/**
+ * @module components
+ * @class  sl-pagination-per-page-select
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

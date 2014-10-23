@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-grid-table-header */
+/**
+ * @module components
+ * @class  sl-grid-table-header
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-calendar-year */
+/**
+ * @module components
+ * @class  sl-calendar-year
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

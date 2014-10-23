@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-grid-header-settings */
+/**
+ * @module components
+ * @class  sl-grid-header-settings
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

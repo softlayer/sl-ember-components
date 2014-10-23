@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-span
+ * @class  sl-span
  */
 export default Ember.Component.extend({
 

@@ -1,7 +1,10 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/** @module sl-components/components/sl-progress-bar */
+/**
+ * @module components
+ * @class  sl-progress-bar
+*/
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------

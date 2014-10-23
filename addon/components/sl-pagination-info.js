@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-pagination-info */
+/**
+ * @module components
+ * @class  sl-pagination-info
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

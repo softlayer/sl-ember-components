@@ -2,7 +2,10 @@ import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/** @module sl-components/components/sl-input */
+/**
+ * @module components
+ * @class  sl-input
+ */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------

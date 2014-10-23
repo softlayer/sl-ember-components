@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-radio
+ * @class  sl-radio
  */
 export default Ember.Component.extend({
 

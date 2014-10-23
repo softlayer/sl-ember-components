@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/components/sl-grid-table-column-resize */
+/**
+ * @module components
+ * @class  sl-grid-table-column-resize
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------

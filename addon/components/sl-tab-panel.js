@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-tab-panel
+ * @class  sl-tab-panel
  */
 export default Ember.Component.extend({
 

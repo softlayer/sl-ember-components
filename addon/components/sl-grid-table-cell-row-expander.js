@@ -1,7 +1,10 @@
 import Ember from 'ember';
 import SlGridTableCell from './sl-grid-table-cell';
 
-/** @module sl-components/components/sl-grid-table-cell-row-expander */
+/**
+ * @module components
+ * @class  sl-grid-table-cell-row-expander
+ */
 export default SlGridTableCell.extend({
 
     // -------------------------------------------------------------------------

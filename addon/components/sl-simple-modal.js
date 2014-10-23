@@ -3,7 +3,7 @@ import ModalMixin from '../mixins/sl-modal';
 
 /**
  * @module components
- * @class sl-simple-modal
+ * @class  sl-simple-modal
  */
 export default Ember.Component.extend( ModalMixin, {
 

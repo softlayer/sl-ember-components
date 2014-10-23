@@ -1,7 +1,10 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/** @module sl-components/components/sl-calendar-checkbox */
+/**
+ * @module components
+ * @class  sl-calendar-checkbox
+ */
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------

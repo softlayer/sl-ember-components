@@ -3,7 +3,10 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
-/** @module sl-components/components/sl-date-time */
+/**
+ * @module components
+ * @class  sl-date-time
+ */
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
