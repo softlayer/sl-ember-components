@@ -121,9 +121,9 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 
 *sl-pagination-controller*
 
-Most usually employed by a controller being used to back an implementation of the *sl-grid* component, this mixin should
-be used whenever pagination support for a data set is desired.
+Most usually employed by a controller being used to back an implementation of the *sl-grid* component, this mixin should be used whenever pagination support for a data set is desired.
 
+Requires either the use of [sl-model](https://github.com/softlayer/sl-model) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
 
 
 **Helpers**
