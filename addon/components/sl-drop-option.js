@@ -35,21 +35,24 @@ export default Ember.Component.extend({
         /**
          * Send the primary action when the click action is triggered
          *
-         * @function actions.click
-         * @return   {void}
+         * @method  actions.click
+         * @returns {void}
          */
         click: function() {
             this.sendAction( 'action' );
         }
     },
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Represents the type of option; "divider" if the label is undefined, or
      * "presentation" otherwise
      *
-     * @function optionType
+     * @method   optionType
      * @observes label
-     * @return   {Ember.String}
+     * @returns  {Ember.String}
      */
     optionType: function() {
         return this.get( 'label' ) ? 'presentation' : 'divider';

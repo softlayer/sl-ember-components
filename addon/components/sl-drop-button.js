@@ -37,6 +37,9 @@ export default Ember.Component.extend( TooltipEnabled, {
         }
     },
 
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * Class string for the button's icon
      *
@@ -53,12 +56,15 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     theme: 'default',
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * The class value for the drop-button based on the current "theme"
      *
-     * @function themeClass
+     * @method  themeClass
      * @observes theme
-     * @return   {string}
+     * @returns  {string}
      */
     themeClass: function() {
         return 'dropdown-' + this.get( 'theme' );

@@ -46,9 +46,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The date-time's value formatted as a datetime string
      *
-     * @function datetime
+     * @method   datetime
      * @observes timezoneString, value
-     * @return   {string}
+     * @returns  {string}
      */
     datetime: function() {
         return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
@@ -57,9 +57,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Formatted string based on value and supplied format
      *
-     * @function formattedValue
+     * @method   formattedValue
      * @observes format, momentValue
-     * @return   {string}
+     * @returns  {string}
      */
     formattedValue: function() {
         var momentValue     = this.get( 'momentValue' ),
@@ -85,9 +85,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The component's current value wrapped in moment
      *
-     * @function momentValue
+     * @method   momentValue
      * @observes value
-     * @return   {object}
+     * @returns  {object}
      */
     momentValue: function() {
         return moment( this.get( 'value' ) );
@@ -96,9 +96,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Formatted timezone string based on component's timezone value
      *
-     * @functon timezoneString
+     * @method   timezoneString
      * @observes timezone, momentValue
-     * @return  {string}
+     * @returns  {string}
      */
     timezoneString: function() {
         return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
@@ -107,9 +107,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The text to use for the component's tooltip
      *
-     * @function title
+     * @method   title
      * @observes datetime
-     * @return   {string}
+     * @returns  {string}
      */
     title: function() {
         return this.get( 'datetime' );
@@ -118,8 +118,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The bound value of the component's date value
      *
-     * @function value
-     * @return   {date}
+     * @method  value
+     * @returns {date}
      */
     value: function() {
         return new Date();

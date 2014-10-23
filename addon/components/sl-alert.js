@@ -76,7 +76,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The generated Bootstrap "theme" style class for the alert
      *
-     * @function themeClassName
+     * @method   themeClassName
      * @observes theme
      * @returns  {Ember.String}  Defaults to "alert-info"
      */
