@@ -28,10 +28,10 @@ export default Ember.Component.extend({
         /**
          * Action to fire when header is clicked
          *
-         * @function actions.click
+         * @method   actions.click
          * @argument {string}  action - Name of action to trigger
          * @argument {integer} key    - Key of context to pass to triggered action
-         * @return   {void}
+         * @returns  {void}
          */
         click: function( action, key ) {
             this.triggerAction({
@@ -40,6 +40,22 @@ export default Ember.Component.extend({
             });
         }
     },
+
+    /**
+     * Method triggered when header is clicked
+     *
+     * @method   click
+     * @argument {event} event - The click event
+     * @returns  {false|void}
+     */
+    click: function( event ) {
+        if ( Ember.$( event.target ).closest( '.stay-open' ).length ) {
+            return false;
+        }
+    },
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Whether to show actions
@@ -68,25 +84,15 @@ export default Ember.Component.extend({
         }
     }),
 
-    /**
-     * Method triggered when header is clicked
-     *
-     * @function click
-     * @argument {event} event - The click event
-     * @return   {false|void}
-     */
-    click: function( event ) {
-        if ( Ember.$( event.target ).closest( '.stay-open' ).length ) {
-            return false;
-        }
-    },
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * Get the settings' actions
      *
-     * @function clickableActions
+     * @method   clickableActions
      * @observes settings
-     * @return   {Ember.Array}
+     * @returns  {Ember.Array}
      */
     clickableActions: function() {
         var actions  = Ember.A([]),
@@ -102,7 +108,7 @@ export default Ember.Component.extend({
     /**
      * Get the columns in the header that are hideable
      *
-     * @function hideableColumns
+     * @method   hideableColumns
      * @observes settings, columns.@each.hidden
      * @returns  {Ember.Array}
      */

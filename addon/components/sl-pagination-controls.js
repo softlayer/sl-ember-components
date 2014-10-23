@@ -28,14 +28,17 @@ export default Ember.Component.extend({
         /**
          * Action triggered for changing pages
          *
-         * @function actions.changePage
+         * @method   actions.changePage
          * @argument {number} page - The page number being changed to
-         * @return {void}
+         * @returns  {void}
          */
         changePage: function( page ) {
             this.sendAction( 'action', page ? page : this.get( 'currentPageInput' ) );
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Read-only binding to current page number
@@ -68,12 +71,15 @@ export default Ember.Component.extend({
      */
     prevLinkDisabled: Ember.computed.alias( 'firstLinkDisabled' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * When true, the first link control is disabled
      *
-     * @function firstLinkDisabled
+     * @method   firstLinkDisabled
      * @observes currentPage, disabled
-     * @return   {boolean}
+     * @returns  {boolean}
      */
     firstLinkDisabled: function() {
         return this.get( 'disabled' ) || this.get( 'currentPage' ) === 1;
@@ -82,9 +88,9 @@ export default Ember.Component.extend({
     /**
      * When true, the next link control is disabled
      *
-     * @function nextLinkDisabled
+     * @method   nextLinkDisabled
      * @observes currentPage, disabled, totalPages
-     * @return   {boolean}
+     * @returns  {boolean}
      */
     nextLinkDisabled: function() {
         return this.get( 'disabled' ) || this.get( 'currentPage' ) === this.get( 'totalPages' );

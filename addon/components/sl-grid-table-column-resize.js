@@ -26,6 +26,56 @@ export default Ember.Component.extend({
     classNameBindings: [ 'isHighlighted:columnHighlight' ],
 
     /**
+     * Action triggered when mousedown event is triggered
+     *
+     * @method   mouseDown
+     * @argument {event} event - The mousedown event
+     * @returns  {void}
+     */
+    mouseDown: function( event ) {
+        var tag = this.get( 'tagName' );
+
+        if ( !this.get( 'disabled' ) ) {
+            Ember.$( 'body' ).addClass( 'resizing' )
+                .on( 'mousemove', this.mouseMoveListener )
+                .on( 'mouseup', this.mouseUpListener );
+
+            this.setProperties({
+                'global.isResizing' : true,
+                startWidth          : Ember.$( this.$().prevAll( tag )[ 0 ] ).width(),
+                startX              : event.pageX
+            });
+        }
+    },
+
+    /**
+     * Method triggered on mouseenter event
+     *
+     * @method  mouseEnter
+     * @returns {void}
+     */
+    mouseEnter: function() {
+        if ( !this.get( 'global.isResizing' ) ) {
+            this.set( 'column.highlight', true );
+        }
+    },
+
+    /**
+     * Method triggered on mouseleave event
+     *
+     * @method  mouseLeave
+     * @returns {void}
+     */
+    mouseLeave: function() {
+        if ( !this.get( 'global.isResizing' ) ) {
+            this.set( 'column.highlight', false );
+        }
+    },
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
      * Whether the column is highlighted
      *
      * @property {boolean} isHighlighted
@@ -50,59 +100,15 @@ export default Ember.Component.extend({
      */
     startX: 0,
 
-    /**
-     * Action triggered when mousedown event is triggered
-     *
-     * @function mouseDown
-     * @argument {event} event - The mousedown event
-     * @return   {void}
-     */
-    mouseDown: function( event ) {
-        var tag = this.get( 'tagName' );
-
-        if ( !this.get( 'disabled' ) ) {
-            Ember.$( 'body' ).addClass( 'resizing' )
-                .on( 'mousemove', this.mouseMoveListener )
-                .on( 'mouseup', this.mouseUpListener );
-
-            this.setProperties({
-                'global.isResizing' : true,
-                startWidth          : Ember.$( this.$().prevAll( tag )[ 0 ] ).width(),
-                startX              : event.pageX
-            });
-        }
-    },
-
-    /**
-     * Method triggered on mouseenter event
-     *
-     * @function mouseEnter
-     * @return   {void}
-     */
-    mouseEnter: function() {
-        if ( !this.get( 'global.isResizing' ) ) {
-            this.set( 'column.highlight', true );
-        }
-    },
-
-    /**
-     * Method triggered on mouseleave event
-     *
-     * @function mouseLeave
-     * @return   {void}
-     */
-    mouseLeave: function() {
-        if ( !this.get( 'global.isResizing' ) ) {
-            this.set( 'column.highlight', false );
-        }
-    },
+    // -------------------------------------------------------------------------
+    // Observers
 
     /**
      * Change the root element's tagName
      *
-     * @function changeTag
+     * @method   changeTag
      * @observes init event
-     * @return   {void}
+     * @returns  {void}
      */
     changeTag: function() {
         if ( this.get( 'header' ) ) {
@@ -113,9 +119,9 @@ export default Ember.Component.extend({
     /**
      * Setup listeners for mouse events
      *
-     * @function setupBoundListeners
+     * @method   setupBoundListeners
      * @observes didInsertElement event
-     * @return   {void}
+     * @returns  {void}
      */
     setupBoundListeners: function() {
         var self = this;

@@ -35,9 +35,9 @@ export default Ember.Component.extend({
         /**
          * Fire primary action when a column is sorted.
          *
-         * @function actions.sortColumn
+         * @method   actions.sortColumn
          * @argument {string} key - The key for the sorted column
-         * @return   {void}
+         * @returns  {void}
          */
         sortColumn: function( key ) {
             this.sendAction( 'action', key );
@@ -47,8 +47,8 @@ export default Ember.Component.extend({
     /**
      * Setup mouse events when the mouseDown is triggered
      *
-     * @function mouseDown
-     * @return   {void}
+     * @method  mouseDown
+     * @returns {void}
      */
     mouseDown: function() {
         if ( !this.get( 'disabled' ) ) {
@@ -56,6 +56,9 @@ export default Ember.Component.extend({
             Ember.$( 'body' ).on( 'mouseup', this.mouseUpListener );
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Inline style string for the base element
@@ -65,12 +68,15 @@ export default Ember.Component.extend({
      */
     style: '',
 
+    // -------------------------------------------------------------------------
+    // Observers
+
     /**
      * Setup listeners for bound actions
      *
-     * @function setupBoundListeners
+     * @method   setupBoundListeners
      * @observes didInsertElement event
-     * @return   {void}
+     * @returns  {void}
      */
     setupBoundListeners: function() {
         this.set( 'mouseUpListener', Ember.run.bind( this, function() {
@@ -139,9 +145,9 @@ export default Ember.Component.extend({
      * If we try to make the style a computed property then we will get render
      * errors from Ember before the view is inserted into the DOM.
      *
-     * @function columnWidthObserver
+     * @method   columnWidthObserver
      * @observes didInsertElement event, column.width
-     * @return   {void}
+     * @returns  {void}
      */
     columnWidthObserver: function() {
         var width = this.get( 'column.width' ),
@@ -176,10 +182,13 @@ export default Ember.Component.extend({
         this.set( 'style', 'width:' + width + 'px;' );
     }.observes( 'column.width' ).on( 'didInsertElement' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Get the index of the currently sorted column
      *
-     * @function getCurrentColumnIndex
+     * @method  getCurrentColumnIndex
      * @returns {number} - The index of the column
      */
     getCurrentColumnIndex: function() {
@@ -189,9 +198,9 @@ export default Ember.Component.extend({
     /**
      * Get the position of the specified column
      *
-     * @function getPosition
+     * @method   getPosition
      * @argument {object} element - The element to get the position of
-     * @return   {Ember.Object}
+     * @returns  {Ember.Object}
      */
     getPosition: function( element ) {
         var leftOffset = Ember.$( element ).offset().left;
@@ -205,8 +214,8 @@ export default Ember.Component.extend({
     /**
      * Set a new column index on the relevant column
      *
-     * @function setNewColumnIndex
-     * @return   {void}
+     * @fmethod setNewColumnIndex
+     * @returns {void}
      */
     setNewColumnIndex: function() {
         var currentLeft = this.get( 'reorderCol' ).offset().left,
@@ -257,9 +266,9 @@ export default Ember.Component.extend({
     /**
      * Add CSS classes if this column is being sorted on
      *
-     * @function sortClasses
+     * @method   sortClasses
      * @observes column.isSorted, column.sortAscending
-     * @return   {Ember.String}
+     * @returns  {Ember.String}
      */
     sortClasses: function() {
         var isSorted    = this.get( 'column.isSorted' ),

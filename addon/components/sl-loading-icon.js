@@ -25,6 +25,9 @@ export default Ember.Component.extend({
      */
     classNameBindings: [ 'inverse:sl-loading-icon-light:sl-loading-icon-dark' ],
 
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * Whether to use the inverse (lighter colored) icon
      *

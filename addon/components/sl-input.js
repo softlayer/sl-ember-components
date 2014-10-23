@@ -29,8 +29,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         /**
          * Sends the 'blur' bound action when the input loses focus
          *
-         * @function actions.blurred
-         * @return   {void}
+         * @method  actions.blurred
+         * @returns {void}
          */
         blur: function() {
             this.sendAction( 'blur' );
@@ -39,13 +39,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         /**
          * Sends the primary bound action when `enter` is pressed
          *
-         * @function actions.enter
-         * @return   {void}
+         * @method  actions.enter
+         * @returns {void}
          */
         enter: function() {
             this.sendAction();
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Enable the click to edit styling
@@ -79,13 +82,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     isTypeaheadSetup: false,
 
+    // -------------------------------------------------------------------------
+    // Observers
+
     /**
      * Sets up the input event listeners exposed to the component's
      * parent controller
      *
-     * @function setupInputEvents
+     * @method   setupInputEvents
      * @observes didInsertElement event
-     * @return   {void}
+     * @returns  {void}
      */
     setupInputEvents: function() {
         var blurAction = this.get( 'blur' ),
@@ -101,9 +107,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Sets up the typeahead behavior when `suggestions` are supplied
      *
-     * @function setupTypeahead
+     * @method   setupTypeahead
      * @observes didInsertElement event, suggestions
-     * @return   {void}
+     * @returns  {void}
      */
     setupTypeahead: function() {
         var self = this;
@@ -158,11 +164,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
     }.on( 'didInsertElement' ).observes( 'suggestions' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Get a reference to the internal input element
      *
-     * @function getInput
-     * @return   {object}
+     * @methods getInput
+     * @returns {object}
      */
     getInput: function() {
         return this.$( '#' + this.get( 'inputId' ) );
@@ -171,8 +180,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Class string for the internal input element
      *
-     * @property inputClass
-     * @return   {string}
+     * @method  inputClass
+     * @returns {string}
      */
     inputClass: function() {
         var classes = [ 'form-control' ];
@@ -192,7 +201,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * ID for the actual input element
      *
      * @property inputId
-     * @return   {string}
+     * @returns  {string}
      */
     inputId: function() {
         return this.get( 'elementId' ) + 'Input';

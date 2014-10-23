@@ -14,12 +14,15 @@ export default SlGridTableCell.extend({
     /**
      * Action triggered when cell is clicked
      *
-     * @function click
-     * @return   {void}
+     * @method click
+     * @returns {void}
      */
     click: function() {
         this.toggleProperty( 'row.rowExpanderIsOpen' );
     },
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Whether the row expander is open
