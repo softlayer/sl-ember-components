@@ -15,7 +15,7 @@ export default Ember.Component.extend({
     /**
      * The HTML tag name of the component
      *
-     * @property {string} tagname
+     * @property {Ember.String} tagname
      * @default  "span"
      */
     tagName: 'span',
