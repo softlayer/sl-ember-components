@@ -6,17 +6,28 @@ import Ember from 'ember';
  */
 export default Ember.Mixin.create( {
 
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Controller actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
         /**
          * Apply filter settings to the underlying data
          *
-         * @method actions.applyFilter
+         * @function actions.applyFilter
+         * @returns  {void}
          */
         applyFilter: function() {
             var filters     = this.get( 'filters' ),
@@ -33,7 +44,7 @@ export default Ember.Mixin.create( {
                 }
             });
 
-            if( gridFilters.length ) {
+            if ( gridFilters.length ) {
                 this.set( 'filterApplied', true );
             }
         },
@@ -41,7 +52,8 @@ export default Ember.Mixin.create( {
         /**
          * Clear all the grid filter settings
          *
-         * @method actions.clearAll
+         * @function actions.clearAll
+         * @returns  {void}
          */
         clearAll: function() {
             var gridFilters = this.get( 'gridFilterProperties' ),
@@ -60,8 +72,9 @@ export default Ember.Mixin.create( {
         /**
          * Clear a specific filter
          *
-         * @method actions.clearFilter
-         * @param {string} key - The key for the filter to clear
+         * @function actions.clearFilter
+         * @param   {Ember.String} key - The key for the filter to clear
+         * @returns {void}
          */
         clearFilter: function( key ) {
             var filter      = this.get( 'filters.' + key ),
@@ -81,7 +94,8 @@ export default Ember.Mixin.create( {
         /**
          * Trigger a collapse of the surrounding tab panel
          *
-         * @method actions.closeFilterTab
+         * @function actions.closeFilterTab
+         * @returns  {void}
          */
         closeFilterTab: function() {
             this.send( 'toggleFilter' );
@@ -90,10 +104,24 @@ export default Ember.Mixin.create( {
         /**
          * Change filter settings
          *
-         * @method actions.modifyFilter
+         * @function actions.modifyFilter
+         * @returns  {void}
          */
         modifyFilter: function() {
             this.set( 'filterApplied', false );
         }
     }
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
 });
