@@ -3,11 +3,30 @@ import Ember from 'ember';
 /** @module sl-components/mixins/sl-notify-view */
 export default Ember.Mixin.create({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
     /**
      * Notify the view's controller by sending "viewDidInsertElement"
      *
      * @function notifyDidInsertElement
-     * @return   {void}
+     * @observes "didInsertElement" event
+     * @returns  {void}
      */
     notifyDidInsertElement: function() {
         this.get( 'controller' ).send( 'viewDidInsertElement' );
@@ -17,7 +36,8 @@ export default Ember.Mixin.create({
      * Notify the view's controller by sending "viewWillClearRender"
      *
      * @function notifyWillClearRender
-     * @return   {void}
+     * @observes "willClearRender" event
+     * @returns  {void}
      */
     notifyWillClearRender: function() {
         this.get( 'controller' ).send( 'viewWillClearRender' );
@@ -27,7 +47,8 @@ export default Ember.Mixin.create({
      * Notify the view's controller by sending "viewWillDestroyElement"
      *
      * @function notifyWillDestroyElement
-     * @return   {void}
+     * @observes "willDestroyElement" event
+     * @returns  {void}
      */
     notifyWillDestroyElement: function() {
         this.get( 'controller' ).send( 'viewWillDestroyElement' );
@@ -37,9 +58,14 @@ export default Ember.Mixin.create({
      * Notify the view's controller by sending "viewWillInsertElement"
      *
      * @function notifyWillInsertElement
-     * @return   {void}
+     * @observes "willInsertElement" event
+     * @returns  {void}
      */
     notifyWillInsertElement: function() {
         this.get( 'controller' ).send( 'viewWillInsertElement' );
-    }.on( 'willInsertElement' ),
+    }.on( 'willInsertElement' )
+
+    // -------------------------------------------------------------------------
+    // Methods
+
 });
