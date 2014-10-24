@@ -49,6 +49,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The internal input element, used for Select2's bindings
      *
+     * @private
      * @property {object} input
      * @default  null
      */
