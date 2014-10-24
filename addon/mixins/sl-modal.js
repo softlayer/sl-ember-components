@@ -2,9 +2,42 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-modal
+ * @class  sl-modal
  */
 export default Ember.Mixin.create({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * The name of the layout/template to render for this mixin
+     *
+     * @property {string} layoutName
+     * @default  "sl-modal"
+     */
+    layoutName: 'sl-modal',
+
+    /**
+     * Attribute value bindings for the containing element
+     *
+     * @property {Ember.array} attributeBindings
+     */
+    attributeBindings: [
+        'aria-hidden', 'tabindex', 'role', 'aria-labelledby', 'aria-describedby'
+    ],
+
+    /**
+     * Class names for the containing element
+     *
+     * @property {Ember.array} classNames
+     */
+    classNames: [ 'fade', 'modal' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Component actions hash
@@ -16,7 +49,8 @@ export default Ember.Mixin.create({
         /**
          * Action to hide the modal
          *
-         * @method actions.close
+         * @function actions.close
+         * @returns  {void}
          */
         close: function() {
             if ( this.$() ) {
@@ -25,11 +59,17 @@ export default Ember.Mixin.create({
         }
     },
 
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
     /**
      * `aria-describedby` attribute value
      *
      * @property {string} aria-describedby
-     * @default null
+     * @default  null
      */
     'aria-describedby': null,
 
@@ -38,82 +78,43 @@ export default Ember.Mixin.create({
      * modal's DOM elements
      *
      * @property {string} aria-hidden
-     * @default "true"
+     * @default  "true"
      */
     'aria-hidden': 'true',
-
-    /**
-     * `aria-labelledby` attribute value
-     *
-     * @property {string} aria-labelledby
-     */
-    'aria-labelledby': function() {
-        return 'modalTitle-' + Math.random();
-    }.property(),
-
-    /**
-     * Attribute value bindings for the containing element
-     *
-     * @property {array} attributeBindings
-     */
-    attributeBindings: [
-        'aria-hidden', 'tabindex', 'role', 'aria-labelledby', 'aria-describedby'
-    ],
 
     /**
      * Bootstrap's modal backdrop option
      *
      * @property {boolean|string} backdrop
-     * @default true
+     * @default  true
      */
     backdrop: true,
 
     /**
-     * Class names for the containing element
+     * `role` attribute value
      *
-     * @property {array} classNames
+     * @property {string} role
+     * @default  "dialog"
      */
-    classNames: [ 'fade', 'modal' ],
+    role: 'dialog',
 
     /**
-     * Overridable method stub
+     * `tabindex` attribute value
      *
-     * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
-     *
-     * @method hiddenHandler
+     * @property {string} tab index
+     * @default  '-1'
      */
-    hiddenHandler: function () {},
+    tabindex: '-1',
 
-    /**
-     * Overridable method stub
-     *
-     * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
-     *
-     * @method hideHandler
-     */
-    hideHandler: function () {},
-
-    /**
-     * The name of the layout/template to render for this mixin
-     *
-     * @property {string} layoutName
-     * @default "sl-modal"
-     */
-    layoutName: 'sl-modal',
-
-    /**
-     * Overridable method stub
-     *
-     * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
-     *
-     * @method loadedHandler
-     */
-    loadedHandler: function () {},
+    // -------------------------------------------------------------------------
+    // Observers
 
     /**
      * Binds handlers for exposed Twitter Bootstrap 3 modal events
      *
-     * @method modalize
+     * @function modalize
+     * @observes "didInsertElement" event
+     * @returns  {void}
      */
     modalize: function () {
         var modal = this.$().modal({
@@ -129,20 +130,55 @@ export default Ember.Mixin.create({
         modal.on( 'loaded.bs.modal', this.loadedHandler.bind( this ));
     }.on( 'didInsertElement' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
-     * `role` attribute value
+     * `aria-labelledby` attribute value
      *
-     * @property {string} role
-     * @default 'dialog'
+     * @property {string} aria-labelledby
      */
-    role: 'dialog',
+    'aria-labelledby': function() {
+        return 'modalTitle-' + Math.random();
+    }.property(),
+
+    /**
+     * Overridable method stub
+     *
+     * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
+     *
+     * @function hiddenHandler
+     * @returns  {void}
+     */
+    hiddenHandler: function () {},
+
+    /**
+     * Overridable method stub
+     *
+     * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
+     *
+     * @function hideHandler
+     * @returns  {void}
+     */
+    hideHandler: function () {},
+
+    /**
+     * Overridable method stub
+     *
+     * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
+     *
+     * @function loadedHandler
+     * @returns  {void}
+     */
+    loadedHandler: function () {},
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `show.bs.modal` event.
      *
-     * @method showHandler
+     * @function showHandler
+     * @returns  {void}
      */
     showHandler: function () {},
 
@@ -151,16 +187,9 @@ export default Ember.Mixin.create({
      *
      * Triggered by Twitter Bootstrap 3 modal's `shown.bs.modal` event.
      *
-     * @method shownHandler
+     * @function shownHandler
+     * @returns  {void}
      */
-    shownHandler: function () {},
-
-    /**
-     * `tabindex` attribute value
-     *
-     * @property {string} tab index
-     * @default '-1'
-     */
-    tabindex: '-1'
+    shownHandler: function () {}
 
 });
