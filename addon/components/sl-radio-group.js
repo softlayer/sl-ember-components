@@ -75,17 +75,25 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         var name       = this.get( 'name' ),
             isDisabled = this.get( 'disabled' ),
             isInline   = this.get( 'inline' ),
+            isReadonly = this.get( 'readonly' ),
             self       = this;
 
         this.$( '.sl-radio' ).each( function () {
             var radio = Ember.$( this ),
                 input = Ember.$( 'input', radio );
 
-            input.attr( 'name', name );
+            if ( name ) {
+                input.attr( 'name', name );
+            }
 
             if ( isDisabled ) {
                 radio.prop( 'disabled', true );
                 radio.addClass( 'disabled' );
+            }
+
+            if ( isReadonly ) {
+                radio.prop( 'readonly', true );
+                radio.addClass( 'readonly' );
             }
 
             if ( isInline ) {

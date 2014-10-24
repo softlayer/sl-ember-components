@@ -55,12 +55,8 @@
 <h3>sl-radio-group Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="name" required=true type="string"}}
-        Shared <code>name</code> attribute for the radio inputs. The child <em>sl-radio</em> components should not set their own <code>name</code> properties, as the <em>sl-radio-group</em> should do the setting for them directly.
-    {{/property-text}}
-
     {{#property-text name="disabled" type="boolean" default="false"}}
-        When true, all radio inputs will be disabled.
+        When true, all child radio inputs will be disabled. Note that this property overrides all child <em>sl-radio</em>s' <code>disabled</code> values.
     {{/property-text}}
 
     {{#property-text name="inline" type="boolean" default="false"}}
@@ -71,12 +67,16 @@
         Text label for radio group as a whole.
     {{/property-text}}
 
+    {{#property-text name="name" type="string"}}
+        Shared <code>name</code> attribute for the radio inputs. Note that this property will overwrite all child <em>sl-radio</em>s' <code>name</code> values.
+    {{/property-text}}
+
     {{#property-text name="optional" type="boolean" default="false"}}
         When true, the component is styled to reflect optional status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
     {{#property-text name="readonly" type="boolean" default="false"}}
-        Shared <code>readonly</code> attribute value for the radio inputs.
+        Shared <code>readonly</code> attribute value for the child radio inputs.
     {{/property-text}}
 
     {{#property-text name="required" type="boolean" default="false"}}
