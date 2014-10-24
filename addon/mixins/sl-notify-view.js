@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-/** @module sl-components/mixins/sl-notify-view */
+/**
+ * @module mixins
+ * @class  sl-notify-view
+ */
 export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
