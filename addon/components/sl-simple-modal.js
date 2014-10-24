@@ -25,7 +25,7 @@ export default Ember.Component.extend( ModalMixin, {
     /**
      * Text string for the "accept" button
      *
-     * @property {string} acceptText
+     * @property {Ember.String} acceptText
      * @default  "Accept"
      */
     acceptText: 'Accept',
@@ -33,7 +33,7 @@ export default Ember.Component.extend( ModalMixin, {
     /**
      * Text string for the "cancel" button
      *
-     * @property {string} cancelText
+     * @property {Ember.String} cancelText
      * @default  "Cancel"
      */
     cancelText: 'Cancel',
