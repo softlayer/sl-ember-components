@@ -118,7 +118,7 @@ export default Ember.Mixin.create( SlApplicationState, {
     /**
      * Alias for the grid definition
      *
-     * @property {mixed} applicationStateDefinition
+     * @property {Ember.Object} applicationStateDefinition
      */
     applicationStateDefinition: Ember.computed.alias( 'gridDefinition' ),
 
@@ -304,7 +304,7 @@ export default Ember.Mixin.create( SlApplicationState, {
      * Override this function with your own model reloading logic if need be
      *
      * @function reloadModel
-     * @param  {} fromServer
+     * @param  {boolean} fromServer
      * @return {void}
      */
     reloadModel: function( fromServer ) {
