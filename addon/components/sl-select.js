@@ -98,6 +98,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // Observers
 
     /**
+     * Teardown the select2 to prevent memory leaks
+     *
+     * @function destroySelect2
+     * @observes "willDestroyElement" event
+     * @returns  {void}
+     */
+    destroySelect2: function() {
+        this.input.off( 'change' ).select2( 'destroy' );
+    }.on( 'willDestroyElement' ),
+
+    /**
      * Set up select2 initialization after the element is inserted in the DOM
      *
      * @function setupSelect2
@@ -246,17 +257,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             this.valueChanged();
         }
     }.on( 'didInsertElement' ),
-
-    /**
-     * Teardown to prevent memory leaks
-     *
-     * @function willDestroyElementObserver
-     * @observes "willDestroyElement" event
-     * @returns  {void}
-     */
-    willDestroyElementObserver: function() {
-        this.input.off( 'change' ).select2( 'destroy' );
-    }.on( 'willDestroyElement' ),
 
     /**
      * Set data bound value based on changed value
