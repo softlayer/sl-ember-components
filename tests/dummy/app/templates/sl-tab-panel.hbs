@@ -36,12 +36,12 @@
 <h3>sl-tab-panel Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="initialTabName" type="string"}}
-        Name of the initial active tab.  This value corresponds to the value set on the <code>name</code> property of the sl-tab-pane component.
-    {{/property-text}}
-
     {{#property-text name="alignTabs" type="string" default="\"left\""}}
         How to align the tabs, "left" or "right".
+    {{/property-text}}
+
+    {{#property-text name="initialTabName" type="string"}}
+        Name of the initial active tab. This value corresponds to the value set on the <code>name</code> property of the sl-tab-pane component. If omitted, the first tab pane will be open on initialization.
     {{/property-text}}
 </div>
 
