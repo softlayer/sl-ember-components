@@ -55,6 +55,15 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     format: 'datetime',
 
+    /**
+     * String representing the full timezone name, as used by and interpreted by
+     * Moment-timezone: http://momentjs.com/timezone/docs/#/using-timezones/
+     *
+     * @property {Ember.String} timezone
+     * @default  null
+     */
+    timezone: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
