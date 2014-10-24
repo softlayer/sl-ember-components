@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-filter-controller
+ * @class  sl-filter-controller
  */
 export default Ember.Mixin.create( {
 

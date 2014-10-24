@@ -3,7 +3,7 @@ import SlApplicationState from './sl-application-state-controller';
 
 /**
  * @module mixins
- * @class sl-grid-controller
+ * @class  sl-grid-controller
  */
 export default Ember.Mixin.create( SlApplicationState, {
 

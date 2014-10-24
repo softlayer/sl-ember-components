@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-ajax-aware
+ * @class  sl-ajax-aware
  */
 export default Ember.Mixin.create({
 

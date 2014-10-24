@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-application-state-controller
+ * @class  sl-application-state-controller
  */
 export default Ember.Mixin.create( Ember.Evented, {
 
