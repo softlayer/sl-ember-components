@@ -80,6 +80,7 @@ export default Ember.Component.extend({
     /**
      * The currently active tab name
      *
+     * @private
      * @property {string} activeTabName
      * @default  null
      */
@@ -101,6 +102,14 @@ export default Ember.Component.extend({
      * @default  0
      */
     contentHeight: 0,
+
+    /**
+     * The name of the tab to open when the component is first rendered
+     *
+     * @property {string} initialTabName
+     * @default  null
+     */
+    initialTabName: null,
 
     // -------------------------------------------------------------------------
     // Observers
