@@ -2,9 +2,18 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-pagination-controller
+ * @class  sl-pagination-controller
  */
 export default Ember.Mixin.create({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Controller actions hash
@@ -16,15 +25,15 @@ export default Ember.Mixin.create({
         /**
          * Change current page to the specified page
          *
-         * @method actions.changePage
+         * @function actions.changePage
+         * @param    {number} page - The page number to change to
+         * @returns  {void}
          */
         changePage: function( page ) {
             var currentPage = this.get( 'currentPage' ),
                 nextPage,
                 prevPage,
-                totalPages,
-                validNextPage,
-                validPrevPage;
+                totalPages;
 
             totalPages = Math.ceil(
                 this.get( 'metaData.total' ) / this.get( 'itemCountPerPage' )
@@ -32,34 +41,39 @@ export default Ember.Mixin.create({
 
             switch( page ) {
                 case 'first':
-                    return this.set( 'currentPage', 1 );
+                    currentPage = 1;
+                    break;
 
                 case 'prev':
-                    validPrevPage = currentPage - 1;
-                    validPrevPage = prevPage > 0;
-                    return this.set( 'currentPage', validPrevPage ? validPrevPage : 1 );
+                    prevPage = currentPage - 1;
+                    currentPage = prevPage > 0 ? prevPage : 1;
+                    break;
 
                 case 'next':
-                    nextPage = ( currentPage + 1 );
-                    validNextPage = nextPage <= totalPages;
-                    return this.set( 'currentPage',  validNextPage ? nextPage : totalPages );
+                    nextPage = currentPage + 1;
+                    currentPage = nextPage <= totalPages ? nextPage : totalPages;
+                    break;
 
                 case 'last':
-                    return this.set( 'currentPage', totalPages );
+                    currentPage = totalPages;
+                    break;
 
                 case 'currentPageInput':
                 /* falls through */
                 default:
                     page = parseInt( page );
-                    page = isNaN( page ) ? 1 : page;
-                    return this.set( 'currentPage', page );
+                    currentPage = isNaN( page ) ? 1 : page;
             }
+
+            this.set( 'currentPage', currentPage );
         },
 
         /**
          * Change the "per page" record limit
          *
-         * @method actions.changePerPage
+         * @function actions.changePerPage
+         * @param    {number} perPage - The number of records to limit to per page
+         * @returns  {void}
          */
         changePerPage: function( perPage ) {
             perPage = parseInt( perPage );
@@ -68,10 +82,46 @@ export default Ember.Mixin.create({
         }
     },
 
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * The current page number
+     *
+     * @property {number} currentPage
+     * @default  1
+     */
+    currentPage: 1,
+
+    /**
+     * Options for the "per page" resource limit number
+     *
+     * @property {Ember.array} perPageOptions
+     */
+    perPageOptions: [ 25, 50, 100 ],
+
+    /**
+     * Accepted controller query parameters
+     *
+     * @property {Ember.array} queryParams
+     */
+    queryParams: [ 'currentPage', 'itemCountPerPage' ],
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * An arranged copy of the content
      *
-     * @property {mixed} arrangedContent
+     * @function arrangedContent
+     * @observes content, currentPage, filterProperties, itemCountPerPage, sortAscending, sortProperties
+     * @returns  {mixed}
      */
     arrangedContent: function() {
         var self        = this,
@@ -98,17 +148,11 @@ export default Ember.Mixin.create({
     ),
 
     /**
-     * The current page number
-     *
-     * @property {number} currentPage
-     * @default 1
-     */
-    currentPage: 1,
-
-    /**
      * Paging data for the grid to pass to its pagination controls
      *
-     * @property {object} pagingData
+     * @function pagingData
+     * @observes currentPage, itemCountPerPage, metaData, perPageOptions
+     * @return   {object} Pagination data
      */
     pagingData: function() {
         var pageNumber = this.get( 'currentPage' ) - 1,
@@ -133,48 +177,6 @@ export default Ember.Mixin.create({
         'itemCountPerPage',
         'metaData',
         'perPageOptions'
-    ),
-
-    /**
-     * Options for the "per page" resource limit number
-     *
-     * @property {array} perPageOptions
-     */
-    perPageOptions: Ember.A([ 25, 50, 100 ]),
-
-    /**
-     * Accepted controller query parameters
-     *
-     * @property {array} queryParams
-     */
-    queryParams: [ 'currentPage', 'itemCountPerPage' ],
-
-    /**
-     * Reset the current page number when the itemCountPerPage is changed
-     *
-     * @method resetCurrentPage
-     */
-    resetCurrentPage: function() {
-        this.set( 'currentPage', 1 );
-    }.observes( 'itemCountPerPage' ),
-
-    /**
-     * Update metaData properties when relevant values is changed
-     *
-     * @method setupMetaData
-     */
-    updateMetaData: function() {
-        var total       = parseInt( this.get( 'metaData.total' )),
-            itemCount   = parseInt( this.get( 'itemCountPerPage' )),
-            currentPage = parseInt( this.get( 'currentPage' )),
-            start       = ( currentPage - 1 ) * itemCount,
-            end         = start + itemCount,
-            pageCount   = ( start + end ) < total ? itemCount : total - start;
-
-        this.setProperties({
-            'metaData.pageCount': pageCount,
-            'metaData.totalPages': Math.ceil( total / itemCount )
-        });
-    }.observes( 'currentPage', 'itemCountPerPage', 'metaData' )
+    )
 
 });
