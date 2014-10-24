@@ -6,57 +6,195 @@ import Ember from 'ember';
  */
 export default Ember.Mixin.create({
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * Placeholder
+     *
+     * @property {function} ajaxCompleteProxyBound
+     * @default  null
+     */
+    ajaxCompleteProxyBound: null,
+
+    /**
+     * Whether or not AJAX events are bound to the element
+     *
+     * If disabled, the instance will not even create the bindings to be made
+     * aware of the AJAX activity.
+     *
+     * @property {boolean} ajaxEnabled
+     * @default false
+     */
+    ajaxEnabled: false,
+
+    /**
+     * Placeholder
+     *
+     * @property {function} ajaxSendProxyBound
+     * @default  null
+     */
+    ajaxSendProxyBound: null,
+
+    /**
+     * Placeholder
+     *
+     * @property {function} ajaxStartProxyBound
+     * @default  null
+     */
+    ajaxStartProxyBound: null,
+
+    /**
+     * Placeholder
+     *
+     * @property {function} ajaxStopProxyBound
+     * @default  null
+     */
+    ajaxStopProxyBound: null,
+
+    /**
+     * Used internally to track registered AJAX behaviors
+     *
+     * @private
+     * @property {Ember.Array} onActiveBehaviors
+     * @default  []
+     */
+    onActiveBehaviors: [],
+
+    /**
+     * Used internally to track registered AJAX behaviors
+     *
+     * @property {Ember.Array} onInactiveBehaviors
+     * @default  []
+     */
+    onInactiveBehaviors: [],
+
+    /**
+     * Indicates which endpoint(s) AJAX activity we are concerned with
+     *
+     * URL scope can be given as either a string or a regular expression.
+     *
+     * @property {Ember.String} urlScope
+     * @default  null
+     */
+    urlScope: null,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
+     * Initialize AJAX connectivity
+     *
+     * @function initAjax
+     * @observes "init" event
+     * @returns  {void}
+     */
+    initAjax: function() {
+        this.createProxyMethods();
+        this.connectAjax();
+    }.on( 'init' ),
+
+    /**
+     * Bind to the appropriate AJAX calls if enabled
+     *
+     * This method will consider the URL scoping and bind to either
+     * Send/Complete (for specific URLs) or Start/Stop (for global
+     * AJAX activity).
+     *
+     * @function connectAjax
+     * @observes "ajaxEnabled" event
+     * @returns  {void}
+     */
+    connectAjax: function() {
+        var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'urlScope' ]);
+
+        if ( props.ajaxEnabled === true && !props.ajaxBound ) {
+            if ( !Ember.isBlank( props.urlScope ) ) {
+                Ember.$( document )
+                    .ajaxSend( this.get( 'ajaxSendProxyBound' ) )
+                    .ajaxComplete( this.get( 'ajaxCompleteProxyBound' ) );
+            } else {
+                Ember.$( document )
+                    .ajaxStart( this.get( 'ajaxStartProxyBound' ) )
+                    .ajaxStop( this.get( 'ajaxStopProxyBound' ) );
+            }
+        }
+
+    }.observes( 'ajaxEnabled' ),
+
+    /**
+     * Unbind from AJAX methods
+     *
+     * @function disconnectAjax
+     * @observes "ajaxEnabled" event
+     * @returns  {void}
+     */
+    disconnectAjax: function() {
+        var ajaxBound   = this.get( 'ajaxBound' ),
+            ajaxEnabled = this.get( 'ajaxEnabled' );
+
+        if ( !ajaxEnabled && ajaxBound ) {
+            Ember.$( document ).off( 'ajaxSend', this.get( 'ajaxSendProxyBound' ) );
+            Ember.$( document ).off( 'ajaxComplete', this.get( 'ajaxCompleteProxyBound' ) );
+            Ember.$( document ).off( 'ajaxStart', this.get( 'ajaxStartProxyBound' ) );
+            Ember.$( document ).off( 'ajaxStop', this.get( 'ajaxStopProxyBound' ) );
+        }
+    }.observes( 'ajaxEnabled' ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Empty implementations of AJAX handler to be overriden by client code
      *
-     * @method ajaxCompleteHandler
+     * @function ajaxCompleteHandler
+     * @default  {Ember.Object} empty
      */
     ajaxCompleteHandler: function() {},
 
     /**
      * Internally used proxy method for ajaxComplete
      *
-     * @method ajaxCompleteProxy
+     * @function ajaxCompleteProxy
+     * @param   {object} event
+     * @param   {jqXHR}  jqXHR
+     * @param   {object} options
+     * @returns {void}
      */
     ajaxCompleteProxy: function( event, jqXHR, options ) {
-        if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
+        if ( this.matchesUrl( this.get( 'urlScope' ), options.url ) ) {
             this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
                 behavior.call( this, event, jqXHR, options );
-            }.bind( this ));
+            }.bind( this ) );
 
             this.ajaxCompleteHandler();
         }
     },
 
     /**
-     * Placeholder
-     *
-     * @property ajaxCompleteProxyBound
-     */
-    ajaxCompleteProxyBound: null,
-
-    /**
-     * Whether or not AJAX events are bound to this button
-     *
-     * If disabled, the instance will not even create the bindings to be made
-     * aware of the AJAX activity.
-     *
-     * @property ajaxEnabled
-     * @default false
-     */
-    ajaxEnabled: false,
-
-    /**
      * Empty implementations of AJAX handler to be overriden by client code
      *
-     * @method ajaxSendHandler
+     * @function ajaxSendHandler
+     * @default  {Ember.Object} empty
      */
     ajaxSendHandler: function() {},
 
     /**
      * Internally used proxy method for ajaxSend
      *
-     * @method ajaxSendProxy
+     * @function ajaxSendProxy
      */
     ajaxSendProxy: function( event, jqXHR, options ) {
         if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
@@ -69,23 +207,18 @@ export default Ember.Mixin.create({
     },
 
     /**
-     * Placeholder
-     *
-     * @property ajaxSendProxyBound
-     */
-    ajaxSendProxyBound: null,
-
-    /**
      * Empty implementations of AJAX handler to be overriden by client code
      *
-     * @method ajaxStartHandler
+     * @function ajaxStartHandler
+     * @default  {Ember.Object} empty
      */
     ajaxStartHandler: function() {},
 
     /**
      * Internally used proxy method for ajaxStart
      *
-     * @method ajaxStartProxy
+     * @function ajaxStartProxy
+     * @returns  {void}
      */
     ajaxStartProxy: function() {
         this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
@@ -96,22 +229,18 @@ export default Ember.Mixin.create({
     },
 
     /**
-     * Placeholder
-     *
-     * @property ajaxStartProxyBound
-     */
-    ajaxStartProxyBound: null,
-
-    /**
      * Empty implementations of AJAX handler to be overriden by client code
      *
-     * @method ajaxStopHandler
+     * @function ajaxStopHandler
+     * @default  {Ember.Object} empty
      */
     ajaxStopHandler: function() {},
 
     /**
      * Internally used proxy method for ajaxStop
-     * @method ajaxStopProxy
+     *
+     * @function ajaxStopProxy
+     * @returns  {void}
      */
     ajaxStopProxy: function() {
         this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
@@ -122,80 +251,20 @@ export default Ember.Mixin.create({
     },
 
     /**
-     * Placeholder
-     *
-     * @property ajaxStopProxyBound
-     */
-    ajaxStopProxyBound: null,
-
-    /**
-     * Bind to the appropriate AJAX calls if enabled
-     *
-     * This method will consider the URL scoping and bind to either
-     * Send/Complete (for specific URLs) or Start/Stop (for global
-     * AJAX activity).
-     *
-     * @method connectAjax
-     */
-    connectAjax: function() {
-        var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'urlScope' ]);
-
-        if ( props.ajaxEnabled === true && !props.ajaxBound ) {
-            if ( !Ember.isBlank( props.urlScope )) {
-                Ember.$( document )
-                    .ajaxSend( this.get( 'ajaxSendProxyBound' ))
-                    .ajaxComplete( this.get( 'ajaxCompleteProxyBound' ));
-            } else {
-                Ember.$( document )
-                    .ajaxStart( this.get( 'ajaxStartProxyBound' ))
-                    .ajaxStop( this.get( 'ajaxStopProxyBound' ));
-            }
-        }
-
-    }.observes( 'ajaxEnabled' ),
-
-    /**
      * Create pre-bound proxy methods for each of the 4 AJAX callbacks we are
      * concerned with
      *
-     * @method createProxyMethods
+     * @function createProxyMethods
+     * @returns  {void}
      */
     createProxyMethods: function() {
         this.setProperties({
-            ajaxSendProxyBound: this.ajaxSendProxy.bind( this ),
-            ajaxCompleteProxyBound: this.ajaxCompleteProxy.bind( this ),
-            ajaxStartProxyBound: this.ajaxStartProxy.bind( this ),
-            ajaxStopProxyBound: this.ajaxStopProxy.bind( this )
+            ajaxSendProxyBound     : this.ajaxSendProxy.bind( this ),
+            ajaxCompleteProxyBound : this.ajaxCompleteProxy.bind( this ),
+            ajaxStartProxyBound    : this.ajaxStartProxy.bind( this ),
+            ajaxStopProxyBound     : this.ajaxStopProxy.bind( this )
         });
     },
-
-    /**
-     * Unbind from AJAX methods
-     *
-     * @method disconnectAjax
-     */
-    disconnectAjax: function() {
-        var ajaxBound   = this.get( 'ajaxBound' ),
-            ajaxEnabled = this.get( 'ajaxEnabled' );
-
-        if ( !ajaxEnabled && ajaxBound ) {
-            Ember.$( document ).off( 'ajaxSend', this.get( 'ajaxSendProxyBound' ));
-            Ember.$( document ).off( 'ajaxComplete', this.get( 'ajaxCompleteProxyBound' ));
-            Ember.$( document ).off( 'ajaxStart', this.get( 'ajaxStartProxyBound' ));
-            Ember.$( document ).off( 'ajaxStop', this.get( 'ajaxStopProxyBound' ));
-        }
-    }.observes( 'ajaxEnabled' ),
-
-    /**
-     * Initialize AJAX connectivity
-     *
-     * @method initAjax
-     */
-    initAjax: function() {
-        this.createProxyMethods();
-        this.connectAjax();
-
-    }.on( 'init' ),
 
     /**
      * Check if the AJAX URL matches the specified scope
@@ -203,33 +272,22 @@ export default Ember.Mixin.create({
      * Scope can be set as a specific endpoint string or as a regex to be
      * tested against.
      *
-     * @method matchesUrl
-     * @param {regexp|string} urlScope
-     * @param {string} ajaxUrl - The URL that the AJAX action is requested on
+     * @function matchesUrl
+     * @param   {RegExp|Ember.String} urlScope
+     * @param   {Ember.String} ajaxUrl - The URL that the AJAX action is requested on
+     * @returns {boolean}
      */
     matchesUrl: function( urlScope, ajaxUrl ) {
+        var returnValue = false;
+
         if ( urlScope instanceof RegExp ) {
-            return urlScope.test( ajaxUrl );
+            returnValue = urlScope.test( ajaxUrl );
         } else if ( typeof urlScope === 'string' ) {
-            return urlScope.toLowerCase() === ajaxUrl.toLowerCase();
+            returnValue = urlScope.toLowerCase() === ajaxUrl.toLowerCase();
         }
 
-        return false;
+        return returnValue;
     },
-
-    /**
-     * Used internally to track registered AJAX behaviors
-     *
-     * @property onActiveBehaviors
-     */
-    onActiveBehaviors: Ember.A(),
-
-    /**
-     * Used internally to track registered AJAX behaviors
-     *
-     * @property onInactiveBehaviors
-     */
-    onInactiveBehaviors: Ember.A(),
 
     /**
      * Initialize AJAX behavior
@@ -249,9 +307,10 @@ export default Ember.Mixin.create({
      * time. If using the AJAX hooks, you'll need to move the calls from
      * ajaxStart/ajaxStop to ajaxSend/ajaxComplete.
      *
-     * @method registerAjaxBehavior
-     * @param {function} onActive - Executed when associated AJAX activity begins
-     * @param {function} onInactive - Executed when associated AJAX activity ends
+     * @function registerAjaxBehavior
+     * @param   {function} onActive - Executed when associated AJAX activity begins
+     * @param   {function} onInactive - Executed when associated AJAX activity ends
+     * @returns {void}
      */
     registerAjaxBehavior: function( onActive, onInactive ) {
         if ( onActive ) {
@@ -266,9 +325,10 @@ export default Ember.Mixin.create({
     /**
      * Allows you to unregister ajax behaviors
      *
-     * @method unregisterAjaxBehavior
-     * @param {function} onActive - Executed when associated AJAX activity begins
-     * @param {function} onInactive - Executed when associated AJAX activity ends
+     * @function unregisterAjaxBehavior
+     * @param   {function} onActive - Executed when associated AJAX activity begins
+     * @param   {function} onInactive - Executed when associated AJAX activity ends
+     * @returns {void}
      */
     unregisterAjaxBehavior: function( onActive, onInactive ) {
         if ( onActive ) {
@@ -278,16 +338,6 @@ export default Ember.Mixin.create({
         if ( onInactive ) {
             this.get( 'onInactiveBehaviors' ).removeObject( onInactive );
         }
-    },
-
-    /**
-     * Indicates which endpoint(s) AJAX activity we are concerned with
-     *
-     * URL scope can be given as either a string or a regular expression.
-     *
-     * @property urlScope
-     * @default null
-     */
-    urlScope: null
+    }
 
 });
