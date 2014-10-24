@@ -296,7 +296,4 @@ export default Ember.Component.extend({
         return classString;
     }.property( 'column.isSorted', 'column.sortAscending' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

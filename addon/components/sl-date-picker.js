@@ -251,7 +251,4 @@ export default Ember.Component.extend( TooltipEnabled, {
         };
     }.property()
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

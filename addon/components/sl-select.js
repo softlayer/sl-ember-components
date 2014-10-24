@@ -312,7 +312,4 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

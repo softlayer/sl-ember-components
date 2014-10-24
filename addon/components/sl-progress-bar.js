@@ -107,7 +107,4 @@ export default Ember.Component.extend( TooltipEnabled, {
         return 'progress-bar-' + this.get( 'theme' );
     }.property( 'theme' ),
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

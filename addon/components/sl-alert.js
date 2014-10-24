@@ -102,8 +102,4 @@ export default Ember.Component.extend( TooltipEnabled, {
         return 'alert-' + this.get( 'theme' );
     }.property( 'theme' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
-
 });

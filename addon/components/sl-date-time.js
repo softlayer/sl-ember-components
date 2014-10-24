@@ -152,7 +152,4 @@ export default Ember.Component.extend( TooltipEnabled, {
         return new Date();
     }.property()
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

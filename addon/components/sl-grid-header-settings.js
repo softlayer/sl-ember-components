@@ -148,7 +148,4 @@ export default Ember.Component.extend({
         return hideableColumns;
     }.property( 'settings', 'columns.@each.hidden' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

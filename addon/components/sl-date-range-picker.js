@@ -136,7 +136,4 @@ export default Ember.Component.extend({
         return null;
     }.property( 'endDateValue', 'maxDate' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

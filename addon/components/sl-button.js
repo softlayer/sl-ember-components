@@ -198,8 +198,4 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
         return 'btn-' + this.get( 'theme' );
     }.property( 'theme' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
-
 });

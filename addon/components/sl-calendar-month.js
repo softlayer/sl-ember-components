@@ -71,7 +71,4 @@ export default Ember.Component.extend({
         return moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );
     }.property()
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

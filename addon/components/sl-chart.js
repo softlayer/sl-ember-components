@@ -188,7 +188,4 @@ export default Ember.Component.extend({
         return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
     }.property( 'height', 'width' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

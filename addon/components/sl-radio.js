@@ -89,7 +89,4 @@ export default Ember.Component.extend({
         return this.get( 'inline' ) ? 'radio-inline' : 'radio';
     }.property( 'inline' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

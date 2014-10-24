@@ -132,7 +132,4 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         return this.$( 'input[value="' + this.get( 'value' ) + '"]' );
     }.property( 'value' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

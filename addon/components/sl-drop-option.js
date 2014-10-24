@@ -79,7 +79,4 @@ export default Ember.Component.extend({
         return this.get( 'label' ) ? 'presentation' : 'divider';
     }.property( 'label' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

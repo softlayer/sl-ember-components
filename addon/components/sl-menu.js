@@ -644,7 +644,4 @@ export default Ember.Component.extend({
         this.get( 'children' ).removeObject( child );
     }
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

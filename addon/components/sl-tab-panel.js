@@ -243,7 +243,4 @@ export default Ember.Component.extend({
         return this.$( '.tab[data-tab-name="' + tabName + '"]' );
     }
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

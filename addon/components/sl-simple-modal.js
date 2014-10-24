@@ -74,7 +74,4 @@ export default Ember.Component.extend( ModalMixin, {
         this.set( 'show', false );
     }
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

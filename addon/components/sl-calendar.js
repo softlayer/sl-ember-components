@@ -538,7 +538,4 @@ export default Ember.Component.extend({
         return years;
     }.property( 'contentDates', 'decadeEnd', 'decadeStart' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

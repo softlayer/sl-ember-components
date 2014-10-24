@@ -114,7 +114,4 @@ export default Ember.Component.extend({
         return this.get( 'disabled' ) || this.get( 'currentPage' ) === this.get( 'totalPages' );
     }.property( 'currentPage', 'disabled', 'totalPages' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });

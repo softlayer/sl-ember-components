@@ -88,7 +88,4 @@ export default Ember.Component.extend( TooltipEnabled, {
         return 'dropdown-' + this.get( 'theme' );
     }.property( 'theme' )
 
-    // -------------------------------------------------------------------------
-    // Private Methods
-
 });
