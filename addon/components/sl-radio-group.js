@@ -68,7 +68,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Initialize the group-wide options and setup child radio buttons
      *
      * @function initialize
-     * @observes didInsertElement event
+     * @observes "didInsertElement" event
      * @returns  {void}
      */
     initialize: function() {
@@ -103,7 +103,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Selects the radio input with the current value
      *
      * @function updateSelection
-     * @observes didInsertElement event, value
+     * @observes "didInsertElement" event, value
      * @returns  {void}
      */
     updateSelection: function() {

@@ -17,7 +17,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Class names for the select element
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'form-group', 'sl-select' ],
 
@@ -49,7 +49,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The internal input element, used for Select2's bindings
      *
-     * @property {element} input
+     * @property {object} input
      * @default  null
      */
     input: null,
@@ -73,7 +73,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The path key for each option object's description
      *
-     * @property {string} optionDescriptionPath
+     * @property {Ember.tring} optionDescriptionPath
      * @default  "description"
      */
     optionDescriptionPath: 'description',
@@ -81,7 +81,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The path key for each option object's label
      *
-     * @property {string} optionLabelPath
+     * @property {Ember.String} optionLabelPath
      * @default  "label"
      */
     optionLabelPath: 'label',
@@ -89,7 +89,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The path key for each option object's value
      *
-     * @property {string} optionValuePath
+     * @property {Ember.String} optionValuePath
      * @default  "value"
      */
     optionValuePath: 'value',
@@ -110,20 +110,20 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             input;
 
         input = this.$( '#' + this.get( 'inputId' )).select2({
-            allowClear: this.get( 'allowClear' ),
-            maximumSelectionSize: this.get( 'maximumSelectionSize' ),
-            multiple: this.get( 'multiple' ),
-            placeholder: this.get( 'placeholder' ),
+            allowClear           : this.get( 'allowClear' ),
+            maximumSelectionSize : this.get( 'maximumSelectionSize' ),
+            multiple             : this.get( 'multiple' ),
+            placeholder          : this.get( 'placeholder' ),
 
             formatResult: function( item ) {
                 if ( !item ) { return; }
 
-                if ( !( item instanceof Object )) {
+                if ( !( item instanceof Object ) ) {
                     return item;
                 }
 
-                var description = get( item, self.get( 'optionDescriptionPath' )),
-                    output = get( item, self.get( 'optionLabelPath' ));
+                var description = get( item, self.get( 'optionDescriptionPath' ) ),
+                    output      = get( item, self.get( 'optionLabelPath' ) );
 
                 if ( description ) {
                     output +=  ' <span class="text-muted">' + description + '</span>';
@@ -136,7 +136,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 if ( !item ) { return; }
 
                 if ( item instanceof Object ) {
-                    return get( item, self.get( 'optionLabelPath' ));
+                    return get( item, self.get( 'optionLabelPath' ) );
                 }
 
                 return item;
@@ -144,7 +144,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
             id: function( item ) {
                 if ( item instanceof Object ) {
-                    return get( item, self.get( 'optionValuePath' ));
+                    return get( item, self.get( 'optionValuePath' ) );
                 }
 
                 return item;
@@ -164,7 +164,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     optionValuePath = self.get( 'optionValuePath' ),
                     values          = value.split( ',' ),
                     unmatchedValues = values.length,
-                    item, matchIndex, text;
+                    item,
+                    matchIndex,
+                    text;
 
                 for ( var i = 0; i < contentLength; i++ ) {
                     item = content[i];
@@ -194,21 +196,21 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     Ember.warn( warning, !values.length );
                 }
 
-                return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ));
+                return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ) );
             },
 
             minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
 
             query: function( query ) {
-                var content = self.get( 'content' ) || [],
+                var content         = self.get( 'content' ) || [],
                     optionLabelPath = self.get( 'optionLabelPath' ),
-                    select2 = this;
+                    select2         = this;
 
                 query.callback({
                     results: content.reduce( function( results, item ) {
                         var text = item instanceof Object ? get( item, optionLabelPath ) : item;
 
-                        if ( text && select2.matcher( query.term, text.toString() )) {
+                        if ( text && select2.matcher( query.term, text.toString() ) ) {
                             results.push( item );
                         }
 
@@ -220,40 +222,53 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
         input.on( 'change', function() {
             Ember.run( function() {
-                self.set( 'value', input.select2( 'val' ));
+                self.set( 'value', input.select2( 'val' ) );
             });
         });
 
         var originalBodyOverflow = document.body.style.overflow || 'auto';
+
         input.on( 'select2-open', function() {
             document.body.style.overflow = 'hidden';
         });
+
         input.on( 'select2-close', function() {
             document.body.style.overflow = originalBodyOverflow;
         });
 
-        if ( !this.get( 'multiple' )) {
+        if ( !this.get( 'multiple' ) ) {
             this.$( 'input.select2-input' ).attr( 'placeholder', 'Search...' );
         }
 
         this.input = input;
 
-        if ( this.get( 'value' )) {
+        if ( this.get( 'value' ) ) {
             this.valueChanged();
         }
     }.on( 'didInsertElement' ),
 
     /**
+     * Teardown to prevent memory leaks
+     *
+     * @function willDestroyElementObserver
+     * @observes "willDestroyElement" event
+     * @returns  {void}
+     */
+    willDestroyElementObserver: function() {
+        this.input.off( 'change' ).select2( 'destroy' );
+    }.on( 'willDestroyElement' ),
+
+    /**
      * Set data bound value based on changed value
      *
      * @function valueChanged
-     * @observes content, value
+     * @observes content.@each, value
      * @returns  {void}
      */
     valueChanged: function() {
         var value = this.get( 'value' );
 
-        if ( this.get( 'optionValuePath' )) {
+        if ( this.get( 'optionValuePath' ) ) {
             this.input.select2( 'val', value );
         } else {
             this.input.select2( 'data', value );
@@ -268,7 +283,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * @function selectId
      * @observes elementId
-     * @returns  {string}
+     * @returns  {Ember.String}
      */
     inputId: function() {
         return this.get( 'elementId' ) + 'Input';
@@ -281,7 +296,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @param    {mixed} data - Select2 data
      */
     selectionChanged: function( data ) {
-        var multiple = this.get( 'multiple' ),
+        var multiple        = this.get( 'multiple' ),
             optionValuePath = this.get( 'optionValuePath' ),
             value;
 
@@ -294,16 +309,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         } else {
             value = data;
         }
-    },
-
-    /**
-     * Teardown to prevent memory leaks
-     *
-     * @function willDestroyElement
-     * @returns  {void}
-     */
-    willDestroyElement: function() {
-        this.input.off( 'change' ).select2( 'destroy' );
     }
 
     // -------------------------------------------------------------------------
