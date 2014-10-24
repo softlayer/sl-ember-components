@@ -15,7 +15,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag for tab-pane component
      *
-     * @property {string} tagName
+     * @property {Ember.String} tagName
      * @default "div"
      */
     tagName: 'div',
@@ -23,14 +23,14 @@ export default Ember.Component.extend({
     /**
      * Bindings for HTML attributes on the tab pane
      *
-     * @property {array} attributeBindings
+     * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'data-tab-label', 'data-tab-name' ],
 
     /**
      * Class name values for the tab pane component
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'sl-tab-pane', 'tab-pane' ],
 
@@ -74,14 +74,14 @@ export default Ember.Component.extend({
     /**
      * Label text for the displayed tab name
      *
-     * @property {string} data-tab-label
+     * @property {Ember.String} data-tab-label
      */
     'data-tab-label': Ember.computed.alias( 'label' ),
 
     /**
      * Text for internal tab identification
      *
-     * @property {string} data-tab-name
+     * @property {Ember.String} data-tab-name
      */
     'data-tab-name': Ember.computed.alias( 'name' ),
 
