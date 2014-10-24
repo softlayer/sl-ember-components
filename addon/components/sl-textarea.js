@@ -17,7 +17,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Class names for the component
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'form-group', 'sl-textarea' ],
 
@@ -41,7 +41,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * @function inputId
      * @observes elementId
-     * @returns  {string}
+     * @returns  {Ember.String}
      */
     inputId: function() {
         return this.get( 'elementId' ) + 'Input';
