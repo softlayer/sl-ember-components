@@ -17,7 +17,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * HTML tag name for the component's root element
      *
-     * @property {string} tagName
+     * @property {Ember.String} tagName
      * @default  "fieldset"
      */
     tagName: 'fieldset',
@@ -25,14 +25,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Attribute bindings for the component's root element
      *
-     * @property {array} attributeBindings
+     * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'disabled' ],
 
     /**
      * Class names for the containing element
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'form-group', 'sl-radio-group' ],
 
@@ -68,14 +68,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Initialize the group-wide options and setup child radio buttons
      *
      * @function initialize
-     * @observes "didInsertElement" event
+     * @observes didInsertElement event
      * @returns  {void}
      */
     initialize: function() {
-        var name = this.get( 'name' ),
+        var name       = this.get( 'name' ),
             isDisabled = this.get( 'disabled' ),
-            isInline = this.get( 'inline' ),
-            self = this;
+            isInline   = this.get( 'inline' ),
+            self       = this;
 
         this.$( '.sl-radio' ).each( function () {
             var radio = Ember.$( this ),
@@ -103,7 +103,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Selects the radio input with the current value
      *
      * @function updateSelection
-     * @observes "didInsertElement" event, value
+     * @observes didInsertElement event, value
+     * @returns  {void}
      */
     updateSelection: function() {
         this.get( 'selectedInput' ).prop( 'checked', true );
@@ -115,7 +116,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The currently selected radio input
      *
-     * @property {object} selectedInput
+     * @property selectedInput
+     * @observes value
+     * @returns  {object}
      */
     selectedInput: function() {
         return this.$( 'input[value="' + this.get( 'value' ) + '"]' );
