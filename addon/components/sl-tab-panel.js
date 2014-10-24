@@ -106,7 +106,7 @@ export default Ember.Component.extend({
     /**
      * The name of the tab to open when the component is first rendered
      *
-     * @property {string} initialTabName
+     * @property {Ember.S`tring} initialTabName
      * @default  null
      */
     initialTabName: null,
