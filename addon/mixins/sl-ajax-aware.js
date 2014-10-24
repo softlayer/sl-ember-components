@@ -225,7 +225,7 @@ export default Ember.Mixin.create({
     onActiveBehaviors: Ember.A(),
 
     /**
-     * Used internall to track registered AJAX behaviors
+     * Used internally to track registered AJAX behaviors
      *
      * @property onInactiveBehaviors
      */
