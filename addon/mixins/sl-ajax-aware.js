@@ -160,7 +160,7 @@ export default Ember.Mixin.create({
      * Empty implementations of AJAX handler to be overriden by client code
      *
      * @function ajaxCompleteHandler
-     * @default  {Ember.Object} empty
+     * @default  {function} empty
      */
     ajaxCompleteHandler: function() {},
 
@@ -187,7 +187,7 @@ export default Ember.Mixin.create({
      * Empty implementations of AJAX handler to be overriden by client code
      *
      * @function ajaxSendHandler
-     * @default  {Ember.Object} empty
+     * @default  {function} empty
      */
     ajaxSendHandler: function() {},
 
@@ -210,7 +210,7 @@ export default Ember.Mixin.create({
      * Empty implementations of AJAX handler to be overriden by client code
      *
      * @function ajaxStartHandler
-     * @default  {Ember.Object} empty
+     * @default  {function} empty
      */
     ajaxStartHandler: function() {},
 
@@ -232,7 +232,7 @@ export default Ember.Mixin.create({
      * Empty implementations of AJAX handler to be overriden by client code
      *
      * @function ajaxStopHandler
-     * @default  {Ember.Object} empty
+     * @default  {function} empty
      */
     ajaxStopHandler: function() {},
 
