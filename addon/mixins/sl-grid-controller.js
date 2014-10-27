@@ -309,7 +309,7 @@ export default Ember.Mixin.create( SlApplicationState, {
      */
     reloadModel: function( fromServer ) {
         var modelName = this.get( 'modelName' ),
-            self      = this
+            self      = this,
             model;
 
         model = this.store.find( modelName, { reload: fromServer } );
