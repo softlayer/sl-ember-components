@@ -391,7 +391,7 @@ export default Ember.Component.extend({
      * Initialize children array
      *
      * @function initChildren
-     * @observes didInsertElement event
+     * @observes "didInsertElement" event
      * @returns  {void}
      */
     initChildren: function() {
@@ -402,43 +402,43 @@ export default Ember.Component.extend({
      * Initialize keyboard event listeners
      *
      * @function initKeyListeners
-     * @observes didInsertElement event, keyEvents
+     * @observes "didInsertElement" event, keyEvents
      * @returns  {void}
      */
     initKeyListeners: function() {
-        var ke = this.get( 'keyEvents' );
-        if ( ke ) {
+        var keyEvents = this.get( 'keyEvents' ),
+            parent    = this.get( 'parentView' ),
+            path      = Ember.A(),
+            rootNode  = this,
+            self      = this;
+
+        if ( keyEvents ) {
             this.set( 'keyHandler', true );
 
-            ke.on( 'childSelected', function( key ) {
-                this.set( 'keyboardInUse', true );
-                this.childSelected( key );
-            }.bind( this )).on( 'drillDown', function() {
-                if ( this.get( 'useDrillDownKey' )) {
-                    this.send( 'drillDown' );
+            keyEvents.on( 'childSelected', function( key ) {
+                self.set( 'keyboardInUse', true );
+                self.childSelected( key );
+            }).on( 'drillDown', function() {
+                if ( self.get( 'useDrillDownKey' )) {
+                    self.send( 'drillDown' );
                 }
-            }.bind( this )).on( 'cycleRootSelectionNext', function( e ) {
-                this.send( 'cycleRootSelectionNext', e );
-            }.bind( this )).on( 'cycleRootSelectionPrevious', function( e ) {
-                this.send( 'cycleRootSelectionPrevious', e );
-            }.bind( this )).on( 'closeAll', function() {
-                this.set( 'keyboardInUse', false );
-                this.send( 'closeAll' );
-            }.bind( this )).on( 'showAll', function() {
-                this.set( 'keyboardInUse', true );
-                this.send( 'showAll' );
-            }.bind( this ));
+            }).on( 'cycleRootSelectionNext', function( event ) {
+                self.send( 'cycleRootSelectionNext', event );
+            }).on( 'cycleRootSelectionPrevious', function( event ) {
+                self.send( 'cycleRootSelectionPrevious', event );
+            }).on( 'closeAll', function() {
+                self.set( 'keyboardInUse', false );
+                self.send( 'closeAll' );
+            }).on( 'showAll', function() {
+                self.set( 'keyboardInUse', true );
+                self.send( 'showAll' );
+            });
         }
 
         // Register child
-        var parent = this.get( 'parentView' );
         if ( typeof parent.registerChild === 'function' ) {
             parent.registerChild( this );
         }
-
-        // Set path & root info
-        var path = Ember.A(),
-            rootNode = this;
 
         while( !rootNode.get( 'isRoot' )) {
             path.insertAt( 0, rootNode.get( 'menu.label' ));
@@ -508,6 +508,8 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     childSelected: function( childIndex ) {
+        var child;
+
         if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' )) {
             this.send( 'closeAll' );
         }
@@ -515,7 +517,7 @@ export default Ember.Component.extend({
         if ( this.get( 'keyHandler' )) {
             this.activateChild( childIndex );
         } else {
-            var child = this.get( 'activeChild' );
+            child = this.get( 'activeChild' );
 
             if ( child ) {
                 child.childSelected( childIndex );
@@ -574,7 +576,8 @@ export default Ember.Component.extend({
         this.$().addClass( 'active' );
 
         var rootNode = this.get( 'rootNode' ),
-            path     = this.get( 'path' );
+            path     = this.get( 'path' ),
+            action;
 
         rootNode.sendAction( 'selectionMade', path );
 
@@ -587,7 +590,7 @@ export default Ember.Component.extend({
             }
         } else {
             if ( this.get( 'menu.action' )) {
-                var action = this.get( 'menu.action' );
+                action = this.get( 'menu.action' );
 
                 if ( typeof action === 'function' ) {
                     action.call( this );
