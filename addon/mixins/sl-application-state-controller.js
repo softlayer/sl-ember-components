@@ -154,6 +154,7 @@ export default Ember.Mixin.create( Ember.Evented, {
 
                        var searchTerm = item.id ? 'id' : ( item.key ? 'key' : null ),
                            preferenceItem,
+                           mergedItem;
 
                         // Make a copy so as not to corrupt the original
                         mergedItem = Ember.Object.create( item );
