@@ -31,14 +31,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // Properties
 
     /**
-     * Display a clear button to clear the input's selection
-     *
-     * @property {boolean} allowClear
-     * @default  false
-     */
-    allowClear: false,
-
-    /**
      * Whether to show the search filter input or not
      *
      * @property {boolean} disableSearch
@@ -122,7 +114,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             input;
 
         input = this.$( '#' + this.get( 'inputId' )).select2({
-            allowClear           : this.get( 'allowClear' ),
             maximumSelectionSize : this.get( 'maximumSelectionSize' ),
             multiple             : this.get( 'multiple' ),
             placeholder          : this.get( 'placeholder' ),
