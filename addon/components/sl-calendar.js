@@ -223,9 +223,9 @@ export default Ember.Component.extend({
      * @returns  {Ember.Object}
      */
     contentDates: function() {
-        var self    = this,
-            content = this.get( 'content' ),
-            dates   = {},
+        var content       = this.get( 'content' ),
+            dates         = {},
+            dateValuePath = this.get( 'dateValuePath' ),
             date,
             year,
             month,
@@ -233,7 +233,7 @@ export default Ember.Component.extend({
 
         if ( content ) {
             content.forEach( function( item ) {
-                date = new Date( Ember.get( item, self.get( 'dateValuePath' ) ) );
+                date = new Date( Ember.get( item, dateValuePath ) );
                 year = date.getFullYear();
                 month = date.getMonth() + 1;
                 day = date.getDate();
