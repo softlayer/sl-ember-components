@@ -18,7 +18,7 @@ export default Ember.Mixin.create({
     /**
      * Controller actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -99,7 +99,7 @@ export default Ember.Mixin.create({
     /**
      * Options for the "per page" resource limit number
      *
-     * @property {Ember.array} perPageOptions
+     * @property {Ember.Array} perPageOptions
      */
     perPageOptions: [ 25, 50, 100 ],
 
@@ -120,7 +120,7 @@ export default Ember.Mixin.create({
      * An arranged copy of the content
      *
      * @function arrangedContent
-     * @observes content, currentPage, filterProperties, itemCountPerPage, sortAscending, sortProperties
+     * @observes content, currentPage, filterProperties.@each, itemCountPerPage, sortAscending, sortProperties.@each
      * @returns  {mixed}
      */
     arrangedContent: function() {
@@ -152,7 +152,7 @@ export default Ember.Mixin.create({
      *
      * @function pagingData
      * @observes currentPage, itemCountPerPage, metaData, perPageOptions
-     * @return   {object} Pagination data
+     * @return   {Ember.Object} Pagination data
      */
     pagingData: function() {
         var pageNumber = this.get( 'currentPage' ) - 1,
