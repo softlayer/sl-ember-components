@@ -58,7 +58,7 @@ export default Ember.Component.extend({
                 item.send( 'closeAll' );
             });
 
-            if ( this.get( 'isRoot' )) {
+            if ( this.get( 'isRoot' ) ) {
                this.set( 'keyHandler', true );
             }
         },
@@ -134,7 +134,7 @@ export default Ember.Component.extend({
         cycleRootSelectionPrevious: function() {
             var currentIndex = this.get( 'currentRootNodeIndex' );
 
-            if ( !this.get( 'keyboardInUse' )) {
+            if ( !this.get( 'keyboardInUse' ) ) {
                 return;
             }
 
@@ -212,7 +212,7 @@ export default Ember.Component.extend({
             if ( this.$() ) {
                 this.$().addClass( 'active' );
 
-                if ( this.get( 'isRoot' )) {
+                if ( this.get( 'isRoot' ) ) {
                     this.$().addClass( 'showall' );
                 }
             }
@@ -267,9 +267,9 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     mouseLeave: function() {
-        if ( this.get( 'isRoot' )) {
+        if ( this.get( 'isRoot' ) ) {
             this.send( 'closeAll' );
-        } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' )) {
+        } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' ) ) {
             this.$().removeClass( 'active' );
         }
     },
@@ -440,8 +440,8 @@ export default Ember.Component.extend({
             parent.registerChild( this );
         }
 
-        while( !rootNode.get( 'isRoot' )) {
-            path.insertAt( 0, rootNode.get( 'menu.label' ));
+        while( !rootNode.get( 'isRoot' ) ) {
+            path.insertAt( 0, rootNode.get( 'menu.label' ) );
             rootNode = rootNode.get( 'parentView' );
         }
 
@@ -510,11 +510,11 @@ export default Ember.Component.extend({
     childSelected: function( childIndex ) {
         var child;
 
-        if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' )) {
+        if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' ) ) {
             this.send( 'closeAll' );
         }
 
-        if ( this.get( 'keyHandler' )) {
+        if ( this.get( 'keyHandler' ) ) {
             this.activateChild( childIndex );
         } else {
             child = this.get( 'activeChild' );
@@ -640,7 +640,7 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     unregisterChild: function( child ) {
-        if ( child === this.get( 'activeChild' )) {
+        if ( child === this.get( 'activeChild' ) ) {
             this.set( 'activeChild', null );
         }
 
