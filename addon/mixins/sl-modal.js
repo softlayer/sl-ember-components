@@ -123,11 +123,11 @@ export default Ember.Mixin.create({
             backdrop : this.get( 'backdrop' )
         });
 
-        modal.on( 'show.bs.modal', this.showHandler.bind( this ));
-        modal.on( 'shown.bs.modal', this.shownHandler.bind( this ));
-        modal.on( 'hide.bs.modal', this.hideHandler.bind( this ));
-        modal.on( 'hidden.bs.modal', this.hiddenHandler.bind( this ));
-        modal.on( 'loaded.bs.modal', this.loadedHandler.bind( this ));
+        modal.on( 'show.bs.modal', this.showHandler.bind( this ) );
+        modal.on( 'shown.bs.modal', this.shownHandler.bind( this ) );
+        modal.on( 'hide.bs.modal', this.hideHandler.bind( this ) );
+        modal.on( 'hidden.bs.modal', this.hiddenHandler.bind( this ) );
+        modal.on( 'loaded.bs.modal', this.loadedHandler.bind( this ) );
     }.on( 'didInsertElement' ),
 
     // -------------------------------------------------------------------------
