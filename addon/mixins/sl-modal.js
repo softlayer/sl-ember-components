@@ -15,7 +15,7 @@ export default Ember.Mixin.create({
     /**
      * The name of the layout/template to render for this mixin
      *
-     * @property {string} layoutName
+     * @property {Ember.String} layoutName
      * @default  "sl-modal"
      */
     layoutName: 'sl-modal',
@@ -23,7 +23,7 @@ export default Ember.Mixin.create({
     /**
      * Attribute value bindings for the containing element
      *
-     * @property {Ember.array} attributeBindings
+     * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [
         'aria-hidden', 'tabindex', 'role', 'aria-labelledby', 'aria-describedby'
@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
     /**
      * Class names for the containing element
      *
-     * @property {Ember.array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'fade', 'modal' ],
 
@@ -42,7 +42,7 @@ export default Ember.Mixin.create({
     /**
      * Component actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -68,7 +68,7 @@ export default Ember.Mixin.create({
     /**
      * `aria-describedby` attribute value
      *
-     * @property {string} aria-describedby
+     * @property {Ember.String} aria-describedby
      * @default  null
      */
     'aria-describedby': null,
@@ -77,7 +77,7 @@ export default Ember.Mixin.create({
      * `aria-hidden` attribute to inform assistive technologies to skip the
      * modal's DOM elements
      *
-     * @property {string} aria-hidden
+     * @property {Ember.String} aria-hidden
      * @default  "true"
      */
     'aria-hidden': 'true',
@@ -85,7 +85,7 @@ export default Ember.Mixin.create({
     /**
      * Bootstrap's modal backdrop option
      *
-     * @property {boolean|string} backdrop
+     * @property {boolean|Ember.String} backdrop
      * @default  true
      */
     backdrop: true,
@@ -93,7 +93,7 @@ export default Ember.Mixin.create({
     /**
      * `role` attribute value
      *
-     * @property {string} role
+     * @property {Ember.String} role
      * @default  "dialog"
      */
     role: 'dialog',
@@ -101,7 +101,7 @@ export default Ember.Mixin.create({
     /**
      * `tabindex` attribute value
      *
-     * @property {string} tab index
+     * @property {Ember.String} tab index
      * @default  '-1'
      */
     tabindex: '-1',
@@ -116,7 +116,7 @@ export default Ember.Mixin.create({
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    modalize: function () {
+    modalize: function() {
         var modal = this.$().modal({
             keyboard : true,
             show     : false,
@@ -136,7 +136,10 @@ export default Ember.Mixin.create({
     /**
      * `aria-labelledby` attribute value
      *
-     * @property {string} aria-labelledby
+     * Is a randomly-generated unique string
+     *
+     * @function aria-labelledby
+     * @returns  {Ember.String}
      */
     'aria-labelledby': function() {
         return 'modalTitle-' + Math.random();
@@ -150,7 +153,7 @@ export default Ember.Mixin.create({
      * @function hiddenHandler
      * @returns  {void}
      */
-    hiddenHandler: function () {},
+    hiddenHandler: function() {},
 
     /**
      * Overridable method stub
@@ -160,7 +163,7 @@ export default Ember.Mixin.create({
      * @function hideHandler
      * @returns  {void}
      */
-    hideHandler: function () {},
+    hideHandler: function() {},
 
     /**
      * Overridable method stub
@@ -170,7 +173,7 @@ export default Ember.Mixin.create({
      * @function loadedHandler
      * @returns  {void}
      */
-    loadedHandler: function () {},
+    loadedHandler: function() {},
 
     /**
      * Overridable method stub
@@ -180,7 +183,7 @@ export default Ember.Mixin.create({
      * @function showHandler
      * @returns  {void}
      */
-    showHandler: function () {},
+    showHandler: function() {},
 
     /**
      * Overridable method stub
@@ -190,6 +193,6 @@ export default Ember.Mixin.create({
      * @function shownHandler
      * @returns  {void}
      */
-    shownHandler: function () {}
+    shownHandler: function() {}
 
 });
