@@ -1,9 +1,12 @@
 import Ember from 'ember';
 
 /**
+ * @module helpers
+ */
+
+/**
  * Render a specified template with a model and options
  *
- * @module   helpers
  * @function render-template
  * @param    {string} templateName - Name of the template to render
  * @param    {object} model - Model instance to supply the template with

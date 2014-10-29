@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
 /**
+ * @module helpers
+ */
+
+/**
  * A lookup on an object with supplied key
  *
  * Takes an object, a key and a default key. The key is resolved on the object
@@ -8,7 +12,6 @@ import Ember from 'ember';
  * supplied then the defaultKey is resolved on the object and that result
  * is returned.
  *
- * @module   helpers
  * @function get-key
  * @param    {object} object - Context object to lookup value for
  * @param    {string} key - The key string used for lookup on the object

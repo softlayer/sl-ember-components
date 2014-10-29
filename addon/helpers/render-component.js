@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
 /**
+ * @module helpers
+ */
+
+/**
  * Render the component stored in the variable that is passed to this helper as
  * the first argument. Bound properties can be passed to the component in the
  * normal fashion.
@@ -8,7 +12,6 @@ import Ember from 'ember';
  * @example
  * {{render-component 'sl-grid-table-cell-link' foo=bar doo=car }}
  *
- * @module   helpers
  * @function render-component
  * @param    {string} componentPath - Lookup path for the component name
  * @returns  {string} The rendered component
