@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
- * @module helpers
+ * @module utils
  * @class  sl-grid-key-adapter
  */
 export default Ember.Object.extend( Ember.Evented, {
