@@ -22,7 +22,7 @@ var clickCounter = 0,
         ]
     };
 
-moduleForComponent( 'sl-menu', 'Component: Sl-Menu' );
+moduleForComponent( 'sl-menu', 'Unit - component:sl-menu' );
 
 test( 'Menu creates correct DOM structure', function() {
     var component = this.subject({ menu: modelStub }),
