@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SlComponents Tests</title>
+    <title>Dummy Tests</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{BASE_TAG}}
+    {{content-for 'head'}}
+    {{content-for 'test-head'}}
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/dummy.css">
@@ -23,7 +24,6 @@
         overflow: auto;
         z-index: 9999;
         border: 1px solid #ccc;
-        opacity: 0.4;
       }
       #ember-testing {
         zoom: 50%;
@@ -34,16 +34,12 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
 
-    <script>
-      window.EmberENV = {{EMBER_ENV}};
-    </script>
+    {{content-for 'body'}}
+    {{content-for 'test-body'}}
     <script src="assets/vendor.js"></script>
     <script src="assets/test-support.js"></script>
     <script src="assets/dummy.js"></script>
     <script src="testem.js"></script>
-    <script>
-      require('dummy/tests/test-helper');
-    </script>
     <script src="assets/test-loader.js"></script>
   </body>
 </html>
