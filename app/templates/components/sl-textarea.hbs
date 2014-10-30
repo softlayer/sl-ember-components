@@ -1,5 +1,5 @@
 {{#if label}}
-    <label {{bind-attr for=inputId}} class="control-label">
+    <label {{bind-attr for="sl-textarea-view.elementId"}} class="control-label">
         {{label}}
 
         {{#if optional}}
@@ -12,11 +12,11 @@
     </label>
 {{/if}}
 
-{{textarea
+{{view Ember.TextArea
+    viewName="sl-textarea-view"
     class="form-control"
     cols=cols
     disabled=disabled
-    id=inputId
     maxlength=maxlength
     placeholder=placeholder
     readonly=readonly

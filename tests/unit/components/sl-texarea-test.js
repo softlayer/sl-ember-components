@@ -16,12 +16,6 @@ test( 'Expected classes are only ones applied', function() {
     equal( $component.prop( 'class' ), ['ember-view form-group sl-textarea'] );
 });
 
-test( 'Element ID is expected value', function() {
-    var $component = this.append();
-
-    equal( $component.find( 'textarea' ).prop( 'id' ), $component.prop( 'id' ) + 'Input' );
-});
-
 test( 'If "label" property is not populated, label element is not rendered', function() {
     var $component = this.append();
 
@@ -35,8 +29,20 @@ test( 'If "label" property is populated, label element is rendered', function() 
         }),
         $component = this.append();
 
-    equal( $component.find( 'label' ).prop( 'for' ), $component.prop( 'id' ) + 'Input' );
+    // Using "for" attribute because if just find( 'label' ) and a label element does not exist will return jQuery
+    // object.  Easier to equal() against "for" attribute than that scenario
+    equal( $component.find( 'label' ).prop( 'for' ), $component.find( 'textarea' ).prop( 'id' ) );
     equal( $.trim( $component.find( 'label' ).text() ), labelText );
+});
+
+test( 'If "label" property is populated, "for" attribute is expected value', function() {
+    var labelText  = 'Test Label',
+        component  = this.subject({
+            label: labelText
+        }),
+        $component = this.append();
+
+    equal( $component.find( 'label' ).prop( 'for' ), $component.find( 'textarea' ).prop( 'id' ) );
 });
 
 test( 'If "label" property is not populated, "optional" and "required" properties are not rendered even if populated', function() {
