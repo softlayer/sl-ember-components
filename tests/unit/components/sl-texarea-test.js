@@ -27,12 +27,14 @@ test( 'If "label" property is populated, label element is rendered', function() 
         component  = this.subject({
             label: labelText
         }),
-        $component = this.append();
+        label;
 
-    // Using "for" attribute because if just find( 'label' ) and a label element does not exist will return jQuery
-    // object.  Easier to equal() against "for" attribute than that scenario
-    equal( $component.find( 'label' ).prop( 'for' ), $component.find( 'textarea' ).prop( 'id' ) );
-    equal( $.trim( $component.find( 'label' ).text() ), labelText );
+    this.append();
+
+    label = $('label[for="' + $('textarea').prop( 'id' ) + '"]');
+
+    equal( label.length, 1 );
+    equal( $.trim( label.text() ), labelText );
 });
 
 test( 'If "label" property is populated, "for" attribute is expected value', function() {
