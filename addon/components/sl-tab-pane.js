@@ -37,34 +37,6 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
-    actions: {
-
-        /**
-         * Action to trigger collapse of parent tab-panel
-         *
-         * @function actions.collapseTabPanel
-         * @returns  {void}
-         */
-        collapseTabPanel: function() {
-            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.collapse' );
-        },
-
-        /**
-         * Action to trigger parent tab-panel content height recalculation
-         *
-         * @function actions.updateContentHeight
-         * @returns  {void}
-         */
-        updateContentHeight: function() {
-            this.$().closest( '.sl-tab-panel' ).trigger( 'sl-tab-panel.resize' );
-        }
-    },
-
     // -------------------------------------------------------------------------
     // Events
 
