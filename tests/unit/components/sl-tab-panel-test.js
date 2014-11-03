@@ -47,8 +47,15 @@ test( 'setupTabs() does so correctly', function() {
     equal( $('.sl-tab-pane.active[data-tab-name="a"]').length, 1 );
 });
 
-// @TODO 2nd test - selector does not return results when there's an expectation that it should (in test environment)
 test( 'ARIA roles are implemented', function() {
+    var component  = this.subject({
+            template : Ember.Handlebars.compile(
+                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
+            )
+        });
+
     this.append();
 
     equal( $('.nav-tabs[role="tablist"]').length, 1 );
