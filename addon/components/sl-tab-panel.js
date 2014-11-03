@@ -166,18 +166,13 @@ export default Ember.Component.extend({
      *
      * @function activatePane
      * @param    {string}   tabName - The name of the tab to activate
-     * @param    {function} callback - Function to call once the pane is activated
      * @returns  {void}
      */
-    activatePane: function( tabName, callback ) {
+    activatePane: function( tabName ) {
         var pane = this.paneFor( tabName );
 
         pane.fadeIn( 'fast', function() {
             pane.addClass( 'active' );
-
-            if ( typeof callback === 'function' ) {
-                callback();
-            }
         });
 
         this.set( 'contentHeight', parseInt( pane.css( 'height' ) ) );
