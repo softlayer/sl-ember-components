@@ -1,5 +1,5 @@
 {{#if label}}
-    <label {{bind-attr for=inputId}} class="control-label">
+    <label {{bind-attr for="sl-select-view.elementId"}} class="control-label">
         {{label}}
 
         {{#if optional}}
@@ -12,7 +12,13 @@
     </label>
 {{/if}}
 
-<input {{bind-attr disabled=disabled id=inputId readonly=readonly}} class="form-control" type="hidden" />
+{{view Ember.TextField
+    viewName="sl-select-view"
+    type="hidden"
+    class="form-control"
+    disabled=disabled
+    readonly=readonly
+}}
 
 {{#if helpText}}
     <p class="help-block">{{helpText}}</p>
