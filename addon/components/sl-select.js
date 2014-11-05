@@ -113,7 +113,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             self = this,
             input;
 
-        input = this.$().select2({
+        input = this.$( 'input' ).select2({
             maximumSelectionSize : this.get( 'maximumSelectionSize' ),
             multiple             : this.get( 'multiple' ),
             placeholder          : this.get( 'placeholder' ),
