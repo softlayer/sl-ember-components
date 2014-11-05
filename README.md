@@ -377,12 +377,11 @@ Add any of these entries to your *package.json* file that do not already exist:
 
 ```
 "broccoli-merge-trees": "~0.1.4",
-"broccoli-static-compiler": "^0.1.4",
-"sl-components": "1.0.0"
+"broccoli-static-compiler": "^0.1.4"
 
 ```
 
-Run `npm install`
+Run `npm install`.  Even if
 
 
 ## Brocfile.js
