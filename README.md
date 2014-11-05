@@ -381,7 +381,7 @@ Add any of these entries to your *package.json* file that do not already exist:
 
 ```
 
-Run `npm install`.  Even if
+Run `npm install`.
 
 
 ## Brocfile.js
