@@ -64,8 +64,28 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     timezone: null,
 
+    /**
+     * The bound value of the component's date value
+     *
+     * @property {date} value
+     * @default  null
+     */
+    value: null,
+
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Set up initial internal value
+     *
+     * @function initializeValue
+     * @returns  {void}
+     */
+    initializeValue: function() {
+        if ( !this.get( 'value' ) ) {
+            this.set( 'value', new Date() );
+        }
+    }.on( 'didInsertElement' ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -140,16 +160,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     title: function() {
         return this.get( 'datetime' );
-    }.property( 'datetime' ),
-
-    /**
-     * The bound value of the component's date value
-     *
-     * @function value
-     * @returns  {date}
-     */
-    value: function() {
-        return new Date();
-    }.property()
+    }.property( 'datetime' )
 
 });
