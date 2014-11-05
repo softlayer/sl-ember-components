@@ -58,16 +58,6 @@ export default Ember.Component.extend({
                 this.setActiveTab( tabName );
                 this.activatePane( tabName );
             }
-        },
-
-        /**
-         * Manually cause a tab-content height recalculation
-         *
-         * @function actions.updateTabPanelHeight
-         * @returns  {void}
-         */
-        updateTabPanelHeight: function() {
-            this.set( 'contentHeight', parseInt( this.paneFor( this.get( 'activeTabName' ) ).css( 'height' ) ) );
         }
     },
 
