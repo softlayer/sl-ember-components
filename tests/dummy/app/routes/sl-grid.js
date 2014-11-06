@@ -77,5 +77,8 @@ export default Ember.Route.extend({
     setupController: function( controller, model ){
         this._super( controller, model );
         controller.set( 'store', this.store );
+    },
+    renderTemplate: function(){
+        this.render( 'sl-grid-demo' );
     }
 });

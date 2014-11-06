@@ -14,8 +14,7 @@ export default Ember.Route.extend({
            'COLUMNS': 'Columns',
            'RESETCOLUMNS':'Reset Columns',
            'TESTACTION': 'Test Action',
-           'UNKNOWNDEVICE': 'Unknow Device',
-           'UNKNOWNDEVICE2': 'Unknow Device2'           
+           'UNKNOWNDEVICE': '--Unknown Device--',
         }));
     }
 });

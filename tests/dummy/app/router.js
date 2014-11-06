@@ -18,6 +18,7 @@ Router.map(function() {
     this.route( 'sl-date-time' );
     this.route( 'sl-drop-button' );
     this.route( 'sl-input' );
+    this.route( 'sl-grid' );    
     this.route( 'sl-loading-icon' );
     this.route( 'sl-menu' );
     this.route( 'sl-pagination-controls' );
@@ -33,8 +34,6 @@ Router.map(function() {
     this.route( 'sl-tab-panel' );
     this.route( 'sl-textarea' );
     this.route( 'sl-tooltip' );
-
-    this.route( 'sl-grid' );
 
 });
 

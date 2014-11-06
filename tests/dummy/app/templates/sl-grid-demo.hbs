@@ -1,4 +1,4 @@
-<h2>Sl-Grid</h2>
+<h2>sl-grid</h2>
 
 <p class="lead">A grid system composed of a partial and multiple components.</p>
 
@@ -19,7 +19,7 @@
     \{{/sl-tooltip}}
     &lt;/div&gt;
 \{{/sl-panel}}
-\{{partial "sl-grid/table"}}
+\{{partial "sl-grid"}}
         </pre>
     </div>
 
@@ -34,7 +34,7 @@
             {{/sl-tooltip}}
             </div>
         {{/sl-panel}}
-        {{partial "sl-grid/table"}}
+        {{partial "sl-grid"}}
     </div>
 </div>
 
@@ -75,7 +75,7 @@
         <p>Option to enable the `actions` column on the grid.</p>
     {{/property-text}}
     {{#property-text name="gridDefinition.options.settingsMenu.translationKeys" type="object"}}
-        <p>The grid system makes use of the `sl-translate` service and component.  We have three keys on the `settingsMenu` that need to be translated:</p>
+        <p>The grid system makes use of the `sl-translate` service and component.  This object is provided so that you can map the grid's translation keys to your own translation keys.  We have three keys on the `settingsMenu` that need to be translated:</p>
         <ul>
             <li>actions</li>
             <li>columns</li>
@@ -151,6 +151,7 @@
             {
                 key: 'name',
                 title: 'HOSTNAME',
+                defaultText: 'translate.UNKNOWNDEVICE',
                 sortable: true,
                 hideable: false,
                 widthHint: 2
