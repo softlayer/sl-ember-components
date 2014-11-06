@@ -21,16 +21,6 @@ export default Ember.Mixin.create( Ember.Evented, {
     actions: {
 
         /**
-         * Trigger reload of the model
-         *
-         * @function actions.reload
-         * @returns  {void}
-         */
-        reload: function() {
-            this.reloadModel( true );
-        },
-
-        /**
          * Reorder column *oldIndex* to *newIndex*
          *
          * @function actions.reorderColumn
@@ -265,29 +255,6 @@ export default Ember.Mixin.create( Ember.Evented, {
             Ember.set( grid, key, setting );
         });
         this.set( 'grid',  grid );  
-    },
-
-    /**
-     * Reload the model for this controller with the current paging preferences
-     *
-     * Override this function with your own model reloading logic if need be
-     *
-     * @function reloadModel
-     * @param  {boolean} fromServer
-     * @return {void}
-     */
-    reloadModel: function( fromServer ) {
-        var modelName = this.get( 'modelName' ),
-            self      = this,
-            model;
-
-        model = this.store.find( modelName, { reload: fromServer } );
-
-        this.set( 'model', model );
-
-        model.then( function() {
-            self.set( 'metaData', self.store.metadataFor( modelName ) );
-        });
     },
 
     /**

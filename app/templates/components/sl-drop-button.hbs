@@ -10,17 +10,16 @@
 <ul {{bind-attr class=":dropdown-menu alignRight:dropdown-menu-right"}} role="menu">
     {{#if content}}
         {{#each content}}
-            {{#if divider}}
-                {{sl-drop-option}}
-            {{else}}
+            <li class="sl-drop-option presentation">
+            {{#if label}}
                 <a {{action "click" action}} role="menuitem" tab-index="-1">
                     {{#if icon}}
                         <img {{bind-attr src=icon}}/>
                     {{/if}}
-
                     {{label}}
                 </a>
             {{/if}}
+            </li>
         {{/each}}
     {{else}}
         {{yield}}

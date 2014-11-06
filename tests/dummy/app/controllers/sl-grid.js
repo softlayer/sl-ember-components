@@ -4,14 +4,26 @@ import SlGridMixin from 'sl-components/mixins/sl-grid-controller';
 export default Ember.ArrayController.extend( SlGridMixin, {
 
     actions: {
+        /**
+         * Trigger reload of the model
+         *
+         * @function actions.reload
+         * @returns  {void}
+         */
+        reload: function() {
+            this.reloadModel( true );
+        },
+
+        /**
+         * testAction - simple test action
+         * @return {void}
+         */
         testAction: function(){
             alert( 'This is a test from the sl-grid controller!' );
         }
     },
 
     itemController: 'sl-grid-item',
-
-    modelName: 'device',
 
     gridDefinition: {
         options: {
@@ -38,23 +50,39 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 key: 'name',
                 title: 'Hostname',
                 sortable: true,
-                hideable: false
+                hideable: false,
+                widthHint: 2
             },
             {
                 key: 'ip',
                 title: 'IP Address',
-                sortable: true
+                sortable: true,
+                widthHint: 1
             },
             {
                 key: 'type',
                 title: 'Device Type',
-                sortable: true
+                sortable: true,
+                widthHint: 1
             },
             {
                 key: 'fmtProvisionDate',
                 title: 'Provision Date',
-                sortable: false
+                sortable: false,
+                widthHint: 1
             }
         ]
-    }
+    },
+
+    /**
+     * Reload the model for this controller
+     *
+     * @function reloadModel
+     * @return {void}
+     */
+    reloadModel: function() {
+        var model = this.store.find( 'device' );
+
+        this.set( 'model', model );
+    },
 });

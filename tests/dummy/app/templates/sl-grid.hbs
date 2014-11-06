@@ -1,9 +1,212 @@
-{{#sl-panel heading="Sl-Grid"}}
-    <div class="text-right">
-    {{#sl-button title="Refresh" action="reload"}}<i class="fa fa-refresh"></i>{{/sl-button}}
-    {{#sl-tooltip title="Configuration"}}
-        {{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown" settings=options.settingsMenu columns=columns}}
-    {{/sl-tooltip}}
+<h2>Sl-Grid</h2>
+
+<p class="lead">A grid system composed of a partial and multiple components.</p>
+
+<hr>
+
+<h3>Example</h3>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h6>Template</h6>
+        <pre>
+\{{#sl-panel}}
+    &lt;div class="text-right"&gt;
+    \{{#sl-button title="Refresh" action="reload"}}&lt;i class="fa fa-refresh"&gt;&lt;/i&gt;\{{/sl-button}}
+    \{{#sl-tooltip title="Configuration"}}
+        \{{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown" 
+            settings=options.settingsMenu columns=columns}}
+    \{{/sl-tooltip}}
+    &lt;/div&gt;
+\{{/sl-panel}}
+\{{partial "sl-grid/table"}}
+        </pre>
     </div>
-{{/sl-panel}}
-{{partial "sl-grid/table"}}
+
+    <div class="col-lg-12">
+        <h6>Rendered Grid</h6>
+
+        {{#sl-panel}}
+            <div class="text-right">
+            {{#sl-button title="Refresh" action="reload"}}<i class="fa fa-refresh"></i>{{/sl-button}}
+            {{#sl-tooltip title="Configuration"}}
+                {{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown" settings=options.settingsMenu columns=columns}}
+            {{/sl-tooltip}}
+            </div>
+        {{/sl-panel}}
+        {{partial "sl-grid/table"}}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h6>Features</h6>
+        <ul>
+            <li>Hideable Columns: accessed through the grid settings dropdown</li>
+            <li>Sortable Columns: click a column's header</li>
+            <li>Reorderable Columns: drag a column's header</li>
+            <li>Resizeable Columns: drag the space between columns</li>
+            <li>Action Column: dropdown with actions directed to your itemController</li>
+            <li>Row Expander: render a component in a hideable row (per array entry)</li>
+        </ul>
+    </div>
+</div>
+
+<hr>
+
+<h3>Mixins used</h3>
+
+<div class="panel panel-default">
+  <div class="panel-heading">sl-grid-controller</div>
+  <div class="panel-body">
+    <p>The sl-grid-controller mixin should be applied to an array controller backed by a model that had `grid-like` data in it.  This mixin makes use of one object `gridDefinition` that will control the presentation of the grid.</p>
+    <p>The `gridDefinition` object has two top-level keys: `options` and `columns`. Options is an object that specifies settings for the grid as a whole.  Column is an array of column definitions for each column in the grid. </p>
+
+    <div class="list-group">
+    {{#property-text name="gridDefinition.options.rowExpander" type="boolean"}}
+        <p>Option to enable the `rowExpander` functionality.</p>
+        <p>If enabled, specify the `rowExpanderComponent'
+
+        <p>Here is the specification from this demo's `itemController`:
+            <pre>rowExpanderComponent: 'row-expander-content'</pre>
+        </p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.options.actionsColumn" type="boolean"}}
+        <p>Option to enable the `actions` column on the grid.</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.options.settingsMenu.translationKeys" type="object"}}
+        <p>The grid system makes use of the `sl-translate` service and component.  We have three keys on the `settingsMenu` that need to be translated:</p>
+        <ul>
+            <li>actions</li>
+            <li>columns</li>
+            <li>resetColumnsToDefaults</li>
+        </ul>
+        <p>These keys should be pointed to paths that the `sl-translate` service can translate.</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.options.settingsMenu.actions[].icon" type="string"}}
+        <p>A path to an icon image to be used in this entry in the actions menu.</p>
+    {{/property-text}}
+
+    {{#property-text name="gridDefinition.options.settingsMenu.actions[].label" type="string"}}
+        <p>The string to display to the user for this entry in the actions menu.</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.options.settingsMenu.actions[].action" type="string"}}
+        <p>The action to invoke on your grid `arrayController`.</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.options.settingsMenu.hideableColumns" type="boolean"}}
+        <p>Whether to show the `hideable` column checkboxes in the settings menu</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].key" type="string"}}
+        <p>The key to the object on this array entry that will be used for this column</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].title" type="string"}}
+        <p>The string to display to the user in the column header</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
+        <p>Whether this column is sortable</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].hideable" type="string"}}
+        <p>Whether this column is hideable, requires the settings menu to have `hideableColumns` set to `true`</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].component" type="string"}}
+        <p>The component to be rendered into each cell in this column.  The default is `sl-grid-table-cell`.</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].link" type="string"}}
+        <p>The ember route to link to if you are using the `sl-grid-table-cell-link` component.</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].cssClass" type="string"}}
+        <p>An optional css class to apply to each cell<p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].widthHint" type="number"}}
+        <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If column 1 gets a width hint of `2` and the 
+    {{/property-text}}
+
+    </div>
+
+    <p>Here is the `gridDefinition` from this demo:</p>
+    <pre>
+    gridDefinition: {
+        options: {
+            rowExpander      : true,
+            actionsColumn    : true,
+            settingsMenu     : {
+                translationKeys: {
+                    actions: 'Actions',
+                    columns: 'Columns',
+                    resetColumnsToDefaults: 'Reset Columns'
+                },
+                actions: [
+                    {
+                        label: 'Test Action',
+                        action: 'testAction'
+                    }
+                ],
+                hideableColumns: true
+            }
+        },
+        columns: [
+            {
+                key: 'name',
+                title: 'Hostname',
+                sortable: true,
+                hideable: false,
+                widthHint: 2
+            },
+            {
+                key: 'ip',
+                title: 'IP Address',
+                sortable: true,
+                widthHint: 1
+            },
+            {
+                key: 'type',
+                title: 'Device Type',
+                sortable: true,
+                widthHint: 1
+            },
+            {
+                key: 'fmtProvisionDate',
+                title: 'Provision Date',
+                sortable: false,
+                widthHint: 1
+            }
+        ]
+    }
+    </pre>
+  </div>
+</div>
+
+
+<h3>Partials used</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-grid/table</p>
+    </div>
+</div>
+
+<h3>Components used</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-grid-header-settings</p>
+    </div>
+    <div class="list-group-item">
+        <p>sl-grid-table-cell</p>
+    </div>
+    <div class="list-group-item">
+        <p>sl-grid-table-cell-link</p>
+    </div>
+    <div class="list-group-item">
+        <p>sl-grid-table-cell-row-expander</p>
+    </div>
+    <div class="list-group-item">
+        <p>sl-grid-table-column-resize</p>
+    </div>
+    <div class="list-group-item">
+        <p>sl-grid-table-header</p>
+    </div>
+    <div class="list-group-item">
+        <p>sl-grid-table-row-expander</p>
+    </div>
+</div>
