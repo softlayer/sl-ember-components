@@ -25,14 +25,14 @@ export default Ember.Component.extend({
      *
      * @property {Ember.Array} classNames
      */
-    classNames: [ 'radio', 'sl-radio' ],
+    classNames: [ 'sl-radio' ],
 
     /**
      * Class name bindings for the root element
      *
      * @property {Ember.Array} classNameBindings
      */
-    classNameBindings: [ 'disabled' ],
+    classNameBindings: [ 'disabled', 'radioType' ],
 
     // -------------------------------------------------------------------------
     // Actions
