@@ -77,7 +77,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             isInline   = this.get( 'inline' ),
             isReadonly = this.get( 'readonly' );
 
-        Ember.assert( 'The name property must be set on the sl-radio-group component', name )
+        Ember.assert( 'The name property must be set on the sl-radio-group component', name );
 
         this.$( '.sl-radio' ).each( function () {
             var radio = Ember.$( this ),
