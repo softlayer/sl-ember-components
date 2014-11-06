@@ -55,6 +55,10 @@
 <h3>sl-radio-group Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="name" type="string" required=true}}
+        Shared <code>name</code> attribute for the radio inputs. Note that this property will overwrite all child <em>sl-radio</em>s' <code>name</code> values.
+    {{/property-text}}
+
     {{#property-text name="disabled" type="boolean" default="false"}}
         When true, all child radio inputs will be disabled. Note that this property overrides all child <em>sl-radio</em>s' <code>disabled</code> values.
     {{/property-text}}
@@ -65,10 +69,6 @@
 
     {{#property-text name="label" type="string"}}
         Text label for radio group as a whole.
-    {{/property-text}}
-
-    {{#property-text name="name" type="string"}}
-        Shared <code>name</code> attribute for the radio inputs. Note that this property will overwrite all child <em>sl-radio</em>s' <code>name</code> values.
     {{/property-text}}
 
     {{#property-text name="optional" type="boolean" default="false"}}

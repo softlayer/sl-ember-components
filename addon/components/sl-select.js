@@ -113,7 +113,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             self = this,
             input;
 
-        input = this.$( '#' + this.get( 'inputId' )).select2({
+        input = this.$( 'input' ).select2({
             maximumSelectionSize : this.get( 'maximumSelectionSize' ),
             multiple             : this.get( 'multiple' ),
             placeholder          : this.get( 'placeholder' ),
@@ -269,17 +269,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * ID of the &lt;input&gt; element
-     *
-     * @function selectId
-     * @observes elementId
-     * @returns  {Ember.String}
-     */
-    inputId: function() {
-        return this.get( 'elementId' ) + 'Input';
-    }.property( 'elementId' ),
 
     /**
      * Update the bound value when the Select2's selection has changed

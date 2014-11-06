@@ -46,14 +46,14 @@
                     {{/each}}
                 {{#if options.actionsColumn}}
                 <td class="sl-grid-table-cell-actions">
-                    {{sl-drop-button label="Actions" alignRight=true content=row.actionsButton theme="hover"}}
+                    {{sl-drop-button label="Actions" content=row.actionsButton theme="hover"}}
                 </td>
                 {{/if}}
             </tr>
             {{#if options.rowExpander}}
                 {{#if row.rowExpanderIsOpen}}
                     {{#sl-grid-table-row-expander row=row columnCount=columnCount}}
-                        {{render-component row.rowExpanderComponent options=options device=row}}
+                        {{render-component row.rowExpanderComponent options=options data=row}}
                     {{/sl-grid-table-row-expander}}
                 {{/if}}
             {{/if}}

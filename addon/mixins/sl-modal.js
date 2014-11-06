@@ -39,26 +39,6 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
-    actions: {
-
-        /**
-         * Action to hide the modal
-         *
-         * @function actions.close
-         * @returns  {void}
-         */
-        close: function() {
-            if ( this.$() ) {
-                this.$().modal( 'hide' );
-            }
-        }
-    },
-
     // -------------------------------------------------------------------------
     // Events
 

@@ -1,7 +1,7 @@
-import registerHelpers from 'sl-components/utils/register-helpers';
+import initializer from 'sl-components/initializers/register-helpers';
 
 export default {
   name: 'sl-components-register-helpers',
 
-  initialize: registerHelpers
+  initialize: initializer
 };

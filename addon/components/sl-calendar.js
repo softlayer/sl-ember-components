@@ -270,11 +270,11 @@ export default Ember.Component.extend({
     /**
      * Name of the currently selected/viewed month
      *
-     * @function currentMonthstring
+     * @function currentMonthString
      * @observes currentMonth
      * @returns  {Ember.String}
      */
-    currentMonthstring: function() {
+    currentMonthString: function() {
         return moment([ this.get( 'currentYear' ), this.get( 'currentMonth' ) - 1 ]).format( 'MMMM' );
     }.property( 'currentMonth' ),
 

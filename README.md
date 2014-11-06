@@ -340,7 +340,7 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 ## Install this addon as a Node module
 
 ```
-npm install sl-components
+npm install --save sl-components
 
 ```
 
@@ -351,10 +351,76 @@ ember generate sl-components
 
 ```
 
+## Bower configuration
+
+Add these entries to your *bower.json* file
+
+```
+"bootstrap": "~3.3.0"
+"moment": "~2.8.3",
+"bootstrap-datepicker": "~1.3.0",
+"momentjs": "~2.8.3",
+"fontawesome": "~4.2.0",
+"highcharts": "~4.0.4",
+"moment-timezone": "~0.2.4",
+"select2": "~3.5.2",
+"typeahead.js": "~0.10.5"
+
+```
+
+Run `bower install`
+
+
+## NPM configuration
+
+Add any of these entries to your *package.json* file that do not already exist:
+
+```
+"broccoli-merge-trees": "~0.1.4",
+"broccoli-static-compiler": "^0.1.4"
+
+```
+
+Run `npm install`
+
+
+## Brocfile.js
+
+There are a few modifications you need to make to this file.  Below is an example of the bare-bone version of the file if the only configuration represented is that for the *sl-components* addon.
+
+```
+/* global module, require, process */
+
+var EmberApp   = require( 'ember-cli/lib/broccoli/ember-app' ),
+    mergeTrees = require( 'broccoli-merge-trees' ),
+    pickFiles  = require( 'broccoli-static-compiler' )
+    imageTree;
+
+var app = new EmberApp();
+
+app.import({
+    development : 'bower_components/bootstrap/dist/js/bootstrap.js',
+    production  : 'bower_components/bootstrap/dist/js/bootstrap.min.js'
+});
+app.import({
+    development : 'bower_components/moment/min/moment-with-locales.js',
+    production  : 'bower_components/moment/min/moment-with-locales.min.js'
+});
+
+imageTree = pickFiles( 'node_modules/sl-components/public/assets/images/', {
+    srcDir  : '/',
+    files   : [ 'spinner-*.png' ],
+    destDir : '/assets/images'
+});
+
+module.exports = mergeTrees([ app.toTree(), imageTree ]);
+
+```
+
+
 ## Examples and documentation on how to use each component
 
 Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-components/
-
 
 
 

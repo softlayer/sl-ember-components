@@ -37,24 +37,6 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
-    actions: {
-
-        /**
-         * Trigger a change of value for a parent sl-radio-group component
-         *
-         * @function actions.change
-         * @return   {void}
-         */
-        change: function( value ) {
-            this.$().closest( '.sl-radio-group' ).trigger( 'sl-radio-group.changeValue', value );
-        }
-    },
-
     // -------------------------------------------------------------------------
     // Events
 

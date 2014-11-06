@@ -1,24 +1,42 @@
 import Ember from 'ember';
-import { click, moduleForComponent, test } from 'ember-qunit';
+import { test, moduleForComponent } from 'ember-qunit';
 
 moduleForComponent( 'sl-alert', 'Unit - component:sl-alert' );
 
-test( 'it exists', function() {
-    ok( this.subject() );
+test( 'ARIA role is applied', function() {
+    var $component = this.append();
+
+    equal( $component.attr( 'role' ), 'alert' );
 });
 
-test( 'dismiss event is fired correctly', function() {
-    var component = this.subject(),
-        $component = this.append(),
-        targetObject = {
-            dismiss: function() {
-                ok( true );
+test( 'Dismissable option allows dismissal', function() {
+    var component  = this.subject({ dismissable: true }),
+        $component = this.append();
+
+    ok( component.dismissable === true, 'Component is dismissable' );
+    ok( $component.find( 'button.close' ), 'Close button is rendered' );
+    ok( $component.hasClass( 'alert-dismissable' ), 'Dismissable indicator class is applied' );
+});
+
+test( 'Dismiss action is handled', function() {
+    var component = this.subject({
+            dismiss     : 'dismiss',
+            dismissable : true,
+
+            targetObject: {
+                dismiss: function() {
+                    ok( true, 'Bound dismiss action fired' );
+                }
             }
-        };
-
-    expect( 1 );
-
-    component.set( 'targetObject', targetObject );
+        }),
+        $component = this.append();
 
     $component.find( 'button.close' ).trigger( 'click' );
+});
+
+test( 'Theme class is applied', function() {
+    var component  = this.subject({ theme: 'success' }),
+        $component = this.append();
+
+    ok( $component.hasClass( 'alert-success' ), 'Theme class is applied' );
 });
