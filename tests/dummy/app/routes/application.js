@@ -5,7 +5,17 @@ export default Ember.Route.extend({
         this.controllerFor( 'pagination' ).get( 'translateService' ).setDictionary( Ember.Object.create({
            'PAGINATION_DISPLAYING'           : 'Displaying',
            'DEVICE_LIST_PAGINATION_LABEL'    : 'Viewing {0} to {1} of {2} Devices',
-           'DEVICE_LIST_PAGINATION_PER_PAGE' : ' per page'
+           'DEVICE_LIST_PAGINATION_PER_PAGE' : ' per page',
+           'HOSTNAME': 'Hostname',
+           'IPADDRESS': 'Ip Address',
+           'DEVICETYPE': 'DeviceType',
+           'PROVISIONDATE': 'Provision Date',
+           'ACTIONS': 'Actions',
+           'COLUMNS': 'Columns',
+           'RESETCOLUMNS':'Reset Columns',
+           'TESTACTION': 'Test Action',
+           'UNKNOWNDEVICE': 'Unknow Device',
+           'UNKNOWNDEVICE2': 'Unknow Device2'           
         }));
     }
 });

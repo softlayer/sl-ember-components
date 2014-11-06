@@ -249,7 +249,7 @@ export default Ember.Mixin.create( Ember.Evented, {
                     break;
 
                 default:
-                    setting = preference || definition;
+                    setting = definition;
 
             }
             Ember.set( grid, key, setting );

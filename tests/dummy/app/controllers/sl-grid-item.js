@@ -1,6 +1,7 @@
 import Ember from 'ember';
- 
-export default Ember.ObjectController.extend( {
+import SlGetTranslate from 'sl-translate/mixins/sl-get-translation';
+
+export default Ember.ObjectController.extend( SlGetTranslate, {
     actions: {
         testItemAction: function(){
             alert( 'This is a test from the sl-grid-item controller!' );

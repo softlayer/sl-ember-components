@@ -31,7 +31,6 @@ export default Ember.Route.extend({
                         {
                             id: 4,
                             type: 'server',
-                            name: 'test3.server.com',
                             ip: '192.168.1.13',
                             provisionDate: moment('2014-09-12')
                         },

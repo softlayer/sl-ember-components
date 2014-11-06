@@ -88,7 +88,7 @@
     {{/property-text}}
 
     {{#property-text name="gridDefinition.options.settingsMenu.actions[].label" type="string"}}
-        <p>The string to display to the user for this entry in the actions menu.</p>
+        <p>A key that will be used by sl-translate to generate a translated string to display to the user, specifically for this entry in the actions menu.</p>
     {{/property-text}}
     {{#property-text name="gridDefinition.options.settingsMenu.actions[].action" type="string"}}
         <p>The action to invoke on your grid `arrayController`.</p>
@@ -100,8 +100,11 @@
         <p>The key to the object on this array entry that will be used for this column</p>
     {{/property-text}}
     {{#property-text name="gridDefinition.columns[].title" type="string"}}
-        <p>The string to display to the user in the column header</p>
+        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
     {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
+        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
+    {{/property-text}}    
     {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
         <p>Whether this column is sortable</p>
     {{/property-text}}
@@ -131,13 +134,13 @@
             actionsColumn    : true,
             settingsMenu     : {
                 translationKeys: {
-                    actions: 'Actions',
-                    columns: 'Columns',
-                    resetColumnsToDefaults: 'Reset Columns'
+                    actions: 'ACTIONS',
+                    columns: 'COLUMNS',
+                    resetColumnsToDefaults: 'RESETCOLUMNS'
                 },
                 actions: [
                     {
-                        label: 'Test Action',
+                        label: 'TESTACTION',
                         action: 'testAction'
                     }
                 ],
@@ -147,26 +150,26 @@
         columns: [
             {
                 key: 'name',
-                title: 'Hostname',
+                title: 'HOSTNAME',
                 sortable: true,
                 hideable: false,
                 widthHint: 2
             },
             {
                 key: 'ip',
-                title: 'IP Address',
+                title: 'IPADDRESS',
                 sortable: true,
                 widthHint: 1
             },
             {
                 key: 'type',
-                title: 'Device Type',
+                title: 'DEVICETYPE',
                 sortable: true,
                 widthHint: 1
             },
             {
                 key: 'fmtProvisionDate',
-                title: 'Provision Date',
+                title: 'PROVISIONDATE',
                 sortable: false,
                 widthHint: 1
             }
@@ -181,7 +184,8 @@
 
 <div class="list-group">
     <div class="list-group-item">
-        <p>sl-grid/table</p>
+        <h6>sl-grid/table</h6>
+        <p>View this partial to get an idea of how the grid layout works.  The grid is an integrated system and most of the components will not work in isolation.</p>
     </div>
 </div>
 
@@ -189,24 +193,31 @@
 
 <div class="list-group">
     <div class="list-group-item">
-        <p>sl-grid-header-settings</p>
+        <h6>sl-grid-header-settings</h6>
+        <p>One of the few stand-alone components.  Place this component anywhere on the page to give your users access to the options specific to this arrayController's grid.</p>
     </div>
     <div class="list-group-item">
-        <p>sl-grid-table-cell</p>
+        <h6>sl-grid-table-cell</h6>
+        <p>The base class for a grid table cell.  Extend this class to implement your own custom components to fit inside a grid table cell.</p>
     </div>
     <div class="list-group-item">
-        <p>sl-grid-table-cell-link</p>
+        <h6>sl-grid-table-cell-link</h6>
+        <p>Extends sl-grid-table-cell, provides and ember link to a different route in your app.</p>
     </div>
     <div class="list-group-item">
-        <p>sl-grid-table-cell-row-expander</p>
+        <h6>sl-grid-table-cell-row-expander</h6>
+        <p>Used by the grid to show/hide the sl-grid-table-row-expander component.  The `gridDefinition.options.rowExpander` setting must be set to true in able to use the row-expander.
     </div>
     <div class="list-group-item">
-        <p>sl-grid-table-column-resize</p>
+        <h6>sl-grid-table-column-resize</h6>
+        <p>This component enbables the dragable resizing of columns</p>
     </div>
     <div class="list-group-item">
-        <p>sl-grid-table-header</p>
+        <h6>sl-grid-table-header</h6>
+        <p>This component display the `th` table header cell and implements the `widthHinting` and column reordering functionality.
     </div>
     <div class="list-group-item">
-        <p>sl-grid-table-row-expander</p>
+        <h6>sl-grid-table-row-expander</h6>
+        <p>The component that contains the table row that will get shown or hidden if you have the rowExpander functionality enabled.</p>
     </div>
 </div>

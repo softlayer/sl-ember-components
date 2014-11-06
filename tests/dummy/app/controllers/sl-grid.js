@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import SlGridMixin from 'sl-components/mixins/sl-grid-controller';
- 
+
 export default Ember.ArrayController.extend( SlGridMixin, {
 
     actions: {
@@ -31,14 +31,13 @@ export default Ember.ArrayController.extend( SlGridMixin, {
             actionsColumn    : true,
             settingsMenu     : {
                 translationKeys: {
-                    actions: 'Actions',
-                    columns: 'Columns',
-                    resetColumnsToDefaults: 'Reset Columns'
+                    actions: 'ACTIONS',
+                    columns: 'COLUMNS',
+                    resetColumnsToDefaults: 'RESETCOLUMNS'
                 },
                 actions: [
                     {
-                        icon: '',
-                        label: 'Test Action',
+                        label: 'TESTACTION',
                         action: 'testAction'
                     }
                 ],
@@ -48,26 +47,27 @@ export default Ember.ArrayController.extend( SlGridMixin, {
         columns: [
             {
                 key: 'name',
-                title: 'Hostname',
+                title: 'HOSTNAME',
+                defaultText: 'translate.UNKNOWNDEVICE',
                 sortable: true,
                 hideable: false,
                 widthHint: 2
             },
             {
                 key: 'ip',
-                title: 'IP Address',
+                title: 'IPADDRESS',
                 sortable: true,
                 widthHint: 1
             },
             {
                 key: 'type',
-                title: 'Device Type',
+                title: 'DEVICETYPE',
                 sortable: true,
                 widthHint: 1
             },
             {
                 key: 'fmtProvisionDate',
-                title: 'Provision Date',
+                title: 'PROVISIONDATE',
                 sortable: false,
                 widthHint: 1
             }
