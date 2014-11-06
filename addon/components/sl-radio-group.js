@@ -57,9 +57,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Whether the radio buttons should be put inline together
      *
      * @property {boolean} inline
-     * @default  false
+     * @default  null
      */
-    inline: false,
+    inline: null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -95,9 +95,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 radio.addClass( 'readonly' );
             }
 
-            if ( isInline ) {
-                radio.addClass( 'radio-inline' );
+            if ( true === isInline ) {
                 radio.removeClass( 'radio' );
+                radio.addClass( 'radio-inline' );
+            }
+
+            if ( false === isInline ) {
+                radio.removeClass( 'radio-inline' );
+                radio.addClass( 'radio' );
             }
         });
 

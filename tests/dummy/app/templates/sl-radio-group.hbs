@@ -56,15 +56,20 @@
 
 <div class="list-group">
     {{#property-text name="name" type="string" required=true}}
-        Shared <code>name</code> attribute for the radio inputs. Note that this property will overwrite all child <em>sl-radio</em>s' <code>name</code> values.
+        <p>Shared <code>name</code> attribute for the radio inputs.</p>
+        <p>NOTE: This property will overwrite all child <em>sl-radio</em>s' <code>name</code> values.</p>
     {{/property-text}}
 
     {{#property-text name="disabled" type="boolean" default="false"}}
-        When true, all child radio inputs will be disabled. Note that this property overrides all child <em>sl-radio</em>s' <code>disabled</code> values.
+        <p>When true, all child radio inputs will be disabled.</p>
+        <p>NOTE: When true, this property overrides all child <em>sl-radio</em>s' <code>disabled</code> values.</p>
     {{/property-text}}
 
-    {{#property-text name="inline" type="boolean" default="false"}}
-        Display the radio inputs inline with each other.
+    {{#property-text name="inline" type="boolean" default="null"}}
+        <p>When true, all child radio inputs will be displayed inline.</p>
+        <p>When false, all child radio inputs will not be displayed inline.</p>
+
+        <p>NOTE: When true or false, this property will overwrite all child <em>sl-radio</em>s' <code>inline</code> values.</p>
     {{/property-text}}
 
     {{#property-text name="label" type="string"}}
@@ -76,7 +81,8 @@
     {{/property-text}}
 
     {{#property-text name="readonly" type="boolean" default="false"}}
-        Shared <code>readonly</code> attribute value for the child radio inputs.
+        <p>Shared <code>readonly</code> attribute value for the child radio inputs.</p>
+        <p>NOTE: When true, this property overrides all child <em>sl-radio</em>s' <code>readonly</code> values.</p>
     {{/property-text}}
 
     {{#property-text name="required" type="boolean" default="false"}}
