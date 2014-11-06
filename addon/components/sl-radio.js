@@ -25,14 +25,14 @@ export default Ember.Component.extend({
      *
      * @property {Ember.Array} classNames
      */
-    classNames: [ 'radio', 'sl-radio' ],
+    classNames: [ 'sl-radio' ],
 
     /**
      * Class name bindings for the root element
      *
      * @property {Ember.Array} classNameBindings
      */
-    classNameBindings: [ 'disabled' ],
+    classNameBindings: [ 'disabled', 'radioType' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -42,17 +42,6 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
-
-    /**
-     * ID attribute for the radio input
-     *
-     * @function inputId
-     * @observes elementId
-     * @returns  {Ember.String}
-     */
-    inputId: function() {
-        return this.get( 'elementId' ) + '-input';
-    }.property( 'elementId' ),
 
     // -------------------------------------------------------------------------
     // Observers
@@ -70,5 +59,4 @@ export default Ember.Component.extend({
     radioType: function() {
         return this.get( 'inline' ) ? 'radio-inline' : 'radio';
     }.property( 'inline' )
-
 });
