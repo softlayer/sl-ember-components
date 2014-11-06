@@ -68,24 +68,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The bound value of the component's date value
      *
      * @property {date} value
-     * @default  null
+     * @default  (new Date)
      */
-    value: null,
+    value: new Date(),
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Set up initial internal value
-     *
-     * @function initializeValue
-     * @returns  {void}
-     */
-    initializeValue: function() {
-        if ( !this.get( 'value' ) ) {
-            this.set( 'value', new Date() );
-        }
-    }.on( 'didInsertElement' ),
 
     // -------------------------------------------------------------------------
     // Methods
