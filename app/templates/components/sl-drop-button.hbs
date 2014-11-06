@@ -8,5 +8,21 @@
 {{/sl-button}}
 
 <ul {{bind-attr class=":dropdown-menu alignRight:dropdown-menu-right"}} role="menu">
-    {{yield}}
+    {{#if content}}
+        {{#each content}}
+            {{#if divider}}
+                {{sl-drop-option}}
+            {{else}}
+                <a {{action "click" action}} role="menuitem" tab-index="-1">
+                    {{#if icon}}
+                        <img {{bind-attr src=icon}}/>
+                    {{/if}}
+
+                    {{label}}
+                </a>
+            {{/if}}
+        {{/each}}
+    {{else}}
+        {{yield}}
+    {{/if}}
 </ul>

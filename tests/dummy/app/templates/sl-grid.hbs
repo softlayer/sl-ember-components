@@ -1,0 +1,9 @@
+{{#sl-panel heading="Sl-Grid"}}
+    <div class="text-right">
+    {{#sl-button title="Refresh" action="reload"}}<i class="fa fa-refresh"></i>{{/sl-button}}
+    {{#sl-tooltip title="Configuration"}}
+        {{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown" settings=options.settingsMenu columns=columns}}
+    {{/sl-tooltip}}
+    </div>
+{{/sl-panel}}
+{{partial "sl-grid/table"}}

@@ -71,6 +71,12 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+    
+    /**
+     * alias to the translation keys on the settings object
+     * @type {alias}
+     */
+    translationKeys: Ember.computed.alias( 'settings.translationKeys' ),
 
     /**
      * Whether to show actions

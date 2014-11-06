@@ -1,22 +1,11 @@
 import Ember from 'ember';
-import SlApplicationState from './sl-application-state-controller';
 
 /**
  * @module mixins
  * @class  sl-grid-controller
  */
-export default Ember.Mixin.create( SlApplicationState, {
+export default Ember.Mixin.create( Ember.Evented, {
 
-
-    // -------------------------------------------------------------------------
-    // Dependencies
-
-    /**
-     * Controllers that this controller needs
-     *
-     * @property {Ember.Array} needs
-     */
-    needs: [ 'user' ],
 
     // -------------------------------------------------------------------------
     // Attributes
@@ -78,7 +67,10 @@ export default Ember.Mixin.create( SlApplicationState, {
                 column.set( 'isSorted', true );
                 column.set( 'sortAscending', column.getWithDefault( 'sortAscending', true ) );
             }
-            this.saveApplicationState();
+            //make sure cp recomputes, stupid sortable mixin...
+            this.get( 'sortAscending' );
+            
+            this.trigger( 'gridStateChanged' );
         },
 
         /**
@@ -95,7 +87,7 @@ export default Ember.Mixin.create( SlApplicationState, {
                 foundColumn.toggleProperty( 'hidden' );
             }
 
-            this.saveApplicationState();
+            this.trigger( 'gridStateChanged' );
         },
 
         /**
@@ -114,20 +106,6 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     // -------------------------------------------------------------------------
     // Properties
-
-    /**
-     * Alias for the grid definition
-     *
-     * @property {Ember.Object} applicationStateDefinition
-     */
-    applicationStateDefinition: Ember.computed.alias( 'gridDefinition' ),
-
-    /**
-     * Alias to the grid
-     *
-     * @property {Ember.Object} applicationStateVariable
-     */
-    applicationStateVariable: Ember.computed.alias( 'grid' ),
 
     /**
      * Alias to the grid's columns
@@ -175,20 +153,8 @@ export default Ember.Mixin.create( SlApplicationState, {
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Run when application state is loaded
-     *
-     * @function applicationStateDidLoad
-     * @observes applicationStateDidLoad
-     * @returns  {void}
-     */
-    applicationStateDidLoad: function() {
-        this.notifyPropertyChange( 'sortProperties' );
-        Ember.run.once( this, 'reloadModel' );
-    }.on( 'applicationStateDidLoad' ),
-
-    /**
+    
+     /**
      * Call on controller initialization
      *
      * @function initialize
@@ -196,7 +162,7 @@ export default Ember.Mixin.create( SlApplicationState, {
      * @returns  {void}
      */
     initialize: function() {
-        this.loadApplicationState();
+        this.loadGridDefinition();
     }.on( 'init' ),
 
     /**
@@ -207,7 +173,7 @@ export default Ember.Mixin.create( SlApplicationState, {
      * @returns  {void}
      */
     onColumnWidthsChange: function() {
-        Ember.run.debounce( this, this.saveApplicationState, 500 );
+        Ember.run.debounce( this, 'trigger', 'gridStateChanged', 500 );
     }.observes( 'columns.@each.width' ),
 
     /**
@@ -218,54 +184,11 @@ export default Ember.Mixin.create( SlApplicationState, {
      * @returns  {void}
      */
     onItemCountPerPageChange: function() {
-        this.saveApplicationState();
+        this.trigger( 'gridStateChanged' );
     }.observes( 'itemCountPerPage' ),
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * Namespace based on the model name
-     *
-     * @property applicationStateNamespace
-     * @returns  {Ember.String}
-     */
-    applicationStateNamespace: function() {
-        return this.store.pluralize( this.get( 'modelName' ) );
-    }.property( 'modelName' ),
-
-    /**
-     * Arranged copy of the controller's content
-     *
-     * @property arrangedContent
-     * @observes content, currentPage, filterProperties.@each, itemCountPerPage, sortAscending, sortProperties.@each
-     * @returns  {Ember.Object}
-     */
-    arrangedContent: function() {
-        var filterProperties = this.get( 'filterProperties' ),
-            arrangedContent  = this._super();
-
-        return filterProperties.reduce( function( previousValues, filterProperty ) {
-            var filterRegex = new RegExp( '.*' + filterProperty.value + '.*' );
-
-            if ( filterProperty.keyArray ) {
-                return previousValues.filter( function( item ) {
-                    return item.get( filterProperty.key ).contains( filterProperty.value );
-                });
-            }
-
-            return previousValues.filter( function( item ) {
-                return filterRegex.test( item.get( filterProperty.key ) );
-            });
-        }, arrangedContent );
-    }.property(
-        'content',
-        'currentPage',
-        'filterProperties.@each',
-        'itemCountPerPage',
-        'sortAscending',
-        'sortProperties.@each'
-    ),
 
     /**
      * The effective total number of columns
@@ -293,10 +216,56 @@ export default Ember.Mixin.create( SlApplicationState, {
      */
     gridDefinition: function() {
         Ember.assert(
-            'sl-grid-controller: you must define the `grid` property on your controller.',
+            'sl-grid-controller: you must define the `gridDefintion` property on your controller.',
             false
         );
     }.property(),
+
+    /**
+     * Loads the grid definition
+     *
+     * Override this function if you want to do any localstorage persistence
+     *
+     * @function loadGridDefinition
+     * @return {void}
+     */
+    loadGridDefinition: function(){
+        var definitions = this.get( 'gridDefinition' ),
+            grid = Ember.Object.create();
+         Ember.keys( definitions ).forEach( function( key ) {
+            var definition = Ember.get( definitions, key ),
+                setting;
+                
+
+            switch( Ember.typeOf( definition ) ) {
+                case 'object':
+                case 'instance':
+                    // Need to make a copy of the definition so we don't
+                    // corrupt the original.
+                    setting = Ember.Object.create( definition );
+                    break;
+
+                case 'array':
+                    setting = Ember.A([]);
+
+                    // We will only add elements that exist on the definition
+                    definition.forEach( function( item ) {
+                        Ember.assert( 'Items in arrays on the `definition` must be objects',
+                            Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'object' );
+
+                        setting.pushObject( Ember.Object.create( item ) );
+                    });
+
+                    break;
+
+                default:
+                    setting = preference || definition;
+
+            }
+            Ember.set( grid, key, setting );
+        });
+        this.set( 'grid',  grid );  
+    },
 
     /**
      * Reload the model for this controller with the current paging preferences
@@ -341,7 +310,7 @@ export default Ember.Mixin.create( SlApplicationState, {
         columns.splice( newIndex, 0, elementToMove );
         columns.arrayContentDidChange( newIndex, 0, 1 );
 
-        this.saveApplicationState();
+        this.trigger( 'gridStateChanged' );
     },
 
     /**
@@ -359,7 +328,7 @@ export default Ember.Mixin.create( SlApplicationState, {
         });
 
         this.set( 'columns', tmpColumns );
-        this.saveApplicationState();
+        this.trigger( 'gridStateChanged' );
     },
 
     /**
@@ -370,7 +339,9 @@ export default Ember.Mixin.create( SlApplicationState, {
      * @returns  {boolean}
      */
     sortAscending: function() {
-        return this.getWithDefault( 'columns', [] ).findBy( 'isSorted' ).get( 'sortAscending' );
+        var sortedColumn = this.getWithDefault( 'columns', [] ).findBy( 'isSorted' );
+
+        return sortedColumn ? sortedColumn.get( 'sortAscending' ) : undefined;
     }.property( 'columns.@each.sortAscending' ),
 
     /**

@@ -52,6 +52,7 @@ export default Ember.Component.extend({
 
         if ( !this.get( 'disabled' ) ) {
             Ember.$( 'body' ).addClass( 'resizing' )
+                .on( 'mouseleave', this.mouseLeaveListener )
                 .on( 'mousemove', this.mouseMoveListener )
                 .on( 'mouseup', this.mouseUpListener );
 
@@ -141,8 +142,26 @@ export default Ember.Component.extend({
     setupBoundListeners: function() {
         var self = this;
 
+        this.set( 'mouseLeaveListener', function() {
+            Ember.$( 'body' ).removeClass( 'resizing' )
+                .off( 'mouseout', self.mouseLeaveListener )            
+                .off( 'mousemove', self.mouseMoveListener )
+                .off( 'mouseup', self.mouseUpListener );
+
+            self.setProperties({
+                'column.width'      : self.get( 'startWidth'),
+                'column.highlight'  : false,
+                'global.isResizing' : false
+            });
+            //browser will revert to user selection, this will clear it
+            Ember.run.next( this, function(){ 
+                window.getSelection().removeAllRanges();
+            });
+        });
+
         this.set( 'mouseUpListener', function() {
             Ember.$( 'body' ).removeClass( 'resizing' )
+                .off( 'mouseout', self.mouseLeaveListener )                        
                 .off( 'mousemove', self.mouseMoveListener )
                 .off( 'mouseup', self.mouseUpListener );
 

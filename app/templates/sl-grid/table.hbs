@@ -53,7 +53,7 @@
             {{#if options.rowExpander}}
                 {{#if row.rowExpanderIsOpen}}
                     {{#sl-grid-table-row-expander row=row columnCount=columnCount}}
-                        {{render-component row.rowExpanderComponent options=options device=row}}
+                        {{render-component row.rowExpanderComponent options=options data=row}}
                     {{/sl-grid-table-row-expander}}
                 {{/if}}
             {{/if}}
