@@ -265,7 +265,7 @@ export default Ember.Component.extend({
      */
     currentMonth: function() {
         return this.get( 'today' ).getMonth() + 1;
-    }.property(),
+    }.property( 'today' ),
 
     /**
      * Name of the currently selected/viewed month
@@ -286,7 +286,7 @@ export default Ember.Component.extend({
      */
     currentYear: function() {
         return this.get( 'today' ).getFullYear();
-    }.property(),
+    }.property( 'today' ),
 
     /**
      * The number of days in the current month
@@ -320,7 +320,7 @@ export default Ember.Component.extend({
         var currentYear = this.get( 'currentYear' );
 
         return currentYear - ( currentYear % 10 );
-    }.property(),
+    }.property( 'currentYear' ),
 
     /**
      * Get an array of objects representing months in the year view
@@ -365,12 +365,10 @@ export default Ember.Component.extend({
     /**
      * The current date
      *
-     * @function today
-     * @returns  {date}
+     * @property {date} today
+     * @default  (new Date)
      */
-    today: function() {
-        return new Date();
-    }.property(),
+    today: new Date(),
 
     /**
      * Whether the current view is "days"
