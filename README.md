@@ -26,6 +26,7 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-range-picker
 * sl-date-time
 * sl-drop-button
+* sl-grid system
 * sl-input
 * sl-loading-icon
 * sl-menu
@@ -43,6 +44,8 @@ is served from the *gh-pages* branch of this repository.
 * sl-textarea
 * sl-tooltip
 
+The *sl-grid system* isn't an Ember Component in the sense that you can use it with the traditional Ember Component syntax in your template, but rather is an offering of components, controllers and partials to provide a full-feature Grid.  The documentation for this "component" is viewable by launching the demo application bundled with this addon and visiting the */sl-grid* route.
+
 
 **Mixins**
 
@@ -51,27 +54,6 @@ is served from the *gh-pages* branch of this repository.
 A common use case for this mixin is to initialize particular behaviors during AJAX activity and fall back to other,
 default, behaviors when no AJAX activity is ongoing.  This is mixed into the *sl-button* component by default but can be
 applied to other situations as needed.
-
-
-*sl-grid-controller*
-
-A controller should use this mixin when it is being used to back an implementation of the *sl-grid* component.
-
-@TODO link to more documentation
-
-
-*sl-grid-key-controller*
-
-A controller should use this mixin when it is being used to back an implementation of the *sl-grid* component and wishes
-to bind keyboard events to any of the following supported actions on the *sl-grid* component:
-
-* navigate to the first page of records
-* navigate to the last page of records
-* navigate to the next page of records
-* navigate to the previous page of records
-* refresh the grid
-
-@TODO link to more documentation
 
 
 *sl-modal-manager*
@@ -100,7 +82,7 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 
 *sl-pagination-controller*
 
-Most usually employed by a controller being used to back an implementation of the *sl-grid* component, this mixin should be used whenever pagination support for a data set is desired.
+Most usually employed by a controller being used to back an implementation of the *sl-grid system*, this mixin should be used whenever pagination support for a data set is desired.
 
 Requires either the use of [sl-model](https://github.com/softlayer/sl-model) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
 
@@ -127,13 +109,11 @@ Render the component referenced by name. Bound properties can be passed to the c
 
 *sl-grid-key-adapter*
 
-Provides an abstraction between the events the *sl-grid* component listens for and the ability to associate any keyboard
-shortcuts in your application to trigger them.
+Provides an abstraction between the events the *sl-grid* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
 
 *sl-menu-key-adapter*
 
-Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard
-shortcuts in your application to trigger them.
+Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
 
 
 
@@ -189,6 +169,9 @@ Below is a list of each component's library dependencies. Beneath this list is t
     * sl-components
 * sl-drop-button
     * Twitter Bootstrap
+* sl-grid system
+    * sl-components
+    * [sl-translate](https://github.com/softlayer/sl-translate)
 * sl-input
     * Twitter Bootstrap
     * typeahead.js

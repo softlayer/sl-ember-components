@@ -14,7 +14,7 @@
     &lt;div class="text-right"&gt;
     \{{#sl-button title="Refresh" action="reload"}}&lt;i class="fa fa-refresh"&gt;&lt;/i&gt;\{{/sl-button}}
     \{{#sl-tooltip title="Configuration"}}
-        \{{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown" 
+        \{{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown"
             settings=options.settingsMenu columns=columns}}
     \{{/sl-tooltip}}
     &lt;/div&gt;
@@ -104,7 +104,7 @@
     {{/property-text}}
     {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
         <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
-    {{/property-text}}    
+    {{/property-text}}
     {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
         <p>Whether this column is sortable</p>
     {{/property-text}}
@@ -121,7 +121,7 @@
         <p>An optional css class to apply to each cell<p>
     {{/property-text}}
     {{#property-text name="gridDefinition.columns[].widthHint" type="number"}}
-        <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If column 1 gets a width hint of `2` and the 
+        <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If column 1 gets a width hint of `2` and the
     {{/property-text}}
 
     </div>
@@ -180,6 +180,25 @@
   </div>
 </div>
 
+<hr>
+
+<h3>Optional Mixin</h3>
+
+<div class="panel panel-default">
+  <div class="panel-heading">sl-grid-key-controller</div>
+  <div class="panel-body">
+        <p>A controller using the <em>sl-grid-controller</em> mixin should also use this mixin when it is desired to bind keyboard events to any of the following supported actions on the grid:</p>
+
+        <ul>
+        <li>navigate to the first page of records</li>
+        <li>navigate to the last page of records</li>
+        <li>navigate to the next page of records</li>
+        <li>navigate to the previous page of records</li>
+        <li>refresh the grid</li>
+        </ul>
+  </div>
+</div>
+
 
 <h3>Partials used</h3>
 
@@ -195,7 +214,7 @@
 <div class="list-group">
     <div class="list-group-item">
         <h6>sl-grid-header-settings</h6>
-        <p>One of the few stand-alone components.  Place this component anywhere on the page to give your users access to the options specific to this arrayController's grid.</p>
+        <p>One of the few stand-alone components.  Place this component anywhere on the page to give your users access to the options specific to this ArrayController's grid.</p>
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-cell</h6>
@@ -203,19 +222,19 @@
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-cell-link</h6>
-        <p>Extends sl-grid-table-cell, provides and ember link to a different route in your app.</p>
+        <p>Extends sl-grid-table-cell, provides an ember link to a different route in your app.</p>
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-cell-row-expander</h6>
-        <p>Used by the grid to show/hide the sl-grid-table-row-expander component.  The `gridDefinition.options.rowExpander` setting must be set to true in able to use the row-expander.
+        <p>Used by the grid to show/hide the sl-grid-table-row-expander component.  The <code>gridDefinition.options.rowExpander</code> setting must be set to true in able to use the row-expander.
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-column-resize</h6>
-        <p>This component enbables the dragable resizing of columns</p>
+        <p>This component enables the dragable resizing of columns</p>
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-header</h6>
-        <p>This component display the `th` table header cell and implements the `widthHinting` and column reordering functionality.
+        <p>This component displays the <code>th</code> table header cell and implements the <code>widthHinting</code> and column reordering functionality.
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-row-expander</h6>
