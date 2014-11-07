@@ -6,9 +6,6 @@ module.exports = {
 
         return this.addBowerPackageToProject( 'bootstrap-datepicker' )
             .then( function() {
-                return self.addBowerPackageToProject( 'momentjs' );
-            })
-            .then( function() {
                 return self.addBowerPackageToProject( 'fontawesome' );
             })
             .then( function() {
