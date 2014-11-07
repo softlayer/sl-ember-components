@@ -53,18 +53,6 @@ default, behaviors when no AJAX activity is ongoing.  This is mixed into the *sl
 applied to other situations as needed.
 
 
-*sl-application-state-controller*
-
-@TODO
-
-
-*sl-filter-controller*
-
-@TODO
-
-@TODO  link to more documentation
-
-
 *sl-grid-controller*
 
 A controller should use this mixin when it is being used to back an implementation of the *sl-grid* component.
@@ -109,15 +97,6 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 * willDestroyElement
 * willInsertElement
 
-
-*sl-notify-view*
-
-Use this mixin on a view when you need to notify its controller of any of the following events:
-
-* didInsertElement
-* willClearRender
-* willDestroyElement
-* willInsertElement
 
 *sl-pagination-controller*
 
