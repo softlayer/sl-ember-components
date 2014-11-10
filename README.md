@@ -25,6 +25,7 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-picker
 * sl-date-range-picker
 * sl-date-time
+* sl-dialog
 * sl-drop-button
 * sl-grid system
 * sl-input
@@ -38,7 +39,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-radio
 * sl-radio-group
 * sl-select
-* sl-simple-modal
 * sl-span
 * sl-tab-panel
 * sl-textarea
@@ -167,6 +167,8 @@ Below is a list of each component's library dependencies. Beneath this list is t
     * Bootstrap-Datepicker
 * sl-date-time
     * sl-components
+* sl-dialog
+    * Twitter Bootstrap
 * sl-drop-button
     * Twitter Bootstrap
 * sl-grid system
@@ -199,8 +201,6 @@ Below is a list of each component's library dependencies. Beneath this list is t
     * Twitter Bootstrap
 * sl-select
     * Select2
-* sl-simple-modal
-    * Twitter Bootstrap
 * sl-span
     * sl-components
 * sl-tab-panel
