@@ -1,3 +1,3 @@
-import SlSimpleModal from 'sl-components/components/sl-simple-modal';
+import SlDialog from 'sl-components/components/sl-dialog';
 
-export default SlSimpleModal;
+export default SlDialog;
