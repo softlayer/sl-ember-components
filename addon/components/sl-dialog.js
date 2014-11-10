@@ -23,20 +23,12 @@ export default Ember.Component.extend( ModalMixin, {
     // Properties
 
     /**
-     * Text string for the "accept" button
-     *
-     * @property {Ember.String} acceptText
-     * @default  "Accept"
-     */
-    acceptText: 'Accept',
-
-    /**
      * Text string for the "cancel" button
      *
      * @property {Ember.String} cancelText
-     * @default  "Cancel"
+     * @default  "Close"
      */
-    cancelText: 'Cancel',
+    buttonText: 'Close',
 
     /**
      * Binding for whether the dialog is shown or not
