@@ -3,7 +3,7 @@ import ModalMixin from '../mixins/sl-modal';
 
 /**
  * @module components
- * @class  sl-simple-modal
+ * @class  sl-dialog
  */
 export default Ember.Component.extend( ModalMixin, {
 
@@ -39,7 +39,7 @@ export default Ember.Component.extend( ModalMixin, {
     cancelText: 'Cancel',
 
     /**
-     * Binding for whether the modal is shown or not
+     * Binding for whether the dialog is shown or not
      *
      * @property {boolean} show
      * @default  false
@@ -50,7 +50,7 @@ export default Ember.Component.extend( ModalMixin, {
     // Observers
 
     /**
-     * Observes the `show` value and appropriately shows or hides the modal
+     * Observes the `show` value and appropriately shows or hides the dialog
      *
      * @function toggle
      * @observes show
@@ -64,7 +64,7 @@ export default Ember.Component.extend( ModalMixin, {
     // Methods
 
     /**
-     * Custom simple-modal handler for setting the `show` property to false
+     * Custom dialog handler for setting the `show` property to false
      *
      * @function hideHandler
      * @returns  {void}

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
 import ModalMixin from 'sl-components/mixins/sl-modal';
 
-moduleForComponent( 'sl-simple-modal', 'Unit - component:sl-simple-modal' );
+moduleForComponent( 'sl-dialog', 'Unit - component:sl-dialog' );
 
 test( 'Expected Mixins are present', function() {
     ok( ModalMixin.detect( this.subject() ), 'Modal Mixin is present' );
