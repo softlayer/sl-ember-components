@@ -123,5 +123,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             this.set( 'value', this.$('input[name=' + name + ']:radio').filter(':checked').val() );
         }.bind(this));
 
-    }.on( 'didInsertElement' )
+    }.on( 'didInsertElement' ),
+
+    /**
+     * Remove events
+     *
+     * @function unregisterEvents
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    unregisterEvents: function() {
+        $('input[name=' + this.get( 'name' ) + ']:radio').off();
+    }.on( 'willClearRender' )
 });
