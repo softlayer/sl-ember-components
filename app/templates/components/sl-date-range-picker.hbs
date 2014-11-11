@@ -1,5 +1,5 @@
 {{#if label}}
-    <label {{bind-attr for=startDateInputId}}>{{label}}</label>
+    <label {{bind-attr for=inputElementId}}>{{label}}</label>
 {{/if}}
 
 <div class="row">
@@ -10,6 +10,7 @@
         placeholder=startDatePlaceholder
         startDate=minDate
         value=startDateValue
+        inputElementIdBinding="inputElementId"
     }}
 
     {{sl-date-picker

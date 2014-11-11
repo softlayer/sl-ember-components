@@ -45,6 +45,14 @@ export default Ember.Component.extend({
     format: 'mm/dd/yyyy',
 
     /**
+     * Bound value of Start Date input element's id
+     *
+     * @type    {Ember.String}
+     * @default null
+     */
+    inputElementId: null,
+
+    /**
      * The last valid date for the date range
      *
      * @property {date|Ember.String} endDate
