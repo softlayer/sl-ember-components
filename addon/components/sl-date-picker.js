@@ -202,7 +202,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns  {void}
      */
     setInputElementId: function() {
-        this.set( 'inputElementId', this.$( 'input' ).prop( 'id' ) );
+        this.set( 'inputElementId', this.$( 'input.date-picker' ).prop( 'id' ) );
     }.on( 'didInsertElement' ),
 
     /**
