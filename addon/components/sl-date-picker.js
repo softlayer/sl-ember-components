@@ -96,6 +96,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     format: 'mm/dd/yyyy',
 
     /**
+     * The input field's id attribute
+     *
+     * Used to expose this value externally for use when composing this component into others.
+     *
+     * @property {Ember.String} setInputElementId
+     * @default  {null}
+     */
+    inputElementId: null,
+
+    /**
      * A list of inputs to be used in a range picker
      *
      * The inputs will be attached to the selected element. Allows for
@@ -183,10 +193,23 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Observers
 
     /**
+     * Captures and sets the input field's id attribute.
+     *
+     * This is used to expose this value externally for use when composing this component into others.
+     *
+     * @function setInputElementId
+     * @observes "didInsertElement" event
+     * @returns  {void}
+     */
+    setInputElementId: function() {
+        this.set( 'inputElementId', this.$( 'input' ).prop( 'id' ) );
+    }.on( 'didInsertElement' ),
+
+    /**
      * Setup the bootstrap-datepicker plugin and events
      *
      * @function setupDatepicker
-     * @observes didInsertElement event
+     * @observes "didInsertElement" event
      * @returns  {void}
      */
     setupDatepicker: function() {
