@@ -189,7 +189,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @returns  {object}
      */
     getInput: function() {
-        return this.$( '#' + this.get( 'inputId' ) );
+        return this.$( 'input' );
     },
 
     /**
@@ -210,15 +210,5 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
 
         return classes.join( ' ' );
-    }.property(),
-
-    /**
-     * ID for the actual input element
-     *
-     * @property {string} inputId
-     */
-    inputId: function() {
-        return this.get( 'elementId' ) + 'Input';
-    }.property( 'elementId' )
-
+    }.property()
 });

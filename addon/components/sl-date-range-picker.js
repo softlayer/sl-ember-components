@@ -45,6 +45,14 @@ export default Ember.Component.extend({
     format: 'mm/dd/yyyy',
 
     /**
+     * Bound value of Start Date input element's id
+     *
+     * @type    {Ember.String}
+     * @default null
+     */
+    inputElementId: null,
+
+    /**
      * The last valid date for the date range
      *
      * @property {date|Ember.String} endDate
@@ -86,6 +94,17 @@ export default Ember.Component.extend({
             endDateInput.focus();
         });
     }.on( 'didInsertElement' ),
+
+    /**
+     * Remove events
+     *
+     * @function unregisterEvents
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    unregisterEvents: function() {
+        this.$( '.sl-daterange-start-date input' ).off();
+    }.on( 'willClearRender' ),
 
     // -------------------------------------------------------------------------
     // Methods

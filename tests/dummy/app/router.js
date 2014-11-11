@@ -16,9 +16,10 @@ Router.map(function() {
     this.route( 'sl-date-picker' );
     this.route( 'sl-date-range-picker' );
     this.route( 'sl-date-time' );
+    this.route( 'sl-dialog' );
     this.route( 'sl-drop-button' );
     this.route( 'sl-input' );
-    this.route( 'sl-grid' );    
+    this.route( 'sl-grid' );
     this.route( 'sl-loading-icon' );
     this.route( 'sl-menu' );
     this.route( 'sl-pagination-controls' );
@@ -29,7 +30,6 @@ Router.map(function() {
     this.route( 'sl-radio' );
     this.route( 'sl-radio-group' );
     this.route( 'sl-select' );
-    this.route( 'sl-simple-modal' );
     this.route( 'sl-span' );
     this.route( 'sl-tab-panel' );
     this.route( 'sl-textarea' );
