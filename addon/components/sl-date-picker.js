@@ -222,6 +222,17 @@ export default Ember.Component.extend( TooltipEnabled, {
     }.on( 'didInsertElement' ),
 
     /**
+     * Remove events
+     *
+     * @function unregisterEvents
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    unregisterEvents: function() {
+        this.$( 'input.date-picker' ).off();
+    }.on( 'willClearRender' ),
+
+    /**
      * Dynamically update the endDate value for the datepicker
      *
      * @function setEndDate
