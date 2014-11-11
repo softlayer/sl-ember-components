@@ -95,6 +95,17 @@ export default Ember.Component.extend({
         });
     }.on( 'didInsertElement' ),
 
+    /**
+     * Remove events
+     *
+     * @function unregisterEvents
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    unregisterEvents: function() {
+        this.$( '.sl-daterange-start-date input' ).off();
+    }.on( 'willClearRender' ),
+
     // -------------------------------------------------------------------------
     // Methods
 
