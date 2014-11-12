@@ -112,16 +112,27 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Observers
-
-     /** 
-     * Reloads the model when its dependencies change
+    
+    /**
+     * Reloads the model when currentPage changes
      *
-     * @function modelObserver
-     * @returns {void}
+     * @function currentPageObserver
+     * @return {void}
      */
-    modelObserver: function(){
+    currentPageObserver: function(){
         Ember.run.once( this, this.reloadModel );
-    }.observes( 'currentPage', 'itemCountPerPage' ),
+    }.observes( 'currentPage' ),
+
+    /**
+     * Reloads the model when itemCountPerPage changes
+     *
+     * @function itemCountPerPageObserver
+     * @return {void}
+     */
+    itemCountPerPageObserver: function(){
+        this.set( 'currentPage', 1 );
+        Ember.run.once( this, this.reloadModel );
+    }.observes( 'itemCountPerPage' ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -129,8 +140,6 @@ export default Ember.Mixin.create({
     /**
      * Override this method with your own to handle loading of a model, using the 
      * currentPage and itemCountPerPage member variables
-     * 
-     * @function reloadModel
      * @return {void}
      */
     reloadModel: function(){
