@@ -113,39 +113,29 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Observers
 
+     /** 
+     * Reloads the model when its dependencies change
+     *
+     * @function modelObserver
+     * @returns {void}
+     */
+    modelObserver: function(){
+        Ember.run.once( this, this.reloadModel );
+    }.observes( 'currentPage', 'itemCountPerPage' ),
+
     // -------------------------------------------------------------------------
     // Methods
-
+    
     /**
-     * An arranged copy of the content
-     *
-     * @function arrangedContent
-     * @observes content, currentPage, filterProperties.@each, itemCountPerPage, sortAscending, sortProperties.@each
-     * @returns  {mixed}
+     * Override this method with your own to handle loading of a model, using the 
+     * currentPage and itemCountPerPage member variables
+     * 
+     * @function reloadModel
+     * @return {void}
      */
-    arrangedContent: function() {
-        var self        = this,
-            content     = this._super(),
-            currentPage = parseInt( this.get( 'currentPage' ) ),
-            itemCount   = parseInt( this.get( 'itemCountPerPage' ) ),
-            start       = ( currentPage - 1 ) * itemCount,
-            end         = start + itemCount;
-
-        if ( content.then && ( !content.isFulfilled && !content.isRejected ) ) {
-            content.then( function() {
-                self.notifyPropertyChange( 'content' );
-            });
-        }
-
-        return content.slice( start, end );
-    }.property(
-        'content',
-        'currentPage',
-        'filterProperties.@each',
-        'itemCountPerPage',
-        'sortAscending',
-        'sortProperties.@each'
-    ),
+    reloadModel: function(){
+        Ember.assert( 'SL-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
+    },
 
     /**
      * Paging data for the grid to pass to its pagination controls

@@ -144,7 +144,7 @@ export default Ember.Component.extend({
 
         this.set( 'mouseLeaveListener', function() {
             Ember.$( 'body' ).removeClass( 'resizing' )
-                .off( 'mouseout', self.mouseLeaveListener )            
+                .off( 'mouseleave', self.mouseLeaveListener )
                 .off( 'mousemove', self.mouseMoveListener )
                 .off( 'mouseup', self.mouseUpListener );
 
@@ -161,7 +161,7 @@ export default Ember.Component.extend({
 
         this.set( 'mouseUpListener', function() {
             Ember.$( 'body' ).removeClass( 'resizing' )
-                .off( 'mouseout', self.mouseLeaveListener )                        
+                .off( 'mouseleave', self.mouseLeaveListener )
                 .off( 'mousemove', self.mouseMoveListener )
                 .off( 'mouseup', self.mouseUpListener );
 
