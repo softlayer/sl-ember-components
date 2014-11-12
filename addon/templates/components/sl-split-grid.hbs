@@ -4,9 +4,11 @@
             <span class="title">{{title}}</span>
         </div>
 
-        <div class="col-sm-6 text-right">
-            {{#sl-button action="toggleFilterPane"}}Filter{{/sl-button}}
-        </div>
+        {{#if filterTemplate}}
+            <div class="col-sm-6 text-right">
+                {{#sl-button action="toggleFilterPane"}}Filter{{/sl-button}}
+            </div>
+        {{/if}}
     </div>
 </header>
 

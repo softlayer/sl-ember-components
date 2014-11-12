@@ -1,5 +1,5 @@
 <h2>sl-split-grid</h2>
-<p class="lead">Dan's split panel grid table list thing.</p>
+<p class="lead">A dual-pane, master-detail split panel grid.</p>
 
 <hr>
 
@@ -99,6 +99,10 @@
 
     {{#property-text name="autoHeight" type="boolean" default="true"}}
         Determines whether the content areas of the split-grid will dynamically calculate their allowed heights within the viewport when the window is resized. When false, the <code>height</code> property is used to determine the content areas' heights manually.
+    {{/property-text}}
+
+    {{#property-text name="filterTemplate" type="string"}}
+        The name of the template to render for the filter section. If this is omitted, no filter button or interface will be created for the split-grid.
     {{/property-text}}
 
     {{#property-text name="height" type="number" default="600"}}
