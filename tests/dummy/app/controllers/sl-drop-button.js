@@ -19,7 +19,5 @@ export default Ember.ArrayController.extend({
         alertWhite: function() {
             alert( 'White!' );
         }
-    },
-
-    selectedTheme: 'info'
+    }
 });

@@ -2,34 +2,54 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-modal
+ * @class  sl-modal
  */
 export default Ember.Mixin.create({
 
-    /**
-     * Component actions hash
-     *
-     * @property {object} actions
-     */
-    actions: {
+    // -------------------------------------------------------------------------
+    // Dependencies
 
-        /**
-         * Action to hide the modal
-         *
-         * @method actions.close
-         */
-        close: function() {
-            if ( this.$() ) {
-                this.$().modal( 'hide' );
-            }
-        }
-    },
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * The name of the layout/template to render for this mixin
+     *
+     * @property {Ember.String} layoutName
+     * @default  "sl-modal"
+     */
+    layoutName: 'sl-modal',
+
+    /**
+     * Attribute value bindings for the containing element
+     *
+     * @property {Ember.Array} attributeBindings
+     */
+    attributeBindings: [
+        'aria-hidden', 'tabindex', 'role', 'aria-labelledby', 'aria-describedby'
+    ],
+
+    /**
+     * Class names for the containing element
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'fade', 'modal' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * `aria-describedby` attribute value
      *
-     * @property {string} aria-describedby
-     * @default null
+     * @property {Ember.String} aria-describedby
+     * @default  null
      */
     'aria-describedby': null,
 
@@ -37,130 +57,122 @@ export default Ember.Mixin.create({
      * `aria-hidden` attribute to inform assistive technologies to skip the
      * modal's DOM elements
      *
-     * @property {string} aria-hidden
-     * @default "true"
+     * @property {Ember.String} aria-hidden
+     * @default  "true"
      */
     'aria-hidden': 'true',
 
     /**
-     * `aria-labelledby` attribute value
-     *
-     * @property {string} aria-labelledby
-     */
-    'aria-labelledby': function() {
-        return 'modalTitle-' + Math.random();
-    }.property(),
-
-    /**
-     * Attribute value bindings for the containing element
-     *
-     * @property {array} attributeBindings
-     */
-    attributeBindings: [
-        'aria-hidden', 'tabindex', 'role', 'aria-labelledby', 'aria-describedby'
-    ],
-
-    /**
      * Bootstrap's modal backdrop option
      *
-     * @property {boolean|string} backdrop
-     * @default true
+     * @property {boolean|Ember.String} backdrop
+     * @default  true
      */
     backdrop: true,
 
     /**
-     * Class names for the containing element
+     * `role` attribute value
      *
-     * @property {array} classNames
+     * @property {Ember.String} role
+     * @default  "dialog"
      */
-    classNames: [ 'fade', 'modal' ],
+    role: 'dialog',
 
     /**
-     * Overridable method stub
+     * `tabindex` attribute value
      *
-     * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
-     *
-     * @method hiddenHandler
+     * @property {Ember.String} tab index
+     * @default  '-1'
      */
-    hiddenHandler: function () {},
+    tabindex: '-1',
 
-    /**
-     * Overridable method stub
-     *
-     * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
-     *
-     * @method hideHandler
-     */
-    hideHandler: function () {},
-
-    /**
-     * The name of the layout/template to render for this mixin
-     *
-     * @property {string} layoutName
-     * @default "sl-modal"
-     */
-    layoutName: 'sl-modal',
-
-    /**
-     * Overridable method stub
-     *
-     * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
-     *
-     * @method loadedHandler
-     */
-    loadedHandler: function () {},
+    // -------------------------------------------------------------------------
+    // Observers
 
     /**
      * Binds handlers for exposed Twitter Bootstrap 3 modal events
      *
-     * @method modalize
+     * @function modalize
+     * @observes "didInsertElement" event
+     * @returns  {void}
      */
-    modalize: function () {
+    modalize: function() {
         var modal = this.$().modal({
             keyboard : true,
             show     : false,
             backdrop : this.get( 'backdrop' )
         });
 
-        modal.on( 'show.bs.modal', this.showHandler.bind( this ));
-        modal.on( 'shown.bs.modal', this.shownHandler.bind( this ));
-        modal.on( 'hide.bs.modal', this.hideHandler.bind( this ));
-        modal.on( 'hidden.bs.modal', this.hiddenHandler.bind( this ));
-        modal.on( 'loaded.bs.modal', this.loadedHandler.bind( this ));
+        modal.on( 'show.bs.modal', this.showHandler.bind( this ) );
+        modal.on( 'shown.bs.modal', this.shownHandler.bind( this ) );
+        modal.on( 'hide.bs.modal', this.hideHandler.bind( this ) );
+        modal.on( 'hidden.bs.modal', this.hiddenHandler.bind( this ) );
+        modal.on( 'loaded.bs.modal', this.loadedHandler.bind( this ) );
     }.on( 'didInsertElement' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
-     * `role` attribute value
+     * `aria-labelledby` attribute value
      *
-     * @property {string} role
-     * @default 'dialog'
+     * Is a randomly-generated unique string
+     *
+     * @function aria-labelledby
+     * @returns  {Ember.String}
      */
-    role: 'dialog',
+    'aria-labelledby': function() {
+        return 'modalTitle-' + Math.random();
+    }.property(),
+
+    /**
+     * Overridable method stub
+     *
+     * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
+     *
+     * @function hiddenHandler
+     * @returns  {void}
+     */
+    hiddenHandler: function() {},
+
+    /**
+     * Overridable method stub
+     *
+     * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
+     *
+     * @function hideHandler
+     * @returns  {void}
+     */
+    hideHandler: function() {},
+
+    /**
+     * Overridable method stub
+     *
+     * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
+     *
+     * @function loadedHandler
+     * @returns  {void}
+     */
+    loadedHandler: function() {},
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `show.bs.modal` event.
      *
-     * @method showHandler
+     * @function showHandler
+     * @returns  {void}
      */
-    showHandler: function () {},
+    showHandler: function() {},
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `shown.bs.modal` event.
      *
-     * @method shownHandler
+     * @function shownHandler
+     * @returns  {void}
      */
-    shownHandler: function () {},
-
-    /**
-     * `tabindex` attribute value
-     *
-     * @property {string} tab index
-     * @default '-1'
-     */
-    tabindex: '-1'
+    shownHandler: function() {}
 
 });

@@ -2,22 +2,44 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-pagination-per-page-select
+ * @class  sl-pagination-per-page-select
  */
 export default Ember.Component.extend({
 
-    /**
-     * Class names for the root element
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'sl-pagination-per-page-select form-inline' ],
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * HTML tag name for the root element
      *
-     * @property {string} tagName
-     * @default "span"
+     * @property {Ember.String} tagName
+     * @default  "span"
      */
-    tagName: 'span'
+    tagName: 'span',
+
+    /**
+     * Class names for the root element
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'sl-pagination-per-page-select form-inline' ]
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
 });

@@ -2,16 +2,31 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-input-based
+ * @class  sl-input-based
  */
 export default Ember.Mixin.create({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * Class name bindings for the component
      *
-     * @property {Array} classNameBindings
+     * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'disabled', 'optional', 'readonly', 'required' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Whether the input-based component should be disabled
@@ -19,7 +34,7 @@ export default Ember.Mixin.create({
      * The internal input element should be passed this attribute as a property.
      *
      * @property {boolean} disabled
-     * @default false
+     * @default  false
      */
     disabled: false,
 
@@ -27,7 +42,7 @@ export default Ember.Mixin.create({
      * Whether the input-based component should be displayed as optional
      *
      * @property {boolean} optional
-     * @default false
+     * @default  false
      */
     optional: false,
 
@@ -37,7 +52,7 @@ export default Ember.Mixin.create({
      * The internal input element should be passed this attribute as a property.
      *
      * @property {boolean} readonly
-     * @default false
+     * @default  false
      */
     readonly: false,
 
@@ -45,8 +60,14 @@ export default Ember.Mixin.create({
      * Whether the input-based component is required
      *
      * @property {boolean} required
-     * @default false
+     * @default  false
      */
     required: false
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
 
 });

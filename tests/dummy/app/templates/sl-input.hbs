@@ -151,6 +151,17 @@
 
 <hr>
 
+<h3>Mixins used</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-input-based</p>
+        <p>sl-tooltip-enabled</p>
+    </div>
+</div>
+
+<hr>
+
 <h3>Properties</h3>
 
 <div class="list-group">
@@ -171,16 +182,12 @@
         Text to display below the input element.
     {{/property-text}}
 
-    {{#property-text name="inputId" type="string"}}
-        <code>id</code> attribute for the input element itself.
-    {{/property-text}}
-
     {{#property-text name="label" type="string"}}
         String for label text above the input.
     {{/property-text}}
 
     {{#property-text name="optional" type="boolean" default="false"}}
-        When true, the component is styled to reflect optional status.
+        When true, the component is styled to reflect optional status. This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
     {{#property-text name="placeholder" type="string"}}
@@ -192,7 +199,7 @@
     {{/property-text}}
 
     {{#property-text name="readonly" type="boolean" default="false"}}
-        <code>readonly</code> attribute value for the input.
+        <code>readonly</code> attribute value for the input. This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
     {{#property-text name="required" type="boolean" default="false"}}

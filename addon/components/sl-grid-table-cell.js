@@ -2,22 +2,44 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-grid-table-cell
+ * @class  sl-grid-table-cell
  */
 export default Ember.Component.extend({
 
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {array} classNameBindings
-     */
-    classNameBindings: [ 'cssClass' ],
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * HTML tag name for the base element
      *
-     * @property {string} tagName
-     * @default "td"
+     * @property {Ember.String} tagName
+     * @default  "td"
      */
-    tagName: 'td'
+    tagName: 'td',
+
+    /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'cssClass' ]
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
 });

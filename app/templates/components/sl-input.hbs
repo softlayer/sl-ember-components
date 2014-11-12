@@ -1,5 +1,5 @@
 {{#if label}}
-    <label {{bind-attr for=inputId}} class="control-label">
+    <label {{bind-attr for="sl-input-view.elementId"}} class="control-label">
         {{label}}
 
         {{#if optional}}
@@ -12,14 +12,14 @@
     </label>
 {{/if}}
 
-{{input
+{{view Ember.TextField
+    viewName="sl-input-view"
+    type=type
     action="enter"
     class=inputClass
     disabled=disabled
-    id=inputId
     placeholder=placeholder
     readonly=readonly
-    type=type
     value=value
 }}
 

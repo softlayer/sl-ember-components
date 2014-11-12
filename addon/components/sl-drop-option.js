@@ -2,56 +2,81 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-drop-option
+ * @class  sl-drop-option
  */
 export default Ember.Component.extend({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * HTML tag name for the root element
+     *
+     * @property {Ember.String} tagName
+     * @default  "li"
+     */
+    tagName: 'li',
+
+    /**
+     * Class names for the root element
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'sl-drop-option' ],
+
+    /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'optionType' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Component actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
         /**
          * Send the primary action when the click action is triggered
          *
-         * @method actions.click
+         * @function actions.click
+         * @returns  {void}
          */
         click: function() {
             this.sendAction( 'action' );
         }
     },
 
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {array} classNameBindings
-     */
-    classNameBindings: [ 'optionType' ],
+    // -------------------------------------------------------------------------
+    // Events
 
-    /**
-     * Class names for the root element
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'sl-drop-option' ],
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * Represents the type of option; "divider" if the label is undefined, or
      * "presentation" otherwise
      *
-     * @property {string} optionType
+     * @function optionType
+     * @observes label
+     * @returns  {Ember.String}
      */
     optionType: function() {
         return this.get( 'label' ) ? 'presentation' : 'divider';
-    }.property( 'label' ),
+    }.property( 'label' )
 
-    /**
-     * HTML tag name for the root element
-     *
-     * @property {string} tagName
-     * @default "li"
-     */
-    tagName: 'li'
 });

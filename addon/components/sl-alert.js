@@ -3,79 +3,103 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-alert
+ * @class  sl-alert
  */
 export default Ember.Component.extend( TooltipEnabled, {
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * Array of attribute bindings for the alert's div
+     *
+     * @property {Ember.Array} attributeBindings
+     */
+    attributeBindings: [ 'role' ],
+
+    /**
+     * Array of class names for the alert's div
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'alert', 'sl-alert' ],
+
+    /**
+     * Array of class name bindings for the alert's div
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Actions for the alert component
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
         /**
          * Trigger a bound "dismiss" action when the alert is dismissed
          *
-         * @method actions.dismiss
+         * @function actions.dismiss
+         * @returns  {void}
          */
-        dismiss: function () {
+        dismiss: function() {
             this.sendAction( 'dismiss' );
         }
     },
 
-    /**
-     * Array of attribute bindings for the alert's div
-     *
-     * @property {array} attributeBindings
-     */
-    attributeBindings: [ 'role' ],
+    // -------------------------------------------------------------------------
+    // Events
 
-    /**
-     * Array of class name bindings for the alert's div
-     *
-     * @property {array} classNameBindings
-     */
-    classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
-
-    /**
-     * Array of class names for the alert's div
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'alert', 'sl-alert' ],
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Whether to make the alert dismissable or not
      *
      * @property {boolean} dismissable
-     * @default false
+     * @default  false
      */
     dismissable: false,
 
     /**
      * The role attribute for the alert's div
      *
-     * @property {string} role
-     * @default "alert"
+     * @property {Ember.String} role
+     * @default  "alert"
      */
     role: 'alert',
 
     /**
      * The Bootstrap "theme" style to apply to the alert
      *
-     * @property {string} theme
-     * @default "info"
+     * @property {Ember.String} theme
+     * @default  "info"
      */
     theme: 'info',
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * The generated Bootstrap "theme" style class for the alert
      *
-     * @property {string} themeClassName
-     * @default "alert-info"
+     * @function themeClassName
+     * @observes theme
+     * @returns  {Ember.String}  Defaults to "alert-info"
      */
-    themeClassName: function () {
+    themeClassName: function() {
         return 'alert-' + this.get( 'theme' );
     }.property( 'theme' )
+
 });

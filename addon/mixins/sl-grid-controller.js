@@ -1,34 +1,32 @@
 import Ember from 'ember';
-import SlApplicationState from './sl-application-state-controller';
 
 /**
  * @module mixins
- * @class sl-grid-controller
+ * @class  sl-grid-controller
  */
-export default Ember.Mixin.create( SlApplicationState, {
+export default Ember.Mixin.create( Ember.Evented, {
+
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Controller actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
         /**
-         * Trigger reload of the model
-         *
-         * @method actions.reload
-         */
-        reload: function() {
-            this.reloadModel( true );
-        },
-
-        /**
          * Reorder column *oldIndex* to *newIndex*
          *
-         * @method actions.reorderColumn
-         * @param {number} oldIndex - The existing index of the column to reorder
-         * @param {number} newIndex - The new index number to move the column to
+         * @function actions.reorderColumn
+         * @param   {number} oldIndex - The existing index of the column to reorder
+         * @param   {number} newIndex - The new index number to move the column to
+         * @returns {void}
          */
         reorderColumn: function( oldIndex, newIndex ) {
             this.reorderColumn( oldIndex, newIndex );
@@ -37,7 +35,8 @@ export default Ember.Mixin.create( SlApplicationState, {
         /**
          * Trigger resetting of all columns to their default positions
          *
-         * @method actions.resetColumns
+         * @function actions.resetColumns
+         * @returns  {void}
          */
         resetColumns: function() {
             this.resetColumns();
@@ -46,165 +45,80 @@ export default Ember.Mixin.create( SlApplicationState, {
         /**
          * Sort the specified column
          *
-         * @method actions.sortColumn
-         * @param {object} column - The column to sort
+         * @function actions.sortColumn
+         * @param   {Ember.Object} column - The column to sort
+         * @returns {void}
          */
         sortColumn: function( column ) {
-            if ( column.get( 'isSorted' )) {
+            if ( column.get( 'isSorted' ) ) {
                 column.toggleProperty( 'sortAscending' );
             } else {
                 this.get( 'columns' ).setEach( 'isSorted', false );
                 column.set( 'isSorted', true );
-                column.set( 'sortAscending', column.getWithDefault( 'sortAscending', true ));
+                column.set( 'sortAscending', column.getWithDefault( 'sortAscending', true ) );
             }
-            this.saveApplicationState();
+            //make sure cp recomputes, stupid sortable mixin...
+            this.get( 'sortAscending' );
+            
+            this.trigger( 'gridStateChanged' );
         },
 
         /**
          * Toggle the visibility of the column with specified column name
          *
-         * @method actions.toggleColumnVisibility
-         * @param {string} columnName - The name of the column to toggle
+         * @function actions.toggleColumnVisibility
+         * @param   {Ember.String} columnName - The name of the column to toggle
+         * @returns {void}
          */
         toggleColumnVisibility: function( columnName ) {
-            var foundColumn =  this.get( 'columns' ).findBy( 'key', columnName );
+            var foundColumn = this.get( 'columns' ).findBy( 'key', columnName );
 
-            if ( foundColumn ){
+            if ( foundColumn ) {
                 foundColumn.toggleProperty( 'hidden' );
             }
-            this.saveApplicationState();
+
+            this.trigger( 'gridStateChanged' );
         },
 
         /**
          * Trigger toggle of filter panel visibility
          *
-         * @method actions.toggleFilter
+         * @function actions.toggleFilter
+         * @returns  {void}
          */
         toggleFilter: function() {
             this.toggleProperty( 'showFilterPanel' );
         }
     },
 
-    /**
-     * Alias for the grid definition
-     *
-     * @property {mixed} applicationStateDefinition
-     */
-    applicationStateDefinition: Ember.computed.alias( 'gridDefinition' ),
+    // -------------------------------------------------------------------------
+    // Events
 
-    /**
-     * Run when application state is loaded
-     *
-     * @method applicationStateDidLoad
-     */
-    applicationStateDidLoad: function() {
-        this.notifyPropertyChange( 'sortProperties' );
-        Ember.run.once( this, 'reloadModel' );
-    }.on( 'applicationStateDidLoad' ),
-
-    /**
-     * Namespace based on the model name
-     *
-     * @property {string} applicationStateNamespace
-     */
-    applicationStateNamespace: function() {
-        return this.store.pluralize( this.get( 'modelName' ));
-    }.property( 'modelName' ),
-
-    /**
-     * Alias to the grid
-     *
-     * @property {object} applicationStateVariable
-     */
-    applicationStateVariable: Ember.computed.alias( 'grid' ),
-
-    /**
-     * Arranged copy of the controller's content
-     *
-     * @property {object} arrangedContent
-     */
-    arrangedContent: function() {
-        var filterProperties = this.get( 'filterProperties' ),
-            arrangedContent = this._super();
-
-        return filterProperties.reduce( function( previousValues, filterProperty ) {
-            var filterRegex = new RegExp( '.*' + filterProperty.value + '.*' );
-
-            if ( filterProperty.keyArray ) {
-                return previousValues.filter( function( item ) {
-                    return item.get( filterProperty.key ).contains( filterProperty.value );
-                });
-            }
-
-            return previousValues.filter( function( item ) {
-                return filterRegex.test( item.get( filterProperty.key ));
-            });
-        }, arrangedContent );
-    }.property(
-        'content',
-        'currentPage',
-        'filterProperties.@each',
-        'itemCountPerPage',
-        'sortAscending',
-        'sortProperties.@each'
-    ),
-
-    /**
-     * The effective total number of columns
-     *
-     * @property {number} columnCount
-     */
-    columnCount: function() {
-        return this.get( 'columns.length' ) +
-            (
-                this.get( 'columns.length' ) -
-                this.get( 'columns' ).filterBy( 'noColumnResize' ).length
-            ) +
-            ( this.get( 'options.rowExpander' ) ? 1 : 0 ) +
-            ( this.get( 'options.actionsColumn' ) ? 1 : 0 );
-    }.property( 'columns.length'),
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Alias to the grid's columns
      *
-     * @property {array} columns
+     * @property {Ember.Array} columns
      */
     columns: Ember.computed.alias( 'grid.columns' ),
 
     /**
      * Properties of the filter panel
      *
-     * @property {array} filterProperties
+     * @property {Ember.Array} filterProperties
+     * @default  []
      */
-    filterProperties: Ember.A(),
+    filterProperties: [],
 
     /**
      * The controller's grid object
      *
-     * @property {object} grid
+     * @property {Ember.Object} grid
+     * @default  {Ember.Object} fresh instantiation
      */
     grid: Ember.Object.create(),
-
-    /**
-     * Placeholder for a grid's definition object
-     *
-     * @property {object} gridDefinition
-     */
-    gridDefinition: function() {
-        Ember.assert(
-            'sl-grid-controller: you must define the `grid` property on your controller.',
-            false
-        );
-    }.property(),
-
-    /**
-     * Call on controller initialization
-     *
-     * @method initialize
-     */
-    initialize: function() {
-        this.loadApplicationState();
-    }.on( 'init' ),
 
     /**
      * Alias to the controller's model's pending state
@@ -221,63 +135,135 @@ export default Ember.Mixin.create( SlApplicationState, {
     itemCountPerPage: Ember.computed.alias( 'options.itemCountPerPage' ),
 
     /**
-     * Controllers that this controller needs
+     * Alias to the grid's options
      *
-     * @property {array} needs
+     * @property {Ember.Object} options
      */
-    needs: [ 'user' ],
+    options: Ember.computed.alias( 'grid.options' ),
+
+    // -------------------------------------------------------------------------
+    // Observers
+    
+     /**
+     * Call on controller initialization
+     *
+     * @function initialize
+     * @observes "init" event
+     * @returns  {void}
+     */
+    initialize: function() {
+        this.loadGridDefinition();
+    }.on( 'init' ),
 
     /**
      * Run when columns' widths are changed
      *
-     * @method observeColumnWidths
+     * @function observeColumnWidths
+     * @observes columns.@each.width
+     * @returns  {void}
      */
     onColumnWidthsChange: function() {
-        Ember.run.debounce( this, this.saveApplicationState, 500 );
+        Ember.run.debounce( this, 'trigger', 'gridStateChanged', 500 );
     }.observes( 'columns.@each.width' ),
 
     /**
      * Run when itemCountPerPage is changed
      *
-     * @method observeItemCountPerPage
+     * @function observeItemCountPerPage
+     * @observes itemCountPerPage
+     * @returns  {void}
      */
     onItemCountPerPageChange: function() {
-        this.saveApplicationState();
+        this.trigger( 'gridStateChanged' );
     }.observes( 'itemCountPerPage' ),
 
-    /**
-     * Alias to the grid's options
-     *
-     * @property {object} options
-     */
-    options: Ember.computed.alias( 'grid.options' ),
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
-     * reload the model for this controller with the current paging preferences
+     * The effective total number of columns
      *
-     * override this function with your own model reloading logic if need be
-     *
+     * @property columnCount
+     * @observes columns.length
+     * @returns  {number}
      */
-    reloadModel: function( fromServer ) {
-        var modelName = this.get( 'modelName' ),
-            model,
-            self = this;
+    columnCount: function() {
+        return this.get( 'columns.length' ) +
+            (
+                this.get( 'columns.length' ) -
+                this.get( 'columns' ).filterBy( 'noColumnResize' ).length
+            ) +
+            ( this.get( 'options.rowExpander' ) ? 1 : 0 ) +
+            ( this.get( 'options.actionsColumn' ) ? 1 : 0 );
+    }.property( 'columns.length' ),
 
-        model = this.store.find( modelName, { reload: fromServer });
+    /**
+     * Placeholder for a grid's definition object
+     *
+     * @function gridDefinition
+     * @default  {function} empty
+     * @returns  {Ember.Object}
+     */
+    gridDefinition: function() {
+        Ember.assert(
+            'sl-grid-controller: you must define the `gridDefintion` property on your controller.',
+            false
+        );
+    }.property(),
 
-        this.set( 'model', model );
+    /**
+     * Loads the grid definition
+     *
+     * Override this function if you want to do any localstorage persistence
+     *
+     * @function loadGridDefinition
+     * @return {void}
+     */
+    loadGridDefinition: function(){
+        var definitions = this.get( 'gridDefinition' ),
+            grid = Ember.Object.create();
+         Ember.keys( definitions ).forEach( function( key ) {
+            var definition = Ember.get( definitions, key ),
+                setting;
+                
 
-        model.then( function() {
-            self.set( 'metaData', self.store.metadataFor( modelName ));
+            switch( Ember.typeOf( definition ) ) {
+                case 'object':
+                case 'instance':
+                    // Need to make a copy of the definition so we don't
+                    // corrupt the original.
+                    setting = Ember.Object.create( definition );
+                    break;
+
+                case 'array':
+                    setting = Ember.A([]);
+
+                    // We will only add elements that exist on the definition
+                    definition.forEach( function( item ) {
+                        Ember.assert( 'Items in arrays on the `definition` must be objects',
+                            Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'object' );
+
+                        setting.pushObject( Ember.Object.create( item ) );
+                    });
+
+                    break;
+
+                default:
+                    setting = definition;
+
+            }
+            Ember.set( grid, key, setting );
         });
+        this.set( 'grid',  grid );  
     },
 
     /**
      * Reorder the column at *oldIndex* to *newIndex*
      *
-     * @method reorderColumn
-     * @param {number} oldIndex - The old (current) index of the column
-     * @param {number} newIndex - What to change the column index to
+     * @function reorderColumn
+     * @param   {number} oldIndex - The old (current) index of the column
+     * @param   {number} newIndex - What to change the column index to
+     * @returns {void}
      */
     reorderColumn: function( oldIndex, newIndex ) {
         var columns = this.get( 'columns' ),
@@ -291,39 +277,46 @@ export default Ember.Mixin.create( SlApplicationState, {
         columns.splice( newIndex, 0, elementToMove );
         columns.arrayContentDidChange( newIndex, 0, 1 );
 
-        this.saveApplicationState();
+        this.trigger( 'gridStateChanged' );
     },
 
     /**
      * Reset the grid's columns to their default definitions
      *
-     * @method resetColumns
+     * @function resetColumns
+     * @returns {void}
      */
     resetColumns: function() {
         var gridColumnDefs = this.get( 'gridDefinition.columns' ),
-            tmpColumns = Ember.A([]);
+            tmpColumns     = [];
 
         gridColumnDefs.forEach( function( columnDef ) {
-           tmpColumns.pushObject( Ember.Object.create( columnDef ));
+           tmpColumns.pushObject( Ember.Object.create( columnDef ) );
         });
 
         this.set( 'columns', tmpColumns );
-        this.saveApplicationState();
+        this.trigger( 'gridStateChanged' );
     },
 
     /**
      * Indicator for if the currently sorted column is in ascending order
      *
-     * @property {boolean} sortAscending
+     * @function sortAscending
+     * @observes columns.@each.sortAscending
+     * @returns  {boolean}
      */
     sortAscending: function() {
-        return this.getWithDefault( 'columns', [] ).findBy( 'isSorted' ).get( 'sortAscending' );
+        var sortedColumn = this.getWithDefault( 'columns', [] ).findBy( 'isSorted' );
+
+        return sortedColumn ? sortedColumn.get( 'sortAscending' ) : undefined;
     }.property( 'columns.@each.sortAscending' ),
 
     /**
      * Mapped array of properties
      *
-     * @property {array} sortProperties
+     * @function sortProperties
+     * @observes columns.@each.isSorted
+     * @returns  {Ember.Array}
      */
     sortProperties: function() {
         return this.getWithDefault( 'columns', [] ).filterBy( 'isSorted' ).mapBy( 'key' );
@@ -332,7 +325,9 @@ export default Ember.Mixin.create( SlApplicationState, {
     /**
      * Total number of width hints
      *
-     * @property {number} totalWidthHints
+     * @function totalWidthHints
+     * @observes columns.@each.widthHint
+     * @returns  {number}
      */
     totalWidthHints: function() {
         var columns = this.get( 'columns' ),

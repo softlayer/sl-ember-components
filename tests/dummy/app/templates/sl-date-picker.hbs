@@ -19,27 +19,21 @@
 
 <hr>
 
+<h3>Mixins used</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-tooltip-enabled</p>
+    </div>
+</div>
+
+<hr>
+
 <h3>Properties</h3>
 
 <div class="list-group">
     {{#property-text name="action" type="function"}}
         Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
-    {{/property-text}}
-
-    {{#property-text name="beforeShowDay" type="function"}}
-        A function that takes a date as a parameter and returns one of the following:
-        <ul>
-            <li><em>undefined</em> to have no effect</li>
-            <li>A boolean, indicating whether this date is selectable</li>
-            <li>A string, representing additional CSS classes to apply to the date's cell</li>
-            <li>An object with the following properties:
-                <ul>
-                    <li><strong>enabled</strong> - Same as the boolean value above</li>
-                    <li><strong>classes</strong> - Same as the string value above</li>
-                    <li><strong>tooltip</strong> - A tooltip to apply to this date, via the <code>title</code> attribute</li>
-                </ul>
-            </li>
-        </ul>
     {{/property-text}}
 
     {{#property-text name="calendarWeeks" type="boolean" default="false"}}
@@ -48,14 +42,6 @@
 
     {{#property-text name="clearBtn" type="boolean" default="false"}}
         When true, displays a "Clear" button at the bottom of the datepicker to clear the input value. If <code>autoclose</code> is also set te true, this button will also close the datepicker.
-    {{/property-text}}
-
-    {{#property-text name="content" type="array"}}
-        Array of objects with date values. Each object's date value is looked up using the <code>dateValuePath</code> property.
-    {{/property-text}}
-
-    {{#property-text name="dateValuePath" type="string" default="\"date\""}}
-        Path to the content objects' date value.
     {{/property-text}}
 
     {{#property-text name="daysOfWeekDisabled" type="array"}}
@@ -83,10 +69,6 @@
 
     {{#property-text name="inputs" type="array"}}
         A list of inputs to be used in a range picker, which will be attached to the selected element. Allows for explicitly creating a range picker on a non-standard element.
-    {{/property-text}}
-
-    {{#property-text name="keyboardNavigation" type="boolean" default="false"}}
-        When true, allow date navigation by arrow keys.
     {{/property-text}}
 
     {{#property-text name="language" type="string" default="\"en\""}}

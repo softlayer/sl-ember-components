@@ -3,21 +3,43 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-checkbox
+ * @class  sl-calendar-checkbox
  */
 export default Ember.Component.extend( TooltipEnabled, {
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * Attribute bindings for containing div
      *
-     * @property {array} attributeBindings
+     * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [ 'checked', 'disabled' ],
 
     /**
      * Class names for containing div
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ]
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
 });

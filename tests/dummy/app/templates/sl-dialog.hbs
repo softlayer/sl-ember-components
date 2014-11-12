@@ -1,5 +1,5 @@
-<h2>sl-simple-modal</h2>
-<p class="lead">A simple modal component used to wrap content in. Based on <a href="http://getbootstrap.com/javascript/#modals">Bootstrap - Modals</a>.</p>
+<h2>sl-dialog</h2>
+<p class="lead">A dialog component used to wrap content in. Based on <a href="http://getbootstrap.com/javascript/#modals">Bootstrap - Modals</a>.</p>
 
 <hr>
 
@@ -8,53 +8,49 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{#sl-simple-modal
-    id="testModal"
+        <pre>\{{#sl-dialog
     show=showModal
-    title="Test Modal"}}
+    title="Test Dialog"}}
     &lt;p&gt;Hello world!&lt;/p&gt;
-\{{/sl-simple-modal}}</pre>
+\{{/sl-dialog}}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Click to Show Component</h6>
-        {{sl-button action="openModal" label="Open Modal"}}
+        {{sl-button action="openModal" label="Open Dialog"}}
     </div>
 </div>
 
 
-{{#sl-simple-modal id="testModal" show=showModal title="Test Modal"}}
+{{#sl-dialog show=showModal title="Test Dialog"}}
     <p>Hello World!</p>
-{{/sl-simple-modal}}
+{{/sl-dialog}}
 
+<hr>
+
+<h3>Mixins used</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        sl-modal
+    </div>
+</div>
 
 <hr>
 
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="accept" type="function"}}
-        Action to call when accept button is clicked.
-    {{/property-text}}
-
-    {{#property-text name="acceptText" type="string" default="\"Accept\""}}
-        Text label for the accept button.
-    {{/property-text}}
-
-    {{#property-text name="cancelText" type="string" default="\"Cancel\""}}
-        Text label for the cancel button.
-    {{/property-text}}
-
-    {{#property-text name="close" type="function"}}
-        Action to call when one of the close buttons is clicked.
+    {{#property-text name="buttonText" type="string" default="\"Close\""}}
+        Text label for the button.
     {{/property-text}}
 
     {{#property-text name="show" type="boolean"}}
-        Bound property to open/show the modal.
+        Bound property to open/show the dialog.
     {{/property-text}}
 
     {{#property-text name="title" type="string" default="null"}}
-        Title text at the top of the modal window.
+        Title text at the top of the dialog window.
     {{/property-text}}
 </div>
 

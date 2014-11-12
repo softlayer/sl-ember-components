@@ -1,16 +1,38 @@
 import Ember from 'ember';
 
 /**
- * @method components
- * @class sl-grid-table-row-expander
+ * @module components
+ * @class  sl-grid-table-row-expander
  */
 export default Ember.Component.extend({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * HTML tag name for root element
      *
-     * @property {string} tagName
-     * @default "tr"
+     * @property {Ember.String} tagName
+     * @default  "tr"
      */
     tagName: 'tr'
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
 });

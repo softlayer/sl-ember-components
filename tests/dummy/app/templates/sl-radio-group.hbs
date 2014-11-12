@@ -39,22 +39,37 @@
     </div>
 </div>
 
+<hr>
+
+<h3>Mixins used</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-input-based</p>
+        <p>sl-tooltip-enabled</p>
+    </div>
+</div>
 
 <hr>
 
 <h3>sl-radio-group Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="name" required=true type="string"}}
-        Shared <code>name</code> attribute for the radio inputs. The child <em>sl-radio</em> components should not set their own <code>name</code> properties, as the <em>sl-radio-group</em> should do the setting for them directly.
+    {{#property-text name="name" type="string" required=true}}
+        <p>Shared <code>name</code> attribute for the radio inputs.</p>
+        <p>NOTE: This property will overwrite all child <em>sl-radio</em>s' <code>name</code> values.</p>
     {{/property-text}}
 
     {{#property-text name="disabled" type="boolean" default="false"}}
-        When true, all radio inputs will be disabled.
+        <p>When true, all child radio inputs will be disabled.</p>
+        <p>NOTE: When true, this property overrides all child <em>sl-radio</em>s' <code>disabled</code> values.</p>
     {{/property-text}}
 
-    {{#property-text name="inline" type="boolean" default="false"}}
-        Display the radio inputs inline with each other.
+    {{#property-text name="inline" type="boolean" default="null"}}
+        <p>When true, all child radio inputs will be displayed inline.</p>
+        <p>When false, all child radio inputs will not be displayed inline.</p>
+
+        <p>NOTE: When true or false, this property will overwrite all child <em>sl-radio</em>s' <code>inline</code> values.</p>
     {{/property-text}}
 
     {{#property-text name="label" type="string"}}
@@ -62,15 +77,16 @@
     {{/property-text}}
 
     {{#property-text name="optional" type="boolean" default="false"}}
-        When true, the component is styled to reflect optional status.
+        When true, the component is styled to reflect optional status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
     {{#property-text name="readonly" type="boolean" default="false"}}
-        Shared <code>readonly</code> attribute value for the radio inputs.
+        <p>Shared <code>readonly</code> attribute value for the child radio inputs.</p>
+        <p>NOTE: When true, this property overrides all child <em>sl-radio</em>s' <code>readonly</code> values.</p>
     {{/property-text}}
 
     {{#property-text name="required" type="boolean" default="false"}}
-        When true, the component is styled to reflect required status.
+        When true, the component is styled to reflect required status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
     {{#property-text name="value" type="mixed"}}

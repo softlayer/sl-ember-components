@@ -3,45 +3,39 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-date-picker
+ * @class  sl-date-picker
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
     /**
-     * Placeholder for the following logic
+     * Class names for the root element
      *
-     * Takes a date as a parameter and returns one of the following:
-     * - undefined to have no effect
-     * - A boolean, indicationg whether or not this date is selectable
-     * - A string, representing additional CSS classes to apply to the date's cell
-     * - An object with the following properties:
-     *   - `enabled` : same as the boolean value above
-     *   - `classes` : same as the string value above
-     *   - `tooltip` : a tooltip to apply to this date, via the `title` attribute
-     *
-     * @todo Implement the preceding logic
-     *
-     * @property {mixed} beforeShowDay
-     * @default jQuery.noop
+     * @property {Ember.Array} classNames
      */
-    beforeShowDay: function() {
-        return this.$.noop;
-    }.property(),
+    classNames: [ 'form-group', 'sl-date-picker' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Whether or not to show week numbers to the left of week rows
      *
      * @property {boolean} calendarWeeks
-     * @default false
+     * @default  false
      */
     calendarWeeks: false,
-
-    /**
-     * Class names for the root element
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'form-group', 'sl-date-picker' ],
 
     /**
      * When true, displays a "Clear" button at the bottom of the datepicker
@@ -50,7 +44,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * the datepicker.
      *
      * @property {boolean} clearBtn
-     * @default false
+     * @default  false
      */
     clearBtn: false,
 
@@ -60,8 +54,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Values are 0 (Sunday) to 6 (Saturday). Multiple values should be
      * comma-separated.
      *
-     * @property {array|string} daysOfWeekDisabled
-     * @default []
+     * @property {Ember.Array|Ember.String} daysOfWeekDisabled
+     * @default  []
      */
     daysOfWeekDisabled: [],
 
@@ -69,7 +63,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The latest date that may be selected; all later dates will be disabled
      *
      * @property {date} endDate
-     * @default null
+     * @default  null
      */
     endDate: null,
 
@@ -82,7 +76,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * valid date, conforming to the given _format_.
      *
      * @property {boolean} forceParse
-     * @default true
+     * @default  true
      */
     forceParse: true,
 
@@ -96,8 +90,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * - M, MM: Abbreviated and full month names, respectively
      * - yy, yyyy: 2- and 4-digit years, respectively
      *
-     * @property {string} format
-     * @default "mm/dd/yyyy"
+     * @property {Ember.String} format
+     * @default  "mm/dd/yyyy"
      */
     format: 'mm/dd/yyyy',
 
@@ -107,54 +101,26 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The inputs will be attached to the selected element. Allows for
      * explicitly creating a range picker on a non-standard element.
      *
-     * @property {array} inputs
-     * @default null
+     * @property {Ember.Array} inputs
+     * @default  null
      */
     inputs: null,
 
     /**
      * The IETF code of the language to use for month and day names
      *
-     * @property {string} language
-     * @default "en"
+     * @property {Ember.String} language
+     * @default  "en"
      */
     language: 'en',
 
     /**
      * Set a limit for the view mode; accepts "days", "months", or "years"
      *
-     * @property {string} minViewMode
-     * @default "days"
+     * @property {Ember.String} minViewMode
+     * @default  "days"
      */
     minViewMode: 'days',
-
-    /**
-     * Datepicker plugin options
-     *
-     * @property {object} options
-     */
-    options: function() {
-        return {
-            autoclose:          true,
-            beforeShowDay:      this.get( 'beforeShowDay' ),
-            calendarWeeks:      this.get( 'calendarWeeks' ),
-            clearBtn:           this.get( 'clearBtn' ),
-            daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
-            endDate:            this.get( 'endDate' ),
-            forceParse:         this.get( 'forceParse' ),
-            format:             this.get( 'format' ),
-            inputs:             this.get( 'inputs' ),
-            keyboardNavigation: true,
-            language:           this.get( 'language' ),
-            multidate:          false,
-            orientation:        this.get( 'orientation' ),
-            startDate:          this.get( 'startDate' ),
-            startView:          this.get( 'startView' ),
-            todayBtn:           this.get( 'todayBtn' ),
-            todayHighlight:     this.get( 'todayHighlight' ),
-            weekStart:          this.get( 'weekStart' )
-        };
-    }.property(),
 
     /**
      * A space-separated string for the popup's anchor position
@@ -162,49 +128,17 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Consists of one or two of "left" or "right", "top" or "bottom",
      * and "auto" (may be omitted).
      *
-     * @property {string} orientation
-     * @default "auto"
+     * @property {Ember.String} orientation
+     * @default  "auto"
      */
     orientation: 'auto',
-
-    /**
-     * Dynamically update the endDate value for the datepicker
-     *
-     * @method setEndDate
-     */
-    setEndDate: function() {
-        this.$( 'input.date-picker' ).datepicker( 'setEndDate', this.get( 'endDate' ));
-    }.observes( 'endDate' ),
-
-    /**
-     * Dynamically update the startDate value for the datepicker
-     *
-     * @method setStartDate
-     */
-    setStartDate: function() {
-        this.$( 'input.date-picker' ).datepicker( 'setStartDate', this.get( 'startDate' ));
-    }.observes( 'startDate' ),
-
-    /**
-     * Setup the bootstrap-datepicker plugin and events
-     *
-     * @method setupDatepicker
-     */
-    setupDatepicker: function() {
-        var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' )),
-            self = this;
-
-        datepicker.on( 'changeDate', function() {
-            self.sendAction( 'change' );
-        });
-    }.on( 'didInsertElement' ),
 
     /**
      * The earliest date that may be selected; all earlier dates will
      * be disabled
      *
      * @property {date} startDate
-     * @default null
+     * @default  null
      */
     startDate: null,
 
@@ -212,8 +146,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The view that the datepicker should show when it is opened; accepts
      * "month", "year", or "decade"
      *
-     * @property {string} startView
-     * @default "month"
+     * @property {Ember.String} startView
+     * @default  "month"
      */
     startView: 'month',
 
@@ -224,8 +158,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * If true, the "Today" button will only move the current date into view.
      * If "linked", the current date will also be selected.
      *
-     * @property {boolean|string} todayBtn
-     * @default false
+     * @property {boolean|Ember.String} todayBtn
+     * @default  false
      */
     todayBtn: false,
 
@@ -233,7 +167,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether to highlight the current date or not
      *
      * @property {boolean} todayHighlight
-     * @default false
+     * @default  false
      */
     todayHighlight: false,
 
@@ -241,7 +175,80 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
      *
      * @property {number} weekStart
-     * @default 0
+     * @default  0
      */
-    weekStart: 0
+    weekStart: 0,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
+     * Setup the bootstrap-datepicker plugin and events
+     *
+     * @function setupDatepicker
+     * @observes didInsertElement event
+     * @returns  {void}
+     */
+    setupDatepicker: function() {
+        var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' ) ),
+            self       = this;
+
+        datepicker.on( 'changeDate', function() {
+            self.sendAction( 'change' );
+        });
+    }.on( 'didInsertElement' ),
+
+    /**
+     * Dynamically update the endDate value for the datepicker
+     *
+     * @function setEndDate
+     * @observes endDate
+     * @returns  {void}
+     */
+    setEndDate: function() {
+        this.$( 'input.date-picker' ).datepicker( 'setEndDate', this.get( 'endDate' ) );
+    }.observes( 'endDate' ),
+
+    /**
+     * Dynamically update the startDate value for the datepicker
+     *
+     * @function setStartDate
+     * @observes startDate
+     * @returns  {void}
+     */
+    setStartDate: function() {
+        this.$( 'input.date-picker' ).datepicker( 'setStartDate', this.get( 'startDate' ) );
+    }.observes( 'startDate' ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Datepicker plugin options
+     *
+     * @function options
+     * @returns  {Ember.Object}
+     */
+    options: function() {
+        return {
+            autoclose          : true,
+            calendarWeeks      : this.get( 'calendarWeeks' ),
+            clearBtn           : this.get( 'clearBtn' ),
+            daysOfWeekDisabled : this.get( 'daysOfWeekDisabled' ),
+            endDate            : this.get( 'endDate' ),
+            forceParse         : this.get( 'forceParse' ),
+            format             : this.get( 'format' ),
+            inputs             : this.get( 'inputs' ),
+            keyboardNavigation : true,
+            language           : this.get( 'language' ),
+            multidate          : false,
+            orientation        : this.get( 'orientation' ),
+            startDate          : this.get( 'startDate' ),
+            startView          : this.get( 'startView' ),
+            todayBtn           : this.get( 'todayBtn' ),
+            todayHighlight     : this.get( 'todayHighlight' ),
+            weekStart          : this.get( 'weekStart' )
+        };
+    }.property()
+
 });

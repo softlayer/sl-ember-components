@@ -3,10 +3,10 @@
 </button>
 <ul class="dropdown-menu dropdown-menu-right" role="menu">
     {{#if showActions}}
-        <li class="text-center" role="presentation">Actions</li>
+        <li class="text-center" role="presentation">{{sl-translate key=translationKeys.actions}}</li>
         <li role="presentation" class="divider"></li>
         {{#each entry in clickableActions}}
-         <li role="presentation" >
+         <li class="text-center" role="presentation" >
             {{#if entry.action}}
             <a {{action "click" entry.action}} role="menuitem" tab-index="-1">
                 {{#if entry.icon}}
@@ -21,10 +21,12 @@
         <li role="presentation" class="divider"></li>
     {{/if}}
     {{#if showColumns}}
-        <li class="text-center" role="presentation">{{sl-translate key="PAGINGTOOLBAR_COLUMNS"}}</li>
+        <li class="text-center" role="presentation">{{sl-translate key=translationKeys.columns}}</li>
         <li role="presentation" class="divider"></li>
-        <li role="presentation" >
-            {{sl-translate tagName="a" class="btn btn-primary" action="click" params="resetColumns" key="PAGINGTOOLBAR_RESET_COLUMNS_TO_DEFAULT"}}
+        <li  class="text-center" role="presentation" >
+            <a role="menuitem" {{action "click" "resetColumns"}}>
+                {{sl-translate key=translationKeys.resetColumnsToDefaults}}
+            </a>
         </li>
         {{#each column in hideableColumns}}
         <li role="presentation" class="hideableColumn stay-open">

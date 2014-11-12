@@ -29,9 +29,19 @@
         <h6>Rendered Component</h6>
         {{sl-pagination-per-page-select
             itemCountPerPage=controllers.pagination.pagingData.itemCountPerPage
-            perPage=controllers.pagination.translations.perPage
+            label=controllers.pagination.translations.perPage
             perPageOptions=controllers.pagination.pagingData.perPageOptions
         }}
+    </div>
+</div>
+
+<hr>
+
+<h3>External Dependencies</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p><a href="https://github.com/softlayer/sl-translate">https://github.com/softlayer/sl-translate</a></p>
     </div>
 </div>
 
@@ -40,15 +50,15 @@
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="perPage" type="string"}}
+    {{#property-text name="itemCountPerPage" type="number"}}
+        The value of the select box, this value will be observed and changes to it will trigger appropriate changes on the page.
+    {{/property-text}}
+
+    {{#property-text name="label" type="string"}}
         Text to be translated using an sl-translate component, ex: English: 'per page'.
     {{/property-text}}
 
     {{#property-text name="perPageOptions" type="array"}}
        Array of numbers for the different item counts per page that can be selected.
-    {{/property-text}}
-
-    {{#property-text name="itemCountPerPage" type="number"}}
-        The value of the select box, this value will be observed and changes to it will trigger appropriate changes on the page.
     {{/property-text}}
 </div>

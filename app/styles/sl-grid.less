@@ -10,62 +10,6 @@
     display: inline-block;
 }
 
-header.sl-grid {
-    margin-bottom: 0;
-    padding-bottom: @padding-base-vertical / 2;
-
-    .sl-pagination-controls {
-        display: inline-block;
-        padding: 0 @padding-base-horizontal;
-
-        .fa {
-            font-size: 125%;
-            line-height: 0.8;
-            vertical-align: -1px;
-        }
-
-        .sl-pagination-input {
-            padding: 0 @padding-base-horizontal / 2;
-        }
-
-        .sl-pagination-links {
-            display: inline-block;
-        }
-    }
-
-    .sl-grid-manipulation-buttons {
-        display: inline-block;
-
-        > span {
-            display: inline-block;
-        }
-    }
-
-    .sl-pagination-per-page-select {
-        padding-left: @padding-base-horizontal;
-
-        > span {
-            display: inline-block;
-            padding: @padding-base-vertical 0;
-            border: 1px solid transparent;
-        }
-    }
-
-    .sl-pagination-info {
-        display: inline-block;
-
-        > span {
-            display: inline-block;
-            padding: @padding-base-vertical 0;
-            border: 1px solid transparent;
-        }
-    }
-
-    span {
-        vertical-align: middle;
-    }
-}
-
 table.sl-grid.table {
     background-color: white;
     margin-top: 0;
@@ -128,9 +72,8 @@ table.sl-grid.table {
 
 .sl-grid .shadow-mask {
     width: 100%;
-    min-height: 200px;
+    height: 200px;
     cursor: wait;
-    position: absolute;
     background-color: @gray-light;
     opacity: 0.75;
     z-index: 1000;

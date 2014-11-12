@@ -22,6 +22,16 @@
     totalRows: 125,
     modelNames: 'Items'
 }</pre>
+
+        <p>or</op>
+
+        <h6>Array Controller using sl-paginaton-controller Mixin</h6>
+        <pre>import Ember from 'ember';
+import Paging from 'sl-components/mixins/sl-pagination-controller';
+
+export default Ember.ArrayController.extend( Paging, {});</pre>
+
+        <p>which also requires the use of <a href="https://github.com/softlayer/sl-model">https://github.com/softlayer/sl-model</a>, or at least a property called <code>metaData</code> on your Array Controller's model data, for the mixin to work correctly.</p>
     </div>
 
     <div class="col-lg-6">
@@ -30,6 +40,17 @@
             pagingData=controllers.pagination.pagingData
             pagingInfo=controllers.pagination.translations.label
         }}
+    </div>
+</div>
+
+<hr>
+
+<h3>External Dependencies</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p><a href="https://github.com/softlayer/sl-translate">https://github.com/softlayer/sl-translate</a></p>
+        <p><a href="https://github.com/softlayer/sl-model">https://github.com/softlayer/sl-model</a> (optional)</p>
     </div>
 </div>
 

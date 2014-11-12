@@ -10,8 +10,10 @@
     {{#link-to "sl-date-picker" class="list-group-item"}}sl-date-picker{{/link-to}}
     {{#link-to "sl-date-range-picker" class="list-group-item"}}sl-date-range-picker{{/link-to}}
     {{#link-to "sl-date-time" class="list-group-item"}}sl-date-time{{/link-to}}
+    {{#link-to "sl-dialog" class="list-group-item"}}sl-dialog{{/link-to}}
     {{#link-to "sl-drop-button" class="list-group-item"}}sl-drop-button{{/link-to}}
     {{#link-to "sl-input" class="list-group-item"}}sl-input{{/link-to}}
+    {{#link-to "sl-grid" class="list-group-item"}}sl-grid system{{/link-to}}
     {{#link-to "sl-loading-icon" class="list-group-item"}}sl-loading-icon{{/link-to}}
     {{#link-to "sl-menu" class="list-group-item"}}sl-menu{{/link-to}}
     {{#link-to "sl-pagination-controls" class="list-group-item"}}sl-pagination-controls{{/link-to}}
@@ -22,7 +24,6 @@
     {{#link-to "sl-radio" class="list-group-item"}}sl-radio{{/link-to}}
     {{#link-to "sl-radio-group" class="list-group-item"}}sl-radio-group{{/link-to}}
     {{#link-to "sl-select" class="list-group-item"}}sl-select{{/link-to}}
-    {{#link-to "sl-simple-modal" class="list-group-item"}}sl-simple-modal{{/link-to}}
     {{#link-to "sl-span" class="list-group-item"}}sl-span{{/link-to}}
     {{#link-to "sl-split-grid" class="list-group-item"}}sl-split-grid{{/link-to}}
     {{#link-to "sl-tab-panel" class="list-group-item"}}sl-tab-panel{{/link-to}}
@@ -42,23 +43,11 @@
     </div>
 
     <div class="list-group-item">
-        <h6>sl-application-state-controller</h6>
-        <p>@TODO </p>
-    </div>
-
-    <div class="list-group-item">
-        <h6>sl-filter-controller</h6>
-        <p>@TODO </p>
-
-@TODO link to more documentation
-    </div>
-
-    <div class="list-group-item">
         <h6>sl-grid-controller</h6>
-        <p>A controller should use this mixin when it is being used to back an implementation of the <em>sl-grid</em>
-        component.</p>
+        <p>A controller should use this mixin when it is being used to back an implementation
+        of the <em>sl-grid</em> system.</p>
+        {{#link-to 'sl-grid'}}sl-grid system docs{{/link-to}}
 
-@TODO link to more documentation
     </div>
 
     <div class="list-group-item">
@@ -103,8 +92,8 @@
 
     <div class="list-group-item">
         <h6>sl-pagination-controller</h6>
-        <p>Most usually employed by a controller being used to back an implementation of the <em>sl-grid</em> component,
-        this mixin should be used whenever pagination support for a data set is desired.</p>
+        <p>Most usually employed by a controller being used to back an implementation of the <em>sl-grid</em> component, this mixin should be used whenever pagination support for a data set is desired.</p>
+        <p>Requires either the use of <a href="https://github.com/softlayer/sl-model">https://github.com/softlayer/sl-model</a> or the use of a <code>metaData</code> property on your Array Controller's model data for the mixin to work correctly.</p>
     </div>
 </div>
 

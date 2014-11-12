@@ -2,21 +2,31 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class sl-grid-key-controller
+ * @class  sl-grid-key-controller
  */
 export default Ember.Mixin.create({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Controller actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
         /**
          * Action called when the controller's view has inserted its element
          *
-         * @method actions.viewDidInsertElement
+         * @function actions.viewDidInsertElement
+         * @returns  {void}
          */
         viewDidInsertElement: function() {
             this.bindKeys();
@@ -25,17 +35,39 @@ export default Ember.Mixin.create({
         /**
          * Action called when the controller's view is about to destroy its element
          *
-         * @method actions.viewWillDestroyElement
+         * @function actions.viewWillDestroyElement
+         * @returns  {void}
          */
         viewWillDestroyElement: function() {
             this.unbindKeys();
         }
     },
 
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * Object being used to proxy key events
+     *
+     * @property {Ember.Object} gridKeyManager
+     * @default  null
+     */
+    gridKeyManager: null,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Bind key events to internal methods
      *
-     * @method bindKeys
+     * @function bindKeys
+     * @returns  {void}
      */
     bindKeys: function() {
         this.get( 'gridKeyManager' )
@@ -49,24 +81,18 @@ export default Ember.Mixin.create({
     /**
      * Trigger a page change to the first page
      *
-     * @method firstPage
+     * @function firstPage
+     * @returns  {void}
      */
     firstPage: function() {
         this.send( 'changePage', 'first' );
     },
 
     /**
-     * Object being used to proxy key events
-     *
-     * @property {object} gridKeyManager
-     * @default null
-     */
-    gridKeyManager: null,
-
-    /**
      * Trigger a page change to the last page
      *
-     * @method lastPage
+     * @function lastPage
+     * @returns  {void}
      */
     lastPage: function() {
         this.send( 'changePage', 'last' );
@@ -75,7 +101,8 @@ export default Ember.Mixin.create({
     /**
      * Trigger a page change to the next page
      *
-     * @method nextPage
+     * @function nextPage
+     * @returns  {void}
      */
     nextPage: function() {
         this.send( 'changePage', 'next' );
@@ -84,7 +111,8 @@ export default Ember.Mixin.create({
     /**
      * Trigger a page change to the previous page
      *
-     * @method prevPage
+     * @function prevPage
+     * @returns  {void}
      */
     prevPage: function() {
         this.send( 'changePage', 'prev' );
@@ -93,7 +121,8 @@ export default Ember.Mixin.create({
     /**
      * Trigger a reload of the grid keys
      *
-     * @method refresh
+     * @function refresh
+     * @returns  {void}
      */
     refresh: function() {
         this.send( 'reload' );
@@ -102,7 +131,8 @@ export default Ember.Mixin.create({
     /**
      * Unbind key events from internal methods
      *
-     * @method unbindKeys
+     * @function unbindKeys
+     * @returns  {void}
      */
     unbindKeys: function() {
         this.get( 'gridKeyManager' )

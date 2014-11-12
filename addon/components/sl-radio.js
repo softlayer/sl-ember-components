@@ -2,65 +2,61 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-radio
+ * @class  sl-radio
  */
 export default Ember.Component.extend({
 
-    /**
-     * Component actions hash
-     *
-     * @property {object} actions
-     */
-    actions: {
+    // -------------------------------------------------------------------------
+    // Dependencies
 
-        /**
-         * Trigger a change of value for a parent sl-radio-group component
-         *
-         * @method actions.change
-         */
-        change: function( value ) {
-            this.$().closest( '.sl-radio-group' ).trigger( 'sl-radio-group.changeValue', value );
-        }
-    },
-
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {array} classNameBindings
-     */
-    classNameBindings: [ 'disabled' ],
-
-    /**
-     * Class names for the root element
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'radio', 'sl-radio' ],
-
-    /**
-     * ID attribute for the radio input
-     *
-     * @property {string} inputId
-     */
-    inputId: function() {
-        return this.get( 'elementId' ) + '-input';
-    }.property( 'elementId' ),
-
-    /**
-     * Type of radio button; "radio-inline" for inline, "radio" default
-     *
-     * @property {string} radioType
-     * @default "radio"
-     */
-    radioType: function() {
-        return this.get( 'inline' ) ? 'radio-inline' : 'radio';
-    }.property( 'inline' ),
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * HTML tag name for the root element
      *
-     * @property {string} tagName
-     * @default "div"
+     * @property {Ember.String} tagName
+     * @default  "div"
      */
-    tagName: 'div'
+    tagName: 'div',
+
+    /**
+     * Class names for the root element
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'sl-radio' ],
+
+    /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'disabled', 'radioType' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Type of radio button; "radio-inline" when inline, "radio" default
+     *
+     * @function radioType
+     * @observes inline
+     * @returns  {Ember.String}
+     */
+    radioType: function() {
+        return this.get( 'inline' ) ? 'radio-inline' : 'radio';
+    }.property( 'inline' )
 });

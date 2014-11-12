@@ -3,81 +3,108 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class sl-progress-bar
- */
+ * @class  sl-progress-bar
+*/
 export default Ember.Component.extend( TooltipEnabled, {
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * Class names for the root element
+     *
+     * @property {Ember.Array} classNames
+     */
+    classNames: [ 'progress', 'sl-progress-bar' ],
+
+    /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * Whether to animate the progress bar or not
      *
      * @property {boolean} active
-     * @default false
+     * @default  false
      */
     animated: false,
 
     /**
-     * Class name bindings for the root element
+     * Whether to display a text value over the progress
      *
-     * @property {array} classNameBindings
+     * @property {boolean} label
+     * @default  false
      */
-    classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
+    label: false,
 
     /**
-     * Class names for the root element
+     * The Bootstrap "theme" style name
      *
-     * @property {array} classNames
+     * @property {Ember.String} theme
+     * @default  "default"
      */
-    classNames: [ 'progress', 'sl-progress-bar' ],
+    theme: 'default',
+
+    /**
+     * The progress value as an integer (out of 100)
+     *
+     * @property {number} value
+     * @default  0
+    */
+    value: 0,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     /**
      * Whether the progress value is below a certain level
      *
-     * @property {boolean} isLowPercentage
+     * @function isLowPercentage
+     * @observes value
+     * @returns  {boolean}
      */
     isLowPercentage: function() {
         return this.get( 'value' ) < 50;
     }.property( 'value' ),
 
     /**
-     * Whether to display a text value over the progress
-     *
-     * @property {boolean} label
-     * @default false
-     */
-    label: false,
-
-    /**
      * Inline style string for progress bar element
      *
-     * @property {string} styleString
+     * @function styleString
+     * @observes value
+     * @returns  {Ember.String}
      */
     styleString: function() {
         return 'width: ' + this.get( 'value' ) + '%;';
     }.property( 'value' ),
 
     /**
-     * The Bootstrap "theme" style name
-     *
-     * @property {string} theme
-     * @default "default"
-     */
-    theme: 'default',
-
-    /**
      * Element-specific class name for the Bootstrap "theme" style
      *
-     * @property {string} themeClassName
-     * @default "progress-bar-default"
+     * @function themeClassName
+     * @observes theme
+     * @returns  {Ember.String}
      */
     themeClassName: function() {
         return 'progress-bar-' + this.get( 'theme' );
     }.property( 'theme' ),
 
-    /**
-     * The progress value as an integer (out of 100)
-     *
-     * @property {number} value
-     * @default 0
-    */
-    value: 0
 });

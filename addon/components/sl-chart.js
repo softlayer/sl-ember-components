@@ -2,37 +2,52 @@ import Ember from 'ember';
 
 /**
  * @module components
- * @class sl-chart
+ * @class  sl-calendar-chart
  */
 export default Ember.Component.extend({
 
-    /**
-     * The highchart instantiation
-     *
-     * @property {object} chart
-     * @default null
-     */
-    chart: null,
+    // -------------------------------------------------------------------------
+    // Dependencies
 
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {array} classNameBindings
-     */
-    classNameBindings: [ 'isLoading:sl-loading' ],
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * Class names for the root element
      *
-     * @property {array} classNames
+     * @property {Ember.Array} classNames
      */
     classNames: [ 'panel', 'panel-default', 'sl-chart', 'sl-panel' ],
 
     /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'isLoading:sl-loading' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * The highchart instantiation
+     *
+     * @property {Ember.Object} chart
+     * @default  null
+     */
+    chart: null,
+
+    /**
      * Height value used for inline style
      *
-     * @property {string} height
-     * @default "auto"
+     * @property {Ember.String} height
+     * @default  "auto"
      */
     height: 'auto',
 
@@ -40,21 +55,35 @@ export default Ember.Component.extend({
      * When true, the chart's panel body will be in a loading state
      *
      * @property {boolean} isLoading
-     * @default false
+     * @default  false
      */
     isLoading: false,
 
     /**
      * The collection of series data for the chart
      *
-     * @property {array} series
+     * @property {Ember.Array} series
+     * @default  null
      */
     series: null,
 
     /**
-     * Sets up highchart initialization
+     * Width value used for inline style
      *
-     * @method setupChart
+     * @property {Ember.String} width
+     * @default  "auto"
+     */
+    width: 'auto',
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
+     * Sets up Highcharts initialization
+     *
+     * @function setupChart
+     * @observes didInsertElement event
+     * @returns  {void}
      */
     setupChart: function() {
         var chartDiv = this.$( 'div.chart' ),
@@ -62,8 +91,8 @@ export default Ember.Component.extend({
             options;
 
         chartStyle = {
-            fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
-            fontSize: '13px'
+            fontFamily : '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            fontSize   : '13px'
         };
 
         options = Ember.$.extend( true, {
@@ -122,21 +151,14 @@ export default Ember.Component.extend({
     }.on( 'didInsertElement' ),
 
     /**
-     * Inline style containing height and width, required by highcharts
-     *
-     * @property {string} style
-     */
-    style: function() {
-        return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
-    }.property( 'height', 'width' ),
-
-    /**
      * Updates the chart's series data
      *
-     * @method updateSeries
+     * @function updateSeries
+     * @observes series
+     * @returns  {void}
      */
     updateData: function() {
-        var chart = this.get( 'chart' ),
+        var chart  = this.get( 'chart' ),
             series = this.get( 'series' );
 
         if ( !chart.hasOwnProperty( 'series' ) ) {
@@ -145,18 +167,25 @@ export default Ember.Component.extend({
 
         for ( var i = 0; i < series.length; i++ ) {
             if ( chart.series.length <= i ) {
-                chart.addSeries( series[ i ]);
+                chart.addSeries( series[ i ] );
             } else {
                 chart.series[i].setData( series[ i ].data );
             }
         }
     }.observes( 'series' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
-     * Width value used for inline style
+     * Inline style containing height and width, required by Highcharts
      *
-     * @property {string} width
-     * @default "auto"
+     * @function style
+     * @observes height, width
+     * @returns  {Ember.String}
      */
-    width: 'auto'
+    style: function() {
+        return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
+    }.property( 'height', 'width' )
+
 });
