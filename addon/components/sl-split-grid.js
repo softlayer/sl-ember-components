@@ -118,7 +118,7 @@ export default Ember.Component.extend({
      * The text label for the rows' actions buttons
      *
      * @property {string} actionsButtonLabel
-     * @default "Actions"
+     * @default  "Actions"
      */
     actionsButtonLabel: 'Actions',
 
@@ -126,7 +126,7 @@ export default Ember.Component.extend({
      * The width of the actions column, in pixels
      *
      * @property {number} actionsColumnWidth
-     * @default 123
+     * @default  123
      */
     actionsColumnWidth: 120,
 
@@ -134,7 +134,7 @@ export default Ember.Component.extend({
      * The row record that is currently active in the detail pane
      *
      * @property {object} activeRecord
-     * @default null
+     * @default  null
      */
     activeRecord: null,
 
@@ -143,7 +143,7 @@ export default Ember.Component.extend({
      * to the available viewport height when the viewport changes
      *
      * @property {boolean} autoHeight
-     * @default true
+     * @default  true
      */
     autoHeight: true,
 
@@ -151,7 +151,7 @@ export default Ember.Component.extend({
      * The height of the split-grid content areas, in pixels
      *
      * @property {number} contentHeight
-     * @default 600
+     * @default  600
      */
     contentHeight: 600,
 
@@ -159,7 +159,7 @@ export default Ember.Component.extend({
      * Indicates when the details pane is open
      *
      * @property {boolean} detailsOpen
-     * @default false
+     * @default  false
      */
     detailsOpen: false,
 
@@ -167,8 +167,17 @@ export default Ember.Component.extend({
      * Indicates when the filter pane is open
      *
      * @property {boolean} filterOpen
+     * @default  false
      */
     filterOpen: false,
+
+    /**
+     * The name of the template to use for the filter panel
+     *
+     * @property {string} filterTemplate
+     * @default  null
+     */
+    filterTemplate: null,
 
     // -------------------------------------------------------------------------
     // Observers

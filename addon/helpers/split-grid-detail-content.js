@@ -1,9 +1,15 @@
 import Ember from 'ember';
 
 /**
+ * @module helpers
+ */
+
+/**
  * Lookup and render the template for a split-grid row's record
  *
- * @param {object} options - The Ember-supplied bound options representing the calling view's state
+ * @function split-grid-detail-content
+ * @param    {object} options - The Ember-supplied bound options representing the calling view's state
+ * @returns  {void}
  */
 export default function( options ) {
     var templateName = options.data.keywords.view.detailTemplate;
@@ -11,5 +17,5 @@ export default function( options ) {
     options.contexts.push( options.data.keywords.view );
     options.types[ 0 ] = 'STRING';
 
-    return Ember.Handlebars.helpers.render.call( this, templateName, 'activeRecord', options );
+    Ember.Handlebars.helpers.render.call( this, templateName, 'activeRecord', options );
 }
