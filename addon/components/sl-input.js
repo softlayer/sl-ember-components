@@ -113,7 +113,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             self       = this;
 
         if ( blurAction ) {
-            this.$( 'input' ).on( 'blur', function() {
+            this.getInput().on( 'blur', function() {
                 self.sendAction( 'blur' );
             });
         }
