@@ -105,9 +105,10 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     theme: 'default',
 
     /**
-     * Alert external code about the click
+     * Handle element click event directly
      *
      * @function click
+     * @param    {event} event - The browser click event
      * @returns  {void}
      */
     click: function( event ) {
