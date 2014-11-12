@@ -3,9 +3,47 @@ import template from '../templates/components/sl-split-grid';
 
 /**
  * @module components
- * @class sl-split-grid
+ * @class  sl-split-grid
  */
 export default Ember.Component.extend({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /**
+     * HTML tag name of the root element
+     *
+     * @property {string} tagName
+     * @default  "div"
+     */
+    tagName: 'div',
+
+    /**
+     * The component's layout template
+     *
+     * @property {function} layout
+     */
+    layout: template,
+
+    /**
+     * Class names for the root element
+     *
+     * @property {array} classNames
+     */
+    classNames: [ 'sl-split-grid' ],
+
+    /**
+     * Class name bindings for the root element
+     *
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'detailsOpen:details-open' ],
+
+    // -------------------------------------------------------------------------
+    // Actions
 
     /**
      * Component actions hash
@@ -17,7 +55,8 @@ export default Ember.Component.extend({
         /**
          * Close the details pane
          *
-         * @method actions.closeDetailsPane
+         * @function actions.closeDetailsPane
+         * @returns  {void}
          */
         closeDetailsPane: function() {
             var activeRecord = this.get( 'activeRecord' );
@@ -27,7 +66,7 @@ export default Ember.Component.extend({
                 this.set( 'activeRecord', null );
             }
 
-            if ( this.get( 'detailsOpen' )) {
+            if ( this.get( 'detailsOpen' ) ) {
                 this.set( 'detailsOpen', false );
             }
         },
@@ -35,8 +74,9 @@ export default Ember.Component.extend({
         /**
          * Open the details pane with a specific row object
          *
-         * @method actions.openDetailsPane
-         * @param {object} row - The object that the clicked row represents
+         * @function actions.openDetailsPane
+         * @param    {object} row - The object that the clicked row represents
+         * @returns  {void}
          */
         openDetailsPane: function( row ) {
             var activeRecord = this.get( 'activeRecord' );
@@ -48,7 +88,7 @@ export default Ember.Component.extend({
             Ember.set( row, 'active', true );
             this.set( 'activeRecord', row );
 
-            if ( !this.get( 'detailsOpen' )) {
+            if ( !this.get( 'detailsOpen' ) ) {
                 this.set( 'detailsOpen', true );
             }
         },
@@ -56,16 +96,23 @@ export default Ember.Component.extend({
         /**
          * Opens/closes the filter pane
          *
-         * @method actions toggleFilterPane
+         * @function actions toggleFilterPane
+         * @returns  {void}
          */
         toggleFilterPane: function() {
-            this.set( 'filterOpen', !this.get( 'filterOpen' ));
+            this.set( 'filterOpen', !this.get( 'filterOpen' ) );
 
-            if ( this.get( 'autoHeight' )) {
+            if ( this.get( 'autoHeight' ) ) {
                 Ember.run.next( this.updateContentHeight.bind( this ));
             }
         }
     },
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
 
     /**
      * The text label for the rows' actions buttons
@@ -74,15 +121,6 @@ export default Ember.Component.extend({
      * @default "Actions"
      */
     actionsButtonLabel: 'Actions',
-
-    /**
-     * The text for the actions column's `style` attribute
-     *
-     * @property {string} actionsColumnStyle
-     */
-    actionsColumnStyle: function() {
-        return 'width: ' + this.get( 'actionsColumnWidth' ) + 'px;';
-    }.property( 'actionsColumnWidth' ),
 
     /**
      * The width of the actions column, in pixels
@@ -110,35 +148,12 @@ export default Ember.Component.extend({
     autoHeight: true,
 
     /**
-     * Class name bindings for the root element
-     *
-     * @property {array} classNameBindings
-     */
-    classNameBindings: [ 'detailsOpen:details-open' ],
-
-    /**
-     * Class names for the root element
-     *
-     * @property {array} classNames
-     */
-    classNames: [ 'sl-split-grid' ],
-
-    /**
      * The height of the split-grid content areas, in pixels
      *
      * @property {number} contentHeight
      * @default 600
      */
     contentHeight: 600,
-
-    /**
-     * The desired title for the detail pane, based on `detailTitlePath`
-     *
-     * @property {string} detailTitle
-     */
-    detailTitle: function() {
-        return Ember.get( this.get( 'activeRecord' ), this.get( 'detailTitlePath' ));
-    }.property( 'activeRecord', 'detailTitlePath' ),
 
     /**
      * Indicates when the details pane is open
@@ -155,17 +170,15 @@ export default Ember.Component.extend({
      */
     filterOpen: false,
 
-    /**
-     * The component's layout template
-     *
-     * @property {function} layout
-     */
-    layout: template,
+    // -------------------------------------------------------------------------
+    // Observers
 
     /**
      * Resize the split-grid's content to the set height value
      *
-     * @method resizeContent
+     * @function resizeContent
+     * @observes contentHeight, "didInsertElement" event
+     * @returns  {void}
      */
     resizeContent: function() {
         this.$( '.content' ).height( this.get( 'contentHeight' ));
@@ -174,7 +187,9 @@ export default Ember.Component.extend({
     /**
      * Setup the auto resize of content height
      *
-     * @method setupAutoResize
+     * @function setupAutoResize
+     * @observes autoHeight, "didInsertElement" event
+     * @returns  {void}
      */
     setupAutoResize: function() {
         if ( this.get( 'autoHeight' )) {
@@ -183,18 +198,36 @@ export default Ember.Component.extend({
         }
     }.observes( 'autoHeight' ).on( 'didInsertElement' ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
-     * HTML tag name of the root element
+     * The text for the actions column's `style` attribute
      *
-     * @property {string} tagName
-     * @default "div"
+     * @function actionsColumnStyle
+     * @observes actionsColumnWidth
+     * @returns  {string} - The `style` attribute for the column
      */
-    tagName: 'div',
+    actionsColumnStyle: function() {
+        return 'width: ' + this.get( 'actionsColumnWidth' ) + 'px;';
+    }.property( 'actionsColumnWidth' ),
+
+    /**
+     * The desired title for the detail pane, based on `detailTitlePath`
+     *
+     * @function detailTitle
+     * @observes activeRecord, detailTitlePath
+     * @returns  {void}
+     */
+    detailTitle: function() {
+        return Ember.get( this.get( 'activeRecord' ), this.get( 'detailTitlePath' ));
+    }.property( 'activeRecord', 'detailTitlePath' ),
 
     /**
      * Calculate the possible content height, based on available viewport space
      *
-     * @method updateContentHeight
+     * @function updateContentHeight
+     * @returns  {void}
      */
     updateContentHeight: function() {
         var viewportHeight = Ember.$( window ).innerHeight(),
@@ -211,4 +244,5 @@ export default Ember.Component.extend({
 
         this.set( 'contentHeight', contentHeight );
     }
+
 });
