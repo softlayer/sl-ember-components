@@ -133,6 +133,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @returns  {void}
      */
     unregisterEvents: function() {
-        $('input[name=' + this.get( 'name' ) + ']:radio').off();
+        this.$('input[name=' + this.get( 'name' ) + ']:radio').off();
     }.on( 'willClearRender' )
 });
