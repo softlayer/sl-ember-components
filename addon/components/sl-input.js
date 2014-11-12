@@ -179,6 +179,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
     }.on( 'didInsertElement' ).observes( 'suggestions' ),
 
+    /**
+     * Remove events
+     *
+     * @function unregisterEvents
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    unregisterEvents: function() {
+        this.getInput().off();
+    }.on( 'willClearRender' ),
+
     // -------------------------------------------------------------------------
     // Methods
 
