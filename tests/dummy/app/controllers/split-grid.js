@@ -31,9 +31,5 @@ export default Ember.ArrayController.extend({
             action: 'logRecord',
             label: 'Log'
         }
-    ],
-
-    setupUpdateGridHeight: function() {
-        Ember.$( window ).on( 'resize', this.updateGridHeight );
-    }.on( 'init' )
+    ]
 });
