@@ -94,12 +94,12 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Teardown the select2 to prevent memory leaks
      *
      * @function destroySelect2
-     * @observes "willDestroyElement" event
+     * @observes "willClearRender" event
      * @returns  {void}
      */
     destroySelect2: function() {
         this.input.off( 'change' ).select2( 'destroy' );
-    }.on( 'willDestroyElement' ),
+    }.on( 'willClearRender' ),
 
     /**
      * Set up select2 initialization after the element is inserted in the DOM

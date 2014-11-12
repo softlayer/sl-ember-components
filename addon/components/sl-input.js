@@ -109,11 +109,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @returns  {void}
      */
     setupInputEvents: function() {
-        var blurAction = this.get( 'blur' ),
-            self       = this;
+        var self = this;
 
-        if ( blurAction ) {
-            this.$( 'input' ).on( 'blur', function() {
+        if ( this.get( 'blur' ) ) {
+            this.getInput().on( 'blur', function() {
                 self.sendAction( 'blur' );
             });
         }
@@ -178,6 +177,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             this.set( 'isTypeaheadSetup', true );
         }
     }.on( 'didInsertElement' ).observes( 'suggestions' ),
+
+    /**
+     * Remove events
+     *
+     * @function unregisterEvents
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    unregisterEvents: function() {
+        this.getInput().off();
+    }.on( 'willClearRender' ),
 
     // -------------------------------------------------------------------------
     // Methods

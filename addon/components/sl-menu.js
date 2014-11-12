@@ -455,7 +455,7 @@ export default Ember.Component.extend({
      * Remove bound events and current menu state
      *
      * @function cleanUp
-     * @observes willDestroyElement event
+     * @observes "willClearRender" event
      * @returns  {void}
      */
     cleanUp: function() {
@@ -474,7 +474,7 @@ export default Ember.Component.extend({
                 .off( 'cycleRootSelectionNext' )
                 .off( 'cycleRootSelectionPrevious' );
         }
-    }.on( 'willDestroyElement' ),
+    }.on( 'willClearRender' ),
 
     // -------------------------------------------------------------------------
     // Methods
