@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import template from '../templates/components/sl-split-grid';
 
 /**
  * @module components
@@ -20,13 +19,6 @@ export default Ember.Component.extend({
      * @default  "div"
      */
     tagName: 'div',
-
-    /**
-     * The component's layout template
-     *
-     * @property {function} layout
-     */
-    layout: template,
 
     /**
      * Class names for the root element
