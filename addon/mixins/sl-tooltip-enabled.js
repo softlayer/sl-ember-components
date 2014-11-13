@@ -17,7 +17,7 @@ export default Ember.Mixin.create({
      *
      * @property {Ember.Array} attributeBindings
      */
-    attributeBindings: [ 'data-toggle' ],
+    attributeBindings: [ 'data-toggle', 'title' ],
 
     // -------------------------------------------------------------------------
     // Actions
