@@ -82,7 +82,7 @@ export default Ember.Mixin.create({
         var popover = this.get( 'popover' );
 
         // First-time rendering
-        if ( undefined === this.$().attr( 'data-original-title' ) ) {
+        if ( this.$().attr( 'data-original-title' ) === undefined ) {
             this.set( 'data-toggle', 'popover' );
 
             this.$().popover({
@@ -108,7 +108,7 @@ export default Ember.Mixin.create({
         var title = this.get( 'title' );
 
         // First-time rendering
-        if ( undefined === this.$().attr( 'data-original-title' ) ) {
+        if ( this.$().attr( 'data-original-title' ) === undefined ) {
             this.set( 'data-toggle', 'tooltip' );
 
             this.$().tooltip({
