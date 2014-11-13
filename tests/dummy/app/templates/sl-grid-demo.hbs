@@ -96,10 +96,13 @@
     {{#property-text name="gridDefinition.options.settingsMenu.hideableColumns" type="boolean"}}
         <p>Whether to show the `hideable` column checkboxes in the settings menu</p>
     {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].key" type="string"}}
+    {{#property-text name="gridDefinition.columns" type="array" required=true}}
+        <p>An array of column definitions.  This is required in your `gridDefinition`</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].key" required=true type="string"}}
         <p>The key to the object on this array entry that will be used for this column</p>
     {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].title" type="string"}}
+    {{#property-text name="gridDefinition.columns[].title" required=true type="string"}}
         <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
     {{/property-text}}
     {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
