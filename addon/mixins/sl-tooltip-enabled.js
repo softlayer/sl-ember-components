@@ -36,50 +36,79 @@ export default Ember.Mixin.create({
      */
     'data-toggle': null,
 
+    /**
+     * Title attribute
+     *
+     * Used as attribute in template binding by popover
+     * Used as "data-original-title" attribute by tooltip
+     *
+     * @property {Ember.String} title
+     * @default  null
+     */
+    title: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
     /**
-     * Enable the tooltip functionality, based on component's `title` attribute
+     * Enable the tooltip functionality, based on component's `popover` attribute
      *
      * @function enableTooltip
      * @observes "didInsertElement" event, popover, title
+     * @throws   {Ember.assert}
      * @returns  {void}
      */
-    enableTooltip: function() {
-        var popoverContent = this.get( 'popover' ),
-            title          = this.get( 'title' );
+    enable: function() {
+        Ember.assert( '"title" property must be provided to use "sl-tooltip-enabled" mixin', this.get( 'title' ) );
 
-        if ( !title ) {
-            return;
-        }
-
-        if ( popoverContent ) {
-            this.set( 'data-toggle', 'popover' );
-            this.$().popover({
-                content   : popoverContent,
-                placement : 'top'
-            });
+        if ( this.get( 'popover' ) ) {
+            this.enablePopover();
         } else {
-
-            // Reset title value
-            if ( undefined !== this.$().attr( 'data-original-title' ) ) {
-                this.$().attr( 'data-original-title', title );
-
-            // First-time rendering
-            } else {
-
-                this.set( 'data-toggle', 'tooltip' );
-
-                this.$().tooltip({
-                    container : 'body',
-                    title     : title
-                });
-            }
+            this.enableTooltip();
         }
-    }.observes( 'popover', 'title' ).on( 'didInsertElement' )
+    }.observes( 'popover', 'title' ).on( 'didInsertElement' ),
 
     // -------------------------------------------------------------------------
     // Methods
 
+    /**
+     * Enable popover
+     *
+     * @private
+     * @function enablePopover
+     * @returns  {void}
+     */
+    enablePopover: function() {
+        this.set( 'data-toggle', 'popover' );
+
+        this.$().popover({
+            content   : this.get( 'popover' ),
+            placement : 'top'
+        });
+    },
+
+    /**
+     * Enable tooltip
+     *
+     * @private
+     * @function enableTooltip
+     * @returns  {void}
+     */
+    enableTooltip: function() {
+        var title = this.get( 'title' );
+
+        // First-time rendering
+        if ( undefined === this.$().attr( 'data-original-title' ) ) {
+            this.set( 'data-toggle', 'tooltip' );
+
+            this.$().tooltip({
+                container : 'body',
+                title     : title
+            });
+
+        // Reset title value
+        } else {
+            this.$().attr( 'data-original-title', title );
+        }
+    }
 });
