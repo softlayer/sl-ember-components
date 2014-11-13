@@ -1,8 +1,21 @@
 /* global require, module */
 
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+var pickFiles = require('broccoli-static-compiler');
 
 var app = new EmberAddon();
+
+var sinon = pickFiles('bower_components/sinonjs', {
+    srcDir: '/',
+    files: ['sinon.js'],
+    destDir: '/assets'
+});
+
+var sinonQunit = pickFiles('bower_components/sinon-qunit/lib', {
+    srcDir: '/',
+    files: ['sinon-qunit.js'],
+    destDir: '/assets'
+});
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
@@ -17,4 +30,4 @@ var app = new EmberAddon();
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
-module.exports = app.toTree();
+module.exports = app.toTree( [sinonQunit, sinon] );
