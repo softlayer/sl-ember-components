@@ -79,12 +79,20 @@ export default Ember.Mixin.create({
      * @returns  {void}
      */
     enablePopover: function() {
-        this.set( 'data-toggle', 'popover' );
+        // First-time rendering
+        if ( undefined === this.$().attr( 'data-original-title' ) ) {
+            this.set( 'data-toggle', 'popover' );
 
-        this.$().popover({
-            content   : this.get( 'popover' ),
-            placement : 'top'
-        });
+            this.$().popover({
+                content   : this.get( 'popover' ),
+                placement : 'top'
+            });
+
+        // Reset title value
+        } else {
+            this.$().attr( 'data-original-title', this.get( 'title' ) );
+            this.$().attr( 'data-content', this.get( 'popover' ) );
+        }
     },
 
     /**
