@@ -17,7 +17,7 @@ export default Ember.Mixin.create({
      *
      * @property {Ember.Array} attributeBindings
      */
-    attributeBindings: [ 'title' ],
+    attributeBindings: [ 'data-toggle' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -27,6 +27,14 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * 'data-toggle' attribute for use in template binding
+     *
+     * @property {boolean} data-toggle
+     * @default  null
+     */
+    'data-toggle': null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -53,11 +61,21 @@ export default Ember.Mixin.create({
                 placement : 'top'
             });
         } else {
-            this.set( 'data-toggle', 'tooltip' );
-            this.$().tooltip({
-                container : 'body',
-                title     : title
-            });
+
+            // Reset title value
+            if ( undefined !== this.$().attr( 'data-original-title' ) ) {
+                this.$().attr( 'data-original-title', title );
+
+            // First-time rendering
+            } else {
+
+                this.set( 'data-toggle', 'tooltip' );
+
+                this.$().tooltip({
+                    container : 'body',
+                    title     : title
+                });
+            }
         }
     }.observes( 'popover', 'title' ).on( 'didInsertElement' )
 
