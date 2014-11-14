@@ -66,6 +66,12 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 widthHint: 1
             },
             {
+                key: 'notes',
+                title: 'NOTES',
+                sortable: false,
+                widthHint: 3
+            },
+            {
                 key: 'fmtProvisionDate',
                 title: 'PROVISIONDATE',
                 sortable: false,
