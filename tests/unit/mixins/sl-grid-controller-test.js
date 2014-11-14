@@ -35,7 +35,7 @@ module( 'Unit - mixins:sl-grid-controller', {
 
     teardown: function() {
         gridController.reorderColumn.restore();
-        gridController.resetColumns.restore();        
+        gridController.resetColumns.restore();
     }
 });
 
@@ -63,18 +63,18 @@ test( 'action: sortColumn should fail for unsortable column', function(){
 
 test( 'action: sortColumn should change sort direction for column that is already sorted', function(){
     var column = gridController.get('columns.firstObject');
-    
+
     column.setProperties( {'isSorted':true, sortAscending: true});
 
     gridController.send( 'sortColumn', gridController.get( 'columns.firstObject' ) );
-    
+
     ok( !gridController.get( 'columns.firstObject.sortAscending'), 'sortAscending was toggled' );
 });
 
 test( 'action: sortColumn should sort a column, and unsort any other columns', function(){
     var column = gridController.get('columns.firstObject'),
         gridStateChanged = false;
-    
+
     column.setProperties( {'isSorted':true, sortAscending: true});
 
     gridController.on( 'gridStateChanged', function(){ gridStateChanged = true; });
@@ -86,7 +86,7 @@ test( 'action: sortColumn should sort a column, and unsort any other columns', f
     ok( gridController.get( 'columns.1.isSorted', 'second column is sorted' ));
 
     ok( gridController.get( 'columns.1.sortAscending', 'second column is sorted ascending' ));
-    
+
     ok( true, 'gridStateChanged was triggered' );
 });
 
@@ -119,7 +119,7 @@ test( 'observer: onItemCountPerPageChange, triggers gridStateChanged', function(
     gridController.on( 'gridStateChanged', function(){
         gridStateChanged = true;
     });
-    gridController.set( 'itemCountPerPage', 100 );    
+    gridController.set( 'itemCountPerPage', 100 );
     ok( gridStateChanged, 'gridStateChanged was triggered');
 });
 
@@ -154,7 +154,7 @@ test( 'method: sortAscending', function(){
 test( 'method: sortProperties', function(){
     equal( gridController.get( 'sortProperties.length' ), 0, 'no initial sort properties');
     gridController.send( 'sortColumn', gridController.get('columns.0') );
-    equal( gridController.get( 'sortProperties' ), gridController.get( 'columns.0.key' ), 'sort properties set to key of sorted column')
+    equal( gridController.get( 'sortProperties' ), gridController.get( 'columns.0.key' ), 'sort properties set to key of sorted column');
 });
 
 test( 'method: totalWidthHints', function(){
