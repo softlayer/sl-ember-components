@@ -2,30 +2,15 @@ import Ember from 'ember';
 import { test, moduleFor } from 'ember-qunit';
 import SlGridController from 'sl-components/mixins/sl-grid-controller';
 
-var gridController = Ember.ArrayController.createWithMixins( SlGridController,
-    {
-        gridDefinition: {
-            columns: [
-                {
-                    key: 'test1',
-                    title: 'test 1',
-                    sortable: true
+var gridController;
 
-                },
-                {
-                    key: 'test2',
-                    title: 'test 2',
-                    sortable: true
-                }
-            ]
-        }
-    } );
-
-module( 'Unit - mixins:sl-grid-controller: actions', {
+module( 'Unit - mixins:sl-grid-controller', {
     setup: function() {
         gridController = Ember.ArrayController.createWithMixins( SlGridController,
             {
                 gridDefinition: {
+                    options: {
+                    },
                     columns: [
                         {
                             key: 'test1',
@@ -43,6 +28,9 @@ module( 'Unit - mixins:sl-grid-controller: actions', {
             } );
         sinon.spy( gridController, 'reorderColumn' );
         sinon.spy( gridController, 'resetColumns' );
+        sinon.spy( gridController, 'loadGridDefinition' );
+        sinon.spy( gridController, 'onColumnWidthsChange' );
+
     },
 
     teardown: function() {
@@ -52,18 +40,18 @@ module( 'Unit - mixins:sl-grid-controller: actions', {
 });
 
 
-test( 'reorderColumn should call reorderColumn with correct arguments', function(){
+test( 'action: reorderColumn should call reorderColumn with correct arguments', function(){
     gridController.send( 'reorderColumn', 0, 1 );
     ok( gridController.reorderColumn.calledOnce, 'reorderColumn was called once' );
     ok( gridController.reorderColumn.calledWith( 0, 1 ), 'reorderColumn was called with correct args' );
 });
 
-test( 'resetColumns should call resetColumns', function(){
+test( 'action: resetColumns should call resetColumns', function(){
     gridController.send( 'resetColumns' );
     ok( gridController.resetColumns.calledOnce, 'resetColumns was called once' );
 });
 
-test( 'sortColumn should fail for unsortable column', function(){
+test( 'action: sortColumn should fail for unsortable column', function(){
     gridController.set('columns.firstObject.sortable', false);
     try{
         gridController.send( 'sortColumn', gridController.get( 'columns.firstObject' ) );
@@ -73,7 +61,7 @@ test( 'sortColumn should fail for unsortable column', function(){
     }
 });
 
-test( 'sortColumn should change sort direction for column that is already sorted', function(){
+test( 'action: sortColumn should change sort direction for column that is already sorted', function(){
     var column = gridController.get('columns.firstObject');
     
     column.setProperties( {'isSorted':true, sortAscending: true});
@@ -83,7 +71,7 @@ test( 'sortColumn should change sort direction for column that is already sorted
     ok( !gridController.get( 'columns.firstObject.sortAscending'), 'sortAscending was toggled' );
 });
 
-test( 'sortColumn should sort a column, and unsort any other columns', function(){
+test( 'action: sortColumn should sort a column, and unsort any other columns', function(){
     var column = gridController.get('columns.firstObject'),
         gridStateChanged = false;
     
@@ -102,7 +90,7 @@ test( 'sortColumn should sort a column, and unsort any other columns', function(
     ok( true, 'gridStateChanged was triggered' );
 });
 
-test( 'toggleColumnVisibility should toggle hidden property on column', function(){
+test( 'action: toggleColumnVisibility should toggle hidden property on column', function(){
     var column = gridController.get('columns.firstObject'),
         gridStateChanged = false;
 
@@ -116,4 +104,59 @@ test( 'toggleColumnVisibility should toggle hidden property on column', function
 
 });
 
+test( 'observer: initialize, calls loadGridDefinition', function(){
+    ok( gridController.loadGridDefinition, 'loadGridDefinition was called after init');
 
+});
+
+test( 'observer: onColumnWidthsChange, gets fired after width change', function(){
+    gridController.set( 'columns.0.width', '100');
+    ok( gridController.onColumnWidthsChange.called, 'onColumnWidthsChange was called after width change');
+});
+
+test( 'observer: onItemCountPerPageChange, triggers gridStateChanged', function(){
+    var gridStateChanged = false;
+    gridController.on( 'gridStateChanged', function(){
+        gridStateChanged = true;
+    });
+    gridController.set( 'itemCountPerPage', 100 );    
+    ok( gridStateChanged, 'gridStateChanged was triggered');
+});
+
+test( 'property: columnCount', function(){
+    equal( gridController.get('columnCount'), 4, 'effective column count equals num of columns');
+});
+
+test( 'method: loadGridDefinition', function(){
+    equal( Ember.typeOf( gridController.get('grid') ), 'instance', 'loadGridDefinition created the grid object' );
+});
+
+test( 'method: reorderColumn', function(){
+    var secondColumn = gridController.get('columns.1');
+
+    gridController.reorderColumn( 1, 0 );
+
+    equal( gridController.get( 'columns.0') , secondColumn, 'columns was moved from pos 1 to pos 0');
+});
+
+test( 'method: resetColumns', function(){
+    gridController.set( 'columns.0.width', '100');
+    gridController.resetColumns();
+    ok( ! gridController.get( 'columns.0.width' ), 'column 0 was reset' );
+});
+
+test( 'method: sortAscending', function(){
+    equal( Ember.typeOf( gridController.get( 'sortAscending' ) ), "undefined", 'sortAscending is undefined' );
+    gridController.send( 'sortColumn', gridController.get('columns.0') );
+    ok( gridController.get( 'sortAscending' ), 'sortAscending was set' );
+});
+
+test( 'method: sortProperties', function(){
+    equal( gridController.get( 'sortProperties.length' ), 0, 'no initial sort properties');
+    gridController.send( 'sortColumn', gridController.get('columns.0') );
+    equal( gridController.get( 'sortProperties' ), gridController.get( 'columns.0.key' ), 'sort properties set to key of sorted column')
+});
+
+test( 'method: totalWidthHints', function(){
+    equal( gridController.get( 'totalWidthHints'), 2, 'totalWidthHints set to initial count');
+});

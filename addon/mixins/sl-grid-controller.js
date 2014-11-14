@@ -212,11 +212,15 @@ export default Ember.Mixin.create( Ember.Evented, {
     loadGridDefinition: function(){
         var definitions = this.get( 'gridDefinition' ),
             grid = Ember.Object.create(),
-            columns = Ember.get( definitions, 'columns' );
+            columns = Ember.get( definitions, 'columns' ),
+            options = Ember.get( definitions, 'options' );
 
         Ember.assert( 'Grid definition requires a `columns` array', 
             Ember.typeOf( columns  ) === 'array'  &&
             columns.length );
+
+        Ember.assert( 'Grid definition requires a `options` object', 
+            Ember.typeOf( options  ) === 'object' );        
 
          Ember.keys( definitions ).forEach( function( key ) {
             var definition = Ember.get( definitions, key ),
