@@ -27,7 +27,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      *
      * @property {Ember.Array} attributeBindings
      */
-    attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'type' ],
+    attributeBindings: [ 'aria-expanded', 'data-target', 'data-toggle', 'disabled', 'type' ],
 
     /**
      * Class names to apply to the button
@@ -108,11 +108,9 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * Handle element click event directly
      *
      * @function click
-     * @param    {event} event - The browser click event
      * @returns  {void}
      */
     click: function( event ) {
-        event.stopPropagation();
         this.sendAction();
     },
 

@@ -18,36 +18,10 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @property {Ember.Array} classNames
      */
-    classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
-
-    /**
-     * Class attribute bindings for the button
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'themeClass' ],
+    classNames: [ 'btn-group', 'sl-drop-button' ],
 
     // -------------------------------------------------------------------------
     // Actions
-
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
-    actions: {
-
-        /**
-         * Used to trigger specific option-bound action
-         *
-         * @function click
-         * @param    {string} action to trigger
-         * @returns  {void}
-         */
-        click: function( action ) {
-            this.triggerAction({ action: action });
-        }
-    },
 
     // -------------------------------------------------------------------------
     // Events
@@ -69,23 +43,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {Ember.String} theme
      * @default  "default"
      */
-    theme: 'default',
+    theme: 'default'
 
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * The class value for the drop-button based on the current "theme"
-     *
-     * @function themeClass
-     * @observes theme
-     * @returns  {string}
-     */
-    themeClass: function() {
-        return 'dropdown-' + this.get( 'theme' );
-    }.property( 'theme' )
 
 });
