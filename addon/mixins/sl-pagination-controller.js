@@ -113,27 +113,41 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Observers
 
-     /** 
-     * Reloads the model when its dependencies change
+    /**
+     * Reloads the model when currentPage changes
      *
-     * @function modelObserver
-     * @returns {void}
+     * @function currentPageObserver
+     * @observes currentPage
+     * @returns  {void}
      */
-    modelObserver: function(){
+    currentPageObserver: function(){
         Ember.run.once( this, this.reloadModel );
-    }.observes( 'currentPage', 'itemCountPerPage' ),
+    }.observes( 'currentPage' ),
+
+    /**
+     * Reloads the model when itemCountPerPage changes
+     *
+     * @function itemCountPerPageObserver
+     * @observes itemCountPerPage
+     * @returns  {void}
+     */
+    itemCountPerPageObserver: function(){
+        this.set( 'currentPage', 1 );
+        Ember.run.once( this, this.reloadModel );
+    }.observes( 'itemCountPerPage' ),
 
     // -------------------------------------------------------------------------
     // Methods
-    
+
     /**
-     * Override this method with your own to handle loading of a model, using the 
+     * Override this method with your own to handle loading of a model, using the
      * currentPage and itemCountPerPage member variables
-     * 
+     *
      * @function reloadModel
-     * @return {void}
+     * @throws  {Ember.assert}
+     * @returns {void}
      */
-    reloadModel: function(){
+    reloadModel: function() {
         Ember.assert( 'SL-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
     },
 
@@ -142,7 +156,7 @@ export default Ember.Mixin.create({
      *
      * @function pagingData
      * @observes currentPage, itemCountPerPage, metaData, perPageOptions
-     * @return   {Ember.Object} Pagination data
+     * @returns  {Ember.Object} Pagination data
      */
     pagingData: function() {
         var pageNumber = this.get( 'currentPage' ) - 1,

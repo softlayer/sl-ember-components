@@ -50,6 +50,7 @@ export default Ember.Mixin.create( Ember.Evented, {
          * @returns {void}
          */
         sortColumn: function( column ) {
+            Ember.assert( 'column is sortable', Ember.get( column, 'sortable' ) );
             if ( column.get( 'isSorted' ) ) {
                 column.toggleProperty( 'sortAscending' );
             } else {
@@ -78,16 +79,6 @@ export default Ember.Mixin.create( Ember.Evented, {
             }
 
             this.trigger( 'gridStateChanged' );
-        },
-
-        /**
-         * Trigger toggle of filter panel visibility
-         *
-         * @function actions.toggleFilter
-         * @returns  {void}
-         */
-        toggleFilter: function() {
-            this.toggleProperty( 'showFilterPanel' );
         }
     },
 
@@ -103,7 +94,6 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @property {Ember.Array} columns
      */
     columns: Ember.computed.alias( 'grid.columns' ),
-
     /**
      * Properties of the filter panel
      *
@@ -221,7 +211,17 @@ export default Ember.Mixin.create( Ember.Evented, {
      */
     loadGridDefinition: function(){
         var definitions = this.get( 'gridDefinition' ),
-            grid = Ember.Object.create();
+            grid = Ember.Object.create(),
+            columns = Ember.get( definitions, 'columns' ),
+            options = Ember.get( definitions, 'options' );
+
+        Ember.assert( 'Grid definition requires a `columns` array', 
+            Ember.typeOf( columns  ) === 'array'  &&
+            columns.length );
+
+        Ember.assert( 'Grid definition requires a `options` object', 
+            Ember.typeOf( options  ) === 'object' );        
+
          Ember.keys( definitions ).forEach( function( key ) {
             var definition = Ember.get( definitions, key ),
                 setting;
@@ -268,6 +268,9 @@ export default Ember.Mixin.create( Ember.Evented, {
     reorderColumn: function( oldIndex, newIndex ) {
         var columns = this.get( 'columns' ),
             elementToMove;
+
+        Ember.assert( 'oldIndex exists', oldIndex < columns.length );
+        Ember.assert( 'newIndex exists', newIndex < columns.length );
 
         columns.arrayContentWillChange( oldIndex, 1 );
         elementToMove = columns.splice( oldIndex, 1 )[ 0 ];
