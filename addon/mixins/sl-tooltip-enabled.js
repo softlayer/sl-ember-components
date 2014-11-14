@@ -59,12 +59,10 @@ export default Ember.Mixin.create({
      * @returns  {void}
      */
     enable: function() {
-        Ember.assert( '"title" property must be provided to use "sl-tooltip-enabled" mixin', this.get( 'title' ) );
-
         if ( this.get( 'popover' ) ) {
             this.enablePopover();
-        } else {
-            this.enableTooltip();
+        } else if ( this.get( 'title' ) ) {
+             this.enableTooltip();
         }
     }.observes( 'popover', 'title' ).on( 'didInsertElement' ),
 
