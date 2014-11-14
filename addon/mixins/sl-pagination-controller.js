@@ -112,12 +112,13 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Observers
-    
+
     /**
      * Reloads the model when currentPage changes
      *
      * @function currentPageObserver
-     * @return {void}
+     * @observes currentPage
+     * @returns  {void}
      */
     currentPageObserver: function(){
         Ember.run.once( this, this.reloadModel );
@@ -127,7 +128,8 @@ export default Ember.Mixin.create({
      * Reloads the model when itemCountPerPage changes
      *
      * @function itemCountPerPageObserver
-     * @return {void}
+     * @observes itemCountPerPage
+     * @returns  {void}
      */
     itemCountPerPageObserver: function(){
         this.set( 'currentPage', 1 );
@@ -136,13 +138,16 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Methods
-    
+
     /**
-     * Override this method with your own to handle loading of a model, using the 
+     * Override this method with your own to handle loading of a model, using the
      * currentPage and itemCountPerPage member variables
-     * @return {void}
+     *
+     * @function reloadModel
+     * @throws  {Ember.assert}
+     * @returns {void}
      */
-    reloadModel: function(){
+    reloadModel: function() {
         Ember.assert( 'SL-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
     },
 
@@ -151,7 +156,7 @@ export default Ember.Mixin.create({
      *
      * @function pagingData
      * @observes currentPage, itemCountPerPage, metaData, perPageOptions
-     * @return   {Ember.Object} Pagination data
+     * @returns  {Ember.Object} Pagination data
      */
     pagingData: function() {
         var pageNumber = this.get( 'currentPage' ) - 1,
