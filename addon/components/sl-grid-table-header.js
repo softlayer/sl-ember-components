@@ -28,6 +28,13 @@ export default Ember.Component.extend({
     classNames: [ 'sl-grid-table-header' ],
 
     /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'cssThClass' ],
+
+    /**
      * Bindings for the base element's attributes
      *
      * @property {Ember.Array} attributeBindings
@@ -98,31 +105,26 @@ export default Ember.Component.extend({
      */
     columnWidthObserver: function() {
         var width = this.get( 'column.width' ),
-            actionsColWidth,
-            resizeColCount,
-            resizeColWidth,
-            resizeCols,
-            rowExpanderWidth,
+            fixedWidth = this.get( 'column.fixedWidth' ),
+            finalWidth = fixedWidth || width,
             tableWidth,
             totalHintingWidth,
             totalWidthHints,
+            totalFixedWidth,
             widthHint;
 
-        if ( width ) {
-            this.set( 'style', width ? 'width:' + width + 'px;' : '' );
+
+        if ( finalWidth ) {
+            this.set( 'style', 'width:' + finalWidth + 'px;' );
             return;
         }
-
-        actionsColWidth  = this.$().siblings( 'th.sl-grid-table-cell-actions' ).outerWidth() || 0;
-        resizeCols       = this.$().siblings( 'th.sl-grid-table-column-resize' );
-        rowExpanderWidth = this.$().siblings( 'th.sl-grid-table-cell-row-expander' ).outerWidth() || 0;
+        
         tableWidth       = this.$().parents( 'table.sl-grid' ).width();
         totalWidthHints  = this.get( 'totalWidthHints' );
+        totalFixedWidth  = this.get( 'totalFixedWidths' );
         widthHint        = this.getWithDefault( 'column.widthHint', 1 );
 
-        resizeColCount    = resizeCols.length;
-        resizeColWidth    = resizeCols.outerWidth() || 0;
-        totalHintingWidth = tableWidth - rowExpanderWidth - actionsColWidth - resizeColWidth*resizeColCount;
+        totalHintingWidth = tableWidth - totalFixedWidth;
 
         width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
 

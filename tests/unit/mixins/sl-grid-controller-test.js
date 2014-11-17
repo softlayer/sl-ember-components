@@ -154,7 +154,7 @@ test( 'method: sortAscending', function(){
 test( 'method: sortProperties', function(){
     equal( gridController.get( 'sortProperties.length' ), 0, 'no initial sort properties');
     gridController.send( 'sortColumn', gridController.get('columns.0') );
-    equal( gridController.get( 'sortProperties' ), gridController.get( 'columns.0.key' ), 'sort properties set to key of sorted column')
+    equal( gridController.get( 'sortProperties' ), gridController.get( 'columns.0.key' ), 'sort properties set to key of sorted column');
 });
 
 test( 'method: totalWidthHints', function(){

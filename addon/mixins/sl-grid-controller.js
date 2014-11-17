@@ -177,15 +177,7 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes columns.length
      * @returns  {number}
      */
-    columnCount: function() {
-        return this.get( 'columns.length' ) +
-            (
-                this.get( 'columns.length' ) -
-                this.get( 'columns' ).filterBy( 'noColumnResize' ).length
-            ) +
-            ( this.get( 'options.rowExpander' ) ? 1 : 0 ) +
-            ( this.get( 'options.actionsColumn' ) ? 1 : 0 );
-    }.property( 'columns.length' ),
+    columnCount: Ember.computed.alias( 'columns.length' ),
 
     /**
      * Placeholder for a grid's definition object
@@ -194,12 +186,7 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @default  {function} empty
      * @returns  {Ember.Object}
      */
-    gridDefinition: function() {
-        Ember.assert(
-            'sl-grid-controller: you must define the `gridDefintion` property on your controller.',
-            false
-        );
-    }.property(),
+    gridDefinition: null,
 
     /**
      * Loads the grid definition
@@ -324,6 +311,14 @@ export default Ember.Mixin.create( Ember.Evented, {
     sortProperties: function() {
         return this.getWithDefault( 'columns', [] ).filterBy( 'isSorted' ).mapBy( 'key' );
     }.property( 'columns.@each.isSorted' ),
+
+
+    totalFixedWidths: function() {
+        return this.get( 'columns').reduce( function( prev, item ){
+            return prev + parseInt( item.getWithDefault( 'fixedWidth', 0 ) );
+        }, 0);
+
+    }.property( 'columns.@each.fixedWidth' ),
 
     /**
      * Total number of width hints
