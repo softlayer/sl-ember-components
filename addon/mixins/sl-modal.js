@@ -26,7 +26,10 @@ export default Ember.Mixin.create({
      * @property {Ember.Array} attributeBindings
      */
     attributeBindings: [
-        'aria-hidden', 'tabindex', 'role', 'aria-labelledby', 'aria-describedby'
+        'aria-describedby',
+        'aria-hidden',
+        'aria-labelledby',
+        'tabindex'
     ],
 
     /**
@@ -35,6 +38,14 @@ export default Ember.Mixin.create({
      * @property {Ember.Array} classNames
      */
     classNames: [ 'fade', 'modal' ],
+
+    /**
+     * `role` attribute value
+     *
+     * @property {Ember.String} role
+     * @default  "dialog"
+     */
+    ariaRole: 'dialog',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -69,14 +80,6 @@ export default Ember.Mixin.create({
      * @default  true
      */
     backdrop: true,
-
-    /**
-     * `role` attribute value
-     *
-     * @property {Ember.String} role
-     * @default  "dialog"
-     */
-    role: 'dialog',
 
     /**
      * `tabindex` attribute value

@@ -14,13 +14,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /**
-     * Array of attribute bindings for the alert's div
-     *
-     * @property {Ember.Array} attributeBindings
-     */
-    attributeBindings: [ 'role' ],
-
-    /**
      * Array of class names for the alert's div
      *
      * @property {Ember.Array} classNames
@@ -33,6 +26,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {Ember.Array} classNameBindings
      */
     classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
+
+    /**
+     * The role attribute for the alert's div
+     *
+     * @property {Ember.String} role
+     * @default  "alert"
+     */
+    ariaRole: 'alert',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -68,14 +69,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @default  false
      */
     dismissable: false,
-
-    /**
-     * The role attribute for the alert's div
-     *
-     * @property {Ember.String} role
-     * @default  "alert"
-     */
-    role: 'alert',
 
     /**
      * The Bootstrap "theme" style to apply to the alert
