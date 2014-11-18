@@ -25,13 +25,7 @@
             <tr>
                 {{#each column in columns}}
                     {{#unless column.hidden}}
-                        {{#if column.component}}
-                           {{render-component column.component cssClass=column.cssClass column=column row=row}}
-                        {{else}}
-                            {{#sl-grid-table-cell cssClass=column.cssClass column=column}}
-                                {{get-key row column.key column.defaultText}}
-                            {{/sl-grid-table-cell}}
-                        {{/if}}
+                       {{render-component column.component cssClass=column.cssClass column=column row=row}}
                     {{/unless}}
                 {{/each}}
             </tr>

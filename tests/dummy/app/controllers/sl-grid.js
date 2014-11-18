@@ -52,6 +52,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 fixedWidth: 30
             },
             {
+                component: 'sl-grid-table-cell',
                 key: 'name',
                 title: 'HOSTNAME',
                 defaultText: 'translate.UNKNOWNDEVICE',
@@ -60,6 +61,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 widthHint: 2
             },
             {
+                component: 'sl-grid-table-cell',
                 key: 'ip',
                 title: 'IPADDRESS',
                 sortable: true,
@@ -68,6 +70,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 widthHint: 1
             },
             {
+                component: 'sl-grid-table-cell',
                 key: 'type',
                 title: 'DEVICETYPE',
                 sortable: true,
@@ -76,6 +79,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 widthHint: 1
             },
             {
+                component: 'sl-grid-table-cell',
                 key: 'notes',
                 title: 'NOTES',
                 hideable: true,                
@@ -83,6 +87,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 widthHint: 3
             },
             {
+                component: 'sl-grid-table-cell',
                 key: 'fmtProvisionDate',
                 title: 'PROVISIONDATE',
                 hideable: true,
