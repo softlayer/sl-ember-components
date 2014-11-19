@@ -72,108 +72,107 @@ export default Ember.Mixin.create({
      * @returns  {void}
      */
     setupBoundListeners: function() {
-        var self = this;
 
         if( ! this.get( 'column.resizable' ) ){
             return;
         }
 
-        this.set( 'mouseDownListener', function( event ) {
-
-            if ( !self.get( 'disabled' ) ) {
+        this.set( 'mouseDownListener', Ember.run.bind( this, function( event ) {
+            //make sure the mouse has already moved to the highlight region
+            if ( !this.get( 'disabled' ) &&  this.get( 'column.highlight' )) {
                 
-                self.$().off( 'mousemove', self.mouseMoveListenerHighlight );
-                self.$().off( 'mouseleave', self.mouseLeaveListenerHighlight );
+                this.$().off( 'mousemove', this.mouseMoveListenerHighlight );
+                this.$().off( 'mouseleave', this.mouseLeaveListenerHighlight );
 
                 Ember.$( 'body' ).addClass( 'resizing' )
-                    .on( 'mouseleave', self.mouseLeaveListenerResize )
-                    .on( 'mousemove', self.mouseMoveListenerResize )
-                    .on( 'mouseup', self.mouseUpListener );
+                    .on( 'mouseleave', this.mouseLeaveListenerResize )
+                    .on( 'mousemove', this.mouseMoveListenerResize )
+                    .on( 'mouseup', this.mouseUpListener );
 
-                self.setProperties({
+                this.setProperties({
                     'global.isResizing' : true,
-                    startWidth          : self.$().width(),
+                    startWidth          : this.$().width(),
                     startX              : event.pageX
                 });
             }
-        });
+        }));
 
-        this.set( 'mouseLeaveListenerHighlight', function() {
-            if ( !self.get( 'global.isResizing' ) ) {
-                self.set( 'column.highlight', false );
+        this.set( 'mouseLeaveListenerHighlight', Ember.run.bind( this, function() {
+            if ( !this.get( 'global.isResizing' ) ) {
+                this.set( 'column.highlight', false );
             }
-        });
+        }));
 
-        this.set( 'mouseLeaveListenerResize', function() {
+        this.set( 'mouseLeaveListenerResize', Ember.run.bind( this, function() {
             Ember.$( 'body' ).removeClass( 'resizing' )
-                .off( 'mouseleave', self.mouseLeaveListenerResize )
-                .off( 'mousemove', self.mouseMoveListenerResize )
-                .off( 'mouseup',  self.mouseUpListener );
+                .off( 'mouseleave', this.mouseLeaveListenerResize )
+                .off( 'mousemove', this.mouseMoveListenerResize )
+                .off( 'mouseup',  this.mouseUpListener );
 
-            self.setProperties({
-                'column.width'      : self.get( 'startWidth'),
+            this.setProperties({
+                'column.width'      : this.get( 'startWidth'),
                 'column.highlight'  : false,
                 'global.isResizing' : false
             });
         
-            self.$().on( 'mousemove', self.mouseMoveListenerHighlight );
-            self.$().on( 'mouseleave', self.mouseLeaveListenerHighlight );
+            this.$().on( 'mousemove', this.mouseMoveListenerHighlight );
+            this.$().on( 'mouseleave', this.mouseLeaveListenerHighlight );
 
             //browser will revert to user selection, this will clear it
             Ember.run.next( this, function(){ 
                 window.getSelection().removeAllRanges();
             });
-        });
+        }));
 
-        this.set( 'mouseUpListener', function() {
+        this.set( 'mouseUpListener', Ember.run.bind( this, function() {
             Ember.$( 'body' ).removeClass( 'resizing' )
-                .off( 'mouseleave', self.mouseLeaveListenerResize )
-                .off( 'mousemove', self.mouseMoveListenerResize )
-                .off( 'mouseup', self.mouseUpListener );
+                .off( 'mouseleave', this.mouseLeaveListenerResize )
+                .off( 'mousemove', this.mouseMoveListenerResize )
+                .off( 'mouseup', this.mouseUpListener );
 
-            self.$().on( 'mousemove', self.mouseMoveListenerHighlight );
-            self.$().on( 'mouseleave', self.mouseLeaveListenerHighlight );
+            this.$().on( 'mousemove', this.mouseMoveListenerHighlight );
+            this.$().on( 'mouseleave', this.mouseLeaveListenerHighlight );
 
-            self.setProperties({
+            this.setProperties({
                 'column.highlight'  : false,
                 'global.isResizing' : false
             });
-        });
+        }));
 
-        this.set( 'mouseMoveListenerHighlight', function( event ){
-            var offset = self.$().offset(),
+        this.set( 'mouseMoveListenerHighlight', Ember.run.bind( this, function( event ){
+            var offset = this.$().offset(),
                 offsetLeft = offset.left,
-                outerWidth = self.$().outerWidth(),
+                outerWidth = this.$().outerWidth(),
                 rightBorder = offsetLeft + outerWidth,
                 resizeZone = rightBorder - 8,
                 mouseX = event.pageX;
             
-            if( self.get( 'global.isResizing') ){
+            if( this.get( 'global.isResizing') ){
                 return;
             }
 
-            if( self.get( 'column.highlight' ) && 
+            if( this.get( 'column.highlight' ) && 
                  ( mouseX < resizeZone || mouseX > rightBorder) ) {
 
-                self.set( 'column.highlight', false );
+                this.set( 'column.highlight', false );
 
-            } else if ( !self.get( 'global.isResizing' ) && 
+            } else if ( !this.get( 'global.isResizing' ) && 
                  ( mouseX >= resizeZone && mouseX <= rightBorder) ) {
 
-                self.set( 'column.highlight', true );
+                this.set( 'column.highlight', true );
             }
-        });
+        }));
 
-        this.set( 'mouseMoveListenerResize', function( event ) {
-            var startWidth = self.get( 'startWidth' ),
-                widthDelta = event.pageX - self.get( 'startX' ),
+        this.set( 'mouseMoveListenerResize', Ember.run.bind( this, function( event ) {
+            var startWidth = this.get( 'startWidth' ),
+                widthDelta = event.pageX - this.get( 'startX' ),
                 finalWidth = startWidth + widthDelta,
-                minWidth   = self.getWithDefault( 'column.minWidth', 20 );
+                minWidth   = this.getWithDefault( 'column.minWidth', 20 );
 
-            self.set( 'column.width', Math.max( minWidth, finalWidth ) );
+            this.set( 'column.width', Math.max( minWidth, finalWidth ) );
 
             return false;
-        });
+        }));
         
         this.$().on( 'mousedown', this.mouseDownListener );
         this.$().on( 'mousemove', this.mouseMoveListenerHighlight );
