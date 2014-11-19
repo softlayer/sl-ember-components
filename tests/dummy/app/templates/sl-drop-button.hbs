@@ -3,7 +3,7 @@
 
 <hr>
 
-<h3>Example</h3>
+<h3>Examples</h3>
 
 <div class="row">
     <div class="col-lg-6">
@@ -44,11 +44,15 @@
 <h3>sl-drop-button Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="content" type="array"}}
+        An array of hash objects containing the same optional properties as the \{{sl-drop-option}} below. Note that currently, the context is different between these two ways of defining drop-button options.
+    {{/property-text}}
+
     {{#property-text name="label" type="string"}}
         Text label for button text.
     {{/property-text}}
 
-    {{#property-text name="size" type="string"}}
+    {{#property-text name="size" type="string" default="null"}}
         Suffix string for the Bootstrap button size; "xs", "sm", or "lg".
     {{/property-text}}
 
