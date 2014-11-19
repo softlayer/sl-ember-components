@@ -5,7 +5,8 @@
                 {{#unless column.hidden}}
                     {{sl-grid-table-header 
                         action="sortColumn" 
-                        column=column 
+                        column=column
+                        columns=columns
                         disabled=isLoading 
                         totalWidthHints=totalWidthHints
                         totalFixedWidths=totalFixedWidths

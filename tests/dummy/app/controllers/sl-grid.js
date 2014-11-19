@@ -49,6 +49,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 component: 'sl-grid-table-cell-row-expander',
                 cssClass: 'sl-grid-table-cell-row-expander',
                 cssThClass: 'sl-grid-table-cell-row-expander',
+                movable: false,
                 fixedWidth: 30
             },
             {
@@ -93,6 +94,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 cssClass: 'sl-grid-table-cell-actions',
                 cssThClass: 'sl-grid-table-cell-actions',
                 component: 'sl-grid-table-cell-actions',
+                movable: false,
                 fixedWidth: 120
             }
         ]

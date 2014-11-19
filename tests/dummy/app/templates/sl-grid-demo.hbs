@@ -125,10 +125,12 @@
     {{/property-text}}
     {{#property-text name="gridDefinition.columns[].link" type="string"}}
         <p>The ember route to link to if you are using the `sl-grid-table-cell-link` component.</p>
-    {{/property-text}}    
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].movable" type="boolean"}}
+        <p>Whether this column's position can be changed by dragging the header.  Defaults to true.  Movable columns can not be dragged past unmovable columns.</p>
+    {{/property-text}}        
     {{#property-text name="gridDefinition.columns[].resizable" type="boolean"}}
-        <p>Whether this column is resizable</p
->re    {{/property-text}}
+        <p>Whether this column is resizable</p>{{/property-text}}
     {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
         <p>Whether this column is sortable</p>
     {{/property-text}}

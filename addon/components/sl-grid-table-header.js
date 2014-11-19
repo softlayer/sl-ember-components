@@ -73,9 +73,10 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     mouseDown: function() {
-        if ( !this.get( 'disabled' ) ) {
+        if ( !this.get( 'disabled' ) && this.getWithDefault( 'column.movable', true ) ) {
             Ember.$( 'body' ).on( 'mousemove', this.mouseMoveListener );
             Ember.$( 'body' ).on( 'mouseup', this.mouseUpListener );
+            Ember.$( 'body' ).on( 'mouseleave', this.mouseLeaveListener );
         }
     },
 
@@ -171,6 +172,7 @@ export default Ember.Component.extend({
             var reorderCol = this.get( 'reorderCol' );
 
             if ( !reorderCol ) {
+                //do setup
                 Ember.$( 'body' ).addClass( 'reordering' );
 
                 reorderCol = Ember.$( '<div class="reordering"></div>' );
@@ -190,12 +192,39 @@ export default Ember.Component.extend({
                 this.set( 'oldIndex', this.getCurrentColumnIndex() );
                 this.set( 'newIndex', this.get( 'oldIndex' ) );
                 this.set( 'oldPosition', this.getPosition( reorderCol ) );
+                this.set( 'minPosition', '');
+                this.set( 'maxPosition', '');
+
             }
 
             reorderCol.offset({ left: event.pageX });
-            this.setNewColumnIndex();
+            this._setNewColumnIndex();
 
             return false;
+        }));
+
+        this.set( 'mouseLeaveListener', Ember.run.bind( this, function(){
+            var hlReorderCol = this.get( 'hlReorderCol' ),
+                reorderCol   = this.get( 'reorderCol' );
+
+            if ( reorderCol ) {
+                reorderCol.remove();
+                this.set( 'reorderCol', null );
+            }
+
+            if ( hlReorderCol ) {
+                hlReorderCol.remove();
+                this.set( 'hlReorderCol', null );
+            }
+
+            Ember.$( 'body' ).removeClass( 'reordering' )
+                .off( 'mousemove', this.mouseMoveListener )
+                .off( 'mouseup', this.mouseUpListener );
+
+            Ember.run.next( this, function(){ 
+                window.getSelection().removeAllRanges();
+            });
+
         }));
     }.on( 'didInsertElement' ),
 
@@ -213,34 +242,44 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Get the position of the specified column
+     * Get the position of the specified element
      *
      * @function getPosition
      * @param    {object} element - The element to get the position of
      * @returns  {Ember.Object}
      */
     getPosition: function( element ) {
-        var leftOffset = Ember.$( element ).offset().left;
+        var leftOffset = Ember.$( element ).offset().left,
+            width = Ember.$( element ).outerWidth(),
+            rightOffset = leftOffset + width;
 
         return {
             id   : element.id,
+            width: width,
             left : leftOffset,
+            right: rightOffset
         };
     },
 
     /**
-     * Set a new column index on the relevant column
+     * While dragging a column, this function is called to calculate the target 
+     * column position and highlight it.  This function will prevent columns from 
+     * being dragged past 'unmovable' columns on the ends.
      *
      * @function setNewColumnIndex
      * @returns  {void}
      */
-    setNewColumnIndex: function() {
-        var currentLeft = this.get( 'reorderCol' ).offset().left,
+    _setNewColumnIndex: function() {
+        var reorderCol  = this.get( 'reorderCol' ),
+            currentLeft = reorderCol.offset().left,
+            currentWidth= reorderCol.outerWidth(),
+            currentRight= currentLeft + currentWidth,
             id          = this.get( 'elementId' ),
             lastIndex   = this.get( 'newIndex' ),
             self        = this,
             headers,
             offsets,
+            availableOffsets,
             currentIndex;
 
         // Get all siblings and offsets
@@ -251,12 +290,26 @@ export default Ember.Component.extend({
             if ( el.id === id ) {
                 return this.get( 'oldPosition' );
             }
-
             return this.getPosition( el );
         }.bind( this ));
 
+        //filter
+        availableOffsets = offsets.filter( function( index, el ){
+            return self.getWithDefault( 'columns.'+index+'.movable', true);
+        });
+
+        if( currentLeft < availableOffsets[0].left ){
+            currentLeft = availableOffsets[0].left;
+            reorderCol.offset({ left: currentLeft });
+        }
+
+        if( currentLeft > availableOffsets[ availableOffsets.length -1].left ){
+            currentLeft = availableOffsets[ availableOffsets.length -1].left;
+            reorderCol.offset({ left: currentLeft });
+        }
+
         currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {
-            return currentLeft > el.left ? index : prev;
+            return currentLeft >= el.left ? index : prev;
         }, 0 );
 
         if ( lastIndex !== currentIndex ) {
