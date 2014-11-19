@@ -34,6 +34,14 @@ export default Ember.Component.extend({
      */
     classNameBindings: [ 'optionType' ],
 
+    /**
+     * The ARIA role name for the drop button option
+     *
+     * @property {string} ariaRole
+     * @default  "menuItem"
+     */
+    ariaRole: 'menuitem',
+
     // -------------------------------------------------------------------------
     // Actions
 
@@ -51,7 +59,7 @@ export default Ember.Component.extend({
          * @returns  {void}
          */
         click: function() {
-            this.sendAction( 'action' );
+            this.sendAction();
         }
     },
 

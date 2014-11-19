@@ -28,9 +28,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
 
     /**
-     * The role attribute for the alert's div
+     * The ARIA role attribute for the alert's div
      *
-     * @property {Ember.String} role
+     * @property {Ember.String} ariaRole
      * @default  "alert"
      */
     ariaRole: 'alert',
