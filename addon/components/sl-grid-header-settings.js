@@ -142,7 +142,7 @@ export default Ember.Component.extend({
             settings        = this.get( 'settings' );
 
         if ( settings.hideableColumns ) {
-            hideableColumns.pushObjects( columns.rejectBy( 'hideable', false ).map( function( column ) {
+            hideableColumns.pushObjects( columns.filterBy( 'hideable', true ).map( function( column ) {
                 return {
                     action : 'toggleColumnVisibility',
                     hidden : column.hidden,

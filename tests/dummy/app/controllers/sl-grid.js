@@ -46,36 +46,56 @@ export default Ember.ArrayController.extend( SlGridMixin, {
         },
         columns: [
             {
+                component: 'sl-grid-table-cell-row-expander',
+                cssClass: 'sl-grid-table-cell-row-expander',
+                cssThClass: 'sl-grid-table-cell-row-expander',
+                movable: false,
+                fixedWidth: 30
+            },
+            {
                 key: 'name',
                 title: 'HOSTNAME',
                 defaultText: 'translate.UNKNOWNDEVICE',
                 sortable: true,
-                hideable: false,
+                resizable: true,                
                 widthHint: 2
             },
             {
                 key: 'ip',
                 title: 'IPADDRESS',
                 sortable: true,
+                hideable: true,
+                resizable: true,
                 widthHint: 1
             },
             {
                 key: 'type',
                 title: 'DEVICETYPE',
                 sortable: true,
+                hideable: true,                
+                resizable: true,                
                 widthHint: 1
             },
             {
                 key: 'notes',
                 title: 'NOTES',
-                sortable: false,
+                hideable: true,                
+                resizable: true,                
                 widthHint: 3
             },
             {
                 key: 'fmtProvisionDate',
                 title: 'PROVISIONDATE',
-                sortable: false,
+                hideable: true,
+                resizable: true,
                 widthHint: 1
+            },
+            {
+                cssClass: 'sl-grid-table-cell-actions',
+                cssThClass: 'sl-grid-table-cell-actions',
+                component: 'sl-grid-table-cell-actions',
+                movable: false,
+                fixedWidth: 120
             }
         ]
     },

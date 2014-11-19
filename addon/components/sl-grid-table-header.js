@@ -28,6 +28,13 @@ export default Ember.Component.extend({
     classNames: [ 'sl-grid-table-header' ],
 
     /**
+     * Class name bindings for the root element
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'cssThClass' ],
+
+    /**
      * Bindings for the base element's attributes
      *
      * @property {Ember.Array} attributeBindings
@@ -66,9 +73,10 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     mouseDown: function() {
-        if ( !this.get( 'disabled' ) ) {
+        if ( !this.get( 'disabled' ) && this.getWithDefault( 'column.movable', true ) ) {
             Ember.$( 'body' ).on( 'mousemove', this.mouseMoveListener );
             Ember.$( 'body' ).on( 'mouseup', this.mouseUpListener );
+            Ember.$( 'body' ).on( 'mouseleave', this.mouseLeaveListener );
         }
     },
 
@@ -98,31 +106,26 @@ export default Ember.Component.extend({
      */
     columnWidthObserver: function() {
         var width = this.get( 'column.width' ),
-            actionsColWidth,
-            resizeColCount,
-            resizeColWidth,
-            resizeCols,
-            rowExpanderWidth,
+            fixedWidth = this.get( 'column.fixedWidth' ),
+            finalWidth = fixedWidth || width,
             tableWidth,
             totalHintingWidth,
             totalWidthHints,
+            totalFixedWidth,
             widthHint;
 
-        if ( width ) {
-            this.set( 'style', width ? 'width:' + width + 'px;' : '' );
+
+        if ( finalWidth ) {
+            this.set( 'style', 'width:' + finalWidth + 'px;' );
             return;
         }
-
-        actionsColWidth  = this.$().siblings( 'th.sl-grid-table-cell-actions' ).outerWidth() || 0;
-        resizeCols       = this.$().siblings( 'th.sl-grid-table-column-resize' );
-        rowExpanderWidth = this.$().siblings( 'th.sl-grid-table-cell-row-expander' ).outerWidth() || 0;
+        
         tableWidth       = this.$().parents( 'table.sl-grid' ).width();
         totalWidthHints  = this.get( 'totalWidthHints' );
+        totalFixedWidth  = this.get( 'totalFixedWidths' );
         widthHint        = this.getWithDefault( 'column.widthHint', 1 );
 
-        resizeColCount    = resizeCols.length;
-        resizeColWidth    = resizeCols.outerWidth() || 0;
-        totalHintingWidth = tableWidth - rowExpanderWidth - actionsColWidth - resizeColWidth*resizeColCount;
+        totalHintingWidth = tableWidth - totalFixedWidth;
 
         width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
 
@@ -169,6 +172,7 @@ export default Ember.Component.extend({
             var reorderCol = this.get( 'reorderCol' );
 
             if ( !reorderCol ) {
+                //do setup
                 Ember.$( 'body' ).addClass( 'reordering' );
 
                 reorderCol = Ember.$( '<div class="reordering"></div>' );
@@ -188,13 +192,46 @@ export default Ember.Component.extend({
                 this.set( 'oldIndex', this.getCurrentColumnIndex() );
                 this.set( 'newIndex', this.get( 'oldIndex' ) );
                 this.set( 'oldPosition', this.getPosition( reorderCol ) );
+                this.set( 'minPosition', '');
+                this.set( 'maxPosition', '');
+
             }
 
             reorderCol.offset({ left: event.pageX });
-            this.setNewColumnIndex();
+            this._setNewColumnIndex();
 
             return false;
         }));
+
+        this.set( 'mouseLeaveListener', Ember.run.bind( this, function(){
+            var hlReorderCol = this.get( 'hlReorderCol' ),
+                reorderCol   = this.get( 'reorderCol' );
+
+            if ( reorderCol ) {
+                reorderCol.remove();
+                this.set( 'reorderCol', null );
+            }
+
+            if ( hlReorderCol ) {
+                hlReorderCol.remove();
+                this.set( 'hlReorderCol', null );
+            }
+
+            Ember.$( 'body' ).removeClass( 'reordering' )
+                .off( 'mousemove', this.mouseMoveListener )
+                .off( 'mouseup', this.mouseUpListener );
+
+            Ember.run.next( this, function(){ 
+                window.getSelection().removeAllRanges();
+            });
+
+        }));
+
+        if( this.get( 'column.sortable' ) ){
+            //prevent links from becoming 'dragged' elements during column reordering
+            this.$('a').on( 'dragstart', function(){ return false; });
+        }
+
     }.on( 'didInsertElement' ),
 
     // -------------------------------------------------------------------------
@@ -211,34 +248,44 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Get the position of the specified column
+     * Get the position of the specified element
      *
      * @function getPosition
      * @param    {object} element - The element to get the position of
      * @returns  {Ember.Object}
      */
     getPosition: function( element ) {
-        var leftOffset = Ember.$( element ).offset().left;
+        var leftOffset = Ember.$( element ).offset().left,
+            width = Ember.$( element ).outerWidth(),
+            rightOffset = leftOffset + width;
 
         return {
             id   : element.id,
+            width: width,
             left : leftOffset,
+            right: rightOffset
         };
     },
 
     /**
-     * Set a new column index on the relevant column
+     * While dragging a column, this function is called to calculate the target 
+     * column position and highlight it.  This function will prevent columns from 
+     * being dragged past 'unmovable' columns on the ends.
      *
      * @function setNewColumnIndex
      * @returns  {void}
      */
-    setNewColumnIndex: function() {
-        var currentLeft = this.get( 'reorderCol' ).offset().left,
+    _setNewColumnIndex: function() {
+        var reorderCol  = this.get( 'reorderCol' ),
+            currentLeft = reorderCol.offset().left,
+            currentWidth= reorderCol.outerWidth(),
+            currentRight= currentLeft + currentWidth,
             id          = this.get( 'elementId' ),
             lastIndex   = this.get( 'newIndex' ),
             self        = this,
             headers,
             offsets,
+            availableOffsets,
             currentIndex;
 
         // Get all siblings and offsets
@@ -249,12 +296,26 @@ export default Ember.Component.extend({
             if ( el.id === id ) {
                 return this.get( 'oldPosition' );
             }
-
             return this.getPosition( el );
         }.bind( this ));
 
+        //filter
+        availableOffsets = offsets.filter( function( index, el ){
+            return self.getWithDefault( 'columns.'+index+'.movable', true);
+        });
+
+        if( currentLeft < availableOffsets[0].left ){
+            currentLeft = availableOffsets[0].left;
+            reorderCol.offset({ left: currentLeft });
+        }
+
+        if( currentLeft > availableOffsets[ availableOffsets.length -1].left ){
+            currentLeft = availableOffsets[ availableOffsets.length -1].left;
+            reorderCol.offset({ left: currentLeft });
+        }
+
         currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {
-            return currentLeft > el.left ? index : prev;
+            return currentLeft >= el.left ? index : prev;
         }, 0 );
 
         if ( lastIndex !== currentIndex ) {

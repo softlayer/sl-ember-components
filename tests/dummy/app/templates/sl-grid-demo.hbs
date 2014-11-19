@@ -14,7 +14,7 @@
     &lt;div class="text-right"&gt;
     \{{#sl-button title="Refresh" action="reload"}}&lt;i class="fa fa-refresh"&gt;&lt;/i&gt;\{{/sl-button}}
     \{{#sl-tooltip title="Configuration"}}
-        \{{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown"
+        \{{sl-grid-header-settings class="btn-group dropdown"
             settings=options.settingsMenu columns=columns}}
     \{{/sl-tooltip}}
     &lt;/div&gt;
@@ -30,7 +30,7 @@
             <div class="text-right">
             {{#sl-button title="Refresh" action="reload"}}<i class="fa fa-refresh"></i>{{/sl-button}}
             {{#sl-tooltip title="Configuration"}}
-                {{sl-grid-header-settings action="bubbleAction" class="btn-group dropdown" settings=options.settingsMenu columns=columns}}
+                {{sl-grid-header-settings class="btn-group dropdown" settings=options.settingsMenu columns=columns}}
             {{/sl-tooltip}}
             </div>
         {{/sl-panel}}
@@ -45,7 +45,7 @@
             <li>Hideable Columns: accessed through the grid settings dropdown</li>
             <li>Sortable Columns: click a column's header</li>
             <li>Reorderable Columns: drag a column's header</li>
-            <li>Resizeable Columns: drag the space between columns</li>
+            <li>Resizable Columns: drag the space between columns</li>
             <li>Action Column: dropdown with actions directed to your itemController</li>
             <li>Row Expander: render a component in a hideable row (per array entry)</li>
         </ul>
@@ -63,6 +63,9 @@
     <p>The `gridDefinition` object has two top-level keys: `options` and `columns`. Options is an object that specifies settings for the grid as a whole.  Column is an array of column definitions for each column in the grid. </p>
 
     <div class="list-group">
+    {{#property-text name="gridDefinition.options" required=true}}
+        <p>Option object holds all of the option settings for your grid</p>
+    {{/property-text}}
     {{#property-text name="gridDefinition.options.rowExpander" type="boolean"}}
         <p>Option to enable the `rowExpander` functionality.</p>
         <p>If enabled, specify the `rowExpanderComponent'
@@ -99,34 +102,44 @@
     {{#property-text name="gridDefinition.columns" type="array" required=true}}
         <p>An array of column definitions.  This is required in your `gridDefinition`</p>
     {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].key" required=true type="string"}}
-        <p>The key to the object on this array entry that will be used for this column</p>
+    {{#property-text name="gridDefinition.columns[].cssClass" type="string"}}
+        <p>An optional css class to apply to each cell<p>
     {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].title" required=true type="string"}}
-        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
-        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
-        <p>Whether this column is sortable</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].hideable" type="string"}}
-        <p>Whether this column is hideable, requires the settings menu to have `hideableColumns` set to `true`</p>
+    {{#property-text name="gridDefinition.columns[].cssThClass" type="string"}}
+        <p>An optional css class to apply to each header cell<p>
     {{/property-text}}
     {{#property-text name="gridDefinition.columns[].component" type="string"}}
         <p>The component to be rendered into each cell in this column.  The default is `sl-grid-table-cell`.</p>
+    {{/property-text}}    
+    {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
+        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
+    {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].fixedWidth" type="number"}}
+        <p>An integer that specifies the width of this column in pixels.  Setting a column to a fixedWidth will cause it not to be used in the calculations for widthHints</p>
+    {{/property-text}}      
+    {{#property-text name="gridDefinition.columns[].hideable" type="string"}}
+        <p>Whether this column is hideable, requires the settings menu to have `hideableColumns` set to `true`</p>
+    {{/property-text}}    
+    {{#property-text name="gridDefinition.columns[].key" type="string"}}
+        <p>The key to the object on this array entry that will be used for this column</p>
     {{/property-text}}
     {{#property-text name="gridDefinition.columns[].link" type="string"}}
         <p>The ember route to link to if you are using the `sl-grid-table-cell-link` component.</p>
     {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].cssClass" type="string"}}
-        <p>An optional css class to apply to each cell<p>
+    {{#property-text name="gridDefinition.columns[].movable" type="boolean"}}
+        <p>Whether this column's position can be changed by dragging the header.  Defaults to true.  Movable columns can not be dragged past unmovable columns.</p>
+    {{/property-text}}        
+    {{#property-text name="gridDefinition.columns[].resizable" type="boolean"}}
+        <p>Whether this column is resizable</p>{{/property-text}}
+    {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
+        <p>Whether this column is sortable</p>
     {{/property-text}}
+    {{#property-text name="gridDefinition.columns[].title" type="string"}}
+        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
+    {{/property-text}}    
     {{#property-text name="gridDefinition.columns[].widthHint" type="number"}}
-        <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If column 1 gets a width hint of `2` and the
-    {{/property-text}}
-
+        <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If the first column gets a width hint of `2` and the rest of the columns have width hints of `1` then the first column will initially render with a width twice as large as the rest.  All columns are assumed to have a widthHint of `1` unless they have `fixedWidth` specified.
+    {{/property-text}}  
     </div>
 
     <p>Here is the `gridDefinition` from this demo:</p>
@@ -152,30 +165,54 @@
         },
         columns: [
             {
+                component: 'sl-grid-table-cell-row-expander',
+                cssClass: 'sl-grid-table-cell-row-expander',
+                cssThClass: 'sl-grid-table-cell-row-expander',
+                fixedWidth: 30
+            },
+            {
                 key: 'name',
                 title: 'HOSTNAME',
                 defaultText: 'translate.UNKNOWNDEVICE',
                 sortable: true,
-                hideable: false,
+                resizable: true,                
                 widthHint: 2
             },
             {
                 key: 'ip',
                 title: 'IPADDRESS',
                 sortable: true,
+                hideable: true,
+                resizable: true,
                 widthHint: 1
             },
             {
                 key: 'type',
                 title: 'DEVICETYPE',
                 sortable: true,
+                hideable: true,                
+                resizable: true,                
                 widthHint: 1
+            },
+            {
+                key: 'notes',
+                title: 'NOTES',
+                hideable: true,                
+                resizable: true,                
+                widthHint: 3
             },
             {
                 key: 'fmtProvisionDate',
                 title: 'PROVISIONDATE',
-                sortable: false,
+                hideable: true,
+                resizable: true,
                 widthHint: 1
+            },
+            {
+                cssClass: 'sl-grid-table-cell-actions',
+                cssThClass: 'sl-grid-table-cell-actions',
+                component: 'sl-grid-table-cell-actions',
+                fixedWidth: 120
             }
         ]
     }

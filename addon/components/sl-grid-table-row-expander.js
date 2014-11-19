@@ -13,12 +13,19 @@ export default Ember.Component.extend({
     // Attributes
 
     /**
+     * Bindings for the base element's attributes
+     *
+     * @property {Ember.Array} attributeBindings
+     */
+    attributeBindings: [ 'style' ],
+
+    /**
      * HTML tag name for root element
      *
      * @property {Ember.String} tagName
      * @default  "tr"
      */
-    tagName: 'tr'
+    tagName: 'tr',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -29,6 +36,7 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Properties
 
+    style: 'width:30px;'
     // -------------------------------------------------------------------------
     // Observers
 

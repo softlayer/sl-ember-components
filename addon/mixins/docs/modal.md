@@ -5,11 +5,10 @@ This mixin is intended to provide basic modal functionality to a traditional Emb
  * sets the layoutName property to 'modal'
  * adds class names 'modal' & 'fade'
  * sets (or supports the setting of) these attribute values:
-    * aria-hidden
-    * tabindex
-    * role
-    * aria-labelledby
     * aria-describedby
+    * aria-hidden
+    * aria-labelledby
+    * tabindex
  * adds an action handler 'close' that closes the modal the current view is supporting
  * provides hooks into the exposed Twitter Bootstrap 3 modal events:
     * show.bs.modal

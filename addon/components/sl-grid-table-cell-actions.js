@@ -1,32 +1,16 @@
-import Ember from 'ember';
-import SlGridTableCellResize from '../mixins/sl-grid-table-cell-resize';
+import SlGridTableCell from './sl-grid-table-cell';
 
 /**
  * @module components
- * @class  sl-grid-table-cell
+ * @class  sl-grid-table-cell-link
  */
-export default Ember.Component.extend( SlGridTableCellResize, {
+export default SlGridTableCell.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
 
     // -------------------------------------------------------------------------
     // Attributes
-
-    /**
-     * HTML tag name for the base element
-     *
-     * @property {Ember.String} tagName
-     * @default  "td"
-     */
-    tagName: 'td',
-
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'cssClass' ]
 
     // -------------------------------------------------------------------------
     // Actions

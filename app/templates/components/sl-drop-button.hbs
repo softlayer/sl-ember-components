@@ -3,14 +3,18 @@
         {{view.label}}
         <span {{bind-attr class=iconClass}}></span>
     {{else}}
-        {{yield}}
+        {{#if content}}
+            {{yield}}
+        {{/if}}
     {{/if}}
 {{/sl-button}}
 
 <ul {{bind-attr class=":dropdown-menu alignRight:dropdown-menu-right"}} role="menu">
-    {{#each content}}
-        {{sl-drop-option action=action label=label}}
+    {{#if content}}
+        {{#each option in content}}
+            {{sl-drop-option action=option.action icon=option.icon label=option.label}}
+        {{/each}}
     {{else}}
         {{yield}}
-    {{/each}}
+    {{/if}}
 </ul>

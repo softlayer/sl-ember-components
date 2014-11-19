@@ -1,20 +1,18 @@
 <table class="sl-grid table table-striped">
     <thead>
         <tr>
-            {{#if options.rowExpander}}
-                <th class="sl-grid-table-cell-row-expander">&nbsp;</th>
-            {{/if}}
             {{#each column in columns}}
                 {{#unless column.hidden}}
-                    {{sl-grid-table-header action="sortColumn" column=column disabled=isLoading totalWidthHints=totalWidthHints}} 
-                    {{#unless column.noResize}}
-                        {{sl-grid-table-column-resize column=column header=true disabled=isLoading}}
-                    {{/unless}}
+                    {{sl-grid-table-header 
+                        action="sortColumn" 
+                        column=column
+                        columns=columns
+                        disabled=isLoading 
+                        totalWidthHints=totalWidthHints
+                        totalFixedWidths=totalFixedWidths
+                        cssThClass=column.cssThClass }} 
                 {{/unless}}
             {{/each}}
-            {{#if options.actionsColumn}}
-                <th class="sl-grid-table-cell-actions">&nbsp;</th>
-            {{/if}}
         </tr>
     </thead>
     <tbody>
@@ -26,29 +24,17 @@
     {{else}}
         {{#each row in controller}}
             <tr>
-                {{#if options.rowExpander}}
-                    {{sl-grid-table-cell-row-expander row=row}}
-                {{/if}}
-                    {{#each column in columns}}
-                        {{#unless column.hidden}}
-                            {{#if column.component}}
-                               {{render-component column.component cssClass=column.cssClass column=column row=row}}
-                            {{else}}
-                                {{#sl-grid-table-cell cssClass=column.cssClass}}
-                                    {{get-key row column.key column.defaultText}}
-                                {{/sl-grid-table-cell}}
-                            {{/if}}
-                            {{#unless column.noResize}}
-                                {{sl-grid-table-column-resize column=column
-                                disabled=isLoading}}
-                            {{/unless}}
-                        {{/unless}}
-                    {{/each}}
-                {{#if options.actionsColumn}}
-                <td class="sl-grid-table-cell-actions">
-                    {{sl-drop-button label="Actions" content=row.actionsButton theme="hover"}}
-                </td>
-                {{/if}}
+                {{#each column in columns}}
+                    {{#unless column.hidden}}
+                        {{#if column.component}}
+                           {{render-component column.component cssClass=column.cssClass column=column row=row}}
+                        {{else}}
+                            {{#sl-grid-table-cell cssClass=column.cssClass column=column}}
+                                {{get-key row column.key column.defaultText}}
+                            {{/sl-grid-table-cell}}
+                        {{/if}}
+                    {{/unless}}
+                {{/each}}
             </tr>
             {{#if options.rowExpander}}
                 {{#if row.rowExpanderIsOpen}}
