@@ -226,6 +226,12 @@ export default Ember.Component.extend({
             });
 
         }));
+
+        if( this.get( 'column.sortable' ) ){
+            //prevent links from becoming 'dragged' elements during column reordering
+            this.$('a').on( 'dragstart', function(){ return false; });
+        }
+
     }.on( 'didInsertElement' ),
 
     // -------------------------------------------------------------------------
