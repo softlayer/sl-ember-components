@@ -110,7 +110,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * @function click
      * @returns  {void}
      */
-    click: function( event ) {
+    click: function() {
         this.sendAction();
     },
 
