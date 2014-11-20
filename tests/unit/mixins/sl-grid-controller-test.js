@@ -124,7 +124,7 @@ test( 'observer: onItemCountPerPageChange, triggers gridStateChanged', function(
 });
 
 test( 'property: columnCount', function(){
-    equal( gridController.get('columnCount'), 4, 'effective column count equals num of columns');
+    equal( gridController.get('columnCount'), 2, 'column count equals num of columns');
 });
 
 test( 'method: loadGridDefinition', function(){
