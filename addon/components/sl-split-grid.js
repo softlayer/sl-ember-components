@@ -171,6 +171,14 @@ export default Ember.Component.extend({
      */
     filterTemplate: null,
 
+    /**
+     * The text to display on the filter panel toggle button
+     *
+     * @property {string} filterText
+     * @default  "Filter"
+     */
+    filterText: 'Filter',
+
     // -------------------------------------------------------------------------
     // Observers
 
