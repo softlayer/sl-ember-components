@@ -1,7 +1,7 @@
 {
   "name": "sl-components",
-  "version": "0.8.0",
-  "description": "SoftLayer shared UI components library",
+  "version": "0.9.0",
+  "description": "Ember CLI Addon - UI components library",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.softlayer.local/interface/sl-components"
+    "url": "https://stash.softlayer.local/projects/INTERFACE/repos/sl-components/"
   },
   "engines": {
     "node": ">= 0.10.0"
@@ -49,6 +49,6 @@
     "ember-export-application-global": "^1.0.0",
     "express": "^4.8.5",
     "glob": "^4.0.5",
-    "sl-translate": "git+ssh://git@gitlab.softlayer.local:interface/sl-translate.git#develop"
+    "sl-translate": "git+ssh://git@stash.softlayer.local:7999/interface/sl-translate.git#develop"
   }
 }
