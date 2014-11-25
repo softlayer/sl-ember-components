@@ -26,10 +26,10 @@
     "configPath": "tests/dummy/config"
   },
   "authors": [
-    "Jeremy Brown <jebrown@softlayer.com",
+    "Jeremy Brown <jebrown@softlayer.com>",
     "Joshua Cochran",
-    "Joshua Forisha <jforisha@softlayer.com",
-    "Matthew Marcum <mmarcum@softlayer.com"
+    "Joshua Forisha <jforisha@softlayer.com>",
+    "Matthew Marcum <mmarcum@softlayer.com>"
   ],
   "license": "MIT",
   "dependencies": {
