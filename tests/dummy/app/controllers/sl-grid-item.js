@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import SlGetTranslate from 'sl-translate/mixins/sl-get-translation';
+import SlGetTranslate from 'sl-ember-translate/mixins/sl-get-translation';
 
 export default Ember.ObjectController.extend( SlGetTranslate, {
     actions: {
