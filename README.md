@@ -5,6 +5,9 @@ NPM package name: **sl-ember-components**
 
 License: [MIT](LICENSE.md) (though see the "License Warning" section)
 
+---
+
+### Is currently in BETA
 
 ---
 
