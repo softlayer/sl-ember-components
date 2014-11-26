@@ -4,9 +4,7 @@ There are many ways to contribute to the project, including fixing issues or imp
 
 # Questions
 
-This is the issue tracker for `sl-components`. The community uses this site to collect and track bugs and discussions of
-new features. If you are having difficulties using `sl-components` or have a question about usage please ask a question
-on Stack Overflow: http://stackoverflow.com/questions/ask?tags=sl-components
+This is the issue tracker for `sl-components`. The community uses this site to collect and track bugs and discussions of new features. If you are having difficulties using `sl-components` or have a question about usage please ask a question on Stack Overflow: http://stackoverflow.com/questions/ask?tags=sl-components
 
 # Issues
 
@@ -14,7 +12,7 @@ Think you've found a bug or have a new feature to suggest? Let us know!
 
 ## Reporting a Bug
 
-1. Update to the most recent master release if possible. We may have already fixed your bug.
+1. Make sure you have the latest version of the code, if possible, as we may have already fixed your bug.  This project uses the [git-flow branching model](https://github.com/nvie/gitflow) so the latest changes will be in the `develop` branch.
 
 2. Search for similar issues. It's possible somebody has encountered this bug already.
 
@@ -74,8 +72,7 @@ functionality or fixing a bug, we need a test!
 5. Commit your changes. If your pull request fixes an issue specify it in the commit message. Here's an example:
 `git commit -m "Close #12 Fix passing of context"`
 
-6. Push to your fork and submit a pull request. Please provide us with some explanation of why you made the changes you
-made. For new features make sure to explain a standard use case to us.
+6. Push to your fork and submit a pull request againt the `develop` branch (due to our use of the [git-flow branching model](https://github.com/nvie/gitflow)). Please provide us with some explanation of why you made the changes you made. For new features make sure to explain a standard use case to us.
 
 7. Update the Changelog. Please prefix your change with one of the following tags inside brackets: BUGFIX,
 FEATURE/ENHANCEMENT, INTERNAL. If a change requires a user to change their configuration, `bower.json`, `package.json`,
