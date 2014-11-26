@@ -1,5 +1,5 @@
 {
-  "name": "sl-components",
+  "name": "sl-ember-components",
   "dependencies": {
     "handlebars": "~1.3.0",
     "jquery": "^1.11.1",
@@ -15,11 +15,12 @@
     "bootstrap-datepicker": "~1.3.0",
     "fontawesome": "~4.2.0",
     "highcharts": "~4.0.4",
-    "moment": "~2.8.3",
-    "moment-timezone": "~0.2.4",
-    "select2": "~3.5.1",
+    "moment": "~2.8.4",
+    "moment-timezone": "~0.2.5",
+    "select2": "~3.5.2",
     "typeahead.js": "~0.10.5",
-    "sl-bootstrap": "git@github.com:softlayer/sl-bootstrap.git"
+    "sl-bootstrap": "git@github.com:softlayer/sl-bootstrap.git",
+    "sl-ember-components": "git@github.com:softlayer/sl-ember-components.git"
   },
   "devDependencies": {
     "sinonjs": "~1.10.2",

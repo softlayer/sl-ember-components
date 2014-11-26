@@ -1,3 +1,3 @@
-import SlTooltip from 'sl-components/components/sl-tooltip';
+import SlTooltip from 'sl-ember-components/components/sl-tooltip';
 
 export default SlTooltip;

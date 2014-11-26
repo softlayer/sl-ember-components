@@ -1,3 +1,3 @@
-import SlRadio from 'sl-components/components/sl-radio';
+import SlRadio from 'sl-ember-components/components/sl-radio';
 
 export default SlRadio;

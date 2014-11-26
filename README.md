@@ -1,18 +1,18 @@
 
 Ember CLI version: **0.1.2**
 
-NPM package name: **sl-components**
+NPM package name: **sl-ember-components**
 
 License: [MIT](LICENSE.md) (though see the "License Warning" section)
 
 
 ---
 
-# What sl-components is
+# What sl-ember-components is
 
 A UI components library compatible with Ember.js
 
-Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-components/ which
+Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components/ which
 is served from the *gh-pages* branch of this repository.
 
 **Components**
@@ -84,7 +84,7 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 
 Most usually employed by a controller being used to back an implementation of the *sl-grid system*, this mixin should be used whenever pagination support for a data set is desired.
 
-Requires either the use of [sl-model](https://github.com/softlayer/sl-model) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
+Requires either the use of [sl-ember-model](https://github.com/softlayer/sl-ember-model) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
 
 
 **Helpers**
@@ -146,7 +146,7 @@ Other libraries that are not MIT licensed, though it should not pose a problem, 
 
 # Supported browsers
 
-As not all of the components in sl-components are based upon the same third-party libraries it is possible that there is
+As not all of the components in sl-ember-components are based upon the same third-party libraries it is possible that there is
 varying support for browser versions across the different components.
 
 Below is a list of each component's library dependencies. Beneath this list is the supported browsers for said libraries.
@@ -156,7 +156,7 @@ Below is a list of each component's library dependencies. Beneath this list is t
 * sl-button
     * Twitter Bootstrap
 * sl-calendar
-    * sl-components
+    * sl-ember-components
 * sl-chart
     * Highcharts
 * sl-checkbox
@@ -166,47 +166,47 @@ Below is a list of each component's library dependencies. Beneath this list is t
 * sl-date-range-picker
     * Bootstrap-Datepicker
 * sl-date-time
-    * sl-components
+    * sl-ember-components
 * sl-dialog
     * Twitter Bootstrap
 * sl-drop-button
     * Twitter Bootstrap
 * sl-grid system
-    * sl-components
-    * [sl-translate](https://github.com/softlayer/sl-translate)
+    * sl-ember-components
+    * [sl-ember-translate](https://github.com/softlayer/sl-ember-translate)
 * sl-input
     * Twitter Bootstrap
     * typeahead.js
 * sl-loading-icon
-    * sl-components
+    * sl-ember-components
 * sl-menu
-    * sl-components
+    * sl-ember-components
 * sl-pagination-controls
-    * sl-components
+    * sl-ember-components
 * sl-pagination-info
-    * sl-components
-    * [sl-translate](https://github.com/softlayer/sl-translate)
-    * [sl-model](https://github.com/softlayer/sl-model) (optional)
+    * sl-ember-components
+    * [sl-ember-translate](https://github.com/softlayer/sl-ember-translate)
+    * [sl-ember-model](https://github.com/softlayer/sl-ember-model) (optional)
 * sl-pagination-per-page-select
-    * sl-components
-    * [sl-translate](https://github.com/softlayer/sl-translate)
+    * sl-ember-components
+    * [sl-ember-translate](https://github.com/softlayer/sl-ember-translate)
     * Select2
 * sl-panel
     * Twitter Bootstrap
 * sl-progress-bar
-    * sl-components
+    * sl-ember-components
 * sl-radio
-    * sl-components
+    * sl-ember-components
 * sl-radio-group
     * Twitter Bootstrap
 * sl-select
     * Select2
 * sl-span
-    * sl-components
+    * sl-ember-components
 * sl-tab-panel
     * Twitter Bootstrap
 * sl-textarea
-    * sl-components
+    * sl-ember-components
 * sl-tooltip
     * Twitter Bootstrap
 
@@ -220,7 +220,7 @@ Generally the latest versions of browsers are supported.  On Windows, Internet E
 See provided link for most up-to-date information.
 
 
-### sl-components
+### sl-ember-components
 
 Latest versions of browsers plus one version prior.  For version 1.0.0 Internet Explorer 10+ is supported.
 
@@ -302,21 +302,21 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 ## Install this addon as a Node module
 
 ```
-npm install --save sl-components
+npm install --save-dev sl-ember-components
 
 ```
 
 ## Run its blueprint
 
 ```
-ember generate sl-components
+ember generate sl-ember-components
 
 ```
 
 
 ## Examples and documentation on how to use each component
 
-Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-components/
+Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components/
 
 
 
@@ -334,10 +334,10 @@ Employs [Semantic Versioning 2.0.0](http://semver.org/)
 ---
 
 # Copyright and License
-sl-components and its source files are Copyright © 2014 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
+sl-ember-components and its source files are Copyright © 2014 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
 The software is [MIT Licensed](LICENSE.md)
 
-sl-components leverages several third-party libraries which are not all MIT licensed.  Specifically, Highcharts is only
+sl-ember-components leverages several third-party libraries which are not all MIT licensed.  Specifically, Highcharts is only
 free for non-commercial use and requires a license for any other use. See
 [this FAQ page](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) for more information.
 

@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import GetKeyHelper from 'sl-components/helpers/get-key';
-import RenderComponentHelper from 'sl-components/helpers/render-component';
-import RenderTabPaneHelper from 'sl-components/helpers/render-tab-pane';
-import RenderTemplateHelper from 'sl-components/helpers/render-template';
+import GetKeyHelper from 'sl-ember-components/helpers/get-key';
+import RenderComponentHelper from 'sl-ember-components/helpers/render-component';
+import RenderTabPaneHelper from 'sl-ember-components/helpers/render-tab-pane';
+import RenderTemplateHelper from 'sl-ember-components/helpers/render-template';
 
 /**
 @module initializers

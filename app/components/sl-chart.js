@@ -1,3 +1,3 @@
-import SlChart from 'sl-components/components/sl-chart';
+import SlChart from 'sl-ember-components/components/sl-chart';
 
 export default SlChart;

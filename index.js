@@ -4,7 +4,7 @@ var mergeTrees = require( 'broccoli-merge-trees' ),
     pickFiles  = require( 'broccoli-static-compiler' );
 
 module.exports = {
-    name: 'sl-components',
+    name: 'sl-ember-components',
 
     included: function( app ) {
         this._super.included( app );

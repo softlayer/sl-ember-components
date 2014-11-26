@@ -1,3 +1,3 @@
-import SlGridTableCellActions from 'sl-components/components/sl-grid-table-cell-actions';
+import SlGridTableCellActions from 'sl-ember-components/components/sl-grid-table-cell-actions';
 
 export default SlGridTableCellActions;

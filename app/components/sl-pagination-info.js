@@ -1,3 +1,3 @@
-import SlPaginationInfo from 'sl-components/components/sl-pagination-info';
+import SlPaginationInfo from 'sl-ember-components/components/sl-pagination-info';
 
 export default SlPaginationInfo;

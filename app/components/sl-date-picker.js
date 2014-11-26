@@ -1,3 +1,3 @@
-import SlDatePicker from 'sl-components/components/sl-date-picker';
+import SlDatePicker from 'sl-ember-components/components/sl-date-picker';
 
 export default SlDatePicker;

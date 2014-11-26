@@ -1,3 +1,3 @@
-import SlLoadingIcon from 'sl-components/components/sl-loading-icon';
+import SlLoadingIcon from 'sl-ember-components/components/sl-loading-icon';
 
 export default SlLoadingIcon;

@@ -1,9 +1,9 @@
 #### International Business Machines, Inc. (IBM)
 ##### Individual Contributor License Agreement ("Agreement")
 
-http://www.github.com/softlayer/sl-components
+http://www.github.com/softlayer/sl-ember-components
 
-Thank you for your interest in the sl-components project ("the Project").
+Thank you for your interest in the sl-ember-components project ("the Project").
 
 In order to clarify the intellectual property license granted with Contributions
 from any person or entity, IBM must have a Contributor License Agreement ("CLA")

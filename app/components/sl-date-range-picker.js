@@ -1,3 +1,3 @@
-import SlDateRangePicker from 'sl-components/components/sl-date-range-picker';
+import SlDateRangePicker from 'sl-ember-components/components/sl-date-range-picker';
 
 export default SlDateRangePicker;

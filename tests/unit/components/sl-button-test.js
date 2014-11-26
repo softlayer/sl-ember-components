@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
-import SlButton from 'sl-components/components/sl-button';
+import SlButton from 'sl-ember-components/components/sl-button';
 import AjaxHelper from '../../helpers/ajax-helper';
 
 moduleForComponent( 'sl-button', 'Component: Sl-Button' );

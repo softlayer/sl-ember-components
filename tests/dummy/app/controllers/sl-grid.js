@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import SlGridMixin from 'sl-components/mixins/sl-grid-controller';
+import SlGridMixin from 'sl-ember-components/mixins/sl-grid-controller';
 
 export default Ember.ArrayController.extend( SlGridMixin, {
 
@@ -58,7 +58,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 title: 'HOSTNAME',
                 defaultText: 'translate.UNKNOWNDEVICE',
                 sortable: true,
-                resizable: true,                
+                resizable: true,
                 widthHint: 2
             },
             {
@@ -75,16 +75,16 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 key: 'type',
                 title: 'DEVICETYPE',
                 sortable: true,
-                hideable: true,                
-                resizable: true,                
+                hideable: true,
+                resizable: true,
                 widthHint: 1
             },
             {
                 component: 'sl-grid-table-cell',
                 key: 'notes',
                 title: 'NOTES',
-                hideable: true,                
-                resizable: true,                
+                hideable: true,
+                resizable: true,
                 widthHint: 3
             },
             {

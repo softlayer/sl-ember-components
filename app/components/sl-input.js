@@ -1,3 +1,3 @@
-import SlInput from 'sl-components/components/sl-input';
+import SlInput from 'sl-ember-components/components/sl-input';
 
 export default SlInput;

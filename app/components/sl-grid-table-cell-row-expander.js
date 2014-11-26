@@ -1,3 +1,3 @@
-import SlGridTableCellRowExpander from 'sl-components/components/sl-grid-table-cell-row-expander';
+import SlGridTableCellRowExpander from 'sl-ember-components/components/sl-grid-table-cell-row-expander';
 
 export default SlGridTableCellRowExpander;

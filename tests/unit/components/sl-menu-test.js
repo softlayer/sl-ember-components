@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
-import SlMenu from 'sl-components/components/sl-menu';
+import SlMenu from 'sl-ember-components/components/sl-menu';
 
 var clickCounter = 0,
     modelStub = {

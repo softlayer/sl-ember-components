@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
-import ModalMixin from 'sl-components/mixins/sl-modal';
+import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
 moduleForComponent( 'sl-dialog', 'Unit - component:sl-dialog' );
 

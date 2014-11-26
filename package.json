@@ -1,8 +1,7 @@
 {
-  "name": "sl-components",
-  "version": "0.9.0",
+  "name": "sl-ember-components",
+  "version": "0.0.0",
   "description": "Ember CLI Addon - UI components library",
-  "private": true,
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -14,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://stash.softlayer.local/projects/INTERFACE/repos/sl-components/"
+    "url": "https://github.com/softlayer/sl-ember-components"
   },
   "engines": {
     "node": ">= 0.10.0"

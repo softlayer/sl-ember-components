@@ -1,3 +1,3 @@
-import SlCheckbox from 'sl-components/components/sl-checkbox';
+import SlCheckbox from 'sl-ember-components/components/sl-checkbox';
 
 export default SlCheckbox;
