@@ -18,8 +18,8 @@
     "moment": "~2.8.3",
     "moment-timezone": "~0.2.4",
     "select2": "~3.5.1",
-    "sl-bootstrap": "git@gitlab.softlayer.local:interface/sl-bootstrap#0.6.1",
-    "typeahead.js": "~0.10.5"
+    "typeahead.js": "~0.10.5",
+    "sl-bootstrap": "git@github.com:softlayer/sl-bootstrap.git"
   },
   "devDependencies": {
     "sinonjs": "~1.10.2",
