@@ -1,6 +1,6 @@
 {
   "name": "sl-ember-components",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Ember CLI Addon - UI components library",
   "directories": {
     "doc": "doc",
