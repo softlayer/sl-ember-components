@@ -8,4 +8,5 @@
     * `npm version x.x.x`, where *x.x.x* is the Semantic Version of the changeset
     * `git push origin master`
     * `git push origin --tags`
-    * `npm publish`
+    * `npm publish --registry http://registry.npmjs.org/`
+        * Note: `--registry` flag is workaround for occasional issues with default SSL url
