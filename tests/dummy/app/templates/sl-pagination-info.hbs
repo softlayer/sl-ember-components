@@ -27,11 +27,11 @@
 
         <h6>Array Controller using sl-paginaton-controller Mixin</h6>
         <pre>import Ember from 'ember';
-import Paging from 'sl-components/mixins/sl-pagination-controller';
+import Paging from 'sl-ember-components/mixins/sl-pagination-controller';
 
 export default Ember.ArrayController.extend( Paging, {});</pre>
 
-        <p>which also requires the use of <a href="https://github.com/softlayer/sl-model">https://github.com/softlayer/sl-model</a>, or at least a property called <code>metaData</code> on your Array Controller's model data, for the mixin to work correctly.</p>
+        <p>which also requires the use of <a href="https://github.com/softlayer/sl-ember-model">https://github.com/softlayer/sl-ember-model</a>, or at least a property called <code>metaData</code> on your Array Controller's model data, for the mixin to work correctly.</p>
     </div>
 
     <div class="col-lg-6">
@@ -49,8 +49,8 @@ export default Ember.ArrayController.extend( Paging, {});</pre>
 
 <div class="list-group">
     <div class="list-group-item">
-        <p><a href="https://github.com/softlayer/sl-translate">https://github.com/softlayer/sl-translate</a></p>
-        <p><a href="https://github.com/softlayer/sl-model">https://github.com/softlayer/sl-model</a> (optional)</p>
+        <p><a href="https://github.com/softlayer/sl-ember-translate">https://github.com/softlayer/sl-ember-translate</a></p>
+        <p><a href="https://github.com/softlayer/sl-ember-model">https://github.com/softlayer/sl-ember-model</a> (optional)</p>
     </div>
 </div>
 
@@ -72,7 +72,7 @@ export default Ember.ArrayController.extend( Paging, {});</pre>
     {{/property-text}}
 
     {{#property-text name="pagingInfo" type="string"}}
-        A string with tokens to be translated with the sl-translate component.
+        A string with tokens to be translated with the sl-ember-translate component.
         Should be of the format: "Viewing {0} to {1} of {2} Items"
     {{/property-text}}
 </div>
