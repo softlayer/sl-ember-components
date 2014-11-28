@@ -19,8 +19,7 @@
     "moment-timezone": "~0.2.5",
     "select2": "~3.5.2",
     "typeahead.js": "~0.10.5",
-    "sl-bootstrap": "git@github.com:softlayer/sl-bootstrap.git",
-    "sl-ember-components": "git@github.com:softlayer/sl-ember-components.git"
+    "sl-bootstrap": "git@github.com:softlayer/sl-bootstrap.git"
   },
   "devDependencies": {
     "sinonjs": "~1.10.2",
