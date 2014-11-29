@@ -63,83 +63,105 @@
     <p>The `gridDefinition` object has two top-level keys: `options` and `columns`. Options is an object that specifies settings for the grid as a whole.  Column is an array of column definitions for each column in the grid. </p>
 
     <div class="list-group">
-    {{#property-text name="gridDefinition.options" required=true}}
-        <p>Option object holds all of the option settings for your grid</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.options.rowExpander" type="boolean"}}
-        <p>Option to enable the `rowExpander` functionality.</p>
-        <p>If enabled, specify the `rowExpanderComponent'
 
-        <p>Here is the specification from this demo's `itemController`:
-            <pre>rowExpanderComponent: 'row-expander-content'</pre>
-        </p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.options.actionsColumn" type="boolean"}}
-        <p>Option to enable the `actions` column on the grid.</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.options.settingsMenu.translationKeys" type="object"}}
-        <p>The grid system makes use of the `sl-translate` service and component.  This object is provided so that you can map the grid's translation keys to your own translation keys.  We have three keys on the `settingsMenu` that need to be translated:</p>
-        <ul>
-            <li>actions</li>
-            <li>columns</li>
-            <li>resetColumnsToDefaults</li>
-        </ul>
-        <p>These keys should be pointed to paths that the `sl-translate` service can translate.</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.options.settingsMenu.actions[].icon" type="string"}}
-        <p>A path to an icon image to be used in this entry in the actions menu.</p>
-    {{/property-text}}
+        {{#property-text name="gridDefinition.columns" type="array" required=true}}
+            <p>An array of column definitions.  This is required in your `gridDefinition`</p>
+        {{/property-text}}
 
-    {{#property-text name="gridDefinition.options.settingsMenu.actions[].label" type="string"}}
-        <p>A key that will be used by sl-translate to generate a translated string to display to the user, specifically for this entry in the actions menu.</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.options.settingsMenu.actions[].action" type="string"}}
-        <p>The action to invoke on your grid `arrayController`.</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.options.settingsMenu.hideableColumns" type="boolean"}}
-        <p>Whether to show the `hideable` column checkboxes in the settings menu</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns" type="array" required=true}}
-        <p>An array of column definitions.  This is required in your `gridDefinition`</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].cssClass" type="string"}}
-        <p>An optional css class to apply to each cell<p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].cssThClass" type="string"}}
-        <p>An optional css class to apply to each header cell<p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].component" type="string"}}
-        <p>The component to be rendered into each cell in this column.  The default is `sl-grid-table-cell`.</p>
-    {{/property-text}}    
-    {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
-        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].fixedWidth" type="number"}}
-        <p>An integer that specifies the width of this column in pixels.  Setting a column to a fixedWidth will cause it not to be used in the calculations for widthHints</p>
-    {{/property-text}}      
-    {{#property-text name="gridDefinition.columns[].hideable" type="string"}}
-        <p>Whether this column is hideable, requires the settings menu to have `hideableColumns` set to `true`</p>
-    {{/property-text}}    
-    {{#property-text name="gridDefinition.columns[].key" type="string"}}
-        <p>The key to the object on this array entry that will be used for this column</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].link" type="string"}}
-        <p>The ember route to link to if you are using the `sl-grid-table-cell-link` component.</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].movable" type="boolean"}}
-        <p>Whether this column's position can be changed by dragging the header.  Defaults to true.  Movable columns can not be dragged past unmovable columns.</p>
-    {{/property-text}}        
-    {{#property-text name="gridDefinition.columns[].resizable" type="boolean"}}
-        <p>Whether this column is resizable</p>{{/property-text}}
-    {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
-        <p>Whether this column is sortable</p>
-    {{/property-text}}
-    {{#property-text name="gridDefinition.columns[].title" type="string"}}
-        <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
-    {{/property-text}}    
-    {{#property-text name="gridDefinition.columns[].widthHint" type="number"}}
-        <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If the first column gets a width hint of `2` and the rest of the columns have width hints of `1` then the first column will initially render with a width twice as large as the rest.  All columns are assumed to have a widthHint of `1` unless they have `fixedWidth` specified.
-    {{/property-text}}  
+        {{#property-text name="gridDefinition.options" required=true}}
+            <p>Option object holds all of the option settings for your grid</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.options.rowExpander" type="boolean"}}
+            <p>Option to enable the `rowExpander` functionality.</p>
+            <p>If enabled, specify the `rowExpanderComponent'
+
+            <p>Here is the specification from this demo's `itemController`:
+                <pre>rowExpanderComponent: 'row-expander-content'</pre>
+            </p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.options.actionsColumn" type="boolean"}}
+            <p>Option to enable the `actions` column on the grid.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.options.settingsMenu.translationKeys" type="object"}}
+            <p>The grid system makes use of the `sl-translate` service and component.  This object is provided so that you can map the grid's translation keys to your own translation keys.  We have three keys on the `settingsMenu` that need to be translated:</p>
+            <ul>
+                <li>actions</li>
+                <li>columns</li>
+                <li>resetColumnsToDefaults</li>
+            </ul>
+            <p>These keys should be pointed to paths that the `sl-translate` service can translate.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.options.settingsMenu.actions[].icon" type="string"}}
+            <p>A path to an icon image to be used in this entry in the actions menu.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.options.settingsMenu.actions[].label" type="string"}}
+            <p>A key that will be used by sl-translate to generate a translated string to display to the user, specifically for this entry in the actions menu.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.options.settingsMenu.actions[].action" type="string"}}
+            <p>The action to invoke on your grid `arrayController`.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.options.settingsMenu.hideableColumns" type="boolean"}}
+            <p>Whether to show the `hideable` column checkboxes in the settings menu</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].cssClass" type="string"}}
+            <p>An optional css class to apply to each cell<p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].cssThClass" type="string"}}
+            <p>An optional css class to apply to each header cell<p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].component" type="string"}}
+            <p>The component to be rendered into each cell in this column.  The default is `sl-grid-table-cell`.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
+            <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].fixedWidth" type="number"}}
+            <p>An integer that specifies the width of this column in pixels.  Setting a column to a fixedWidth will cause it not to be used in the calculations for widthHints</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].hideable" type="string"}}
+            <p>Whether this column is hideable, requires the settings menu to have `hideableColumns` set to `true`</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].key" type="string"}}
+            <p>The key to the object on this array entry that will be used for this column</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].link" type="string"}}
+            <p>The ember route to link to if you are using the `sl-grid-table-cell-link` component.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].movable" type="boolean"}}
+            <p>Whether this column's position can be changed by dragging the header.  Defaults to true.  Movable columns can not be dragged past unmovable columns.</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].resizable" type="boolean"}}
+            <p>Whether this column is resizable</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
+            <p>Whether this column is sortable</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].title" type="string"}}
+            <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
+        {{/property-text}}
+
+        {{#property-text name="gridDefinition.columns[].widthHint" type="number"}}
+            <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If the first column gets a width hint of `2` and the rest of the columns have width hints of `1` then the first column will initially render with a width twice as large as the rest.  All columns are assumed to have a widthHint of `1` unless they have `fixedWidth` specified.
+        {{/property-text}}
     </div>
 
     <p>Here is the `gridDefinition` from this demo:</p>
@@ -175,7 +197,7 @@
                 title: 'HOSTNAME',
                 defaultText: 'translate.UNKNOWNDEVICE',
                 sortable: true,
-                resizable: true,                
+                resizable: true,
                 widthHint: 2
             },
             {
@@ -190,15 +212,15 @@
                 key: 'type',
                 title: 'DEVICETYPE',
                 sortable: true,
-                hideable: true,                
-                resizable: true,                
+                hideable: true,
+                resizable: true,
                 widthHint: 1
             },
             {
                 key: 'notes',
                 title: 'NOTES',
-                hideable: true,                
-                resizable: true,                
+                hideable: true,
+                resizable: true,
                 widthHint: 3
             },
             {
