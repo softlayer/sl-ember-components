@@ -1,5 +1,10 @@
 # sl-ember-components Changelog
 
+### 0.3.0
+
+* [#48](https://github.com/softlayer/sl-ember-components/pull/48) [BREAKING INTERNAL] Some additional references to previous repository name that was not correctly caught
+* [#49](https://github.com/softlayer/sl-ember-components/pull/49) [INTERNAL] - Update dummy app .LESS reference
+
 ### 0.2.0
 
 * [#40](https://github.com/softlayer/sl-ember-components/pull/40) [INTERNAL] - Add additional details to upgrade information
