@@ -148,7 +148,7 @@ export default Ember.Mixin.create({
      * @returns {void}
      */
     reloadModel: function() {
-        Ember.assert( 'SL-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
+        Ember.assert( 'SL-Ember-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
     },
 
     /**
