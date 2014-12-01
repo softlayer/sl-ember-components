@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
-import inArray from '../../helpers/in-array';
+import { contains } from '../../helpers/sl/synchronous';
 
 var App;
 
@@ -20,7 +20,7 @@ moduleForComponent( 'sl-tab-panel', 'Unit - component:sl-tab-panel', {
 test( 'Expected default classes are applied', function() {
     var $component = this.append();
 
-    inArray( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ], 'Default classes are not correctly applied' );
+    contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ], 'Default classes are not correctly applied' );
 });
 
 // @TODO 5th test - selector does not return results when there's an expectation that it should (in test environment)
@@ -85,7 +85,7 @@ test( '"alignTabs" property is respected', function() {
         }),
         $component = this.append();
 
-    inArray( $component.prop( 'class' ), 'sl-align-tabs-right', 'Tab alignment class not applied' );
+    contains( $component.prop( 'class' ), 'sl-align-tabs-right', 'Tab alignment class not applied' );
 });
 
 test( 'Tabs display in expected order when "alignTabs" property is not specified', function() {

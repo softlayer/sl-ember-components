@@ -1,3 +1,3 @@
-import SlDropButton from 'sl-components/components/sl-drop-button';
+import SlDropButton from 'sl-ember-components/components/sl-drop-button';
 
 export default SlDropButton;

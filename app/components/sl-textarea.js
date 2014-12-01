@@ -1,3 +1,3 @@
-import SlTextarea from 'sl-components/components/sl-textarea';
+import SlTextarea from 'sl-ember-components/components/sl-textarea';
 
 export default SlTextarea;

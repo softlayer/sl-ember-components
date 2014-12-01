@@ -4,9 +4,7 @@ There are many ways to contribute to the project, including fixing issues or imp
 
 # Questions
 
-This is the issue tracker for `sl-components`. The community uses this site to collect and track bugs and discussions of
-new features. If you are having difficulties using `sl-components` or have a question about usage please ask a question
-on Stack Overflow: http://stackoverflow.com/questions/ask?tags=sl-components
+This is the issue tracker for `sl-ember-components`. The community uses this site to collect and track bugs and discussions of new features. If you are having difficulties using `sl-ember-components` or have a question about usage please ask a question on Stack Overflow: http://stackoverflow.com/questions/ask?tags=sl-ember-components
 
 # Issues
 
@@ -14,17 +12,17 @@ Think you've found a bug or have a new feature to suggest? Let us know!
 
 ## Reporting a Bug
 
-1. Update to the most recent master release if possible. We may have already fixed your bug.
+1. Make sure you have the latest version of the code, if possible, as we may have already fixed your bug.  This project uses the [git-flow branching model](https://github.com/nvie/gitflow) so the latest changes will be in the `develop` branch.
 
 2. Search for similar issues. It's possible somebody has encountered this bug already.
 
 3. Provide a demo that specifically shows the problem. This demo should be fully operational with the exception of the
 bug you want to demonstrate. The more pared down, the better. Issues with demos are prioritized.
 
-4. Your issue will be verified. The provided demo will be tested for correctness. The sl-components team will work with
+4. Your issue will be verified. The provided demo will be tested for correctness. The sl-ember-components team will work with
 you until your issue can be verified.
 
-5. Keep up to date with feedback from the sl-components team on your ticket. Your ticket may be closed if it becomes
+5. Keep up to date with feedback from the sl-ember-components team on your ticket. Your ticket may be closed if it becomes
 stale.
 
 6. If possible, submit a Pull Request with a failing test. Better yet, take
@@ -51,7 +49,7 @@ more work to do than time to do it. If you can write some code then that will sp
 # Pull Requests
 
 ## Contributer License Agreement
-Contributions to the sl-components project require the submission of a contributer license agreement. Individual
+Contributions to the sl-ember-components project require the submission of a contributer license agreement. Individual
 contributers should review and complete the [Individual CLA](CLA-INDIVIDUAL.md). Contributions made on behalf of a
 company/employer will necessitate the completion of the [Corporate CLA](CLA-CORPORATE.md).
 
@@ -74,8 +72,7 @@ functionality or fixing a bug, we need a test!
 5. Commit your changes. If your pull request fixes an issue specify it in the commit message. Here's an example:
 `git commit -m "Close #12 Fix passing of context"`
 
-6. Push to your fork and submit a pull request. Please provide us with some explanation of why you made the changes you
-made. For new features make sure to explain a standard use case to us.
+6. Push to your fork and submit a pull request againt the `develop` branch (due to our use of the [git-flow branching model](https://github.com/nvie/gitflow)). Please provide us with some explanation of why you made the changes you made. For new features make sure to explain a standard use case to us.
 
 7. Update the Changelog. Please prefix your change with one of the following tags inside brackets: BUGFIX,
 FEATURE/ENHANCEMENT, INTERNAL. If a change requires a user to change their configuration, `bower.json`, `package.json`,

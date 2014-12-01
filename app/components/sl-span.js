@@ -1,3 +1,3 @@
-import SlSpan from 'sl-components/components/sl-span';
+import SlSpan from 'sl-ember-components/components/sl-span';
 
 export default SlSpan;

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
-import inArray from '../../helpers/in-array';
+import { contains } from '../../helpers/sl/synchronous';
 
 var App;
 
@@ -20,7 +20,7 @@ moduleForComponent( 'sl-tab-pane', 'Unit - component:sl-tab-pane', {
 test( 'Expected default classes are applied', function() {
     var $component = this.append();
 
-    inArray( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ], 'Default classes are not correctly applied' );
+    contains( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ], 'Default classes are not correctly applied' );
 });
 
 test( '"data-tab-label" attribute gets set as expected', function() {

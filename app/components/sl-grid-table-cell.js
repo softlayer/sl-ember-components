@@ -1,3 +1,3 @@
-import SlGridTableCell from 'sl-components/components/sl-grid-table-cell';
+import SlGridTableCell from 'sl-ember-components/components/sl-grid-table-cell';
 
 export default SlGridTableCell;

@@ -1,3 +1,3 @@
-import SlRadioGroup from 'sl-components/components/sl-radio-group';
+import SlRadioGroup from 'sl-ember-components/components/sl-radio-group';
 
 export default SlRadioGroup;

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
-import TooltipEnabledMixin from 'sl-components/mixins/sl-tooltip-enabled';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-tooltip', 'Unit - component:sl-tooltip' );
 

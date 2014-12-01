@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import GetKeyHelper from 'sl-components/helpers/get-key';
-import RenderComponentHelper from 'sl-components/helpers/render-component';
-import RenderTabPaneHelper from 'sl-components/helpers/render-tab-pane';
-import RenderTemplateHelper from 'sl-components/helpers/render-template';
-import SplitGridCellValueHelper from 'sl-components/helpers/split-grid-cell-value';
-import SplitGridDetailContentHelper from 'sl-components/helpers/split-grid-detail-content';
-import SplitGridFilterHelper from 'sl-components/helpers/split-grid-filter';
+import GetKeyHelper from 'sl-ember-components/helpers/get-key';
+import RenderComponentHelper from 'sl-ember-components/helpers/render-component';
+import RenderTabPaneHelper from 'sl-ember-components/helpers/render-tab-pane';
+import RenderTemplateHelper from 'sl-ember-components/helpers/render-template';
+import SplitGridCellValueHelper from 'sl-ember-components/helpers/split-grid-cell-value';
+import SplitGridDetailContentHelper from 'sl-ember-components/helpers/split-grid-detail-content';
+import SplitGridFilterHelper from 'sl-ember-components/helpers/split-grid-filter';
 
 /**
 @module initializers

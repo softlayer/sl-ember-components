@@ -1,10 +1,10 @@
 {
-    "name": "sl-components",
+    "name": "sl-ember-components",
     "version": "0.8.0",
-    "description": "SoftLayer shared UI components library",
-    "url": "https://gitlab.softlayer.local/interface/sl-components",
+    "description": "An Ember CLI Addon that provides a variety of UI components.",
+    "url": "https://github.com/softlayer/sl-ember-components",
     "options": {
-        "exclude": "node_modules,tmp,vendor",
+        "exclude": "node_modules,tmp,bower_components",
         "outdir": "doc",
         "paths": [
             "./app",

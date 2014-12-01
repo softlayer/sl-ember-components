@@ -1,3 +1,3 @@
-import SlMenu from 'sl-components/components/sl-menu';
+import SlMenu from 'sl-ember-components/components/sl-menu';
 
 export default SlMenu;

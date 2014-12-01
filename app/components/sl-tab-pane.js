@@ -1,3 +1,3 @@
-import SlTabPane from 'sl-components/components/sl-tab-pane';
+import SlTabPane from 'sl-ember-components/components/sl-tab-pane';
 
 export default SlTabPane;

@@ -1,7 +1,7 @@
-import initializer from 'sl-components/initializers/register-helpers';
+import initializer from 'sl-ember-components/initializers/register-helpers';
 
 export default {
-  name: 'sl-components-register-helpers',
+  name: 'sl-ember-components-register-helpers',
 
   initialize: initializer
 };

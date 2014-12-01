@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
-import InputBasedMixin from 'sl-components/mixins/sl-input-based';
-import TooltipEnabledMixin from 'sl-components/mixins/sl-tooltip-enabled';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-textarea', 'Unit - component:sl-textarea' );
 

@@ -17,7 +17,7 @@ This mixin is intended to provide basic modal functionality to a traditional Emb
     * hidden.bs.modal
     * loaded.bs.modal
 
-The most important parts here are the layoutName, which allows us to wrap the Twitter Bootstrap-specified outer DIVs and the class names, which also tie into Twitter Bootstrap support.  To support this layout, sl-components also contains a *template/modal.hbs* file that includes the DOM to wrap around the template.
+The most important parts here are the layoutName, which allows us to wrap the Twitter Bootstrap-specified outer DIVs and the class names, which also tie into Twitter Bootstrap support.  To support this layout, sl-ember-components also contains a *template/modal.hbs* file that includes the DOM to wrap around the template.
 
 ## mixins/sl-modal-manager
 
@@ -41,7 +41,7 @@ To use the modal, you're going to want to do 3 things:
 1) In your View file, mix in the sl-modal mixin.
 
     import Ember from 'ember';
-    import ModalMixin from 'sl-components/mixins/sl-modal';
+    import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
     export default Ember.View.extend( ModalMixin, {
         classNames: [ 'my-modal' ]
@@ -60,7 +60,7 @@ The main thing to keep in mind here is whether or not you have created a control
 3) In the route or controller that you wish to be responsible for actually launching the modal, mix in the sl-modal-manager mixin.
 
     import Ember from 'ember';
-    import ModalManager from 'sl-components/mixins/sl-modal-manager';
+    import ModalManager from 'sl-ember-components/mixins/sl-modal-manager';
 
     export default Ember.Route.extend( ModalManager, {
     });
@@ -93,7 +93,7 @@ Also note the use of the *modal-title* class.  While not required for ARIA suppo
 It is a good practice to set the *aria-describedby* attribute.  To do so set the *aria-describedby* property in your view which contains *sl-modal* mixin.  It should be a space-separated list of element IDs, such as:
 
     import Ember from 'ember';
-    import ModalMixin from 'sl-components/mixins/sl-modal';
+    import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
     export default Ember.View.extend( ModalMixin, {
         classNames: [ 'myClassName' ],
@@ -113,7 +113,7 @@ Here is a full example of an application that uses a list of buttons and shares 
 routes/index.js:
 
     import Ember from 'ember';
-    import ModalManager from 'sl-components/mixins/sl-modal-manager';
+    import ModalManager from 'sl-ember-components/mixins/sl-modal-manager';
 
     export default Ember.Route.extend( ModalManager, {
         setupController: function( controller, model ) {
@@ -165,7 +165,7 @@ templates/hello.hbs:
 views/hello.js:
 
     import Ember from 'ember';
-    import ModalMixin from 'sl-components/mixins/sl-modal';
+    import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
     export default Ember.View.extend( ModalMixin, {
         classNames: [ 'hello' ]
@@ -179,7 +179,7 @@ This is an example of implementing ARIA support and tying into Twitter Bootstrap
 views/modals/keyboard-shortcut-list.js:
 
     import Ember from 'ember';
-    import ModalMixin from 'sl-components/mixins/sl-modal';
+    import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
     export default Ember.View.extend( ModalMixin, {
         'aria-describedby': 'describe-kb-global',

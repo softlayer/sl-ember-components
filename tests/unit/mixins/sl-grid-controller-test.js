@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { test, moduleFor } from 'ember-qunit';
-import SlGridController from 'sl-components/mixins/sl-grid-controller';
+import SlGridController from 'sl-ember-components/mixins/sl-grid-controller';
 
 var gridController;
 
