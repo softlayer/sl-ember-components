@@ -19,7 +19,17 @@
     "node": ">= 0.10.0"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "UI",
+    "UI components",
+    "calendar",
+    "chart",
+    "grid",
+    "menu",
+    "tabs",
+    "tooltip",
+    "progress bar",
+    "modal"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
