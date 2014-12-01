@@ -1,3 +1,3 @@
-import SlSplitGrid from 'sl-components/components/sl-split-grid';
+import SlSplitGrid from 'sl-ember-components/components/sl-split-grid';
 
 export default SlSplitGrid;
