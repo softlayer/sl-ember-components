@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="ember, ember cli, UI, UI components, calendar, chart, grid, menu, progress bar, modal">
+<meta name="description" content="An Ember CLI Addon that provides the ability to lookup a dictionary value through method calls or via a component in your templates.">
+<meta name="author" content="SoftLayer, an IBM Company">
+
+<link type="image/png" href="images/favicon.png" rel="icon">
+<title>sl-ember-components</title>
+
+<link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<br>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-reorder"></i> <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                <li><a href="/sl-ember-components"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/blob/master/README.md"><i class="fa fa-wrench"></i> Get Started</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/blob/master/CONTRIBUTING.md"><i class="fa fa-cog"></i> Contribution Guide</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/stargazers"><i class="fa fa-star"></i> Star Our Repo</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/fork"><i class="fa fa-code-fork"></i> Fork Our Repo</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Supported Browsers</h1>
+            <p class="lead">As not all of the components in sl-ember-components are based upon the same third-party libraries it is possible that there is varying support for browser versions across the different components. Below is a table of each component's library dependencies. Beneath this table are the supported browsers for said libraries.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <strong><u>Legend</u></strong>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            TWB
+        </div>
+        <div class="col-md-11">
+            Twitter Bootstrap
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            SEC
+        </div>
+        <div class="col-md-11">
+            sl-ember-components
+        </div>
+      </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            HC
+        </div>
+        <div class="col-md-11">
+            Highcharts
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+           BD
+        </div>
+        <div class="col-md-11">
+           Bootstrap-Datepicker
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            SET
+        </div>
+        <div class="col-md-11">
+           sl-ember-translate
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+          TA
+        </div>
+        <div class="col-md-11">
+          typeahead.js
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+           S2
+        </div>
+        <div class="col-md-11">
+           Select2
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            SEM
+        </div>
+        <div class="col-md-11">
+           sl-ember-model
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-4">
+          <strong><u>Component</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>TWB</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>SEC</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>HC</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>BD</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>SET</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>TA</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>S2</u></strong>
+        </div>
+        <div class="col-md-1 text-center">
+          <strong><u>SEM</u></strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          alert
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          button
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          calendar
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          chart
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          checkbox
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          date-picker
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          date-range-picker
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          date-time
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          dialog
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          drop-button
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          grid system
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          input
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          loading-icon
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          menu
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          pagination-controls
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          pagination-info
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          optional
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          pagination-per-page-select
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          panel
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          progress-bar
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          radio
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          radio-group
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          select
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          span
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          tab-panel
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          textarea
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          tooltip
+        </div>
+        <div class="col-md-1 text-center">
+          <i class="fa fa-check"></i>
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+        <div class="col-md-1 text-center">
+          -
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <strong><u>Twitter Bootstrap</u></strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>From <a href="http://getbootstrap.com/getting-started/#support">http://getbootstrap.com/getting-started/#support</a>:</p>
+          <p>Generally the latest versions of browsers are supported. On Windows, Internet Explorer 8-11 are supported.</p>
+          <p>See provided link for most up-to-date information.</p>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <strong><u>sl-ember-components</u></strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>Latest versions of browsers plus one version prior. Version 0.3.0 supports Internet Explorer 10+.</p>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <strong><u>Highcharts</u></strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>From <a href="http://www.highcharts.com/products/highcharts/#compatible">http://www.highcharts.com/products/highcharts/#compatible</a>:</p>
+          <p>Works in all modern mobile and desktop browsers including the iPhone/iPad and Internet Explorer from version 6. On iOS and Android, multitouch support provides a seamless user experience. Standard browsers use SVG for the graphics rendering. In legacy Internet Explorer graphics are drawn using VML.</p>
+          <p>See provided link for most up-to-date information.</p>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <strong><u>Bootstrap-Datepicker</u></strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>From <a href="http://bootstrap-datepicker.readthedocs.org/en/release/#">http://bootstrap-datepicker.readthedocs.org/en/release/#</a>:</p>
+          <p>Has a dependency on Twitter Bootstrap so same support previously listed.</p>
+          <p>See provided link for most up-to-date information.</p>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <strong><u>typeahead.js</u></strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>From <a href="https://github.com/twitter/typeahead.js">https://github.com/twitter/typeahead.js</a>:</p>
+          <ul>
+          <li>Chrome</li>
+          <li>Firefox 3.5+</li>
+          <li>Safari 4+</li>
+          <li>Internet Explorer 7+</li>
+          <li>Opera 11+</li>
+          <li>Not tested on mobile browsers</li>
+          </ul>
+          <p>See provided link for most up-to-date information.</p>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <strong><u>Select2</u></strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>From <a href="http://ivaynberg.github.io/select2/">http://ivaynberg.github.io/select2/</a>:</p>
+          <ul>
+          <li>IE 8+</li>
+          <li>Chrome 8+</li>
+          <li>Firefox 10+</li>
+          <li>Safari 3+</li>
+          <li>Opera 10.6+</li>
+          </ul>
+          <p>See provided link for most up-to-date information.</p>
+        </div>
+      </div>
+
+    <br><br>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>npm intall sl-ember-components</p>
+            <p><a href="https://github.com/softlayer/sl-ember-components/blob/master/LICENSE.md">MIT Licensed</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
