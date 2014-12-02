@@ -1,3 +1,4 @@
+/* jshint node: true */
 'use strict';
 
 var mergeTrees = require( 'broccoli-merge-trees' ),
