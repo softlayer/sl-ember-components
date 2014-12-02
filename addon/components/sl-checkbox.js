@@ -25,7 +25,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @property {Ember.Array} classNames
      */
-    classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ]
+    classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ],
+
+    /**
+     * Bindings for the base component class
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'disabled' ]
 
     // -------------------------------------------------------------------------
     // Actions
