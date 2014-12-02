@@ -27,7 +27,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      *
      * @property {Ember.Array} attributeBindings
      */
-    attributeBindings: [ 'class', 'data-target', 'data-toggle', 'disabled', 'type' ],
+    attributeBindings: [ 'data-target', 'data-toggle', 'disabled', 'type' ],
 
     /**
      * Class names to apply to the button
