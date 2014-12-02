@@ -81,10 +81,6 @@
             </p>
         {{/property-text}}
 
-        {{#property-text name="gridDefinition.options.actionsColumn" type="boolean"}}
-            <p>Option to enable the `actions` column on the grid.</p>
-        {{/property-text}}
-
         {{#property-text name="gridDefinition.options.settingsMenu.translationKeys" type="object"}}
             <p>The grid system makes use of the `sl-translate` service and component.  This object is provided so that you can map the grid's translation keys to your own translation keys.  We have three keys on the `settingsMenu` that need to be translated:</p>
             <ul>
@@ -169,7 +165,6 @@
     gridDefinition: {
         options: {
             rowExpander      : true,
-            actionsColumn    : true,
             settingsMenu     : {
                 translationKeys: {
                     actions: 'ACTIONS',
