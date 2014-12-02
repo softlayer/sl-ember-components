@@ -61,10 +61,14 @@ module.exports = {
                 destDir : '/fonts'
             }),
 
-            pickFiles( 'public/assets/images', {
+            pickFiles( 'public/assets', {
                 srcDir  : '/',
-                files   : [ 'spinner-dark.png', 'spinner-light.png' ],
-                destDir : '/assets/images'
+                files   : [
+                    'select2-spinner.gif',
+                    'images/spinner-dark.png',
+                    'images/spinner-light.png'
+                ],
+                destDir : '/assets'
             })
         ]);
     }
