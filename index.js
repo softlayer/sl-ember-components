@@ -59,6 +59,12 @@ module.exports = {
                 srcDir  : '/',
                 files   : [ 'fontawesome-webfont.woff' ],
                 destDir : '/fonts'
+            }),
+
+            pickFiles( 'public/assets/images', {
+                srcDir  : '/',
+                files   : [ 'spinner-dark.png', 'spinner-light.png' ],
+                destDir : '/assets/images'
             })
         ]);
     }
