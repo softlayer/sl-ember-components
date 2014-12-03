@@ -4,6 +4,7 @@
 
 * [#48](https://github.com/softlayer/sl-ember-components/pull/48) [BREAKING INTERNAL] Some additional references to previous repository name that was not correctly caught
 * [#49](https://github.com/softlayer/sl-ember-components/pull/49) [INTERNAL] - Update dummy app .LESS reference
+* [#58](https://github.com/softlayer/sl-ember-components/pull/58) [BREAKING INTERNAL] Upgrade Ember CLI to 0.1.3
 
 ### 0.2.0
 

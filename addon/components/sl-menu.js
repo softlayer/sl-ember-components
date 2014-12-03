@@ -317,9 +317,6 @@ export default Ember.Component.extend({
             this.send( 'showAll' );
         },
 
-        // -------------------------------------------------------------------------
-        // Methods
-
         /**
          * Target pointer to the parent view
          *
@@ -391,12 +388,12 @@ export default Ember.Component.extend({
      * Initialize children array
      *
      * @function initChildren
-     * @observes "didInsertElement" event
+     * @observes "init" event
      * @returns  {void}
      */
     initChildren: function() {
         this.set( 'children', Ember.A() );
-    }.on( 'didInsertElement' ),
+    }.on( 'init' ),
 
     /**
      * Initialize keyboard event listeners
