@@ -1,17 +1,14 @@
 {
   "name": "sl-ember-components",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Ember CLI Addon - UI components library",
   "homepage": "http://softlayer.github.io/sl-ember-components",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
   "scripts": {
     "start": "ember server",
     "build": "ember build",
     "test": "ember test"
   },
+  "bugs": "https://github.com/softlayer/sl-ember-components/issues",
   "repository": {
     "type": "git",
     "url": "http://github.com/softlayer/sl-ember-components.git"
@@ -35,11 +32,11 @@
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "authors": [
-    "Jeremy Brown <jebrown@softlayer.com>",
-    "Joshua Cochran",
-    "Joshua Forisha <jforisha@softlayer.com>",
-    "Matthew Marcum <mmarcum@softlayer.com>"
+  "contributors": [
+    "Joshua Forisha <josh@forisha.com> (http://joshforisha.com)",
+    "Matthew Marcum <mmarcum@softlayer.com> (http://strangelooper.com)",
+    "Jeremy Brown <jeremy@notmessenger.com> (http://www.notmessenger.com)",
+    "Joshua Cochran"
   ],
   "license": "MIT",
   "dependencies": {
