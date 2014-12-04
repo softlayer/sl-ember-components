@@ -11,7 +11,7 @@
     {{content-for 'test-head'}}
 
     <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/sl-ember-components.css">
+    <link rel="stylesheet" href="assets/dummy.css">
     <link rel="stylesheet" href="assets/test-support.css">
     <style>
       #ember-testing-container {
@@ -24,12 +24,14 @@
         overflow: auto;
         z-index: 9999;
         border: 1px solid #ccc;
-        opacity: 0.4;
       }
       #ember-testing {
         zoom: 50%;
       }
     </style>
+
+    {{content-for 'head-footer'}}
+    {{content-for 'test-head-footer'}}
   </head>
   <body>
 
@@ -42,5 +44,8 @@
     <script src="assets/sinon-qunit.js"></script>
     <script src="testem.js"></script>
     <script src="assets/test-loader.js"></script>
+
+    {{content-for 'body-footer'}}
+    {{content-for 'test-body-footer'}}
   </body>
 </html>
