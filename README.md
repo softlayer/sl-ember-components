@@ -87,7 +87,7 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 
 Most usually employed by a controller being used to back an implementation of the *sl-grid system*, this mixin should be used whenever pagination support for a data set is desired.
 
-Requires either the use of [sl-ember-model](https://github.com/softlayer/sl-ember-model) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
+Requires either the use of [sl-ember-store](https://github.com/softlayer/sl-ember-store) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
 
 
 **Helpers**
