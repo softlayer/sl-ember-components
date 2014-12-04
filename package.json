@@ -3,10 +3,6 @@
   "version": "0.3.0",
   "description": "Ember CLI Addon - UI components library",
   "homepage": "http://softlayer.github.io/sl-ember-components",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
   "scripts": {
     "start": "ember server",
     "build": "ember build",
