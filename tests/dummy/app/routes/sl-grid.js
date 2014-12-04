@@ -12,7 +12,7 @@ export default Ember.Route.extend({
                             type: 'server',
                             name: 'test.server.com',
                             ip: '192.168.1.1',
-                            notes: 'Test Test Test Test Test Test Test Test',
+                            notes: 'Test Note',
                             provisionDate: moment('2014-09-12')
                         },
                         {
@@ -20,7 +20,7 @@ export default Ember.Route.extend({
                             type: 'firewall',
                             name: 'fw.server.com',
                             ip: '192.168.1.21',
-                            notes: 'Test Test Test Test Test Test Test Test',
+                            notes: 'Test Note',
                             provisionDate: moment('2013-03-16')
                         },
                         {
@@ -28,14 +28,14 @@ export default Ember.Route.extend({
                             type: 'server',
                             name: 'test2.server.com',
                             ip: '192.168.1.41',
-                            notes: 'Test Test Test Test Test Test Test Test',
+                            notes: 'Test Note',
                             provisionDate: moment('2014-09-01')
                         },
                         {
                             id: 4,
                             type: 'server',
                             ip: '192.168.1.13',
-                            notes: 'Test Test Test Test Test Test Test Test',
+                            notes: 'Test Note',
                             provisionDate: moment('2014-09-12')
                         },
                         {
@@ -43,7 +43,7 @@ export default Ember.Route.extend({
                             type: 'loadBalancer',
                             name: 'test11.server.com',
                             ip: '192.168.1.1',
-                            notes: 'Test Test Test Test Test Test Test Test',
+                            notes: 'Test Note',
                             provisionDate: moment('2013-05-22')
                         },
                         {
@@ -51,7 +51,7 @@ export default Ember.Route.extend({
                             type: 'server',
                             name: 'test32.server.com',
                             ip: '192.168.1.131',
-                            notes: 'Test Test Test Test Test Test Test Test',
+                            notes: 'Test Note',
                             provisionDate: moment('2011-02-15')
                         },
                         {
@@ -59,7 +59,7 @@ export default Ember.Route.extend({
                             type: 'server',
                             name: 'test12.server.com',
                             ip: '192.168.1.211',
-                            notes: 'Test Test Test Test Test Test Test Test',
+                            notes: 'Test Note',
                             provisionDate: moment('2014-09-12')
                         },
                     ]);
