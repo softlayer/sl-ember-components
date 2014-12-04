@@ -36,11 +36,11 @@
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "authors": [
-    "Jeremy Brown <jebrown@softlayer.com>",
-    "Joshua Cochran",
-    "Joshua Forisha <jforisha@softlayer.com>",
-    "Matthew Marcum <mmarcum@softlayer.com>"
+   "contributors": [
+    "Joshua Forisha <josh@forisha.com> (http://joshforisha.com)",
+    "Matthew Marcum <mmarcum@softlayer.com> (http://strangelooper.com)",
+    "Jeremy Brown <jeremy@notmessenger.com> (http://www.notmessenger.com)",
+    "Joshua Cochran"
   ],
   "license": "MIT",
   "dependencies": {
