@@ -1,7 +1,9 @@
 <header>
     <div class="row">
         <div class="col-sm-6">
-            <span class="title">{{title}}</span>
+            {{#if title}}
+                <span class="title">{{title}}</span>
+            {{/if}}
         </div>
 
         {{#if filterTemplate}}
@@ -39,9 +41,9 @@
         <table class="table table-hover table-striped">
             <tbody>
                 {{#each row in content itemController="sl-split-grid-row"}}
-                    <tr {{action "openDetailsPane" row on="click"}} {{bind-attr class="row.active:active"}}>
+                    <tr {{bind-attr class="row.active:active"}}>
                         {{#each column in columns itemController="sl-split-grid-column"}}
-                            <td {{bind-attr class="column.sizeClass" style=column.style}}>
+                            <td {{action "openDetailsPane" row on="click"}} {{bind-attr class="column.sizeClass" style=column.style}}>
                                 {{split-grid-cell-value}}
                             </td>
                         {{/each}}
