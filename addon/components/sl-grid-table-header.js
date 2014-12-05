@@ -74,9 +74,10 @@ export default Ember.Component.extend({
      */
     mouseDown: function() {
         if ( !this.get( 'disabled' ) && this.getWithDefault( 'column.movable', true ) ) {
-            Ember.$( 'body' ).on( 'mousemove', this.mouseMoveListener );
-            Ember.$( 'body' ).on( 'mouseup', this.mouseUpListener );
-            Ember.$( 'body' ).on( 'mouseleave', this.mouseLeaveListener );
+            Ember.$( 'body' )
+                .on( 'mousemove', this.mouseMoveListener )
+                .on( 'mouseup', this.mouseUpListener )
+                .on( 'mouseleave', this.mouseLeaveListener );
         }
     },
 
@@ -119,7 +120,7 @@ export default Ember.Component.extend({
             this.set( 'style', 'width:' + finalWidth + 'px;' );
             return;
         }
-        
+
         tableWidth       = this.$().parents( 'table.sl-grid' ).width();
         totalWidthHints  = this.get( 'totalWidthHints' );
         totalFixedWidth  = this.get( 'totalFixedWidths' );
@@ -157,6 +158,7 @@ export default Ember.Component.extend({
             }
 
             Ember.$( 'body' ).removeClass( 'reordering' )
+                .off( 'mouseleave', this.mouseLeaveListener )
                 .off( 'mousemove', this.mouseMoveListener )
                 .off( 'mouseup', this.mouseUpListener );
 
@@ -218,10 +220,11 @@ export default Ember.Component.extend({
             }
 
             Ember.$( 'body' ).removeClass( 'reordering' )
+                .off( 'mouseleave', this.mouseLeaveListener )
                 .off( 'mousemove', this.mouseMoveListener )
                 .off( 'mouseup', this.mouseUpListener );
 
-            Ember.run.next( this, function(){ 
+            Ember.run.next( this, function(){
                 window.getSelection().removeAllRanges();
             });
 
@@ -234,6 +237,14 @@ export default Ember.Component.extend({
 
     }.on( 'didInsertElement' ),
 
+    removeBoundEventListeners: function(){
+        //just in case
+        Ember.$( 'body' )
+            .off( 'mouseleave', this.mouseLeaveListener )
+            .off( 'mousemove', this.mouseMoveListener )
+            .off( 'mouseup', this.mouseUpListener );
+
+    }.on( 'willDestroyElement' )
     // -------------------------------------------------------------------------
     // Methods
 
@@ -268,8 +279,8 @@ export default Ember.Component.extend({
     },
 
     /**
-     * While dragging a column, this function is called to calculate the target 
-     * column position and highlight it.  This function will prevent columns from 
+     * While dragging a column, this function is called to calculate the target
+     * column position and highlight it.  This function will prevent columns from
      * being dragged past 'unmovable' columns on the ends.
      *
      * @function setNewColumnIndex
