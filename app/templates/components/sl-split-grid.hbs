@@ -36,7 +36,7 @@
     </table>
 
     <div class="sl-split-grid-body content">
-        <table class="table table-hover">
+        <table class="table table-hover table-striped">
             <tbody>
                 {{#each row in content itemController="sl-split-grid-row"}}
                     <tr {{action "openDetailsPane" row on="click"}} {{bind-attr class="row.active:active"}}>
