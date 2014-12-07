@@ -111,15 +111,15 @@
         <code>rows</code> attribute value.
     {{/property-text}}
 
-    {{#property-text name="selectionDirection" type="number" default="\"forward\""}}
+    {{#property-text name="selectionDirection" type="string" default="\"forward\""}}
         The <code>selectionDirection</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;. Can be "forward", "backward", or "none".
     {{/property-text}}
 
-    {{#property-text name="selectionEnd" type="number"}}
+    {{#property-text name="selectionEnd" type="number/string"}}
         The <code>selectionEnd</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;.
     {{/property-text}}
 
-    {{#property-text name="selectionStart" type="number"}}
+    {{#property-text name="selectionStart" type="number/string"}}
         The <code>selectionStart</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;.
     {{/property-text}}
 
@@ -135,7 +135,7 @@
         Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 
-    {{#property-text name="wrap" type="number/string" default="\"soft\""}}
+    {{#property-text name="wrap" type="string" default="\"soft\""}}
         The <code>wrap</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;. Can be "hard" or "soft".
     {{/property-text}}
 

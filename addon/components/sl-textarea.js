@@ -51,7 +51,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The `selectionEnd` HTML attribute value
      *
-     * @property {number} selectionEnd
+     * @property {number|string} selectionEnd
      * @default  null
      */
     selectionEnd: null,
@@ -59,7 +59,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The `selectionStart` HTML attribute value
      *
-     * @property {number} selectionStart
+     * @property {number|string} selectionStart
      * @default  null
      */
     selectionStart: null,
@@ -67,7 +67,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The `spellcheck` HTML attribute value
      *
-     * Accepted values are true, false, or "default".
+     * Accepted values are true, false, "default" (default), "true", or "false".
      *
      * @property {boolean|string} spellcheck
      * @default  "default"
