@@ -63,6 +63,10 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="autofocus" type="number" default="false"}}
+        The <code>autofocus</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;.
+    {{/property-text}}
+
     {{#property-text name="cols" type="number/string"}}
         <code>cols</code> attribute value.
     {{/property-text}}
@@ -84,7 +88,7 @@
     {{/property-text}}
 
     {{#property-text name="optional" type="boolean" default="false"}}
-        When true, the component is styled to reflect optional status.  This styling will only be in effect if the <code>label</code> property has also been set.
+        When true, the component is styled to reflect optional status. This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
     {{#property-text name="placeholder" type="string"}}
@@ -100,11 +104,27 @@
     {{/property-text}}
 
     {{#property-text name="required" type="boolean" default="false"}}
-        When true, the component is styled to reflect required status.  This styling will only be in effect if the <code>label</code> property has also been set.
+        When true, the component is styled to reflect required status. This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
     {{#property-text name="rows" type="number/string"}}
         <code>rows</code> attribute value.
+    {{/property-text}}
+
+    {{#property-text name="selectionDirection" type="number" default="\"forward\""}}
+        The <code>selectionDirection</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;. Can be "forward", "backward", or "none".
+    {{/property-text}}
+
+    {{#property-text name="selectionEnd" type="number"}}
+        The <code>selectionEnd</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;.
+    {{/property-text}}
+
+    {{#property-text name="selectionStart" type="number"}}
+        The <code>selectionStart</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;.
+    {{/property-text}}
+
+    {{#property-text name="spellcheck" type="boolean/string" default="\"default\""}}
+        The <code>spellcheck</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;. Can be true, false, or "default".
     {{/property-text}}
 
     {{#property-text name="tabindex" type="string"}}
@@ -113,6 +133,10 @@
 
     {{#property-text name="title" type="string"}}
         Tooltip text string, or becomes popover title with supplied popover property.
+    {{/property-text}}
+
+    {{#property-text name="wrap" type="number/string" default="\"soft\""}}
+        The <code>wrap</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;. Can be "hard" or "soft".
     {{/property-text}}
 
     {{#property-text name="value" type="mixed"}}
