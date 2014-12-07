@@ -81,6 +81,15 @@ test( '"helpText" is rendered if populated', function() {
     equal( $.trim( $component.find( '.help-block' ).text() ), helpText );
 });
 
+test( '"autofocus" property is supported', function() {
+    var component = this.subject({
+            autofocus: true
+        }),
+        $component = this.append();
+
+    equal( $component.find( 'textarea' ).attr( 'autofocus' ), "autofocus" );
+});
+
 test( '"cols" property is supported', function() {
     var cols      = '8',
         component = this.subject({
@@ -139,6 +148,45 @@ test( '"rows" property is supported', function() {
     equal( $component.find( 'textarea' ).attr( 'rows' ), rows );
 });
 
+test( '"selectionDirection" is supported', function() {
+    var component = this.subject({
+            selectionDirection: 'backward'
+        }),
+        $component = this.append();
+
+    equal( $component.find( 'textarea' ).attr( 'selectionDirection' ), 'backward' );
+});
+
+test( '"selectionEnd" is supported', function() {
+    var selectionEnd = '10',
+        component = this.subject({
+            selectionEnd: selectionEnd
+        }),
+        $component = this.append();
+
+    equal( $component.find( 'textarea' ).attr( 'selectionEnd' ), selectionEnd );
+});
+
+test( '"selectionStart" is supported', function() {
+    var selectionStart = '10',
+        component = this.subject({
+            selectionStart: selectionStart
+        }),
+        $component = this.append();
+
+    equal( $component.find( 'textarea' ).attr( 'selectionStart' ), selectionStart );
+});
+
+test( '"spellcheck" property is supported', function() {
+    var spellcheck = 'true',
+        component  = this.subject({
+            spellcheck: spellcheck
+        }),
+        $component = this.append();
+
+    equal( $component.find( 'textarea' ).attr( 'spellcheck' ), spellcheck );
+});
+
 test( '"tabindex" property is supported', function() {
     var tabindex  = '2',
         component = this.subject({
@@ -147,6 +195,16 @@ test( '"tabindex" property is supported', function() {
         $component = this.append();
 
     equal( $component.find( 'textarea' ).attr( 'tabindex' ), tabindex );
+});
+
+test( '"wrap" property is supported', function() {
+    var wrap      = 'hard',
+        component = this.subject({
+            wrap: wrap
+        }),
+        $component = this.append();
+
+    equal( $component.find( 'textarea' ).attr( 'wrap' ), wrap );
 });
 
 test( '"value" property is supported', function() {
