@@ -1,4 +1,23 @@
+<br>
 <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-reorder"></i> <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                <li><a href="/sl-ember-components"><i class="fa fa-home"></i> Home</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/blob/master/README.md"><i class="fa fa-wrench"></i> Get Started</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/blob/master/CONTRIBUTING.md"><i class="fa fa-cog"></i> Contribution Guide</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/stargazers"><i class="fa fa-star"></i> Star Our Repo</a></li>
+                <li><a href="http://github.com/softlayer/sl-ember-components/fork"><i class="fa fa-code-fork"></i> Fork Our Repo</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="page-header">
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
@@ -39,10 +58,17 @@
             </li>
         </ul>
         <h1 id="title">
-            {{#link-to "index"}}Sl-Ember-Components{{/link-to}}
-            <small>v0.3.0 Beta</small>
+            {{#link-to "index"}}Demo Application{{/link-to}}
         </h1>
     </div>
 
     {{outlet}}
+
+    <br><br>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>npm install sl-ember-components</p>
+            <p><a href="https://github.com/softlayer/sl-ember-components/blob/master/LICENSE.md">MIT Licensed</a></p>
+        </div>
+    </div>
 </div>

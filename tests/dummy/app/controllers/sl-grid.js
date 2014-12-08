@@ -28,7 +28,6 @@ export default Ember.ArrayController.extend( SlGridMixin, {
     gridDefinition: {
         options: {
             rowExpander      : true,
-            actionsColumn    : true,
             settingsMenu     : {
                 translationKeys: {
                     actions: 'ACTIONS',
@@ -85,7 +84,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 title: 'NOTES',
                 hideable: true,
                 resizable: true,
-                widthHint: 3
+                widthHint: 2
             },
             {
                 component: 'sl-grid-table-cell',
@@ -115,5 +114,5 @@ export default Ember.ArrayController.extend( SlGridMixin, {
         var model = this.store.find( 'device' );
 
         this.set( 'model', model );
-    },
+    }
 });

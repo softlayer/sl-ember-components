@@ -1,6 +1,5 @@
 {
   "predef": [
-    "contains",
     "document",
     "window",
     "location",

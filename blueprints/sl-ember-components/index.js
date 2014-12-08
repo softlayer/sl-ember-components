@@ -24,7 +24,7 @@ module.exports = {
                 return self.addBowerPackageToProject( 'typeahead.js' );
             })
             .then( function() {
-                return self.addBowerPackageToProject( 'git@github.com:softlayer/sl-ember-components.git' );
+                return self.addBowerPackageToProject( 'softlayer/sl-ember-components' );
             });
     },
 

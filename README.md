@@ -1,5 +1,5 @@
 
-Ember CLI version: **0.1.2**
+Ember CLI version: **0.1.4**
 
 NPM package name: **sl-ember-components**
 
@@ -87,7 +87,7 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 
 Most usually employed by a controller being used to back an implementation of the *sl-grid system*, this mixin should be used whenever pagination support for a data set is desired.
 
-Requires either the use of [sl-ember-model](https://github.com/softlayer/sl-ember-model) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
+Requires either the use of [sl-ember-store](https://github.com/softlayer/sl-ember-store) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
 
 
 **Helpers**
@@ -123,9 +123,7 @@ Provides an abstraction between the events the *sl-menu* component listens for a
 
 ---
 
-All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings
-as well as our own implementations when the existing offerings were deficient.  Existing offerings that were leveraged
-include:
+All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings as well as our own implementations when the existing offerings were deficient.  Existing offerings that were leveraged include:
 
 * [Twitter Bootstrap](http://getbootstrap.com/)
 * [Bootstrap-Datepicker](http://bootstrap-datepicker.readthedocs.org/en/release/#)
@@ -135,8 +133,7 @@ include:
 
 ## LICENSE WARNING
 
-While this library is MIT licensed not all of the third-party component libraries are.  Specifically, Highcharts is only
-free for non-commercial use and requires a license for any other use. See
+While this library is MIT licensed not all of the third-party component libraries are.  Specifically, Highcharts is only free for non-commercial use and requires a license for any other use. See
 [this FAQ page](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) for more information.
 
 Other libraries that are not MIT licensed, though it should not pose a problem, are:
@@ -149,148 +146,27 @@ Other libraries that are not MIT licensed, though it should not pose a problem, 
 
 # Supported browsers
 
-As not all of the components in sl-ember-components are based upon the same third-party libraries it is possible that there is
-varying support for browser versions across the different components.
-
-Below is a list of each component's library dependencies. Beneath this list is the supported browsers for said libraries.
-
-* sl-alert
-    * Twitter Bootstrap
-* sl-button
-    * Twitter Bootstrap
-* sl-calendar
-    * sl-ember-components
-* sl-chart
-    * Highcharts
-* sl-checkbox
-    * Twitter Bootstrap
-* sl-date-picker
-    * Bootstrap-Datepicker
-* sl-date-range-picker
-    * Bootstrap-Datepicker
-* sl-date-time
-    * sl-ember-components
-* sl-dialog
-    * Twitter Bootstrap
-* sl-drop-button
-    * Twitter Bootstrap
-* sl-grid system
-    * sl-ember-components
-    * [sl-ember-translate](https://github.com/softlayer/sl-ember-translate)
-* sl-input
-    * Twitter Bootstrap
-    * typeahead.js
-* sl-loading-icon
-    * sl-ember-components
-* sl-menu
-    * sl-ember-components
-* sl-pagination-controls
-    * sl-ember-components
-* sl-pagination-info
-    * sl-ember-components
-    * [sl-ember-translate](https://github.com/softlayer/sl-ember-translate)
-    * [sl-ember-model](https://github.com/softlayer/sl-ember-model) (optional)
-* sl-pagination-per-page-select
-    * sl-ember-components
-    * [sl-ember-translate](https://github.com/softlayer/sl-ember-translate)
-    * Select2
-* sl-panel
-    * Twitter Bootstrap
-* sl-progress-bar
-    * sl-ember-components
-* sl-radio
-    * sl-ember-components
-* sl-radio-group
-    * Twitter Bootstrap
-* sl-select
-    * Select2
-* sl-span
-    * sl-ember-components
-* sl-tab-panel
-    * Twitter Bootstrap
-* sl-textarea
-    * sl-ember-components
-* sl-tooltip
-    * Twitter Bootstrap
-
-
-### Twitter Bootstrap
-
-From http://getbootstrap.com/getting-started/#support
-
-Generally the latest versions of browsers are supported.  On Windows, Internet Explorer 8-11 are supported.
-
-See provided link for most up-to-date information.
-
-
-### sl-ember-components
-
-Latest versions of browsers plus one version prior.  For version 1.0.0 Internet Explorer 10+ is supported.
-
-
-
-### Highcharts
-
-From http://www.highcharts.com/products/highcharts/#compatible
-
-Works in all modern mobile and desktop browsers including the iPhone/iPad and Internet Explorer from version 6. On iOS
-and Android, multitouch support provides a seamless user experience. Standard browsers use SVG for the graphics
-rendering. In legacy Internet Explorer graphics are drawn using VML.
-
-See provided link for most up-to-date information.
-
-
-### Bootstrap-Datepicker
-
-From http://bootstrap-datepicker.readthedocs.org/en/release/#
-
-Has a dependency on Twitter Bootstrap so same support previously listed.
-
-See provided link for most up-to-date information.
-
-
-### typeahead.js
-
-From https://github.com/twitter/typeahead.js
-
-* Chrome
-* Firefox 3.5+
-* Safari 4+
-* Internet Explorer 7+
-* Opera 11+
-* Not tested on mobile browsers
-
-See provided link for most up-to-date information.
-
-
-### Select2
-
-From http://ivaynberg.github.io/select2/
-
-* IE 8+
-* Chrome 8+
-* Firefox 10+
-* Safari 3+
-* Opera 10.6+
-
-See provided link for most up-to-date information.
-
-
-
+See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softlayer.github.io/sl-ember-components/browsers.html)
 
 
 ---
 
 
-# Working Demo
+# Demo
 
-## Installation
+## Live
+
+[http://softlayer.github.io/sl-ember-components/dist](http://softlayer.github.io/sl-ember-components/dist)
+
+## Development Environment
+
+### Installation
 
 * `git clone` this repository
 * `npm install`
 * `bower install`
 
-## Running
+### Running
 
 * `ember server`
 * View the demo at http://localhost:4200
@@ -319,7 +195,7 @@ ember generate sl-ember-components
 
 ## Examples and documentation on how to use each component
 
-Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components/
+Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components
 
 
 
