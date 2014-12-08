@@ -61,5 +61,21 @@ module.exports = {
                 destDir : '/fonts'
             })
         ]);
+    },
+
+    contentFor: function( type, config ) {
+        var content;
+
+        switch ( type ) {
+            case 'keywords':
+                content = require('./package.json')['keywords'].join( ', ' ) + ', ember, ember cli';
+                break;
+
+            case 'description':
+                content = require('./package.json')['description'];
+                break;
+        }
+
+        return content;
     }
 };
