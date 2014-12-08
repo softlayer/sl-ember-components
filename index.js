@@ -59,17 +59,23 @@ module.exports = {
                 srcDir  : '/',
                 files   : [ 'fontawesome-webfont.woff' ],
                 destDir : '/fonts'
-            }),
-
-            pickFiles( 'public/assets', {
-                srcDir  : '/',
-                files   : [
-                    'select2-spinner.gif',
-                    'images/spinner-dark.png',
-                    'images/spinner-light.png'
-                ],
-                destDir : '/assets'
             })
         ]);
+    },
+
+    contentFor: function( type, config ) {
+        var content;
+
+        switch ( type ) {
+            case 'keywords':
+                content = require('./package.json')['keywords'].join( ', ' ) + ', ember, ember cli';
+                break;
+
+            case 'description':
+                content = require('./package.json')['description'];
+                break;
+        }
+
+        return content;
     }
 };

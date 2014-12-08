@@ -3,19 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Sl-Ember-Components Demos</title>
-    <meta name="description" content="">
+    <title>sl-ember-components</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="{{content-for 'keywords'}}">
+    <meta name="description" content="{{content-for 'description'}}">
+    <meta name="author" content="SoftLayer, an IBM Company">
 
     {{content-for 'head'}}
 
+    <link rel="icon" href="../images/favicon.png" type="image/png">
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/sl-ember-components.css">
+
+    {{content-for 'head-footer'}}
   </head>
   <body>
     {{content-for 'body'}}
 
     <script src="assets/vendor.js"></script>
     <script src="assets/dummy.js"></script>
+
+    {{content-for 'body-footer'}}
   </body>
 </html>

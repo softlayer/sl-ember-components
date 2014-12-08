@@ -1,10 +1,9 @@
-/* global require, module */
+/* jshint node: true */
+/* global require, module, process */
 
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon'),
-    isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production';
-
-app = new EmberAddon();
-
+    isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production',
+    app = new EmberAddon();
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
