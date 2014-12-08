@@ -58,9 +58,7 @@ export default Ember.Component.extend({
                 this.set( 'activeRecord', null );
             }
 
-            if ( this.get( 'detailsOpen' ) ) {
-                this.set( 'detailsOpen', false );
-            }
+            this.set( 'detailsOpen', false );
         },
 
         /**
@@ -80,9 +78,7 @@ export default Ember.Component.extend({
             Ember.set( row, 'active', true );
             this.set( 'activeRecord', row );
 
-            if ( !this.get( 'detailsOpen' ) ) {
-                this.set( 'detailsOpen', true );
-            }
+            this.set( 'detailsOpen', true );
         },
 
         /**
@@ -95,7 +91,7 @@ export default Ember.Component.extend({
             this.set( 'filterOpen', !this.get( 'filterOpen' ) );
 
             if ( this.get( 'autoHeight' ) ) {
-                Ember.run.next( this.updateContentHeight.bind( this ));
+                Ember.run.next( this.updateContentHeight.bind( this ) );
             }
         }
     },
@@ -190,7 +186,7 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     resizeContent: function() {
-        this.$( '.content' ).height( this.get( 'contentHeight' ));
+        this.$( '.content' ).height( this.get( 'contentHeight' ) );
     }.observes( 'contentHeight' ).on( 'didInsertElement' ),
 
     /**
@@ -201,8 +197,8 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     setupAutoResize: function() {
-        if ( this.get( 'autoHeight' )) {
-            Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ));
+        if ( this.get( 'autoHeight' ) ) {
+            Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ) );
             this.updateContentHeight();
         }
     }.observes( 'autoHeight' ).on( 'didInsertElement' ),
@@ -229,7 +225,11 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     detailTitle: function() {
-        return Ember.get( this.get( 'activeRecord' ), this.get( 'detailTitlePath' ));
+        var activeRecord = this.get( 'activeRecord' );
+
+        if ( activeRecord ) {
+            return Ember.get( activeRecord, this.get( 'detailTitlePath' ) );
+        }
     }.property( 'activeRecord', 'detailTitlePath' ),
 
     /**
@@ -239,15 +239,15 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     updateContentHeight: function() {
-        var viewportHeight = Ember.$( window ).innerHeight(),
-            topPosition = this.$().position().top,
-            gridHeaderHeight = parseInt( this.$( 'header' ).css( 'height' )),
-            gridHeadHeight = parseInt( this.$( '.sl-split-grid-head' ).css( 'height' )),
-            contentHeight = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight,
+        var viewportHeight   = Ember.$( window ).innerHeight(),
+            topPosition      = this.$().position().top,
+            gridHeaderHeight = parseInt( this.$( 'header' ).css( 'height' ) ),
+            gridHeadHeight   = parseInt( this.$( '.sl-split-grid-head' ).css( 'height' ) ),
+            contentHeight    = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight,
             filterPaneHeight;
 
-        if ( this.get( 'filterOpen' )) {
-            filterPaneHeight = parseInt( this.$( '.sl-split-grid-filter-pane' ).css( 'height' ));
+        if ( this.get( 'filterOpen' ) ) {
+            filterPaneHeight = parseInt( this.$( '.sl-split-grid-filter-pane' ).css( 'height' ) );
             contentHeight -= filterPaneHeight;
         }
 

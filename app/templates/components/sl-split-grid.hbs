@@ -1,8 +1,8 @@
 <header>
     <div class="row">
         <div class="col-sm-6">
-            {{#if title}}
-                <span class="title">{{title}}</span>
+            {{#if view.title}}
+                <span class="title">{{view.title}}</span>
             {{/if}}
         </div>
 
@@ -64,17 +64,19 @@
     </div>
 </div>
 
-<div class="sl-split-grid-detail-pane">
-    <header>
-        <span class="title">{{detailTitle}}</span>
-        <a {{action "closeDetailsPane"}} class="btn close-button">&times;</a>
-    </header>
+{{#if detailsOpen}}
+    <div class="sl-split-grid-detail-pane">
+        <header>
+            <span class="title">{{detailTitle}}</span>
+            <a {{action "closeDetailsPane"}} class="btn close-button">&times;</a>
+        </header>
 
-    <div class="content">
-        <div class="detail-content">
-            {{#with activeRecord}}
-                {{split-grid-detail-content}}
-            {{/with}}
+        <div class="content">
+            <div class="detail-content">
+                {{#with activeRecord}}
+                    {{split-grid-detail-content}}
+                {{/with}}
+            </div>
         </div>
     </div>
-</div>
+{{/if}}
