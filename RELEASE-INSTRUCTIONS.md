@@ -45,4 +45,5 @@ Then follow these steps:
     * */dist/sl-ember-components* folder
 * Switch to the `gh-pages` branch
 * Replace the same files listed above with their copies
+* If Ember CLI has been upgraded, update reference to the version number in the "sl-ember-components" of the *browsers.html* file
 * Commit and push the changes
