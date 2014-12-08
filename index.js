@@ -10,13 +10,13 @@ module.exports = {
     included: function( app ) {
         this._super.included( app );
 
+        if ( app.env === 'development' ) {
+            app.import( 'bower_components/sl-bootstrap/dist/css/sl-bootstrap-theme.css.map' );
+        }
+
         app.import({
             development : 'bower_components/sl-bootstrap/dist/js/sl-bootstrap.js',
             production  : 'bower_components/sl-bootstrap/dist/js/sl-bootstrap.min.js'
-        });
-
-        app.import({
-            development: 'bower_components/sl-bootstrap/dist/css/sl-bootstrap-theme.css.map'
         });
 
         app.import( 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js' );
