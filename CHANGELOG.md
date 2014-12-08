@@ -1,5 +1,16 @@
 # sl-ember-components Changelog
 
+### 0.5.0
+
+* [#90](https://github.com/softlayer/sl-ember-components/pull/90) [INTERNAL] Update bower dependency url
+* [#97](https://github.com/softlayer/sl-ember-components/pull/97) [BUGFIX] Correct asset paths
+* [#101](https://github.com/softlayer/sl-ember-components/pull/101) [ENHANCEMENT] Make date-picker properties configurable instead of hard-coded
+* [#103](https://github.com/softlayer/sl-ember-components/pull/103) [ENHANCEMENT] Add properties for additional HTML attributes
+* [#104](https://github.com/softlayer/sl-ember-components/pull/104) [ENHANCEMENT] Additional updates to textarea attributes
+* [#106](https://github.com/softlayer/sl-ember-components/pull/106) [BREAKING ENHANCEMENT] Upgrade to Ember CLI 0.1.4
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.4.0...v0.5.0)
+
 ### 0.4.0
 
 * [[DOCUMENTATION]](https://github.com/softlayer/sl-ember-components/commit/47c0bf50dd768237c8ce0fd9b763181acd62c3e1) Add menu to demo application for integration with gh-pages content
