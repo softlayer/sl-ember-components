@@ -1,5 +1,5 @@
 
-Ember CLI version: **0.1.3**
+Ember CLI version: **0.1.4**
 
 NPM package name: **sl-ember-components**
 
