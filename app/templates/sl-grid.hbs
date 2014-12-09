@@ -18,7 +18,7 @@
     <tbody>
     {{#if isLoading}}
         <tr>
-            <td {{bind-attr colspan=columnCount class=":shadow-mask"}}>&nbsp;
+            <td {{bind-attr colspan=visibleColumns class=":shadow-mask"}}>&nbsp;
             </td>
         </tr>
     {{else}}
@@ -32,7 +32,7 @@
             </tr>
             {{#if options.rowExpander}}
                 {{#if row.rowExpanderIsOpen}}
-                    {{#sl-grid-table-row-expander row=row columnCount=columnCount}}
+                    {{#sl-grid-table-row-expander row=row visibleColumns=visibleColumns}}
                         {{render-component row.rowExpanderComponent options=options data=row}}
                     {{/sl-grid-table-row-expander}}
                 {{/if}}

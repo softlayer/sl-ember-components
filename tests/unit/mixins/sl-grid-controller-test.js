@@ -127,6 +127,15 @@ test( 'property: columnCount', function(){
     equal( gridController.get('columnCount'), 2, 'column count equals num of columns');
 });
 
+test( 'property: visibleColumns', function(){
+    equal( gridController.get('visibleColumns'), 2, 'column count equals num of visible columns');
+});
+
+test( 'property: visibleColumns, 1 hidden', function(){
+    gridController.set( 'columns.0.hidden', true )
+    equal( gridController.get('visibleColumns'), 1, 'column count equals num of visible columns');
+});
+
 test( 'method: loadGridDefinition', function(){
     equal( Ember.typeOf( gridController.get('grid') ), 'instance', 'loadGridDefinition created the grid object' );
 });
