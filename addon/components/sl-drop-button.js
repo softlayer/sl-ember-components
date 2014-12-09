@@ -18,7 +18,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @property {Ember.Array} classNames
      */
-    classNames: [ 'btn-group', 'sl-drop-button' ],
+    classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -43,12 +43,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @property {Ember.String} theme
      * @default  "default"
      */
-    theme: 'default'
+    theme: 'default',
 
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
+
+
 
 });
