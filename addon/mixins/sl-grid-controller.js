@@ -60,7 +60,7 @@ export default Ember.Mixin.create( Ember.Evented, {
             }
             //make sure cp recomputes, stupid sortable mixin...
             this.get( 'sortAscending' );
-            
+
             this.trigger( 'gridStateChanged' );
         },
 
@@ -133,7 +133,7 @@ export default Ember.Mixin.create( Ember.Evented, {
 
     // -------------------------------------------------------------------------
     // Observers
-    
+
      /**
      * Call on controller initialization
      *
@@ -178,6 +178,19 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @returns  {number}
      */
     columnCount: Ember.computed.alias( 'columns.length' ),
+
+    /**
+     * The number of visible columns - used for layout
+     *
+     * @property visibleColumns
+     * @observes columns.@each.hidden
+     * @return {number}
+     */
+     visibleColumns: function() {
+
+        return this.get( 'columns' ).rejectBy( 'hidden' ).length;
+
+     }.property( 'columns.@each.hidden' ),
 
     /**
      * Placeholder for a grid's definition object
