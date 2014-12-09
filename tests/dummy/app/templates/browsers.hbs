@@ -1,0 +1,186 @@
+<h1>Supported Browsers</h1>
+<p class="lead">As not all of the components in sl-ember-components are based upon the same third-party libraries it is possible that there is varying support for browser versions across the different components. Below is a table of each component's library dependencies. Beneath this table are the supported browsers for said libraries.</p>
+
+<section>
+    <h5>Legend</h5>
+
+    <div class="row">
+        <div class="col-md-1">
+            TWB
+        </div>
+        <div class="col-md-11">
+            Twitter Bootstrap
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            SEC
+        </div>
+        <div class="col-md-11">
+            sl-ember-components
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            HC
+        </div>
+        <div class="col-md-11">
+            Highcharts
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            BD
+        </div>
+        <div class="col-md-11">
+            Bootstrap-Datepicker
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            SET
+        </div>
+        <div class="col-md-11">
+            sl-ember-translate
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            TA
+        </div>
+        <div class="col-md-11">
+            typeahead.js
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            S2
+        </div>
+        <div class="col-md-11">
+            Select2
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            SES
+        </div>
+        <div class="col-md-11">
+            sl-ember-store
+        </div>
+    </div>
+</section>
+
+<section>
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th class="col-sm-4">Component</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="Twitter Bootstrap"}}TWB{{/sl-tooltip}}</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="sl-ember-components"}}SEC{{/sl-tooltip}}</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="Highcharts"}}HC{{/sl-tooltip}}</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="Bootstrap-Datepicker"}}BD{{/sl-tooltip}}</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="sl-ember-translate"}}SET{{/sl-tooltip}}</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="typeahead.js"}}TA{{/sl-tooltip}}</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="Select2"}}S2{{/sl-tooltip}}</th>
+                <th class="col-sm-1 text-center">{{#sl-tooltip title="sl-ember-store"}}SES{{/sl-tooltip}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each components}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td class="text-center">
+                        {{#if lib.twb}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                    <td class="text-center">
+                        {{#if lib.sec}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                    <td class="text-center">
+                        {{#if lib.hc}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                    <td class="text-center">
+                        {{#if lib.bd}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                    <td class="text-center">
+                        {{#if lib.set}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                    <td class="text-center">
+                        {{#if lib.ta}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                    <td class="text-center">
+                        {{#if lib.s2}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                    <td class="text-center">
+                        {{#if lib.ses}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h5>Twitter Bootstrap</h5>
+
+    <p>From <a href="http://getbootstrap.com/getting-started/#support">http://getbootstrap.com/getting-started/#support</a>:</p>
+    <p>Generally the latest versions of browsers are supported. On Windows, Internet Explorer 8-11 are supported.</p>
+    <p>See provided link for most up-to-date information.</p>
+</section>
+
+<section>
+    <h5>sl-ember-components</h5>
+
+    <p>Latest versions of browsers plus one version prior. Version 0.3.0 supports Internet Explorer 10+.</p>
+</section>
+
+<section>
+    <h5>Highcharts</h5>
+
+    <p>From <a href="http://www.highcharts.com/products/highcharts/#compatible">http://www.highcharts.com/products/highcharts/#compatible</a>:</p>
+    <p>Works in all modern mobile and desktop browsers including the iPhone/iPad and Internet Explorer from version 6. On iOS and Android, multitouch support provides a seamless user experience. Standard browsers use SVG for the graphics rendering. In legacy Internet Explorer graphics are drawn using VML.</p>
+    <p>See provided link for most up-to-date information.</p>
+</section>
+
+<section>
+    <h5>Bootstrap-Datepicker</h5>
+
+    <p>From <a href="http://bootstrap-datepicker.readthedocs.org/en/release/#">http://bootstrap-datepicker.readthedocs.org/en/release/#</a>:</p>
+    <p>Has a dependency on Twitter Bootstrap so same support previously listed.</p>
+    <p>See provided link for most up-to-date information.</p>
+</section>
+
+<section>
+    <h5>typeahead.js</h5>
+
+    <p>From <a href="https://github.com/twitter/typeahead.js">https://github.com/twitter/typeahead.js</a>:</p>
+    <ul>
+        <li>Chrome</li>
+        <li>Firefox 3.5+</li>
+        <li>Safari 4+</li>
+        <li>Internet Explorer 7+</li>
+        <li>Opera 11+</li>
+        <li>Not tested on mobile browsers</li>
+    </ul>
+    <p>See provided link for most up-to-date information.</p>
+</section>
+
+<section>
+    <h5>Select2</h5>
+
+    <p>From <a href="http://ivaynberg.github.io/select2/">http://ivaynberg.github.io/select2/</a>:</p>
+    <ul>
+        <li>IE 8+</li>
+        <li>Chrome 8+</li>
+        <li>Firefox 10+</li>
+        <li>Safari 3+</li>
+        <li>Opera 10.6+</li>
+    </ul>
+    <p>See provided link for most up-to-date information.</p>
+</section>

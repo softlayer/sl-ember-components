@@ -132,7 +132,7 @@ test( 'property: visibleColumns', function(){
 });
 
 test( 'property: visibleColumns, 1 hidden', function(){
-    gridController.set( 'columns.0.hidden', true )
+    gridController.set( 'columns.0.hidden', true );
     equal( gridController.get('visibleColumns'), 1, 'column count equals num of visible columns');
 });
 
