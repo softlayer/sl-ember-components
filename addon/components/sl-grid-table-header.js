@@ -238,11 +238,11 @@ export default Ember.Component.extend({
     }.on( 'didInsertElement' ),
 
     /**
-     * removed any listeners that may have been set up
+     * Removes any listeners that may have been set up
      *
      * @function removeBoundEventListeners
      * @observes "willClearRender" event
-     * @returns  {void}*
+     * @returns  {void}
      */
     removeBoundEventListeners: function(){
         //just in case

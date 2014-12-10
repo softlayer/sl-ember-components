@@ -183,7 +183,8 @@ export default Ember.Mixin.create({
     }.on( 'didInsertElement' ),
 
     /**
-     * remove any event listeners that might have been added
+     * Removes any event listeners that might have been added
+     *
      * @function removeBoundEventListeners
      * @observes "willClearRender" event
      * @returns  {void}
