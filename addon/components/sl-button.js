@@ -49,6 +49,16 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * Alert external code about the click
+     *
+     * @function click
+     * @returns  {void}
+     */
+    click: function() {
+        this.sendAction();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -103,16 +113,6 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * @default  "default"
      */
     theme: 'default',
-
-    /**
-     * Alert external code about the click
-     *
-     * @function click
-     * @returns  {void}
-     */
-    click: function() {
-        this.sendAction();
-    },
 
     // -------------------------------------------------------------------------
     // Observers
