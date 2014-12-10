@@ -107,6 +107,14 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     label: null,
 
     /**
+     * The size of the button
+     *
+     * @property {string} size
+     * @default  "medium"
+     */
+    size: 'medium',
+
+    /**
      * The bootstrap "theme" name
      *
      * @property {Ember.String} theme
@@ -180,11 +188,24 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * @returns  {Ember.String} Defaults to undefined
      */
     sizeClass: function() {
-        var size = this.get( 'size' );
+        var size = this.get( 'size' ),
+            sizeClass;
 
-        if ( size ) {
-            return 'btn-' + size;
+        switch ( size ) {
+            case 'extra-small':
+                sizeClass = 'btn-xs';
+                break;
+
+            case 'small':
+                sizeClass = 'btn-sm';
+                break;
+
+            case 'large':
+                sizeClass = 'btn-lg';
+                break;
         }
+
+        return sizeClass;
     }.property( 'size' ),
 
     /**
