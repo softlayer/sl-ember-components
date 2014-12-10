@@ -23,7 +23,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
         }
     },
 
-    itemController: 'sl-grid-item',
+    itemController: 'demos.sl-grid-item',
 
     gridDefinition: {
         options: {

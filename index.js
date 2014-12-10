@@ -10,12 +10,14 @@ module.exports = {
     included: function( app ) {
         this._super.included( app );
 
+        if ( app.env === 'development' ) {
+            app.import( 'bower_components/sl-bootstrap/dist/css/sl-bootstrap-theme.css.map' );
+        }
+
         app.import({
             development : 'bower_components/sl-bootstrap/dist/js/sl-bootstrap.js',
             production  : 'bower_components/sl-bootstrap/dist/js/sl-bootstrap.min.js'
         });
-
-        app.import( 'bower_components/sl-bootstrap/dist/css/sl-bootstrap-theme.css.map' );
 
         app.import( 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
@@ -59,17 +61,23 @@ module.exports = {
                 srcDir  : '/',
                 files   : [ 'fontawesome-webfont.woff' ],
                 destDir : '/fonts'
-            }),
-
-            pickFiles( 'public/assets', {
-                srcDir  : '/',
-                files   : [
-                    'select2-spinner.gif',
-                    'images/spinner-dark.png',
-                    'images/spinner-light.png'
-                ],
-                destDir : '/assets'
             })
         ]);
+    },
+
+    contentFor: function( type ) {
+        var content;
+
+        switch ( type ) {
+            case 'keywords':
+                content = require( './package.json' )[ 'keywords' ].join( ', ' ) + ', ember, ember cli';
+                break;
+
+            case 'description':
+                content = require( './package.json' )[ 'description' ];
+                break;
+        }
+
+        return content;
     }
 };

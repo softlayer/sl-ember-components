@@ -56,6 +56,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Properties
 
     /**
+     * Dropdown menu alignment
+     *
+     * Possible values are "left" or "right".
+     *
+     * @property {string} align
+     * @default  "left"
+     */
+    align: 'left',
+
+    /**
      * Class string for the button's icon
      *
      * @property {Ember.String} iconClass
@@ -76,6 +86,17 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Whether the current "align" property is "right"
+     *
+     * @function rightAligned
+     * @observes align
+     * @returns  {boolean}
+     */
+    rightAligned: function() {
+        return this.get( 'align' ) === 'right';
+    }.property( 'align' ),
 
     /**
      * The class value for the drop-button based on the current "theme"
