@@ -9,7 +9,7 @@
     {{/if}}
 {{/sl-button}}
 
-<ul {{bind-attr class=":dropdown-menu alignRight:dropdown-menu-right"}} role="menu">
+<ul {{bind-attr class=":dropdown-menu rightAligned:dropdown-menu-right"}} role="menu">
     {{#if content}}
         {{#each option in content}}
             {{sl-drop-option action=option.action icon=option.icon label=option.label}}

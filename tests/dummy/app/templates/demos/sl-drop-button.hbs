@@ -44,6 +44,10 @@
 <h3>sl-drop-button Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="align" type="string" default="\"left\""}}
+        Aligns the dropdown menu "left" or "right".
+    {{/property-text}}
+
     {{#property-text name="content" type="array"}}
         An array of hash objects containing the same optional properties as the \{{sl-drop-option}} below. Note that currently, the context is different between these two ways of defining drop-button options.
     {{/property-text}}
