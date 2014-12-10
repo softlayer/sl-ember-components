@@ -237,6 +237,13 @@ export default Ember.Component.extend({
 
     }.on( 'didInsertElement' ),
 
+    /**
+     * removed any listeners that may have been set up
+     *
+     * @function removeBoundEventListeners
+     * @observes "willClearRender" event
+     * @returns  {void}*
+     */
     removeBoundEventListeners: function(){
         //just in case
         Ember.$( 'body' )
@@ -244,7 +251,8 @@ export default Ember.Component.extend({
             .off( 'mousemove', this.mouseMoveListener )
             .off( 'mouseup', this.mouseUpListener );
 
-    }.on( 'willDestroyElement' )
+    }.on( 'willClearRender' ),
+
     // -------------------------------------------------------------------------
     // Methods
 

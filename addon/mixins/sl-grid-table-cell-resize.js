@@ -182,6 +182,12 @@ export default Ember.Mixin.create({
 
     }.on( 'didInsertElement' ),
 
+    /**
+     * remove any event listeners that might have been added
+     * @function removeBoundEventListeners
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
     removeBoundEventListeners: function(){
         this.$()
             .off( 'mousedown', this.mouseDownListener )
@@ -194,7 +200,7 @@ export default Ember.Mixin.create({
             .off( 'mousemove', this.mouseMoveListenerResize )
             .off( 'mouseup',  this.mouseUpListener );
 
-    }.on( 'willDestroyElement' )
+    }.on( 'willClearRender' )
 
     // -------------------------------------------------------------------------
     // Methods
