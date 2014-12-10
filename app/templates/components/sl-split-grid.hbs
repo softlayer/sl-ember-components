@@ -1,4 +1,4 @@
-<header>
+<header class="sl-split-grid-header">
     <div class="row">
         <div class="col-sm-6">
             {{#if view.title}}
@@ -64,19 +64,23 @@
     </div>
 </div>
 
-{{#if detailsOpen}}
-    <div class="sl-split-grid-detail-pane">
-        <header>
-            <span class="title">{{detailTitle}}</span>
-            <a {{action "closeDetailsPane"}} class="btn close-button">&times;</a>
-        </header>
+<footer class="sl-split-grid-footer">
+    <div class="row">
+        <p>Viewing 1&ndash;23 of 987,654,321 Records</p>
+    </div>
+</footer>
 
-        <div class="content">
-            <div class="detail-content">
-                {{#with activeRecord}}
-                    {{split-grid-detail-content}}
-                {{/with}}
-            </div>
+<div class="sl-split-grid-detail-pane">
+    <header>
+        <span class="title">{{detailTitle}}</span>
+        <a {{action "closeDetailsPane"}} class="btn close-button">&times;</a>
+    </header>
+
+    <div class="content">
+        <div class="detail-content">
+            {{#with activeRecord}}
+                {{split-grid-detail-content}}
+            {{/with}}
         </div>
     </div>
-{{/if}}
+</div>

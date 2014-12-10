@@ -127,8 +127,10 @@ export default Ember.Component.extend({
     activeRecord: null,
 
     /**
+     * Determines whether the height of the split-grid is reactive to viewport
+     *
      * When true, the component's content areas will be automatically resized
-     * to the available viewport height when the viewport changes
+     * to the available viewport height when the viewport changes.
      *
      * @property {boolean} autoHeight
      * @default  true
