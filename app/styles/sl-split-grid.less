@@ -1,5 +1,4 @@
 .sl-split-grid {
-
     &.details-open {
         .sl-split-grid-list-pane {
             width: 20%;
@@ -39,6 +38,7 @@
 
     .sl-split-grid-list-pane {
         float: left;
+        padding-bottom: 33px;
         position: relative;
         width: 100%;
 
@@ -47,7 +47,7 @@
             table-layout: fixed;
 
             table {
-                margin-bottom: 33px;
+                margin-bottom: 0;
 
                 tr {
                     cursor: pointer;
@@ -102,5 +102,14 @@
 
     .sl-column-large {
         width: 600px;
+    }
+
+    .sl-split-grid-actions-cell {
+        padding: 3px;
+        text-align: right;
+
+        .btn {
+            padding: 3px 9px;
+        }
     }
 }

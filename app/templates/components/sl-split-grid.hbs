@@ -49,7 +49,7 @@
                         {{/each}}
 
                         {{#if rowActions}}
-                            <td {{bind-attr style=actionsColumnStyle}}>
+                            <td {{bind-attr style=actionsColumnStyle}} class="sl-split-grid-actions-cell">
                                 {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
                                     {{#each rowAction in rowActions}}
                                         {{sl-drop-option action=rowAction.action label=rowAction.label}}
