@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module controllers
- * @class sl-split-grid-column
+ * @class  sl-split-grid-column
  */
 export default Ember.ObjectController.extend({
 
@@ -18,4 +18,5 @@ export default Ember.ObjectController.extend({
             return 'sl-column-' + size;
         }
     }.property( 'size' )
+
 });

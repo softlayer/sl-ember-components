@@ -26,7 +26,7 @@
     <table class="table sl-split-grid-head">
         <thead>
             <tr>
-                {{#each column in columns itemController=columnController}}
+                {{#each column in columns itemController="sl-split-grid-column"}}
                     <th {{bind-attr class="column.sizeClass"}}>{{column.title}}</th>
                 {{/each}}
 
@@ -40,7 +40,7 @@
     <div class="sl-split-grid-body content">
         <table class="table table-hover table-striped">
             <tbody>
-                {{#each row in content itemController="sl-split-grid-row"}}
+                {{#each row in content itemController=rowController}}
                     <tr {{bind-attr class="row.active:active"}}>
                         {{#each column in columns itemController="sl-split-grid-column"}}
                             <td {{action "openDetailsPane" row on="click"}} {{bind-attr class="column.sizeClass" style=column.style}}>
@@ -50,7 +50,7 @@
 
                         {{#if rowActions}}
                             <td {{bind-attr style=actionsColumnStyle}}>
-                                {{#sl-drop-button align="right" label=actionsButtonLabel size="small"}}
+                                {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
                                     {{#each rowAction in rowActions}}
                                         {{sl-drop-option action=rowAction.action label=rowAction.label}}
                                     {{/each}}
