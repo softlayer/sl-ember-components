@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-sm-6">
             {{#if view.title}}
-                <span class="title">{{view.title}}</span>
+                <h3 class="title">{{view.title}}</h3>
             {{/if}}
         </div>
 
         {{#if filterTemplate}}
             <div class="col-sm-6 text-right">
-                {{#sl-button action="toggleFilterPane"}}{{filterText}}{{/sl-button}}
+                {{#sl-button action="toggleFilterPane" size="small"}}{{filterText}}{{/sl-button}}
             </div>
         {{/if}}
     </div>
@@ -71,7 +71,7 @@
 <div class="sl-split-grid-detail-pane">
     <header>
         <span class="title">{{detailTitle}}</span>
-        <a {{action "closeDetailsPane"}} class="btn close-button">&times;</a>
+        <button {{action "closeDetailsPane"}} class="close">&times;</button>
     </header>
 
     <div class="content">
@@ -81,4 +81,9 @@
             {{/with}}
         </div>
     </div>
+
+
+    <footer>
+
+    </footer>
 </div>
