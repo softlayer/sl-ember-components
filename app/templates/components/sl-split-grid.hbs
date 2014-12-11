@@ -26,7 +26,7 @@
     <table class="table sl-split-grid-head">
         <thead>
             <tr>
-                {{#each column in columns itemController="sl-split-grid-column"}}
+                {{#each column in columns itemController=columnController}}
                     <th {{bind-attr class="column.sizeClass"}}>{{column.title}}</th>
                 {{/each}}
 
@@ -50,7 +50,7 @@
 
                         {{#if rowActions}}
                             <td {{bind-attr style=actionsColumnStyle}}>
-                                {{#sl-drop-button label=actionsButtonLabel size="sm"}}
+                                {{#sl-drop-button align="right" label=actionsButtonLabel size="small"}}
                                     {{#each rowAction in rowActions}}
                                         {{sl-drop-option action=rowAction.action label=rowAction.label}}
                                     {{/each}}
