@@ -245,7 +245,8 @@ export default Ember.Component.extend({
             topPosition      = this.$().position().top,
             gridHeaderHeight = parseInt( this.$( 'header' ).css( 'height' ) ),
             gridHeadHeight   = parseInt( this.$( '.sl-split-grid-head' ).css( 'height' ) ),
-            contentHeight    = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight,
+            gridFooterHeight = parseInt( this.$( 'footer' ).css( 'height' ) ),
+            contentHeight    = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight - gridFooterHeight,
             filterPaneHeight;
 
         if ( this.get( 'filterOpen' ) ) {
