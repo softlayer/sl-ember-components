@@ -1,10 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-    generateString: function() {
+    generateString: function( min, max ) {
         var chars,
             word = '',
-            wordLength = Math.floor( 6 + Math.random() * 10 );
+            offset = max - min,
+            wordLength = Math.floor( min + Math.random() * offset );
 
         chars = [
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -23,8 +24,10 @@ export default Ember.Route.extend({
 
         for ( var i = 0; i < 50; i++ ) {
             data.push({
-                id: Math.floor( Math.random() * 9999999999 ),
-                title: this.generateString()
+                id        : Math.floor( Math.random() * 9999999999 ),
+                firstName : this.generateString( 3, 5 ),
+                lastName  : this.generateString( 4, 6 ),
+                title     : this.generateString( 6, 10 )
             });
         }
 

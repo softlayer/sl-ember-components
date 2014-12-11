@@ -1,5 +1,19 @@
 import Ember from 'ember';
-import SlSplitGridRow from 'sl-ember-components/mixins/sl-split-grid-row';
 
-export default Ember.ObjectController.extend( SlSplitGridRow, {
+export default Ember.ObjectController.extend({
+
+    actions: {
+        alertRecord: function() {
+            alert( this.get( 'model' ) );
+        },
+
+        logRecord: function() {
+            console.log( this.get( 'model' ) );
+        }
+    },
+
+    fullName: function() {
+        return this.get( 'firstName' ) + ' ' + this.get( 'lastName' );
+    }.property( 'firstName', 'lastName' )
+
 });
