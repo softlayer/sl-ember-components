@@ -25,6 +25,20 @@
     header {
         background-color: @gray-lighter;
         border-bottom: 1px solid @gray-light;
+
+        h3 {
+            margin: 0;
+            padding-bottom: @padding-base-vertical - 1;
+            padding-top: @padding-base-vertical;
+        }
+
+        .row {
+            margin: 0;
+
+            >div {
+                padding: @padding-base-vertical @padding-base-horizontal;
+            }
+        }
     }
 
     .sl-split-grid-head {
@@ -43,6 +57,7 @@
         width: 100%;
 
         .sl-split-grid-body {
+            background: white;
             overflow-y: scroll;
             table-layout: fixed;
 
@@ -51,18 +66,32 @@
 
                 tr {
                     cursor: pointer;
+
+                    td {
+                        border-top: 0;
+                        border-bottom: 1px solid @gray-lightest;
+                    }
+
+                    &.active td {
+                        background-color: @brand-primary;
+                        color: white;
+                    }
                 }
             }
         }
 
         footer {
-            background-color: #abc;
+            border-top: 1px solid @gray-light;
             bottom: 0;
             height: 33px;
             line-height: 33px;
             padding: 0 1em;
             position: absolute;
             width: 100%;
+
+            p {
+                margin-bottom: 0;
+            }
         }
     }
 
@@ -74,13 +103,30 @@
 
         header {
             background-color: @gray-lightest;
+            padding: @padding-base-vertical @padding-base-horizontal;
+
+            .close {
+                color: @gray-light;
+                float: right;
+                font-weight: lighter;
+                line-height: 0.95em;
+
+                &:hover {
+                    color: @brand-danger;
+                }
+            }
+        }
+
+        footer {
+            border-left: 1px solid @gray-light;
+            border-top: 1px solid @gray-light;
+            top: 100%;
             height: 33px;
             line-height: 33px;
-            padding: 0 0.5em;
-
-            .close-button {
-                float: right;
-            }
+            margin-left: -1px;
+            padding: 0 1em;
+            position: absolute;
+            width: 100%;
         }
 
         .detail-content {
