@@ -44,7 +44,11 @@
                     <tr {{bind-attr class="row.active:active"}}>
                         {{#each column in columns itemController="sl-split-grid-column"}}
                             <td {{action "openDetailsPane" row on="click"}} {{bind-attr class="column.alignmentClass column.sizeClass" style=column.style}}>
-                                {{split-grid-cell-value}}
+                                {{#if column.template}}
+                                    {{split-grid-cell}}
+                                {{else}}
+                                    {{split-grid-cell-value}}
+                                {{/if}}
                             </td>
                         {{/each}}
 
