@@ -17,35 +17,6 @@
     title="Colors"
 }}</pre>
 
-        <h6>Route</h6>
-        <pre>model: [
-    {
-        name    : 'Red',
-        fruit   : 'Apple',
-        hexCode : '#FF0000'
-    }, {
-        name    : 'Orange',
-        fruit   : 'Orange',
-        hexCode : '#FF7700'
-    }, {
-        name    : 'Yellow',
-        fruit   : 'Banana',
-        hexCode : '#FFFF00'
-    }, {
-        name    : 'Green',
-        fruit   : 'Lime',
-        hexCode : '#00FF00'
-    }, {
-        name    : 'Blue',
-        fruit   : 'Blueberry',
-        hexCode : '#0000FF'
-    }, {
-        name    : 'Purple',
-        fruit   : 'Grape',
-        hexCode : '#FF00FF'
-    }
-]</pre>
-
         <h6>Controller</h6>
         <pre>columns: [
     {
@@ -82,16 +53,13 @@
 
 <div class="list-group">
     {{#property-text name="columns" type="array" required=true}}
-        <p>An array of column definition objects.</p>
-
-        <p>Each column definition object can contain the following values:
-            <ul>
-                <li><strong>size</strong> - Either a string for relative sizing ("small", "medium", or "large"), or a number for exact number of pixels</li>
-                <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content</li>
-                <li><strong>title</strong> - The displayed title of the column</li>
-                <li><strong>valuePath</strong> - The lookup string for the column's basic output; only used if <strong>template</strong> is omitted</li>
-            </ul>
-        </p>
+        <p>An array of column definition objects. Each column definition object can contain the following values:</p>
+        <ul>
+            <li><strong>size</strong> - Either a string for relative sizing ("small", "medium", or "large"), or a number for exact number of pixels</li>
+            <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content</li>
+            <li><strong>title</strong> - The displayed title of the column</li>
+            <li><strong>valuePath</strong> - The lookup string for the column's basic output; only used if <strong>template</strong> is omitted</li>
+        </ul>
     {{/property-text}}
 
     {{#property-text name="content" type="array" required=true}}
@@ -99,7 +67,7 @@
     {{/property-text}}
 
     {{#property-text name="detailName" type="string" required=true}}
-        The name of the template to render for the detail pane.
+        The name of the controller/template to render for the detail pane. <span class="text-warning">The controller with this name also controls the <code>detailFooterTemplate</code> and <code>detailHeaderTemplate</code> properties' rendered templates.</span>
     {{/property-text}}
 
     {{#property-text name="actionButtonLabel" type="string" default="\"Actions\""}}
@@ -115,7 +83,7 @@
     {{/property-text}}
 
     {{#property-text name="detailHeaderTemplate" type="string"}}
-        The name of a template to use for the header section of the detail pane. If this property is not set, then the split-grid will attempt to use <code>detailTitlePath</code> to populate the detail title from the row record. This template's controller is bound to the controller matching the <code>detailName</code> property.
+        The name of a template to use for the header section of the detail pane. <span class="text-warning">If this property is not set, then the split-grid will attempt to use <code>detailTitlePath</code> to populate the detail title from the row record.</span> This template's controller is bound to the controller matching the <code>detailName</code> property.
     {{/property-text}}
 
     {{#property-text name="detailTitlePath" type="string"}}
@@ -135,18 +103,22 @@
     {{/property-text}}
 
     {{#property-text name="height" type="number" default="600"}}
-        Determines the content areas' heights in pixels. <span class="warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
+        Determines the content areas' heights in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
     {{#property-text name="rowActions" type="array"}}
-        An array of action names, displayed in an "Actions" that will be fired on the <code>rowController</code> per record row.
+        An array of action names, displayed in an "Actions" drop-button, that triggers actions on the <code>rowController</code> per record row.
     {{/property-text}}
 
     {{#property-text name="rowController" type="string"}}
-        The name of an ObjectController to use as each row's itemController. This controller should contain the bound rowActions' functions in its <em>actions</em> hash.
+        <p>The name of an ObjectController to use as each row's itemController. This controller can contain the following properties:</p>
+        <ul>
+            <li><strong>actions</strong> - The bound <code>rowActions</code> will fire from this controller's actions hash</li>
+            <li><strong>classString</strong> - This <em>string</em> property is inserted into the &lt;td&gt;'s <code>class</code> attribute</li>
+        </ul>
     {{/property-text}}
 
     {{#property-text name="title" type="string"}}
-        The title of the split-grid. This value is only used if <code>headerTemplate</code> is not set.
+        The title of the split-grid. <span class="text-warning">This value is only used if <code>headerTemplate</code> is not set.</span>
     {{/property-text}}
 </div>
