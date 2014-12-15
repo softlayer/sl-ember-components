@@ -66,7 +66,9 @@
     </div>
 
     <footer>
-        <p>Viewing {{content.length}} of {{totalRecords}} Records</p>
+        {{#if view.footerTemplate}}
+            {{partial view.footerTemplate}}
+        {{/if}}
     </footer>
 </div>
 

@@ -218,6 +218,14 @@ export default Ember.Component.extend({
     filterText: 'Filter',
 
     /**
+     * The name of the template to use for the footer section of the split-grid
+     *
+     * @property {string} footerTemplate
+     * @default  null
+     */
+    footerTemplate: null,
+
+    /**
      * The name of the template to use for the header section of the split-grid
      *
      * This template will be rendered in the left part of the split-grid's
