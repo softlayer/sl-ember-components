@@ -1,5 +1,18 @@
 # sl-ember-components Changelog
 
+### 0.6.0
+
+* [#115](https://github.com/softlayer/sl-ember-components/pull/115) [BUGFIX] Remove duplicate LESS import statements
+* [#116](https://github.com/softlayer/sl-ember-components/pull/116) [ENHANCEMENT] Make CSS source map inclusion dependent on development environment
+* [#117](https://github.com/softlayer/sl-ember-components/pull/117) [BUGFIX] Fix Bower package name in blueprint
+* [#120](https://github.com/softlayer/sl-ember-components/pull/120) [BUGFIX] Layout of hidden columns in grid system
+* [#122](https://github.com/softlayer/sl-ember-components/pull/122) [ENHANCEMENT] Add "align" property to sl-drop-button
+* [#123](https://github.com/softlayer/sl-ember-components/pull/123) [ENHANCEMENT] Improve buttons size options
+* [#125](https://github.com/softlayer/sl-ember-components/pull/125) [BUGFIX] Cleanup event listeners in grid system
+* [#131](https://github.com/softlayer/sl-ember-components/issues/131) [BREAKING ENHANCEMENT] Update sl-bootstrap Bower dependency to 1.1.0
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.5.0...v0.6.0)
+
 ### 0.5.0
 
 * [#90](https://github.com/softlayer/sl-ember-components/pull/90) [INTERNAL] Update bower dependency url
