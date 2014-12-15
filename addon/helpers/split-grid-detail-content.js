@@ -12,10 +12,10 @@ import Ember from 'ember';
  * @returns  {void}
  */
 export default function( options ) {
-    var templateName = options.data.keywords.view.detailTemplate;
+    var name = options.data.keywords.view.detailName;
 
     options.contexts.push( options.data.keywords.view );
     options.types[ 0 ] = 'STRING';
 
-    Ember.Handlebars.helpers.render.call( this, templateName, 'activeRecord', options );
+    Ember.Handlebars.helpers.render.call( this, name, 'activeRecord', options );
 }

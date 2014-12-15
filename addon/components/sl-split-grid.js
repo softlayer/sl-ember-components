@@ -146,12 +146,60 @@ export default Ember.Component.extend({
     contentHeight: 600,
 
     /**
+     * The name of the controller/template/view to use for the detail pane content
+     *
+     * The controller matching this name also drives the data for the detail's
+     * footer template and header template.
+     *
+     * @property {string} detailContent
+     * @default  null
+     */
+    detailName: null,
+
+    /**
+     * The name of the controller/template/view to use for the detail pane's footer section
+     *
+     * @property {string} detailFooterTemplate
+     * @default  null
+     */
+    detailFooterTemplate: null,
+
+    /**
+     * The name of the controller/template/view to use for the detail pane's header section
+     *
+     * If this value is null (default), then the detail pane's header will be
+     * populated by text determined by the `detailTitlePath` attribute.
+     *
+     * @property {string} detailHeaderTemplate
+     * @default  null
+     */
+    detailHeaderTemplate: null,
+
+    /**
+     * The lookup path for the detail header title, in the context of the row
+     *
+     * This value is used when `detailHeaderTemplate` is null (default).
+     *
+     * @property {string} detailTitlePath
+     * @default  null
+     */
+    detailTitlePath: null,
+
+    /**
      * Indicates when the details pane is open
      *
      * @property {boolean} detailsOpen
      * @default  false
      */
     detailsOpen: false,
+
+    /**
+     * The name of the controller/template/view to use for the filter panel
+     *
+     * @property {string} filterTemplate
+     * @default  null
+     */
+    filterName: null,
 
     /**
      * Indicates when the filter pane is open
@@ -162,20 +210,33 @@ export default Ember.Component.extend({
     filterOpen: false,
 
     /**
-     * The name of the template to use for the filter panel
-     *
-     * @property {string} filterTemplate
-     * @default  null
-     */
-    filterTemplate: null,
-
-    /**
      * The text to display on the filter panel toggle button
      *
      * @property {string} filterText
      * @default  "Filter"
      */
     filterText: 'Filter',
+
+    /**
+     * The name of the template to use for the header section of the split-grid
+     *
+     * This template will be rendered in the left part of the split-grid's
+     * header, and effectively overrides the `title` property.
+     *
+     * @property {string} headerTemplate
+     * @default  null
+     */
+    headerTemplate: null,
+
+    /**
+     * The text to title the split-grid with
+     *
+     * This value is only used when `headerTemplate` is null (default).
+     *
+     * @property {string} title
+     * @default  null
+     */
+    title: null,
 
     /**
      * The total number of records for the content array

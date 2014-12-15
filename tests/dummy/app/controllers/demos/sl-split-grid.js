@@ -3,15 +3,15 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
     columns: [
         {
-            path: 'name',
+            valuePath: 'name',
             title: 'Color'
         }, {
-            path: 'fruit',
-            size: 'tiny',
+            valuePath: 'fruit',
+            size: 'small',
             title: 'Fruit'
         }, {
-            path: 'hexCode',
-            size: 'tiny',
+            valuePath: 'hexCode',
+            size: 'small',
             title: 'Hex Code'
         }
     ]

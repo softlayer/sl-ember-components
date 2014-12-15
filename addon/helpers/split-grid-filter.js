@@ -12,9 +12,9 @@ import Ember from 'ember';
  * @returns  {string}
  */
 export default function( options ) {
-    var templateName = options.data.keywords.view.filterTemplate;
+    var name = options.data.keywords.view.filterName;
 
     options.types[ 0 ] = 'STRING';
 
-    Ember.Handlebars.helpers.render.call( this, templateName, options );
+    Ember.Handlebars.helpers.render.call( this, name, options );
 }

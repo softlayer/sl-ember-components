@@ -37,6 +37,7 @@ Router.map( function() {
         this.route( 'sl-radio-group' );
         this.route( 'sl-select' );
         this.route( 'sl-span' );
+        this.route( 'sl-split-grid' );
         this.route( 'sl-tab-panel' );
         this.route( 'sl-textarea' );
         this.route( 'sl-tooltip' );

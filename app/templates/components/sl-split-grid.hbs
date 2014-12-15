@@ -1,12 +1,14 @@
 <header class="sl-split-grid-header">
     <div class="row">
         <div class="col-sm-6">
-            {{#if view.title}}
+            {{#if view.headerTemplate}}
+                {{partial view.headerTemplate}}
+            {{else}}
                 <h3 class="title">{{view.title}}</h3>
             {{/if}}
         </div>
 
-        {{#if filterTemplate}}
+        {{#if filter}}
             <div class="col-sm-6 text-right">
                 {{#sl-button action="toggleFilterPane" size="small"}}{{filterText}}{{/sl-button}}
             </div>
@@ -70,20 +72,24 @@
 
 <div class="sl-split-grid-detail-pane">
     <header>
-        <span class="title">{{detailTitle}}</span>
+        {{#if view.detailHeaderTemplate}}
+            {{split-grid-detail-header}}
+        {{else}}
+            <span class="title">{{view.detailTitle}}</span>
+        {{/if}}
+
         <button {{action "closeDetailsPane"}} class="close">&times;</button>
     </header>
 
     <div class="content">
         <div class="detail-content">
-            {{#with activeRecord}}
-                {{split-grid-detail-content}}
-            {{/with}}
+            {{split-grid-detail-content}}
         </div>
     </div>
 
-
     <footer>
-
+        {{#if view.detailFooterTemplate}}
+            {{split-grid-detail-footer}}
+        {{/if}}
     </footer>
 </div>
