@@ -8,6 +8,10 @@ export default Ember.ArrayController.extend({
             primary : true,
             title   : 'Title'
         }, {
+            size     : 100,
+            template : 'split-grid-number-cell',
+            title    : 'Number'
+        }, {
             path  : 'fullName',
             size  : 300,
             title : 'Reporter'

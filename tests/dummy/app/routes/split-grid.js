@@ -27,6 +27,7 @@ export default Ember.Route.extend({
                 id        : Math.floor( Math.random() * 9999999999 ),
                 firstName : this.generateString( 3, 5 ),
                 lastName  : this.generateString( 4, 6 ),
+                number    : Math.floor( Math.random() * 100 ),
                 title     : this.generateString( 6, 10 )
             });
         }
