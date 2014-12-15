@@ -4,22 +4,22 @@ export default Ember.ArrayController.extend({
 
     columns: [
         {
-            path    : 'title',
-            primary : true,
-            title   : 'Title'
+            valuePath : 'title',
+            primary   : true,
+            title     : 'Title'
         }, {
             size     : 100,
             template : 'split-grid-number-cell',
             title    : 'Number'
         }, {
-            path  : 'fullName',
-            size  : 300,
-            title : 'Reporter'
+            valuePath : 'fullName',
+            size      : 300,
+            title     : 'Reporter'
         }, {
-            align : 'right',
-            path  : 'id',
-            size  : 'small',
-            title : 'ID'
+            align     : 'right',
+            valuePath : 'id',
+            size      : 'small',
+            title     : 'ID'
         }
     ],
 

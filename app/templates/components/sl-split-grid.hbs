@@ -44,11 +44,7 @@
                     <tr {{bind-attr class="row.active:active"}}>
                         {{#each column in columns itemController="sl-split-grid-column"}}
                             <td {{action "openDetailsPane" row on="click"}} {{bind-attr class="column.alignmentClass column.sizeClass" style=column.style}}>
-                                {{#if column.template}}
-                                    {{split-grid-cell}}
-                                {{else}}
-                                    {{split-grid-cell-value}}
-                                {{/if}}
+                                {{split-grid-cell}}
                             </td>
                         {{/each}}
 
@@ -68,7 +64,7 @@
     </div>
 
     <footer>
-        <p>Viewing {{content.length}} of 987,654,321 Records</p>
+        <p>Viewing {{content.length}} of {{totalRecords}} Records</p>
     </footer>
 </div>
 

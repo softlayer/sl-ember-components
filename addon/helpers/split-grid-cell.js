@@ -12,10 +12,17 @@ import Ember from 'ember';
  * @returns
  */
 export default function( options ) {
-    var templateName = options.data.keywords.view.column;
+    var column       = options.data.keywords.column,
+        row          = options.data.keywords.row,
+        templateName = Ember.get( column, 'template' ),
+        valuePath    = Ember.get( column, 'valuePath' );
+
+    if ( valuePath ) {
+        return new Ember.Handlebars.SafeString( Ember.get( row, valuePath ) );
+    }
 
     options.contexts.push( options.data.keywords.view );
     options.types[ 0 ] = 'STRING';
 
-    Ember.Handlebars.helpers.render.call( this, templateName, 'activeRecord', options );
+    Ember.Handlebars.helpers.render.call( this, templateName, 'row', options );
 }

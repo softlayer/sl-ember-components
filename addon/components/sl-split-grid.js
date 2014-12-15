@@ -177,6 +177,14 @@ export default Ember.Component.extend({
      */
     filterText: 'Filter',
 
+    /**
+     * The total number of records for the content array
+     *
+     * @property {number} totalRecords
+     * @default  0
+     */
+    totalRecords: Math.floor( Math.random() * 999999 ),
+
     // -------------------------------------------------------------------------
     // Observers
 

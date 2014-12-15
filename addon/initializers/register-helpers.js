@@ -3,7 +3,7 @@ import GetKeyHelper from 'sl-ember-components/helpers/get-key';
 import RenderComponentHelper from 'sl-ember-components/helpers/render-component';
 import RenderTabPaneHelper from 'sl-ember-components/helpers/render-tab-pane';
 import RenderTemplateHelper from 'sl-ember-components/helpers/render-template';
-import SplitGridCellValueHelper from 'sl-ember-components/helpers/split-grid-cell-value';
+import SplitGridCellHelper from 'sl-ember-components/helpers/split-grid-cell';
 import SplitGridDetailContentHelper from 'sl-ember-components/helpers/split-grid-detail-content';
 import SplitGridFilterHelper from 'sl-ember-components/helpers/split-grid-filter';
 
@@ -16,7 +16,7 @@ export default function() {
     Ember.Handlebars.registerHelper( 'render-component', RenderComponentHelper );
     Ember.Handlebars.registerHelper( 'render-tab-pane', RenderTabPaneHelper );
     Ember.Handlebars.registerHelper( 'render-template', RenderTemplateHelper );
-    Ember.Handlebars.registerHelper( 'split-grid-cell-value', SplitGridCellValueHelper );
+    Ember.Handlebars.registerHelper( 'split-grid-cell', SplitGridCellHelper );
     Ember.Handlebars.registerHelper( 'split-grid-detail-content', SplitGridDetailContentHelper );
     Ember.Handlebars.registerHelper( 'split-grid-filter', SplitGridFilterHelper );
 }
