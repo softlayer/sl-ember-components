@@ -128,6 +128,10 @@
         </ul>
     {{/property-text}}
 
+    {{#property-text name="sortColumn" type="string"}}
+        The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and the direction as a string ("ascending" or "descending").
+    {{/property-text}}
+
     {{#property-text name="title" type="string"}}
         The title of the split-grid. <span class="text-warning">This value is only used if <code>headerTemplate</code> is not set.</span>
     {{/property-text}}
