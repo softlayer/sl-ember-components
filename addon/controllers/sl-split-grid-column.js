@@ -52,7 +52,7 @@ export default Ember.ObjectController.extend({
      * Class name string based on align property
      *
      * @function alignmentClass
-     * @observes align
+     * @observes content.align
      * @returns  {string}
      */
     alignmentClass: function() {
@@ -67,7 +67,7 @@ export default Ember.ObjectController.extend({
      * Class name string based on size string
      *
      * @function sizeClass
-     * @observes size
+     * @observes content.size
      * @returns  {string}
      */
     sizeClass: function() {
@@ -78,6 +78,28 @@ export default Ember.ObjectController.extend({
         }
     }.property( 'content.size' ),
 
+    /**
+     * Class name string based on sorted property
+     *
+     * @function sortedClass
+     * @observes content.sorted
+     * @returns  {string}
+     */
+    sortedClass: function() {
+        var sorted = this.get( 'content.sorted' );
+
+        if ( sorted ) {
+            return 'column-' + sorted;
+        }
+    }.property( 'content.sorted' ),
+
+    /**
+     * Class name string for the icon on a sortable column
+     *
+     * @function sortIconClass
+     * @observes content.sorted
+     * @returns  {string}
+     */
     sortIconClass: function() {
         var sorted = this.get( 'content.sorted' ),
             iconClass;
@@ -97,7 +119,7 @@ export default Ember.ObjectController.extend({
      * Calculated style string based on column size
      *
      * @function style
-     * @observes size
+     * @observes content.size
      * @returns  {string}
      */
     style: function() {
