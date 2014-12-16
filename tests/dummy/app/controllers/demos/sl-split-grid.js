@@ -4,7 +4,7 @@ export default Ember.ArrayController.extend({
 
     actions: {
 
-        sortColumn: function( column, direction) {
+        sortColumn: function( column, direction ) {
             console.log( 'Sorting', column, 'by', direction );
         }
 

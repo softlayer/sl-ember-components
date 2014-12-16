@@ -327,10 +327,8 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     resizeDetailContent: function() {
-        if ( this.get( 'autoHeight' ) ) {
-            this.$( '.detail-pane .content' ).height( this.get( 'detailContentHeight' ) );
-        }
-    }.observes( 'autoHeight', 'detailContentHeight' ).on( 'didInsertElement' ),
+        this.$( '.detail-pane .content' ).height( this.get( 'detailContentHeight' ) );
+    }.observes( 'detailContentHeight' ).on( 'didInsertElement' ),
 
     /**
      * Resize the split-grid's list pane content to the set height value
@@ -340,22 +338,23 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     resizeListContent: function() {
-        if ( this.get( 'autoHeight' ) ) {
-            this.$( '.list-pane .content' ).height( this.get( 'listContentHeight' ) );
-        }
-    }.observes( 'autoHeight', 'listContentHeight' ).on( 'didInsertElement' ),
+        this.$( '.list-pane .content' ).height( this.get( 'listContentHeight' ) );
+    }.observes( 'listContentHeight' ).on( 'didInsertElement' ),
 
     /**
-     * Setup the auto resize of content height
+     * Setup the auto resize of content height, or set the hard-coded height in pixels
      *
-     * @function setupAutoResize
+     * @function setupSizes
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    setupAutoResize: function() {
+    setupSizes: function() {
         if ( this.get( 'autoHeight' ) ) {
             Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ) );
             this.updateContentHeight();
+        } else {
+            this.resizeDetailContent();
+            this.resizeListContent();
         }
     }.on( 'didInsertElement' ),
 
