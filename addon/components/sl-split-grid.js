@@ -212,16 +212,6 @@ export default Ember.Component.extend({
     detailName: null,
 
     /**
-     * The lookup path for the detail header title, in the context of the row
-     *
-     * This value is used when `detailHeaderTemplate` is null (default).
-     *
-     * @property {string} detailTitlePath
-     * @default  null
-     */
-    detailTitlePath: null,
-
-    /**
      * Indicates when the details pane is open
      *
      * @property {boolean} detailsOpen
@@ -232,7 +222,7 @@ export default Ember.Component.extend({
     /**
      * The name of the controller/template/view to use for the filter panel
      *
-     * @property {string} filterTemplate
+     * @property {string} filterName
      * @default  null
      */
     filterName: null,
@@ -254,14 +244,6 @@ export default Ember.Component.extend({
     filterText: 'Filter',
 
     /**
-     * The name of the template to use for the footer section of the split-grid
-     *
-     * @property {string} footerTemplate
-     * @default  null
-     */
-    footerTemplate: null,
-
-    /**
      * The name of the template to use for the header section of the split-grid
      *
      * This template will be rendered in the left part of the split-grid's
@@ -281,6 +263,14 @@ export default Ember.Component.extend({
     listContentHeight: 600,
 
     /**
+     * The name of the template to use for the footer of the list pane
+     *
+     * @property {string} listFooterTemplate
+     * @default  null
+     */
+    listFooterTemplate: null,
+
+    /**
      * The title of the column that is currently being sorted
      *
      * @property {object} sortedColumnTitle
@@ -297,24 +287,6 @@ export default Ember.Component.extend({
      * @default  null
      */
     sortedDirection: null,
-
-    /**
-     * The text to title the split-grid with
-     *
-     * This value is only used when `headerTemplate` is null (default).
-     *
-     * @property {string} title
-     * @default  null
-     */
-    title: null,
-
-    /**
-     * The total number of records for the content array
-     *
-     * @property {number} totalRecords
-     * @default  0
-     */
-    totalRecords: Math.floor( Math.random() * 999999 ),
 
     // -------------------------------------------------------------------------
     // Observers

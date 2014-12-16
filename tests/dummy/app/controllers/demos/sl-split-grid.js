@@ -26,6 +26,10 @@ export default Ember.ArrayController.extend({
             title     : 'Hex Code',
             valuePath : 'hexCode'
         }
-    ]
+    ],
+
+    count: Ember.computed.alias( 'content.length' ),
+
+    totalCount: 6
 
 });

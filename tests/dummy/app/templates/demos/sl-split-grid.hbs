@@ -11,13 +11,16 @@
         <pre>\{{sl-split-grid
     autoHeight=false
     columns=columns
+    count=count
     content=content
     detailContentHeight=500
     detailName="color"
-    detailTitlePath="name"
+    detailHeaderTemplate="demos/color-header"
+    headerTemplate="demos/colors-header"
+    listFooterTemplate="demos/colors-footer"
     listContentHeight=500
     sortColumn="sortColumn"
-    title="Colors"
+    totalCount=totalCount
 }}</pre>
 
         <h6>Controller</h6>
@@ -44,13 +47,16 @@
         {{sl-split-grid
             autoHeight=false
             columns=columns
+            count=count
             content=content
             detailContentHeight=500
             detailName="color"
-            detailTitlePath="name"
+            detailHeaderTemplate="demos/color-header"
+            headerTemplate="demos/colors-header"
+            listFooterTemplate="demos/colors-footer"
             listContentHeight=500
             sortColumn="sortColumn"
-            title="Colors"
+            totalCount=totalCount
         }}
     </div>
 </div>
@@ -89,7 +95,7 @@
     {{/property-text}}
 
     {{#property-text name="detailContentHeight" type="number" default="600"}}
-        Determines the detail pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
+        Determines the detail pane's content height in pixels. <span class="text-warning">Only used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
     {{#property-text name="detailFooterTemplate" type="string"}}
@@ -97,19 +103,11 @@
     {{/property-text}}
 
     {{#property-text name="detailHeaderTemplate" type="string"}}
-        The name of a template to use for the header section of the detail pane. <span class="text-warning">If this property is not set, then the split-grid will attempt to use <code>detailTitlePath</code> to populate the detail title from the row record.</span> This template's controller is bound to the controller matching the <code>detailName</code> property.
-    {{/property-text}}
-
-    {{#property-text name="detailTitlePath" type="string"}}
-        The lookup property for the name of the record's property, to display as the title of the detail pane. This is only used if the <code>detailHeaderTemplate</code> is not set.
+        The name of a template to use for the header section of the detail pane. This template's controller is bound to the controller matching the <code>detailName</code> property.
     {{/property-text}}
 
     {{#property-text name="filterName" type="string"}}
         The name of the controller/template to render for the filter section. If this is omitted, no filter button or interface will be created for the split-grid.
-    {{/property-text}}
-
-    {{#property-text name="footerTemplate" type="string"}}
-        The name of a template to use for the split-grid's footer section.
     {{/property-text}}
 
     {{#property-text name="headerTemplate" type="string"}}
@@ -118,6 +116,10 @@
 
     {{#property-text name="listContentHeight" type="number" default="600"}}
         Determines the list pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
+    {{/property-text}}
+
+    {{#property-text name="listFooterTemplate" type="string"}}
+        The name of a template to use for the split-grid's footer section.
     {{/property-text}}
 
     {{#property-text name="rowActions" type="array"}}
@@ -134,9 +136,5 @@
 
     {{#property-text name="sortColumn" type="string"}}
         The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and the direction as a string ("ascending" or "descending").
-    {{/property-text}}
-
-    {{#property-text name="title" type="string"}}
-        The title of the split-grid. <span class="text-warning">This value is only used if <code>headerTemplate</code> is not set.</span>
     {{/property-text}}
 </div>

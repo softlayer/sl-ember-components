@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-sm-6">
             {{#if view.headerTemplate}}
-                {{partial view.headerTemplate}}
-            {{else}}
-                <h3 class="title">{{view.title}}</h3>
+                <h3 class="title">
+                    {{partial view.headerTemplate}}
+                </h3>
             {{/if}}
         </div>
 
@@ -71,8 +71,8 @@
     </div>
 
     <footer>
-        {{#if view.footerTemplate}}
-            {{partial view.footerTemplate}}
+        {{#if view.listFooterTemplate}}
+            {{partial view.listFooterTemplate}}
         {{/if}}
     </footer>
 </div>
@@ -80,9 +80,9 @@
 <div class="detail-pane">
     <header>
         {{#if view.detailHeaderTemplate}}
-            {{split-grid-detail-header}}
-        {{else}}
-            <span class="title">{{view.detailTitle}}</span>
+            <span class="title">
+                {{split-grid-detail-header}}
+            </span>
         {{/if}}
 
         <button {{action "closeDetailsPane"}} class="close">&times;</button>
