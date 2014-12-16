@@ -79,10 +79,15 @@ export default Ember.Component.extend({
             this.set( 'activeRecord', row );
 
             this.set( 'detailsOpen', true );
+
+            if ( this.get( 'autoHeight' ) ) {
+                Ember.run.next( this.updateDetailContentHeight.bind( this ) );
+            }
         },
 
         /**
-         * Toggle sorting of the selected column
+         * Toggle sorting of the selected column, and send the "sortAction"
+         * bound action the column and direction to sort
          *
          * @function actions.sortColumn
          * @param    {object} column - The column definition for the triggered header's column
@@ -169,23 +174,12 @@ export default Ember.Component.extend({
     autoHeight: true,
 
     /**
-     * The height of the split-grid content areas, in pixels
+     * The height of the split-grid's detail pane content, in pixels
      *
-     * @property {number} contentHeight
+     * @property {number} detailContentHeight
      * @default  600
      */
-    contentHeight: 600,
-
-    /**
-     * The name of the controller/template/view to use for the detail pane content
-     *
-     * The controller matching this name also drives the data for the detail's
-     * footer template and header template.
-     *
-     * @property {string} detailContent
-     * @default  null
-     */
-    detailName: null,
+    detailContentHeight: 600,
 
     /**
      * The name of the controller/template/view to use for the detail pane's footer section
@@ -205,6 +199,17 @@ export default Ember.Component.extend({
      * @default  null
      */
     detailHeaderTemplate: null,
+
+    /**
+     * The name of the controller/template/view to use for the detail pane content
+     *
+     * The controller matching this name also drives the data for the detail's
+     * footer template and header template.
+     *
+     * @property {string} detailContent
+     * @default  null
+     */
+    detailName: null,
 
     /**
      * The lookup path for the detail header title, in the context of the row
@@ -268,6 +273,14 @@ export default Ember.Component.extend({
     headerTemplate: null,
 
     /**
+     * The height of the split-grid's list pane content, in pixels
+     *
+     * @property {number} listContentHeight
+     * @default  600
+     */
+    listContentHeight: 600,
+
+    /**
      * The title of the column that is currently being sorted
      *
      * @property {object} sortedColumnTitle
@@ -307,21 +320,36 @@ export default Ember.Component.extend({
     // Observers
 
     /**
-     * Resize the split-grid's content to the set height value
+     * Resize the split-grid's detail pane content to the set height value
      *
-     * @function resizeContent
-     * @observes contentHeight, "didInsertElement" event
+     * @function resizeDetailContent
+     * @observes autoHeight, detailContentHeight, "didInsertElement" event
      * @returns  {void}
      */
-    resizeContent: function() {
-        this.$( '.content' ).height( this.get( 'contentHeight' ) );
-    }.observes( 'contentHeight' ).on( 'didInsertElement' ),
+    resizeDetailContent: function() {
+        if ( this.get( 'autoHeight' ) ) {
+            this.$( '.detail-pane .content' ).height( this.get( 'detailContentHeight' ) );
+        }
+    }.observes( 'autoHeight', 'detailContentHeight' ).on( 'didInsertElement' ),
+
+    /**
+     * Resize the split-grid's list pane content to the set height value
+     *
+     * @function resizeListContent
+     * @observes autoHeight, listContentHeight, "didInsertElement" event
+     * @returns  {void}
+     */
+    resizeListContent: function() {
+        if ( this.get( 'autoHeight' ) ) {
+            this.$( '.list-pane .content' ).height( this.get( 'listContentHeight' ) );
+        }
+    }.observes( 'autoHeight', 'listContentHeight' ).on( 'didInsertElement' ),
 
     /**
      * Setup the auto resize of content height
      *
      * @function setupAutoResize
-     * @observes autoHeight, "didInsertElement" event
+     * @observes "didInsertElement" event
      * @returns  {void}
      */
     setupAutoResize: function() {
@@ -329,7 +357,7 @@ export default Ember.Component.extend({
             Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ) );
             this.updateContentHeight();
         }
-    }.observes( 'autoHeight' ).on( 'didInsertElement' ),
+    }.on( 'didInsertElement' ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -380,26 +408,64 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Calculate the possible content height, based on available viewport space
+     * Trigger calculation of content height for the list pane and detail pane
      *
      * @function updateContentHeight
      * @returns  {void}
      */
     updateContentHeight: function() {
-        var viewportHeight   = Ember.$( window ).innerHeight(),
-            topPosition      = this.$().position().top,
-            gridHeaderHeight = parseInt( this.$( 'header' ).css( 'height' ) ),
-            gridHeadHeight   = parseInt( this.$( '.sl-split-grid-head' ).css( 'height' ) ),
-            gridFooterHeight = parseInt( this.$( 'footer' ).css( 'height' ) ),
-            contentHeight    = viewportHeight - topPosition - gridHeaderHeight - gridHeadHeight - gridFooterHeight,
+        this.updateDetailContentHeight();
+        this.updateListContentHeight();
+    },
+
+    /**
+     * Calculate and set the content height for the detail pane
+     *
+     * @function updateDetailContentHeight
+     * @returns  {void}
+     */
+    updateDetailContentHeight: function() {
+        var viewportHeight      = Ember.$( window ).innerHeight(),
+            topPosition         = this.$().position().top,
+            gridHeaderHeight    = parseInt( this.$( '.grid-header' ).css( 'height' ) ),
+            detailHeaderHeight  = parseInt( this.$( '.detail-pane header' ).css( 'height' ) ),
+            detailFooterHeight  = parseInt( this.$( '.detail-pane footer' ).css( 'height' ) ),
+            detailContentHeight,
             filterPaneHeight;
 
+        detailContentHeight = viewportHeight - topPosition - gridHeaderHeight - detailHeaderHeight - detailFooterHeight;
+
         if ( this.get( 'filterOpen' ) ) {
-            filterPaneHeight = parseInt( this.$( '.sl-split-grid-filter-pane' ).css( 'height' ) );
-            contentHeight -= filterPaneHeight;
+            filterPaneHeight = parseInt( this.$( '.filter-pane' ).css( 'height' ) );
+            detailContentHeight -= filterPaneHeight;
         }
 
-        this.set( 'contentHeight', contentHeight );
+        this.set( 'detailContentHeight', detailContentHeight );
+    },
+
+    /**
+     * Calculate and set the content height for the list pane
+     *
+     * @function updateListContentHeight
+     * @returns  {void}
+     */
+    updateListContentHeight: function() {
+        var viewportHeight      = Ember.$( window ).innerHeight(),
+            topPosition         = this.$().position().top,
+            gridHeaderHeight    = parseInt( this.$( '.grid-header' ).css( 'height' ) ),
+            listHeaderHeight    = parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) ),
+            listFooterHeight    = parseInt( this.$( '.list-pane footer' ).css( 'height' ) ),
+            filterPaneHeight,
+            listContentHeight;
+
+        listContentHeight = viewportHeight - topPosition - gridHeaderHeight - listHeaderHeight - listFooterHeight;
+
+        if ( this.get( 'filterOpen' ) ) {
+            filterPaneHeight = parseInt( this.$( '.filter-pane' ).css( 'height' ) );
+            listContentHeight -= filterPaneHeight;
+        }
+
+        this.set( 'listContentHeight', listContentHeight );
     }
 
 });

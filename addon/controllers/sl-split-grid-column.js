@@ -74,7 +74,7 @@ export default Ember.ObjectController.extend({
         var size = this.get( 'content.size' );
 
         if ( typeof size === 'string' ) {
-            return 'sl-column-' + size;
+            return 'column-' + size;
         }
     }.property( 'content.size' ),
 

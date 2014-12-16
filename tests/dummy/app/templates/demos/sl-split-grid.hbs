@@ -84,6 +84,10 @@
         Determines whether the content areas of the split-grid will dynamically calculate their allowed heights within the viewport when the window is resized. When false, the <code>height</code> property is used to determine the content areas' heights manually.
     {{/property-text}}
 
+    {{#property-text name="detailContentHeight" type="number" default="600"}}
+        Determines the detail pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
+    {{/property-text}}
+
     {{#property-text name="detailFooterTemplate" type="string"}}
         The name of a template to use for the footer section of the detail pane. This template's controller is bound to the controller matching the <code>detailName</code> property.
     {{/property-text}}
@@ -108,8 +112,8 @@
         The name of a template to use for the split-grid's header section. If this property is not set, then the split-grid will use the <code>title</code> property to populate the main title text.
     {{/property-text}}
 
-    {{#property-text name="height" type="number" default="600"}}
-        Determines the content areas' heights in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
+    {{#property-text name="listContentHeight" type="number" default="600"}}
+        Determines the list pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
     {{#property-text name="rowActions" type="array"}}

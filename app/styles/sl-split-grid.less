@@ -1,6 +1,6 @@
 .sl-split-grid {
     &.details-open {
-        .sl-split-grid-list-pane {
+        .list-pane {
             width: 20%;
 
             tr {
@@ -16,7 +16,7 @@
             }
         }
 
-        .sl-split-grid-detail-pane {
+        .detail-pane {
             display: inline-block;
             width: 80%;
         }
@@ -41,7 +41,7 @@
         }
     }
 
-    .sl-split-grid-head {
+    .column-headers {
         background-color: @gray-lightest;
         margin-bottom: 0;
 
@@ -58,13 +58,13 @@
         }
     }
 
-    .sl-split-grid-list-pane {
+    .list-pane {
         float: left;
         padding-bottom: 33px;
         position: relative;
         width: 100%;
 
-        .sl-split-grid-body {
+        .content {
             background: white;
             overflow-y: scroll;
             table-layout: fixed;
@@ -103,7 +103,7 @@
         }
     }
 
-    .sl-split-grid-detail-pane {
+    .detail-pane {
         background-color: @gray-white;
         border-left: 1px solid @gray-light;
         display: none;
@@ -142,19 +142,19 @@
         }
     }
 
-    .sl-column-small {
+    .column-small {
         width: 150px;
     }
 
-    .sl-column-medium {
+    .column-medium {
         width: 300px;
     }
 
-    .sl-column-large {
+    .column-large {
         width: 450px;
     }
 
-    .sl-split-grid-actions-cell {
+    .actions-cell {
         padding: 3px;
         text-align: right;
 

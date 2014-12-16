@@ -22,6 +22,7 @@ export default Ember.ArrayController.extend({
             valuePath : 'fruit'
         }, {
             size      : 'small',
+            sortable  : true,
             title     : 'Hex Code',
             valuePath : 'hexCode'
         }
