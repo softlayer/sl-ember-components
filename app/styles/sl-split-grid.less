@@ -4,13 +4,13 @@
             width: 20%;
 
             tr {
-                th:first-of-type,
-                td:first-of-type {
-                    width: 100%;
+                th.primary-column,
+                td.primary-column {
+                    width: auto;
                 }
 
-                th:not(:first-of-type),
-                td:not(:first-of-type) {
+                th:not(.primary-column),
+                td:not(.primary-column) {
                     display: none;
                 }
             }

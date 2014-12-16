@@ -1,18 +1,21 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
+
     columns: [
         {
-            valuePath: 'name',
-            title: 'Color'
+            primary   : true,
+            title     : 'Color',
+            valuePath : 'name'
         }, {
-            valuePath: 'fruit',
-            size: 'small',
-            title: 'Fruit'
+            size      : 'small',
+            title     : 'Fruit',
+            valuePath : 'fruit'
         }, {
-            valuePath: 'hexCode',
-            size: 'small',
-            title: 'Hex Code'
+            size      : 'small',
+            title     : 'Hex Code',
+            valuePath : 'hexCode'
         }
     ]
+
 });

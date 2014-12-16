@@ -20,6 +20,7 @@
         <h6>Controller</h6>
         <pre>columns: [
     {
+        primary   : true,
         title     : 'Color',
         valuePath : 'name'
     }, {
@@ -55,8 +56,9 @@
     {{#property-text name="columns" type="array" required=true}}
         <p>An array of column definition objects. Each column definition object can contain the following values:</p>
         <ul>
-            <li><strong>size</strong> - Either a string for relative sizing ("small", "medium", or "large"), or a number for exact number of pixels</li>
-            <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content</li>
+            <li><strong>primary</strong> - A <em>boolean</em> that determines whether the column remains shown when the detail pane is visible (default: <em>false</em>)</li>
+            <li><strong>size</strong> - The width of the colmn; either a string for relative sizing ("small", "medium", or "large"), or a number for exact number of pixels</li>
+            <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content; uses the <code>rowController</code> as its controller</li>
             <li><strong>title</strong> - The displayed title of the column</li>
             <li><strong>valuePath</strong> - The lookup string for the column's basic output; only used if <strong>template</strong> is omitted</li>
         </ul>

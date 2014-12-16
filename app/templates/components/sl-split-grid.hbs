@@ -29,7 +29,7 @@
         <thead>
             <tr>
                 {{#each column in columns itemController="sl-split-grid-column"}}
-                    <th {{bind-attr class="column.alignmentClass column.sizeClass" style=column.style}}>{{column.title}}</th>
+                    <th {{bind-attr class="column.alignmentClass column.primary:primary-column column.sizeClass" style=column.style}}>{{column.title}}</th>
                 {{/each}}
 
                 {{#if rowActions}}
@@ -45,7 +45,7 @@
                 {{#each row in content itemController=rowController}}
                     <tr {{bind-attr class="row.active:active row.classString"}}>
                         {{#each column in columns itemController="sl-split-grid-column"}}
-                            <td {{action "openDetailsPane" row on="click"}} {{bind-attr class="column.alignmentClass column.sizeClass" style=column.style}}>
+                            <td {{action "openDetailsPane" row on="click"}} {{bind-attr class="column.alignmentClass column.primary:primary-column column.sizeClass" style=column.style}}>
                                 {{split-grid-cell}}
                             </td>
                         {{/each}}
