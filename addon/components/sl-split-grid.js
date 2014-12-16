@@ -82,9 +82,40 @@ export default Ember.Component.extend({
         },
 
         /**
+         * Toggle sorting of the selected column
+         *
+         * @function actions.sortColumn
+         * @param    {object} column - The column definition for the triggered header's column
+         * @returns  {void}
+         */
+        sortColumn: function( column ) {
+            var columnTitle       = Ember.get( column, 'title' ),
+                sortedColumn      = this.getSortedColumn(),
+                sortedColumnTitle = this.get( 'sortedColumnTitle' ),
+                sortedDirection   = this.get( 'sortedDirection' ),
+                direction;
+
+            if ( sortedColumnTitle === columnTitle ) {
+                direction = sortedDirection === 'ascending' ? 'descending' : 'ascending';
+            } else {
+                if ( sortedColumn ) {
+                    Ember.set( sortedColumn, 'sorted' );
+                }
+
+                this.set( 'sortedColumnTitle', columnTitle );
+                direction = 'ascending';
+            }
+
+            this.set( 'sortedDirection', direction );
+            Ember.set( column, 'sorted', direction );
+
+            this.sendAction( 'sortColumn', column, direction );
+        },
+
+        /**
          * Opens/closes the filter pane
          *
-         * @function actions toggleFilterPane
+         * @function actions.toggleFilterPane
          * @returns  {void}
          */
         toggleFilterPane: function() {
@@ -114,7 +145,7 @@ export default Ember.Component.extend({
      * The width of the actions column, in pixels
      *
      * @property {number} actionsColumnWidth
-     * @default  123
+     * @default  120
      */
     actionsColumnWidth: 120,
 
@@ -237,6 +268,24 @@ export default Ember.Component.extend({
     headerTemplate: null,
 
     /**
+     * The title of the column that is currently being sorted
+     *
+     * @property {object} sortedColumnTitle
+     * @default  null
+     */
+    sortedColumnTitle: null,
+
+    /**
+     * The direction the currently sorted column is being sorted in
+     *
+     * Value is either "ascending" or "descending".
+     *
+     * @property {string} sortedDirection
+     * @default  null
+     */
+    sortedDirection: null,
+
+    /**
      * The text to title the split-grid with
      *
      * This value is only used when `headerTemplate` is null (default).
@@ -310,6 +359,25 @@ export default Ember.Component.extend({
             return Ember.get( activeRecord, this.get( 'detailTitlePath' ) );
         }
     }.property( 'activeRecord', 'detailTitlePath' ),
+
+    /**
+     * Retrieve the sorted column definition
+     *
+     * @function getSortedColumn
+     * @returns  {object} - The definition for the currently sorted column
+     */
+    getSortedColumn: function() {
+        var columns           = this.get( 'columns' ),
+            sortedColumnTitle = this.get( 'sortedColumnTitle' );
+
+        if ( sortedColumnTitle ) {
+            for ( var i = 0; i < columns.length; i++ ) {
+                if ( Ember.get( columns[ i ], 'title' ) === sortedColumnTitle ) {
+                    return columns[ i ];
+                }
+            }
+        }
+    },
 
     /**
      * Calculate the possible content height, based on available viewport space

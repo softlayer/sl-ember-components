@@ -2,6 +2,14 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
 
+    actions: {
+
+        sortColumn: function( column, direction) {
+            console.log( 'Sorting', column, 'by', direction );
+        }
+
+    },
+
     columns: [
         {
             primary   : true,
@@ -9,6 +17,7 @@ export default Ember.ArrayController.extend({
             valuePath : 'name'
         }, {
             size      : 'small',
+            sortable  : true,
             title     : 'Fruit',
             valuePath : 'fruit'
         }, {
