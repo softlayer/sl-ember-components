@@ -5,7 +5,10 @@ export default Ember.ArrayController.extend({
     actions: {
 
         sortColumn: function( column, direction ) {
-            console.log( 'Sorting', column, 'by', direction );
+            this.setProperties({
+                'sortAscending'  : direction === 'ascending',
+                'sortProperties' : [ Ember.get( column, 'valuePath' ) ]
+            });
         }
 
     },
