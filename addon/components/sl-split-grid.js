@@ -32,7 +32,10 @@ export default Ember.Component.extend({
      *
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'detailsOpen:details-open', 'isLoading:sl-loading' ],
+    classNameBindings: [
+        'detailsOpen:details-open',
+        'isLoading:sl-loading'
+    ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -290,10 +293,10 @@ export default Ember.Component.extend({
      * True when a next page of data has been requested, but before it has been
      * received
      *
-     * @property {boolean} nextPagePending
+     * @property {boolean} pendingData
      * @default  false
      */
-    nextPagePending: false,
+    pendingData: false,
 
     /**
      * The title of the column that is currently being sorted
@@ -317,14 +320,14 @@ export default Ember.Component.extend({
     // Observers
 
     /**
-     * Set nextPagePending to false, and handle possible end of page requests
+     * Does cleanup for internal state when content length has changed
      *
-     * @function clearNextPagePending
+     * @function handleNewContent
      * @observes content.length
      * @returns  {void}
      */
-    clearNextPagePending: function() {
-        this.set( 'nextPagePending', false );
+    handleNewContent: function() {
+        this.set( 'pendingData', false );
 
         if ( !this.get( 'hasMorePages' ) ) {
             this.disableContinuousPaging();
@@ -465,7 +468,7 @@ export default Ember.Component.extend({
         var listContent  = this.$( event.target ),
             scrollBottom = listContent.scrollTop() + listContent.height();
 
-        if ( scrollBottom >= this.get( 'nextPageScrollPoint' ) && !this.get( 'nextPagePending' ) ) {
+        if ( scrollBottom >= this.get( 'nextPageScrollPoint' ) && !this.get( 'pendingData' ) ) {
             this.requestNextPage();
         }
     },
@@ -489,7 +492,7 @@ export default Ember.Component.extend({
     requestNextPage: function() {
         if ( this.get( 'hasMorePages' ) ) {
             this.setProperties({
-                'nextPagePending'     : true,
+                'pendingData'         : true,
                 'nextPageScrollPoint' : this.$( '.list-pane .content' )[ 0 ].scrollHeight
             });
 

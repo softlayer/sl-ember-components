@@ -71,9 +71,18 @@
     </div>
 
     <footer>
-        {{#if view.listFooterTemplate}}
-            {{partial view.listFooterTemplate}}
-        {{/if}}
+        <div class="row">
+            <div class="col-xs-6">
+                {{#if view.listFooterTemplate}}
+                    {{partial view.listFooterTemplate}}
+                {{/if}}
+            </div>
+            <div class="col-xs-6 text-right">
+                {{#if pendingData}}
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                {{/if}}
+            </div>
+        </div>
     </footer>
 </div>
 
