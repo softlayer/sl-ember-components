@@ -63,15 +63,32 @@ export default Ember.Component.extend({
      * @param    {event} event - The click event
      * @returns  {false|void}
      */
-    click: function( event ) {
+    click: function( event ){
         if ( Ember.$( event.target ).closest( '.stay-open' ).length ) {
             return false;
         }
     },
 
+    /**
+     * close the menu on mouseLeave if its open
+     * @param  {Event} event
+     * @return {void}
+     */
+    mouseLeave: function( event ){
+        var toggleEl = Ember.$(event.target).closest( '.dropdown-toggle');
+
+        if( ! toggleEl.length ){
+            toggleEl = Ember.$(event.target).closest( '.dropdown-menu').siblings( '.dropdown-toggle');
+        }
+
+        if ( toggleEl.length && $(toggleEl).parents('.sl-grid-header-settings').hasClass('open') ){
+            toggleEl.dropdown( 'toggle' );
+        }
+    },
+
     // -------------------------------------------------------------------------
     // Properties
-    
+
     /**
      * alias to the translation keys on the settings object
      * @type {alias}
