@@ -19,8 +19,6 @@
     listFooterTemplate="demos/colors-footer"
     listContentHeight=500
     sortColumn="sortColumn"
-
-    count=count
     totalCount=totalCount
 }}</pre>
 
@@ -56,8 +54,6 @@
             listFooterTemplate="demos/colors-footer"
             listContentHeight=500
             sortColumn="sortColumn"
-
-            count=count
             totalCount=totalCount
         }}
     </div>
@@ -124,6 +120,10 @@
         The name of a template to use for the split-grid's footer section.
     {{/property-text}}
 
+    {{#property-text name="nextPage" type="string"}}
+        The name of an action to trigger when the next page of data is requested from the split-grid. This action should load the next page of data itself.
+    {{/property-text}}
+
     {{#property-text name="rowActions" type="array"}}
         An array of action names, displayed in an "Actions" drop-button, that triggers actions on the <code>rowController</code> per record row.
     {{/property-text}}
@@ -138,5 +138,9 @@
 
     {{#property-text name="sortColumn" type="string"}}
         The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and the direction as a string ("ascending" or "descending").
+    {{/property-text}}
+
+    {{#property-text name="totalCount" type="number"}}
+        The total number of records for the content. This value is used to determine when new pages are requested.
     {{/property-text}}
 </div>

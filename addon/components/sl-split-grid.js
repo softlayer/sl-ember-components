@@ -279,6 +279,23 @@ export default Ember.Component.extend({
     listFooterTemplate: null,
 
     /**
+     * The "top" value for the table scroll to request a new page at
+     *
+     * @property {number} nextPageScrollPoint
+     * @default  0
+     */
+    nextPageScrollPoint: 0,
+
+    /**
+     * True when a next page of data has been requested, but before it has been
+     * received
+     *
+     * @property {boolean} nextPagePending
+     * @default  false
+     */
+    nextPagePending: false,
+
+    /**
      * The title of the column that is currently being sorted
      *
      * @property {object} sortedColumnTitle
@@ -298,6 +315,21 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Set nextPagePending to false, and handle possible end of page requests
+     *
+     * @function clearNextPagePending
+     * @observes content.length
+     * @returns  {void}
+     */
+    clearNextPagePending: function() {
+        this.set( 'nextPagePending', false );
+
+        if ( !this.get( 'hasMorePages' ) ) {
+            this.disableContinuousPaging();
+        }
+    }.observes( 'content.length' ),
 
     /**
      * Resize the split-grid's detail pane content to the set height value
@@ -320,6 +352,20 @@ export default Ember.Component.extend({
     resizeListContent: function() {
         this.$( '.list-pane .content' ).height( this.get( 'listContentHeight' ) );
     }.observes( 'listContentHeight' ).on( 'didInsertElement' ),
+
+    /**
+     * Setup the "continuous paging" functionality, if the data set is not complete
+     *
+     * @function setupContinuousPaging
+     * @observes "didInsertElement" event
+     * @returns  {void}
+     */
+    setupContinuousPaging: function() {
+        if ( this.get( 'hasMorePages' ) ) {
+            this.enableContinuousPaging();
+            this.requestNextPage();
+        }
+    }.on( 'didInsertElement' ),
 
     /**
      * Setup the auto resize of content height, or set the hard-coded height in pixels
@@ -368,6 +414,26 @@ export default Ember.Component.extend({
     }.property( 'activeRecord', 'detailTitlePath' ),
 
     /**
+     * Disables the scroll event handling for continuous paging
+     *
+     * @function disableContinuousPaging
+     * @returns  {void}
+     */
+    disableContinuousPaging: function() {
+        this.$( '.list-pane .content' ).unbind( 'scroll' );
+    },
+
+    /**
+     * Enables the scroll event handling for continuous paging
+     *
+     * @function enableContinuousPaging
+     * @returns  {void}
+     */
+    enableContinuousPaging: function() {
+        this.$( '.list-pane .content' ).bind( 'scroll', this.handleListContentScroll.bind( this ) );
+    },
+
+    /**
      * Retrieve the sorted column definition
      *
      * @function getSortedColumn
@@ -383,6 +449,51 @@ export default Ember.Component.extend({
                     return columns[ i ];
                 }
             }
+        }
+    },
+
+    /**
+     * Callback to the list content scrolling, which is responsible for
+     * determining when triggering nextPage is necessary by checking the
+     * scroll location of the content
+     *
+     * @function handleListContentScroll
+     * @param    {jQuery.Event} event - The scroll trigger event
+     * @returns  {void}
+     */
+    handleListContentScroll: function( event ) {
+        var listContent  = this.$( event.target ),
+            scrollBottom = listContent.scrollTop() + listContent.height();
+
+        if ( scrollBottom >= this.get( 'nextPageScrollPoint' ) && !this.get( 'nextPagePending' ) ) {
+            this.requestNextPage();
+        }
+    },
+
+    /**
+     * Whether the content has more available data to page in
+     *
+     * @function hasMorePages
+     * @returns  {boolean} - True if more content pages are available
+     */
+    hasMorePages: function() {
+        return this.get( 'content.length' ) < this.get( 'totalCount' );
+    }.property( 'content.length', 'totalCount' ),
+
+    /**
+     * Trigger the bound `nextPage` action for more data
+     *
+     * @function requestNextPage
+     * @returns  {void}
+     */
+    requestNextPage: function() {
+        if ( this.get( 'hasMorePages' ) ) {
+            this.setProperties({
+                'nextPagePending'     : true,
+                'nextPageScrollPoint' : this.$( '.list-pane .content' )[ 0 ].scrollHeight
+            });
+
+            this.sendAction( 'nextPage' );
         }
     },
 

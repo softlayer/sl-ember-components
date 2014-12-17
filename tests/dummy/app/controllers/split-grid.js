@@ -5,7 +5,21 @@ export default Ember.ArrayController.extend({
     actions: {
 
         nextPage: function() {
-            console.log( 'Requesting next page of data' );
+            var count      = this.get( 'content.length' ) + 1,
+                newRecords = [],
+                total      = count + 50;
+
+            for ( var i = count; i < total; i++ ) {
+                newRecords.push({
+                    id        : Math.floor( Math.random() * 99999 ),
+                    firstName : 'First' + i,
+                    lastName  : 'Last' + i,
+                    number    : Math.floor( Math.random() * 100 ),
+                    title     : 'New record ' + i
+                });
+            }
+
+            this.get( 'content' ).pushObjects( newRecords );
         }
 
     },
@@ -30,8 +44,6 @@ export default Ember.ArrayController.extend({
             title    : 'Number'
         }
     ],
-
-    count: Ember.computed.alias( 'content.length' ),
 
     gridRowActions: [
         {
