@@ -34,7 +34,8 @@ export default Ember.Component.extend({
      */
     classNameBindings: [
         'detailsOpen:details-open',
-        'isLoading:sl-loading'
+        'isLoading:sl-loading',
+        'pendingData:pending-data'
     ],
 
     // -------------------------------------------------------------------------
