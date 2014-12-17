@@ -32,7 +32,7 @@ export default Ember.Component.extend({
      *
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'detailsOpen:details-open' ],
+    classNameBindings: [ 'detailsOpen:details-open', 'isLoading:sl-loading' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -253,6 +253,14 @@ export default Ember.Component.extend({
      * @default  null
      */
     headerTemplate: null,
+
+    /**
+     * When true, the split-grid is in a loading state
+     *
+     * @property {boolean} isLoading
+     * @default  false
+     */
+    isLoading: false,
 
     /**
      * The height of the split-grid's list pane content, in pixels
