@@ -14,6 +14,10 @@ export default Ember.ObjectController.extend({
 
     fullName: function() {
         return this.get( 'firstName' ) + ' ' + this.get( 'lastName' );
-    }.property( 'firstName', 'lastName' )
+    }.property( 'firstName', 'lastName' ),
+
+    highNumber: function() {
+        return this.get( 'number' ) > 50;
+    }.property( 'number' )
 
 });

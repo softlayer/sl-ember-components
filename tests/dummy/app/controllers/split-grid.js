@@ -2,26 +2,36 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
 
+    actions: {
+
+        nextPage: function() {
+            console.log( 'Requesting next page of data' );
+        }
+
+    },
+
     columns: [
         {
-            valuePath : 'title',
-            primary   : true,
-            title     : 'Title'
+            primary  : true,
+            template : 'split-grid/title-cell',
+            title    : 'Title'
         }, {
-            size     : 100,
-            template : 'split-grid-number-cell',
-            title    : 'Number'
-        }, {
-            valuePath : 'fullName',
-            size      : 300,
-            title     : 'Reporter'
-        }, {
-            align     : 'right',
-            valuePath : 'id',
             size      : 'small',
-            title     : 'ID'
+            title     : 'ID',
+            valuePath : 'id'
+        }, {
+            size      : 300,
+            title     : 'Reporter',
+            valuePath : 'fullName'
+        }, {
+            align    : 'right',
+            size     : 100,
+            template : 'split-grid/number-cell',
+            title    : 'Number'
         }
     ],
+
+    count: Ember.computed.alias( 'content.length' ),
 
     gridRowActions: [
         {
@@ -31,6 +41,8 @@ export default Ember.ArrayController.extend({
             action : 'logRecord',
             label  : 'Log'
         }
-    ]
+    ],
+
+    totalCount: 150
 
 });
