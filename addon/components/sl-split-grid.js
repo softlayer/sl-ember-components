@@ -522,7 +522,7 @@ export default Ember.Component.extend({
             topPosition         = this.$().position().top,
             gridHeaderHeight    = parseInt( this.$( '.grid-header' ).css( 'height' ) ),
             detailHeaderHeight  = parseInt( this.$( '.detail-pane header' ).css( 'height' ) ),
-            detailFooterHeight  = parseInt( this.$( '.detail-pane footer' ).css( 'height' ) ),
+            detailFooterHeight  = parseInt( this.$( '.detail-pane footer' ).css( 'height' ) ) || 0,
             detailContentHeight,
             filterPaneHeight;
 
