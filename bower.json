@@ -19,7 +19,8 @@
     "moment-timezone": "~0.2.5",
     "select2": "~3.5.2",
     "typeahead.js": "~0.10.5",
-    "sl-bootstrap": "softlayer/sl-bootstrap#1.1.0"
+    "sl-bootstrap": "softlayer/sl-bootstrap#1.1.0",
+    "es5-shim": "^4.0.5"
   },
   "devDependencies": {
     "sinonjs": "~1.10.2",
