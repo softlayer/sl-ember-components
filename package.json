@@ -58,6 +58,7 @@
     "glob": "^4.0.5",
     "sl-ember-test-helpers": "~1.0.0",
     "sl-ember-translate": "~1.0.0",
-    "ember-cli-es5-shim": "~0.1.0"
+    "ember-cli-es5-shim": "~0.1.0",
+    "broccoli-string-replace": "0.0.2"
   }
 }
