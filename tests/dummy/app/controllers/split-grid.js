@@ -5,21 +5,14 @@ export default Ember.ArrayController.extend({
     actions: {
 
         nextPage: function() {
-            var count      = this.get( 'content.length' ) + 1,
-                newRecords = [],
-                total      = count + 50;
+            var contentLength = this.get( 'content.length' ),
+                start         = contentLength + 1,
+                self          = this,
+                end           = contentLength + 50;
 
-            for ( var i = count; i < total; i++ ) {
-                newRecords.push({
-                    id        : Math.floor( Math.random() * 99999 ),
-                    firstName : 'First' + i,
-                    lastName  : 'Last' + i,
-                    number    : Math.floor( Math.random() * 100 ),
-                    title     : 'New record ' + i
-                });
-            }
-
-            this.get( 'content' ).pushObjects( newRecords );
+            Ember.$.getJSON( '/fake-records-' + start + '-' + end + '.json', function( data ) {
+                self.get( 'content' ).pushObjects( data );
+            });
         }
 
     },
