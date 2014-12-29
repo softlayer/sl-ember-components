@@ -81,7 +81,7 @@ export default Ember.Component.extend({
             toggleEl = Ember.$(event.target).closest( '.dropdown-menu').siblings( '.dropdown-toggle');
         }
 
-        if ( toggleEl.length && $(toggleEl).parents('.sl-grid-header-settings').hasClass('open') ){
+        if ( toggleEl.length && this.$(toggleEl).parents('.sl-grid-header-settings').hasClass('open') ){
             toggleEl.dropdown( 'toggle' );
         }
     },
