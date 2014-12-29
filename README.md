@@ -156,7 +156,7 @@ See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softla
 
 ## Live
 
-[http://softlayer.github.io/sl-ember-components/dist](http://softlayer.github.io/sl-ember-components/dist)
+[http://softlayer.github.io/sl-ember-components/#/demos](http://softlayer.github.io/sl-ember-components/#/demos)
 
 ## Development Environment
 
