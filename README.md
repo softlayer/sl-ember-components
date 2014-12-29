@@ -11,6 +11,10 @@ License: [MIT](LICENSE.md) (though see the "License Warning" section)
 
 ---
 
+[![Build Status](https://travis-ci.org/softlayer/sl-ember-components.svg?branch=develop)](https://travis-ci.org/softlayer/sl-ember-components)
+
+---
+
 # What sl-ember-components is
 
 A UI components library compatible with Ember.js
