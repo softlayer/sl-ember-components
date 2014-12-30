@@ -9,7 +9,7 @@ License: [MIT](LICENSE.md) (though see the "License Warning" section)
 
 ---
 
-[![Build Status](https://travis-ci.org/softlayer/sl-ember-components.svg?branch=develop)](https://travis-ci.org/softlayer/sl-ember-components)
+[![Build Status](https://travis-ci.org/softlayer/sl-ember-components.svg?branch=develop)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://codeclimate.com/github/softlayer/sl-ember-components/badges/gpa.svg)](https://codeclimate.com/github/softlayer/sl-ember-components)
 
 ---
 
