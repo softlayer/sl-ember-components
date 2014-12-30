@@ -5,6 +5,7 @@ module.exports = function(environment) {
         modulePrefix: 'dummy',
         environment: environment,
         baseURL: '/',
+        baseAssetsURL: '/sl-ember-components/',
         locationType: 'auto',
         EmberENV: {
             FEATURES: {
