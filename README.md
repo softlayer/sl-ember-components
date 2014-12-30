@@ -1,5 +1,5 @@
 
-Ember CLI version: **0.1.4**
+Ember CLI version: **0.1.5**
 
 License: [MIT](LICENSE.md) (though see the "License Warning" section)
 
@@ -180,17 +180,8 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
 # How to use this addon in your application
 
-## Install this addon as a Node module
-
 ```
-npm install --save-dev sl-ember-components
-
-```
-
-## Run its blueprint
-
-```
-ember generate sl-ember-components
+ember install:addon sl-ember-components
 
 ```
 
