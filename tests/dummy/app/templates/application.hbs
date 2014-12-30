@@ -1,9 +1,30 @@
 <div class="container">
-    <div class="page-header">
-        <ul class="nav pull-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu <span class="caret"></span></a>
-                <ul class="dropdown-menu pull-right" role="menu">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-reorder"></i> <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                    <li role="presentation">
+                        {{#link-to "index"}}
+                            <i class="fa fa-home"></i>
+                            Home
+                        {{/link-to}}
+                    </li>
+                    <li role="presentation">
+                        {{#link-to "demos"}}
+                            <i class="fa fa-cubes"></i>
+                            Documentation
+                        {{/link-to}}
+                    </li>
+                    <li role="presentation">
+                        {{#link-to "browsers"}}
+                            <i class="fa fa-gears"></i>
+                            Supported Browsers
+                        {{/link-to}}
+                    </li>
                     <li role="presentation">
                         <a href="https://github.com/softlayer/sl-ember-components/blob/master/README.md">
                             <i class="fa fa-wrench"></i>
@@ -29,8 +50,6 @@
                         </a>
                     </li>
                     <li class="divider" role="presentation"></li>
-                    <li role="presentation">{{#link-to "split-grid"}}Split-Grid{{/link-to}}</li>
-                    <li class="divider" rol="presentation"></li>
                     <li role="presentation">{{#link-to "demos.sl-alert"}}sl-alert{{/link-to}}</li>
                     <li role="presentation">{{#link-to "demos.sl-button"}}sl-button{{/link-to}}</li>
                     <li role="presentation">{{#link-to "demos.sl-calendar"}}sl-calendar{{/link-to}}</li>
@@ -59,20 +78,15 @@
                     <li role="presentation">{{#link-to "demos.sl-textarea"}}sl-textarea{{/link-to}}</li>
                     <li role="presentation">{{#link-to "demos.sl-tooltip"}}sl-tooltip{{/link-to}}</li>
                 </ul>
-            </li>
-        </ul>
-        <h1 id="title">
-            {{#link-to "index"}}Sl-Ember-Components{{/link-to}}
-        </h1>
+            </div>
+        </div>
     </div>
 
     {{outlet}}
 
-    <hr>
-
     <div class="row">
         <div class="col-md-12 text-center">
-            <p>npm install sl-ember-components</p>
+            <p>ember install:addon sl-ember-components</p>
             <p><a href="https://github.com/softlayer/sl-ember-components/blob/master/LICENSE.md">MIT Licensed</a></p>
         </div>
     </div>

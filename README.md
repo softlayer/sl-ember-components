@@ -1,13 +1,15 @@
 
-Ember CLI version: **0.1.4**
-
-NPM package name: **sl-ember-components**
+Ember CLI version: **0.1.5**
 
 License: [MIT](LICENSE.md) (though see the "License Warning" section)
 
 ---
 
 ### Is currently in BETA
+
+---
+
+[![Build Status](https://travis-ci.org/softlayer/sl-ember-components.svg?branch=develop)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://codeclimate.com/github/softlayer/sl-ember-components/badges/gpa.svg)](https://codeclimate.com/github/softlayer/sl-ember-components)
 
 ---
 
@@ -156,7 +158,7 @@ See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softla
 
 ## Live
 
-[http://softlayer.github.io/sl-ember-components/dist](http://softlayer.github.io/sl-ember-components/dist)
+[http://softlayer.github.io/sl-ember-components/#/demos](http://softlayer.github.io/sl-ember-components/#/demos)
 
 ## Development Environment
 
@@ -178,18 +180,8 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
 # How to use this addon in your application
 
-## Install this addon as a Node module
-
 ```
-npm install --save-dev sl-ember-components
-
-```
-
-## Run its blueprint
-
-```
-ember generate sl-ember-components
-
+ember install:addon sl-ember-components
 ```
 
 

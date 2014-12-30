@@ -1,9 +1,20 @@
 /* jshint node: true */
 /* global require, module, process */
 
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon'),
+var EmberAddon   = require( 'ember-cli/lib/broccoli/ember-addon' ),
+    replace      = require( 'broccoli-string-replace' ),
+    env          = require( './config/environment' ),
     isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production',
-    app = new EmberAddon();
+    app          = new EmberAddon({
+        fingerprint: {
+            enabled           : true,
+            exclude           : [],
+            extensions        : [ 'png', 'jpg', 'gif' ],
+            prepend           : env().baseAssetsURL,
+            replaceExtensions : [ 'html', 'css', 'js' ]
+        }
+    }),
+    tree;
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
@@ -24,4 +35,18 @@ if ( !isProduction ) {
     app.import( app.bowerDirectory + '/sinon-qunit/lib/sinon-qunit.js', { type: 'test' } );
 }
 
-module.exports = app.toTree();
+tree = replace( app.toTree(), {
+    files: [ 'index.html' ],
+    patterns: [
+        {
+            match: /REPLACE_META_DESCRIPTION/g,
+            replacement: require('./package.json')['description']
+        },
+        {
+            match: /REPLACE_META_KEYWORDS/g,
+            replacement: require('./package.json')['keywords'].join( ', ' ) + ', ember, ember cli'
+        }
+    ]
+});
+
+module.exports = tree;
