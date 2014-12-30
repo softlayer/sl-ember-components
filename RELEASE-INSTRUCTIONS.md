@@ -6,6 +6,8 @@ This document captures the steps a project maintainer should follow when releasi
 * Merge `develop` branch into `master` branch
 * If change is due to upgrading Ember CLI version
     * Update Ember CLI version text in README.md file
+* Update the */tests/dummy/app/templates/browsers.hbs* file
+    * Update reference to the version number in the "sl-ember-components" section
 * Update CHANGELOG.md
     * Prefix the entries with one of the following tags inside brackets:
         * BUGFIX
@@ -35,15 +37,14 @@ Then follow these steps:
 
 * Run `ember build`
 * Copy the following files from */dist* folder outside of the working directory so they can be retained between switching branches:
-    * */dist/index.html*
-    * */dist/assets/images* folder
-    * */dist/assets/dummy.js*
-    * */dist/assets/sl-ember-components.css*
-    * */dist/assets/vendor.css*
-    * */dist/assets/vendor.js*
-    * */dist/fonts* folder
-    * */dist/sl-ember-components* folder
+    * *index.html*
+    * *assets/images* folder
+    * *assets/dummy.js*
+    * *assets/sl-ember-components.css*
+    * *assets/vendor.css*
+    * *assets/vendor.js*
+    * *fonts* folder
+    * *sl-ember-components* folder
 * Switch to the `gh-pages` branch
 * Replace the same files listed above with their copies
-* If Ember CLI has been upgraded, update reference to the version number in the "sl-ember-components" of the *browsers.html* file
 * Commit and push the changes
