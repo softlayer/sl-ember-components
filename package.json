@@ -1,6 +1,6 @@
 {
   "name": "sl-ember-components",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Ember CLI Addon - UI components library",
   "homepage": "http://softlayer.github.io/sl-ember-components",
   "scripts": {
