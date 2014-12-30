@@ -182,7 +182,6 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
 ```
 ember install:addon sl-ember-components
-
 ```
 
 
