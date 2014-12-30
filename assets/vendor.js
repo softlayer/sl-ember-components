@@ -117,7 +117,7 @@ var runningTests = false;
 })();
 
 ;/*!
- * jQuery JavaScript Library v1.11.1
+ * jQuery JavaScript Library v1.11.2
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -127,7 +127,7 @@ var runningTests = false;
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-05-01T17:42Z
+ * Date: 2014-12-17T15:27Z
  */
 
 (function( global, factory ) {
@@ -182,7 +182,7 @@ var support = {};
 
 
 var
-	version = "1.11.1",
+	version = "1.11.2",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -387,7 +387,8 @@ jQuery.extend({
 		// parseFloat NaNs numeric-cast false positives (null|true|false|"")
 		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
 		// subtraction forces infinities to NaN
-		return !jQuery.isArray( obj ) && obj - parseFloat( obj ) >= 0;
+		// adding 1 corrects loss of precision from parseFloat (#15100)
+		return !jQuery.isArray( obj ) && (obj - parseFloat( obj ) + 1) >= 0;
 	},
 
 	isEmptyObject: function( obj ) {
@@ -702,14 +703,14 @@ function isArraylike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v1.10.19
+ * Sizzle CSS Selector Engine v2.2.0-pre
  * http://sizzlejs.com/
  *
- * Copyright 2013 jQuery Foundation, Inc. and other contributors
+ * Copyright 2008, 2014 jQuery Foundation, Inc. and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-04-18
+ * Date: 2014-12-16
  */
 (function( window ) {
 
@@ -736,7 +737,7 @@ var i,
 	contains,
 
 	// Instance-specific data
-	expando = "sizzle" + -(new Date()),
+	expando = "sizzle" + 1 * new Date(),
 	preferredDoc = window.document,
 	dirruns = 0,
 	done = 0,
@@ -751,7 +752,6 @@ var i,
 	},
 
 	// General-purpose constants
-	strundefined = typeof undefined,
 	MAX_NEGATIVE = 1 << 31,
 
 	// Instance methods
@@ -761,12 +761,13 @@ var i,
 	push_native = arr.push,
 	push = arr.push,
 	slice = arr.slice,
-	// Use a stripped-down indexOf if we can't use a native one
-	indexOf = arr.indexOf || function( elem ) {
+	// Use a stripped-down indexOf as it's faster than native
+	// http://jsperf.com/thor-indexof-vs-for/5
+	indexOf = function( list, elem ) {
 		var i = 0,
-			len = this.length;
+			len = list.length;
 		for ( ; i < len; i++ ) {
-			if ( this[i] === elem ) {
+			if ( list[i] === elem ) {
 				return i;
 			}
 		}
@@ -806,6 +807,7 @@ var i,
 		")\\)|)",
 
 	// Leading and non-escaped trailing whitespace, capturing some non-whitespace characters preceding the latter
+	rwhitespace = new RegExp( whitespace + "+", "g" ),
 	rtrim = new RegExp( "^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g" ),
 
 	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
@@ -857,6 +859,14 @@ var i,
 				String.fromCharCode( high + 0x10000 ) :
 				// Supplemental Plane codepoint (surrogate pair)
 				String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
+	},
+
+	// Used for iframes
+	// See setDocument()
+	// Removing the function wrapper causes a "Permission Denied"
+	// error in IE
+	unloadHandler = function() {
+		setDocument();
 	};
 
 // Optimize for push.apply( _, NodeList )
@@ -899,19 +909,18 @@ function Sizzle( selector, context, results, seed ) {
 
 	context = context || document;
 	results = results || [];
+	nodeType = context.nodeType;
 
-	if ( !selector || typeof selector !== "string" ) {
+	if ( typeof selector !== "string" || !selector ||
+		nodeType !== 1 && nodeType !== 9 && nodeType !== 11 ) {
+
 		return results;
 	}
 
-	if ( (nodeType = context.nodeType) !== 1 && nodeType !== 9 ) {
-		return [];
-	}
+	if ( !seed && documentIsHTML ) {
 
-	if ( documentIsHTML && !seed ) {
-
-		// Shortcuts
-		if ( (match = rquickExpr.exec( selector )) ) {
+		// Try to shortcut find operations when possible (e.g., not under DocumentFragment)
+		if ( nodeType !== 11 && (match = rquickExpr.exec( selector )) ) {
 			// Speed-up: Sizzle("#ID")
 			if ( (m = match[1]) ) {
 				if ( nodeType === 9 ) {
@@ -943,7 +952,7 @@ function Sizzle( selector, context, results, seed ) {
 				return results;
 
 			// Speed-up: Sizzle(".CLASS")
-			} else if ( (m = match[3]) && support.getElementsByClassName && context.getElementsByClassName ) {
+			} else if ( (m = match[3]) && support.getElementsByClassName ) {
 				push.apply( results, context.getElementsByClassName( m ) );
 				return results;
 			}
@@ -953,7 +962,7 @@ function Sizzle( selector, context, results, seed ) {
 		if ( support.qsa && (!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
 			nid = old = expando;
 			newContext = context;
-			newSelector = nodeType === 9 && selector;
+			newSelector = nodeType !== 1 && selector;
 
 			// qSA works strangely on Element-rooted queries
 			// We can work around this by specifying an extra ID on the root
@@ -1140,7 +1149,7 @@ function createPositionalPseudo( fn ) {
  * @returns {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
  */
 function testContext( context ) {
-	return context && typeof context.getElementsByTagName !== strundefined && context;
+	return context && typeof context.getElementsByTagName !== "undefined" && context;
 }
 
 // Expose support vars for convenience
@@ -1164,9 +1173,8 @@ isXML = Sizzle.isXML = function( elem ) {
  * @returns {Object} Returns the current document
  */
 setDocument = Sizzle.setDocument = function( node ) {
-	var hasCompare,
-		doc = node ? node.ownerDocument || node : preferredDoc,
-		parent = doc.defaultView;
+	var hasCompare, parent,
+		doc = node ? node.ownerDocument || node : preferredDoc;
 
 	// If no document and documentElement is available, return
 	if ( doc === document || doc.nodeType !== 9 || !doc.documentElement ) {
@@ -1176,9 +1184,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Set our document
 	document = doc;
 	docElem = doc.documentElement;
-
-	// Support tests
-	documentIsHTML = !isXML( doc );
+	parent = doc.defaultView;
 
 	// Support: IE>8
 	// If iframe document is assigned to "document" variable and if iframe has been reloaded,
@@ -1187,21 +1193,22 @@ setDocument = Sizzle.setDocument = function( node ) {
 	if ( parent && parent !== parent.top ) {
 		// IE11 does not have attachEvent, so all must suffer
 		if ( parent.addEventListener ) {
-			parent.addEventListener( "unload", function() {
-				setDocument();
-			}, false );
+			parent.addEventListener( "unload", unloadHandler, false );
 		} else if ( parent.attachEvent ) {
-			parent.attachEvent( "onunload", function() {
-				setDocument();
-			});
+			parent.attachEvent( "onunload", unloadHandler );
 		}
 	}
+
+	/* Support tests
+	---------------------------------------------------------------------- */
+	documentIsHTML = !isXML( doc );
 
 	/* Attributes
 	---------------------------------------------------------------------- */
 
 	// Support: IE<8
-	// Verify that getAttribute really returns attributes and not properties (excepting IE8 booleans)
+	// Verify that getAttribute really returns attributes and not properties
+	// (excepting IE8 booleans)
 	support.attributes = assert(function( div ) {
 		div.className = "i";
 		return !div.getAttribute("className");
@@ -1216,17 +1223,8 @@ setDocument = Sizzle.setDocument = function( node ) {
 		return !div.getElementsByTagName("*").length;
 	});
 
-	// Check if getElementsByClassName can be trusted
-	support.getElementsByClassName = rnative.test( doc.getElementsByClassName ) && assert(function( div ) {
-		div.innerHTML = "<div class='a'></div><div class='a i'></div>";
-
-		// Support: Safari<4
-		// Catch class over-caching
-		div.firstChild.className = "i";
-		// Support: Opera<10
-		// Catch gEBCN failure to find non-leading classes
-		return div.getElementsByClassName("i").length === 2;
-	});
+	// Support: IE<9
+	support.getElementsByClassName = rnative.test( doc.getElementsByClassName );
 
 	// Support: IE<10
 	// Check if getElementById returns elements by name
@@ -1240,7 +1238,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// ID find and filter
 	if ( support.getById ) {
 		Expr.find["ID"] = function( id, context ) {
-			if ( typeof context.getElementById !== strundefined && documentIsHTML ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
 				var m = context.getElementById( id );
 				// Check parentNode to catch when Blackberry 4.6 returns
 				// nodes that are no longer in the document #6963
@@ -1261,7 +1259,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		Expr.filter["ID"] =  function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
-				var node = typeof elem.getAttributeNode !== strundefined && elem.getAttributeNode("id");
+				var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
 				return node && node.value === attrId;
 			};
 		};
@@ -1270,14 +1268,20 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Tag
 	Expr.find["TAG"] = support.getElementsByTagName ?
 		function( tag, context ) {
-			if ( typeof context.getElementsByTagName !== strundefined ) {
+			if ( typeof context.getElementsByTagName !== "undefined" ) {
 				return context.getElementsByTagName( tag );
+
+			// DocumentFragment nodes don't have gEBTN
+			} else if ( support.qsa ) {
+				return context.querySelectorAll( tag );
 			}
 		} :
+
 		function( tag, context ) {
 			var elem,
 				tmp = [],
 				i = 0,
+				// By happy coincidence, a (broken) gEBTN appears on DocumentFragment nodes too
 				results = context.getElementsByTagName( tag );
 
 			// Filter out possible comments
@@ -1295,7 +1299,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Class
 	Expr.find["CLASS"] = support.getElementsByClassName && function( className, context ) {
-		if ( typeof context.getElementsByClassName !== strundefined && documentIsHTML ) {
+		if ( documentIsHTML ) {
 			return context.getElementsByClassName( className );
 		}
 	};
@@ -1324,13 +1328,15 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// setting a boolean content attribute,
 			// since its presence should be enough
 			// http://bugs.jquery.com/ticket/12359
-			div.innerHTML = "<select msallowclip=''><option selected=''></option></select>";
+			docElem.appendChild( div ).innerHTML = "<a id='" + expando + "'></a>" +
+				"<select id='" + expando + "-\f]' msallowcapture=''>" +
+				"<option selected=''></option></select>";
 
 			// Support: IE8, Opera 11-12.16
 			// Nothing should be selected when empty strings follow ^= or $= or *=
 			// The test attribute must be unknown in Opera but "safe" for WinRT
 			// http://msdn.microsoft.com/en-us/library/ie/hh465388.aspx#attribute_section
-			if ( div.querySelectorAll("[msallowclip^='']").length ) {
+			if ( div.querySelectorAll("[msallowcapture^='']").length ) {
 				rbuggyQSA.push( "[*^$]=" + whitespace + "*(?:''|\"\")" );
 			}
 
@@ -1340,11 +1346,23 @@ setDocument = Sizzle.setDocument = function( node ) {
 				rbuggyQSA.push( "\\[" + whitespace + "*(?:value|" + booleans + ")" );
 			}
 
+			// Support: Chrome<29, Android<4.2+, Safari<7.0+, iOS<7.0+, PhantomJS<1.9.7+
+			if ( !div.querySelectorAll( "[id~=" + expando + "-]" ).length ) {
+				rbuggyQSA.push("~=");
+			}
+
 			// Webkit/Opera - :checked should return selected option elements
 			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			// IE8 throws error here and will not see later tests
 			if ( !div.querySelectorAll(":checked").length ) {
 				rbuggyQSA.push(":checked");
+			}
+
+			// Support: Safari 8+, iOS 8+
+			// https://bugs.webkit.org/show_bug.cgi?id=136851
+			// In-page `selector#id sibing-combinator selector` fails
+			if ( !div.querySelectorAll( "a#" + expando + "+*" ).length ) {
+				rbuggyQSA.push(".#.+[+~]");
 			}
 		});
 
@@ -1462,7 +1480,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// Maintain original order
 			return sortInput ?
-				( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
+				( indexOf( sortInput, a ) - indexOf( sortInput, b ) ) :
 				0;
 		}
 
@@ -1489,7 +1507,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 				aup ? -1 :
 				bup ? 1 :
 				sortInput ?
-				( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
+				( indexOf( sortInput, a ) - indexOf( sortInput, b ) ) :
 				0;
 
 		// If the nodes are siblings, we can do a quick check
@@ -1552,7 +1570,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 					elem.document && elem.document.nodeType !== 11 ) {
 				return ret;
 			}
-		} catch(e) {}
+		} catch (e) {}
 	}
 
 	return Sizzle( expr, document, null, [ elem ] ).length > 0;
@@ -1771,7 +1789,7 @@ Expr = Sizzle.selectors = {
 			return pattern ||
 				(pattern = new RegExp( "(^|" + whitespace + ")" + className + "(" + whitespace + "|$)" )) &&
 				classCache( className, function( elem ) {
-					return pattern.test( typeof elem.className === "string" && elem.className || typeof elem.getAttribute !== strundefined && elem.getAttribute("class") || "" );
+					return pattern.test( typeof elem.className === "string" && elem.className || typeof elem.getAttribute !== "undefined" && elem.getAttribute("class") || "" );
 				});
 		},
 
@@ -1793,7 +1811,7 @@ Expr = Sizzle.selectors = {
 					operator === "^=" ? check && result.indexOf( check ) === 0 :
 					operator === "*=" ? check && result.indexOf( check ) > -1 :
 					operator === "$=" ? check && result.slice( -check.length ) === check :
-					operator === "~=" ? ( " " + result + " " ).indexOf( check ) > -1 :
+					operator === "~=" ? ( " " + result.replace( rwhitespace, " " ) + " " ).indexOf( check ) > -1 :
 					operator === "|=" ? result === check || result.slice( 0, check.length + 1 ) === check + "-" :
 					false;
 			};
@@ -1913,7 +1931,7 @@ Expr = Sizzle.selectors = {
 							matched = fn( seed, argument ),
 							i = matched.length;
 						while ( i-- ) {
-							idx = indexOf.call( seed, matched[i] );
+							idx = indexOf( seed, matched[i] );
 							seed[ idx ] = !( matches[ idx ] = matched[i] );
 						}
 					}) :
@@ -1952,6 +1970,8 @@ Expr = Sizzle.selectors = {
 				function( elem, context, xml ) {
 					input[0] = elem;
 					matcher( input, null, xml, results );
+					// Don't keep the element (issue #299)
+					input[0] = null;
 					return !results.pop();
 				};
 		}),
@@ -1963,6 +1983,7 @@ Expr = Sizzle.selectors = {
 		}),
 
 		"contains": markFunction(function( text ) {
+			text = text.replace( runescape, funescape );
 			return function( elem ) {
 				return ( elem.textContent || elem.innerText || getText( elem ) ).indexOf( text ) > -1;
 			};
@@ -2384,7 +2405,7 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 				i = matcherOut.length;
 				while ( i-- ) {
 					if ( (elem = matcherOut[i]) &&
-						(temp = postFinder ? indexOf.call( seed, elem ) : preMap[i]) > -1 ) {
+						(temp = postFinder ? indexOf( seed, elem ) : preMap[i]) > -1 ) {
 
 						seed[temp] = !(results[temp] = elem);
 					}
@@ -2419,13 +2440,16 @@ function matcherFromTokens( tokens ) {
 			return elem === checkContext;
 		}, implicitRelative, true ),
 		matchAnyContext = addCombinator( function( elem ) {
-			return indexOf.call( checkContext, elem ) > -1;
+			return indexOf( checkContext, elem ) > -1;
 		}, implicitRelative, true ),
 		matchers = [ function( elem, context, xml ) {
-			return ( !leadingRelative && ( xml || context !== outermostContext ) ) || (
+			var ret = ( !leadingRelative && ( xml || context !== outermostContext ) ) || (
 				(checkContext = context).nodeType ?
 					matchContext( elem, context, xml ) :
 					matchAnyContext( elem, context, xml ) );
+			// Avoid hanging onto element (issue #299)
+			checkContext = null;
+			return ret;
 		} ];
 
 	for ( ; i < len; i++ ) {
@@ -2675,7 +2699,7 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 // Sort stability
 support.sortStable = expando.split("").sort( sortOrder ).join("") === expando;
 
-// Support: Chrome<14
+// Support: Chrome 14-35+
 // Always assume duplicates if they aren't passed to the comparison function
 support.detectDuplicates = !!hasDuplicate;
 
@@ -6233,7 +6257,14 @@ var getStyles, curCSS,
 
 if ( window.getComputedStyle ) {
 	getStyles = function( elem ) {
-		return elem.ownerDocument.defaultView.getComputedStyle( elem, null );
+		// Support: IE<=11+, Firefox<=30+ (#15098, #14150)
+		// IE throws on elements created in popups
+		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
+		if ( elem.ownerDocument.defaultView.opener ) {
+			return elem.ownerDocument.defaultView.getComputedStyle( elem, null );
+		}
+
+		return window.getComputedStyle( elem, null );
 	};
 
 	curCSS = function( elem, name, computed ) {
@@ -6481,6 +6512,8 @@ function addGetHookIf( conditionFn, hookFn ) {
 
 			reliableMarginRightVal =
 				!parseFloat( ( window.getComputedStyle( contents, null ) || {} ).marginRight );
+
+			div.removeChild( contents );
 		}
 
 		// Support: IE8
@@ -9188,7 +9221,8 @@ jQuery.extend({
 		}
 
 		// We can fire global events as of now if asked to
-		fireGlobals = s.global;
+		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
+		fireGlobals = jQuery.event && s.global;
 
 		// Watch for a new set of requests
 		if ( fireGlobals && jQuery.active++ === 0 ) {
@@ -9447,13 +9481,6 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 	};
 });
 
-// Attach a bunch of functions for handling common AJAX events
-jQuery.each( [ "ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend" ], function( i, type ) {
-	jQuery.fn[ type ] = function( fn ) {
-		return this.on( type, fn );
-	};
-});
-
 
 jQuery._evalUrl = function( url ) {
 	return jQuery.ajax({
@@ -9679,8 +9706,9 @@ var xhrId = 0,
 
 // Support: IE<10
 // Open requests must be manually aborted on unload (#5280)
-if ( window.ActiveXObject ) {
-	jQuery( window ).on( "unload", function() {
+// See https://support.microsoft.com/kb/2856746 for more info
+if ( window.attachEvent ) {
+	window.attachEvent( "onunload", function() {
 		for ( var key in xhrCallbacks ) {
 			xhrCallbacks[ key ]( undefined, true );
 		}
@@ -10110,6 +10138,16 @@ jQuery.fn.load = function( url, params, callback ) {
 
 	return this;
 };
+
+
+
+
+// Attach a bunch of functions for handling common AJAX events
+jQuery.each( [ "ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend" ], function( i, type ) {
+	jQuery.fn[ type ] = function( fn ) {
+		return this.on( type, fn );
+	};
+});
 
 
 
@@ -63057,7 +63095,7 @@ define("ember/resolver",
   function resolveOther(parsedName) {
     /*jshint validthis:true */
 
-    Ember.assert('module prefix must be defined', this.namespace.modulePrefix);
+    Ember.assert('`modulePrefix` must be defined', this.namespace.modulePrefix);
 
     var normalizedModuleName = this.findModuleName(parsedName);
 
@@ -63095,6 +63133,7 @@ define("ember/resolver",
     },
     init: function() {
       this._super();
+      this.moduleBasedResolver = true;
       this._normalizeCache = makeDictionary();
 
       this.pluralizedTypes = this.pluralizedTypes || makeDictionary();
@@ -63255,6 +63294,7 @@ define("ember/resolver",
     }
   });
 
+  Resolver.moduleBasedResolver = true;
   Resolver['default'] = Resolver;
   return Resolver;
 });
@@ -63413,6 +63453,1430 @@ define("ember/load-initializers",
   }
 );
 })();
+
+;/*!
+ * https://github.com/es-shims/es5-shim
+ * @license es5-shim Copyright 2009-2014 by contributors, MIT License
+ * see https://github.com/es-shims/es5-shim/blob/master/LICENSE
+ */
+
+// vim: ts=4 sts=4 sw=4 expandtab
+
+
+// UMD (Universal Module Definition)
+// see https://github.com/umdjs/umd/blob/master/returnExports.js
+// Add semicolon to prevent IIFE from being passed as argument to concatenated code.
+;(function (root, factory) {
+    'use strict';
+    /*global define, exports, module */
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(factory);
+    } else if (typeof exports === 'object') {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory();
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory();
+    }
+}(this, function () {
+
+/**
+ * Brings an environment as close to ECMAScript 5 compliance
+ * as is possible with the facilities of erstwhile engines.
+ *
+ * Annotated ES5: http://es5.github.com/ (specific links below)
+ * ES5 Spec: http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf
+ * Required reading: http://javascriptweblog.wordpress.com/2011/12/05/extending-javascript-natives/
+ */
+
+// Shortcut to an often accessed properties, in order to avoid multiple
+// dereference that costs universally.
+var ArrayPrototype = Array.prototype;
+var ObjectPrototype = Object.prototype;
+var FunctionPrototype = Function.prototype;
+var StringPrototype = String.prototype;
+var NumberPrototype = Number.prototype;
+var array_slice = ArrayPrototype.slice;
+var array_splice = ArrayPrototype.splice;
+var array_push = ArrayPrototype.push;
+var array_unshift = ArrayPrototype.unshift;
+var call = FunctionPrototype.call;
+
+// Having a toString local variable name breaks in Opera so use to_string.
+var to_string = ObjectPrototype.toString;
+
+var isFunction = function (val) {
+    return to_string.call(val) === '[object Function]';
+};
+var isRegex = function (val) {
+    return to_string.call(val) === '[object RegExp]';
+};
+var isArray = function isArray(obj) {
+    return to_string.call(obj) === '[object Array]';
+};
+var isString = function isString(obj) {
+    return to_string.call(obj) === '[object String]';
+};
+var isArguments = function isArguments(value) {
+    var str = to_string.call(value);
+    var isArgs = str === '[object Arguments]';
+    if (!isArgs) {
+        isArgs = !isArray(value) &&
+          value !== null &&
+          typeof value === 'object' &&
+          typeof value.length === 'number' &&
+          value.length >= 0 &&
+          isFunction(value.callee);
+    }
+    return isArgs;
+};
+
+var supportsDescriptors = Object.defineProperty && (function () {
+    try {
+        Object.defineProperty({}, 'x', {});
+        return true;
+    } catch (e) { /* this is ES3 */
+        return false;
+    }
+}());
+
+// Define configurable, writable and non-enumerable props
+// if they don't exist.
+var defineProperty;
+if (supportsDescriptors) {
+    defineProperty = function (object, name, method, forceAssign) {
+        if (!forceAssign && (name in object)) { return; }
+        Object.defineProperty(object, name, {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            value: method
+        });
+    };
+} else {
+    defineProperty = function (object, name, method, forceAssign) {
+        if (!forceAssign && (name in object)) { return; }
+        object[name] = method;
+    };
+}
+var defineProperties = function (object, map, forceAssign) {
+    for (var name in map) {
+        if (ObjectPrototype.hasOwnProperty.call(map, name)) {
+          defineProperty(object, name, map[name], forceAssign);
+        }
+    }
+};
+
+//
+// Util
+// ======
+//
+
+// ES5 9.4
+// http://es5.github.com/#x9.4
+// http://jsperf.com/to-integer
+
+function toInteger(num) {
+    var n = +num;
+    if (n !== n) { // isNaN
+        n = 0;
+    } else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
+        n = (n > 0 || -1) * Math.floor(Math.abs(n));
+    }
+    return n;
+}
+
+function isPrimitive(input) {
+    var type = typeof input;
+    return input === null ||
+        type === 'undefined' ||
+        type === 'boolean' ||
+        type === 'number' ||
+        type === 'string';
+}
+
+function toPrimitive(input) {
+    var val, valueOf, toStr;
+    if (isPrimitive(input)) {
+        return input;
+    }
+    valueOf = input.valueOf;
+    if (isFunction(valueOf)) {
+        val = valueOf.call(input);
+        if (isPrimitive(val)) {
+            return val;
+        }
+    }
+    toStr = input.toString;
+    if (isFunction(toStr)) {
+        val = toStr.call(input);
+        if (isPrimitive(val)) {
+            return val;
+        }
+    }
+    throw new TypeError();
+}
+
+var ES = {
+    // ES5 9.9
+    // http://es5.github.com/#x9.9
+    ToObject: function (o) {
+        /*jshint eqnull: true */
+        if (o == null) { // this matches both null and undefined
+            throw new TypeError("can't convert " + o + ' to object');
+        }
+        return Object(o);
+    },
+    ToUint32: function ToUint32(x) {
+        return x >>> 0;
+    }
+};
+
+//
+// Function
+// ========
+//
+
+// ES-5 15.3.4.5
+// http://es5.github.com/#x15.3.4.5
+
+var Empty = function Empty() {};
+
+defineProperties(FunctionPrototype, {
+    bind: function bind(that) { // .length is 1
+        // 1. Let Target be the this value.
+        var target = this;
+        // 2. If IsCallable(Target) is false, throw a TypeError exception.
+        if (!isFunction(target)) {
+            throw new TypeError('Function.prototype.bind called on incompatible ' + target);
+        }
+        // 3. Let A be a new (possibly empty) internal list of all of the
+        //   argument values provided after thisArg (arg1, arg2 etc), in order.
+        // XXX slicedArgs will stand in for "A" if used
+        var args = array_slice.call(arguments, 1); // for normal call
+        // 4. Let F be a new native ECMAScript object.
+        // 11. Set the [[Prototype]] internal property of F to the standard
+        //   built-in Function prototype object as specified in 15.3.3.1.
+        // 12. Set the [[Call]] internal property of F as described in
+        //   15.3.4.5.1.
+        // 13. Set the [[Construct]] internal property of F as described in
+        //   15.3.4.5.2.
+        // 14. Set the [[HasInstance]] internal property of F as described in
+        //   15.3.4.5.3.
+        var bound;
+        var binder = function () {
+
+            if (this instanceof bound) {
+                // 15.3.4.5.2 [[Construct]]
+                // When the [[Construct]] internal method of a function object,
+                // F that was created using the bind function is called with a
+                // list of arguments ExtraArgs, the following steps are taken:
+                // 1. Let target be the value of F's [[TargetFunction]]
+                //   internal property.
+                // 2. If target has no [[Construct]] internal method, a
+                //   TypeError exception is thrown.
+                // 3. Let boundArgs be the value of F's [[BoundArgs]] internal
+                //   property.
+                // 4. Let args be a new list containing the same values as the
+                //   list boundArgs in the same order followed by the same
+                //   values as the list ExtraArgs in the same order.
+                // 5. Return the result of calling the [[Construct]] internal
+                //   method of target providing args as the arguments.
+
+                var result = target.apply(
+                    this,
+                    args.concat(array_slice.call(arguments))
+                );
+                if (Object(result) === result) {
+                    return result;
+                }
+                return this;
+
+            } else {
+                // 15.3.4.5.1 [[Call]]
+                // When the [[Call]] internal method of a function object, F,
+                // which was created using the bind function is called with a
+                // this value and a list of arguments ExtraArgs, the following
+                // steps are taken:
+                // 1. Let boundArgs be the value of F's [[BoundArgs]] internal
+                //   property.
+                // 2. Let boundThis be the value of F's [[BoundThis]] internal
+                //   property.
+                // 3. Let target be the value of F's [[TargetFunction]] internal
+                //   property.
+                // 4. Let args be a new list containing the same values as the
+                //   list boundArgs in the same order followed by the same
+                //   values as the list ExtraArgs in the same order.
+                // 5. Return the result of calling the [[Call]] internal method
+                //   of target providing boundThis as the this value and
+                //   providing args as the arguments.
+
+                // equiv: target.call(this, ...boundArgs, ...args)
+                return target.apply(
+                    that,
+                    args.concat(array_slice.call(arguments))
+                );
+
+            }
+
+        };
+
+        // 15. If the [[Class]] internal property of Target is "Function", then
+        //     a. Let L be the length property of Target minus the length of A.
+        //     b. Set the length own property of F to either 0 or L, whichever is
+        //       larger.
+        // 16. Else set the length own property of F to 0.
+
+        var boundLength = Math.max(0, target.length - args.length);
+
+        // 17. Set the attributes of the length own property of F to the values
+        //   specified in 15.3.5.1.
+        var boundArgs = [];
+        for (var i = 0; i < boundLength; i++) {
+            boundArgs.push('$' + i);
+        }
+
+        // XXX Build a dynamic function with desired amount of arguments is the only
+        // way to set the length property of a function.
+        // In environments where Content Security Policies enabled (Chrome extensions,
+        // for ex.) all use of eval or Function costructor throws an exception.
+        // However in all of these environments Function.prototype.bind exists
+        // and so this code will never be executed.
+        bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this, arguments); }')(binder);
+
+        if (target.prototype) {
+            Empty.prototype = target.prototype;
+            bound.prototype = new Empty();
+            // Clean up dangling references.
+            Empty.prototype = null;
+        }
+
+        // TODO
+        // 18. Set the [[Extensible]] internal property of F to true.
+
+        // TODO
+        // 19. Let thrower be the [[ThrowTypeError]] function Object (13.2.3).
+        // 20. Call the [[DefineOwnProperty]] internal method of F with
+        //   arguments "caller", PropertyDescriptor {[[Get]]: thrower, [[Set]]:
+        //   thrower, [[Enumerable]]: false, [[Configurable]]: false}, and
+        //   false.
+        // 21. Call the [[DefineOwnProperty]] internal method of F with
+        //   arguments "arguments", PropertyDescriptor {[[Get]]: thrower,
+        //   [[Set]]: thrower, [[Enumerable]]: false, [[Configurable]]: false},
+        //   and false.
+
+        // TODO
+        // NOTE Function objects created using Function.prototype.bind do not
+        // have a prototype property or the [[Code]], [[FormalParameters]], and
+        // [[Scope]] internal properties.
+        // XXX can't delete prototype in pure-js.
+
+        // 22. Return F.
+        return bound;
+    }
+});
+
+// _Please note: Shortcuts are defined after `Function.prototype.bind` as we
+// us it in defining shortcuts.
+var owns = call.bind(ObjectPrototype.hasOwnProperty);
+
+//
+// Array
+// =====
+//
+
+// ES5 15.4.4.12
+// http://es5.github.com/#x15.4.4.12
+var spliceNoopReturnsEmptyArray = (function () {
+    var a = [1, 2];
+    var result = a.splice();
+    return a.length === 2 && isArray(result) && result.length === 0;
+}());
+defineProperties(ArrayPrototype, {
+    // Safari 5.0 bug where .splice() returns undefined
+    splice: function splice(start, deleteCount) {
+        if (arguments.length === 0) {
+            return [];
+        } else {
+            return array_splice.apply(this, arguments);
+        }
+    }
+}, spliceNoopReturnsEmptyArray);
+
+var spliceWorksWithEmptyObject = (function () {
+    var obj = {};
+    ArrayPrototype.splice.call(obj, 0, 0, 1);
+    return obj.length === 1;
+}());
+defineProperties(ArrayPrototype, {
+    splice: function splice(start, deleteCount) {
+        if (arguments.length === 0) { return []; }
+        var args = arguments;
+        this.length = Math.max(toInteger(this.length), 0);
+        if (arguments.length > 0 && typeof deleteCount !== 'number') {
+            args = array_slice.call(arguments);
+            if (args.length < 2) {
+                args.push(this.length - start);
+            } else {
+                args[1] = toInteger(deleteCount);
+            }
+        }
+        return array_splice.apply(this, args);
+    }
+}, !spliceWorksWithEmptyObject);
+
+// ES5 15.4.4.12
+// http://es5.github.com/#x15.4.4.13
+// Return len+argCount.
+// [bugfix, ielt8]
+// IE < 8 bug: [].unshift(0) === undefined but should be "1"
+var hasUnshiftReturnValueBug = [].unshift(0) !== 1;
+defineProperties(ArrayPrototype, {
+    unshift: function () {
+        array_unshift.apply(this, arguments);
+        return this.length;
+    }
+}, hasUnshiftReturnValueBug);
+
+// ES5 15.4.3.2
+// http://es5.github.com/#x15.4.3.2
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/isArray
+defineProperties(Array, { isArray: isArray });
+
+// The IsCallable() check in the Array functions
+// has been replaced with a strict check on the
+// internal class of the object to trap cases where
+// the provided function was actually a regular
+// expression literal, which in V8 and
+// JavaScriptCore is a typeof "function".  Only in
+// V8 are regular expression literals permitted as
+// reduce parameters, so it is desirable in the
+// general case for the shim to match the more
+// strict and common behavior of rejecting regular
+// expressions.
+
+// ES5 15.4.4.18
+// http://es5.github.com/#x15.4.4.18
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/forEach
+
+// Check failure of by-index access of string characters (IE < 9)
+// and failure of `0 in boxedString` (Rhino)
+var boxedString = Object('a');
+var splitString = boxedString[0] !== 'a' || !(0 in boxedString);
+
+var properlyBoxesContext = function properlyBoxed(method) {
+    // Check node 0.6.21 bug where third parameter is not boxed
+    var properlyBoxesNonStrict = true;
+    var properlyBoxesStrict = true;
+    if (method) {
+        method.call('foo', function (_, __, context) {
+            if (typeof context !== 'object') { properlyBoxesNonStrict = false; }
+        });
+
+        method.call([1], function () {
+            'use strict';
+            properlyBoxesStrict = typeof this === 'string';
+        }, 'x');
+    }
+    return !!method && properlyBoxesNonStrict && properlyBoxesStrict;
+};
+
+defineProperties(ArrayPrototype, {
+    forEach: function forEach(fun /*, thisp*/) {
+        var object = ES.ToObject(this),
+            self = splitString && isString(this) ? this.split('') : object,
+            thisp = arguments[1],
+            i = -1,
+            length = self.length >>> 0;
+
+        // If no callback function or if callback is not a callable function
+        if (!isFunction(fun)) {
+            throw new TypeError(); // TODO message
+        }
+
+        while (++i < length) {
+            if (i in self) {
+                // Invoke the callback function with call, passing arguments:
+                // context, property value, property key, thisArg object
+                // context
+                fun.call(thisp, self[i], i, object);
+            }
+        }
+    }
+}, !properlyBoxesContext(ArrayPrototype.forEach));
+
+// ES5 15.4.4.19
+// http://es5.github.com/#x15.4.4.19
+// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/map
+defineProperties(ArrayPrototype, {
+    map: function map(fun /*, thisp*/) {
+        var object = ES.ToObject(this),
+            self = splitString && isString(this) ? this.split('') : object,
+            length = self.length >>> 0,
+            result = Array(length),
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (!isFunction(fun)) {
+            throw new TypeError(fun + ' is not a function');
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self) {
+                result[i] = fun.call(thisp, self[i], i, object);
+            }
+        }
+        return result;
+    }
+}, !properlyBoxesContext(ArrayPrototype.map));
+
+// ES5 15.4.4.20
+// http://es5.github.com/#x15.4.4.20
+// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/filter
+defineProperties(ArrayPrototype, {
+    filter: function filter(fun /*, thisp */) {
+        var object = ES.ToObject(this),
+            self = splitString && isString(this) ? this.split('') : object,
+            length = self.length >>> 0,
+            result = [],
+            value,
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (!isFunction(fun)) {
+            throw new TypeError(fun + ' is not a function');
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self) {
+                value = self[i];
+                if (fun.call(thisp, value, i, object)) {
+                    result.push(value);
+                }
+            }
+        }
+        return result;
+    }
+}, !properlyBoxesContext(ArrayPrototype.filter));
+
+// ES5 15.4.4.16
+// http://es5.github.com/#x15.4.4.16
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every
+defineProperties(ArrayPrototype, {
+    every: function every(fun /*, thisp */) {
+        var object = ES.ToObject(this),
+            self = splitString && isString(this) ? this.split('') : object,
+            length = self.length >>> 0,
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (!isFunction(fun)) {
+            throw new TypeError(fun + ' is not a function');
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self && !fun.call(thisp, self[i], i, object)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}, !properlyBoxesContext(ArrayPrototype.every));
+
+// ES5 15.4.4.17
+// http://es5.github.com/#x15.4.4.17
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
+defineProperties(ArrayPrototype, {
+    some: function some(fun /*, thisp */) {
+        var object = ES.ToObject(this),
+            self = splitString && isString(this) ? this.split('') : object,
+            length = self.length >>> 0,
+            thisp = arguments[1];
+
+        // If no callback function or if callback is not a callable function
+        if (!isFunction(fun)) {
+            throw new TypeError(fun + ' is not a function');
+        }
+
+        for (var i = 0; i < length; i++) {
+            if (i in self && fun.call(thisp, self[i], i, object)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}, !properlyBoxesContext(ArrayPrototype.some));
+
+// ES5 15.4.4.21
+// http://es5.github.com/#x15.4.4.21
+// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduce
+var reduceCoercesToObject = false;
+if (ArrayPrototype.reduce) {
+    reduceCoercesToObject = typeof ArrayPrototype.reduce.call('es5', function (_, __, ___, list) { return list; }) === 'object';
+}
+defineProperties(ArrayPrototype, {
+    reduce: function reduce(fun /*, initial*/) {
+        var object = ES.ToObject(this),
+            self = splitString && isString(this) ? this.split('') : object,
+            length = self.length >>> 0;
+
+        // If no callback function or if callback is not a callable function
+        if (!isFunction(fun)) {
+            throw new TypeError(fun + ' is not a function');
+        }
+
+        // no value to return if no initial value and an empty array
+        if (!length && arguments.length === 1) {
+            throw new TypeError('reduce of empty array with no initial value');
+        }
+
+        var i = 0;
+        var result;
+        if (arguments.length >= 2) {
+            result = arguments[1];
+        } else {
+            do {
+                if (i in self) {
+                    result = self[i++];
+                    break;
+                }
+
+                // if array contains no values, no initial value to return
+                if (++i >= length) {
+                    throw new TypeError('reduce of empty array with no initial value');
+                }
+            } while (true);
+        }
+
+        for (; i < length; i++) {
+            if (i in self) {
+                result = fun.call(void 0, result, self[i], i, object);
+            }
+        }
+
+        return result;
+    }
+}, !reduceCoercesToObject);
+
+// ES5 15.4.4.22
+// http://es5.github.com/#x15.4.4.22
+// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduceRight
+var reduceRightCoercesToObject = false;
+if (ArrayPrototype.reduceRight) {
+    reduceRightCoercesToObject = typeof ArrayPrototype.reduceRight.call('es5', function (_, __, ___, list) { return list; }) === 'object';
+}
+defineProperties(ArrayPrototype, {
+    reduceRight: function reduceRight(fun /*, initial*/) {
+        var object = ES.ToObject(this),
+            self = splitString && isString(this) ? this.split('') : object,
+            length = self.length >>> 0;
+
+        // If no callback function or if callback is not a callable function
+        if (!isFunction(fun)) {
+            throw new TypeError(fun + ' is not a function');
+        }
+
+        // no value to return if no initial value, empty array
+        if (!length && arguments.length === 1) {
+            throw new TypeError('reduceRight of empty array with no initial value');
+        }
+
+        var result, i = length - 1;
+        if (arguments.length >= 2) {
+            result = arguments[1];
+        } else {
+            do {
+                if (i in self) {
+                    result = self[i--];
+                    break;
+                }
+
+                // if array contains no values, no initial value to return
+                if (--i < 0) {
+                    throw new TypeError('reduceRight of empty array with no initial value');
+                }
+            } while (true);
+        }
+
+        if (i < 0) {
+            return result;
+        }
+
+        do {
+            if (i in self) {
+                result = fun.call(void 0, result, self[i], i, object);
+            }
+        } while (i--);
+
+        return result;
+    }
+}, !reduceRightCoercesToObject);
+
+// ES5 15.4.4.14
+// http://es5.github.com/#x15.4.4.14
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
+var hasFirefox2IndexOfBug = Array.prototype.indexOf && [0, 1].indexOf(1, 2) !== -1;
+defineProperties(ArrayPrototype, {
+    indexOf: function indexOf(sought /*, fromIndex */) {
+        var self = splitString && isString(this) ? this.split('') : ES.ToObject(this),
+            length = self.length >>> 0;
+
+        if (!length) {
+            return -1;
+        }
+
+        var i = 0;
+        if (arguments.length > 1) {
+            i = toInteger(arguments[1]);
+        }
+
+        // handle negative indices
+        i = i >= 0 ? i : Math.max(0, length + i);
+        for (; i < length; i++) {
+            if (i in self && self[i] === sought) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}, hasFirefox2IndexOfBug);
+
+// ES5 15.4.4.15
+// http://es5.github.com/#x15.4.4.15
+// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf
+var hasFirefox2LastIndexOfBug = Array.prototype.lastIndexOf && [0, 1].lastIndexOf(0, -3) !== -1;
+defineProperties(ArrayPrototype, {
+    lastIndexOf: function lastIndexOf(sought /*, fromIndex */) {
+        var self = splitString && isString(this) ? this.split('') : ES.ToObject(this),
+            length = self.length >>> 0;
+
+        if (!length) {
+            return -1;
+        }
+        var i = length - 1;
+        if (arguments.length > 1) {
+            i = Math.min(i, toInteger(arguments[1]));
+        }
+        // handle negative indices
+        i = i >= 0 ? i : length - Math.abs(i);
+        for (; i >= 0; i--) {
+            if (i in self && sought === self[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}, hasFirefox2LastIndexOfBug);
+
+//
+// Object
+// ======
+//
+
+// ES5 15.2.3.14
+// http://es5.github.com/#x15.2.3.14
+
+// http://whattheheadsaid.com/2010/10/a-safer-object-keys-compatibility-implementation
+var hasDontEnumBug = !({'toString': null}).propertyIsEnumerable('toString'),
+    hasProtoEnumBug = function () {}.propertyIsEnumerable('prototype'),
+    dontEnums = [
+        'toString',
+        'toLocaleString',
+        'valueOf',
+        'hasOwnProperty',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'constructor'
+    ],
+    dontEnumsLength = dontEnums.length;
+
+defineProperties(Object, {
+    keys: function keys(object) {
+        var isFn = isFunction(object),
+            isArgs = isArguments(object),
+            isObject = object !== null && typeof object === 'object',
+            isStr = isObject && isString(object);
+
+        if (!isObject && !isFn && !isArgs) {
+            throw new TypeError('Object.keys called on a non-object');
+        }
+
+        var theKeys = [];
+        var skipProto = hasProtoEnumBug && isFn;
+        if (isStr || isArgs) {
+            for (var i = 0; i < object.length; ++i) {
+                theKeys.push(String(i));
+            }
+        } else {
+            for (var name in object) {
+                if (!(skipProto && name === 'prototype') && owns(object, name)) {
+                    theKeys.push(String(name));
+                }
+            }
+        }
+
+        if (hasDontEnumBug) {
+            var ctor = object.constructor,
+                skipConstructor = ctor && ctor.prototype === object;
+            for (var j = 0; j < dontEnumsLength; j++) {
+                var dontEnum = dontEnums[j];
+                if (!(skipConstructor && dontEnum === 'constructor') && owns(object, dontEnum)) {
+                    theKeys.push(dontEnum);
+                }
+            }
+        }
+        return theKeys;
+    }
+});
+
+var keysWorksWithArguments = Object.keys && (function () {
+    // Safari 5.0 bug
+    return Object.keys(arguments).length === 2;
+}(1, 2));
+var originalKeys = Object.keys;
+defineProperties(Object, {
+    keys: function keys(object) {
+        if (isArguments(object)) {
+            return originalKeys(ArrayPrototype.slice.call(object));
+        } else {
+            return originalKeys(object);
+        }
+    }
+}, !keysWorksWithArguments);
+
+//
+// Date
+// ====
+//
+
+// ES5 15.9.5.43
+// http://es5.github.com/#x15.9.5.43
+// This function returns a String value represent the instance in time
+// represented by this Date object. The format of the String is the Date Time
+// string format defined in 15.9.1.15. All fields are present in the String.
+// The time zone is always UTC, denoted by the suffix Z. If the time value of
+// this object is not a finite Number a RangeError exception is thrown.
+var negativeDate = -62198755200000;
+var negativeYearString = '-000001';
+var hasNegativeDateBug = Date.prototype.toISOString && new Date(negativeDate).toISOString().indexOf(negativeYearString) === -1;
+
+defineProperties(Date.prototype, {
+    toISOString: function toISOString() {
+        var result, length, value, year, month;
+        if (!isFinite(this)) {
+            throw new RangeError('Date.prototype.toISOString called on non-finite value.');
+        }
+
+        year = this.getUTCFullYear();
+
+        month = this.getUTCMonth();
+        // see https://github.com/es-shims/es5-shim/issues/111
+        year += Math.floor(month / 12);
+        month = (month % 12 + 12) % 12;
+
+        // the date time string format is specified in 15.9.1.15.
+        result = [month + 1, this.getUTCDate(), this.getUTCHours(), this.getUTCMinutes(), this.getUTCSeconds()];
+        year = (
+            (year < 0 ? '-' : (year > 9999 ? '+' : '')) +
+            ('00000' + Math.abs(year)).slice(0 <= year && year <= 9999 ? -4 : -6)
+        );
+
+        length = result.length;
+        while (length--) {
+            value = result[length];
+            // pad months, days, hours, minutes, and seconds to have two
+            // digits.
+            if (value < 10) {
+                result[length] = '0' + value;
+            }
+        }
+        // pad milliseconds to have three digits.
+        return (
+            year + '-' + result.slice(0, 2).join('-') +
+            'T' + result.slice(2).join(':') + '.' +
+            ('000' + this.getUTCMilliseconds()).slice(-3) + 'Z'
+        );
+    }
+}, hasNegativeDateBug);
+
+
+// ES5 15.9.5.44
+// http://es5.github.com/#x15.9.5.44
+// This function provides a String representation of a Date object for use by
+// JSON.stringify (15.12.3).
+var dateToJSONIsSupported = false;
+try {
+    dateToJSONIsSupported = (
+        Date.prototype.toJSON &&
+        new Date(NaN).toJSON() === null &&
+        new Date(negativeDate).toJSON().indexOf(negativeYearString) !== -1 &&
+        Date.prototype.toJSON.call({ // generic
+            toISOString: function () {
+                return true;
+            }
+        })
+    );
+} catch (e) {
+}
+if (!dateToJSONIsSupported) {
+    Date.prototype.toJSON = function toJSON(key) {
+        // When the toJSON method is called with argument key, the following
+        // steps are taken:
+
+        // 1.  Let O be the result of calling ToObject, giving it the this
+        // value as its argument.
+        // 2. Let tv be toPrimitive(O, hint Number).
+        var o = Object(this),
+            tv = toPrimitive(o),
+            toISO;
+        // 3. If tv is a Number and is not finite, return null.
+        if (typeof tv === 'number' && !isFinite(tv)) {
+            return null;
+        }
+        // 4. Let toISO be the result of calling the [[Get]] internal method of
+        // O with argument "toISOString".
+        toISO = o.toISOString;
+        // 5. If IsCallable(toISO) is false, throw a TypeError exception.
+        if (typeof toISO !== 'function') {
+            throw new TypeError('toISOString property is not callable');
+        }
+        // 6. Return the result of calling the [[Call]] internal method of
+        //  toISO with O as the this value and an empty argument list.
+        return toISO.call(o);
+
+        // NOTE 1 The argument is ignored.
+
+        // NOTE 2 The toJSON function is intentionally generic; it does not
+        // require that its this value be a Date object. Therefore, it can be
+        // transferred to other kinds of objects for use as a method. However,
+        // it does require that any such object have a toISOString method. An
+        // object is free to use the argument key to filter its
+        // stringification.
+    };
+}
+
+// ES5 15.9.4.2
+// http://es5.github.com/#x15.9.4.2
+// based on work shared by Daniel Friesen (dantman)
+// http://gist.github.com/303249
+var supportsExtendedYears = Date.parse('+033658-09-27T01:46:40.000Z') === 1e15;
+var acceptsInvalidDates = !isNaN(Date.parse('2012-04-04T24:00:00.500Z')) || !isNaN(Date.parse('2012-11-31T23:59:59.000Z'));
+var doesNotParseY2KNewYear = isNaN(Date.parse('2000-01-01T00:00:00.000Z'));
+if (!Date.parse || doesNotParseY2KNewYear || acceptsInvalidDates || !supportsExtendedYears) {
+    // XXX global assignment won't work in embeddings that use
+    // an alternate object for the context.
+    /*global Date: true */
+    Date = (function (NativeDate) {
+
+        // Date.length === 7
+        function Date(Y, M, D, h, m, s, ms) {
+            var length = arguments.length;
+            if (this instanceof NativeDate) {
+                var date = length === 1 && String(Y) === Y ? // isString(Y)
+                    // We explicitly pass it through parse:
+                    new NativeDate(Date.parse(Y)) :
+                    // We have to manually make calls depending on argument
+                    // length here
+                    length >= 7 ? new NativeDate(Y, M, D, h, m, s, ms) :
+                    length >= 6 ? new NativeDate(Y, M, D, h, m, s) :
+                    length >= 5 ? new NativeDate(Y, M, D, h, m) :
+                    length >= 4 ? new NativeDate(Y, M, D, h) :
+                    length >= 3 ? new NativeDate(Y, M, D) :
+                    length >= 2 ? new NativeDate(Y, M) :
+                    length >= 1 ? new NativeDate(Y) :
+                                  new NativeDate();
+                // Prevent mixups with unfixed Date object
+                date.constructor = Date;
+                return date;
+            }
+            return NativeDate.apply(this, arguments);
+        }
+
+        // 15.9.1.15 Date Time String Format.
+        var isoDateExpression = new RegExp('^' +
+            '(\\d{4}|[+-]\\d{6})' + // four-digit year capture or sign +
+                                      // 6-digit extended year
+            '(?:-(\\d{2})' + // optional month capture
+            '(?:-(\\d{2})' + // optional day capture
+            '(?:' + // capture hours:minutes:seconds.milliseconds
+                'T(\\d{2})' + // hours capture
+                ':(\\d{2})' + // minutes capture
+                '(?:' + // optional :seconds.milliseconds
+                    ':(\\d{2})' + // seconds capture
+                    '(?:(\\.\\d{1,}))?' + // milliseconds capture
+                ')?' +
+            '(' + // capture UTC offset component
+                'Z|' + // UTC capture
+                '(?:' + // offset specifier +/-hours:minutes
+                    '([-+])' + // sign capture
+                    '(\\d{2})' + // hours offset capture
+                    ':(\\d{2})' + // minutes offset capture
+                ')' +
+            ')?)?)?)?' +
+        '$');
+
+        var months = [
+            0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365
+        ];
+
+        function dayFromMonth(year, month) {
+            var t = month > 1 ? 1 : 0;
+            return (
+                months[month] +
+                Math.floor((year - 1969 + t) / 4) -
+                Math.floor((year - 1901 + t) / 100) +
+                Math.floor((year - 1601 + t) / 400) +
+                365 * (year - 1970)
+            );
+        }
+
+        function toUTC(t) {
+            return Number(new NativeDate(1970, 0, 1, 0, 0, 0, t));
+        }
+
+        // Copy any custom methods a 3rd party library may have added
+        for (var key in NativeDate) {
+            Date[key] = NativeDate[key];
+        }
+
+        // Copy "native" methods explicitly; they may be non-enumerable
+        Date.now = NativeDate.now;
+        Date.UTC = NativeDate.UTC;
+        Date.prototype = NativeDate.prototype;
+        Date.prototype.constructor = Date;
+
+        // Upgrade Date.parse to handle simplified ISO 8601 strings
+        Date.parse = function parse(string) {
+            var match = isoDateExpression.exec(string);
+            if (match) {
+                // parse months, days, hours, minutes, seconds, and milliseconds
+                // provide default values if necessary
+                // parse the UTC offset component
+                var year = Number(match[1]),
+                    month = Number(match[2] || 1) - 1,
+                    day = Number(match[3] || 1) - 1,
+                    hour = Number(match[4] || 0),
+                    minute = Number(match[5] || 0),
+                    second = Number(match[6] || 0),
+                    millisecond = Math.floor(Number(match[7] || 0) * 1000),
+                    // When time zone is missed, local offset should be used
+                    // (ES 5.1 bug)
+                    // see https://bugs.ecmascript.org/show_bug.cgi?id=112
+                    isLocalTime = Boolean(match[4] && !match[8]),
+                    signOffset = match[9] === '-' ? 1 : -1,
+                    hourOffset = Number(match[10] || 0),
+                    minuteOffset = Number(match[11] || 0),
+                    result;
+                if (
+                    hour < (
+                        minute > 0 || second > 0 || millisecond > 0 ?
+                        24 : 25
+                    ) &&
+                    minute < 60 && second < 60 && millisecond < 1000 &&
+                    month > -1 && month < 12 && hourOffset < 24 &&
+                    minuteOffset < 60 && // detect invalid offsets
+                    day > -1 &&
+                    day < (
+                        dayFromMonth(year, month + 1) -
+                        dayFromMonth(year, month)
+                    )
+                ) {
+                    result = (
+                        (dayFromMonth(year, month) + day) * 24 +
+                        hour +
+                        hourOffset * signOffset
+                    ) * 60;
+                    result = (
+                        (result + minute + minuteOffset * signOffset) * 60 +
+                        second
+                    ) * 1000 + millisecond;
+                    if (isLocalTime) {
+                        result = toUTC(result);
+                    }
+                    if (-8.64e15 <= result && result <= 8.64e15) {
+                        return result;
+                    }
+                }
+                return NaN;
+            }
+            return NativeDate.parse.apply(this, arguments);
+        };
+
+        return Date;
+    }(Date));
+    /*global Date: false */
+}
+
+// ES5 15.9.4.4
+// http://es5.github.com/#x15.9.4.4
+if (!Date.now) {
+    Date.now = function now() {
+        return new Date().getTime();
+    };
+}
+
+
+//
+// Number
+// ======
+//
+
+// ES5.1 15.7.4.5
+// http://es5.github.com/#x15.7.4.5
+var hasToFixedBugs = NumberPrototype.toFixed && (
+  (0.00008).toFixed(3) !== '0.000' ||
+  (0.9).toFixed(0) !== '1' ||
+  (1.255).toFixed(2) !== '1.25' ||
+  (1000000000000000128).toFixed(0) !== '1000000000000000128'
+);
+
+var toFixedHelpers = {
+  base: 1e7,
+  size: 6,
+  data: [0, 0, 0, 0, 0, 0],
+  multiply: function multiply(n, c) {
+      var i = -1;
+      while (++i < toFixedHelpers.size) {
+          c += n * toFixedHelpers.data[i];
+          toFixedHelpers.data[i] = c % toFixedHelpers.base;
+          c = Math.floor(c / toFixedHelpers.base);
+      }
+  },
+  divide: function divide(n) {
+      var i = toFixedHelpers.size, c = 0;
+      while (--i >= 0) {
+          c += toFixedHelpers.data[i];
+          toFixedHelpers.data[i] = Math.floor(c / n);
+          c = (c % n) * toFixedHelpers.base;
+      }
+  },
+  numToString: function numToString() {
+      var i = toFixedHelpers.size;
+      var s = '';
+      while (--i >= 0) {
+          if (s !== '' || i === 0 || toFixedHelpers.data[i] !== 0) {
+              var t = String(toFixedHelpers.data[i]);
+              if (s === '') {
+                  s = t;
+              } else {
+                  s += '0000000'.slice(0, 7 - t.length) + t;
+              }
+          }
+      }
+      return s;
+  },
+  pow: function pow(x, n, acc) {
+      return (n === 0 ? acc : (n % 2 === 1 ? pow(x, n - 1, acc * x) : pow(x * x, n / 2, acc)));
+  },
+  log: function log(x) {
+      var n = 0;
+      while (x >= 4096) {
+          n += 12;
+          x /= 4096;
+      }
+      while (x >= 2) {
+          n += 1;
+          x /= 2;
+      }
+      return n;
+  }
+};
+
+defineProperties(NumberPrototype, {
+    toFixed: function toFixed(fractionDigits) {
+        var f, x, s, m, e, z, j, k;
+
+        // Test for NaN and round fractionDigits down
+        f = Number(fractionDigits);
+        f = f !== f ? 0 : Math.floor(f);
+
+        if (f < 0 || f > 20) {
+            throw new RangeError('Number.toFixed called with invalid number of decimals');
+        }
+
+        x = Number(this);
+
+        // Test for NaN
+        if (x !== x) {
+            return 'NaN';
+        }
+
+        // If it is too big or small, return the string value of the number
+        if (x <= -1e21 || x >= 1e21) {
+            return String(x);
+        }
+
+        s = '';
+
+        if (x < 0) {
+            s = '-';
+            x = -x;
+        }
+
+        m = '0';
+
+        if (x > 1e-21) {
+            // 1e-21 < x < 1e21
+            // -70 < log2(x) < 70
+            e = toFixedHelpers.log(x * toFixedHelpers.pow(2, 69, 1)) - 69;
+            z = (e < 0 ? x * toFixedHelpers.pow(2, -e, 1) : x / toFixedHelpers.pow(2, e, 1));
+            z *= 0x10000000000000; // Math.pow(2, 52);
+            e = 52 - e;
+
+            // -18 < e < 122
+            // x = z / 2 ^ e
+            if (e > 0) {
+                toFixedHelpers.multiply(0, z);
+                j = f;
+
+                while (j >= 7) {
+                    toFixedHelpers.multiply(1e7, 0);
+                    j -= 7;
+                }
+
+                toFixedHelpers.multiply(toFixedHelpers.pow(10, j, 1), 0);
+                j = e - 1;
+
+                while (j >= 23) {
+                    toFixedHelpers.divide(1 << 23);
+                    j -= 23;
+                }
+
+                toFixedHelpers.divide(1 << j);
+                toFixedHelpers.multiply(1, 1);
+                toFixedHelpers.divide(2);
+                m = toFixedHelpers.numToString();
+            } else {
+                toFixedHelpers.multiply(0, z);
+                toFixedHelpers.multiply(1 << (-e), 0);
+                m = toFixedHelpers.numToString() + '0.00000000000000000000'.slice(2, 2 + f);
+            }
+        }
+
+        if (f > 0) {
+            k = m.length;
+
+            if (k <= f) {
+                m = s + '0.0000000000000000000'.slice(0, f - k + 2) + m;
+            } else {
+                m = s + m.slice(0, k - f) + '.' + m.slice(k - f);
+            }
+        } else {
+            m = s + m;
+        }
+
+        return m;
+    }
+}, hasToFixedBugs);
+
+
+//
+// String
+// ======
+//
+
+// ES5 15.5.4.14
+// http://es5.github.com/#x15.5.4.14
+
+// [bugfix, IE lt 9, firefox 4, Konqueror, Opera, obscure browsers]
+// Many browsers do not split properly with regular expressions or they
+// do not perform the split correctly under obscure conditions.
+// See http://blog.stevenlevithan.com/archives/cross-browser-split
+// I've tested in many browsers and this seems to cover the deviant ones:
+//    'ab'.split(/(?:ab)*/) should be ["", ""], not [""]
+//    '.'.split(/(.?)(.?)/) should be ["", ".", "", ""], not ["", ""]
+//    'tesst'.split(/(s)*/) should be ["t", undefined, "e", "s", "t"], not
+//       [undefined, "t", undefined, "e", ...]
+//    ''.split(/.?/) should be [], not [""]
+//    '.'.split(/()()/) should be ["."], not ["", "", "."]
+
+var string_split = StringPrototype.split;
+if (
+    'ab'.split(/(?:ab)*/).length !== 2 ||
+    '.'.split(/(.?)(.?)/).length !== 4 ||
+    'tesst'.split(/(s)*/)[1] === 't' ||
+    'test'.split(/(?:)/, -1).length !== 4 ||
+    ''.split(/.?/).length ||
+    '.'.split(/()()/).length > 1
+) {
+    (function () {
+        var compliantExecNpcg = typeof (/()??/).exec('')[1] === 'undefined'; // NPCG: nonparticipating capturing group
+
+        StringPrototype.split = function (separator, limit) {
+            var string = this;
+            if (typeof separator === 'undefined' && limit === 0) {
+                return [];
+            }
+
+            // If `separator` is not a regex, use native split
+            if (to_string.call(separator) !== '[object RegExp]') {
+                return string_split.call(this, separator, limit);
+            }
+
+            var output = [],
+                flags = (separator.ignoreCase ? 'i' : '') +
+                        (separator.multiline ? 'm' : '') +
+                        (separator.extended ? 'x' : '') + // Proposed for ES6
+                        (separator.sticky ? 'y' : ''), // Firefox 3+
+                lastLastIndex = 0,
+                // Make `global` and avoid `lastIndex` issues by working with a copy
+                separator2, match, lastIndex, lastLength;
+            separator = new RegExp(separator.source, flags + 'g');
+            string += ''; // Type-convert
+            if (!compliantExecNpcg) {
+                // Doesn't need flags gy, but they don't hurt
+                separator2 = new RegExp('^' + separator.source + '$(?!\\s)', flags);
+            }
+            /* Values for `limit`, per the spec:
+             * If undefined: 4294967295 // Math.pow(2, 32) - 1
+             * If 0, Infinity, or NaN: 0
+             * If positive number: limit = Math.floor(limit); if (limit > 4294967295) limit -= 4294967296;
+             * If negative number: 4294967296 - Math.floor(Math.abs(limit))
+             * If other: Type-convert, then use the above rules
+             */
+            limit = typeof limit === 'undefined' ?
+                -1 >>> 0 : // Math.pow(2, 32) - 1
+                ES.ToUint32(limit);
+            while (match = separator.exec(string)) {
+                // `separator.lastIndex` is not reliable cross-browser
+                lastIndex = match.index + match[0].length;
+                if (lastIndex > lastLastIndex) {
+                    output.push(string.slice(lastLastIndex, match.index));
+                    // Fix browsers whose `exec` methods don't consistently return `undefined` for
+                    // nonparticipating capturing groups
+                    if (!compliantExecNpcg && match.length > 1) {
+                        match[0].replace(separator2, function () {
+                            for (var i = 1; i < arguments.length - 2; i++) {
+                                if (typeof arguments[i] === 'undefined') {
+                                    match[i] = void 0;
+                                }
+                            }
+                        });
+                    }
+                    if (match.length > 1 && match.index < string.length) {
+                        array_push.apply(output, match.slice(1));
+                    }
+                    lastLength = match[0].length;
+                    lastLastIndex = lastIndex;
+                    if (output.length >= limit) {
+                        break;
+                    }
+                }
+                if (separator.lastIndex === match.index) {
+                    separator.lastIndex++; // Avoid an infinite loop
+                }
+            }
+            if (lastLastIndex === string.length) {
+                if (lastLength || !separator.test('')) {
+                    output.push('');
+                }
+            } else {
+                output.push(string.slice(lastLastIndex));
+            }
+            return output.length > limit ? output.slice(0, limit) : output;
+        };
+    }());
+
+// [bugfix, chrome]
+// If separator is undefined, then the result array contains just one String,
+// which is the this value (converted to a String). If limit is not undefined,
+// then the output array is truncated so that it contains no more than limit
+// elements.
+// "0".split(undefined, 0) -> []
+} else if ('0'.split(void 0, 0).length) {
+    StringPrototype.split = function split(separator, limit) {
+        if (typeof separator === 'undefined' && limit === 0) { return []; }
+        return string_split.call(this, separator, limit);
+    };
+}
+
+var str_replace = StringPrototype.replace;
+var replaceReportsGroupsCorrectly = (function () {
+    var groups = [];
+    'x'.replace(/x(.)?/g, function (match, group) {
+        groups.push(group);
+    });
+    return groups.length === 1 && typeof groups[0] === 'undefined';
+}());
+
+if (!replaceReportsGroupsCorrectly) {
+    StringPrototype.replace = function replace(searchValue, replaceValue) {
+        var isFn = isFunction(replaceValue);
+        var hasCapturingGroups = isRegex(searchValue) && (/\)[*?]/).test(searchValue.source);
+        if (!isFn || !hasCapturingGroups) {
+            return str_replace.call(this, searchValue, replaceValue);
+        } else {
+            var wrappedReplaceValue = function (match) {
+                var length = arguments.length;
+                var originalLastIndex = searchValue.lastIndex;
+                searchValue.lastIndex = 0;
+                var args = searchValue.exec(match) || [];
+                searchValue.lastIndex = originalLastIndex;
+                args.push(arguments[length - 2], arguments[length - 1]);
+                return replaceValue.apply(this, args);
+            };
+            return str_replace.call(this, searchValue, wrappedReplaceValue);
+        }
+    };
+}
+
+// ECMA-262, 3rd B.2.3
+// Not an ECMAScript standard, although ECMAScript 3rd Edition has a
+// non-normative section suggesting uniform semantics and it should be
+// normalized across all browsers
+// [bugfix, IE lt 9] IE < 9 substr() with negative value not working in IE
+var string_substr = StringPrototype.substr;
+var hasNegativeSubstrBug = ''.substr && '0b'.substr(-1) !== 'b';
+defineProperties(StringPrototype, {
+    substr: function substr(start, length) {
+        return string_substr.call(
+            this,
+            start < 0 ? ((start = this.length + start) < 0 ? 0 : start) : start,
+            length
+        );
+    }
+}, hasNegativeSubstrBug);
+
+// ES5 15.5.4.20
+// whitespace from: http://es5.github.io/#x15.5.4.20
+var ws = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
+    '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028' +
+    '\u2029\uFEFF';
+var zeroWidth = '\u200b';
+var wsRegexChars = '[' + ws + ']';
+var trimBeginRegexp = new RegExp('^' + wsRegexChars + wsRegexChars + '*');
+var trimEndRegexp = new RegExp(wsRegexChars + wsRegexChars + '*$');
+var hasTrimWhitespaceBug = StringPrototype.trim && (ws.trim() || !zeroWidth.trim());
+defineProperties(StringPrototype, {
+    // http://blog.stevenlevithan.com/archives/faster-trim-javascript
+    // http://perfectionkills.com/whitespace-deviations/
+    trim: function trim() {
+        if (typeof this === 'undefined' || this === null) {
+            throw new TypeError("can't convert " + this + ' to object');
+        }
+        return String(this).replace(trimBeginRegexp, '').replace(trimEndRegexp, '');
+    }
+}, hasTrimWhitespaceBug);
+
+// ES-5 15.1.2.2
+if (parseInt(ws + '08') !== 8 || parseInt(ws + '0x16') !== 22) {
+    /*global parseInt: true */
+    parseInt = (function (origParseInt) {
+        var hexRegex = /^0[xX]/;
+        return function parseIntES5(str, radix) {
+            str = String(str).trim();
+            if (!Number(radix)) {
+                radix = hexRegex.test(str) ? 16 : 10;
+            }
+            return origParseInt(str, radix);
+        };
+    }(parseInt));
+}
+
+}));
 
 ;define("ic-ajax",
   ["ember","exports"],
@@ -65744,7 +67208,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 				this.push.apply(this, new_array);
 			},
 			clear: function(){
-				this.splice(0);
+				this.length = 0;
 			},
 			copy: function(){
 				var a = new DateArray();
@@ -65797,7 +67261,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 		this.viewMode = this.o.startView;
 
 		if (this.o.calendarWeeks)
-			this.picker.find('tfoot th.today')
+			this.picker.find('tfoot th.today, tfoot th.clear')
 						.attr('colspan', function(i, val){
 							return parseInt(val) + 1;
 						});
@@ -66228,9 +67692,12 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 				windowHeight = $window.height(),
 				scrollTop = $window.scrollTop();
 
-			var zIndex = parseInt(this.element.parents().filter(function(){
-					return $(this).css('z-index') !== 'auto';
-				}).first().css('z-index'))+10;
+			var parentsZindex = [];
+			this.element.parents().each(function() {
+				var itemZIndex = $(this).css('z-index');
+				if ( itemZIndex !== 'auto' && itemZIndex !== 0 ) parentsZindex.push( parseInt( itemZIndex ) );
+			});
+			var zIndex = Math.max.apply( Math, parentsZindex ) + 10;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
 			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(false);
 			var width = this.component ? this.component.outerWidth(true) : this.element.outerWidth(false);
@@ -66426,6 +67893,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 				todaytxt = dates[this.o.language].today || dates['en'].today || '',
 				cleartxt = dates[this.o.language].clear || dates['en'].clear || '',
 				tooltip;
+			if (isNaN(year) || isNaN(month)) return;
 			this.picker.find('.datepicker-days thead th.datepicker-switch')
 						.text(dates[this.o.language].months[month]+' '+year);
 			this.picker.find('tfoot th.today')
@@ -66485,6 +67953,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 
 				clsName = $.unique(clsName);
 				html.push('<td class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getUTCDate() + '</td>');
+				tooltip = null;
 				if (prevMonth.getUTCDay() === this.o.weekEnd){
 					html.push('</tr>');
 				}
@@ -66698,6 +68167,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 			if (!date){
 				this.dates.clear();
 			}
+			if (this.o.multidate === 1 && ix === 0){
+                // single datepicker, don't remove selected date
+            }
 			else if (ix !== -1){
 				this.dates.remove(ix);
 			}
@@ -66873,8 +68345,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
 					break;
 				case 13: // enter
 					focusDate = this.focusDate || this.dates.get(-1) || this.viewDate;
-					this._toggle_multidate(focusDate);
-					dateChanged = true;
+					if (this.o.keyboardNavigation) {
+						this._toggle_multidate(focusDate);
+						dateChanged = true;
+					}
 					this.focusDate = null;
 					this.viewDate = this.dates.get(-1) || this.viewDate;
 					this.setValue();
@@ -100799,124 +102273,7907 @@ the specific language governing permissions and limitations under the Apache Lic
         };
     })();
 })(window.jQuery);
-;eval("define(\"sl-ember-components/components/sl-alert\", \n  [\"ember\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var TooltipEnabled = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-alert\n     */\n    __exports__[\"default\"] = Ember.Component.extend( TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Array of class names for the alert\'s div\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'alert\', \'sl-alert\' ],\n\n        /**\n         * Array of class name bindings for the alert\'s div\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'themeClassName\', \'dismissable:alert-dismissable\' ],\n\n        /**\n         * The ARIA role attribute for the alert\'s div\n         *\n         * @property {Ember.String} ariaRole\n         * @default  \"alert\"\n         */\n        ariaRole: \'alert\',\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Actions for the alert component\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Trigger a bound \"dismiss\" action when the alert is dismissed\n             *\n             * @function actions.dismiss\n             * @returns  {void}\n             */\n            dismiss: function() {\n                this.sendAction( \'dismiss\' );\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether to make the alert dismissable or not\n         *\n         * @property {boolean} dismissable\n         * @default  false\n         */\n        dismissable: false,\n\n        /**\n         * The Bootstrap \"theme\" style to apply to the alert\n         *\n         * @property {Ember.String} theme\n         * @default  \"info\"\n         */\n        theme: \'info\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * The generated Bootstrap \"theme\" style class for the alert\n         *\n         * @function themeClassName\n         * @observes theme\n         * @returns  {Ember.String}  Defaults to \"alert-info\"\n         */\n        themeClassName: function() {\n            return \'alert-\' + this.get( \'theme\' );\n        }.property( \'theme\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-alert.js");
+;define("sl-ember-components/components/sl-alert", 
+  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var TooltipEnabled = __dependency2__["default"];
 
-;eval("define(\"sl-ember-components/mixins/sl-tooltip-enabled\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-tooltip-enabled\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Attribute bindings for the tooltip-based component\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'data-toggle\', \'title\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * \'data-toggle\' attribute for use in template binding\n         *\n         * @property {boolean} data-toggle\n         * @default  null\n         */\n        \'data-toggle\': null,\n\n        /**\n         * Title attribute\n         *\n         * Used as attribute in template binding by popover\n         * Used as \"data-original-title\" attribute by tooltip\n         *\n         * @property {Ember.String} title\n         * @default  null\n         */\n        title: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Enable the tooltip functionality, based on component\'s `popover` attribute\n         *\n         * @function enableTooltip\n         * @observes \"didInsertElement\" event, popover, title\n         * @throws   {Ember.assert}\n         * @returns  {void}\n         */\n        enable: function() {\n            if ( this.get( \'popover\' ) ) {\n                this.enablePopover();\n            } else if ( this.get( \'title\' ) ) {\n                 this.enableTooltip();\n            }\n        }.observes( \'popover\', \'title\' ).on( \'didInsertElement\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Enable popover\n         *\n         * @private\n         * @function enablePopover\n         * @returns  {void}\n         */\n        enablePopover: function() {\n            var popover = this.get( \'popover\' );\n\n            // First-time rendering\n            if ( \'undefined\' === typeof this.$().attr( \'data-original-title\' ) ) {\n                this.set( \'data-toggle\', \'popover\' );\n\n                this.$().popover({\n                    content   : popover,\n                    placement : \'top\'\n                });\n\n            // Reset title value\n            } else {\n                this.$().attr( \'data-original-title\', this.get( \'title\' ) );\n                this.$().attr( \'data-content\', popover );\n            }\n        },\n\n        /**\n         * Enable tooltip\n         *\n         * @private\n         * @function enableTooltip\n         * @returns  {void}\n         */\n        enableTooltip: function() {\n            var title = this.get( \'title\' );\n\n            // First-time rendering\n            if ( \'undefined\' === typeof this.$().attr( \'data-original-title\' ) ) {\n                this.set( \'data-toggle\', \'tooltip\' );\n\n                this.$().tooltip({\n                    container : \'body\',\n                    title     : title\n                });\n\n            // Reset title value\n            } else {\n                this.$().attr( \'data-original-title\', title );\n            }\n        }\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-tooltip-enabled.js");
+    /**
+     * @module components
+     * @class  sl-alert
+     */
+    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
 
-;eval("define(\"sl-ember-components/components/sl-button\", \n  [\"ember\",\"sl-ember-components/mixins/sl-ajax-aware\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var AjaxAware = __dependency2__[\"default\"];\n    var TooltipEnabled = __dependency3__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-button\n     */\n    __exports__[\"default\"] = Ember.Component.extend( AjaxAware, TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The root component element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"button\"\n         */\n        tagName: \'button\',\n\n        /**\n         * Attribute bindings for the button component\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'data-target\', \'data-toggle\', \'disabled\', \'type\' ],\n\n        /**\n         * Class names to apply to the button\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'btn\', \'sl-button\' ],\n\n        /**\n         * Class bindings for the button component\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'sizeClass\', \'themeClass\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        /**\n         * Alert external code about the click\n         *\n         * @function click\n         * @returns  {void}\n         */\n        click: function() {\n            this.sendAction();\n        },\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * The text to display during AJAX activity\n         *\n         * @property {Ember.String} activeLabelText\n         * @default  null\n         */\n        activeLabelText: null,\n\n        /**\n         * Whether or not the button should be disabled during AJAX activity\n         *\n         * @property {boolean} disableOnAjax\n         * @default  false\n         */\n        disableOnAjax: false,\n\n        /**\n         * Whether or not the button should be hidden during AJAX activity\n         *\n         * @property {boolean} hideOnAjax\n         * @default  false\n         */\n        hideOnAjax: false,\n\n        /**\n         * This is primarily used internally to avoid losing the \"default\" value of\n         * the label when switching to the active text\n         *\n         * @property {Ember.String} inactiveLabelText\n         * @default  null\n         */\n        inactiveLabelText: null,\n\n        /**\n         * Text to apply to the button label\n         *\n         * It is preferred you use this to set your \"default\" text rather than\n         * inactiveLabelText, which will take this value as a default.\n         *\n         * @property {Ember.String} label\n         * @default  null\n         */\n        label: null,\n\n        /**\n         * The size of the button\n         *\n         * @property {string} size\n         * @default  \"medium\"\n         */\n        size: \'medium\',\n\n        /**\n         * The bootstrap \"theme\" name\n         *\n         * @property {Ember.String} theme\n         * @default  \"default\"\n         */\n        theme: \'default\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Initialize labels\n         *\n         * @function initLabel\n         * @observes \"init\" event\n         * @returns  {void}\n         */\n        initLabel: function() {\n            if ( Ember.isBlank( this.get( \'inactiveLabelText\' ) ) ) {\n                this.set( \'inactiveLabelText\', this.get( \'label\' ) );\n            }\n        }.on( \'init\' ),\n\n        /**\n         * Register our behaviors with the convenience method from the AJAX mixin\n         *\n         * @function setupHandlers\n         * @observes \"init\" event\n         * @returns  {void}\n         */\n        setupHandlers: function() {\n            this.registerAjaxBehavior( function() {\n                var props = this.getProperties([ \'activeLabelText\', \'disableOnAjax\', \'hideOnAjax\' ]);\n\n                if ( !Ember.isBlank( props.activeLabelText ) ) {\n                    this.set( \'label\', props.activeLabelText );\n                }\n\n                if ( props.disableOnAjax ) {\n                    this.set( \'disabled\', true );\n                }\n\n                if ( props.hideOnAjax ) {\n                    this.$().css( \'visibility\', \'hidden\' );\n                }\n            }.bind( this ), function() {\n                var props = this.getProperties([ \'activeLabelText\', \'inactiveLabelText\', \'disableOnAjax\', \'hideOnAjax\' ]);\n\n                if ( !Ember.isBlank( \'activeLabelText\' ) ) {\n                    this.set( \'label\', props.inactiveLabelText );\n                }\n\n                if ( props.disableOnAjax ) {\n                    this.set( \'disabled\', false );\n                }\n\n                if ( props.hideOnAjax ) {\n                    this.$().css( \'visibility\', \'visible\' );\n                }\n            }.bind( this ));\n        }.on( \'init\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Converted size string to Bootstrap button class\n         *\n         * @function sizeClass\n         * @observes size\n         * @returns  {Ember.String} Defaults to undefined\n         */\n        sizeClass: function() {\n            var size = this.get( \'size\' ),\n                sizeClass;\n\n            switch ( size ) {\n                case \'extra-small\':\n                    sizeClass = \'btn-xs\';\n                    break;\n\n                case \'small\':\n                    sizeClass = \'btn-sm\';\n                    break;\n\n                case \'large\':\n                    sizeClass = \'btn-lg\';\n                    break;\n            }\n\n            return sizeClass;\n        }.property( \'size\' ),\n\n        /**\n         * Converted theme string to Bootstrap button class\n         *\n         * @function themeClass\n         * @observes theme\n         * @returns  {Ember.String} Defaults to \"btn-default\"\n         */\n        themeClass: function() {\n            return \'btn-\' + this.get( \'theme\' );\n        }.property( \'theme\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-button.js");
+        // -------------------------------------------------------------------------
+        // Dependencies
 
-;eval("define(\"sl-ember-components/mixins/sl-ajax-aware\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-ajax-aware\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Placeholder\n         *\n         * @property {function} ajaxCompleteProxyBound\n         * @default  null\n         */\n        ajaxCompleteProxyBound: null,\n\n        /**\n         * Whether or not AJAX events are bound to the element\n         *\n         * If disabled, the instance will not even create the bindings to be made\n         * aware of the AJAX activity.\n         *\n         * @property {boolean} ajaxEnabled\n         * @default false\n         */\n        ajaxEnabled: false,\n\n        /**\n         * Placeholder\n         *\n         * @property {function} ajaxSendProxyBound\n         * @default  null\n         */\n        ajaxSendProxyBound: null,\n\n        /**\n         * Placeholder\n         *\n         * @property {function} ajaxStartProxyBound\n         * @default  null\n         */\n        ajaxStartProxyBound: null,\n\n        /**\n         * Placeholder\n         *\n         * @property {function} ajaxStopProxyBound\n         * @default  null\n         */\n        ajaxStopProxyBound: null,\n\n        /**\n         * Used internally to track registered AJAX behaviors\n         *\n         * @private\n         * @property {Ember.Array} onActiveBehaviors\n         * @default  []\n         */\n        onActiveBehaviors: [],\n\n        /**\n         * Used internally to track registered AJAX behaviors\n         *\n         * @property {Ember.Array} onInactiveBehaviors\n         * @default  []\n         */\n        onInactiveBehaviors: [],\n\n        /**\n         * Indicates which endpoint(s) AJAX activity we are concerned with\n         *\n         * URL scope can be given as either a string or a regular expression.\n         *\n         * @property {Ember.String} urlScope\n         * @default  null\n         */\n        urlScope: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Initialize AJAX connectivity\n         *\n         * @function initAjax\n         * @observes \"init\" event\n         * @returns  {void}\n         */\n        initAjax: function() {\n            this.createProxyMethods();\n            this.connectAjax();\n        }.on( \'init\' ),\n\n        /**\n         * Bind to the appropriate AJAX calls if enabled\n         *\n         * This method will consider the URL scoping and bind to either\n         * Send/Complete (for specific URLs) or Start/Stop (for global\n         * AJAX activity).\n         *\n         * @function connectAjax\n         * @observes \"ajaxEnabled\" event\n         * @returns  {void}\n         */\n        connectAjax: function() {\n            var props = this.getProperties([ \'ajaxEnabled\', \'ajaxBound\', \'urlScope\' ]);\n\n            if ( props.ajaxEnabled === true && !props.ajaxBound ) {\n                if ( !Ember.isBlank( props.urlScope ) ) {\n                    Ember.$( document )\n                        .ajaxSend( this.get( \'ajaxSendProxyBound\' ) )\n                        .ajaxComplete( this.get( \'ajaxCompleteProxyBound\' ) );\n                } else {\n                    Ember.$( document )\n                        .ajaxStart( this.get( \'ajaxStartProxyBound\' ) )\n                        .ajaxStop( this.get( \'ajaxStopProxyBound\' ) );\n                }\n            }\n\n        }.observes( \'ajaxEnabled\' ),\n\n        /**\n         * Unbind from AJAX methods\n         *\n         * @function disconnectAjax\n         * @observes \"ajaxEnabled\" event\n         * @returns  {void}\n         */\n        disconnectAjax: function() {\n            var ajaxBound   = this.get( \'ajaxBound\' ),\n                ajaxEnabled = this.get( \'ajaxEnabled\' );\n\n            if ( !ajaxEnabled && ajaxBound ) {\n                Ember.$( document ).off( \'ajaxSend\', this.get( \'ajaxSendProxyBound\' ) );\n                Ember.$( document ).off( \'ajaxComplete\', this.get( \'ajaxCompleteProxyBound\' ) );\n                Ember.$( document ).off( \'ajaxStart\', this.get( \'ajaxStartProxyBound\' ) );\n                Ember.$( document ).off( \'ajaxStop\', this.get( \'ajaxStopProxyBound\' ) );\n            }\n        }.observes( \'ajaxEnabled\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Empty implementations of AJAX handler to be overriden by client code\n         *\n         * @function ajaxCompleteHandler\n         * @default  {function} empty\n         */\n        ajaxCompleteHandler: function() {},\n\n        /**\n         * Internally used proxy method for ajaxComplete\n         *\n         * @function ajaxCompleteProxy\n         * @param   {object} event\n         * @param   {jqXHR}  jqXHR\n         * @param   {object} options\n         * @returns {void}\n         */\n        ajaxCompleteProxy: function( event, jqXHR, options ) {\n            if ( this.matchesUrl( this.get( \'urlScope\' ), options.url ) ) {\n                this.get( \'onInactiveBehaviors\' ).forEach( function( behavior ) {\n                    behavior.call( this, event, jqXHR, options );\n                }.bind( this ) );\n\n                this.ajaxCompleteHandler();\n            }\n        },\n\n        /**\n         * Empty implementations of AJAX handler to be overriden by client code\n         *\n         * @function ajaxSendHandler\n         * @default  {function} empty\n         */\n        ajaxSendHandler: function() {},\n\n        /**\n         * Internally used proxy method for ajaxSend\n         *\n         * @function ajaxSendProxy\n         */\n        ajaxSendProxy: function( event, jqXHR, options ) {\n            if ( this.matchesUrl( this.get( \'urlScope\' ), options.url )) {\n                this.get( \'onActiveBehaviors\' ).forEach( function( behavior ) {\n                    behavior.call( this, event, jqXHR, options );\n                }.bind( this ));\n\n                this.ajaxSendHandler();\n            }\n        },\n\n        /**\n         * Empty implementations of AJAX handler to be overriden by client code\n         *\n         * @function ajaxStartHandler\n         * @default  {function} empty\n         */\n        ajaxStartHandler: function() {},\n\n        /**\n         * Internally used proxy method for ajaxStart\n         *\n         * @function ajaxStartProxy\n         * @returns  {void}\n         */\n        ajaxStartProxy: function() {\n            this.get( \'onActiveBehaviors\' ).forEach( function( behavior ) {\n                behavior.call( this );\n            }.bind( this ));\n\n            this.ajaxStartHandler();\n        },\n\n        /**\n         * Empty implementations of AJAX handler to be overriden by client code\n         *\n         * @function ajaxStopHandler\n         * @default  {function} empty\n         */\n        ajaxStopHandler: function() {},\n\n        /**\n         * Internally used proxy method for ajaxStop\n         *\n         * @function ajaxStopProxy\n         * @returns  {void}\n         */\n        ajaxStopProxy: function() {\n            this.get( \'onInactiveBehaviors\' ).forEach( function( behavior ) {\n                behavior.call( this );\n            }.bind( this ));\n\n            this.ajaxStopHandler();\n        },\n\n        /**\n         * Create pre-bound proxy methods for each of the 4 AJAX callbacks we are\n         * concerned with\n         *\n         * @function createProxyMethods\n         * @returns  {void}\n         */\n        createProxyMethods: function() {\n            this.setProperties({\n                ajaxSendProxyBound     : this.ajaxSendProxy.bind( this ),\n                ajaxCompleteProxyBound : this.ajaxCompleteProxy.bind( this ),\n                ajaxStartProxyBound    : this.ajaxStartProxy.bind( this ),\n                ajaxStopProxyBound     : this.ajaxStopProxy.bind( this )\n            });\n        },\n\n        /**\n         * Check if the AJAX URL matches the specified scope\n         *\n         * Scope can be set as a specific endpoint string or as a regex to be\n         * tested against.\n         *\n         * @function matchesUrl\n         * @param   {RegExp|Ember.String} urlScope\n         * @param   {Ember.String} ajaxUrl - The URL that the AJAX action is requested on\n         * @returns {boolean}\n         */\n        matchesUrl: function( urlScope, ajaxUrl ) {\n            var returnValue = false;\n\n            if ( urlScope instanceof RegExp ) {\n                returnValue = urlScope.test( ajaxUrl );\n            } else if ( typeof urlScope === \'string\' ) {\n                returnValue = urlScope.toLowerCase() === ajaxUrl.toLowerCase();\n            }\n\n            return returnValue;\n        },\n\n        /**\n         * Initialize AJAX behavior\n         *\n         * A common use case will be to initialize particular behaviors during AJAX\n         * activity and fall back to other, default, behaviors when no AJAX activity\n         * is ongoing. To accomodate this, the registerAjaxBehavior method will\n         * allow a user to pass in functions that will be called when AJAX activity\n         * starts and stops. This can be accomplished by overriding the ajax hooks\n         * (ajaxSend, ajaxComplete, ajaxStart & ajaxStop) but this method does have\n         * some benefits. For one, it allows you to group your functionality within\n         * the registerAjaxBehavior so it becomes obvious when a behavior is turned\n         * on and off. Also, it allows you to use the same procedure for registering\n         * behaviors regardless of the URL scope. If you change from a globally\n         * scoped URL (i.e. no urlScope defined) to having a particular API endpoint\n         * or end points set up, the methods will be executed at the appropriate\n         * time. If using the AJAX hooks, you\'ll need to move the calls from\n         * ajaxStart/ajaxStop to ajaxSend/ajaxComplete.\n         *\n         * @function registerAjaxBehavior\n         * @param   {function} onActive - Executed when associated AJAX activity begins\n         * @param   {function} onInactive - Executed when associated AJAX activity ends\n         * @returns {void}\n         */\n        registerAjaxBehavior: function( onActive, onInactive ) {\n            if ( onActive ) {\n                this.get( \'onActiveBehaviors\' ).push( onActive );\n            }\n\n            if ( onInactive ) {\n                this.get( \'onInactiveBehaviors\' ).push( onInactive );\n            }\n        },\n\n        /**\n         * Allows you to unregister ajax behaviors\n         *\n         * @function unregisterAjaxBehavior\n         * @param   {function} onActive - Executed when associated AJAX activity begins\n         * @param   {function} onInactive - Executed when associated AJAX activity ends\n         * @returns {void}\n         */\n        unregisterAjaxBehavior: function( onActive, onInactive ) {\n            if ( onActive ) {\n                this.get( \'onActiveBehaviors\' ).removeObject( onActive );\n            }\n\n            if ( onInactive ) {\n                this.get( \'onInactiveBehaviors\' ).removeObject( onInactive );\n            }\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-ajax-aware.js");
+        // -------------------------------------------------------------------------
+        // Attributes
 
-;eval("define(\"sl-ember-components/components/sl-calendar-day\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-calendar-day\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The HTML tag name of the component\'s root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"td\"\n         */\n        tagName: \'td\',\n\n        /**\n         * Class names for the component\'s root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'day\' ],\n\n        /**\n         * Class name bindings for the component\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'active\', \'new\', \'old\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Function triggered by clicking a calendar day\n         *\n         * @function click\n         * @returns  {void}\n         */\n        click: function() {\n            this.sendAction( \'action\', this.get( \'content\' ) );\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-calendar-day.js");
+        /**
+         * Array of class names for the alert's div
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'alert', 'sl-alert' ],
 
-;eval("define(\"sl-ember-components/components/sl-calendar-month\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    /* global moment */\n\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-calendar-month\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name of the component\'s root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        /**\n         * Class names for the component\'s root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'month\' ],\n\n        /**\n         * Class name bindings for the component\'s root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'active\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        /**\n         * Send back the primary bound action with this month number\n         *\n         * @function click\n         * @returns  {void}\n         */\n        click: function() {\n            this.sendAction( \'action\', this.get( \'month\' ) );\n        },\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * The short string name of the represented month\n         *\n         * @function shortName\n         * @returns  {Ember.String}\n         */\n        shortName: function() {\n            return moment([ 1, this.get( \'month\' ) - 1 ]).format( \'MMM\' );\n        }.property()\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-calendar-month.js");
+        /**
+         * Array of class name bindings for the alert's div
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
 
-;eval("define(\"sl-ember-components/components/sl-calendar-year\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-calendar-year\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the component\'s root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        /**\n         * Class name bindings for the component\'s root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'active\', \'new\', \'old\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        /**\n         * Send back primary action with this year value\n         *\n         * @function click\n         * @returns  {void}\n         */\n        click: function() {\n            this.sendAction( \'action\', this.get( \'year\' ) );\n        }\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-calendar-year.js");
+        /**
+         * The ARIA role attribute for the alert's div
+         *
+         * @property {Ember.String} ariaRole
+         * @default  "alert"
+         */
+        ariaRole: 'alert',
 
-;eval("define(\"sl-ember-components/components/sl-calendar\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    /* global moment */\n\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-calendar-calendar\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-calendar\' ],\n\n        /**\n         * Bindings for the component\'s class names\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'locked:sl-calendar-locked\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Object of actions\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Change the currently-viewed decade by incrementing or decrementing\n             * the decadeStart year number\n             *\n             * @function actions.changeDecade\n             * @param    {number} decadeMod - A number to adjust the decadeStart by\n             *           (positive to increment, negative to decrement)\n             * @returns  {void}\n             */\n            changeDecade: function( decadeMod ) {\n                if ( this.get( \'locked\' ) ) {\n                    return;\n                }\n\n                this.set( \'decadeStart\', this.get( \'decadeStart\' ) + ( 10 * decadeMod ) );\n            },\n\n            /**\n             * Change the currently-viewed month by incrementing or decrementing\n             * the currentMonth (and currentYear if needed)\n             *\n             * @function actions.changeMonth\n             * @param    {number} monthMod - A number to adjust the currentMonth by\n             *           (positive to increment, negative to decrement). The\n             *           currentYear is adjusted as needed.\n             * @returns  {void}\n             */\n            changeMonth: function( monthMod ) {\n                var month,\n                    year;\n\n                if ( this.get( \'locked\' ) ) {\n                    return;\n                }\n\n                month = this.get( \'currentMonth\' ) + monthMod;\n                year  = this.get( \'currentYear\' );\n\n                while ( month < 1 ) {\n                    month += 12;\n                    year -= 1;\n                }\n\n                while ( month > 12 ) {\n                    month -= 12;\n                    year += 1;\n                }\n\n                this.setProperties({\n                    currentYear  : year,\n                    currentMonth : month\n                });\n            },\n\n            /**\n             * Change the currently-viewed year by increment or decrementing the\n             * currentYear\n             *\n             * @function actions.changeYear\n             * @param    {number} yearMod - A number to adjust the currentYear by\n             *           (positive to increment, negative to decrement)\n             * @returns  {void}\n             */\n            changeYear: function( yearMod ) {\n                if ( this.get( \'locked\' ) ) {\n                    return;\n                }\n\n                this.set( \'currentYear\', this.get( \'currentYear\' ) + yearMod );\n            },\n\n            /**\n             * Action to trigger component\'s bound action and pass back content\n             * values with dates occurring on the clicked date\n             *\n             * @function actions.sendDateContent\n             * @param    {array} dateContent - Collection of content objects with\n             *           date values of the clicked date\n             * @returns  {void}\n             */\n            sendDateContent: function( dateContent ) {\n                if ( dateContent ) {\n                    this.sendAction( \'action\', dateContent );\n                }\n            },\n\n            /**\n             * Set the current month and change view mode to that month\n             *\n             * @function actions.setMonth\n             * @param    {number} month - The number of the month to change view to\n             * @returns  {void}\n             */\n            setMonth: function( month ) {\n                if ( this.get( \'locked\' ) ) {\n                    return;\n                }\n\n                this.setProperties({\n                    currentMonth : month,\n                    viewMode     : \'days\'\n                });\n            },\n\n            /**\n             * Set the view mode of the calendar\n             *\n             * @function actions.setView\n             * @param    {string} view - The view mode to switch to; \"days\",\n             *           \"months\", or \"years\"\n             * @returns  {void}\n             */\n            setView: function( view ) {\n                if ( this.get( \'locked\' ) ) {\n                    return;\n                }\n\n                this.set( \'viewMode\', view );\n            },\n\n            /**\n             * Set the current year\n             *\n             * @function actions.setYear\n             * @param    {number} year - The year to set to the current value\n             * @returns  {void}\n             */\n            setYear: function( year ) {\n                if ( this.get( \'locked\' ) ) {\n                    return;\n                }\n\n                this.setProperties({\n                    viewMode    : \'months\',\n                    currentYear : year\n                });\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * The currently selected/viewed month (1-12)\n         *\n         * @property {number} currentMonth\n         * @default  null\n         */\n        currentMonth: null,\n\n        /**\n         * The currently selected/viewed year\n         *\n         * @property {number} currentYear\n         * @default  null\n         */\n        currentYear: null,\n\n        /**\n         * String lookup for the date value on the content objects\n         *\n         * @property {Ember.String} dateValuePath\n         * @default  \"date\"\n         */\n        dateValuePath: \'date\',\n\n        /**\n         * When true, the view mode is locked and users cannot navigate forward\n         * and back\n         *\n         * @property {boolean} locked\n         * @default  false\n         */\n        locked: false,\n\n        /**\n         * The current view mode for the calendar\n         *\n         * @property {Ember.String} viewMode\n         * @default  \"days\"\n         */\n        viewMode: \'days\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Initialize default property values\n         *\n         * @function initialize\n         * @observes \"init\" event\n         * @returns  {void}\n         */\n        initialize: function() {\n            var today = new Date();\n\n            if ( !this.get( \'currentMonth\' ) ) {\n                this.set( \'currentMonth\', today.getMonth() + 1 );\n            }\n\n            if ( !this.get( \'currentYear\' ) ) {\n                this.set( \'currentYear\', today.getFullYear() );\n            }\n        }.on( \'init\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Object of nested year, month, and day values, representing the dates\n         * supplied by the calendar\'s content values\n         *\n         * @function contentDates\n         * @observes content\n         * @returns  {Ember.Object}\n         */\n        contentDates: function() {\n            var content       = this.get( \'content\' ),\n                dates         = {},\n                dateValuePath = this.get( \'dateValuePath\' ),\n                date,\n                year,\n                month,\n                day;\n\n            if ( content ) {\n                content.forEach( function( item ) {\n                    date = new Date( Ember.get( item, dateValuePath ) );\n                    year = date.getFullYear();\n                    month = date.getMonth() + 1;\n                    day = date.getDate();\n\n                    if ( !dates.hasOwnProperty( year ) ) {\n                        dates[ year ] = {};\n                    }\n\n                    if ( !dates[ year ].hasOwnProperty( month ) ) {\n                        dates[ year ][ month ] = {};\n                    }\n\n                    if ( !dates[ year ][ month ].hasOwnProperty( day ) ) {\n                        dates[ year ][ month ][ day ] = [];\n                    }\n\n                    dates[ year ][ month ][ day ].push( item );\n                });\n            }\n\n            return dates;\n        }.property( \'content\' ),\n\n        /**\n         * Name of the currently selected/viewed month\n         *\n         * @function currentMonthString\n         * @observes currentMonth\n         * @returns  {Ember.String}\n         */\n        currentMonthString: function() {\n            return moment([ this.get( \'currentYear\' ), this.get( \'currentMonth\' ) - 1 ]).format( \'MMMM\' );\n        }.property( \'currentMonth\' ),\n\n        /**\n         * The number of days in the current month\n         *\n         * @function daysInMonth\n         * @observes currentMonth, currentYear\n         * @returns  {number}\n         */\n        daysInMonth: function() {\n            return moment([ this.get( \'currentYear\' ), this.get( \'currentMonth\' ) - 1 ]).daysInMonth();\n        }.property( \'currentMonth\', \'currentYear\' ),\n\n        /**\n         * The last year in the currently selected/viewed decade\n         *\n         * @function decadeEnd\n         * @observes decadeStart\n         * @returns  {number}\n         */\n        decadeEnd: function() {\n            return this.get( \'decadeStart\' ) + 9;\n        }.property( \'decadeStart\' ),\n\n        /**\n         * The first year in the currently selected/viewed decade\n         *\n         * @function decadeStart\n         * @returns  {number}\n         */\n        decadeStart: function() {\n            var currentYear = this.get( \'currentYear\' );\n\n            return currentYear - ( currentYear % 10 );\n        }.property( \'currentYear\' ),\n\n        /**\n         * Get an array of objects representing months in the year view\n         *\n         * Each item contains the following values:\n         * - {boolean} active - Whether a content item\'s date occurs on this month\n         * - {number}  month  - The month number in the year (1-12)\n         *\n         * @function monthsInYearView\n         * @observes contentDates, currentYear\n         * @returns  {Ember.Array}\n         */\n        monthsInYearView: function() {\n            var contentDates = this.get( \'contentDates\' ),\n                currentYear  = this.get( \'currentYear\' ),\n                months       = [];\n\n            for ( var month = 1; month <= 12; month++ ) {\n                months.push({\n                    active: (\n                        contentDates.hasOwnProperty( currentYear ) &&\n                        contentDates[ currentYear ].hasOwnProperty( month )\n                    ),\n\n                    month: month\n                });\n            }\n\n            return months;\n        }.property( \'contentDates\', \'currentYear\' ),\n\n        /**\n         * The abbreviated, formatted day name of the week day\n         *\n         * @function shortWeekDayName\n         * @returns  {Ember.String}\n         */\n        shortWeekDayName: function( weekday ) {\n            return moment().day( weekday ).format( \'dd\' );\n        },\n\n        /**\n         * Whether the current view is \"days\"\n         *\n         * @function viewingDays\n         * @observes viewMode\n         * @returns  {boolean}\n         */\n        viewingDays: function() {\n            return this.get( \'viewMode\' ) === \'days\';\n        }.property( \'viewMode\' ),\n\n        /**\n         * Whether the current view is \"months\"\n         *\n         * @function viewingMonths\n         * @observes viewMode\n         * @returns  {boolean}\n         */\n        viewingMonths: function() {\n            return this.get( \'viewMode\' ) === \'months\';\n        }.property( \'viewMode\' ),\n\n        /**\n         * Whether the current view is \"years\"\n         *\n         * @function viewingYears\n         * @observes viewMode\n         * @returns  {boolean}\n         */\n        viewingYears: function() {\n            return this.get( \'viewMode\' ) === \'years\';\n        }.property( \'viewMode\' ),\n\n        /**\n         * An array of objects representing weeks and days in the month view\n         *\n         * Each day object contains the following values:\n         * - {boolean} active - Whether a content item occurs on this date\n         * - {array} content - Collection of content items occurring on this date\n         * - {number} day - The day number of the month (1-31)\n         * - {boolean} new - Whether the day occurs in the next month\n         * - {boolean} old - Whether the day occurs in the previous month\n         *\n         * @function weeksInMonthView\n         * @observes contentDates, currentMonth, currentYear, daysInMonth\n         * @returns  {Ember.Array}\n         */\n        weeksInMonthView: function() {\n            var contentDates               = this.get( \'contentDates\' ),\n                currentMonth               = this.get( \'currentMonth\' ),\n                currentYear                = this.get( \'currentYear\' ),\n                daysInCurrentMonth         = this.get( \'daysInMonth\' ),\n                firstWeekdayOfCurrentMonth = ( new Date( currentYear, currentMonth - 1, 1 ) ).getDay(),\n                weeks                      = [],\n                inNextMonth                = false,\n                previousMonth,\n                previousMonthYear,\n                previousMonthDays,\n                nextMonth,\n                nextMonthYear,\n                day,\n                days,\n                inPreviousMonth,\n                isActive,\n                month,\n                year;\n\n            if ( currentMonth === 1 ) {\n                previousMonth = 12;\n                previousMonthYear = currentYear - 1;\n            } else {\n                previousMonth = currentMonth - 1;\n                previousMonthYear = currentYear;\n            }\n\n            previousMonthDays = moment([ previousMonthYear, previousMonth - 1 ]).daysInMonth();\n\n            if ( currentMonth === 12 ) {\n                nextMonth = 1;\n                nextMonthYear = currentYear + 1;\n            } else {\n                nextMonth = currentMonth + 1;\n                nextMonthYear = currentYear;\n            }\n\n            if ( firstWeekdayOfCurrentMonth > 0 ) {\n                inPreviousMonth = true;\n                day = previousMonthDays - firstWeekdayOfCurrentMonth + 1;\n                month = previousMonth;\n                year = previousMonthYear;\n            } else {\n                inPreviousMonth = false;\n                day = 1;\n                month = currentMonth;\n                year = currentYear;\n            }\n\n            for ( var week = 0; week < 6; week++ ) {\n                days = [];\n\n                for ( var wday = 0; wday < 7; wday++ ) {\n                    isActive = !inPreviousMonth && !inNextMonth &&\n                        contentDates.hasOwnProperty( year ) &&\n                        contentDates[ year ].hasOwnProperty( month ) &&\n                        contentDates[ year ][ month ].hasOwnProperty( day );\n\n                    days.push({\n                        active  : isActive,\n                        content : isActive ? contentDates[ year ][ month ][ day ] : null,\n                        day     : day++,\n                        \'new\'   : inNextMonth,\n                        old     : inPreviousMonth\n                    });\n\n                    if ( inPreviousMonth ) {\n                        if ( day > previousMonthDays ) {\n                            inPreviousMonth = false;\n                            day = 1;\n                            month = currentMonth;\n                            year = currentYear;\n                        }\n                    } else if ( day > daysInCurrentMonth ) {\n                        inNextMonth = true;\n                        day = 1;\n                        month = nextMonth;\n                        year = nextMonthYear;\n                    }\n                }\n\n                weeks.push( days );\n            }\n\n            return weeks;\n        }.property( \'contentDates\', \'currentMonth\', \'currentYear\', \'daysInMonth\' ),\n\n        /**\n         * An array of objects representing years in the decade view\n         *\n         * Each object contains the following values:\n         * - {boolean} active - Whether a content item occurs on this year\n         * - {boolean} new - Whether this year is in the next decade range\n         * - {boolean} old - Whether this year is in the previous decade range\n         * - {number} year - The year number\n         *\n         * @function yearsInDecadeView\n         * @observes contentDates, decadeEnd, decadeStart\n         * @returns  {Ember.Array}\n         */\n        yearsInDecadeView: function() {\n            var contentDates = this.get( \'contentDates\' ),\n                decadeStart  = this.get( \'decadeStart\' ),\n                decadeEnd    = this.get( \'decadeEnd\' ),\n                years        = [];\n\n            for ( var year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {\n                years.push({\n                    active : contentDates.hasOwnProperty( year ),\n                    \'new\'  : year > decadeEnd,\n                    old    : year < decadeStart,\n                    year   : year\n                });\n            }\n\n            return years;\n        }.property( \'contentDates\', \'decadeEnd\', \'decadeStart\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-calendar.js");
+        // -------------------------------------------------------------------------
+        // Actions
 
-;eval("define(\"sl-ember-components/components/sl-chart\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-calendar-chart\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'panel\', \'panel-default\', \'sl-chart\', \'sl-panel\' ],\n\n        /**\n         * Class name bindings for the root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'isLoading:sl-loading\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * The highchart instantiation\n         *\n         * @property {Ember.Object} chart\n         * @default  null\n         */\n        chart: null,\n\n        /**\n         * Height value used for inline style\n         *\n         * @property {Ember.String} height\n         * @default  \"auto\"\n         */\n        height: \'auto\',\n\n        /**\n         * When true, the chart\'s panel body will be in a loading state\n         *\n         * @property {boolean} isLoading\n         * @default  false\n         */\n        isLoading: false,\n\n        /**\n         * The collection of series data for the chart\n         *\n         * @property {Ember.Array} series\n         * @default  null\n         */\n        series: null,\n\n        /**\n         * Width value used for inline style\n         *\n         * @property {Ember.String} width\n         * @default  \"auto\"\n         */\n        width: \'auto\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Sets up Highcharts initialization\n         *\n         * @function setupChart\n         * @observes didInsertElement event\n         * @returns  {void}\n         */\n        setupChart: function() {\n            var chartDiv = this.$( \'div.chart\' ),\n                chartStyle,\n                options;\n\n            chartStyle = {\n                fontFamily : \'\"Benton Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif\',\n                fontSize   : \'13px\'\n            };\n\n            options = Ember.$.extend( true, {\n                title: \'\',\n                chart: {\n                    animation: false,\n                    backgroundColor: \'rgba(255, 255, 255, 0)\',\n                    style: chartStyle\n                },\n                colors: [\n                    \'#298fce\',\n                    \'#94302e\',\n                    \'#00a14b\',\n                    \'#f29c1e\',\n                    \'#fadb00\',\n                    \'#34495d\'\n                ],\n                credits: {\n                    enabled: false\n                },\n                legend: {\n                    itemStyle: chartStyle\n                },\n                plotOptions: {\n                    bar: {\n                        borderColor: \'transparent\'\n                    },\n                    series: {\n                        animation: false\n                    }\n                },\n                tooltip: {\n                    animation: false,\n                    backgroundColor: \'rgba(0, 0, 0, 0.8)\',\n                    borderWidth: 0,\n                    shadow: false,\n                    style: {\n                        color: \'#fff\'\n                    }\n                },\n                xAxis: {\n                    labels: {\n                        style: chartStyle\n                    }\n                },\n                yAxis: {\n                    labels: {\n                        style: chartStyle\n                    }\n                }\n            }, this.get( \'options\' ) || {} );\n\n            chartDiv.highcharts( options );\n            this.set( \'chart\', chartDiv.highcharts() );\n            this.updateData();\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Updates the chart\'s series data\n         *\n         * @function updateSeries\n         * @observes series\n         * @returns  {void}\n         */\n        updateData: function() {\n            var chart  = this.get( \'chart\' ),\n                series = this.get( \'series\' );\n\n            if ( !chart.hasOwnProperty( \'series\' ) ) {\n                chart.series = [];\n            }\n\n            for ( var i = 0; i < series.length; i++ ) {\n                if ( chart.series.length <= i ) {\n                    chart.addSeries( series[ i ] );\n                } else {\n                    chart.series[i].setData( series[ i ].data );\n                }\n            }\n        }.observes( \'series\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Inline style containing height and width, required by Highcharts\n         *\n         * @function style\n         * @observes height, width\n         * @returns  {Ember.String}\n         */\n        style: function() {\n            return \'height: \' + this.get( \'height\' ) + \'; width: \' + this.get( \'width\' ) + \';\';\n        }.property( \'height\', \'width\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-chart.js");
+        /**
+         * Actions for the alert component
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
 
-;eval("define(\"sl-ember-components/components/sl-checkbox\", \n  [\"ember\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var TooltipEnabled = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-checkbox\n     */\n    __exports__[\"default\"] = Ember.Component.extend( TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Attribute bindings for containing div\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'checked\', \'disabled\' ],\n\n        /**\n         * Class names for containing div\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'checkbox\', \'form-group\', \'sl-checkbox\' ],\n\n        /**\n         * Bindings for the base component class\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'disabled\' ]\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-checkbox.js");
+            /**
+             * Trigger a bound "dismiss" action when the alert is dismissed
+             *
+             * @function actions.dismiss
+             * @returns  {void}
+             */
+            dismiss: function() {
+                this.sendAction( 'dismiss' );
+            }
+        },
 
-;eval("define(\"sl-ember-components/components/sl-date-picker\", \n  [\"ember\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var TooltipEnabled = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-date-picker\n     */\n    __exports__[\"default\"] = Ember.Component.extend( TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'form-group\', \'sl-date-picker\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether or not to close the datepicker immediately when a date is selected\n         *\n         * @property {boolean} autoclose\n         * @default  true\n         */\n        autoclose: true,\n\n        /**\n         * Whether or not to show week numbers to the left of week rows\n         *\n         * @property {boolean} calendarWeeks\n         * @default  false\n         */\n        calendarWeeks: false,\n\n        /**\n         * When true, displays a \"Clear\" button at the bottom of the datepicker\n         *\n         * If \"autoclose\" is also set to true, this button will also close\n         * the datepicker.\n         *\n         * @property {boolean} clearBtn\n         * @default  false\n         */\n        clearBtn: false,\n\n        /**\n         * Days of the week that should be disabled\n         *\n         * Values are 0 (Sunday) to 6 (Saturday). Multiple values should be\n         * comma-separated.\n         *\n         * @property {Ember.Array|Ember.String} daysOfWeekDisabled\n         * @default  []\n         */\n        daysOfWeekDisabled: [],\n\n        /**\n         * The latest date that may be selected; all later dates will be disabled\n         *\n         * @property {date} endDate\n         * @default  null\n         */\n        endDate: null,\n\n        /**\n         * Whether or not to force parsing of the input value when the picker is\n         * closed\n         *\n         * When an invalid date is left in the input field by the user, the picker\n         * will forcibly parse that value, and set the input\'s value to the new,\n         * valid date, conforming to the given _format_.\n         *\n         * @property {boolean} forceParse\n         * @default  true\n         */\n        forceParse: true,\n\n        /**\n         * The date format\n         *\n         * Combination of the following:\n         * - d, dd: Numeric date, no leading zero and leading zero, respectively\n         * - D, DD: Abbreviated and full weekday names, respectively\n         * - m, mm: Numeric month, no leading zero and leading zero, respectively\n         * - M, MM: Abbreviated and full month names, respectively\n         * - yy, yyyy: 2- and 4-digit years, respectively\n         *\n         * @property {Ember.String} format\n         * @default  \"mm/dd/yyyy\"\n         */\n        format: \'mm/dd/yyyy\',\n\n        /**\n         * The input field\'s id attribute\n         *\n         * Used to expose this value externally for use when composing this component into others.\n         *\n         * @property {Ember.String} setInputElementId\n         * @default  {null}\n         */\n        inputElementId: null,\n\n        /**\n         * A list of inputs to be used in a range picker\n         *\n         * The inputs will be attached to the selected element. Allows for\n         * explicitly creating a range picker on a non-standard element.\n         *\n         * @property {Ember.Array} inputs\n         * @default  null\n         */\n        inputs: null,\n\n        /**\n         * Whether or not to allow date navigation by arrow keys\n         *\n         * @property {boolean} keyboardNavigation\n         * @default  true\n         */\n        keyboardNavigation: true,\n\n        /**\n         * The IETF code of the language to use for month and day names\n         *\n         * @property {Ember.String} language\n         * @default  \"en\"\n         */\n        language: \'en\',\n\n        /**\n         * Set a limit for the view mode; accepts \"days\", \"months\", or \"years\"\n         *\n         * @property {Ember.String} minViewMode\n         * @default  \"days\"\n         */\n        minViewMode: \'days\',\n\n        /**\n         * Enable multidate picking\n         *\n         * Each date in month view acts as a toggle button, keeping track of which\n         * dates the user has selected in order. If a number is given, the picker\n         * will limit how many dates can be selected to that number, dropping the\n         * oldest dates from the list when the number is exceeded. true equates to\n         * no limit. The input’s value (if present) is set to a string generated by\n         * joining the dates, formatted, with multidateSeparator.\n         *\n         * @property {boolean|number} multidate\n         * @default  false\n         */\n        multidate: false,\n\n        /**\n         * A space-separated string for the popup\'s anchor position\n         *\n         * Consists of one or two of \"left\" or \"right\", \"top\" or \"bottom\",\n         * and \"auto\" (may be omitted).\n         *\n         * @property {Ember.String} orientation\n         * @default  \"auto\"\n         */\n        orientation: \'auto\',\n\n        /**\n         * The earliest date that may be selected; all earlier dates will\n         * be disabled\n         *\n         * @property {date} startDate\n         * @default  null\n         */\n        startDate: null,\n\n        /**\n         * The view that the datepicker should show when it is opened; accepts\n         * \"month\", \"year\", or \"decade\"\n         *\n         * @property {Ember.String} startView\n         * @default  \"month\"\n         */\n        startView: \'month\',\n\n        /**\n         * When true or \"linked\", displays a \"Today\" button at the bottom of the\n         * datepicker to select the current date\n         *\n         * If true, the \"Today\" button will only move the current date into view.\n         * If \"linked\", the current date will also be selected.\n         *\n         * @property {boolean|Ember.String} todayBtn\n         * @default  false\n         */\n        todayBtn: false,\n\n        /**\n         * Whether to highlight the current date or not\n         *\n         * @property {boolean} todayHighlight\n         * @default  false\n         */\n        todayHighlight: false,\n\n        /**\n         * Day of the week to start on; 0 (Sunday) to 6 (Saturday)\n         *\n         * @property {number} weekStart\n         * @default  0\n         */\n        weekStart: 0,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Captures and sets the input field\'s id attribute.\n         *\n         * This is used to expose this value externally for use when composing this component into others.\n         *\n         * @function setInputElementId\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        setInputElementId: function() {\n            this.set( \'inputElementId\', this.$( \'input.date-picker\' ).prop( \'id\' ) );\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Setup the bootstrap-datepicker plugin and events\n         *\n         * @function setupDatepicker\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        setupDatepicker: function() {\n            var datepicker = this.$( \'input.date-picker\' ).datepicker( this.get( \'options\' ) ),\n                self       = this;\n\n            datepicker.on( \'changeDate\', function() {\n                self.sendAction( \'change\' );\n            });\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Remove events\n         *\n         * @function unregisterEvents\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        unregisterEvents: function() {\n            this.$( \'input.date-picker\' ).off();\n        }.on( \'willClearRender\' ),\n\n        /**\n         * Dynamically update the endDate value for the datepicker\n         *\n         * @function setEndDate\n         * @observes endDate\n         * @returns  {void}\n         */\n        setEndDate: function() {\n            this.$( \'input.date-picker\' ).datepicker( \'setEndDate\', this.get( \'endDate\' ) );\n        }.observes( \'endDate\' ),\n\n        /**\n         * Dynamically update the startDate value for the datepicker\n         *\n         * @function setStartDate\n         * @observes startDate\n         * @returns  {void}\n         */\n        setStartDate: function() {\n            this.$( \'input.date-picker\' ).datepicker( \'setStartDate\', this.get( \'startDate\' ) );\n        }.observes( \'startDate\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Datepicker plugin options\n         *\n         * @function options\n         * @returns  {Ember.Object}\n         */\n        options: function() {\n            return {\n                autoclose          : this.get( \'autoclose\' ),\n                calendarWeeks      : this.get( \'calendarWeeks\' ),\n                clearBtn           : this.get( \'clearBtn\' ),\n                daysOfWeekDisabled : this.get( \'daysOfWeekDisabled\' ),\n                endDate            : this.get( \'endDate\' ),\n                forceParse         : this.get( \'forceParse\' ),\n                format             : this.get( \'format\' ),\n                inputs             : this.get( \'inputs\' ),\n                keyboardNavigation : this.get( \'keyboardNavigation\' ),\n                language           : this.get( \'language\' ),\n                multidate          : this.get( \'multidate\' ),\n                orientation        : this.get( \'orientation\' ),\n                startDate          : this.get( \'startDate\' ),\n                startView          : this.get( \'startView\' ),\n                todayBtn           : this.get( \'todayBtn\' ),\n                todayHighlight     : this.get( \'todayHighlight\' ),\n                weekStart          : this.get( \'weekStart\' )\n            };\n        }.property()\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-date-picker.js");
+        // -------------------------------------------------------------------------
+        // Events
 
-;eval("define(\"sl-ember-components/components/sl-date-range-picker\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-date-range-picker\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the date-range-picker component\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-date-range-picker\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * The value for the endDate input\n         *\n         * @property {Ember.String} endDateValue\n         * @default  null\n         */\n        endDateValue: null,\n\n        /**\n         * The string format for date values\n         *\n         * @property {Ember.String} format\n         * @default  \"mm/dd/yyyy\"\n         */\n        format: \'mm/dd/yyyy\',\n\n        /**\n         * Bound value of Start Date input element\'s id\n         *\n         * @type    {Ember.String}\n         * @default null\n         */\n        inputElementId: null,\n\n        /**\n         * The last valid date for the date range\n         *\n         * @property {date|Ember.String} endDate\n         * @default  null\n         */\n        maxDate: null,\n\n        /**\n         * The earliest date selectable in the range\n         *\n         * @property {date|Ember.String} minDate\n         * @default  null\n         */\n        minDate: null,\n\n        /**\n         * The value for the startDate input\n         *\n         * @property {Ember.String} startDateValue\n         * @default null\n         */\n        startDateValue: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Set up a transition that moves focus to the endDate input when the\n         * startDate input is changed\n         *\n         * @function setupFocusTransition\n         * @observes \'didInsertElement\' event\n         * @returns  {void}\n         */\n        setupFocusTransition: function() {\n            var endDateInput = this.$( \'.sl-daterange-end-date input\' );\n\n            this.$( \'.sl-daterange-start-date input\' ).on( \'change\', function() {\n                endDateInput.focus();\n            });\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Remove events\n         *\n         * @function unregisterEvents\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        unregisterEvents: function() {\n            this.$( \'.sl-daterange-start-date input\' ).off();\n        }.on( \'willClearRender\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * The earliest selectable endDate, based on minDate and\n         * current startDateValue\n         *\n         * @function earliestEndDate\n         * @observes minDate, startDateValue\n         * @returns  {date|Ember.String}  Defaults to null\n         */\n        earliestEndDate: function() {\n            var minDate        = this.get( \'minDate\' ),\n                startDateValue = this.get( \'startDateValue\' );\n\n            if ( startDateValue ) {\n                return startDateValue;\n            }\n\n            if ( minDate ) {\n                return minDate;\n            }\n\n            return null;\n        }.property( \'minDate\', \'startDateValue\' ),\n\n        /**\n         * The latest selectable startDate, based on maxDate and\n         * current endDateValue\n         *\n         * @function latestStartDate\n         * @observes endDateValue, maxDate\n         * @returns  {date|Ember.String}  Defaults to null\n         */\n        latestStartDate: function() {\n            var endDateValue = this.get( \'endDateValue\' ),\n                maxDate = this.get( \'maxDate\' );\n\n            if ( endDateValue ) {\n                return endDateValue;\n            }\n\n            if ( maxDate ) {\n                return maxDate;\n            }\n\n            return null;\n        }.property( \'endDateValue\', \'maxDate\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-date-range-picker.js");
+        // -------------------------------------------------------------------------
+        // Properties
 
-;eval("define(\"sl-ember-components/components/sl-date-time\", \n  [\"ember\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    /* global moment */\n\n    var Ember = __dependency1__[\"default\"];\n    var TooltipEnabled = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-date-time\n     */\n    __exports__[\"default\"] = Ember.Component.extend( TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The HTML tag type of the component\'s root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"time\"\n         */\n        tagName: \'time\',\n\n        /**\n         * Class names for the component\'s root element, <time>\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-datetime\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Bindings for the date-time\'s attribute values\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'datetime\' ],\n\n        /**\n         * String name for the format to render inline; can be \"date\", \"datetime\",\n         * or \"relative\"\n         *\n         * @property {Ember.String} format\n         * @default  \"datetime\"\n         */\n        format: \'datetime\',\n\n        /**\n         * String representing the full timezone name, as used by and interpreted by\n         * Moment-timezone: http://momentjs.com/timezone/docs/#/using-timezones/\n         *\n         * @property {Ember.String} timezone\n         * @default  null\n         */\n        timezone: null,\n\n        /**\n         * The bound value of the component\'s date value\n         *\n         * @property {date} value\n         * @default  (new Date)\n         */\n        value: new Date(),\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * The date-time\'s value formatted as a datetime string\n         *\n         * @function datetime\n         * @observes timezoneString, value\n         * @returns  {string}\n         */\n        datetime: function() {\n            return moment( this.get( \'value\' )).format( \'YYYY-MM-DD HH:mm \' ) + this.get( \'timezoneString\' );\n        }.property( \'timezoneString\', \'value\' ),\n\n        /**\n         * Formatted string based on value and supplied format\n         *\n         * @function formattedValue\n         * @observes format, momentValue\n         * @returns  {string}\n         */\n        formattedValue: function() {\n            var momentValue     = this.get( \'momentValue\' ),\n                formattedString = \'\';\n\n            switch ( this.get( \'format\' ) ) {\n                case \'date\':\n                    formattedString = momentValue.format( \'YYYY-MM-DD\' );\n                    break;\n\n                case \'relative\':\n                    formattedString = momentValue.fromNow();\n                    break;\n\n                default:\n                case \'datetime\':\n                    formattedString = momentValue.format( \'dddd, MMMM Do YYYY, h:mm A\' ) + \' \' + this.get( \'timezoneString\' );\n            }\n\n            return formattedString;\n        }.property( \'format\', \'momentValue\' ),\n\n        /**\n         * The component\'s current value wrapped in moment\n         *\n         * @function momentValue\n         * @observes value\n         * @returns  {object}\n         */\n        momentValue: function() {\n            return moment( this.get( \'value\' ) );\n        }.property( \'value\' ),\n\n        /**\n         * Formatted timezone string based on component\'s timezone value\n         *\n         * @function timezoneString\n         * @observes timezone, momentValue\n         * @returns  {string}\n         */\n        timezoneString: function() {\n            return this.get( \'momentValue\' ).tz( this.get( \'timezone\' ) ).format( \'z\' );\n        }.property( \'timezone\', \'momentValue\' ),\n\n        /**\n         * The text to use for the component\'s tooltip\n         *\n         * @function title\n         * @observes datetime\n         * @returns  {string}\n         */\n        title: function() {\n            return this.get( \'datetime\' );\n        }.property( \'datetime\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-date-time.js");
+        /**
+         * Whether to make the alert dismissable or not
+         *
+         * @property {boolean} dismissable
+         * @default  false
+         */
+        dismissable: false,
 
-;eval("define(\"sl-ember-components/components/sl-dialog\", \n  [\"ember\",\"sl-ember-components/mixins/sl-modal\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var ModalMixin = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-dialog\n     */\n    __exports__[\"default\"] = Ember.Component.extend( ModalMixin, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Text string for the \"cancel\" button\n         *\n         * @property {Ember.String} cancelText\n         * @default  \"Close\"\n         */\n        buttonText: \'Close\',\n\n        /**\n         * Binding for whether the dialog is shown or not\n         *\n         * @property {boolean} show\n         * @default  false\n         */\n        show: false,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Observes the `show` value and appropriately shows or hides the dialog\n         *\n         * @function toggle\n         * @observes show\n         * @returns  {void}\n         */\n        toggle: function() {\n            this.$().modal( this.get( \'show\' ) ? \'show\' : \'hide\' );\n        }.observes( \'show\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Custom dialog handler for setting the `show` property to false\n         *\n         * @function hideHandler\n         * @returns  {void}\n         */\n        hideHandler: function() {\n            this._super();\n            this.set( \'show\', false );\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-dialog.js");
+        /**
+         * The Bootstrap "theme" style to apply to the alert
+         *
+         * @property {Ember.String} theme
+         * @default  "info"
+         */
+        theme: 'info',
 
-;eval("define(\"sl-ember-components/mixins/sl-modal\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-modal\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The name of the layout/template to render for this mixin\n         *\n         * @property {Ember.String} layoutName\n         * @default  \"sl-modal\"\n         */\n        layoutName: \'sl-modal\',\n\n        /**\n         * Attribute value bindings for the containing element\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [\n            \'aria-describedby\',\n            \'aria-hidden\',\n            \'aria-labelledby\',\n            \'tabindex\'\n        ],\n\n        /**\n         * Class names for the containing element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'fade\', \'modal\' ],\n\n        /**\n         * `role` attribute value\n         *\n         * @property {Ember.String} role\n         * @default  \"dialog\"\n         */\n        ariaRole: \'dialog\',\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * `aria-describedby` attribute value\n         *\n         * @property {Ember.String} aria-describedby\n         * @default  null\n         */\n        \'aria-describedby\': null,\n\n        /**\n         * `aria-hidden` attribute to inform assistive technologies to skip the\n         * modal\'s DOM elements\n         *\n         * @property {Ember.String} aria-hidden\n         * @default  \"true\"\n         */\n        \'aria-hidden\': \'true\',\n\n        /**\n         * Bootstrap\'s modal backdrop option\n         *\n         * @property {boolean|Ember.String} backdrop\n         * @default  true\n         */\n        backdrop: true,\n\n        /**\n         * `tabindex` attribute value\n         *\n         * @property {Ember.String} tab index\n         * @default  \'-1\'\n         */\n        tabindex: \'-1\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Binds handlers for exposed Twitter Bootstrap 3 modal events\n         *\n         * @function modalize\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        modalize: function() {\n            var modal = this.$().modal({\n                keyboard : true,\n                show     : false,\n                backdrop : this.get( \'backdrop\' )\n            });\n\n            modal.on( \'show.bs.modal\', this.showHandler.bind( this ) );\n            modal.on( \'shown.bs.modal\', this.shownHandler.bind( this ) );\n            modal.on( \'hide.bs.modal\', this.hideHandler.bind( this ) );\n            modal.on( \'hidden.bs.modal\', this.hiddenHandler.bind( this ) );\n            modal.on( \'loaded.bs.modal\', this.loadedHandler.bind( this ) );\n        }.on( \'didInsertElement\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * `aria-labelledby` attribute value\n         *\n         * Is a randomly-generated unique string\n         *\n         * @function aria-labelledby\n         * @returns  {Ember.String}\n         */\n        \'aria-labelledby\': function() {\n            return \'modalTitle-\' + Math.random();\n        }.property(),\n\n        /**\n         * Overridable method stub\n         *\n         * Triggered by Twitter Bootstrap 3 modal\'s `hidden.bs.modal` event.\n         *\n         * @function hiddenHandler\n         * @returns  {void}\n         */\n        hiddenHandler: function() {},\n\n        /**\n         * Overridable method stub\n         *\n         * Triggered by Twitter Bootstrap 3 modal\'s `hide.bs.modal` event.\n         *\n         * @function hideHandler\n         * @returns  {void}\n         */\n        hideHandler: function() {},\n\n        /**\n         * Overridable method stub\n         *\n         * Triggered by Twitter Bootstrap 3 modal\'s `loaded.bs.modal` event.\n         *\n         * @function loadedHandler\n         * @returns  {void}\n         */\n        loadedHandler: function() {},\n\n        /**\n         * Overridable method stub\n         *\n         * Triggered by Twitter Bootstrap 3 modal\'s `show.bs.modal` event.\n         *\n         * @function showHandler\n         * @returns  {void}\n         */\n        showHandler: function() {},\n\n        /**\n         * Overridable method stub\n         *\n         * Triggered by Twitter Bootstrap 3 modal\'s `shown.bs.modal` event.\n         *\n         * @function shownHandler\n         * @returns  {void}\n         */\n        shownHandler: function() {}\n\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-modal.js");
+        // -------------------------------------------------------------------------
+        // Observers
 
-;eval("define(\"sl-ember-components/components/sl-drop-button\", \n  [\"ember\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var TooltipEnabled = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-drop-button\n     */\n    __exports__[\"default\"] = Ember.Component.extend( TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the div element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'btn-group\', \'dropdown\', \'sl-drop-button\' ],\n\n        /**\n         * Class attribute bindings for the button\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'themeClass\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Component actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Used to trigger specific option-bound action\n             *\n             * @function click\n             * @param    {string} action to trigger\n             * @returns  {void}\n             */\n            click: function( action ) {\n                this.triggerAction({ action: action });\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Dropdown menu alignment\n         *\n         * Possible values are \"left\" or \"right\".\n         *\n         * @property {string} align\n         * @default  \"left\"\n         */\n        align: \'left\',\n\n        /**\n         * Class string for the button\'s icon\n         *\n         * @property {Ember.String} iconClass\n         * @default  \"caret\"\n         */\n        iconClass: \'caret\',\n\n        /**\n         * The string name of the style theme for the button\n         *\n         * @property {Ember.String} theme\n         * @default  \"default\"\n         */\n        theme: \'default\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Whether the current \"align\" property is \"right\"\n         *\n         * @function rightAligned\n         * @observes align\n         * @returns  {boolean}\n         */\n        rightAligned: function() {\n            return this.get( \'align\' ) === \'right\';\n        }.property( \'align\' ),\n\n        /**\n         * The class value for the drop-button based on the current \"theme\"\n         *\n         * @function themeClass\n         * @observes theme\n         * @returns  {string}\n         */\n        themeClass: function() {\n            return \'dropdown-\' + this.get( \'theme\' );\n        }.property( \'theme\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-drop-button.js");
+        // -------------------------------------------------------------------------
+        // Methods
 
-;eval("define(\"sl-ember-components/components/sl-drop-option\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-drop-option\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"li\"\n         */\n        tagName: \'li\',\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-drop-option\' ],\n\n        /**\n         * Class name bindings for the root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'optionType\' ],\n\n        /**\n         * The ARIA role name for the drop button option\n         *\n         * @property {string} ariaRole\n         * @default  \"menuItem\"\n         */\n        ariaRole: \'menuitem\',\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Component actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Send the primary action when the click action is triggered\n             *\n             * @function actions.click\n             * @returns  {void}\n             */\n            click: function() {\n                this.sendAction();\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Represents the type of option; \"divider\" if the label is undefined, or\n         * \"presentation\" otherwise\n         *\n         * @function optionType\n         * @observes label\n         * @returns  {Ember.String}\n         */\n        optionType: function() {\n            return this.get( \'label\' ) ? \'presentation\' : \'divider\';\n        }.property( \'label\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-drop-option.js");
+        /**
+         * The generated Bootstrap "theme" style class for the alert
+         *
+         * @function themeClassName
+         * @observes theme
+         * @returns  {Ember.String}  Defaults to "alert-info"
+         */
+        themeClassName: function() {
+            return 'alert-' + this.get( 'theme' );
+        }.property( 'theme' )
 
-;eval("define(\"sl-ember-components/components/sl-grid-header-settings\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-grid-header-settings\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"div\"\n         */\n        tagName: \'div\',\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-grid-header-settings\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Component actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Action to fire when header is clicked\n             *\n             * @function actions.click\n             * @param    {string}  action - Name of action to trigger\n             * @param    {integer} key    - Key of context to pass to triggered action\n             * @returns  {void}\n             */\n            click: function( action, key ) {\n                this.triggerAction({\n                    action        : action,\n                    actionContext : [ key ]\n                });\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        /**\n         * Method triggered when header is clicked\n         *\n         * @function click\n         * @param    {event} event - The click event\n         * @returns  {false|void}\n         */\n        click: function( event ) {\n            if ( Ember.$( event.target ).closest( \'.stay-open\' ).length ) {\n                return false;\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Properties\n        \n        /**\n         * alias to the translation keys on the settings object\n         * @type {alias}\n         */\n        translationKeys: Ember.computed.alias( \'settings.translationKeys\' ),\n\n        /**\n         * Whether to show actions\n         *\n         * @property {boolean} showActions\n         */\n        showActions: Ember.computed.bool( \'settings.actions\' ),\n\n        /**\n         * Whether to show columns\n         *\n         * @property {boolean} showColumns\n         */\n        showColumns: Ember.computed.bool( \'settings.hideableColumns\' ),\n\n        /**\n         * A checkbox that binds click event for a related action\n         *\n         * @property {Ember.Checkbox} columnCheckbox\n         */\n        columnCheckbox: Ember.Checkbox.extend({\n            checked: Ember.computed.not( \'column.hidden\' ),\n\n            click: function() {\n                this.get( \'parentView\' ).send( \'click\', this.get( \'column.action\' ), this.get( \'column.key\' ) );\n            }\n        }),\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Get the settings\' actions\n         *\n         * @function clickableActions\n         * @observes settings\n         * @returns  {Ember.Array}\n         */\n        clickableActions: function() {\n            var actions  = Ember.A([]),\n                settings = this.get( \'settings\' );\n\n            if ( settings.actions ) {\n                actions.pushObjects( settings.actions );\n            }\n\n            return actions;\n        }.property( \'settings\' ),\n\n        /**\n         * Get the columns in the header that are hideable\n         *\n         * @function hideableColumns\n         * @observes settings, columns.@each.hidden\n         * @returns  {Ember.Array}\n         */\n        hideableColumns: function() {\n            var columns         = this.get( \'columns\' ),\n                hideableColumns = Ember.A( [] ),\n                settings        = this.get( \'settings\' );\n\n            if ( settings.hideableColumns ) {\n                hideableColumns.pushObjects( columns.filterBy( \'hideable\', true ).map( function( column ) {\n                    return {\n                        action : \'toggleColumnVisibility\',\n                        hidden : column.hidden,\n                        key    : column.key,\n                        label  : column.title\n                    };\n                }));\n            }\n            return hideableColumns;\n        }.property( \'settings\', \'columns.@each.hidden\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-grid-header-settings.js");
+    });
+  });
+define("sl-ember-components/components/sl-button", 
+  ["ember","sl-ember-components/mixins/sl-ajax-aware","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var AjaxAware = __dependency2__["default"];
+    var TooltipEnabled = __dependency3__["default"];
 
-;eval("define(\"sl-ember-components/components/sl-grid-table-cell-actions\", \n  [\"sl-ember-components/components/sl-grid-table-cell\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var SlGridTableCell = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-grid-table-cell-link\n     */\n    __exports__[\"default\"] = SlGridTableCell.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-grid-table-cell-actions.js");
+    /**
+     * @module components
+     * @class  sl-button
+     */
+    __exports__["default"] = Ember.Component.extend( AjaxAware, TooltipEnabled, {
 
-;eval("define(\"sl-ember-components/components/sl-grid-table-cell\", \n  [\"ember\",\"sl-ember-components/mixins/sl-grid-table-cell-resize\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var SlGridTableCellResize = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-grid-table-cell\n     */\n    __exports__[\"default\"] = Ember.Component.extend( SlGridTableCellResize, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the base element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"td\"\n         */\n        tagName: \'td\',\n\n        /**\n         * Class name bindings for the root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'cssClass\' ]\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-grid-table-cell.js");
+        // -------------------------------------------------------------------------
+        // Dependencies
 
-;eval("define(\"sl-ember-components/mixins/sl-grid-table-cell-resize\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-grid-table-cell-resize\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Bindings for the base element\'s attributes\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'style\' ],\n\n        /**\n         * Class name bindings for root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'isHighlighted:columnHighlight\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Grid table column global hash\n         *\n         * @property {Ember.Object} global\n         */\n        global: {\n            isResizing: false\n        },\n\n        /**\n         * Whether the column is highlighted\n         *\n         * @property {boolean} isHighlighted\n         * @default  false\n         */\n        isHighlighted: Ember.computed.alias( \'column.highlight\' ),\n\n        /**\n         * Starting x offset\n         *\n         * @property {number} startX\n         * @default  0\n         */\n        startX: 0,\n\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Setup listeners for mouse events\n         *\n         * @function setupBoundListeners\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        setupBoundListeners: function() {\n\n            if( ! this.get( \'column.resizable\' ) ){\n                return;\n            }\n\n            this.set( \'mouseDownListener\', Ember.run.bind( this, function( event ) {\n                //make sure the mouse has already moved to the highlight region\n                if ( !this.get( \'disabled\' ) &&  this.get( \'column.highlight\' )) {\n\n                    this.$().off( \'mousemove\', this.mouseMoveListenerHighlight );\n                    this.$().off( \'mouseleave\', this.mouseLeaveListenerHighlight );\n\n                    Ember.$( \'body\' ).addClass( \'resizing\' )\n                        .on( \'mouseleave\', this.mouseLeaveListenerResize )\n                        .on( \'mousemove\', this.mouseMoveListenerResize )\n                        .on( \'mouseup\', this.mouseUpListener );\n\n                    this.setProperties({\n                        \'global.isResizing\' : true,\n                        startWidth          : this.$().width(),\n                        startX              : event.pageX\n                    });\n                }\n            }));\n\n            this.set( \'mouseLeaveListenerHighlight\', Ember.run.bind( this, function() {\n                if ( !this.get( \'global.isResizing\' ) ) {\n                    this.set( \'column.highlight\', false );\n                }\n            }));\n\n            this.set( \'mouseLeaveListenerResize\', Ember.run.bind( this, function() {\n                Ember.$( \'body\' ).removeClass( \'resizing\' )\n                    .off( \'mouseleave\', this.mouseLeaveListenerResize )\n                    .off( \'mousemove\', this.mouseMoveListenerResize )\n                    .off( \'mouseup\',  this.mouseUpListener );\n\n                this.setProperties({\n                    \'column.width\'      : this.get( \'startWidth\'),\n                    \'column.highlight\'  : false,\n                    \'global.isResizing\' : false\n                });\n\n                this.$().on( \'mousemove\', this.mouseMoveListenerHighlight );\n                this.$().on( \'mouseleave\', this.mouseLeaveListenerHighlight );\n\n                //browser will revert to user selection, this will clear it\n                Ember.run.next( this, function(){\n                    window.getSelection().removeAllRanges();\n                });\n            }));\n\n            this.set( \'mouseUpListener\', Ember.run.bind( this, function() {\n                Ember.$( \'body\' ).removeClass( \'resizing\' )\n                    .off( \'mouseleave\', this.mouseLeaveListenerResize )\n                    .off( \'mousemove\', this.mouseMoveListenerResize )\n                    .off( \'mouseup\', this.mouseUpListener );\n\n                this.$().on( \'mousemove\', this.mouseMoveListenerHighlight );\n                this.$().on( \'mouseleave\', this.mouseLeaveListenerHighlight );\n\n                this.setProperties({\n                    \'column.highlight\'  : false,\n                    \'global.isResizing\' : false\n                });\n            }));\n\n            this.set( \'mouseMoveListenerHighlight\', Ember.run.bind( this, function( event ){\n                var offset = this.$().offset(),\n                    offsetLeft = offset.left,\n                    outerWidth = this.$().outerWidth(),\n                    rightBorder = offsetLeft + outerWidth,\n                    resizeZone = rightBorder - 8,\n                    mouseX = event.pageX;\n\n                if( this.get( \'global.isResizing\') ){\n                    return;\n                }\n\n                if( this.get( \'column.highlight\' ) &&\n                     ( mouseX < resizeZone || mouseX > rightBorder) ) {\n\n                    this.set( \'column.highlight\', false );\n\n                } else if ( !this.get( \'global.isResizing\' ) &&\n                     ( mouseX >= resizeZone && mouseX <= rightBorder) ) {\n\n                    this.set( \'column.highlight\', true );\n                }\n            }));\n\n            this.set( \'mouseMoveListenerResize\', Ember.run.bind( this, function( event ) {\n                var startWidth = this.get( \'startWidth\' ),\n                    widthDelta = event.pageX - this.get( \'startX\' ),\n                    finalWidth = startWidth + widthDelta,\n                    minWidth   = this.getWithDefault( \'column.minWidth\', 20 );\n\n                this.set( \'column.width\', Math.max( minWidth, finalWidth ) );\n\n                return false;\n            }));\n\n            this.$()\n                .on( \'mousedown\', this.mouseDownListener )\n                .on( \'mousemove\', this.mouseMoveListenerHighlight )\n                .on( \'mouseleave\', this.mouseLeaveListenerHighlight );\n\n\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Removes any event listeners that might have been added\n         *\n         * @function removeBoundEventListeners\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        removeBoundEventListeners: function(){\n            this.$()\n                .off( \'mousedown\', this.mouseDownListener )\n                .off( \'mousemove\', this.mouseMoveListenerHighlight )\n                .off( \'mouseleave\', this.mouseLeaveListenerHighlight );\n\n            //just in case\n            Ember.$( \'body\' )\n                .off( \'mouseleave\', this.mouseLeaveListenerResize )\n                .off( \'mousemove\', this.mouseMoveListenerResize )\n                .off( \'mouseup\',  this.mouseUpListener );\n\n        }.on( \'willClearRender\' )\n\n        // -------------------------------------------------------------------------\n        // Methods\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-grid-table-cell-resize.js");
+        // -------------------------------------------------------------------------
+        // Attributes
 
-;eval("define(\"sl-ember-components/components/sl-grid-table-cell-link\", \n  [\"sl-ember-components/components/sl-grid-table-cell\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var SlGridTableCell = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-grid-table-cell-link\n     */\n    __exports__[\"default\"] = SlGridTableCell.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-grid-table-cell-link.js");
+        /**
+         * The root component element
+         *
+         * @property {Ember.String} tagName
+         * @default  "button"
+         */
+        tagName: 'button',
 
-;eval("define(\"sl-ember-components/components/sl-grid-table-cell-row-expander\", \n  [\"ember\",\"sl-ember-components/components/sl-grid-table-cell\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var SlGridTableCell = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-grid-table-cell-row-expander\n     */\n    __exports__[\"default\"] = SlGridTableCell.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names array for root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-grid-table-cell-expander\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        /**\n         * Action triggered when cell is clicked\n         *\n         * @function click\n         * @returns  {void}\n         */\n        click: function() {\n            this.toggleProperty( \'row.rowExpanderIsOpen\' );\n        },\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether the row expander is open\n         *\n         * @property {boolean} expanded\n         */\n        expanded: Ember.computed.bool( \'row.rowExpanderIsOpen\' )\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-grid-table-cell-row-expander.js");
+        /**
+         * Attribute bindings for the button component
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'data-target', 'data-toggle', 'disabled', 'type' ],
 
-;eval("define(\"sl-ember-components/components/sl-grid-table-header\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-grid-table-header\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag to use for base element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"th\"\n         */\n        tagName: \'th\',\n\n        /**\n         * The base element\'s class names\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-grid-table-header\' ],\n\n        /**\n         * Class name bindings for the root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'cssThClass\' ],\n\n        /**\n         * Bindings for the base element\'s attributes\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'style\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Component actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Fire primary action when a column is sorted.\n             *\n             * @function actions.sortColumn\n             * @param    {string} key - The key for the sorted column\n             * @returns  {void}\n             */\n            sortColumn: function( key ) {\n                this.sendAction( \'action\', key );\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        /**\n         * Setup mouse events when the mouseDown is triggered\n         *\n         * @function mouseDown\n         * @returns  {void}\n         */\n        mouseDown: function() {\n            if ( !this.get( \'disabled\' ) && this.getWithDefault( \'column.movable\', true ) ) {\n                Ember.$( \'body\' )\n                    .on( \'mousemove\', this.mouseMoveListener )\n                    .on( \'mouseup\', this.mouseUpListener )\n                    .on( \'mouseleave\', this.mouseLeaveListener );\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Inline style string for the base element\n         *\n         * @property {Ember.String} style\n         * @default  \"\"\n         */\n        style: \'\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Update the style string when the width of the column changes\n         *\n         * If we try to make the style a computed property then we will get render\n         * errors from Ember before the view is inserted into the DOM.\n         *\n         * @function columnWidthObserver\n         * @observes didInsertElement event, column.width\n         * @returns  {void}\n         */\n        columnWidthObserver: function() {\n            var width = this.get( \'column.width\' ),\n                fixedWidth = this.get( \'column.fixedWidth\' ),\n                finalWidth = fixedWidth || width,\n                tableWidth,\n                totalHintingWidth,\n                totalWidthHints,\n                totalFixedWidth,\n                widthHint;\n\n\n            if ( finalWidth ) {\n                this.set( \'style\', \'width:\' + finalWidth + \'px;\' );\n                return;\n            }\n\n            tableWidth       = this.$().parents( \'table.sl-grid\' ).width();\n            totalWidthHints  = this.get( \'totalWidthHints\' );\n            totalFixedWidth  = this.get( \'totalFixedWidths\' );\n            widthHint        = this.getWithDefault( \'column.widthHint\', 1 );\n\n            totalHintingWidth = tableWidth - totalFixedWidth;\n\n            width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );\n\n            this.set( \'style\', \'width:\' + width + \'px;\' );\n        }.observes( \'column.width\' ).on( \'didInsertElement\' ),\n\n        /**\n         * Setup listeners for bound actions\n         *\n         * @function setupBoundListeners\n         * @observes didInsertElement event\n         * @returns  {void}\n         */\n        setupBoundListeners: function() {\n            this.set( \'mouseUpListener\', Ember.run.bind( this, function() {\n                var hlReorderCol = this.get( \'hlReorderCol\' ),\n                    newIndex     = this.get( \'newIndex\' ),\n                    oldIndex     = this.get( \'oldIndex\' ),\n                    reorderCol   = this.get( \'reorderCol\' );\n\n                if ( reorderCol ) {\n                    reorderCol.remove();\n                    this.set( \'reorderCol\', null );\n                }\n\n                if ( hlReorderCol ) {\n                    hlReorderCol.remove();\n                    this.set( \'hlReorderCol\', null );\n                }\n\n                Ember.$( \'body\' ).removeClass( \'reordering\' )\n                    .off( \'mouseleave\', this.mouseLeaveListener )\n                    .off( \'mousemove\', this.mouseMoveListener )\n                    .off( \'mouseup\', this.mouseUpListener );\n\n                if ( newIndex !== oldIndex ) {\n                    this.triggerAction({\n                        action        : \'reorderColumn\',\n                        actionContext : [ oldIndex, newIndex ]\n                    });\n                }\n            }));\n\n            this.set( \'mouseMoveListener\', Ember.run.bind( this, function( event ) {\n                var reorderCol = this.get( \'reorderCol\' );\n\n                if ( !reorderCol ) {\n                    //do setup\n                    Ember.$( \'body\' ).addClass( \'reordering\' );\n\n                    reorderCol = Ember.$( \'<div class=\"reordering\"></div>\' );\n                    reorderCol.text( this.$()[ 0 ].textContent );\n                    reorderCol.css({\n                        top     : this.$().offset().top + \'px\',\n                        left    : this.$().offset().left + \'px\',\n                        padding : this.$().css( \'padding\' ),\n                        width   : this.$().width() + \'px\',\n                        height  : this.$().parents( \'table\' ).outerHeight() + \'px\',\n                        font    : this.$().css( \'font\' )\n                    });\n\n                    reorderCol.appendTo( Ember.$( \'body\' ) );\n\n                    this.set( \'reorderCol\', reorderCol );\n                    this.set( \'oldIndex\', this.getCurrentColumnIndex() );\n                    this.set( \'newIndex\', this.get( \'oldIndex\' ) );\n                    this.set( \'oldPosition\', this.getPosition( reorderCol ) );\n                    this.set( \'minPosition\', \'\');\n                    this.set( \'maxPosition\', \'\');\n\n                }\n\n                reorderCol.offset({ left: event.pageX });\n                this._setNewColumnIndex();\n\n                return false;\n            }));\n\n            this.set( \'mouseLeaveListener\', Ember.run.bind( this, function(){\n                var hlReorderCol = this.get( \'hlReorderCol\' ),\n                    reorderCol   = this.get( \'reorderCol\' );\n\n                if ( reorderCol ) {\n                    reorderCol.remove();\n                    this.set( \'reorderCol\', null );\n                }\n\n                if ( hlReorderCol ) {\n                    hlReorderCol.remove();\n                    this.set( \'hlReorderCol\', null );\n                }\n\n                Ember.$( \'body\' ).removeClass( \'reordering\' )\n                    .off( \'mouseleave\', this.mouseLeaveListener )\n                    .off( \'mousemove\', this.mouseMoveListener )\n                    .off( \'mouseup\', this.mouseUpListener );\n\n                Ember.run.next( this, function(){\n                    window.getSelection().removeAllRanges();\n                });\n\n            }));\n\n            if( this.get( \'column.sortable\' ) ){\n                //prevent links from becoming \'dragged\' elements during column reordering\n                this.$(\'a\').on( \'dragstart\', function(){ return false; });\n            }\n\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Removes any listeners that may have been set up\n         *\n         * @function removeBoundEventListeners\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        removeBoundEventListeners: function(){\n            //just in case\n            Ember.$( \'body\' )\n                .off( \'mouseleave\', this.mouseLeaveListener )\n                .off( \'mousemove\', this.mouseMoveListener )\n                .off( \'mouseup\', this.mouseUpListener );\n\n        }.on( \'willClearRender\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Get the index of the currently sorted column\n         *\n         * @function getCurrentColumnIndex\n         * @returns  {number} The index of the column\n         */\n        getCurrentColumnIndex: function() {\n            return this.$().parent().children( \'th.sl-grid-table-header\' ).index( this.$() );\n        },\n\n        /**\n         * Get the position of the specified element\n         *\n         * @function getPosition\n         * @param    {object} element - The element to get the position of\n         * @returns  {Ember.Object}\n         */\n        getPosition: function( element ) {\n            var leftOffset = Ember.$( element ).offset().left,\n                width = Ember.$( element ).outerWidth(),\n                rightOffset = leftOffset + width;\n\n            return {\n                id   : element.id,\n                width: width,\n                left : leftOffset,\n                right: rightOffset\n            };\n        },\n\n        /**\n         * While dragging a column, this function is called to calculate the target\n         * column position and highlight it.  This function will prevent columns from\n         * being dragged past \'unmovable\' columns on the ends.\n         *\n         * @function setNewColumnIndex\n         * @returns  {void}\n         */\n        _setNewColumnIndex: function() {\n            var reorderCol  = this.get( \'reorderCol\' ),\n                currentLeft = reorderCol.offset().left,\n                currentWidth= reorderCol.outerWidth(),\n                currentRight= currentLeft + currentWidth,\n                id          = this.get( \'elementId\' ),\n                lastIndex   = this.get( \'newIndex\' ),\n                self        = this,\n                headers,\n                offsets,\n                availableOffsets,\n                currentIndex;\n\n            // Get all siblings and offsets\n            headers = this.$().parent().children( \'th.sl-grid-table-header\' );\n\n            /* jshint unused: false */\n            offsets = headers.map( function( index, el ) {\n                if ( el.id === id ) {\n                    return this.get( \'oldPosition\' );\n                }\n                return this.getPosition( el );\n            }.bind( this ));\n\n            //filter\n            availableOffsets = offsets.filter( function( index, el ){\n                return self.getWithDefault( \'columns.\'+index+\'.movable\', true);\n            });\n\n            if( currentLeft < availableOffsets[0].left ){\n                currentLeft = availableOffsets[0].left;\n                reorderCol.offset({ left: currentLeft });\n            }\n\n            if( currentLeft > availableOffsets[ availableOffsets.length -1].left ){\n                currentLeft = availableOffsets[ availableOffsets.length -1].left;\n                reorderCol.offset({ left: currentLeft });\n            }\n\n            currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {\n                return currentLeft >= el.left ? index : prev;\n            }, 0 );\n\n            if ( lastIndex !== currentIndex ) {\n                var hlReorderCol = this.get( \'hlReorderCol\' );\n\n                if ( hlReorderCol ) {\n                    hlReorderCol.remove();\n                }\n\n                hlReorderCol = Ember.$( \'<div class=\"reordering\">&nbsp;</div>\' );\n                hlReorderCol.css({\n                    top    : this.$().offset().top + \'px\',\n                    left   : offsets[ currentIndex ].left + \'px\',\n                    width  : \'8px\',\n                    height : this.$().parents( \'table\' ).outerHeight() + \'px\',\n                });\n                hlReorderCol.appendTo( Ember.$( \'body\' ));\n                this.set( \'hlReorderCol\', hlReorderCol );\n            }\n\n            this.set( \'newIndex\', currentIndex );\n        },\n\n        /**\n         * Add CSS classes if this column is being sorted on\n         *\n         * @function sortClasses\n         * @observes column.isSorted, column.sortAscending\n         * @returns  {Ember.String}\n         */\n        sortClasses: function() {\n            var isSorted    = this.get( \'column.isSorted\' ),\n                classString = \'\';\n\n            if ( isSorted ) {\n                classString = \'fa \' + ( this.get( \'column.sortAscending\' ) ? \'fa-chevron-up\' : \'fa-chevron-down\' );\n            }\n\n            return classString;\n        }.property( \'column.isSorted\', \'column.sortAscending\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-grid-table-header.js");
+        /**
+         * Class names to apply to the button
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'btn', 'sl-button' ],
 
-;eval("define(\"sl-ember-components/components/sl-grid-table-row-expander\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-grid-table-row-expander\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Bindings for the base element\'s attributes\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'style\' ],\n\n        /**\n         * HTML tag name for root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"tr\"\n         */\n        tagName: \'tr\',\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        style: \'width:30px;\'\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-grid-table-row-expander.js");
+        /**
+         * Class bindings for the button component
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'sizeClass', 'themeClass' ],
 
-;eval("define(\"sl-ember-components/components/sl-input\", \n  [\"ember\",\"sl-ember-components/mixins/sl-input-based\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var InputBased = __dependency2__[\"default\"];\n    var TooltipEnabled = __dependency3__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-input\n     */\n    __exports__[\"default\"] = Ember.Component.extend( InputBased, TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the containing div\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'form-group\', \'sl-input\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Component actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Sends the \'blur\' bound action when the input loses focus\n             *\n             * @function actions.blurred\n             * @returns  {void}\n             */\n            blur: function() {\n                this.sendAction( \'blur\' );\n            },\n\n            /**\n             * Sends the primary bound action when `enter` is pressed\n             *\n             * @function actions.enter\n             * @returns  {void}\n             */\n            enter: function() {\n                this.sendAction();\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Enable the click to edit styling\n         *\n         * @property {boolean} clickToEdit\n         * @default  false\n         */\n        clickToEdit: false,\n\n        /**\n         * Whether the typeahead.js functionality has been setup\n         *\n         * @property {boolean} isTypeaheadSetup\n         * @default  false\n         */\n        isTypeaheadSetup: false,\n\n        /**\n         * Lookup path for the suggestion items\' name\n         *\n         * @property {Ember.String} suggestionLabelPath\n         * @default  \"name\"\n         */\n        suggestionNamePath: \'name\',\n\n        /**\n         * Type attribute for the containing div\n         *\n         * @property {Ember.String} type\n         * @default  \"text\"\n         */\n        type: \'text\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Sets up the input event listeners exposed to the component\'s\n         * parent controller\n         *\n         * @function setupInputEvents\n         * @observes didInsertElement event\n         * @returns  {void}\n         */\n        setupInputEvents: function() {\n            var self = this;\n\n            if ( this.get( \'blur\' ) ) {\n                this.getInput().on( \'blur\', function() {\n                    self.sendAction( \'blur\' );\n                });\n            }\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Sets up the typeahead behavior when `suggestions` are supplied\n         *\n         * @function setupTypeahead\n         * @observes didInsertElement event, suggestions\n         * @returns  {void}\n         */\n        setupTypeahead: function() {\n            var self = this;\n\n            if ( this.get( \'suggestions\' ) && !this.get( \'isTypeaheadSetup\' ) ) {\n                var namePath = this.get( \'suggestionNamePath\' ),\n                    typeahead;\n\n                typeahead = this.getInput().typeahead({\n                    highlight : true,\n                    hint      : true\n                }, {\n                    displayKey: function( item ) {\n                        if ( item instanceof Object ) {\n                            return Ember.get( item, namePath );\n                        }\n\n                        return item;\n                    },\n\n                    source: function( query, callback ) {\n                        var pattern = new RegExp( query, \'i\' );\n\n                        callback( self.get( \'suggestions\' ).filter( function( suggestion ) {\n                            var searchCandidate;\n\n                            if ( suggestion instanceof Object ) {\n                                searchCandidate = Ember.get( suggestion, namePath );\n                            } else {\n                                searchCandidate = suggestion;\n                            }\n\n                            return searchCandidate ? searchCandidate.match( pattern ) : false;\n                        }));\n                    }\n                });\n\n                /* jshint ignore:start */\n                var selectItem = function( event, item ) {\n                    Ember.run( function() {\n                        var value = item instanceof Object ? Ember.get( item, namePath ) : item;\n\n                        self.set( \'value\', value );\n                    });\n                };\n\n                typeahead.on( \'typeahead:autocompleted\', selectItem );\n                typeahead.on( \'typeahead:selected\', selectItem );\n                /* jshint ignore:end */\n\n                this.set( \'isTypeaheadSetup\', true );\n            }\n        }.on( \'didInsertElement\' ).observes( \'suggestions\' ),\n\n        /**\n         * Remove events\n         *\n         * @function unregisterEvents\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        unregisterEvents: function() {\n            this.getInput().off();\n        }.on( \'willClearRender\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Get a reference to the internal input element\n         *\n         * @function getInput\n         * @returns  {object}\n         */\n        getInput: function() {\n            return this.$( \'input\' );\n        },\n\n        /**\n         * Class string for the internal input element\n         *\n         * @function inputClass\n         * @returns  {string}\n         */\n        inputClass: function() {\n            var classes = [ \'form-control\' ];\n\n            if ( this.get( \'clickToEdit\' ) ) {\n                classes.push( \'click-to-edit\' );\n            }\n\n            if ( this.get( \'suggestions\' ) ) {\n                classes.push( \'typeahead\' );\n            }\n\n            return classes.join( \' \' );\n        }.property()\n    });\n  });//# sourceURL=sl-ember-components/components/sl-input.js");
+        // -------------------------------------------------------------------------
+        // Actions
 
-;eval("define(\"sl-ember-components/mixins/sl-input-based\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-input-based\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class name bindings for the component\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'disabled\', \'optional\', \'readonly\', \'required\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether the input-based component should be disabled\n         *\n         * The internal input element should be passed this attribute as a property.\n         *\n         * @property {boolean} disabled\n         * @default  false\n         */\n        disabled: false,\n\n        /**\n         * Whether the input-based component should be displayed as optional\n         *\n         * @property {boolean} optional\n         * @default  false\n         */\n        optional: false,\n\n        /**\n         * Whether the input-based component is readonly or not\n         *\n         * The internal input element should be passed this attribute as a property.\n         *\n         * @property {boolean} readonly\n         * @default  false\n         */\n        readonly: false,\n\n        /**\n         * Whether the input-based component is required\n         *\n         * @property {boolean} required\n         * @default  false\n         */\n        required: false\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-input-based.js");
+        // -------------------------------------------------------------------------
+        // Events
 
-;eval("define(\"sl-ember-components/components/sl-loading-icon\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-loading-icon\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The HTML element type for this component\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-loading-icon\' ],\n\n        /**\n         * Class name bindings for the root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'inverse:sl-loading-icon-light:sl-loading-icon-dark\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether to use the inverse (lighter colored) icon\n         *\n         * @property {boolean} inverse\n         * @default  false\n         */\n        inverse: false\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-loading-icon.js");
+        /**
+         * Alert external code about the click
+         *
+         * @function click
+         * @returns  {void}
+         */
+        click: function() {
+            this.sendAction();
+        },
 
-;eval("define(\"sl-ember-components/components/sl-menu\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-menu\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Root element HTML tag type\n         *\n         * @property {Ember.String} tagName\n         * @default  \"div\"\n         */\n        tagName: \'div\',\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-menu\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Component actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Close all of the sub menus\n             *\n             * @function actions.closeAll\n             * @returns  {void}\n             */\n            closeAll: function() {\n                if ( this.$() ) {\n                    this.$().removeClass( \'active\' );\n\n                    if ( this.get( \'isRoot\' )) {\n                        this.$().removeClass( \'showall\' );\n                    }\n                }\n\n                this.set( \'keyHandler\', false );\n\n                this.get( \'children\' ).forEach( function( item ) {\n                    item.send( \'closeAll\' );\n                });\n\n                if ( this.get( \'isRoot\' ) ) {\n                   this.set( \'keyHandler\', true );\n                }\n            },\n\n            /**\n             * Cycle rootNode selection forward\n             *\n             * Only cycles through rootNodes if node was initially selected via keyboard.\n             * If \"Show All\" enabled:\n             *     If last rootNode then moves forward to \"Show All\" option.\n             *     If \"Show All\" option wraps around to first option.\n             * If \"Show All\" disabled:\n             *     If last rootNode then wraps around to first option.\n             *\n             * @function cycleRootSelectionNext\n             * @returns  {void}\n             */\n            cycleRootSelectionNext: function() {\n                var currentIndex = this.get( \'currentRootNodeIndex\' );\n\n                if ( !this.get( \'keyboardInUse\' ) ) {\n                    return;\n                }\n\n                // Whether \"Show All\" is enabled\n                if ( this.get( \'showAllBoolean\' ) ) {\n\n                    // Not on \"Show All\"\n                    if ( null !== currentIndex ) {\n\n                        // Cycling forward, wrapping around last option to first option\n                        if ( this.get( \'rootNode.menu.pages.length\' ) < currentIndex + 2 ) {\n                            this.send( \'showAll\' );\n                            this.set( \'activeChild\', null );\n\n                        // Cycle forward, selecting next rootNode\n                        } else {\n                            this.childSelected( currentIndex + 2 );\n                        }\n\n                    // Select first rootNode\n                    } else {\n                        this.childSelected( 1 );\n                    }\n\n                } else {\n\n                    // Cycle forward, wrapping around last option to first option\n                    if ( this.get( \'rootNode.menu.pages.length\' ) < currentIndex + 2 ) {\n                        // Select first rootNode\n                        this.childSelected( 1 );\n\n                    } else {\n                        // Cycle forward, selecting next rootNode\n                        this.childSelected( currentIndex + 2 );\n                    }\n                }\n            },\n\n            /**\n             * Cycle rootNode selection backwards\n             *\n             * Only cycles through rootNodes if node was initially selected via keyboard.\n             * If \"Show All\" enabled:\n             *     If first rootNode then wraps around to \"Show All\" option.\n             *     If \"Show All\" option moves backward to previous option\n             * If \"Show All\" disabled:\n             *     If first rootNode then wraps around to last option.\n             *\n             * @function cycleRootSelectionPrevious\n             * @returns  {void}\n             */\n            cycleRootSelectionPrevious: function() {\n                var currentIndex = this.get( \'currentRootNodeIndex\' );\n\n                if ( !this.get( \'keyboardInUse\' ) ) {\n                    return;\n                }\n\n                // Whether \"Show All\" is enabled\n                if ( this.get( \'showAllBoolean\' ) ) {\n\n                    // Not on \"Show All\"\n                    if ( null !== currentIndex ) {\n\n                        // Cycling backwards, wrapping around first option to last option\n                        if ( 0 === currentIndex ) {\n                            this.send( \'showAll\' );\n                            this.set( \'activeChild\', null );\n\n                        // Cycle backwards, selecting previous rootNode\n                        } else {\n                            this.childSelected( currentIndex );\n                        }\n\n                    // Select last rootNode\n                    } else {\n                        this.childSelected( this.get( \'rootNode.menu.pages\' ).length );\n                    }\n\n                } else {\n\n                    // Cycle backwards, wrapping around first option to last option\n                    if ( 0 === currentIndex ) {\n                        // Select last rootNode\n                        this.childSelected( this.get( \'rootNode.menu.pages.length\' ) );\n\n                    } else {\n                        // Cycle backward, selecting previous rootNode\n                        this.childSelected( currentIndex );\n                    }\n                }\n            },\n\n            /**\n             * Recursively open sub menus\n             *\n             * @function actions.drillDown\n             * @returns  {void}\n             */\n            drillDown: function() {\n                var child = this.get( \'activeChild\' );\n\n                if ( this.get( \'keyHandler\' )) {\n                    if ( child ) {\n                        child.set( \'keyHandler\', true );\n                        this.set( \'keyHandler\', false );\n                    }\n                } else if ( child ) {\n                    child.drillDown();\n                }\n            },\n\n            /**\n             * Send selected action when menu item is selected\n             *\n             * @function actions.selected\n             * @returns  {void}\n             */\n            selected: function() {\n                this.performAction();\n            },\n\n            /**\n             * Show all of the sub menus\n             *\n             * @function actions.showAll\n             * @returns  {void}\n             */\n            showAll: function() {\n                if ( this.$() ) {\n                    this.$().addClass( \'active\' );\n\n                    if ( this.get( \'isRoot\' ) ) {\n                        this.$().addClass( \'showall\' );\n                    }\n                }\n\n                this.get( \'children\' ).forEach( function( item ) {\n                    item.send( \'showAll\' );\n                });\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        /**\n         * Method called when menu is clicked\n         *\n         * @function click\n         * @returns  {boolean} false\n         */\n        click: function() {\n            this.performAction();\n\n            return false;\n        },\n\n        /**\n         * Method triggered on mouseenter event\n         *\n         * @function mouseEnter\n         * @returns  {void}\n         */\n        mouseEnter: function() {\n            var currentActiveRootNodeIndex = this.get( \'currentRootNodeIndex\' ),\n                query;\n\n            if ( this.get( \'keyboardInUse\' ) ) {\n                if ( null !== currentActiveRootNodeIndex ) {\n                    query = \'a:contains(\"\' + this.get( \'rootNode.menu.pages\' )[currentActiveRootNodeIndex].label + \'\")\';\n                    this.$(query).parent().removeClass( \'active\' );\n                }\n\n                this.set( \'keyboardInUse\', false );\n            }\n\n            this.$().addClass( \'active\' );\n        },\n\n        /**\n         * Method triggered on mouseleave event\n         *\n         * @function mouseLeave\n         * @returns  {void}\n         */\n        mouseLeave: function() {\n            if ( this.get( \'isRoot\' ) ) {\n                this.send( \'closeAll\' );\n            } else if ( !this.get( \'rootNode\' ).$().hasClass( \'showall\' ) ) {\n                this.$().removeClass( \'active\' );\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Currently active child\n         *\n         * @property {number} activeChild\n         * @default  null\n         */\n        activeChild: null,\n\n        /**\n         * Embedded Ember View representing the \"Show All\"\n         *\n         * @property {Ember.View} AllView\n         */\n        AllView: Ember.View.extend({\n\n            /**\n             * HTML tag name of the root element\n             *\n             * @property {Ember.String} tagName\n             * @default  \"li\"\n             */\n            tagName: \'li\',\n\n            /**\n             * Class names for the AllView view\n             *\n             * @property {Ember.Array} AllView.classNames\n             */\n            classNames: [ \'all\' ],\n\n            /**\n             * Method called on mouseenter event\n             *\n             * @function AllView.mouseEnter\n             * @returns  {void}\n             */\n            mouseEnter: function() {\n                this.send( \'showAll\' );\n            },\n\n            /**\n             * Target pointer to the parent view\n             *\n             * @function AllView.target\n             * @observes parentView\n             * @return   {Ember.View}\n             */\n            target: function() {\n                return this.get( \'parentView\' );\n            }.property( \'parentView\' )\n        }),\n\n        /**\n         * Collection of children items\n         *\n         * @property {Ember.Array} children\n         * @default  null\n         */\n        children: null,\n\n        /**\n         * @property {boolean} isRoot\n         * @default  true\n         */\n        isRoot: true,\n\n        /**\n         * @property {Ember.Array} keyEvents\n         * @default  null\n         */\n        keyEvents: null,\n\n        /**\n         * @property {boolean} keyHandler\n         * @default  false\n         */\n        keyHandler: false,\n\n        /**\n         * Is the menu being interacted with via the keyboard?\n         *\n         * @property {boolean} keyboardInUse\n         * @default  false\n         */\n        keyboardInUse: false,\n\n        /**\n         * Is \"Show All\" icon and functionalty desired?\n         *\n         * Is a string representaton of a boolean state\n         *\n         * @property {string} showAll\n         * @default  \"false\"\n         */\n        showAll: \'false\',\n\n        /**\n         * When true, allows key binding to drill down\n         *\n         * @property {boolean} useDrillDownKey\n         * @default  true\n         */\n        useDrillDownKey: true,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Initialize children array\n         *\n         * @function initChildren\n         * @observes \"init\" event\n         * @returns  {void}\n         */\n        initChildren: function() {\n            this.set( \'children\', Ember.A() );\n        }.on( \'init\' ),\n\n        /**\n         * Initialize keyboard event listeners\n         *\n         * @function initKeyListeners\n         * @observes \"didInsertElement\" event, keyEvents\n         * @returns  {void}\n         */\n        initKeyListeners: function() {\n            var keyEvents = this.get( \'keyEvents\' ),\n                parent    = this.get( \'parentView\' ),\n                path      = Ember.A(),\n                rootNode  = this,\n                self      = this;\n\n            if ( keyEvents ) {\n                this.set( \'keyHandler\', true );\n\n                keyEvents.on( \'childSelected\', function( key ) {\n                    self.set( \'keyboardInUse\', true );\n                    self.childSelected( key );\n                }).on( \'drillDown\', function() {\n                    if ( self.get( \'useDrillDownKey\' )) {\n                        self.send( \'drillDown\' );\n                    }\n                }).on( \'cycleRootSelectionNext\', function( event ) {\n                    self.send( \'cycleRootSelectionNext\', event );\n                }).on( \'cycleRootSelectionPrevious\', function( event ) {\n                    self.send( \'cycleRootSelectionPrevious\', event );\n                }).on( \'closeAll\', function() {\n                    self.set( \'keyboardInUse\', false );\n                    self.send( \'closeAll\' );\n                }).on( \'showAll\', function() {\n                    self.set( \'keyboardInUse\', true );\n                    self.send( \'showAll\' );\n                });\n            }\n\n            // Register child\n            if ( typeof parent.registerChild === \'function\' ) {\n                parent.registerChild( this );\n            }\n\n            while( !rootNode.get( \'isRoot\' ) ) {\n                path.insertAt( 0, rootNode.get( \'menu.label\' ) );\n                rootNode = rootNode.get( \'parentView\' );\n            }\n\n            this.setProperties({\n                path     : path,\n                rootNode : rootNode\n            });\n        }.observes( \'keyEvents\' ).on( \'didInsertElement\' ),\n\n        /**\n         * Remove bound events and current menu state\n         *\n         * @function cleanUp\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        cleanUp: function() {\n            var keyEvents = this.get( \'keyEvents\' ),\n                parent = this.get( \'parentView\' );\n\n            if ( typeof parent.unregisterChild === \'function\' ) {\n                parent.unregisterChild( this );\n            }\n\n            if ( keyEvents ) {\n                keyEvents.off( \'childSelected\' )\n                    .off( \'drillDown\' )\n                    .off( \'closeAll\' )\n                    .off( \'showAll\' )\n                    .off( \'cycleRootSelectionNext\' )\n                    .off( \'cycleRootSelectionPrevious\' );\n            }\n        }.on( \'willClearRender\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Activate specified child\n         *\n         * @function activateChild\n         * @param    {mixed} child - Which child to activate\n         * @returns  {void}\n         */\n        activateChild: function( child ) {\n            if ( typeof child === \'number\' ) {\n                child = this.get( \'children\' )[ child - 1 ]; // convert to 0 base\n            }\n\n            this.get( \'children\' ).forEach( function( item ) {\n                if ( item === child ) {\n                    child.performAction();\n                } else {\n                    item.$().removeClass( \'active\' );\n                }\n            }.bind( this ));\n        },\n\n        /**\n         * Handle child selection event\n         *\n         * @function childSelected\n         * @param    {number} childIndex - Index of the child that is being selected\n         * @returns  {void}\n         */\n        childSelected: function( childIndex ) {\n            var child;\n\n            if ( this.get( \'isRoot\' ) && this.$().hasClass( \'showall\' ) ) {\n                this.send( \'closeAll\' );\n            }\n\n            if ( this.get( \'keyHandler\' ) ) {\n                this.activateChild( childIndex );\n            } else {\n                child = this.get( \'activeChild\' );\n\n                if ( child ) {\n                    child.childSelected( childIndex );\n                }\n            }\n        },\n\n        /**\n         * Get index of rootNode currently on\n         *\n         * @function currentRootNodeIndex\n         * @returns  {number} - The current root node index\n         */\n        currentRootNodeIndex: function() {\n            var currentIndex = null;\n\n            // Determine index of rootNode currently on\n            this.get( \'rootNode.menu.pages\' ).forEach( function( item, index ) {\n                if ( item.label === this.get( \'activeChild.menu.label\' ) ) {\n                    currentIndex = index;\n                }\n            }, this );\n\n            return currentIndex;\n        }.property().volatile(),\n\n        /**\n         * Boolean representation of showAll property\n         *\n         * @function showAllBoolean\n         * @observes showAll\n         * @returns  {boolean}\n         */\n        showAllBoolean: function() {\n            return ( \'true\' === this.get( \'showAll\' ) ) ? true : false;\n        }.property( \'showAll\' ),\n\n        /**\n         * Whether to display the AllView view\n         *\n         * @function displayShowAll\n         * @observes isRoot, showAllBoolean\n         * @returns  {boolean}\n         */\n        displayShowAll: function() {\n            return this.get( \'isRoot\' ) && this.get( \'showAllBoolean\' );\n        }.property( \'isRoot\', \'showAllBoolean\' ),\n\n        /**\n         * Send the primary action\n         *\n         * @function performAction\n         * @returns  {void}\n         */\n        performAction: function() {\n            this.$().addClass( \'active\' );\n\n            var rootNode = this.get( \'rootNode\' ),\n                path     = this.get( \'path\' ),\n                action;\n\n            rootNode.sendAction( \'selectionMade\', path );\n\n            if ( this.get( \'menu.pages\' ) ) {\n                this.showContent();\n\n                if ( !this.get( \'useDrillDownKey\' ) ) {\n                    this.set( \'keyHandler\', true );\n                    this.get( \'parentView\' ).set( \'keyHandler\', false );\n                }\n            } else {\n                if ( this.get( \'menu.action\' )) {\n                    action = this.get( \'menu.action\' );\n\n                    if ( typeof action === \'function\' ) {\n                        action.call( this );\n                    } else if ( typeof action === \'object\' ) {\n                        rootNode.sendAction( \'actionInitiated\',\n                                action.actionName,\n                                action.data );\n                    } else {\n                        rootNode.sendAction( \'actionInitiated\', action );\n                    }\n                } else if ( this.get( \'menu.route\' ) ) {\n                    rootNode.sendAction( \'changeRoute\', this.get( \'menu.route\' ) );\n                } else if ( this.get( \'menu.link\' ) ) {\n                    window.location.href = this.get( \'menu.link\' );\n                }\n\n                rootNode.send( \'closeAll\' );\n            }\n        },\n\n        /**\n         * Append a child to the children array\n         *\n         * @function registerChild\n         * @param    {mixed} child\n         * @returns  {void}\n         */\n        registerChild: function( child ) {\n            this.get( \'children\' ).push( child );\n        },\n\n        /**\n         * Show the active child content of this menu\n         *\n         * @function showContent\n         * @returns  {void}\n         */\n        showContent: function() {\n            this.get( \'parentView\' ).set( \'activeChild\', this );\n        },\n\n        /**\n         * Un-register the specified child\n         *\n         * @function unregisterChild\n         * @param    {mixed} child - The child to un-register from this menu\n         * @returns  {void}\n         */\n        unregisterChild: function( child ) {\n            if ( child === this.get( \'activeChild\' ) ) {\n                this.set( \'activeChild\', null );\n            }\n\n            this.get( \'children\' ).removeObject( child );\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-menu.js");
+        // -------------------------------------------------------------------------
+        // Properties
 
-;eval("define(\"sl-ember-components/components/sl-pagination-controls\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-pagination-controls\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        /**\n         * Class names for root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-pagination-controls\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Component actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Action triggered for changing pages\n             *\n             * @function actions.changePage\n             * @param    {number} page - The page number being changed to\n             * @returns  {void}\n             */\n            changePage: function( page ) {\n                this.sendAction( \'action\', page ? page : this.get( \'currentPageInput\' ) );\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Read-only binding to current page number\n         *\n         * @property {number} currentPageInput\n         */\n        currentPageInput: Ember.computed.oneWay( \'currentPage\' ),\n\n        /**\n         * Whether the page input is disabled\n         *\n         * @property {boolean} currentPageInputDisabled\n         * @default  false\n         */\n        currentPageInputDisabled: Ember.computed.alias( \'disabled\' ),\n\n        /**\n         * When true, the last link control is disabled\n         *\n         * @property {boolean} lastLinkDisabled\n         * @default  false;\n         */\n        lastLinkDisabled: Ember.computed.alias( \'nextLinkDisabled\' ),\n\n        /**\n         * When true, the previous link control is disabled\n         *\n         * @property {boolean} prevLinkDisabled\n         * @default  false\n         */\n        prevLinkDisabled: Ember.computed.alias( \'firstLinkDisabled\' ),\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * When true, the first link control is disabled\n         *\n         * @function firstLinkDisabled\n         * @observes currentPage, disabled\n         * @returns  {boolean}\n         */\n        firstLinkDisabled: function() {\n            return this.get( \'disabled\' ) || this.get( \'currentPage\' ) === 1;\n        }.property( \'currentPage\', \'disabled\' ),\n\n        /**\n         * When true, the next link control is disabled\n         *\n         * @function nextLinkDisabled\n         * @observes currentPage, disabled, totalPages\n         * @returns  {boolean}\n         */\n        nextLinkDisabled: function() {\n            return this.get( \'disabled\' ) || this.get( \'currentPage\' ) === this.get( \'totalPages\' );\n        }.property( \'currentPage\', \'disabled\', \'totalPages\' )\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-pagination-controls.js");
+        /**
+         * The text to display during AJAX activity
+         *
+         * @property {Ember.String} activeLabelText
+         * @default  null
+         */
+        activeLabelText: null,
 
-;eval("define(\"sl-ember-components/components/sl-pagination-info\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-pagination-info\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-pagination-info\' ]\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-pagination-info.js");
+        /**
+         * Whether or not the button should be disabled during AJAX activity
+         *
+         * @property {boolean} disableOnAjax
+         * @default  false
+         */
+        disableOnAjax: false,
 
-;eval("define(\"sl-ember-components/components/sl-pagination-per-page-select\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-pagination-per-page-select\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-pagination-per-page-select form-inline\' ]\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-pagination-per-page-select.js");
+        /**
+         * Whether or not the button should be hidden during AJAX activity
+         *
+         * @property {boolean} hideOnAjax
+         * @default  false
+         */
+        hideOnAjax: false,
 
-;eval("define(\"sl-ember-components/components/sl-panel\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-panel\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class name bindings for the panel component\n         *\n         * @property {array} classNameBindings\n         */\n        classNameBindings: [ \'isLoading:sl-loading\' ],\n\n        /**\n         * Class names for the panel container\n         *\n         * @property {array} classNames\n         */\n        classNames: [ \'panel\', \'panel-default\', \'sl-panel\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * When true, the panel body will be in a loading state\n         *\n         * @property {boolean} isLoading\n         * @default  false\n         */\n        isLoading: false\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-panel.js");
+        /**
+         * This is primarily used internally to avoid losing the "default" value of
+         * the label when switching to the active text
+         *
+         * @property {Ember.String} inactiveLabelText
+         * @default  null
+         */
+        inactiveLabelText: null,
 
-;eval("define(\"sl-ember-components/components/sl-progress-bar\", \n  [\"ember\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var TooltipEnabled = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-progress-bar\n    */\n    __exports__[\"default\"] = Ember.Component.extend( TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'progress\', \'sl-progress-bar\' ],\n\n        /**\n         * Class name bindings for the root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'isLowPercentage:sl-progress-bar-low-percentage\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether to animate the progress bar or not\n         *\n         * @property {boolean} active\n         * @default  false\n         */\n        animated: false,\n\n        /**\n         * Whether to display a text value over the progress\n         *\n         * @property {boolean} label\n         * @default  false\n         */\n        label: false,\n\n        /**\n         * The Bootstrap \"theme\" style name\n         *\n         * @property {Ember.String} theme\n         * @default  \"default\"\n         */\n        theme: \'default\',\n\n        /**\n         * The progress value as an integer (out of 100)\n         *\n         * @property {number} value\n         * @default  0\n        */\n        value: 0,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Whether the progress value is below a certain level\n         *\n         * @function isLowPercentage\n         * @observes value\n         * @returns  {boolean}\n         */\n        isLowPercentage: function() {\n            return this.get( \'value\' ) < 50;\n        }.property( \'value\' ),\n\n        /**\n         * Inline style string for progress bar element\n         *\n         * @function styleString\n         * @observes value\n         * @returns  {Ember.String}\n         */\n        styleString: function() {\n            return \'width: \' + this.get( \'value\' ) + \'%;\';\n        }.property( \'value\' ),\n\n        /**\n         * Element-specific class name for the Bootstrap \"theme\" style\n         *\n         * @function themeClassName\n         * @observes theme\n         * @returns  {Ember.String}\n         */\n        themeClassName: function() {\n            return \'progress-bar-\' + this.get( \'theme\' );\n        }.property( \'theme\' ),\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-progress-bar.js");
+        /**
+         * Text to apply to the button label
+         *
+         * It is preferred you use this to set your "default" text rather than
+         * inactiveLabelText, which will take this value as a default.
+         *
+         * @property {Ember.String} label
+         * @default  null
+         */
+        label: null,
 
-;eval("define(\"sl-ember-components/components/sl-radio-group\", \n  [\"ember\",\"sl-ember-components/mixins/sl-input-based\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var InputBased = __dependency2__[\"default\"];\n    var TooltipEnabled = __dependency3__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-radio-group\n     */\n    __exports__[\"default\"] = Ember.Component.extend( InputBased, TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the component\'s root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"fieldset\"\n         */\n        tagName: \'fieldset\',\n\n        /**\n         * Attribute bindings for the component\'s root element\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'disabled\' ],\n\n        /**\n         * Class names for the containing element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'form-group\', \'sl-radio-group\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether the radio buttons should be disabled\n         *\n         * @property {boolean} disabled\n         * @default  false\n         */\n        disabled: false,\n\n        /**\n         * Whether the radio buttons should be put inline together\n         *\n         * @property {boolean} inline\n         * @default  null\n         */\n        inline: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Initialize the group-wide options and setup child radio buttons\n         *\n         * @function initialize\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        initialize: function() {\n            var name       = this.get( \'name\' ),\n                value      = this.get( \'value\' ),\n                isDisabled = this.get( \'disabled\' ),\n                isInline   = this.get( \'inline\' ),\n                isReadonly = this.get( \'readonly\' );\n\n            Ember.assert( \'The name property must be set on the sl-radio-group component\', name );\n\n            /**\n             * To each sl-radio component apply...\n             *\n             * - Attributes: name, disabled, readonly\n             * - Classes: radio, radio-inline\n             */\n            this.$( \'.sl-radio\' ).each( function () {\n                var radio = Ember.$( this ),\n                    input = Ember.$( \'input\', radio );\n\n                input.attr( \'name\', name );\n\n                if ( isDisabled ) {\n                    radio.prop( \'disabled\', true );\n                    radio.addClass( \'disabled\' );\n                }\n\n                if ( isReadonly ) {\n                    radio.prop( \'readonly\', true );\n                    radio.addClass( \'readonly\' );\n                }\n\n                if ( true === isInline ) {\n                    radio.removeClass( \'radio\' );\n                    radio.addClass( \'radio-inline\' );\n                }\n\n                if ( false === isInline ) {\n                    radio.removeClass( \'radio-inline\' );\n                    radio.addClass( \'radio\' );\n                }\n            });\n\n            // Pre-select radio button if a value is set\n            if ( value ) {\n                this.$(\'input[name=\' + name + \']:radio[value=\' + value + \']\').prop( \'checked\', true );\n            }\n\n            // Apply change() listener to keep group value in sync with select sl-radio option\n            this.$(\'input[name=\' + name + \']:radio\').change( function () {\n                this.set( \'value\', this.$(\'input[name=\' + name + \']:radio\').filter(\':checked\').val() );\n            }.bind(this));\n\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Remove events\n         *\n         * @function unregisterEvents\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        unregisterEvents: function() {\n            this.$(\'input[name=\' + this.get( \'name\' ) + \']:radio\').off();\n        }.on( \'willClearRender\' )\n    });\n  });//# sourceURL=sl-ember-components/components/sl-radio-group.js");
+        /**
+         * The size of the button
+         *
+         * @property {string} size
+         * @default  "medium"
+         */
+        size: 'medium',
 
-;eval("define(\"sl-ember-components/components/sl-radio\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-radio\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag name for the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"div\"\n         */\n        tagName: \'div\',\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-radio\' ],\n\n        /**\n         * Class name bindings for the root element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'disabled\', \'radioType\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Type of radio button; \"radio-inline\" when inline, \"radio\" default\n         *\n         * @function radioType\n         * @observes inline\n         * @returns  {Ember.String}\n         */\n        radioType: function() {\n            return this.get( \'inline\' ) ? \'radio-inline\' : \'radio\';\n        }.property( \'inline\' )\n    });\n  });//# sourceURL=sl-ember-components/components/sl-radio.js");
+        /**
+         * The bootstrap "theme" name
+         *
+         * @property {Ember.String} theme
+         * @default  "default"
+         */
+        theme: 'default',
 
-;eval("define(\"sl-ember-components/components/sl-select\", \n  [\"ember\",\"sl-ember-components/mixins/sl-input-based\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var InputBased = __dependency2__[\"default\"];\n    var TooltipEnabled = __dependency3__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-select\n     */\n    __exports__[\"default\"] = Ember.Component.extend( InputBased, TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the select element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'form-group\', \'sl-select\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether to show the search filter input or not\n         *\n         * @property {boolean} disableSearch\n         * @default  false\n         */\n        disableSearch: false,\n\n        /**\n         * The internal input element, used for Select2\'s bindings\n         *\n         * @private\n         * @property {object} input\n         * @default  null\n         */\n        input: null,\n\n        /**\n         * The maximum number of selections allowed when `multiple` is enabled\n         *\n         * @property {number} maximumSelectionSize\n         * @default  null\n         */\n        maximumSelectionSize: null,\n\n        /**\n         * Whether to allow multiple selections\n         *\n         * @property {boolean} multiple\n         * @default  false\n         */\n        multiple: false,\n\n        /**\n         * The path key for each option object\'s description\n         *\n         * @property {Ember.tring} optionDescriptionPath\n         * @default  \"description\"\n         */\n        optionDescriptionPath: \'description\',\n\n        /**\n         * The path key for each option object\'s label\n         *\n         * @property {Ember.String} optionLabelPath\n         * @default  \"label\"\n         */\n        optionLabelPath: \'label\',\n\n        /**\n         * The path key for each option object\'s value\n         *\n         * @property {Ember.String} optionValuePath\n         * @default  \"value\"\n         */\n        optionValuePath: \'value\',\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Teardown the select2 to prevent memory leaks\n         *\n         * @function destroySelect2\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        destroySelect2: function() {\n            this.input.off( \'change\' ).select2( \'destroy\' );\n        }.on( \'willClearRender\' ),\n\n        /**\n         * Set up select2 initialization after the element is inserted in the DOM\n         *\n         * @function setupSelect2\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        setupSelect2: function() {\n            var get  = Ember.get,\n                self = this,\n                input;\n\n            input = this.$( \'input\' ).select2({\n                maximumSelectionSize : this.get( \'maximumSelectionSize\' ),\n                multiple             : this.get( \'multiple\' ),\n                placeholder          : this.get( \'placeholder\' ),\n\n                formatResult: function( item ) {\n                    if ( !item ) { return; }\n\n                    if ( !( item instanceof Object ) ) {\n                        return item;\n                    }\n\n                    var description = get( item, self.get( \'optionDescriptionPath\' ) ),\n                        output      = get( item, self.get( \'optionLabelPath\' ) );\n\n                    if ( description ) {\n                        output +=  \' <span class=\"text-muted\">\' + description + \'</span>\';\n                    }\n\n                    return output;\n                },\n\n                formatSelection: function( item ) {\n                    if ( !item ) { return; }\n\n                    if ( item instanceof Object ) {\n                        return get( item, self.get( \'optionLabelPath\' ) );\n                    }\n\n                    return item;\n                },\n\n                id: function( item ) {\n                    if ( item instanceof Object ) {\n                        return get( item, self.get( \'optionValuePath\' ) );\n                    }\n\n                    return item;\n                },\n\n                initSelection: function( element, callback ) {\n                    var value = element.val();\n\n                    if ( !value || !value.length ) {\n                        return callback( [] );\n                    }\n\n                    var content         = self.get( \'content\' ),\n                        contentLength   = content.length,\n                        filteredContent = [],\n                        multiple        = self.get( \'multiple\' ),\n                        optionValuePath = self.get( \'optionValuePath\' ),\n                        values          = value.split( \',\' ),\n                        unmatchedValues = values.length,\n                        item,\n                        matchIndex,\n                        text;\n\n                    for ( var i = 0; i < contentLength; i++ ) {\n                        item = content[i];\n                        text = item instanceof Object ? get( item, optionValuePath ) : item;\n                        matchIndex = values.indexOf( text.toString() );\n\n                        if ( matchIndex !== -1 ) {\n                            filteredContent[ matchIndex ] = item;\n                            if ( --unmatchedValues === 0 ) {\n                                break;\n                            }\n                        }\n                    }\n\n                    if ( unmatchedValues === 0 ) {\n                        self.input.select2( \'readonly\', false );\n                    } else {\n                        self.input.select2( \'readonly\', true );\n\n                        var warning = \'sl-select:select2#initSelection was not able to map each \"\';\n                        warning = warning.concat( optionValuePath );\n                        warning = warning.concat( \'\" to an object from \"content\". The remaining keys are: \' );\n                        warning = warning.concat( values );\n                        warning = warning.concat( \'. The input will be disabled until a) the desired objects are added \' );\n                        warning = warning.concat( \'to the \"content\" array, or b) the \"value\" is changed.\' );\n\n                        Ember.warn( warning, !values.length );\n                    }\n\n                    return callback( multiple ? filteredContent : filteredContent.get( \'firstObject\' ) );\n                },\n\n                minimumResultsForSearch: this.get( \'disableSearch\' ) ? -1 : 0,\n\n                query: function( query ) {\n                    var content         = self.get( \'content\' ) || [],\n                        optionLabelPath = self.get( \'optionLabelPath\' ),\n                        select2         = this;\n\n                    query.callback({\n                        results: content.reduce( function( results, item ) {\n                            var text = item instanceof Object ? get( item, optionLabelPath ) : item;\n\n                            if ( text && select2.matcher( query.term, text.toString() ) ) {\n                                results.push( item );\n                            }\n\n                            return results;\n                        }, [] )\n                    });\n                }\n            });\n\n            input.on( \'change\', function() {\n                Ember.run( function() {\n                    self.set( \'value\', input.select2( \'val\' ) );\n                });\n            });\n\n            var originalBodyOverflow = document.body.style.overflow || \'auto\';\n\n            input.on( \'select2-open\', function() {\n                document.body.style.overflow = \'hidden\';\n            });\n\n            input.on( \'select2-close\', function() {\n                document.body.style.overflow = originalBodyOverflow;\n            });\n\n            if ( !this.get( \'multiple\' ) ) {\n                this.$( \'input.select2-input\' ).attr( \'placeholder\', \'Search...\' );\n            }\n\n            this.input = input;\n\n            if ( this.get( \'value\' ) ) {\n                this.valueChanged();\n            }\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Set data bound value based on changed value\n         *\n         * @function valueChanged\n         * @observes content.@each, value\n         * @returns  {void}\n         */\n        valueChanged: function() {\n            var value = this.get( \'value\' );\n\n            if ( this.get( \'optionValuePath\' ) ) {\n                this.input.select2( \'val\', value );\n            } else {\n                this.input.select2( \'data\', value );\n            }\n        }.observes( \'content.@each\', \'value\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Update the bound value when the Select2\'s selection has changed\n         *\n         * @function selectionChanged\n         * @param    {mixed} data - Select2 data\n         */\n        selectionChanged: function( data ) {\n            var multiple        = this.get( \'multiple\' ),\n                optionValuePath = this.get( \'optionValuePath\' ),\n                value;\n\n            if ( optionValuePath ) {\n                if ( multiple ) {\n                    value = data.getEach( optionValuePath );\n                } else {\n                    value = Ember.get( data, optionValuePath );\n                }\n            } else {\n                value = data;\n            }\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-select.js");
+        // -------------------------------------------------------------------------
+        // Observers
 
-;eval("define(\"sl-ember-components/components/sl-span\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-span\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The HTML tag name of the component\n         *\n         * @property {Ember.String} tagname\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Whether to show the loading icon or content\n         *\n         * @property {boolean} isLoading\n         * @default  false\n         */\n        isLoading: false\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-span.js");
+        /**
+         * Initialize labels
+         *
+         * @function initLabel
+         * @observes "init" event
+         * @returns  {void}
+         */
+        initLabel: function() {
+            if ( Ember.isBlank( this.get( 'inactiveLabelText' ) ) ) {
+                this.set( 'inactiveLabelText', this.get( 'label' ) );
+            }
+        }.on( 'init' ),
 
-;eval("define(\"sl-ember-components/components/sl-tab-pane\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-tab-pane\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * HTML tag for tab-pane component\n         *\n         * @property {Ember.String} tagName\n         * @default \"div\"\n         */\n        tagName: \'div\',\n\n        /**\n         * Bindings for HTML attributes on the tab pane\n         *\n         * @property {Ember.Array} attributeBindings\n         */\n        attributeBindings: [ \'data-tab-label\', \'data-tab-name\' ],\n\n        /**\n         * Class name values for the tab pane component\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-tab-pane\', \'tab-pane\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Label text for the displayed tab name\n         *\n         * @property {Ember.String} data-tab-label\n         */\n        \'data-tab-label\': Ember.computed.alias( \'label\' ),\n\n        /**\n         * Text for internal tab identification\n         *\n         * @property {Ember.String} data-tab-name\n         */\n        \'data-tab-name\': Ember.computed.alias( \'name\' ),\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-tab-pane.js");
+        /**
+         * Register our behaviors with the convenience method from the AJAX mixin
+         *
+         * @function setupHandlers
+         * @observes "init" event
+         * @returns  {void}
+         */
+        setupHandlers: function() {
+            this.registerAjaxBehavior( function() {
+                var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
-;eval("define(\"sl-ember-components/components/sl-tab-panel\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-tab-panel\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the root element\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'sl-tab-panel\' ],\n\n        /**\n         * Class name bindings for the containing element\n         *\n         * @property {Ember.Array} classNameBindings\n         */\n        classNameBindings: [ \'tabAlignmentClass\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Object of action functions\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Action to trigger when a tab is clicked\n             *\n             * @function actions.change\n             * @param    {string} tabName - The name of the tab to change into\n             * @returns  {void}\n             */\n            change: function( tabName ) {\n                var activeTabName = this.get( \'activeTabName\' ),\n                    self          = this;\n\n                if ( activeTabName ) {\n                    if ( activeTabName !== tabName ) {\n                        this.setActiveTab( tabName );\n                        this.deactivatePane( activeTabName, function() {\n                            self.activatePane( tabName );\n                        });\n                    }\n                } else {\n                    this.setActiveTab( tabName );\n                    this.activatePane( tabName );\n                }\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * The currently active tab name\n         *\n         * @private\n         * @property {Ember.String} activeTabName\n         * @default  null\n         */\n        activeTabName: null,\n\n        /**\n         * Determines the alignment of tabs at the top of the panel,\n         * \"left\" or \"right\"\n         *\n         * @property {Ember.String} alignTabs\n         * @default  \"left\"\n         */\n        alignTabs: \'left\',\n\n        /**\n         * The height of the tab-content in pixels\n         *\n         * @property {number} contentHeight\n         * @default  0\n         */\n        contentHeight: 0,\n\n        /**\n         * The name of the tab to open when the component is first rendered\n         *\n         * @property {Ember.S`tring} initialTabName\n         * @default  null\n         */\n        initialTabName: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Sets up the initial tab, and parses the content of the tab panel to\n         * determine tab labels and names.\n         *\n         * @function setupTabs\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        setupTabs: function() {\n            var initialTabName = this.get( \'initialTabName\' ),\n                tabs           = [],\n                tabName;\n\n            if ( !initialTabName ) {\n                initialTabName = this.$( \'.tab-pane:first\' ).attr( \'data-tab-name\' );\n            }\n\n            this.setActiveTab( initialTabName );\n            this.activatePane( initialTabName );\n\n            this.$( \'.tab-pane\' ).each( function() {\n                tabName = this.getAttribute( \'data-tab-name\' );\n\n                tabs.push({\n                    active : tabName === initialTabName,\n                    label  : this.getAttribute( \'data-tab-label\' ),\n                    name   : tabName\n                });\n            });\n\n            this.set( \'tabs\', tabs );\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Sets the tab-content div height based on current contentHeight value\n         *\n         * @function updateContentHeight\n         * @observes contentHeight\n         * @returns  {void}\n         */\n        updateContentHeight: function() {\n            this.$( \'.tab-content\' ).height( this.get( \'contentHeight\' ) );\n        }.observes( \'contentHeight\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Activate a tab pane, animating the transition\n         *\n         * @function activatePane\n         * @param    {string}   tabName - The name of the tab to activate\n         * @returns  {void}\n         */\n        activatePane: function( tabName ) {\n            var pane = this.paneFor( tabName );\n\n            pane.fadeIn( \'fast\', function() {\n                pane.addClass( \'active\' );\n            });\n\n            this.set( \'contentHeight\', parseInt( pane.css( \'height\' ) ) );\n        },\n\n        /**\n         * Deactivate a tab pane, animating the transition\n         *\n         * @function deactivatePane\n         * @param    {string}   tabName - The name of the tab to deactivate\n         * @param    {function} callback - Function called when the pane is deactivated\n         * @returns  {void}\n         */\n        deactivatePane: function( tabName, callback ) {\n            var pane = this.paneFor( tabName );\n\n            pane.fadeOut( \'fast\', function() {\n                pane.removeClass( \'active\' );\n\n                if ( typeof callback === \'function\' ) {\n                    callback();\n                }\n            });\n        },\n\n        /**\n         * Get the tab-panel\'s tab-pane for the specified tabName\n         *\n         * @function paneFor\n         * @param    {string} tabName - The name of the tab to get the pane for\n         * @returns  {void}\n         */\n        paneFor: function( tabName ) {\n            return this.$( \'.tab-pane[data-tab-name=\"\' + tabName + \'\"]\' );\n        },\n\n        /**\n         * Update the internal active tab name and handle tabs\' statuses\n         *\n         * @function setActiveTab\n         * @param    {string} tabName - The name of the tab to switch state to\n         * @returns  {void}\n         */\n        setActiveTab: function( tabName ) {\n            var activeTabName = this.get( \'activeTabName\' );\n\n            if ( activeTabName ) {\n                this.tabFor( activeTabName ).removeClass( \'active\' );\n            }\n\n            this.set( \'activeTabName\', tabName );\n\n            if ( tabName !== null ) {\n                this.tabFor( tabName ).addClass( \'active\' );\n            }\n        },\n\n        /**\n         * The class determining how to align tabs\n         *\n         * @function tabAlignmentClass\n         * @returns  {Ember.String}\n         */\n        tabAlignmentClass: function() {\n            return \'sl-align-tabs-\' + this.get( \'alignTabs\' );\n        }.property( \'alignTabs\' ),\n\n        /**\n         * Get the tab with the specified tabName\n         *\n         * @method  tabFor\n         * @param   {string} tabName - The name for the tab to get\n         * @returns {object} DOM Element\n         */\n        tabFor: function( tabName ) {\n            return this.$( \'.tab[data-tab-name=\"\' + tabName + \'\"]\' );\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-tab-panel.js");
+                if ( !Ember.isBlank( props.activeLabelText ) ) {
+                    this.set( 'label', props.activeLabelText );
+                }
 
-;eval("define(\"sl-ember-components/components/sl-textarea\", \n  [\"ember\",\"sl-ember-components/mixins/sl-input-based\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var InputBased = __dependency2__[\"default\"];\n    var TooltipEnabled = __dependency3__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-textarea\n     */\n    __exports__[\"default\"] = Ember.Component.extend( InputBased, TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * Class names for the component\n         *\n         * @property {Ember.Array} classNames\n         */\n        classNames: [ \'form-group\', \'sl-textarea\' ],\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * The `autofocus` HTML attribute value\n         *\n         * @property {boolean} autofocus\n         * @default  false\n         */\n        autofocus: false,\n\n        /**\n         * The `selectionDirection` HTML attribute value\n         *\n         * Accepted values are either \"forward\" (default), \"backward\", or \"none\".\n         *\n         * @property {string} selectionDirection\n         * @default  \"forward\"\n         */\n        selectionDirection: \'forward\',\n\n        /**\n         * The `selectionEnd` HTML attribute value\n         *\n         * @property {number|string} selectionEnd\n         * @default  null\n         */\n        selectionEnd: null,\n\n        /**\n         * The `selectionStart` HTML attribute value\n         *\n         * @property {number|string} selectionStart\n         * @default  null\n         */\n        selectionStart: null,\n\n        /**\n         * The `spellcheck` HTML attribute value\n         *\n         * Accepted values are true, false, \"default\" (default), \"true\", or \"false\".\n         *\n         * @property {boolean|string} spellcheck\n         * @default  \"default\"\n         */\n        spellcheck: \'default\',\n\n        /**\n         * The `wrap` HTML attribute value\n         *\n         * Accepted values are \"soft\" (default), or \"hard\".\n         *\n         * @property {string} wrap\n         * @default  \"soft\"\n         */\n        wrap: \'soft\'\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-textarea.js");
+                if ( props.disableOnAjax ) {
+                    this.set( 'disabled', true );
+                }
 
-;eval("define(\"sl-ember-components/components/sl-tooltip\", \n  [\"ember\",\"sl-ember-components/mixins/sl-tooltip-enabled\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var TooltipEnabled = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-tooltip\n     */\n    __exports__[\"default\"] = Ember.Component.extend( TooltipEnabled, {\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The tag type of the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\'\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/components/sl-tooltip.js");
+                if ( props.hideOnAjax ) {
+                    this.$().css( 'visibility', 'hidden' );
+                }
+            }.bind( this ), function() {
+                var props = this.getProperties([ 'activeLabelText', 'inactiveLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
-;eval("define(\"sl-ember-components/helpers/get-key\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module helpers\n     */\n\n    /**\n     * A lookup on an object with supplied key\n     *\n     * Takes an object, a key and a default key. The key is resolved on the object\n     * and the result is returned. If the result is falsy and a defaultKey is\n     * supplied then the defaultKey is resolved on the object and that result\n     * is returned.\n     *\n     * @function get-key\n     * @param    {object} object - Context object to lookup value for\n     * @param    {string} key - The key string used for lookup on the object\n     * @param    {string} defaultKey - A fallback key value\n     * @returns  {mixed}\n     */\n    __exports__[\"default\"] = Ember.Handlebars.makeBoundHelper( function( object, key, defaultKey ) {\n        var value = object.get ? object.get( key ) : object[ key ];\n\n        if ( Ember.isNone( value ) && Ember.typeOf( defaultKey ) === \'string\' ) {\n            value = object.get ? object.get( defaultKey ) : object[ defaultKey ];\n        }\n\n        return value;\n    });\n  });//# sourceURL=sl-ember-components/helpers/get-key.js");
+                if ( !Ember.isBlank( 'activeLabelText' ) ) {
+                    this.set( 'label', props.inactiveLabelText );
+                }
 
-;eval("define(\"sl-ember-components/helpers/render-component\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module helpers\n     */\n\n    /**\n     * Render the component stored in the variable that is passed to this helper as\n     * the first argument. Bound properties can be passed to the component in the\n     * normal fashion.\n     *\n     * @example\n     * {{render-component \'sl-grid-table-cell-link\' foo=bar doo=car }}\n     *\n     * @function render-component\n     * @param    {string} componentPath - Lookup path for the component name\n     * @returns  {string} The rendered component\n     */\n    __exports__[\"default\"] = function( componentPath ) {\n        var options   = arguments[ arguments.length - 1 ],\n            component = Ember.Handlebars.get( this, componentPath, options ),\n            helper    = Ember.Handlebars.resolveHelper( options.data.view.container, component );\n\n        helper.call( this, options );\n    }\n  });//# sourceURL=sl-ember-components/helpers/render-component.js");
+                if ( props.disableOnAjax ) {
+                    this.set( 'disabled', false );
+                }
 
-;eval("define(\"sl-ember-components/helpers/render-tab-pane\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module helpers\n     */\n\n    /**\n     * Render the sl-tab-pane content based on template key string\n     *\n     * @function render-tab-pane\n     * @param    {string} templateKey - The string key for the template name lookup\n     * @return   {string} The rendered template\n     */\n    __exports__[\"default\"] = function( templateKey, options ) {\n        var templateName = options.contexts[ 0 ][ templateKey ];\n\n        options.types[ 0 ] = \'STRING\';\n\n        return Ember.Handlebars.helpers.render.call( this, templateName, options );\n    }\n  });//# sourceURL=sl-ember-components/helpers/render-tab-pane.js");
+                if ( props.hideOnAjax ) {
+                    this.$().css( 'visibility', 'visible' );
+                }
+            }.bind( this ));
+        }.on( 'init' ),
 
-;eval("define(\"sl-ember-components/helpers/render-template\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module helpers\n     */\n\n    /**\n     * Render a specified template with a model and options\n     *\n     * @function render-template\n     * @param    {string} templateName - Name of the template to render\n     * @param    {object} model - Model instance to supply the template with\n     * @param    {object} options - Options hash for render options\n     * @returns  {string} The rendered template\n     */\n    __exports__[\"default\"] = function( templateName, model, options ) {\n        options.types[ 0 ] = \'STRING\';\n\n        return Ember.Handlebars.helpers.render.call( this, templateName, model, options );\n    }\n  });//# sourceURL=sl-ember-components/helpers/render-template.js");
+        // -------------------------------------------------------------------------
+        // Methods
 
-;eval("define(\"sl-ember-components/initializers/register-helpers\", \n  [\"ember\",\"sl-ember-components/helpers/get-key\",\"sl-ember-components/helpers/render-component\",\"sl-ember-components/helpers/render-tab-pane\",\"sl-ember-components/helpers/render-template\",\"exports\"],\n  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var GetKeyHelper = __dependency2__[\"default\"];\n    var RenderComponentHelper = __dependency3__[\"default\"];\n    var RenderTabPaneHelper = __dependency4__[\"default\"];\n    var RenderTemplateHelper = __dependency5__[\"default\"];\n\n    /**\n    @module initializers\n    @class  register-helpers\n    */\n    __exports__[\"default\"] = function() {\n        Ember.Handlebars.registerHelper( \'get-key\', GetKeyHelper );\n        Ember.Handlebars.registerHelper( \'render-component\', RenderComponentHelper );\n        Ember.Handlebars.registerHelper( \'render-tab-pane\', RenderTabPaneHelper );\n        Ember.Handlebars.registerHelper( \'render-template\', RenderTemplateHelper );\n    }\n  });//# sourceURL=sl-ember-components/initializers/register-helpers.js");
+        /**
+         * Converted size string to Bootstrap button class
+         *
+         * @function sizeClass
+         * @observes size
+         * @returns  {Ember.String} Defaults to undefined
+         */
+        sizeClass: function() {
+            var size = this.get( 'size' ),
+                sizeClass;
 
-;eval("define(\"sl-ember-components/mixins/sl-grid-controller\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-grid-controller\n     */\n    __exports__[\"default\"] = Ember.Mixin.create( Ember.Evented, {\n\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Controller actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Reorder column *oldIndex* to *newIndex*\n             *\n             * @function actions.reorderColumn\n             * @param   {number} oldIndex - The existing index of the column to reorder\n             * @param   {number} newIndex - The new index number to move the column to\n             * @returns {void}\n             */\n            reorderColumn: function( oldIndex, newIndex ) {\n                this.reorderColumn( oldIndex, newIndex );\n            },\n\n            /**\n             * Trigger resetting of all columns to their default positions\n             *\n             * @function actions.resetColumns\n             * @returns  {void}\n             */\n            resetColumns: function() {\n                this.resetColumns();\n            },\n\n            /**\n             * Sort the specified column\n             *\n             * @function actions.sortColumn\n             * @param   {Ember.Object} column - The column to sort\n             * @returns {void}\n             */\n            sortColumn: function( column ) {\n                Ember.assert( \'column is sortable\', Ember.get( column, \'sortable\' ) );\n                if ( column.get( \'isSorted\' ) ) {\n                    column.toggleProperty( \'sortAscending\' );\n                } else {\n                    this.get( \'columns\' ).setEach( \'isSorted\', false );\n                    column.set( \'isSorted\', true );\n                    column.set( \'sortAscending\', column.getWithDefault( \'sortAscending\', true ) );\n                }\n                //make sure cp recomputes, stupid sortable mixin...\n                this.get( \'sortAscending\' );\n\n                this.trigger( \'gridStateChanged\' );\n            },\n\n            /**\n             * Toggle the visibility of the column with specified column name\n             *\n             * @function actions.toggleColumnVisibility\n             * @param   {Ember.String} columnName - The name of the column to toggle\n             * @returns {void}\n             */\n            toggleColumnVisibility: function( columnName ) {\n                var foundColumn = this.get( \'columns\' ).findBy( \'key\', columnName );\n\n                if ( foundColumn ) {\n                    foundColumn.toggleProperty( \'hidden\' );\n                }\n\n                this.trigger( \'gridStateChanged\' );\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Alias to the grid\'s columns\n         *\n         * @property {Ember.Array} columns\n         */\n        columns: Ember.computed.alias( \'grid.columns\' ),\n        /**\n         * Properties of the filter panel\n         *\n         * @property {Ember.Array} filterProperties\n         * @default  []\n         */\n        filterProperties: [],\n\n        /**\n         * The controller\'s grid object\n         *\n         * @property {Ember.Object} grid\n         * @default  {Ember.Object} fresh instantiation\n         */\n        grid: Ember.Object.create(),\n\n        /**\n         * Alias to the controller\'s model\'s pending state\n         *\n         * @property {boolean} isLoading\n         */\n        isLoading: Ember.computed.alias( \'model.isPending\' ),\n\n        /**\n         * Alias to the number of records shown per page\n         *\n         * @property {number} itemCountPerPage\n         */\n        itemCountPerPage: Ember.computed.alias( \'options.itemCountPerPage\' ),\n\n        /**\n         * Alias to the grid\'s options\n         *\n         * @property {Ember.Object} options\n         */\n        options: Ember.computed.alias( \'grid.options\' ),\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n         /**\n         * Call on controller initialization\n         *\n         * @function initialize\n         * @observes \"init\" event\n         * @returns  {void}\n         */\n        initialize: function() {\n            this.loadGridDefinition();\n        }.on( \'init\' ),\n\n        /**\n         * Run when columns\' widths are changed\n         *\n         * @function observeColumnWidths\n         * @observes columns.@each.width\n         * @returns  {void}\n         */\n        onColumnWidthsChange: function() {\n            Ember.run.debounce( this, \'trigger\', \'gridStateChanged\', 500 );\n        }.observes( \'columns.@each.width\' ),\n\n        /**\n         * Run when itemCountPerPage is changed\n         *\n         * @function observeItemCountPerPage\n         * @observes itemCountPerPage\n         * @returns  {void}\n         */\n        onItemCountPerPageChange: function() {\n            this.trigger( \'gridStateChanged\' );\n        }.observes( \'itemCountPerPage\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * The effective total number of columns\n         *\n         * @property columnCount\n         * @observes columns.length\n         * @returns  {number}\n         */\n        columnCount: Ember.computed.alias( \'columns.length\' ),\n\n        /**\n         * The number of visible columns - used for layout\n         *\n         * @property visibleColumns\n         * @observes columns.@each.hidden\n         * @return {number}\n         */\n         visibleColumns: function() {\n\n            return this.get( \'columns\' ).rejectBy( \'hidden\' ).length;\n\n         }.property( \'columns.@each.hidden\' ),\n\n        /**\n         * Placeholder for a grid\'s definition object\n         *\n         * @function gridDefinition\n         * @default  {function} empty\n         * @returns  {Ember.Object}\n         */\n        gridDefinition: null,\n\n        /**\n         * Loads the grid definition\n         *\n         * Override this function if you want to do any localstorage persistence\n         *\n         * @function loadGridDefinition\n         * @return {void}\n         */\n        loadGridDefinition: function(){\n            var definitions = this.get( \'gridDefinition\' ),\n                grid = Ember.Object.create(),\n                columns = Ember.get( definitions, \'columns\' ),\n                options = Ember.get( definitions, \'options\' );\n\n            Ember.assert( \'Grid definition requires a `columns` array\', \n                Ember.typeOf( columns  ) === \'array\'  &&\n                columns.length );\n\n            Ember.assert( \'Grid definition requires a `options` object\', \n                Ember.typeOf( options  ) === \'object\' );        \n\n             Ember.keys( definitions ).forEach( function( key ) {\n                var definition = Ember.get( definitions, key ),\n                    setting;\n                    \n\n                switch( Ember.typeOf( definition ) ) {\n                    case \'object\':\n                    case \'instance\':\n                        // Need to make a copy of the definition so we don\'t\n                        // corrupt the original.\n                        setting = Ember.Object.create( definition );\n                        break;\n\n                    case \'array\':\n                        setting = Ember.A([]);\n\n                        // We will only add elements that exist on the definition\n                        definition.forEach( function( item ) {\n                            Ember.assert( \'Items in arrays on the `definition` must be objects\',\n                                Ember.typeOf( item ) === \'object\' || Ember.typeOf( item ) === \'object\' );\n\n                            setting.pushObject( Ember.Object.create( item ) );\n                        });\n\n                        break;\n\n                    default:\n                        setting = definition;\n\n                }\n                Ember.set( grid, key, setting );\n            });\n            this.set( \'grid\',  grid );  \n        },\n\n        /**\n         * Reorder the column at *oldIndex* to *newIndex*\n         *\n         * @function reorderColumn\n         * @param   {number} oldIndex - The old (current) index of the column\n         * @param   {number} newIndex - What to change the column index to\n         * @returns {void}\n         */\n        reorderColumn: function( oldIndex, newIndex ) {\n            var columns = this.get( \'columns\' ),\n                elementToMove;\n\n            Ember.assert( \'oldIndex exists\', oldIndex < columns.length );\n            Ember.assert( \'newIndex exists\', newIndex < columns.length );\n\n            columns.arrayContentWillChange( oldIndex, 1 );\n            elementToMove = columns.splice( oldIndex, 1 )[ 0 ];\n            columns.arrayContentDidChange( oldIndex, 1 );\n\n            columns.arrayContentWillChange( newIndex, 0, 1 );\n            columns.splice( newIndex, 0, elementToMove );\n            columns.arrayContentDidChange( newIndex, 0, 1 );\n\n            this.trigger( \'gridStateChanged\' );\n        },\n\n        /**\n         * Reset the grid\'s columns to their default definitions\n         *\n         * @function resetColumns\n         * @returns {void}\n         */\n        resetColumns: function() {\n            var gridColumnDefs = this.get( \'gridDefinition.columns\' ),\n                tmpColumns     = [];\n\n            gridColumnDefs.forEach( function( columnDef ) {\n               tmpColumns.pushObject( Ember.Object.create( columnDef ) );\n            });\n\n            this.set( \'columns\', tmpColumns );\n            this.trigger( \'gridStateChanged\' );\n        },\n\n        /**\n         * Indicator for if the currently sorted column is in ascending order\n         *\n         * @function sortAscending\n         * @observes columns.@each.sortAscending\n         * @returns  {boolean}\n         */\n        sortAscending: function() {\n            var sortedColumn = this.getWithDefault( \'columns\', [] ).findBy( \'isSorted\' );\n\n            return sortedColumn ? sortedColumn.get( \'sortAscending\' ) : undefined;\n        }.property( \'columns.@each.sortAscending\' ),\n\n        /**\n         * Mapped array of properties\n         *\n         * @function sortProperties\n         * @observes columns.@each.isSorted\n         * @returns  {Ember.Array}\n         */\n        sortProperties: function() {\n            return this.getWithDefault( \'columns\', [] ).filterBy( \'isSorted\' ).mapBy( \'key\' );\n        }.property( \'columns.@each.isSorted\' ),\n\n\n        totalFixedWidths: function() {\n            return this.get( \'columns\').reduce( function( prev, item ){\n                return prev + parseInt( item.getWithDefault( \'fixedWidth\', 0 ) );\n            }, 0);\n\n        }.property( \'columns.@each.fixedWidth\' ),\n\n        /**\n         * Total number of width hints\n         *\n         * @function totalWidthHints\n         * @observes columns.@each.widthHint\n         * @returns  {number}\n         */\n        totalWidthHints: function() {\n            var columns = this.get( \'columns\' ),\n                totalWidthHints = 0;\n\n            columns.forEach( function( col ) {\n                totalWidthHints += col.getWithDefault( \'widthHint\', 1 );\n            });\n\n            return totalWidthHints;\n        }.property( \'columns.@each.widthHint\' )\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-grid-controller.js");
+            switch ( size ) {
+                case 'extra-small':
+                    sizeClass = 'btn-xs';
+                    break;
 
-;eval("define(\"sl-ember-components/mixins/sl-grid-key-controller\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-grid-key-controller\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Controller actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Action called when the controller\'s view has inserted its element\n             *\n             * @function actions.viewDidInsertElement\n             * @returns  {void}\n             */\n            viewDidInsertElement: function() {\n                this.bindKeys();\n            },\n\n            /**\n             * Action called when the controller\'s view is about to destroy its element\n             *\n             * @function actions.viewWillDestroyElement\n             * @returns  {void}\n             */\n            viewWillDestroyElement: function() {\n                this.unbindKeys();\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Object being used to proxy key events\n         *\n         * @property {Ember.Object} gridKeyManager\n         * @default  null\n         */\n        gridKeyManager: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Bind key events to internal methods\n         *\n         * @function bindKeys\n         * @returns  {void}\n         */\n        bindKeys: function() {\n            this.get( \'gridKeyManager\' )\n                .on( \'keyMapGridFirstPage\', this, this.firstPage )\n                .on( \'keyMapGridLastPage\', this, this.lastPage )\n                .on( \'keyMapGridNextPage\', this, this.nextPage )\n                .on( \'keyMapGridPrevPage\', this, this.prevPage )\n                .on( \'keyMapGridRefresh\', this, this.refresh );\n        },\n\n        /**\n         * Trigger a page change to the first page\n         *\n         * @function firstPage\n         * @returns  {void}\n         */\n        firstPage: function() {\n            this.send( \'changePage\', \'first\' );\n        },\n\n        /**\n         * Trigger a page change to the last page\n         *\n         * @function lastPage\n         * @returns  {void}\n         */\n        lastPage: function() {\n            this.send( \'changePage\', \'last\' );\n        },\n\n        /**\n         * Trigger a page change to the next page\n         *\n         * @function nextPage\n         * @returns  {void}\n         */\n        nextPage: function() {\n            this.send( \'changePage\', \'next\' );\n        },\n\n        /**\n         * Trigger a page change to the previous page\n         *\n         * @function prevPage\n         * @returns  {void}\n         */\n        prevPage: function() {\n            this.send( \'changePage\', \'prev\' );\n        },\n\n        /**\n         * Trigger a reload of the grid keys\n         *\n         * @function refresh\n         * @returns  {void}\n         */\n        refresh: function() {\n            this.send( \'reload\' );\n        },\n\n        /**\n         * Unbind key events from internal methods\n         *\n         * @function unbindKeys\n         * @returns  {void}\n         */\n        unbindKeys: function() {\n            this.get( \'gridKeyManager\' )\n                .off( \'keyMapGridFirstPage\', this, this.firstPage )\n                .off( \'keyMapGridLastPage\', this, this.lastPage )\n                .off( \'keyMapGridNextPage\', this, this.nextPage )\n                .off( \'keyMapGridPrevPage\', this, this.prevPage )\n                .off( \'keyMapGridRefresh\', this, this.refresh );\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-grid-key-controller.js");
+                case 'small':
+                    sizeClass = 'btn-sm';
+                    break;
 
-;eval("define(\"sl-ember-components/mixins/sl-modal-manager\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-modal-manager\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Controller actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Trigger showing the specified modal\n             *\n             * @function actions.showModal\n             * @param   {Ember.String} selector - The selector for the modal to show\n             * @param   {Ember.ObjectController|Ember.ArrayController|Ember.String} controller - The controller to use for context within the modal\n             * @param   {model} model - An instance of a model to pass to the controller as content data\n             * @returns {void}\n             */\n            showModal: function( selector, controller, model ) {\n                Ember.$( selector ).modal( \'show\' );\n\n                if ( !Ember.isBlank( controller ) && !Ember.isBlank( model ) ) {\n                    if ( typeof controller === \'string\' ) {\n                        controller = this.controllerFor( controller );\n                    }\n\n                    controller.set( \'modalContent\', model );\n                }\n            }\n        }\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-modal-manager.js");
+                case 'large':
+                    sizeClass = 'btn-lg';
+                    break;
+            }
 
-;eval("define(\"sl-ember-components/mixins/sl-notify-view\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-notify-view\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Notify the view\'s controller by sending \"viewDidInsertElement\"\n         *\n         * @function notifyDidInsertElement\n         * @observes \"didInsertElement\" event\n         * @returns  {void}\n         */\n        notifyDidInsertElement: function() {\n            this.get( \'controller\' ).send( \'viewDidInsertElement\' );\n        }.on( \'didInsertElement\' ),\n\n        /**\n         * Notify the view\'s controller by sending \"viewWillClearRender\"\n         *\n         * @function notifyWillClearRender\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        notifyWillClearRender: function() {\n            this.get( \'controller\' ).send( \'viewWillClearRender\' );\n        }.on( \'willClearRender\' ),\n\n        /**\n         * Notify the view\'s controller by sending \"viewWillDestroyElement\"\n         *\n         * @function notifyWillDestroyElement\n         * @observes \"willDestroyElement\" event\n         * @returns  {void}\n         */\n        notifyWillDestroyElement: function() {\n            this.get( \'controller\' ).send( \'viewWillDestroyElement\' );\n        }.on( \'willDestroyElement\' ),\n\n        /**\n         * Notify the view\'s controller by sending \"viewWillInsertElement\"\n         *\n         * @function notifyWillInsertElement\n         * @observes \"willInsertElement\" event\n         * @returns  {void}\n         */\n        notifyWillInsertElement: function() {\n            this.get( \'controller\' ).send( \'viewWillInsertElement\' );\n        }.on( \'willInsertElement\' )\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-notify-view.js");
+            return sizeClass;
+        }.property( 'size' ),
 
-;eval("define(\"sl-ember-components/mixins/sl-pagination-controller\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-pagination-controller\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        /**\n         * Controller actions hash\n         *\n         * @property {Ember.Object} actions\n         */\n        actions: {\n\n            /**\n             * Change current page to the specified page\n             *\n             * @function actions.changePage\n             * @param    {number} page - The page number to change to\n             * @returns  {void}\n             */\n            changePage: function( page ) {\n                var currentPage = this.get( \'currentPage\' ),\n                    nextPage,\n                    prevPage,\n                    totalPages;\n\n                totalPages = Math.ceil(\n                    this.get( \'metaData.total\' ) / this.get( \'itemCountPerPage\' )\n                );\n\n                switch( page ) {\n                    case \'first\':\n                        currentPage = 1;\n                        break;\n\n                    case \'prev\':\n                        prevPage = currentPage - 1;\n                        currentPage = prevPage > 0 ? prevPage : 1;\n                        break;\n\n                    case \'next\':\n                        nextPage = currentPage + 1;\n                        currentPage = nextPage <= totalPages ? nextPage : totalPages;\n                        break;\n\n                    case \'last\':\n                        currentPage = totalPages;\n                        break;\n\n                    case \'currentPageInput\':\n                    /* falls through */\n                    default:\n                        page = parseInt( page );\n                        currentPage = isNaN( page ) ? 1 : page;\n                }\n\n                this.set( \'currentPage\', currentPage );\n            },\n\n            /**\n             * Change the \"per page\" record limit\n             *\n             * @function actions.changePerPage\n             * @param    {number} perPage - The number of records to limit to per page\n             * @returns  {void}\n             */\n            changePerPage: function( perPage ) {\n                perPage = parseInt( perPage );\n                perPage = isNaN( perPage ) ? this.get( \'perPageOptions.firstObject\' ) : perPage;\n                this.set( \'itemCountPerPage\', perPage );\n            }\n        },\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * The current page number\n         *\n         * @property {number} currentPage\n         * @default  1\n         */\n        currentPage: 1,\n\n        /**\n         * Options for the \"per page\" resource limit number\n         *\n         * @property {Ember.Array} perPageOptions\n         */\n        perPageOptions: [ 25, 50, 100 ],\n\n        /**\n         * Accepted controller query parameters\n         *\n         * @property {Ember.array} queryParams\n         */\n        queryParams: [ \'currentPage\', \'itemCountPerPage\' ],\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Reloads the model when currentPage changes\n         *\n         * @function currentPageObserver\n         * @observes currentPage\n         * @returns  {void}\n         */\n        currentPageObserver: function(){\n            Ember.run.once( this, this.reloadModel );\n        }.observes( \'currentPage\' ),\n\n        /**\n         * Reloads the model when itemCountPerPage changes\n         *\n         * @function itemCountPerPageObserver\n         * @observes itemCountPerPage\n         * @returns  {void}\n         */\n        itemCountPerPageObserver: function(){\n            this.set( \'currentPage\', 1 );\n            Ember.run.once( this, this.reloadModel );\n        }.observes( \'itemCountPerPage\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Override this method with your own to handle loading of a model, using the\n         * currentPage and itemCountPerPage member variables\n         *\n         * @function reloadModel\n         * @throws  {Ember.assert}\n         * @returns {void}\n         */\n        reloadModel: function() {\n            Ember.assert( \'SL-Ember-Components:Pagination controller mixin: You must implement reloadModel in your controller.\', false );\n        },\n\n        /**\n         * Paging data for the grid to pass to its pagination controls\n         *\n         * @function pagingData\n         * @observes currentPage, itemCountPerPage, metaData, perPageOptions\n         * @returns  {Ember.Object} Pagination data\n         */\n        pagingData: function() {\n            var pageNumber = this.get( \'currentPage\' ) - 1,\n                pageCount  = this.getWithDefault( \'metaData.pageCount\', null ),\n                total      = this.getWithDefault( \'metaData.total\', null ),\n                perPage    = this.get( \'itemCountPerPage\' ),\n                totalPages = this.getWithDefault( \'metaData.totalPages\', 1 ),\n                firstRow   = pageNumber * perPage + 1;\n\n            return {\n                pageFirstRow     : firstRow,\n                pageLastRow      : firstRow + pageCount - 1,\n                totalRows        : total,\n                totalPages       : totalPages,\n                perPageOptions   : this.get( \'perPageOptions\' ),\n                itemCountPerPage : this.get( \'itemCountPerPage\' ),\n                currentPage      : this.get( \'currentPage\' ),\n                modelNames       : this.get( \'metaData.modelNames\' )\n            };\n        }.property(\n            \'currentPage\',\n            \'itemCountPerPage\',\n            \'metaData\',\n            \'perPageOptions\'\n        )\n\n    });\n  });//# sourceURL=sl-ember-components/mixins/sl-pagination-controller.js");
+        /**
+         * Converted theme string to Bootstrap button class
+         *
+         * @function themeClass
+         * @observes theme
+         * @returns  {Ember.String} Defaults to "btn-default"
+         */
+        themeClass: function() {
+            return 'btn-' + this.get( 'theme' );
+        }.property( 'theme' )
 
-;eval("define(\"sl-ember-components/utils/sl-grid-key-adapter\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module utils\n     * @class  sl-grid-key-adapter\n     */\n    __exports__[\"default\"] = Ember.Object.extend( Ember.Evented, {\n\n        /**\n         * Triggers the grid\'s reload action\n         *\n         * @function reload\n         * @returns  {void}\n         */\n        reload: function() {\n            this.trigger( \'reload\' );\n        },\n\n        /**\n         * Triggers the grid\'s changePage action\n         *\n         * @function changePage\n         * @param   {number} page\n         * @returns {void}\n         */\n        changePage: function( page ) {\n            this.trigger( \'changePage\', page );\n        }\n    });\n  });//# sourceURL=sl-ember-components/utils/sl-grid-key-adapter.js");
+    });
+  });
+define("sl-ember-components/components/sl-calendar-day", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
 
-;eval("define(\"sl-ember-components/utils/sl-menu-key-adapter\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module utils\n     * @class  sl-menu-key-adapter\n     */\n    __exports__[\"default\"] = Ember.Object.extend( Ember.Evented, {\n\n        /**\n         * Trigger the menu\'s childSelection action\n         *\n         * @function childSelection\n         * @param   {Ember.String} key\n         * @returns {void}\n         */\n        childSelection: function( key ) {\n            if ( typeof key === \'string\' ) {\n                key = parseInt( key, 10 );\n            }\n\n            this.trigger( \'childSelected\', key );\n        },\n\n        /**\n         * Trigger the menu\'s drillDown action\n         *\n         * @function drillDown\n         * @param   {Ember.String} key\n         * @returns {void}\n         */\n        drillDown: function( key ) {\n            this.trigger( \'drillDown\', key );\n        },\n\n        /**\n         * Trigger the menu\'s cycleRootSelectionNext action\n         *\n         * @function cycleRootSelectionNext\n         * @returns {void}\n         */\n        cycleRootSelectionNext: function() {\n            this.trigger( \'cycleRootSelectionNext\' );\n        },\n\n        /**\n         * Trigger the menu\'s cycleRootSelectionPrevious action\n         *\n         * @function cycleRootSelectionPrevious\n         * @returns {void}\n         */\n        cycleRootSelectionPrevious: function() {\n            this.trigger( \'cycleRootSelectionPrevious\' );\n        },\n\n        /**\n         * Trigger the menu\'s closeAll action\n         *\n         * @function closeAll\n         * @returns {void}\n         */\n        closeAll: function() {\n            this.trigger( \'closeAll\' );\n        },\n\n        /**\n         * Trigger the menu\'s showAll action\n         *\n         * @function showAll\n         * @returns {void}\n         */\n        showAll: function() {\n            this.trigger( \'showAll\' );\n        }\n\n    });\n  });//# sourceURL=sl-ember-components/utils/sl-menu-key-adapter.js");
+    /**
+     * @module components
+     * @class  sl-calendar-day
+     */
+    __exports__["default"] = Ember.Component.extend({
 
-;eval("define(\"sl-ember-components\", [\"sl-ember-components/index\",\"exports\"], function(__index__, __exports__) {\n  \"use strict\";\n  Object.keys(__index__).forEach(function(key){\n    __exports__[key] = __index__[key];\n  });\n});\n//# sourceURL=__reexport.js");
+        // -------------------------------------------------------------------------
+        // Dependencies
 
-eval("define(\"sl-ember-translate/components/sl-translate\", \n  [\"ember\",\"sl-ember-translate/templates/components/sl-translate\",\"exports\"],\n  function(__dependency1__, __dependency2__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    var template = __dependency2__[\"default\"];\n\n    /**\n     * @module components\n     * @class  sl-translate\n     */\n    __exports__[\"default\"] = Ember.Component.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        /**\n         * The tag type of the root element\n         *\n         * @property {Ember.String} tagName\n         * @default  \"span\"\n         */\n        tagName: \'span\',\n\n        /**\n         * The template used to render the view\n         *\n         * @property {function} layout\n         * @default  template:components/sl-translate\n         */\n        layout: template,\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Filtered array of parameters passed to this component\n         *\n         * Only contains those that are a number that begin with \"$\" and are to be bound to\n         *\n         * @property {Ember.Array} observedParameters\n         * @default  null\n         */\n        observedParameters: null,\n\n        /**\n         * Filtered array of parameters passed to this component\n         *\n         * Only contains those that are a number that begin with \"$\" and also do not end in \"Binding\"\n         *\n         * @property {Ember.Array} parameters\n         * @default  null\n         */\n        parameters: null,\n\n        /**\n         * Translated string\n         *\n         * @property {Ember.String} translatedString\n         * @default  null\n         */\n        translatedString: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        /**\n         * Filter passed parameters on initialization\n         *\n         * @function extractParameterKeys\n         * @observes \"init\" event\n         * @returns  {void}\n         */\n        extractParameterKeys: function() {\n            var parameters         = [],\n                observedParameters = [];\n\n            Ember.keys( this ).map( function( key ) {\n\n                // Is a number that begins with $ but doesn\'t also end with \"Binding\"\n                if ( /^\\$/.test( key ) && !/^\\$.*(Binding)$/.test( key ) ) {\n                    parameters.push( key );\n                }\n\n                // Is a number that begins with $ and was passed as a binding\n                if ( /^\\$[0-9]*$/.test( key ) && this.hasOwnProperty( key + \'Binding\' ) ) {\n                    observedParameters.push( key );\n                }\n            }.bind( this ));\n\n            this.setProperties({\n                \'parameters\'         : parameters,\n                \'observedParameters\' : observedParameters\n            });\n        }.on( \'init\' ),\n\n        /**\n         * Register observers on filtered parameter list\n         *\n         * The reason observers have to be manually (de)registered rather than calling .property() on translateString() is\n         * because in order to support token replacement within a tranlsation string a user needs to be able to pass in a\n         * variable amount of (potentially) bound properties.  There is not a way to specify such a dynamic list of\n         * properties in a .property() call.\n         *\n         * @function registerObservers\n         * @observes \"willInsertElement\" event\n         * @returns  {void}\n         */\n        registerObservers: function() {\n            this.get( \'observedParameters\' ).map( function( key ) {\n                this.addObserver( key, this, this.setTranslatedString );\n            }.bind( this ));\n\n            this.setTranslatedString();\n        }.on( \'willInsertElement\' ),\n\n        /**\n         * Remove observers on filtered parameter list\n         *\n         * @function unregisterObservers\n         * @observes \"willClearRender\" event\n         * @returns  {void}\n         */\n        unregisterObservers: function() {\n            this.get( \'observedParameters\' ).map( function( key ) {\n                this.removeObserver( key, this, this.setTranslatedString );\n            }.bind( this ));\n        }.on( \'willClearRender\' ),\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Set translated string value on property used by template\n         *\n         * @function setTranslatedString\n         * @returns {void}\n         */\n        setTranslatedString: function() {\n            this.set( \'translatedString\', this.translateString() );\n        },\n\n        /**\n         * Translate provided key\n         *\n         * Supports\n         * - singular/plural string substitution\n         * - replacement of placeholder tokens in translation strings with passed parameters\n         *\n         * @function translateString\n         * @returns {Ember.String} Translated string\n         */\n        translateString: function() {\n            var parametersHash = {};\n\n            this.get( \'parameters\' ).map( function( key ) {\n                parametersHash[key] = this.get( key );\n            }.bind( this ));\n\n            return this.get( \'translateService\' ).translateKey({\n                key         : this.get( \'key\' ),\n                pluralKey   : this.get( \'pluralKey\' ),\n                pluralCount : this.get( \'pluralCount\' ),\n                parameters  : parametersHash\n            });\n        }\n    });\n  });//# sourceURL=sl-ember-translate/components/sl-translate.js");
+        // -------------------------------------------------------------------------
+        // Attributes
 
-;eval("define(\"sl-ember-translate/templates/components/sl-translate\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n    __exports__[\"default\"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {\n    this.compilerInfo = [4,\'>= 1.0.0\'];\n    helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};\n      var stack1;\n\n\n      stack1 = helpers._triageMustache.call(depth0, \"translatedString\", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:[\"ID\"],data:data});\n      if(stack1 || stack1 === 0) { data.buffer.push(stack1); }\n      else { data.buffer.push(\'\'); }\n      \n    });\n  });//# sourceURL=sl-ember-translate/templates/components/sl-translate.js");
+        /**
+         * The HTML tag name of the component's root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "td"
+         */
+        tagName: 'td',
 
-;eval("define(\"sl-ember-translate/initializers/translate-service\", \n  [\"sl-ember-translate/services/translate\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var TranslateService = __dependency1__[\"default\"];\n\n    /**\n     * @module initializers\n     * @class  translate-service\n     */\n    __exports__[\"default\"] = function( container, app ) {\n        var translateService  = TranslateService.create();\n\n        // Inject Translate Service\n        container.register( \'translateService:main\', translateService, { instantiate: false } );\n        app.inject( \'view\', \'translateService\', \'translateService:main\' );\n        app.inject( \'controller\', \'translateService\', \'translateService:main\' );\n        app.inject( \'component\', \'translateService\', \'translateService:main\' );\n    }\n  });//# sourceURL=sl-ember-translate/initializers/translate-service.js");
+        /**
+         * Class names for the component's root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'day' ],
 
-;eval("define(\"sl-ember-translate/services/translate\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module services\n     * @class  translate\n     */\n    __exports__[\"default\"] = Ember.Object.extend({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        /**\n         * Translations\n         *\n         * @property {Ember.Object} dictionary\n         * @default  null\n         */\n        dictionary: null,\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Set translation dictionary data\n         *\n         * @function setDictionary\n         * @argument {Ember.Object} translations  Translation model\n         * @returns  {void}\n         */\n        setDictionary: function( translations ) {\n            this.set( \'dictionary\', translations );\n        },\n\n        /**\n         * Retrieve value for specified dictionary key\n         *\n         * @function getKeyValue\n         * @argument {Ember.String} key Dictionary key to retrieve value for\n         * @returns  {Ember.String}\n         */\n        getKeyValue: function( key ) {\n            var defaultKeyValue = \'KEY__NOT__PRESENT\',\n                retrievedKey    = this.get( \'dictionary\' ).getWithDefault( key, defaultKeyValue ),\n                returnValue;\n\n            if ( defaultKeyValue !== retrievedKey ) {\n                returnValue = retrievedKey;\n\n            } else {\n                console.warn( \'No translation match for key \"\' + key + \'\".\' );\n                returnValue = key;\n            }\n\n            return returnValue;\n        },\n\n        /**\n         * Translate provided key\n         *\n         * Supports\n         * - singular/plural string substitution\n         * - replacement of placeholder tokens in translation strings with passed parameters\n         *\n         * @function translateKey\n         * @argument {Ember.Object} data\n         * @example\n         * // Example object that can be passed as argument\n         * {\n         *     key\n         *     pluralKey\n         *     pluralCount\n         *     parameters: {\n         *         $0: value\n         *     }\n         * }\n         * @return {Ember.String}       Translated string\n         */\n        translateKey: function( data ) {\n\n            Ember.assert( \'Argument must be supplied\', data );\n\n            if ( undefined === data ) {\n                return;\n            }\n\n            data.parameters = data.parameters || {};\n\n            var pluralErrorTracker = 0,\n                token              = data.key,\n                getTokenValue      = function( value ) {\n                    try {\n                        value = this.getKeyValue( value );\n                    } catch ( e ) {\n                        console.warn( \'Unable to translate key \"\' + value + \'\".\' );\n                    }\n\n                    return value;\n                }.bind( this ),\n                translatedString;\n\n            // BEGIN: Pluralization error checking\n            if ( !Ember.isEmpty( data.pluralKey ) ) {\n                pluralErrorTracker++;\n            }\n\n            if ( !Ember.isEmpty( data.pluralCount ) ) {\n                pluralErrorTracker++;\n            }\n\n            if ( 1 === pluralErrorTracker ) {\n                console.warn( \'If either \"pluralKey\" or \"pluralCount\" are provided then both must be.\' +\n                    \'Singular key value was returned.\' );\n                return getTokenValue( token );\n            }\n            // END: Pluralization error checking\n\n            // Pluralization\n            if ( !Ember.isEmpty( data.pluralCount ) && Number(data.pluralCount) > 1 ) {\n                token = data.pluralKey;\n            }\n\n            translatedString = getTokenValue( token );\n\n            // Parameter replacement\n            Ember.keys( data.parameters ).map( function( key ) {\n                translatedString = translatedString.replace( \'{\' + key.replace( \'$\', \'\' ) + \'}\' , data.parameters[key] );\n            }.bind( this ) );\n\n            return translatedString;\n        }\n    });\n  });//# sourceURL=sl-ember-translate/services/translate.js");
+        /**
+         * Class name bindings for the component
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'active', 'new', 'old' ],
 
-;eval("define(\"sl-ember-translate/mixins/sl-get-translation\", \n  [\"ember\",\"exports\"],\n  function(__dependency1__, __exports__) {\n    \"use strict\";\n    var Ember = __dependency1__[\"default\"];\n\n    /**\n     * @module mixins\n     * @class  sl-get-translation\n     */\n    __exports__[\"default\"] = Ember.Mixin.create({\n\n        // -------------------------------------------------------------------------\n        // Dependencies\n\n        // -------------------------------------------------------------------------\n        // Attributes\n\n        // -------------------------------------------------------------------------\n        // Actions\n\n        // -------------------------------------------------------------------------\n        // Events\n\n        // -------------------------------------------------------------------------\n        // Properties\n\n        // -------------------------------------------------------------------------\n        // Observers\n\n        // -------------------------------------------------------------------------\n        // Methods\n\n        /**\n         * Based on value of key, retrieve translation or usual get() value\n         *\n         * @function get\n         * @argument {Ember.String} key property to retrieve\n         * @returns  {Ember.String}\n         */\n        get: function( key ) {\n            var translationsRegex = /translate\\.(.*)/,\n                matches           = key.match( translationsRegex );\n\n            return ( matches ) ? this.translate( matches[1] ) : this._super( key );\n        },\n\n        /**\n         * Retrieve translated key without support for token replacement or pluralization\n         *\n         * @function translate\n         * @argument {Ember.String} key key to translate\n         * @returns  {Ember.String} translated key\n         */\n        translate: function( key ) {\n            return this.translateService.getKeyValue( key );\n        }\n    });\n  });//# sourceURL=sl-ember-translate/mixins/sl-get-translation.js");
+        // -------------------------------------------------------------------------
+        // Actions
 
-;eval("define(\"sl-ember-translate\", [\"sl-ember-translate/index\",\"exports\"], function(__index__, __exports__) {\n  \"use strict\";\n  Object.keys(__index__).forEach(function(key){\n    __exports__[key] = __index__[key];\n  });\n});\n//# sourceURL=__reexport.js");
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Function triggered by clicking a calendar day
+         *
+         * @function click
+         * @returns  {void}
+         */
+        click: function() {
+            this.sendAction( 'action', this.get( 'content' ) );
+        }
+
+    });
+  });
+define("sl-ember-components/components/sl-calendar-month", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    /* global moment */
+
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-calendar-month
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name of the component's root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        /**
+         * Class names for the component's root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'month' ],
+
+        /**
+         * Class name bindings for the component's root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'active' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        /**
+         * Send back the primary bound action with this month number
+         *
+         * @function click
+         * @returns  {void}
+         */
+        click: function() {
+            this.sendAction( 'action', this.get( 'month' ) );
+        },
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * The short string name of the represented month
+         *
+         * @function shortName
+         * @returns  {Ember.String}
+         */
+        shortName: function() {
+            return moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );
+        }.property()
+
+    });
+  });
+define("sl-ember-components/components/sl-calendar-year", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-calendar-year
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the component's root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        /**
+         * Class name bindings for the component's root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'active', 'new', 'old' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        /**
+         * Send back primary action with this year value
+         *
+         * @function click
+         * @returns  {void}
+         */
+        click: function() {
+            this.sendAction( 'action', this.get( 'year' ) );
+        }
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-calendar", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    /* global moment */
+
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-calendar-calendar
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-calendar' ],
+
+        /**
+         * Bindings for the component's class names
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'locked:sl-calendar-locked' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Object of actions
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Change the currently-viewed decade by incrementing or decrementing
+             * the decadeStart year number
+             *
+             * @function actions.changeDecade
+             * @param    {number} decadeMod - A number to adjust the decadeStart by
+             *           (positive to increment, negative to decrement)
+             * @returns  {void}
+             */
+            changeDecade: function( decadeMod ) {
+                if ( this.get( 'locked' ) ) {
+                    return;
+                }
+
+                this.set( 'decadeStart', this.get( 'decadeStart' ) + ( 10 * decadeMod ) );
+            },
+
+            /**
+             * Change the currently-viewed month by incrementing or decrementing
+             * the currentMonth (and currentYear if needed)
+             *
+             * @function actions.changeMonth
+             * @param    {number} monthMod - A number to adjust the currentMonth by
+             *           (positive to increment, negative to decrement). The
+             *           currentYear is adjusted as needed.
+             * @returns  {void}
+             */
+            changeMonth: function( monthMod ) {
+                var month,
+                    year;
+
+                if ( this.get( 'locked' ) ) {
+                    return;
+                }
+
+                month = this.get( 'currentMonth' ) + monthMod;
+                year  = this.get( 'currentYear' );
+
+                while ( month < 1 ) {
+                    month += 12;
+                    year -= 1;
+                }
+
+                while ( month > 12 ) {
+                    month -= 12;
+                    year += 1;
+                }
+
+                this.setProperties({
+                    currentYear  : year,
+                    currentMonth : month
+                });
+            },
+
+            /**
+             * Change the currently-viewed year by increment or decrementing the
+             * currentYear
+             *
+             * @function actions.changeYear
+             * @param    {number} yearMod - A number to adjust the currentYear by
+             *           (positive to increment, negative to decrement)
+             * @returns  {void}
+             */
+            changeYear: function( yearMod ) {
+                if ( this.get( 'locked' ) ) {
+                    return;
+                }
+
+                this.set( 'currentYear', this.get( 'currentYear' ) + yearMod );
+            },
+
+            /**
+             * Action to trigger component's bound action and pass back content
+             * values with dates occurring on the clicked date
+             *
+             * @function actions.sendDateContent
+             * @param    {array} dateContent - Collection of content objects with
+             *           date values of the clicked date
+             * @returns  {void}
+             */
+            sendDateContent: function( dateContent ) {
+                if ( dateContent ) {
+                    this.sendAction( 'action', dateContent );
+                }
+            },
+
+            /**
+             * Set the current month and change view mode to that month
+             *
+             * @function actions.setMonth
+             * @param    {number} month - The number of the month to change view to
+             * @returns  {void}
+             */
+            setMonth: function( month ) {
+                if ( this.get( 'locked' ) ) {
+                    return;
+                }
+
+                this.setProperties({
+                    currentMonth : month,
+                    viewMode     : 'days'
+                });
+            },
+
+            /**
+             * Set the view mode of the calendar
+             *
+             * @function actions.setView
+             * @param    {string} view - The view mode to switch to; "days",
+             *           "months", or "years"
+             * @returns  {void}
+             */
+            setView: function( view ) {
+                if ( this.get( 'locked' ) ) {
+                    return;
+                }
+
+                this.set( 'viewMode', view );
+            },
+
+            /**
+             * Set the current year
+             *
+             * @function actions.setYear
+             * @param    {number} year - The year to set to the current value
+             * @returns  {void}
+             */
+            setYear: function( year ) {
+                if ( this.get( 'locked' ) ) {
+                    return;
+                }
+
+                this.setProperties({
+                    viewMode    : 'months',
+                    currentYear : year
+                });
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * The currently selected/viewed month (1-12)
+         *
+         * @property {number} currentMonth
+         * @default  null
+         */
+        currentMonth: null,
+
+        /**
+         * The currently selected/viewed year
+         *
+         * @property {number} currentYear
+         * @default  null
+         */
+        currentYear: null,
+
+        /**
+         * String lookup for the date value on the content objects
+         *
+         * @property {Ember.String} dateValuePath
+         * @default  "date"
+         */
+        dateValuePath: 'date',
+
+        /**
+         * When true, the view mode is locked and users cannot navigate forward
+         * and back
+         *
+         * @property {boolean} locked
+         * @default  false
+         */
+        locked: false,
+
+        /**
+         * The current view mode for the calendar
+         *
+         * @property {Ember.String} viewMode
+         * @default  "days"
+         */
+        viewMode: 'days',
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Initialize default property values
+         *
+         * @function initialize
+         * @observes "init" event
+         * @returns  {void}
+         */
+        initialize: function() {
+            var today = new Date();
+
+            if ( !this.get( 'currentMonth' ) ) {
+                this.set( 'currentMonth', today.getMonth() + 1 );
+            }
+
+            if ( !this.get( 'currentYear' ) ) {
+                this.set( 'currentYear', today.getFullYear() );
+            }
+        }.on( 'init' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Object of nested year, month, and day values, representing the dates
+         * supplied by the calendar's content values
+         *
+         * @function contentDates
+         * @observes content
+         * @returns  {Ember.Object}
+         */
+        contentDates: function() {
+            var content       = this.get( 'content' ),
+                dates         = {},
+                dateValuePath = this.get( 'dateValuePath' ),
+                date,
+                year,
+                month,
+                day;
+
+            if ( content ) {
+                content.forEach( function( item ) {
+                    date = new Date( Ember.get( item, dateValuePath ) );
+                    year = date.getFullYear();
+                    month = date.getMonth() + 1;
+                    day = date.getDate();
+
+                    if ( !dates.hasOwnProperty( year ) ) {
+                        dates[ year ] = {};
+                    }
+
+                    if ( !dates[ year ].hasOwnProperty( month ) ) {
+                        dates[ year ][ month ] = {};
+                    }
+
+                    if ( !dates[ year ][ month ].hasOwnProperty( day ) ) {
+                        dates[ year ][ month ][ day ] = [];
+                    }
+
+                    dates[ year ][ month ][ day ].push( item );
+                });
+            }
+
+            return dates;
+        }.property( 'content' ),
+
+        /**
+         * Name of the currently selected/viewed month
+         *
+         * @function currentMonthString
+         * @observes currentMonth
+         * @returns  {Ember.String}
+         */
+        currentMonthString: function() {
+            return moment([ this.get( 'currentYear' ), this.get( 'currentMonth' ) - 1 ]).format( 'MMMM' );
+        }.property( 'currentMonth' ),
+
+        /**
+         * The number of days in the current month
+         *
+         * @function daysInMonth
+         * @observes currentMonth, currentYear
+         * @returns  {number}
+         */
+        daysInMonth: function() {
+            return moment([ this.get( 'currentYear' ), this.get( 'currentMonth' ) - 1 ]).daysInMonth();
+        }.property( 'currentMonth', 'currentYear' ),
+
+        /**
+         * The last year in the currently selected/viewed decade
+         *
+         * @function decadeEnd
+         * @observes decadeStart
+         * @returns  {number}
+         */
+        decadeEnd: function() {
+            return this.get( 'decadeStart' ) + 9;
+        }.property( 'decadeStart' ),
+
+        /**
+         * The first year in the currently selected/viewed decade
+         *
+         * @function decadeStart
+         * @returns  {number}
+         */
+        decadeStart: function() {
+            var currentYear = this.get( 'currentYear' );
+
+            return currentYear - ( currentYear % 10 );
+        }.property( 'currentYear' ),
+
+        /**
+         * Get an array of objects representing months in the year view
+         *
+         * Each item contains the following values:
+         * - {boolean} active - Whether a content item's date occurs on this month
+         * - {number}  month  - The month number in the year (1-12)
+         *
+         * @function monthsInYearView
+         * @observes contentDates, currentYear
+         * @returns  {Ember.Array}
+         */
+        monthsInYearView: function() {
+            var contentDates = this.get( 'contentDates' ),
+                currentYear  = this.get( 'currentYear' ),
+                months       = [];
+
+            for ( var month = 1; month <= 12; month++ ) {
+                months.push({
+                    active: (
+                        contentDates.hasOwnProperty( currentYear ) &&
+                        contentDates[ currentYear ].hasOwnProperty( month )
+                    ),
+
+                    month: month
+                });
+            }
+
+            return months;
+        }.property( 'contentDates', 'currentYear' ),
+
+        /**
+         * The abbreviated, formatted day name of the week day
+         *
+         * @function shortWeekDayName
+         * @returns  {Ember.String}
+         */
+        shortWeekDayName: function( weekday ) {
+            return moment().day( weekday ).format( 'dd' );
+        },
+
+        /**
+         * Whether the current view is "days"
+         *
+         * @function viewingDays
+         * @observes viewMode
+         * @returns  {boolean}
+         */
+        viewingDays: function() {
+            return this.get( 'viewMode' ) === 'days';
+        }.property( 'viewMode' ),
+
+        /**
+         * Whether the current view is "months"
+         *
+         * @function viewingMonths
+         * @observes viewMode
+         * @returns  {boolean}
+         */
+        viewingMonths: function() {
+            return this.get( 'viewMode' ) === 'months';
+        }.property( 'viewMode' ),
+
+        /**
+         * Whether the current view is "years"
+         *
+         * @function viewingYears
+         * @observes viewMode
+         * @returns  {boolean}
+         */
+        viewingYears: function() {
+            return this.get( 'viewMode' ) === 'years';
+        }.property( 'viewMode' ),
+
+        /**
+         * An array of objects representing weeks and days in the month view
+         *
+         * Each day object contains the following values:
+         * - {boolean} active - Whether a content item occurs on this date
+         * - {array} content - Collection of content items occurring on this date
+         * - {number} day - The day number of the month (1-31)
+         * - {boolean} new - Whether the day occurs in the next month
+         * - {boolean} old - Whether the day occurs in the previous month
+         *
+         * @function weeksInMonthView
+         * @observes contentDates, currentMonth, currentYear, daysInMonth
+         * @returns  {Ember.Array}
+         */
+        weeksInMonthView: function() {
+            var contentDates               = this.get( 'contentDates' ),
+                currentMonth               = this.get( 'currentMonth' ),
+                currentYear                = this.get( 'currentYear' ),
+                daysInCurrentMonth         = this.get( 'daysInMonth' ),
+                firstWeekdayOfCurrentMonth = ( new Date( currentYear, currentMonth - 1, 1 ) ).getDay(),
+                weeks                      = [],
+                inNextMonth                = false,
+                previousMonth,
+                previousMonthYear,
+                previousMonthDays,
+                nextMonth,
+                nextMonthYear,
+                day,
+                days,
+                inPreviousMonth,
+                isActive,
+                month,
+                year;
+
+            if ( currentMonth === 1 ) {
+                previousMonth = 12;
+                previousMonthYear = currentYear - 1;
+            } else {
+                previousMonth = currentMonth - 1;
+                previousMonthYear = currentYear;
+            }
+
+            previousMonthDays = moment([ previousMonthYear, previousMonth - 1 ]).daysInMonth();
+
+            if ( currentMonth === 12 ) {
+                nextMonth = 1;
+                nextMonthYear = currentYear + 1;
+            } else {
+                nextMonth = currentMonth + 1;
+                nextMonthYear = currentYear;
+            }
+
+            if ( firstWeekdayOfCurrentMonth > 0 ) {
+                inPreviousMonth = true;
+                day = previousMonthDays - firstWeekdayOfCurrentMonth + 1;
+                month = previousMonth;
+                year = previousMonthYear;
+            } else {
+                inPreviousMonth = false;
+                day = 1;
+                month = currentMonth;
+                year = currentYear;
+            }
+
+            for ( var week = 0; week < 6; week++ ) {
+                days = [];
+
+                for ( var wday = 0; wday < 7; wday++ ) {
+                    isActive = !inPreviousMonth && !inNextMonth &&
+                        contentDates.hasOwnProperty( year ) &&
+                        contentDates[ year ].hasOwnProperty( month ) &&
+                        contentDates[ year ][ month ].hasOwnProperty( day );
+
+                    days.push({
+                        active  : isActive,
+                        content : isActive ? contentDates[ year ][ month ][ day ] : null,
+                        day     : day++,
+                        'new'   : inNextMonth,
+                        old     : inPreviousMonth
+                    });
+
+                    if ( inPreviousMonth ) {
+                        if ( day > previousMonthDays ) {
+                            inPreviousMonth = false;
+                            day = 1;
+                            month = currentMonth;
+                            year = currentYear;
+                        }
+                    } else if ( day > daysInCurrentMonth ) {
+                        inNextMonth = true;
+                        day = 1;
+                        month = nextMonth;
+                        year = nextMonthYear;
+                    }
+                }
+
+                weeks.push( days );
+            }
+
+            return weeks;
+        }.property( 'contentDates', 'currentMonth', 'currentYear', 'daysInMonth' ),
+
+        /**
+         * An array of objects representing years in the decade view
+         *
+         * Each object contains the following values:
+         * - {boolean} active - Whether a content item occurs on this year
+         * - {boolean} new - Whether this year is in the next decade range
+         * - {boolean} old - Whether this year is in the previous decade range
+         * - {number} year - The year number
+         *
+         * @function yearsInDecadeView
+         * @observes contentDates, decadeEnd, decadeStart
+         * @returns  {Ember.Array}
+         */
+        yearsInDecadeView: function() {
+            var contentDates = this.get( 'contentDates' ),
+                decadeStart  = this.get( 'decadeStart' ),
+                decadeEnd    = this.get( 'decadeEnd' ),
+                years        = [];
+
+            for ( var year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
+                years.push({
+                    active : contentDates.hasOwnProperty( year ),
+                    'new'  : year > decadeEnd,
+                    old    : year < decadeStart,
+                    year   : year
+                });
+            }
+
+            return years;
+        }.property( 'contentDates', 'decadeEnd', 'decadeStart' )
+
+    });
+  });
+define("sl-ember-components/components/sl-chart", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-calendar-chart
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'panel', 'panel-default', 'sl-chart', 'sl-panel' ],
+
+        /**
+         * Class name bindings for the root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'isLoading:sl-loading' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * The highchart instantiation
+         *
+         * @property {Ember.Object} chart
+         * @default  null
+         */
+        chart: null,
+
+        /**
+         * Height value used for inline style
+         *
+         * @property {Ember.String} height
+         * @default  "auto"
+         */
+        height: 'auto',
+
+        /**
+         * When true, the chart's panel body will be in a loading state
+         *
+         * @property {boolean} isLoading
+         * @default  false
+         */
+        isLoading: false,
+
+        /**
+         * The collection of series data for the chart
+         *
+         * @property {Ember.Array} series
+         * @default  null
+         */
+        series: null,
+
+        /**
+         * Width value used for inline style
+         *
+         * @property {Ember.String} width
+         * @default  "auto"
+         */
+        width: 'auto',
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Sets up Highcharts initialization
+         *
+         * @function setupChart
+         * @observes didInsertElement event
+         * @returns  {void}
+         */
+        setupChart: function() {
+            var chartDiv = this.$( 'div.chart' ),
+                chartStyle,
+                options;
+
+            chartStyle = {
+                fontFamily : '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+                fontSize   : '13px'
+            };
+
+            options = Ember.$.extend( true, {
+                title: '',
+                chart: {
+                    animation: false,
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    style: chartStyle
+                },
+                colors: [
+                    '#298fce',
+                    '#94302e',
+                    '#00a14b',
+                    '#f29c1e',
+                    '#fadb00',
+                    '#34495d'
+                ],
+                credits: {
+                    enabled: false
+                },
+                legend: {
+                    itemStyle: chartStyle
+                },
+                plotOptions: {
+                    bar: {
+                        borderColor: 'transparent'
+                    },
+                    series: {
+                        animation: false
+                    }
+                },
+                tooltip: {
+                    animation: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    borderWidth: 0,
+                    shadow: false,
+                    style: {
+                        color: '#fff'
+                    }
+                },
+                xAxis: {
+                    labels: {
+                        style: chartStyle
+                    }
+                },
+                yAxis: {
+                    labels: {
+                        style: chartStyle
+                    }
+                }
+            }, this.get( 'options' ) || {} );
+
+            chartDiv.highcharts( options );
+            this.set( 'chart', chartDiv.highcharts() );
+            this.updateData();
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Updates the chart's series data
+         *
+         * @function updateSeries
+         * @observes series
+         * @returns  {void}
+         */
+        updateData: function() {
+            var chart  = this.get( 'chart' ),
+                series = this.get( 'series' );
+
+            if ( !chart.hasOwnProperty( 'series' ) ) {
+                chart.series = [];
+            }
+
+            for ( var i = 0; i < series.length; i++ ) {
+                if ( chart.series.length <= i ) {
+                    chart.addSeries( series[ i ] );
+                } else {
+                    chart.series[i].setData( series[ i ].data );
+                }
+            }
+        }.observes( 'series' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Inline style containing height and width, required by Highcharts
+         *
+         * @function style
+         * @observes height, width
+         * @returns  {Ember.String}
+         */
+        style: function() {
+            return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
+        }.property( 'height', 'width' )
+
+    });
+  });
+define("sl-ember-components/components/sl-checkbox", 
+  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var TooltipEnabled = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-checkbox
+     */
+    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Attribute bindings for containing div
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'checked', 'disabled' ],
+
+        /**
+         * Class names for containing div
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ],
+
+        /**
+         * Bindings for the base component class
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'disabled' ]
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-date-picker", 
+  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var TooltipEnabled = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-date-picker
+     */
+    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'form-group', 'sl-date-picker' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether or not to close the datepicker immediately when a date is selected
+         *
+         * @property {boolean} autoclose
+         * @default  true
+         */
+        autoclose: true,
+
+        /**
+         * Whether or not to show week numbers to the left of week rows
+         *
+         * @property {boolean} calendarWeeks
+         * @default  false
+         */
+        calendarWeeks: false,
+
+        /**
+         * When true, displays a "Clear" button at the bottom of the datepicker
+         *
+         * If "autoclose" is also set to true, this button will also close
+         * the datepicker.
+         *
+         * @property {boolean} clearBtn
+         * @default  false
+         */
+        clearBtn: false,
+
+        /**
+         * Days of the week that should be disabled
+         *
+         * Values are 0 (Sunday) to 6 (Saturday). Multiple values should be
+         * comma-separated.
+         *
+         * @property {Ember.Array|Ember.String} daysOfWeekDisabled
+         * @default  []
+         */
+        daysOfWeekDisabled: [],
+
+        /**
+         * The latest date that may be selected; all later dates will be disabled
+         *
+         * @property {date} endDate
+         * @default  null
+         */
+        endDate: null,
+
+        /**
+         * Whether or not to force parsing of the input value when the picker is
+         * closed
+         *
+         * When an invalid date is left in the input field by the user, the picker
+         * will forcibly parse that value, and set the input's value to the new,
+         * valid date, conforming to the given _format_.
+         *
+         * @property {boolean} forceParse
+         * @default  true
+         */
+        forceParse: true,
+
+        /**
+         * The date format
+         *
+         * Combination of the following:
+         * - d, dd: Numeric date, no leading zero and leading zero, respectively
+         * - D, DD: Abbreviated and full weekday names, respectively
+         * - m, mm: Numeric month, no leading zero and leading zero, respectively
+         * - M, MM: Abbreviated and full month names, respectively
+         * - yy, yyyy: 2- and 4-digit years, respectively
+         *
+         * @property {Ember.String} format
+         * @default  "mm/dd/yyyy"
+         */
+        format: 'mm/dd/yyyy',
+
+        /**
+         * The input field's id attribute
+         *
+         * Used to expose this value externally for use when composing this component into others.
+         *
+         * @property {Ember.String} setInputElementId
+         * @default  {null}
+         */
+        inputElementId: null,
+
+        /**
+         * A list of inputs to be used in a range picker
+         *
+         * The inputs will be attached to the selected element. Allows for
+         * explicitly creating a range picker on a non-standard element.
+         *
+         * @property {Ember.Array} inputs
+         * @default  null
+         */
+        inputs: null,
+
+        /**
+         * Whether or not to allow date navigation by arrow keys
+         *
+         * @property {boolean} keyboardNavigation
+         * @default  true
+         */
+        keyboardNavigation: true,
+
+        /**
+         * The IETF code of the language to use for month and day names
+         *
+         * @property {Ember.String} language
+         * @default  "en"
+         */
+        language: 'en',
+
+        /**
+         * Set a limit for the view mode; accepts "days", "months", or "years"
+         *
+         * @property {Ember.String} minViewMode
+         * @default  "days"
+         */
+        minViewMode: 'days',
+
+        /**
+         * Enable multidate picking
+         *
+         * Each date in month view acts as a toggle button, keeping track of which
+         * dates the user has selected in order. If a number is given, the picker
+         * will limit how many dates can be selected to that number, dropping the
+         * oldest dates from the list when the number is exceeded. true equates to
+         * no limit. The input’s value (if present) is set to a string generated by
+         * joining the dates, formatted, with multidateSeparator.
+         *
+         * @property {boolean|number} multidate
+         * @default  false
+         */
+        multidate: false,
+
+        /**
+         * A space-separated string for the popup's anchor position
+         *
+         * Consists of one or two of "left" or "right", "top" or "bottom",
+         * and "auto" (may be omitted).
+         *
+         * @property {Ember.String} orientation
+         * @default  "auto"
+         */
+        orientation: 'auto',
+
+        /**
+         * The earliest date that may be selected; all earlier dates will
+         * be disabled
+         *
+         * @property {date} startDate
+         * @default  null
+         */
+        startDate: null,
+
+        /**
+         * The view that the datepicker should show when it is opened; accepts
+         * "month", "year", or "decade"
+         *
+         * @property {Ember.String} startView
+         * @default  "month"
+         */
+        startView: 'month',
+
+        /**
+         * When true or "linked", displays a "Today" button at the bottom of the
+         * datepicker to select the current date
+         *
+         * If true, the "Today" button will only move the current date into view.
+         * If "linked", the current date will also be selected.
+         *
+         * @property {boolean|Ember.String} todayBtn
+         * @default  false
+         */
+        todayBtn: false,
+
+        /**
+         * Whether to highlight the current date or not
+         *
+         * @property {boolean} todayHighlight
+         * @default  false
+         */
+        todayHighlight: false,
+
+        /**
+         * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
+         *
+         * @property {number} weekStart
+         * @default  0
+         */
+        weekStart: 0,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Captures and sets the input field's id attribute.
+         *
+         * This is used to expose this value externally for use when composing this component into others.
+         *
+         * @function setInputElementId
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        setInputElementId: function() {
+            this.set( 'inputElementId', this.$( 'input.date-picker' ).prop( 'id' ) );
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Setup the bootstrap-datepicker plugin and events
+         *
+         * @function setupDatepicker
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        setupDatepicker: function() {
+            var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' ) ),
+                self       = this;
+
+            datepicker.on( 'changeDate', function() {
+                self.sendAction( 'change' );
+            });
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Remove events
+         *
+         * @function unregisterEvents
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        unregisterEvents: function() {
+            this.$( 'input.date-picker' ).off();
+        }.on( 'willClearRender' ),
+
+        /**
+         * Dynamically update the endDate value for the datepicker
+         *
+         * @function setEndDate
+         * @observes endDate
+         * @returns  {void}
+         */
+        setEndDate: function() {
+            this.$( 'input.date-picker' ).datepicker( 'setEndDate', this.get( 'endDate' ) );
+        }.observes( 'endDate' ),
+
+        /**
+         * Dynamically update the startDate value for the datepicker
+         *
+         * @function setStartDate
+         * @observes startDate
+         * @returns  {void}
+         */
+        setStartDate: function() {
+            this.$( 'input.date-picker' ).datepicker( 'setStartDate', this.get( 'startDate' ) );
+        }.observes( 'startDate' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Datepicker plugin options
+         *
+         * @function options
+         * @returns  {Ember.Object}
+         */
+        options: function() {
+            return {
+                autoclose          : this.get( 'autoclose' ),
+                calendarWeeks      : this.get( 'calendarWeeks' ),
+                clearBtn           : this.get( 'clearBtn' ),
+                daysOfWeekDisabled : this.get( 'daysOfWeekDisabled' ),
+                endDate            : this.get( 'endDate' ),
+                forceParse         : this.get( 'forceParse' ),
+                format             : this.get( 'format' ),
+                inputs             : this.get( 'inputs' ),
+                keyboardNavigation : this.get( 'keyboardNavigation' ),
+                language           : this.get( 'language' ),
+                multidate          : this.get( 'multidate' ),
+                orientation        : this.get( 'orientation' ),
+                startDate          : this.get( 'startDate' ),
+                startView          : this.get( 'startView' ),
+                todayBtn           : this.get( 'todayBtn' ),
+                todayHighlight     : this.get( 'todayHighlight' ),
+                weekStart          : this.get( 'weekStart' )
+            };
+        }.property()
+
+    });
+  });
+define("sl-ember-components/components/sl-date-range-picker", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-date-range-picker
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the date-range-picker component
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-date-range-picker' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * The value for the endDate input
+         *
+         * @property {Ember.String} endDateValue
+         * @default  null
+         */
+        endDateValue: null,
+
+        /**
+         * The string format for date values
+         *
+         * @property {Ember.String} format
+         * @default  "mm/dd/yyyy"
+         */
+        format: 'mm/dd/yyyy',
+
+        /**
+         * Bound value of Start Date input element's id
+         *
+         * @type    {Ember.String}
+         * @default null
+         */
+        inputElementId: null,
+
+        /**
+         * The last valid date for the date range
+         *
+         * @property {date|Ember.String} endDate
+         * @default  null
+         */
+        maxDate: null,
+
+        /**
+         * The earliest date selectable in the range
+         *
+         * @property {date|Ember.String} minDate
+         * @default  null
+         */
+        minDate: null,
+
+        /**
+         * The value for the startDate input
+         *
+         * @property {Ember.String} startDateValue
+         * @default null
+         */
+        startDateValue: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Set up a transition that moves focus to the endDate input when the
+         * startDate input is changed
+         *
+         * @function setupFocusTransition
+         * @observes 'didInsertElement' event
+         * @returns  {void}
+         */
+        setupFocusTransition: function() {
+            var endDateInput = this.$( '.sl-daterange-end-date input' );
+
+            this.$( '.sl-daterange-start-date input' ).on( 'change', function() {
+                endDateInput.focus();
+            });
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Remove events
+         *
+         * @function unregisterEvents
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        unregisterEvents: function() {
+            this.$( '.sl-daterange-start-date input' ).off();
+        }.on( 'willClearRender' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * The earliest selectable endDate, based on minDate and
+         * current startDateValue
+         *
+         * @function earliestEndDate
+         * @observes minDate, startDateValue
+         * @returns  {date|Ember.String}  Defaults to null
+         */
+        earliestEndDate: function() {
+            var minDate        = this.get( 'minDate' ),
+                startDateValue = this.get( 'startDateValue' );
+
+            if ( startDateValue ) {
+                return startDateValue;
+            }
+
+            if ( minDate ) {
+                return minDate;
+            }
+
+            return null;
+        }.property( 'minDate', 'startDateValue' ),
+
+        /**
+         * The latest selectable startDate, based on maxDate and
+         * current endDateValue
+         *
+         * @function latestStartDate
+         * @observes endDateValue, maxDate
+         * @returns  {date|Ember.String}  Defaults to null
+         */
+        latestStartDate: function() {
+            var endDateValue = this.get( 'endDateValue' ),
+                maxDate = this.get( 'maxDate' );
+
+            if ( endDateValue ) {
+                return endDateValue;
+            }
+
+            if ( maxDate ) {
+                return maxDate;
+            }
+
+            return null;
+        }.property( 'endDateValue', 'maxDate' )
+
+    });
+  });
+define("sl-ember-components/components/sl-date-time", 
+  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    /* global moment */
+
+    var Ember = __dependency1__["default"];
+    var TooltipEnabled = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-date-time
+     */
+    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * The HTML tag type of the component's root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "time"
+         */
+        tagName: 'time',
+
+        /**
+         * Class names for the component's root element, <time>
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-datetime' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Bindings for the date-time's attribute values
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'datetime' ],
+
+        /**
+         * String name for the format to render inline; can be "date", "datetime",
+         * or "relative"
+         *
+         * @property {Ember.String} format
+         * @default  "datetime"
+         */
+        format: 'datetime',
+
+        /**
+         * String representing the full timezone name, as used by and interpreted by
+         * Moment-timezone: http://momentjs.com/timezone/docs/#/using-timezones/
+         *
+         * @property {Ember.String} timezone
+         * @default  null
+         */
+        timezone: null,
+
+        /**
+         * The bound value of the component's date value
+         *
+         * @property {date} value
+         * @default  (new Date)
+         */
+        value: new Date(),
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * The date-time's value formatted as a datetime string
+         *
+         * @function datetime
+         * @observes timezoneString, value
+         * @returns  {string}
+         */
+        datetime: function() {
+            return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
+        }.property( 'timezoneString', 'value' ),
+
+        /**
+         * Formatted string based on value and supplied format
+         *
+         * @function formattedValue
+         * @observes format, momentValue
+         * @returns  {string}
+         */
+        formattedValue: function() {
+            var momentValue     = this.get( 'momentValue' ),
+                formattedString = '';
+
+            switch ( this.get( 'format' ) ) {
+                case 'date':
+                    formattedString = momentValue.format( 'YYYY-MM-DD' );
+                    break;
+
+                case 'relative':
+                    formattedString = momentValue.fromNow();
+                    break;
+
+                default:
+                case 'datetime':
+                    formattedString = momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) + ' ' + this.get( 'timezoneString' );
+            }
+
+            return formattedString;
+        }.property( 'format', 'momentValue' ),
+
+        /**
+         * The component's current value wrapped in moment
+         *
+         * @function momentValue
+         * @observes value
+         * @returns  {object}
+         */
+        momentValue: function() {
+            return moment( this.get( 'value' ) );
+        }.property( 'value' ),
+
+        /**
+         * Formatted timezone string based on component's timezone value
+         *
+         * @function timezoneString
+         * @observes timezone, momentValue
+         * @returns  {string}
+         */
+        timezoneString: function() {
+            return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
+        }.property( 'timezone', 'momentValue' ),
+
+        /**
+         * The text to use for the component's tooltip
+         *
+         * @function title
+         * @observes datetime
+         * @returns  {string}
+         */
+        title: function() {
+            return this.get( 'datetime' );
+        }.property( 'datetime' )
+
+    });
+  });
+define("sl-ember-components/components/sl-dialog", 
+  ["ember","sl-ember-components/mixins/sl-modal","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var ModalMixin = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-dialog
+     */
+    __exports__["default"] = Ember.Component.extend( ModalMixin, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Text string for the "cancel" button
+         *
+         * @property {Ember.String} cancelText
+         * @default  "Close"
+         */
+        buttonText: 'Close',
+
+        /**
+         * Binding for whether the dialog is shown or not
+         *
+         * @property {boolean} show
+         * @default  false
+         */
+        show: false,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Observes the `show` value and appropriately shows or hides the dialog
+         *
+         * @function toggle
+         * @observes show
+         * @returns  {void}
+         */
+        toggle: function() {
+            this.$().modal( this.get( 'show' ) ? 'show' : 'hide' );
+        }.observes( 'show' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Custom dialog handler for setting the `show` property to false
+         *
+         * @function hideHandler
+         * @returns  {void}
+         */
+        hideHandler: function() {
+            this._super();
+            this.set( 'show', false );
+        }
+
+    });
+  });
+define("sl-ember-components/components/sl-drop-button", 
+  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var TooltipEnabled = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-drop-button
+     */
+    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the div element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
+
+        /**
+         * Class attribute bindings for the button
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'themeClass' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Component actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Used to trigger specific option-bound action
+             *
+             * @function click
+             * @param    {string} action to trigger
+             * @returns  {void}
+             */
+            click: function( action ) {
+                this.triggerAction({ action: action });
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Dropdown menu alignment
+         *
+         * Possible values are "left" or "right".
+         *
+         * @property {string} align
+         * @default  "left"
+         */
+        align: 'left',
+
+        /**
+         * Class string for the button's icon
+         *
+         * @property {Ember.String} iconClass
+         * @default  "caret"
+         */
+        iconClass: 'caret',
+
+        /**
+         * The string name of the style theme for the button
+         *
+         * @property {Ember.String} theme
+         * @default  "default"
+         */
+        theme: 'default',
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Whether the current "align" property is "right"
+         *
+         * @function rightAligned
+         * @observes align
+         * @returns  {boolean}
+         */
+        rightAligned: function() {
+            return this.get( 'align' ) === 'right';
+        }.property( 'align' ),
+
+        /**
+         * The class value for the drop-button based on the current "theme"
+         *
+         * @function themeClass
+         * @observes theme
+         * @returns  {string}
+         */
+        themeClass: function() {
+            return 'dropdown-' + this.get( 'theme' );
+        }.property( 'theme' )
+
+    });
+  });
+define("sl-ember-components/components/sl-drop-option", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-drop-option
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "li"
+         */
+        tagName: 'li',
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-drop-option' ],
+
+        /**
+         * Class name bindings for the root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'optionType' ],
+
+        /**
+         * The ARIA role name for the drop button option
+         *
+         * @property {string} ariaRole
+         * @default  "menuItem"
+         */
+        ariaRole: 'menuitem',
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Component actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Send the primary action when the click action is triggered
+             *
+             * @function actions.click
+             * @returns  {void}
+             */
+            click: function() {
+                this.sendAction();
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Represents the type of option; "divider" if the label is undefined, or
+         * "presentation" otherwise
+         *
+         * @function optionType
+         * @observes label
+         * @returns  {Ember.String}
+         */
+        optionType: function() {
+            return this.get( 'label' ) ? 'presentation' : 'divider';
+        }.property( 'label' )
+
+    });
+  });
+define("sl-ember-components/components/sl-grid-header-settings", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-grid-header-settings
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "div"
+         */
+        tagName: 'div',
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-grid-header-settings' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Component actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Action to fire when header is clicked
+             *
+             * @function actions.click
+             * @param    {string}  action - Name of action to trigger
+             * @param    {integer} key    - Key of context to pass to triggered action
+             * @returns  {void}
+             */
+            click: function( action, key ) {
+                this.triggerAction({
+                    action        : action,
+                    actionContext : [ key ]
+                });
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        /**
+         * Method triggered when header is clicked
+         *
+         * @function click
+         * @param    {event} event - The click event
+         * @returns  {false|void}
+         */
+        click: function( event ){
+            if ( Ember.$( event.target ).closest( '.stay-open' ).length ) {
+                return false;
+            }
+        },
+
+        /**
+         * close the menu on mouseLeave if its open
+         * @param  {Event} event
+         * @return {void}
+         */
+        mouseLeave: function( event ){
+            var toggleEl = Ember.$(event.target).closest( '.dropdown-toggle');
+
+            if( ! toggleEl.length ){
+                toggleEl = Ember.$(event.target).closest( '.dropdown-menu').siblings( '.dropdown-toggle');
+            }
+
+            if ( toggleEl.length && this.$(toggleEl).parents('.sl-grid-header-settings').hasClass('open') ){
+                toggleEl.dropdown( 'toggle' );
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * alias to the translation keys on the settings object
+         * @type {alias}
+         */
+        translationKeys: Ember.computed.alias( 'settings.translationKeys' ),
+
+        /**
+         * Whether to show actions
+         *
+         * @property {boolean} showActions
+         */
+        showActions: Ember.computed.bool( 'settings.actions' ),
+
+        /**
+         * Whether to show columns
+         *
+         * @property {boolean} showColumns
+         */
+        showColumns: Ember.computed.bool( 'settings.hideableColumns' ),
+
+        /**
+         * A checkbox that binds click event for a related action
+         *
+         * @property {Ember.Checkbox} columnCheckbox
+         */
+        columnCheckbox: Ember.Checkbox.extend({
+            checked: Ember.computed.not( 'column.hidden' ),
+
+            click: function() {
+                this.get( 'parentView' ).send( 'click', this.get( 'column.action' ), this.get( 'column.key' ) );
+            }
+        }),
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Get the settings' actions
+         *
+         * @function clickableActions
+         * @observes settings
+         * @returns  {Ember.Array}
+         */
+        clickableActions: function() {
+            var actions  = Ember.A([]),
+                settings = this.get( 'settings' );
+
+            if ( settings.actions ) {
+                actions.pushObjects( settings.actions );
+            }
+
+            return actions;
+        }.property( 'settings' ),
+
+        /**
+         * Get the columns in the header that are hideable
+         *
+         * @function hideableColumns
+         * @observes settings, columns.@each.hidden
+         * @returns  {Ember.Array}
+         */
+        hideableColumns: function() {
+            var columns         = this.get( 'columns' ),
+                hideableColumns = Ember.A( [] ),
+                settings        = this.get( 'settings' );
+
+            if ( settings.hideableColumns ) {
+                hideableColumns.pushObjects( columns.filterBy( 'hideable', true ).map( function( column ) {
+                    return {
+                        action : 'toggleColumnVisibility',
+                        hidden : column.hidden,
+                        key    : column.key,
+                        label  : column.title
+                    };
+                }));
+            }
+            return hideableColumns;
+        }.property( 'settings', 'columns.@each.hidden' )
+
+    });
+  });
+define("sl-ember-components/components/sl-grid-table-cell-actions", 
+  ["sl-ember-components/components/sl-grid-table-cell","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var SlGridTableCell = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-grid-table-cell-link
+     */
+    __exports__["default"] = SlGridTableCell.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-grid-table-cell-link", 
+  ["sl-ember-components/components/sl-grid-table-cell","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var SlGridTableCell = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-grid-table-cell-link
+     */
+    __exports__["default"] = SlGridTableCell.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-grid-table-cell-row-expander", 
+  ["ember","sl-ember-components/components/sl-grid-table-cell","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var SlGridTableCell = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-grid-table-cell-row-expander
+     */
+    __exports__["default"] = SlGridTableCell.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names array for root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-grid-table-cell-expander' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        /**
+         * Action triggered when cell is clicked
+         *
+         * @function click
+         * @returns  {void}
+         */
+        click: function() {
+            this.toggleProperty( 'row.rowExpanderIsOpen' );
+        },
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether the row expander is open
+         *
+         * @property {boolean} expanded
+         */
+        expanded: Ember.computed.bool( 'row.rowExpanderIsOpen' )
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-grid-table-cell", 
+  ["ember","sl-ember-components/mixins/sl-grid-table-cell-resize","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var SlGridTableCellResize = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-grid-table-cell
+     */
+    __exports__["default"] = Ember.Component.extend( SlGridTableCellResize, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the base element
+         *
+         * @property {Ember.String} tagName
+         * @default  "td"
+         */
+        tagName: 'td',
+
+        /**
+         * Class name bindings for the root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'cssClass' ]
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-grid-table-header", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-grid-table-header
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag to use for base element
+         *
+         * @property {Ember.String} tagName
+         * @default  "th"
+         */
+        tagName: 'th',
+
+        /**
+         * The base element's class names
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-grid-table-header' ],
+
+        /**
+         * Class name bindings for the root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'cssThClass' ],
+
+        /**
+         * Bindings for the base element's attributes
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'style' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Component actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Fire primary action when a column is sorted.
+             *
+             * @function actions.sortColumn
+             * @param    {string} key - The key for the sorted column
+             * @returns  {void}
+             */
+            sortColumn: function( key ) {
+                this.sendAction( 'action', key );
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        /**
+         * Setup mouse events when the mouseDown is triggered
+         *
+         * @function mouseDown
+         * @returns  {void}
+         */
+        mouseDown: function() {
+            if ( !this.get( 'disabled' ) && this.getWithDefault( 'column.movable', true ) ) {
+                Ember.$( 'body' )
+                    .on( 'mousemove', this.mouseMoveListener )
+                    .on( 'mouseup', this.mouseUpListener )
+                    .on( 'mouseleave', this.mouseLeaveListener );
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Inline style string for the base element
+         *
+         * @property {Ember.String} style
+         * @default  ""
+         */
+        style: '',
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Update the style string when the width of the column changes
+         *
+         * If we try to make the style a computed property then we will get render
+         * errors from Ember before the view is inserted into the DOM.
+         *
+         * @function columnWidthObserver
+         * @observes didInsertElement event, column.width
+         * @returns  {void}
+         */
+        columnWidthObserver: function() {
+            var width = this.get( 'column.width' ),
+                fixedWidth = this.get( 'column.fixedWidth' ),
+                finalWidth = fixedWidth || width,
+                tableWidth,
+                totalHintingWidth,
+                totalWidthHints,
+                totalFixedWidth,
+                widthHint;
+
+
+            if ( finalWidth ) {
+                this.set( 'style', 'width:' + finalWidth + 'px;' );
+                return;
+            }
+
+            tableWidth       = this.$().parents( 'table.sl-grid' ).width();
+            totalWidthHints  = this.get( 'totalWidthHints' );
+            totalFixedWidth  = this.get( 'totalFixedWidths' );
+            widthHint        = this.getWithDefault( 'column.widthHint', 1 );
+
+            totalHintingWidth = tableWidth - totalFixedWidth;
+
+            width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
+
+            this.set( 'style', 'width:' + width + 'px;' );
+        }.observes( 'column.width' ).on( 'didInsertElement' ),
+
+        /**
+         * Setup listeners for bound actions
+         *
+         * @function setupBoundListeners
+         * @observes didInsertElement event
+         * @returns  {void}
+         */
+        setupBoundListeners: function() {
+            this.set( 'mouseUpListener', Ember.run.bind( this, function() {
+                var hlReorderCol = this.get( 'hlReorderCol' ),
+                    newIndex     = this.get( 'newIndex' ),
+                    oldIndex     = this.get( 'oldIndex' ),
+                    reorderCol   = this.get( 'reorderCol' );
+
+                if ( reorderCol ) {
+                    reorderCol.remove();
+                    this.set( 'reorderCol', null );
+                }
+
+                if ( hlReorderCol ) {
+                    hlReorderCol.remove();
+                    this.set( 'hlReorderCol', null );
+                }
+
+                Ember.$( 'body' ).removeClass( 'reordering' )
+                    .off( 'mouseleave', this.mouseLeaveListener )
+                    .off( 'mousemove', this.mouseMoveListener )
+                    .off( 'mouseup', this.mouseUpListener );
+
+                if ( newIndex !== oldIndex ) {
+                    this.triggerAction({
+                        action        : 'reorderColumn',
+                        actionContext : [ oldIndex, newIndex ]
+                    });
+                }
+            }));
+
+            this.set( 'mouseMoveListener', Ember.run.bind( this, function( event ) {
+                var reorderCol = this.get( 'reorderCol' );
+
+                if ( !reorderCol ) {
+                    //do setup
+                    Ember.$( 'body' ).addClass( 'reordering' );
+
+                    reorderCol = Ember.$( '<div class="reordering"></div>' );
+                    reorderCol.text( this.$()[ 0 ].textContent );
+                    reorderCol.css({
+                        top     : this.$().offset().top + 'px',
+                        left    : this.$().offset().left + 'px',
+                        padding : this.$().css( 'padding' ),
+                        width   : this.$().width() + 'px',
+                        height  : this.$().parents( 'table' ).outerHeight() + 'px',
+                        font    : this.$().css( 'font' )
+                    });
+
+                    reorderCol.appendTo( Ember.$( 'body' ) );
+
+                    this.set( 'reorderCol', reorderCol );
+                    this.set( 'oldIndex', this.getCurrentColumnIndex() );
+                    this.set( 'newIndex', this.get( 'oldIndex' ) );
+                    this.set( 'oldPosition', this.getPosition( reorderCol ) );
+                    this.set( 'minPosition', '');
+                    this.set( 'maxPosition', '');
+
+                }
+
+                reorderCol.offset({ left: event.pageX });
+                this._setNewColumnIndex();
+
+                return false;
+            }));
+
+            this.set( 'mouseLeaveListener', Ember.run.bind( this, function(){
+                var hlReorderCol = this.get( 'hlReorderCol' ),
+                    reorderCol   = this.get( 'reorderCol' );
+
+                if ( reorderCol ) {
+                    reorderCol.remove();
+                    this.set( 'reorderCol', null );
+                }
+
+                if ( hlReorderCol ) {
+                    hlReorderCol.remove();
+                    this.set( 'hlReorderCol', null );
+                }
+
+                Ember.$( 'body' ).removeClass( 'reordering' )
+                    .off( 'mouseleave', this.mouseLeaveListener )
+                    .off( 'mousemove', this.mouseMoveListener )
+                    .off( 'mouseup', this.mouseUpListener );
+
+                Ember.run.next( this, function(){
+                    window.getSelection().removeAllRanges();
+                });
+
+            }));
+
+            if( this.get( 'column.sortable' ) ){
+                //prevent links from becoming 'dragged' elements during column reordering
+                this.$('a').on( 'dragstart', function(){ return false; });
+            }
+
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Removes any listeners that may have been set up
+         *
+         * @function removeBoundEventListeners
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        removeBoundEventListeners: function(){
+            //just in case
+            Ember.$( 'body' )
+                .off( 'mouseleave', this.mouseLeaveListener )
+                .off( 'mousemove', this.mouseMoveListener )
+                .off( 'mouseup', this.mouseUpListener );
+
+        }.on( 'willClearRender' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Get the index of the currently sorted column
+         *
+         * @function getCurrentColumnIndex
+         * @returns  {number} The index of the column
+         */
+        getCurrentColumnIndex: function() {
+            return this.$().parent().children( 'th.sl-grid-table-header' ).index( this.$() );
+        },
+
+        /**
+         * Get the position of the specified element
+         *
+         * @function getPosition
+         * @param    {object} element - The element to get the position of
+         * @returns  {Ember.Object}
+         */
+        getPosition: function( element ) {
+            var leftOffset = Ember.$( element ).offset().left,
+                width = Ember.$( element ).outerWidth(),
+                rightOffset = leftOffset + width;
+
+            return {
+                id   : element.id,
+                width: width,
+                left : leftOffset,
+                right: rightOffset
+            };
+        },
+
+        /**
+         * While dragging a column, this function is called to calculate the target
+         * column position and highlight it.  This function will prevent columns from
+         * being dragged past 'unmovable' columns on the ends.
+         *
+         * @function setNewColumnIndex
+         * @returns  {void}
+         */
+        _setNewColumnIndex: function() {
+            var reorderCol  = this.get( 'reorderCol' ),
+                currentLeft = reorderCol.offset().left,
+                currentWidth= reorderCol.outerWidth(),
+                currentRight= currentLeft + currentWidth,
+                id          = this.get( 'elementId' ),
+                lastIndex   = this.get( 'newIndex' ),
+                self        = this,
+                headers,
+                offsets,
+                availableOffsets,
+                currentIndex;
+
+            // Get all siblings and offsets
+            headers = this.$().parent().children( 'th.sl-grid-table-header' );
+
+            /* jshint unused: false */
+            offsets = headers.map( function( index, el ) {
+                if ( el.id === id ) {
+                    return this.get( 'oldPosition' );
+                }
+                return this.getPosition( el );
+            }.bind( this ));
+
+            //filter
+            availableOffsets = offsets.filter( function( index, el ){
+                return self.getWithDefault( 'columns.'+index+'.movable', true);
+            });
+
+            if( currentLeft < availableOffsets[0].left ){
+                currentLeft = availableOffsets[0].left;
+                reorderCol.offset({ left: currentLeft });
+            }
+
+            if( currentLeft > availableOffsets[ availableOffsets.length -1].left ){
+                currentLeft = availableOffsets[ availableOffsets.length -1].left;
+                reorderCol.offset({ left: currentLeft });
+            }
+
+            currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {
+                return currentLeft >= el.left ? index : prev;
+            }, 0 );
+
+            if ( lastIndex !== currentIndex ) {
+                var hlReorderCol = this.get( 'hlReorderCol' );
+
+                if ( hlReorderCol ) {
+                    hlReorderCol.remove();
+                }
+
+                hlReorderCol = Ember.$( '<div class="reordering">&nbsp;</div>' );
+                hlReorderCol.css({
+                    top    : this.$().offset().top + 'px',
+                    left   : offsets[ currentIndex ].left + 'px',
+                    width  : '8px',
+                    height : this.$().parents( 'table' ).outerHeight() + 'px',
+                });
+                hlReorderCol.appendTo( Ember.$( 'body' ));
+                this.set( 'hlReorderCol', hlReorderCol );
+            }
+
+            this.set( 'newIndex', currentIndex );
+        },
+
+        /**
+         * Add CSS classes if this column is being sorted on
+         *
+         * @function sortClasses
+         * @observes column.isSorted, column.sortAscending
+         * @returns  {Ember.String}
+         */
+        sortClasses: function() {
+            var isSorted    = this.get( 'column.isSorted' ),
+                classString = '';
+
+            if ( isSorted ) {
+                classString = 'fa ' + ( this.get( 'column.sortAscending' ) ? 'fa-chevron-up' : 'fa-chevron-down' );
+            }
+
+            return classString;
+        }.property( 'column.isSorted', 'column.sortAscending' )
+
+    });
+  });
+define("sl-ember-components/components/sl-grid-table-row-expander", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-grid-table-row-expander
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Bindings for the base element's attributes
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'style' ],
+
+        /**
+         * HTML tag name for root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "tr"
+         */
+        tagName: 'tr',
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        style: 'width:30px;'
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-input", 
+  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var InputBased = __dependency2__["default"];
+    var TooltipEnabled = __dependency3__["default"];
+
+    /**
+     * @module components
+     * @class  sl-input
+     */
+    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the containing div
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'form-group', 'sl-input' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Component actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Sends the 'blur' bound action when the input loses focus
+             *
+             * @function actions.blurred
+             * @returns  {void}
+             */
+            blur: function() {
+                this.sendAction( 'blur' );
+            },
+
+            /**
+             * Sends the primary bound action when `enter` is pressed
+             *
+             * @function actions.enter
+             * @returns  {void}
+             */
+            enter: function() {
+                this.sendAction();
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Enable the click to edit styling
+         *
+         * @property {boolean} clickToEdit
+         * @default  false
+         */
+        clickToEdit: false,
+
+        /**
+         * Whether the typeahead.js functionality has been setup
+         *
+         * @property {boolean} isTypeaheadSetup
+         * @default  false
+         */
+        isTypeaheadSetup: false,
+
+        /**
+         * Lookup path for the suggestion items' name
+         *
+         * @property {Ember.String} suggestionLabelPath
+         * @default  "name"
+         */
+        suggestionNamePath: 'name',
+
+        /**
+         * Type attribute for the containing div
+         *
+         * @property {Ember.String} type
+         * @default  "text"
+         */
+        type: 'text',
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Sets up the input event listeners exposed to the component's
+         * parent controller
+         *
+         * @function setupInputEvents
+         * @observes didInsertElement event
+         * @returns  {void}
+         */
+        setupInputEvents: function() {
+            var self = this;
+
+            if ( this.get( 'blur' ) ) {
+                this.getInput().on( 'blur', function() {
+                    self.sendAction( 'blur' );
+                });
+            }
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Sets up the typeahead behavior when `suggestions` are supplied
+         *
+         * @function setupTypeahead
+         * @observes didInsertElement event, suggestions
+         * @returns  {void}
+         */
+        setupTypeahead: function() {
+            var self = this;
+
+            if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' ) ) {
+                var namePath = this.get( 'suggestionNamePath' ),
+                    typeahead;
+
+                typeahead = this.getInput().typeahead({
+                    highlight : true,
+                    hint      : true
+                }, {
+                    displayKey: function( item ) {
+                        if ( item instanceof Object ) {
+                            return Ember.get( item, namePath );
+                        }
+
+                        return item;
+                    },
+
+                    source: function( query, callback ) {
+                        var pattern = new RegExp( query, 'i' );
+
+                        callback( self.get( 'suggestions' ).filter( function( suggestion ) {
+                            var searchCandidate;
+
+                            if ( suggestion instanceof Object ) {
+                                searchCandidate = Ember.get( suggestion, namePath );
+                            } else {
+                                searchCandidate = suggestion;
+                            }
+
+                            return searchCandidate ? searchCandidate.match( pattern ) : false;
+                        }));
+                    }
+                });
+
+                /* jshint ignore:start */
+                var selectItem = function( event, item ) {
+                    Ember.run( function() {
+                        var value = item instanceof Object ? Ember.get( item, namePath ) : item;
+
+                        self.set( 'value', value );
+                    });
+                };
+
+                typeahead.on( 'typeahead:autocompleted', selectItem );
+                typeahead.on( 'typeahead:selected', selectItem );
+                /* jshint ignore:end */
+
+                this.set( 'isTypeaheadSetup', true );
+            }
+        }.on( 'didInsertElement' ).observes( 'suggestions' ),
+
+        /**
+         * Remove events
+         *
+         * @function unregisterEvents
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        unregisterEvents: function() {
+            this.getInput().off();
+        }.on( 'willClearRender' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Get a reference to the internal input element
+         *
+         * @function getInput
+         * @returns  {object}
+         */
+        getInput: function() {
+            return this.$( 'input' );
+        },
+
+        /**
+         * Class string for the internal input element
+         *
+         * @function inputClass
+         * @returns  {string}
+         */
+        inputClass: function() {
+            var classes = [ 'form-control' ];
+
+            if ( this.get( 'clickToEdit' ) ) {
+                classes.push( 'click-to-edit' );
+            }
+
+            if ( this.get( 'suggestions' ) ) {
+                classes.push( 'typeahead' );
+            }
+
+            return classes.join( ' ' );
+        }.property()
+    });
+  });
+define("sl-ember-components/components/sl-loading-icon", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-loading-icon
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * The HTML element type for this component
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-loading-icon' ],
+
+        /**
+         * Class name bindings for the root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'inverse:sl-loading-icon-light:sl-loading-icon-dark' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether to use the inverse (lighter colored) icon
+         *
+         * @property {boolean} inverse
+         * @default  false
+         */
+        inverse: false
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-menu", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-menu
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Root element HTML tag type
+         *
+         * @property {Ember.String} tagName
+         * @default  "div"
+         */
+        tagName: 'div',
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-menu' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Component actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Close all of the sub menus
+             *
+             * @function actions.closeAll
+             * @returns  {void}
+             */
+            closeAll: function() {
+                if ( this.$() ) {
+                    this.$().removeClass( 'active' );
+
+                    if ( this.get( 'isRoot' )) {
+                        this.$().removeClass( 'showall' );
+                    }
+                }
+
+                this.set( 'keyHandler', false );
+
+                this.get( 'children' ).forEach( function( item ) {
+                    item.send( 'closeAll' );
+                });
+
+                if ( this.get( 'isRoot' ) ) {
+                   this.set( 'keyHandler', true );
+                }
+            },
+
+            /**
+             * Cycle rootNode selection forward
+             *
+             * Only cycles through rootNodes if node was initially selected via keyboard.
+             * If "Show All" enabled:
+             *     If last rootNode then moves forward to "Show All" option.
+             *     If "Show All" option wraps around to first option.
+             * If "Show All" disabled:
+             *     If last rootNode then wraps around to first option.
+             *
+             * @function cycleRootSelectionNext
+             * @returns  {void}
+             */
+            cycleRootSelectionNext: function() {
+                var currentIndex = this.get( 'currentRootNodeIndex' );
+
+                if ( !this.get( 'keyboardInUse' ) ) {
+                    return;
+                }
+
+                // Whether "Show All" is enabled
+                if ( this.get( 'showAllBoolean' ) ) {
+
+                    // Not on "Show All"
+                    if ( null !== currentIndex ) {
+
+                        // Cycling forward, wrapping around last option to first option
+                        if ( this.get( 'rootNode.menu.pages.length' ) < currentIndex + 2 ) {
+                            this.send( 'showAll' );
+                            this.set( 'activeChild', null );
+
+                        // Cycle forward, selecting next rootNode
+                        } else {
+                            this.childSelected( currentIndex + 2 );
+                        }
+
+                    // Select first rootNode
+                    } else {
+                        this.childSelected( 1 );
+                    }
+
+                } else {
+
+                    // Cycle forward, wrapping around last option to first option
+                    if ( this.get( 'rootNode.menu.pages.length' ) < currentIndex + 2 ) {
+                        // Select first rootNode
+                        this.childSelected( 1 );
+
+                    } else {
+                        // Cycle forward, selecting next rootNode
+                        this.childSelected( currentIndex + 2 );
+                    }
+                }
+            },
+
+            /**
+             * Cycle rootNode selection backwards
+             *
+             * Only cycles through rootNodes if node was initially selected via keyboard.
+             * If "Show All" enabled:
+             *     If first rootNode then wraps around to "Show All" option.
+             *     If "Show All" option moves backward to previous option
+             * If "Show All" disabled:
+             *     If first rootNode then wraps around to last option.
+             *
+             * @function cycleRootSelectionPrevious
+             * @returns  {void}
+             */
+            cycleRootSelectionPrevious: function() {
+                var currentIndex = this.get( 'currentRootNodeIndex' );
+
+                if ( !this.get( 'keyboardInUse' ) ) {
+                    return;
+                }
+
+                // Whether "Show All" is enabled
+                if ( this.get( 'showAllBoolean' ) ) {
+
+                    // Not on "Show All"
+                    if ( null !== currentIndex ) {
+
+                        // Cycling backwards, wrapping around first option to last option
+                        if ( 0 === currentIndex ) {
+                            this.send( 'showAll' );
+                            this.set( 'activeChild', null );
+
+                        // Cycle backwards, selecting previous rootNode
+                        } else {
+                            this.childSelected( currentIndex );
+                        }
+
+                    // Select last rootNode
+                    } else {
+                        this.childSelected( this.get( 'rootNode.menu.pages' ).length );
+                    }
+
+                } else {
+
+                    // Cycle backwards, wrapping around first option to last option
+                    if ( 0 === currentIndex ) {
+                        // Select last rootNode
+                        this.childSelected( this.get( 'rootNode.menu.pages.length' ) );
+
+                    } else {
+                        // Cycle backward, selecting previous rootNode
+                        this.childSelected( currentIndex );
+                    }
+                }
+            },
+
+            /**
+             * Recursively open sub menus
+             *
+             * @function actions.drillDown
+             * @returns  {void}
+             */
+            drillDown: function() {
+                var child = this.get( 'activeChild' );
+
+                if ( this.get( 'keyHandler' )) {
+                    if ( child ) {
+                        child.set( 'keyHandler', true );
+                        this.set( 'keyHandler', false );
+                    }
+                } else if ( child ) {
+                    child.drillDown();
+                }
+            },
+
+            /**
+             * Send selected action when menu item is selected
+             *
+             * @function actions.selected
+             * @returns  {void}
+             */
+            selected: function() {
+                this.performAction();
+            },
+
+            /**
+             * Show all of the sub menus
+             *
+             * @function actions.showAll
+             * @returns  {void}
+             */
+            showAll: function() {
+                if ( this.$() ) {
+                    this.$().addClass( 'active' );
+
+                    if ( this.get( 'isRoot' ) ) {
+                        this.$().addClass( 'showall' );
+                    }
+                }
+
+                this.get( 'children' ).forEach( function( item ) {
+                    item.send( 'showAll' );
+                });
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        /**
+         * Method called when menu is clicked
+         *
+         * @function click
+         * @returns  {boolean} false
+         */
+        click: function() {
+            this.performAction();
+
+            return false;
+        },
+
+        /**
+         * Method triggered on mouseenter event
+         *
+         * @function mouseEnter
+         * @returns  {void}
+         */
+        mouseEnter: function() {
+            var currentActiveRootNodeIndex = this.get( 'currentRootNodeIndex' ),
+                query;
+
+            if ( this.get( 'keyboardInUse' ) ) {
+                if ( null !== currentActiveRootNodeIndex ) {
+                    query = 'a:contains("' + this.get( 'rootNode.menu.pages' )[currentActiveRootNodeIndex].label + '")';
+                    this.$(query).parent().removeClass( 'active' );
+                }
+
+                this.set( 'keyboardInUse', false );
+            }
+
+            this.$().addClass( 'active' );
+        },
+
+        /**
+         * Method triggered on mouseleave event
+         *
+         * @function mouseLeave
+         * @returns  {void}
+         */
+        mouseLeave: function() {
+            if ( this.get( 'isRoot' ) ) {
+                this.send( 'closeAll' );
+            } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' ) ) {
+                this.$().removeClass( 'active' );
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Currently active child
+         *
+         * @property {number} activeChild
+         * @default  null
+         */
+        activeChild: null,
+
+        /**
+         * Embedded Ember View representing the "Show All"
+         *
+         * @property {Ember.View} AllView
+         */
+        AllView: Ember.View.extend({
+
+            /**
+             * HTML tag name of the root element
+             *
+             * @property {Ember.String} tagName
+             * @default  "li"
+             */
+            tagName: 'li',
+
+            /**
+             * Class names for the AllView view
+             *
+             * @property {Ember.Array} AllView.classNames
+             */
+            classNames: [ 'all' ],
+
+            /**
+             * Method called on mouseenter event
+             *
+             * @function AllView.mouseEnter
+             * @returns  {void}
+             */
+            mouseEnter: function() {
+                this.send( 'showAll' );
+            },
+
+            /**
+             * Target pointer to the parent view
+             *
+             * @function AllView.target
+             * @observes parentView
+             * @return   {Ember.View}
+             */
+            target: function() {
+                return this.get( 'parentView' );
+            }.property( 'parentView' )
+        }),
+
+        /**
+         * Collection of children items
+         *
+         * @property {Ember.Array} children
+         * @default  null
+         */
+        children: null,
+
+        /**
+         * @property {boolean} isRoot
+         * @default  true
+         */
+        isRoot: true,
+
+        /**
+         * @property {Ember.Array} keyEvents
+         * @default  null
+         */
+        keyEvents: null,
+
+        /**
+         * @property {boolean} keyHandler
+         * @default  false
+         */
+        keyHandler: false,
+
+        /**
+         * Is the menu being interacted with via the keyboard?
+         *
+         * @property {boolean} keyboardInUse
+         * @default  false
+         */
+        keyboardInUse: false,
+
+        /**
+         * Is "Show All" icon and functionalty desired?
+         *
+         * Is a string representaton of a boolean state
+         *
+         * @property {string} showAll
+         * @default  "false"
+         */
+        showAll: 'false',
+
+        /**
+         * When true, allows key binding to drill down
+         *
+         * @property {boolean} useDrillDownKey
+         * @default  true
+         */
+        useDrillDownKey: true,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Initialize children array
+         *
+         * @function initChildren
+         * @observes "init" event
+         * @returns  {void}
+         */
+        initChildren: function() {
+            this.set( 'children', Ember.A() );
+        }.on( 'init' ),
+
+        /**
+         * Initialize keyboard event listeners
+         *
+         * @function initKeyListeners
+         * @observes "didInsertElement" event, keyEvents
+         * @returns  {void}
+         */
+        initKeyListeners: function() {
+            var keyEvents = this.get( 'keyEvents' ),
+                parent    = this.get( 'parentView' ),
+                path      = Ember.A(),
+                rootNode  = this,
+                self      = this;
+
+            if ( keyEvents ) {
+                this.set( 'keyHandler', true );
+
+                keyEvents.on( 'childSelected', function( key ) {
+                    self.set( 'keyboardInUse', true );
+                    self.childSelected( key );
+                }).on( 'drillDown', function() {
+                    if ( self.get( 'useDrillDownKey' )) {
+                        self.send( 'drillDown' );
+                    }
+                }).on( 'cycleRootSelectionNext', function( event ) {
+                    self.send( 'cycleRootSelectionNext', event );
+                }).on( 'cycleRootSelectionPrevious', function( event ) {
+                    self.send( 'cycleRootSelectionPrevious', event );
+                }).on( 'closeAll', function() {
+                    self.set( 'keyboardInUse', false );
+                    self.send( 'closeAll' );
+                }).on( 'showAll', function() {
+                    self.set( 'keyboardInUse', true );
+                    self.send( 'showAll' );
+                });
+            }
+
+            // Register child
+            if ( typeof parent.registerChild === 'function' ) {
+                parent.registerChild( this );
+            }
+
+            while( !rootNode.get( 'isRoot' ) ) {
+                path.insertAt( 0, rootNode.get( 'menu.label' ) );
+                rootNode = rootNode.get( 'parentView' );
+            }
+
+            this.setProperties({
+                path     : path,
+                rootNode : rootNode
+            });
+        }.observes( 'keyEvents' ).on( 'didInsertElement' ),
+
+        /**
+         * Remove bound events and current menu state
+         *
+         * @function cleanUp
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        cleanUp: function() {
+            var keyEvents = this.get( 'keyEvents' ),
+                parent = this.get( 'parentView' );
+
+            if ( typeof parent.unregisterChild === 'function' ) {
+                parent.unregisterChild( this );
+            }
+
+            if ( keyEvents ) {
+                keyEvents.off( 'childSelected' )
+                    .off( 'drillDown' )
+                    .off( 'closeAll' )
+                    .off( 'showAll' )
+                    .off( 'cycleRootSelectionNext' )
+                    .off( 'cycleRootSelectionPrevious' );
+            }
+        }.on( 'willClearRender' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Activate specified child
+         *
+         * @function activateChild
+         * @param    {mixed} child - Which child to activate
+         * @returns  {void}
+         */
+        activateChild: function( child ) {
+            if ( typeof child === 'number' ) {
+                child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
+            }
+
+            this.get( 'children' ).forEach( function( item ) {
+                if ( item === child ) {
+                    child.performAction();
+                } else {
+                    item.$().removeClass( 'active' );
+                }
+            }.bind( this ));
+        },
+
+        /**
+         * Handle child selection event
+         *
+         * @function childSelected
+         * @param    {number} childIndex - Index of the child that is being selected
+         * @returns  {void}
+         */
+        childSelected: function( childIndex ) {
+            var child;
+
+            if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' ) ) {
+                this.send( 'closeAll' );
+            }
+
+            if ( this.get( 'keyHandler' ) ) {
+                this.activateChild( childIndex );
+            } else {
+                child = this.get( 'activeChild' );
+
+                if ( child ) {
+                    child.childSelected( childIndex );
+                }
+            }
+        },
+
+        /**
+         * Get index of rootNode currently on
+         *
+         * @function currentRootNodeIndex
+         * @returns  {number} - The current root node index
+         */
+        currentRootNodeIndex: function() {
+            var currentIndex = null;
+
+            // Determine index of rootNode currently on
+            this.get( 'rootNode.menu.pages' ).forEach( function( item, index ) {
+                if ( item.label === this.get( 'activeChild.menu.label' ) ) {
+                    currentIndex = index;
+                }
+            }, this );
+
+            return currentIndex;
+        }.property().volatile(),
+
+        /**
+         * Boolean representation of showAll property
+         *
+         * @function showAllBoolean
+         * @observes showAll
+         * @returns  {boolean}
+         */
+        showAllBoolean: function() {
+            return ( 'true' === this.get( 'showAll' ) ) ? true : false;
+        }.property( 'showAll' ),
+
+        /**
+         * Whether to display the AllView view
+         *
+         * @function displayShowAll
+         * @observes isRoot, showAllBoolean
+         * @returns  {boolean}
+         */
+        displayShowAll: function() {
+            return this.get( 'isRoot' ) && this.get( 'showAllBoolean' );
+        }.property( 'isRoot', 'showAllBoolean' ),
+
+        /**
+         * Send the primary action
+         *
+         * @function performAction
+         * @returns  {void}
+         */
+        performAction: function() {
+            this.$().addClass( 'active' );
+
+            var rootNode = this.get( 'rootNode' ),
+                path     = this.get( 'path' ),
+                action;
+
+            rootNode.sendAction( 'selectionMade', path );
+
+            if ( this.get( 'menu.pages' ) ) {
+                this.showContent();
+
+                if ( !this.get( 'useDrillDownKey' ) ) {
+                    this.set( 'keyHandler', true );
+                    this.get( 'parentView' ).set( 'keyHandler', false );
+                }
+            } else {
+                if ( this.get( 'menu.action' )) {
+                    action = this.get( 'menu.action' );
+
+                    if ( typeof action === 'function' ) {
+                        action.call( this );
+                    } else if ( typeof action === 'object' ) {
+                        rootNode.sendAction( 'actionInitiated',
+                                action.actionName,
+                                action.data );
+                    } else {
+                        rootNode.sendAction( 'actionInitiated', action );
+                    }
+                } else if ( this.get( 'menu.route' ) ) {
+                    rootNode.sendAction( 'changeRoute', this.get( 'menu.route' ) );
+                } else if ( this.get( 'menu.link' ) ) {
+                    window.location.href = this.get( 'menu.link' );
+                }
+
+                rootNode.send( 'closeAll' );
+            }
+        },
+
+        /**
+         * Append a child to the children array
+         *
+         * @function registerChild
+         * @param    {mixed} child
+         * @returns  {void}
+         */
+        registerChild: function( child ) {
+            this.get( 'children' ).push( child );
+        },
+
+        /**
+         * Show the active child content of this menu
+         *
+         * @function showContent
+         * @returns  {void}
+         */
+        showContent: function() {
+            this.get( 'parentView' ).set( 'activeChild', this );
+        },
+
+        /**
+         * Un-register the specified child
+         *
+         * @function unregisterChild
+         * @param    {mixed} child - The child to un-register from this menu
+         * @returns  {void}
+         */
+        unregisterChild: function( child ) {
+            if ( child === this.get( 'activeChild' ) ) {
+                this.set( 'activeChild', null );
+            }
+
+            this.get( 'children' ).removeObject( child );
+        }
+
+    });
+  });
+define("sl-ember-components/components/sl-pagination-controls", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-pagination-controls
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        /**
+         * Class names for root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-pagination-controls' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Component actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Action triggered for changing pages
+             *
+             * @function actions.changePage
+             * @param    {number} page - The page number being changed to
+             * @returns  {void}
+             */
+            changePage: function( page ) {
+                this.sendAction( 'action', page ? page : this.get( 'currentPageInput' ) );
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Read-only binding to current page number
+         *
+         * @property {number} currentPageInput
+         */
+        currentPageInput: Ember.computed.oneWay( 'currentPage' ),
+
+        /**
+         * Whether the page input is disabled
+         *
+         * @property {boolean} currentPageInputDisabled
+         * @default  false
+         */
+        currentPageInputDisabled: Ember.computed.alias( 'disabled' ),
+
+        /**
+         * When true, the last link control is disabled
+         *
+         * @property {boolean} lastLinkDisabled
+         * @default  false;
+         */
+        lastLinkDisabled: Ember.computed.alias( 'nextLinkDisabled' ),
+
+        /**
+         * When true, the previous link control is disabled
+         *
+         * @property {boolean} prevLinkDisabled
+         * @default  false
+         */
+        prevLinkDisabled: Ember.computed.alias( 'firstLinkDisabled' ),
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * When true, the first link control is disabled
+         *
+         * @function firstLinkDisabled
+         * @observes currentPage, disabled
+         * @returns  {boolean}
+         */
+        firstLinkDisabled: function() {
+            return this.get( 'disabled' ) || this.get( 'currentPage' ) === 1;
+        }.property( 'currentPage', 'disabled' ),
+
+        /**
+         * When true, the next link control is disabled
+         *
+         * @function nextLinkDisabled
+         * @observes currentPage, disabled, totalPages
+         * @returns  {boolean}
+         */
+        nextLinkDisabled: function() {
+            return this.get( 'disabled' ) || this.get( 'currentPage' ) === this.get( 'totalPages' );
+        }.property( 'currentPage', 'disabled', 'totalPages' )
+
+    });
+  });
+define("sl-ember-components/components/sl-pagination-info", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-pagination-info
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-pagination-info' ]
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-pagination-per-page-select", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-pagination-per-page-select
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-pagination-per-page-select form-inline' ]
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-panel", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-panel
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class name bindings for the panel component
+         *
+         * @property {array} classNameBindings
+         */
+        classNameBindings: [ 'isLoading:sl-loading' ],
+
+        /**
+         * Class names for the panel container
+         *
+         * @property {array} classNames
+         */
+        classNames: [ 'panel', 'panel-default', 'sl-panel' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * When true, the panel body will be in a loading state
+         *
+         * @property {boolean} isLoading
+         * @default  false
+         */
+        isLoading: false
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-progress-bar", 
+  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var TooltipEnabled = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-progress-bar
+    */
+    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'progress', 'sl-progress-bar' ],
+
+        /**
+         * Class name bindings for the root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether to animate the progress bar or not
+         *
+         * @property {boolean} active
+         * @default  false
+         */
+        animated: false,
+
+        /**
+         * Whether to display a text value over the progress
+         *
+         * @property {boolean} label
+         * @default  false
+         */
+        label: false,
+
+        /**
+         * The Bootstrap "theme" style name
+         *
+         * @property {Ember.String} theme
+         * @default  "default"
+         */
+        theme: 'default',
+
+        /**
+         * The progress value as an integer (out of 100)
+         *
+         * @property {number} value
+         * @default  0
+        */
+        value: 0,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Whether the progress value is below a certain level
+         *
+         * @function isLowPercentage
+         * @observes value
+         * @returns  {boolean}
+         */
+        isLowPercentage: function() {
+            return this.get( 'value' ) < 50;
+        }.property( 'value' ),
+
+        /**
+         * Inline style string for progress bar element
+         *
+         * @function styleString
+         * @observes value
+         * @returns  {Ember.String}
+         */
+        styleString: function() {
+            return 'width: ' + this.get( 'value' ) + '%;';
+        }.property( 'value' ),
+
+        /**
+         * Element-specific class name for the Bootstrap "theme" style
+         *
+         * @function themeClassName
+         * @observes theme
+         * @returns  {Ember.String}
+         */
+        themeClassName: function() {
+            return 'progress-bar-' + this.get( 'theme' );
+        }.property( 'theme' ),
+
+    });
+  });
+define("sl-ember-components/components/sl-radio-group", 
+  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var InputBased = __dependency2__["default"];
+    var TooltipEnabled = __dependency3__["default"];
+
+    /**
+     * @module components
+     * @class  sl-radio-group
+     */
+    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the component's root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "fieldset"
+         */
+        tagName: 'fieldset',
+
+        /**
+         * Attribute bindings for the component's root element
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'disabled' ],
+
+        /**
+         * Class names for the containing element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'form-group', 'sl-radio-group' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether the radio buttons should be disabled
+         *
+         * @property {boolean} disabled
+         * @default  false
+         */
+        disabled: false,
+
+        /**
+         * Whether the radio buttons should be put inline together
+         *
+         * @property {boolean} inline
+         * @default  null
+         */
+        inline: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Initialize the group-wide options and setup child radio buttons
+         *
+         * @function initialize
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        initialize: function() {
+            var name       = this.get( 'name' ),
+                value      = this.get( 'value' ),
+                isDisabled = this.get( 'disabled' ),
+                isInline   = this.get( 'inline' ),
+                isReadonly = this.get( 'readonly' );
+
+            Ember.assert( 'The name property must be set on the sl-radio-group component', name );
+
+            /**
+             * To each sl-radio component apply...
+             *
+             * - Attributes: name, disabled, readonly
+             * - Classes: radio, radio-inline
+             */
+            this.$( '.sl-radio' ).each( function () {
+                var radio = Ember.$( this ),
+                    input = Ember.$( 'input', radio );
+
+                input.attr( 'name', name );
+
+                if ( isDisabled ) {
+                    radio.prop( 'disabled', true );
+                    radio.addClass( 'disabled' );
+                }
+
+                if ( isReadonly ) {
+                    radio.prop( 'readonly', true );
+                    radio.addClass( 'readonly' );
+                }
+
+                if ( true === isInline ) {
+                    radio.removeClass( 'radio' );
+                    radio.addClass( 'radio-inline' );
+                }
+
+                if ( false === isInline ) {
+                    radio.removeClass( 'radio-inline' );
+                    radio.addClass( 'radio' );
+                }
+            });
+
+            // Pre-select radio button if a value is set
+            if ( value ) {
+                this.$('input[name=' + name + ']:radio[value=' + value + ']').prop( 'checked', true );
+            }
+
+            // Apply change() listener to keep group value in sync with select sl-radio option
+            this.$('input[name=' + name + ']:radio').change( function () {
+                this.set( 'value', this.$('input[name=' + name + ']:radio').filter(':checked').val() );
+            }.bind(this));
+
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Remove events
+         *
+         * @function unregisterEvents
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        unregisterEvents: function() {
+            this.$('input[name=' + this.get( 'name' ) + ']:radio').off();
+        }.on( 'willClearRender' )
+    });
+  });
+define("sl-ember-components/components/sl-radio", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-radio
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag name for the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "div"
+         */
+        tagName: 'div',
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-radio' ],
+
+        /**
+         * Class name bindings for the root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'disabled', 'radioType' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Type of radio button; "radio-inline" when inline, "radio" default
+         *
+         * @function radioType
+         * @observes inline
+         * @returns  {Ember.String}
+         */
+        radioType: function() {
+            return this.get( 'inline' ) ? 'radio-inline' : 'radio';
+        }.property( 'inline' )
+    });
+  });
+define("sl-ember-components/components/sl-select", 
+  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var InputBased = __dependency2__["default"];
+    var TooltipEnabled = __dependency3__["default"];
+
+    /**
+     * @module components
+     * @class  sl-select
+     */
+    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the select element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'form-group', 'sl-select' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether to show the search filter input or not
+         *
+         * @property {boolean} disableSearch
+         * @default  false
+         */
+        disableSearch: false,
+
+        /**
+         * The internal input element, used for Select2's bindings
+         *
+         * @private
+         * @property {object} input
+         * @default  null
+         */
+        input: null,
+
+        /**
+         * The maximum number of selections allowed when `multiple` is enabled
+         *
+         * @property {number} maximumSelectionSize
+         * @default  null
+         */
+        maximumSelectionSize: null,
+
+        /**
+         * Whether to allow multiple selections
+         *
+         * @property {boolean} multiple
+         * @default  false
+         */
+        multiple: false,
+
+        /**
+         * The path key for each option object's description
+         *
+         * @property {Ember.tring} optionDescriptionPath
+         * @default  "description"
+         */
+        optionDescriptionPath: 'description',
+
+        /**
+         * The path key for each option object's label
+         *
+         * @property {Ember.String} optionLabelPath
+         * @default  "label"
+         */
+        optionLabelPath: 'label',
+
+        /**
+         * The path key for each option object's value
+         *
+         * @property {Ember.String} optionValuePath
+         * @default  "value"
+         */
+        optionValuePath: 'value',
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Teardown the select2 to prevent memory leaks
+         *
+         * @function destroySelect2
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        destroySelect2: function() {
+            this.input.off( 'change' ).select2( 'destroy' );
+        }.on( 'willClearRender' ),
+
+        /**
+         * Set up select2 initialization after the element is inserted in the DOM
+         *
+         * @function setupSelect2
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        setupSelect2: function() {
+            var get  = Ember.get,
+                self = this,
+                input;
+
+            input = this.$( 'input' ).select2({
+                maximumSelectionSize : this.get( 'maximumSelectionSize' ),
+                multiple             : this.get( 'multiple' ),
+                placeholder          : this.get( 'placeholder' ),
+
+                formatResult: function( item ) {
+                    if ( !item ) { return; }
+
+                    if ( !( item instanceof Object ) ) {
+                        return item;
+                    }
+
+                    var description = get( item, self.get( 'optionDescriptionPath' ) ),
+                        output      = get( item, self.get( 'optionLabelPath' ) );
+
+                    if ( description ) {
+                        output +=  ' <span class="text-muted">' + description + '</span>';
+                    }
+
+                    return output;
+                },
+
+                formatSelection: function( item ) {
+                    if ( !item ) { return; }
+
+                    if ( item instanceof Object ) {
+                        return get( item, self.get( 'optionLabelPath' ) );
+                    }
+
+                    return item;
+                },
+
+                id: function( item ) {
+                    if ( item instanceof Object ) {
+                        return get( item, self.get( 'optionValuePath' ) );
+                    }
+
+                    return item;
+                },
+
+                initSelection: function( element, callback ) {
+                    var value = element.val();
+
+                    if ( !value || !value.length ) {
+                        return callback( [] );
+                    }
+
+                    var content         = self.get( 'content' ),
+                        contentLength   = content.length,
+                        filteredContent = [],
+                        multiple        = self.get( 'multiple' ),
+                        optionValuePath = self.get( 'optionValuePath' ),
+                        values          = value.split( ',' ),
+                        unmatchedValues = values.length,
+                        item,
+                        matchIndex,
+                        text;
+
+                    for ( var i = 0; i < contentLength; i++ ) {
+                        item = content[i];
+                        text = item instanceof Object ? get( item, optionValuePath ) : item;
+                        matchIndex = values.indexOf( text.toString() );
+
+                        if ( matchIndex !== -1 ) {
+                            filteredContent[ matchIndex ] = item;
+                            if ( --unmatchedValues === 0 ) {
+                                break;
+                            }
+                        }
+                    }
+
+                    if ( unmatchedValues === 0 ) {
+                        self.input.select2( 'readonly', false );
+                    } else {
+                        self.input.select2( 'readonly', true );
+
+                        var warning = 'sl-select:select2#initSelection was not able to map each "';
+                        warning = warning.concat( optionValuePath );
+                        warning = warning.concat( '" to an object from "content". The remaining keys are: ' );
+                        warning = warning.concat( values );
+                        warning = warning.concat( '. The input will be disabled until a) the desired objects are added ' );
+                        warning = warning.concat( 'to the "content" array, or b) the "value" is changed.' );
+
+                        Ember.warn( warning, !values.length );
+                    }
+
+                    return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ) );
+                },
+
+                minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
+
+                query: function( query ) {
+                    var content         = self.get( 'content' ) || [],
+                        optionLabelPath = self.get( 'optionLabelPath' ),
+                        select2         = this;
+
+                    query.callback({
+                        results: content.reduce( function( results, item ) {
+                            var text = item instanceof Object ? get( item, optionLabelPath ) : item;
+
+                            if ( text && select2.matcher( query.term, text.toString() ) ) {
+                                results.push( item );
+                            }
+
+                            return results;
+                        }, [] )
+                    });
+                }
+            });
+
+            input.on( 'change', function() {
+                Ember.run( function() {
+                    self.set( 'value', input.select2( 'val' ) );
+                });
+            });
+
+            var originalBodyOverflow = document.body.style.overflow || 'auto';
+
+            input.on( 'select2-open', function() {
+                document.body.style.overflow = 'hidden';
+            });
+
+            input.on( 'select2-close', function() {
+                document.body.style.overflow = originalBodyOverflow;
+            });
+
+            if ( !this.get( 'multiple' ) ) {
+                this.$( 'input.select2-input' ).attr( 'placeholder', 'Search...' );
+            }
+
+            this.input = input;
+
+            if ( this.get( 'value' ) ) {
+                this.valueChanged();
+            }
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Set data bound value based on changed value
+         *
+         * @function valueChanged
+         * @observes content.@each, value
+         * @returns  {void}
+         */
+        valueChanged: function() {
+            var value = this.get( 'value' );
+
+            if ( this.get( 'optionValuePath' ) ) {
+                this.input.select2( 'val', value );
+            } else {
+                this.input.select2( 'data', value );
+            }
+        }.observes( 'content.@each', 'value' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Update the bound value when the Select2's selection has changed
+         *
+         * @function selectionChanged
+         * @param    {mixed} data - Select2 data
+         */
+        selectionChanged: function( data ) {
+            var multiple        = this.get( 'multiple' ),
+                optionValuePath = this.get( 'optionValuePath' ),
+                value;
+
+            if ( optionValuePath ) {
+                if ( multiple ) {
+                    value = data.getEach( optionValuePath );
+                } else {
+                    value = Ember.get( data, optionValuePath );
+                }
+            } else {
+                value = data;
+            }
+        }
+
+    });
+  });
+define("sl-ember-components/components/sl-span", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-span
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * The HTML tag name of the component
+         *
+         * @property {Ember.String} tagname
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether to show the loading icon or content
+         *
+         * @property {boolean} isLoading
+         * @default  false
+         */
+        isLoading: false
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-tab-pane", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-tab-pane
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * HTML tag for tab-pane component
+         *
+         * @property {Ember.String} tagName
+         * @default "div"
+         */
+        tagName: 'div',
+
+        /**
+         * Bindings for HTML attributes on the tab pane
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'data-tab-label', 'data-tab-name' ],
+
+        /**
+         * Class name values for the tab pane component
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-tab-pane', 'tab-pane' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Label text for the displayed tab name
+         *
+         * @property {Ember.String} data-tab-label
+         */
+        'data-tab-label': Ember.computed.alias( 'label' ),
+
+        /**
+         * Text for internal tab identification
+         *
+         * @property {Ember.String} data-tab-name
+         */
+        'data-tab-name': Ember.computed.alias( 'name' ),
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-tab-panel", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module components
+     * @class  sl-tab-panel
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the root element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'sl-tab-panel' ],
+
+        /**
+         * Class name bindings for the containing element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'tabAlignmentClass' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Object of action functions
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Action to trigger when a tab is clicked
+             *
+             * @function actions.change
+             * @param    {string} tabName - The name of the tab to change into
+             * @returns  {void}
+             */
+            change: function( tabName ) {
+                var activeTabName = this.get( 'activeTabName' ),
+                    self          = this;
+
+                if ( activeTabName ) {
+                    if ( activeTabName !== tabName ) {
+                        this.setActiveTab( tabName );
+                        this.deactivatePane( activeTabName, function() {
+                            self.activatePane( tabName );
+                        });
+                    }
+                } else {
+                    this.setActiveTab( tabName );
+                    this.activatePane( tabName );
+                }
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * The currently active tab name
+         *
+         * @private
+         * @property {Ember.String} activeTabName
+         * @default  null
+         */
+        activeTabName: null,
+
+        /**
+         * Determines the alignment of tabs at the top of the panel,
+         * "left" or "right"
+         *
+         * @property {Ember.String} alignTabs
+         * @default  "left"
+         */
+        alignTabs: 'left',
+
+        /**
+         * The height of the tab-content in pixels
+         *
+         * @property {number} contentHeight
+         * @default  0
+         */
+        contentHeight: 0,
+
+        /**
+         * The name of the tab to open when the component is first rendered
+         *
+         * @property {Ember.S`tring} initialTabName
+         * @default  null
+         */
+        initialTabName: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Sets up the initial tab, and parses the content of the tab panel to
+         * determine tab labels and names.
+         *
+         * @function setupTabs
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        setupTabs: function() {
+            var initialTabName = this.get( 'initialTabName' ),
+                tabs           = [],
+                tabName;
+
+            if ( !initialTabName ) {
+                initialTabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
+            }
+
+            this.setActiveTab( initialTabName );
+            this.activatePane( initialTabName );
+
+            this.$( '.tab-pane' ).each( function() {
+                tabName = this.getAttribute( 'data-tab-name' );
+
+                tabs.push({
+                    active : tabName === initialTabName,
+                    label  : this.getAttribute( 'data-tab-label' ),
+                    name   : tabName
+                });
+            });
+
+            this.set( 'tabs', tabs );
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Sets the tab-content div height based on current contentHeight value
+         *
+         * @function updateContentHeight
+         * @observes contentHeight
+         * @returns  {void}
+         */
+        updateContentHeight: function() {
+            this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
+        }.observes( 'contentHeight' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Activate a tab pane, animating the transition
+         *
+         * @function activatePane
+         * @param    {string}   tabName - The name of the tab to activate
+         * @returns  {void}
+         */
+        activatePane: function( tabName ) {
+            var pane = this.paneFor( tabName );
+
+            pane.fadeIn( 'fast', function() {
+                pane.addClass( 'active' );
+            });
+
+            this.set( 'contentHeight', parseInt( pane.css( 'height' ) ) );
+        },
+
+        /**
+         * Deactivate a tab pane, animating the transition
+         *
+         * @function deactivatePane
+         * @param    {string}   tabName - The name of the tab to deactivate
+         * @param    {function} callback - Function called when the pane is deactivated
+         * @returns  {void}
+         */
+        deactivatePane: function( tabName, callback ) {
+            var pane = this.paneFor( tabName );
+
+            pane.fadeOut( 'fast', function() {
+                pane.removeClass( 'active' );
+
+                if ( typeof callback === 'function' ) {
+                    callback();
+                }
+            });
+        },
+
+        /**
+         * Get the tab-panel's tab-pane for the specified tabName
+         *
+         * @function paneFor
+         * @param    {string} tabName - The name of the tab to get the pane for
+         * @returns  {void}
+         */
+        paneFor: function( tabName ) {
+            return this.$( '.tab-pane[data-tab-name="' + tabName + '"]' );
+        },
+
+        /**
+         * Update the internal active tab name and handle tabs' statuses
+         *
+         * @function setActiveTab
+         * @param    {string} tabName - The name of the tab to switch state to
+         * @returns  {void}
+         */
+        setActiveTab: function( tabName ) {
+            var activeTabName = this.get( 'activeTabName' );
+
+            if ( activeTabName ) {
+                this.tabFor( activeTabName ).removeClass( 'active' );
+            }
+
+            this.set( 'activeTabName', tabName );
+
+            if ( tabName !== null ) {
+                this.tabFor( tabName ).addClass( 'active' );
+            }
+        },
+
+        /**
+         * The class determining how to align tabs
+         *
+         * @function tabAlignmentClass
+         * @returns  {Ember.String}
+         */
+        tabAlignmentClass: function() {
+            return 'sl-align-tabs-' + this.get( 'alignTabs' );
+        }.property( 'alignTabs' ),
+
+        /**
+         * Get the tab with the specified tabName
+         *
+         * @method  tabFor
+         * @param   {string} tabName - The name for the tab to get
+         * @returns {object} DOM Element
+         */
+        tabFor: function( tabName ) {
+            return this.$( '.tab[data-tab-name="' + tabName + '"]' );
+        }
+
+    });
+  });
+define("sl-ember-components/components/sl-textarea", 
+  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var InputBased = __dependency2__["default"];
+    var TooltipEnabled = __dependency3__["default"];
+
+    /**
+     * @module components
+     * @class  sl-textarea
+     */
+    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class names for the component
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'form-group', 'sl-textarea' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * The `autofocus` HTML attribute value
+         *
+         * @property {boolean} autofocus
+         * @default  false
+         */
+        autofocus: false,
+
+        /**
+         * The `selectionDirection` HTML attribute value
+         *
+         * Accepted values are either "forward" (default), "backward", or "none".
+         *
+         * @property {string} selectionDirection
+         * @default  "forward"
+         */
+        selectionDirection: 'forward',
+
+        /**
+         * The `selectionEnd` HTML attribute value
+         *
+         * @property {number|string} selectionEnd
+         * @default  null
+         */
+        selectionEnd: null,
+
+        /**
+         * The `selectionStart` HTML attribute value
+         *
+         * @property {number|string} selectionStart
+         * @default  null
+         */
+        selectionStart: null,
+
+        /**
+         * The `spellcheck` HTML attribute value
+         *
+         * Accepted values are true, false, "default" (default), "true", or "false".
+         *
+         * @property {boolean|string} spellcheck
+         * @default  "default"
+         */
+        spellcheck: 'default',
+
+        /**
+         * The `wrap` HTML attribute value
+         *
+         * Accepted values are "soft" (default), or "hard".
+         *
+         * @property {string} wrap
+         * @default  "soft"
+         */
+        wrap: 'soft'
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/components/sl-tooltip", 
+  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var TooltipEnabled = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-tooltip
+     */
+    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * The tag type of the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span'
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/helpers/get-key", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module helpers
+     */
+
+    /**
+     * A lookup on an object with supplied key
+     *
+     * Takes an object, a key and a default key. The key is resolved on the object
+     * and the result is returned. If the result is falsy and a defaultKey is
+     * supplied then the defaultKey is resolved on the object and that result
+     * is returned.
+     *
+     * @function get-key
+     * @param    {object} object - Context object to lookup value for
+     * @param    {string} key - The key string used for lookup on the object
+     * @param    {string} defaultKey - A fallback key value
+     * @returns  {mixed}
+     */
+    __exports__["default"] = Ember.Handlebars.makeBoundHelper( function( object, key, defaultKey ) {
+        var value = object.get ? object.get( key ) : object[ key ];
+
+        if ( Ember.isNone( value ) && Ember.typeOf( defaultKey ) === 'string' ) {
+            value = object.get ? object.get( defaultKey ) : object[ defaultKey ];
+        }
+
+        return value;
+    });
+  });
+define("sl-ember-components/helpers/render-component", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module helpers
+     */
+
+    /**
+     * Render the component stored in the variable that is passed to this helper as
+     * the first argument. Bound properties can be passed to the component in the
+     * normal fashion.
+     *
+     * @example
+     * {{render-component 'sl-grid-table-cell-link' foo=bar doo=car }}
+     *
+     * @function render-component
+     * @param    {string} componentPath - Lookup path for the component name
+     * @returns  {string} The rendered component
+     */
+    __exports__["default"] = function( componentPath ) {
+        var options   = arguments[ arguments.length - 1 ],
+            component = Ember.Handlebars.get( this, componentPath, options ),
+            helper    = Ember.Handlebars.resolveHelper( options.data.view.container, component );
+
+        helper.call( this, options );
+    }
+  });
+define("sl-ember-components/helpers/render-tab-pane", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module helpers
+     */
+
+    /**
+     * Render the sl-tab-pane content based on template key string
+     *
+     * @function render-tab-pane
+     * @param    {string} templateKey - The string key for the template name lookup
+     * @return   {string} The rendered template
+     */
+    __exports__["default"] = function( templateKey, options ) {
+        var templateName = options.contexts[ 0 ][ templateKey ];
+
+        options.types[ 0 ] = 'STRING';
+
+        return Ember.Handlebars.helpers.render.call( this, templateName, options );
+    }
+  });
+define("sl-ember-components/helpers/render-template", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module helpers
+     */
+
+    /**
+     * Render a specified template with a model and options
+     *
+     * @function render-template
+     * @param    {string} templateName - Name of the template to render
+     * @param    {object} model - Model instance to supply the template with
+     * @param    {object} options - Options hash for render options
+     * @returns  {string} The rendered template
+     */
+    __exports__["default"] = function( templateName, model, options ) {
+        options.types[ 0 ] = 'STRING';
+
+        return Ember.Handlebars.helpers.render.call( this, templateName, model, options );
+    }
+  });
+define("sl-ember-components/initializers/register-helpers", 
+  ["ember","sl-ember-components/helpers/get-key","sl-ember-components/helpers/render-component","sl-ember-components/helpers/render-tab-pane","sl-ember-components/helpers/render-template","exports"],
+  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var GetKeyHelper = __dependency2__["default"];
+    var RenderComponentHelper = __dependency3__["default"];
+    var RenderTabPaneHelper = __dependency4__["default"];
+    var RenderTemplateHelper = __dependency5__["default"];
+
+    /**
+    @module initializers
+    @class  register-helpers
+    */
+    __exports__["default"] = function() {
+        Ember.Handlebars.registerHelper( 'get-key', GetKeyHelper );
+        Ember.Handlebars.registerHelper( 'render-component', RenderComponentHelper );
+        Ember.Handlebars.registerHelper( 'render-tab-pane', RenderTabPaneHelper );
+        Ember.Handlebars.registerHelper( 'render-template', RenderTemplateHelper );
+    }
+  });
+define("sl-ember-components/mixins/sl-ajax-aware", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-ajax-aware
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Placeholder
+         *
+         * @property {function} ajaxCompleteProxyBound
+         * @default  null
+         */
+        ajaxCompleteProxyBound: null,
+
+        /**
+         * Whether or not AJAX events are bound to the element
+         *
+         * If disabled, the instance will not even create the bindings to be made
+         * aware of the AJAX activity.
+         *
+         * @property {boolean} ajaxEnabled
+         * @default false
+         */
+        ajaxEnabled: false,
+
+        /**
+         * Placeholder
+         *
+         * @property {function} ajaxSendProxyBound
+         * @default  null
+         */
+        ajaxSendProxyBound: null,
+
+        /**
+         * Placeholder
+         *
+         * @property {function} ajaxStartProxyBound
+         * @default  null
+         */
+        ajaxStartProxyBound: null,
+
+        /**
+         * Placeholder
+         *
+         * @property {function} ajaxStopProxyBound
+         * @default  null
+         */
+        ajaxStopProxyBound: null,
+
+        /**
+         * Used internally to track registered AJAX behaviors
+         *
+         * @private
+         * @property {Ember.Array} onActiveBehaviors
+         * @default  []
+         */
+        onActiveBehaviors: [],
+
+        /**
+         * Used internally to track registered AJAX behaviors
+         *
+         * @property {Ember.Array} onInactiveBehaviors
+         * @default  []
+         */
+        onInactiveBehaviors: [],
+
+        /**
+         * Indicates which endpoint(s) AJAX activity we are concerned with
+         *
+         * URL scope can be given as either a string or a regular expression.
+         *
+         * @property {Ember.String} urlScope
+         * @default  null
+         */
+        urlScope: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Initialize AJAX connectivity
+         *
+         * @function initAjax
+         * @observes "init" event
+         * @returns  {void}
+         */
+        initAjax: function() {
+            this.createProxyMethods();
+            this.connectAjax();
+        }.on( 'init' ),
+
+        /**
+         * Bind to the appropriate AJAX calls if enabled
+         *
+         * This method will consider the URL scoping and bind to either
+         * Send/Complete (for specific URLs) or Start/Stop (for global
+         * AJAX activity).
+         *
+         * @function connectAjax
+         * @observes "ajaxEnabled" event
+         * @returns  {void}
+         */
+        connectAjax: function() {
+            var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'urlScope' ]);
+
+            if ( props.ajaxEnabled === true && !props.ajaxBound ) {
+                if ( !Ember.isBlank( props.urlScope ) ) {
+                    Ember.$( document )
+                        .ajaxSend( this.get( 'ajaxSendProxyBound' ) )
+                        .ajaxComplete( this.get( 'ajaxCompleteProxyBound' ) );
+                } else {
+                    Ember.$( document )
+                        .ajaxStart( this.get( 'ajaxStartProxyBound' ) )
+                        .ajaxStop( this.get( 'ajaxStopProxyBound' ) );
+                }
+            }
+
+        }.observes( 'ajaxEnabled' ),
+
+        /**
+         * Unbind from AJAX methods
+         *
+         * @function disconnectAjax
+         * @observes "ajaxEnabled" event
+         * @returns  {void}
+         */
+        disconnectAjax: function() {
+            var ajaxBound   = this.get( 'ajaxBound' ),
+                ajaxEnabled = this.get( 'ajaxEnabled' );
+
+            if ( !ajaxEnabled && ajaxBound ) {
+                Ember.$( document ).off( 'ajaxSend', this.get( 'ajaxSendProxyBound' ) );
+                Ember.$( document ).off( 'ajaxComplete', this.get( 'ajaxCompleteProxyBound' ) );
+                Ember.$( document ).off( 'ajaxStart', this.get( 'ajaxStartProxyBound' ) );
+                Ember.$( document ).off( 'ajaxStop', this.get( 'ajaxStopProxyBound' ) );
+            }
+        }.observes( 'ajaxEnabled' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Empty implementations of AJAX handler to be overriden by client code
+         *
+         * @function ajaxCompleteHandler
+         * @default  {function} empty
+         */
+        ajaxCompleteHandler: function() {},
+
+        /**
+         * Internally used proxy method for ajaxComplete
+         *
+         * @function ajaxCompleteProxy
+         * @param   {object} event
+         * @param   {jqXHR}  jqXHR
+         * @param   {object} options
+         * @returns {void}
+         */
+        ajaxCompleteProxy: function( event, jqXHR, options ) {
+            if ( this.matchesUrl( this.get( 'urlScope' ), options.url ) ) {
+                this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
+                    behavior.call( this, event, jqXHR, options );
+                }.bind( this ) );
+
+                this.ajaxCompleteHandler();
+            }
+        },
+
+        /**
+         * Empty implementations of AJAX handler to be overriden by client code
+         *
+         * @function ajaxSendHandler
+         * @default  {function} empty
+         */
+        ajaxSendHandler: function() {},
+
+        /**
+         * Internally used proxy method for ajaxSend
+         *
+         * @function ajaxSendProxy
+         */
+        ajaxSendProxy: function( event, jqXHR, options ) {
+            if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
+                this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
+                    behavior.call( this, event, jqXHR, options );
+                }.bind( this ));
+
+                this.ajaxSendHandler();
+            }
+        },
+
+        /**
+         * Empty implementations of AJAX handler to be overriden by client code
+         *
+         * @function ajaxStartHandler
+         * @default  {function} empty
+         */
+        ajaxStartHandler: function() {},
+
+        /**
+         * Internally used proxy method for ajaxStart
+         *
+         * @function ajaxStartProxy
+         * @returns  {void}
+         */
+        ajaxStartProxy: function() {
+            this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
+                behavior.call( this );
+            }.bind( this ));
+
+            this.ajaxStartHandler();
+        },
+
+        /**
+         * Empty implementations of AJAX handler to be overriden by client code
+         *
+         * @function ajaxStopHandler
+         * @default  {function} empty
+         */
+        ajaxStopHandler: function() {},
+
+        /**
+         * Internally used proxy method for ajaxStop
+         *
+         * @function ajaxStopProxy
+         * @returns  {void}
+         */
+        ajaxStopProxy: function() {
+            this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
+                behavior.call( this );
+            }.bind( this ));
+
+            this.ajaxStopHandler();
+        },
+
+        /**
+         * Create pre-bound proxy methods for each of the 4 AJAX callbacks we are
+         * concerned with
+         *
+         * @function createProxyMethods
+         * @returns  {void}
+         */
+        createProxyMethods: function() {
+            this.setProperties({
+                ajaxSendProxyBound     : this.ajaxSendProxy.bind( this ),
+                ajaxCompleteProxyBound : this.ajaxCompleteProxy.bind( this ),
+                ajaxStartProxyBound    : this.ajaxStartProxy.bind( this ),
+                ajaxStopProxyBound     : this.ajaxStopProxy.bind( this )
+            });
+        },
+
+        /**
+         * Check if the AJAX URL matches the specified scope
+         *
+         * Scope can be set as a specific endpoint string or as a regex to be
+         * tested against.
+         *
+         * @function matchesUrl
+         * @param   {RegExp|Ember.String} urlScope
+         * @param   {Ember.String} ajaxUrl - The URL that the AJAX action is requested on
+         * @returns {boolean}
+         */
+        matchesUrl: function( urlScope, ajaxUrl ) {
+            var returnValue = false;
+
+            if ( urlScope instanceof RegExp ) {
+                returnValue = urlScope.test( ajaxUrl );
+            } else if ( typeof urlScope === 'string' ) {
+                returnValue = urlScope.toLowerCase() === ajaxUrl.toLowerCase();
+            }
+
+            return returnValue;
+        },
+
+        /**
+         * Initialize AJAX behavior
+         *
+         * A common use case will be to initialize particular behaviors during AJAX
+         * activity and fall back to other, default, behaviors when no AJAX activity
+         * is ongoing. To accomodate this, the registerAjaxBehavior method will
+         * allow a user to pass in functions that will be called when AJAX activity
+         * starts and stops. This can be accomplished by overriding the ajax hooks
+         * (ajaxSend, ajaxComplete, ajaxStart & ajaxStop) but this method does have
+         * some benefits. For one, it allows you to group your functionality within
+         * the registerAjaxBehavior so it becomes obvious when a behavior is turned
+         * on and off. Also, it allows you to use the same procedure for registering
+         * behaviors regardless of the URL scope. If you change from a globally
+         * scoped URL (i.e. no urlScope defined) to having a particular API endpoint
+         * or end points set up, the methods will be executed at the appropriate
+         * time. If using the AJAX hooks, you'll need to move the calls from
+         * ajaxStart/ajaxStop to ajaxSend/ajaxComplete.
+         *
+         * @function registerAjaxBehavior
+         * @param   {function} onActive - Executed when associated AJAX activity begins
+         * @param   {function} onInactive - Executed when associated AJAX activity ends
+         * @returns {void}
+         */
+        registerAjaxBehavior: function( onActive, onInactive ) {
+            if ( onActive ) {
+                this.get( 'onActiveBehaviors' ).push( onActive );
+            }
+
+            if ( onInactive ) {
+                this.get( 'onInactiveBehaviors' ).push( onInactive );
+            }
+        },
+
+        /**
+         * Allows you to unregister ajax behaviors
+         *
+         * @function unregisterAjaxBehavior
+         * @param   {function} onActive - Executed when associated AJAX activity begins
+         * @param   {function} onInactive - Executed when associated AJAX activity ends
+         * @returns {void}
+         */
+        unregisterAjaxBehavior: function( onActive, onInactive ) {
+            if ( onActive ) {
+                this.get( 'onActiveBehaviors' ).removeObject( onActive );
+            }
+
+            if ( onInactive ) {
+                this.get( 'onInactiveBehaviors' ).removeObject( onInactive );
+            }
+        }
+
+    });
+  });
+define("sl-ember-components/mixins/sl-grid-controller", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-grid-controller
+     */
+    __exports__["default"] = Ember.Mixin.create( Ember.Evented, {
+
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Controller actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Reorder column *oldIndex* to *newIndex*
+             *
+             * @function actions.reorderColumn
+             * @param   {number} oldIndex - The existing index of the column to reorder
+             * @param   {number} newIndex - The new index number to move the column to
+             * @returns {void}
+             */
+            reorderColumn: function( oldIndex, newIndex ) {
+                this.reorderColumn( oldIndex, newIndex );
+            },
+
+            /**
+             * Trigger resetting of all columns to their default positions
+             *
+             * @function actions.resetColumns
+             * @returns  {void}
+             */
+            resetColumns: function() {
+                this.resetColumns();
+            },
+
+            /**
+             * Sort the specified column
+             *
+             * @function actions.sortColumn
+             * @param   {Ember.Object} column - The column to sort
+             * @returns {void}
+             */
+            sortColumn: function( column ) {
+                Ember.assert( 'column is sortable', Ember.get( column, 'sortable' ) );
+                if ( column.get( 'isSorted' ) ) {
+                    column.toggleProperty( 'sortAscending' );
+                } else {
+                    this.get( 'columns' ).setEach( 'isSorted', false );
+                    column.set( 'isSorted', true );
+                    column.set( 'sortAscending', column.getWithDefault( 'sortAscending', true ) );
+                }
+                //make sure cp recomputes, stupid sortable mixin...
+                this.get( 'sortAscending' );
+
+                this.trigger( 'gridStateChanged' );
+            },
+
+            /**
+             * Toggle the visibility of the column with specified column name
+             *
+             * @function actions.toggleColumnVisibility
+             * @param   {Ember.String} columnName - The name of the column to toggle
+             * @returns {void}
+             */
+            toggleColumnVisibility: function( columnName ) {
+                var foundColumn = this.get( 'columns' ).findBy( 'key', columnName );
+
+                if ( foundColumn ) {
+                    foundColumn.toggleProperty( 'hidden' );
+                }
+
+                this.trigger( 'gridStateChanged' );
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Alias to the grid's columns
+         *
+         * @property {Ember.Array} columns
+         */
+        columns: Ember.computed.alias( 'grid.columns' ),
+        /**
+         * Properties of the filter panel
+         *
+         * @property {Ember.Array} filterProperties
+         * @default  []
+         */
+        filterProperties: [],
+
+        /**
+         * The controller's grid object
+         *
+         * @property {Ember.Object} grid
+         * @default  {Ember.Object} fresh instantiation
+         */
+        grid: Ember.Object.create(),
+
+        /**
+         * Alias to the controller's model's pending state
+         *
+         * @property {boolean} isLoading
+         */
+        isLoading: Ember.computed.alias( 'model.isPending' ),
+
+        /**
+         * Alias to the number of records shown per page
+         *
+         * @property {number} itemCountPerPage
+         */
+        itemCountPerPage: Ember.computed.alias( 'options.itemCountPerPage' ),
+
+        /**
+         * Alias to the grid's options
+         *
+         * @property {Ember.Object} options
+         */
+        options: Ember.computed.alias( 'grid.options' ),
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+         /**
+         * Call on controller initialization
+         *
+         * @function initialize
+         * @observes "init" event
+         * @returns  {void}
+         */
+        initialize: function() {
+            this.loadGridDefinition();
+        }.on( 'init' ),
+
+        /**
+         * Run when columns' widths are changed
+         *
+         * @function observeColumnWidths
+         * @observes columns.@each.width
+         * @returns  {void}
+         */
+        onColumnWidthsChange: function() {
+            Ember.run.debounce( this, 'trigger', 'gridStateChanged', 500 );
+        }.observes( 'columns.@each.width' ),
+
+        /**
+         * Run when itemCountPerPage is changed
+         *
+         * @function observeItemCountPerPage
+         * @observes itemCountPerPage
+         * @returns  {void}
+         */
+        onItemCountPerPageChange: function() {
+            this.trigger( 'gridStateChanged' );
+        }.observes( 'itemCountPerPage' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * The effective total number of columns
+         *
+         * @property columnCount
+         * @observes columns.length
+         * @returns  {number}
+         */
+        columnCount: Ember.computed.alias( 'columns.length' ),
+
+        /**
+         * The number of visible columns - used for layout
+         *
+         * @property visibleColumns
+         * @observes columns.@each.hidden
+         * @return {number}
+         */
+         visibleColumns: function() {
+
+            return this.get( 'columns' ).rejectBy( 'hidden' ).length;
+
+         }.property( 'columns.@each.hidden' ),
+
+        /**
+         * Placeholder for a grid's definition object
+         *
+         * @function gridDefinition
+         * @default  {function} empty
+         * @returns  {Ember.Object}
+         */
+        gridDefinition: null,
+
+        /**
+         * Loads the grid definition
+         *
+         * Override this function if you want to do any localstorage persistence
+         *
+         * @function loadGridDefinition
+         * @return {void}
+         */
+        loadGridDefinition: function(){
+            var definitions = this.get( 'gridDefinition' ),
+                grid = Ember.Object.create(),
+                columns = Ember.get( definitions, 'columns' ),
+                options = Ember.get( definitions, 'options' );
+
+            Ember.assert( 'Grid definition requires a `columns` array', 
+                Ember.typeOf( columns  ) === 'array'  &&
+                columns.length );
+
+            Ember.assert( 'Grid definition requires a `options` object', 
+                Ember.typeOf( options  ) === 'object' );        
+
+             Ember.keys( definitions ).forEach( function( key ) {
+                var definition = Ember.get( definitions, key ),
+                    setting;
+                    
+
+                switch( Ember.typeOf( definition ) ) {
+                    case 'object':
+                    case 'instance':
+                        // Need to make a copy of the definition so we don't
+                        // corrupt the original.
+                        setting = Ember.Object.create( definition );
+                        break;
+
+                    case 'array':
+                        setting = Ember.A([]);
+
+                        // We will only add elements that exist on the definition
+                        definition.forEach( function( item ) {
+                            Ember.assert( 'Items in arrays on the `definition` must be objects',
+                                Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'object' );
+
+                            setting.pushObject( Ember.Object.create( item ) );
+                        });
+
+                        break;
+
+                    default:
+                        setting = definition;
+
+                }
+                Ember.set( grid, key, setting );
+            });
+            this.set( 'grid',  grid );  
+        },
+
+        /**
+         * Reorder the column at *oldIndex* to *newIndex*
+         *
+         * @function reorderColumn
+         * @param   {number} oldIndex - The old (current) index of the column
+         * @param   {number} newIndex - What to change the column index to
+         * @returns {void}
+         */
+        reorderColumn: function( oldIndex, newIndex ) {
+            var columns = this.get( 'columns' ),
+                elementToMove;
+
+            Ember.assert( 'oldIndex exists', oldIndex < columns.length );
+            Ember.assert( 'newIndex exists', newIndex < columns.length );
+
+            columns.arrayContentWillChange( oldIndex, 1 );
+            elementToMove = columns.splice( oldIndex, 1 )[ 0 ];
+            columns.arrayContentDidChange( oldIndex, 1 );
+
+            columns.arrayContentWillChange( newIndex, 0, 1 );
+            columns.splice( newIndex, 0, elementToMove );
+            columns.arrayContentDidChange( newIndex, 0, 1 );
+
+            this.trigger( 'gridStateChanged' );
+        },
+
+        /**
+         * Reset the grid's columns to their default definitions
+         *
+         * @function resetColumns
+         * @returns {void}
+         */
+        resetColumns: function() {
+            var gridColumnDefs = this.get( 'gridDefinition.columns' ),
+                tmpColumns     = [];
+
+            gridColumnDefs.forEach( function( columnDef ) {
+               tmpColumns.pushObject( Ember.Object.create( columnDef ) );
+            });
+
+            this.set( 'columns', tmpColumns );
+            this.trigger( 'gridStateChanged' );
+        },
+
+        /**
+         * Indicator for if the currently sorted column is in ascending order
+         *
+         * @function sortAscending
+         * @observes columns.@each.sortAscending
+         * @returns  {boolean}
+         */
+        sortAscending: function() {
+            var sortedColumn = this.getWithDefault( 'columns', [] ).findBy( 'isSorted' );
+
+            return sortedColumn ? sortedColumn.get( 'sortAscending' ) : undefined;
+        }.property( 'columns.@each.sortAscending' ),
+
+        /**
+         * Mapped array of properties
+         *
+         * @function sortProperties
+         * @observes columns.@each.isSorted
+         * @returns  {Ember.Array}
+         */
+        sortProperties: function() {
+            return this.getWithDefault( 'columns', [] ).filterBy( 'isSorted' ).mapBy( 'key' );
+        }.property( 'columns.@each.isSorted' ),
+
+
+        totalFixedWidths: function() {
+            return this.get( 'columns').reduce( function( prev, item ){
+                return prev + parseInt( item.getWithDefault( 'fixedWidth', 0 ) );
+            }, 0);
+
+        }.property( 'columns.@each.fixedWidth' ),
+
+        /**
+         * Total number of width hints
+         *
+         * @function totalWidthHints
+         * @observes columns.@each.widthHint
+         * @returns  {number}
+         */
+        totalWidthHints: function() {
+            var columns = this.get( 'columns' ),
+                totalWidthHints = 0;
+
+            columns.forEach( function( col ) {
+                totalWidthHints += col.getWithDefault( 'widthHint', 1 );
+            });
+
+            return totalWidthHints;
+        }.property( 'columns.@each.widthHint' )
+    });
+  });
+define("sl-ember-components/mixins/sl-grid-key-controller", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-grid-key-controller
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Controller actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Action called when the controller's view has inserted its element
+             *
+             * @function actions.viewDidInsertElement
+             * @returns  {void}
+             */
+            viewDidInsertElement: function() {
+                this.bindKeys();
+            },
+
+            /**
+             * Action called when the controller's view is about to destroy its element
+             *
+             * @function actions.viewWillDestroyElement
+             * @returns  {void}
+             */
+            viewWillDestroyElement: function() {
+                this.unbindKeys();
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Object being used to proxy key events
+         *
+         * @property {Ember.Object} gridKeyManager
+         * @default  null
+         */
+        gridKeyManager: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Bind key events to internal methods
+         *
+         * @function bindKeys
+         * @returns  {void}
+         */
+        bindKeys: function() {
+            this.get( 'gridKeyManager' )
+                .on( 'keyMapGridFirstPage', this, this.firstPage )
+                .on( 'keyMapGridLastPage', this, this.lastPage )
+                .on( 'keyMapGridNextPage', this, this.nextPage )
+                .on( 'keyMapGridPrevPage', this, this.prevPage )
+                .on( 'keyMapGridRefresh', this, this.refresh );
+        },
+
+        /**
+         * Trigger a page change to the first page
+         *
+         * @function firstPage
+         * @returns  {void}
+         */
+        firstPage: function() {
+            this.send( 'changePage', 'first' );
+        },
+
+        /**
+         * Trigger a page change to the last page
+         *
+         * @function lastPage
+         * @returns  {void}
+         */
+        lastPage: function() {
+            this.send( 'changePage', 'last' );
+        },
+
+        /**
+         * Trigger a page change to the next page
+         *
+         * @function nextPage
+         * @returns  {void}
+         */
+        nextPage: function() {
+            this.send( 'changePage', 'next' );
+        },
+
+        /**
+         * Trigger a page change to the previous page
+         *
+         * @function prevPage
+         * @returns  {void}
+         */
+        prevPage: function() {
+            this.send( 'changePage', 'prev' );
+        },
+
+        /**
+         * Trigger a reload of the grid keys
+         *
+         * @function refresh
+         * @returns  {void}
+         */
+        refresh: function() {
+            this.send( 'reload' );
+        },
+
+        /**
+         * Unbind key events from internal methods
+         *
+         * @function unbindKeys
+         * @returns  {void}
+         */
+        unbindKeys: function() {
+            this.get( 'gridKeyManager' )
+                .off( 'keyMapGridFirstPage', this, this.firstPage )
+                .off( 'keyMapGridLastPage', this, this.lastPage )
+                .off( 'keyMapGridNextPage', this, this.nextPage )
+                .off( 'keyMapGridPrevPage', this, this.prevPage )
+                .off( 'keyMapGridRefresh', this, this.refresh );
+        }
+
+    });
+  });
+define("sl-ember-components/mixins/sl-grid-table-cell-resize", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-grid-table-cell-resize
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Bindings for the base element's attributes
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'style' ],
+
+        /**
+         * Class name bindings for root element
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'isHighlighted:columnHighlight' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Grid table column global hash
+         *
+         * @property {Ember.Object} global
+         */
+        global: {
+            isResizing: false
+        },
+
+        /**
+         * Whether the column is highlighted
+         *
+         * @property {boolean} isHighlighted
+         * @default  false
+         */
+        isHighlighted: Ember.computed.alias( 'column.highlight' ),
+
+        /**
+         * Starting x offset
+         *
+         * @property {number} startX
+         * @default  0
+         */
+        startX: 0,
+
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Setup listeners for mouse events
+         *
+         * @function setupBoundListeners
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        setupBoundListeners: function() {
+
+            if( ! this.get( 'column.resizable' ) ){
+                return;
+            }
+
+            this.set( 'mouseDownListener', Ember.run.bind( this, function( event ) {
+                //make sure the mouse has already moved to the highlight region
+                if ( !this.get( 'disabled' ) &&  this.get( 'column.highlight' )) {
+
+                    this.$().off( 'mousemove', this.mouseMoveListenerHighlight );
+                    this.$().off( 'mouseleave', this.mouseLeaveListenerHighlight );
+
+                    Ember.$( 'body' ).addClass( 'resizing' )
+                        .on( 'mouseleave', this.mouseLeaveListenerResize )
+                        .on( 'mousemove', this.mouseMoveListenerResize )
+                        .on( 'mouseup', this.mouseUpListener );
+
+                    this.setProperties({
+                        'global.isResizing' : true,
+                        startWidth          : this.$().width(),
+                        startX              : event.pageX
+                    });
+                }
+            }));
+
+            this.set( 'mouseLeaveListenerHighlight', Ember.run.bind( this, function() {
+                if ( !this.get( 'global.isResizing' ) ) {
+                    this.set( 'column.highlight', false );
+                }
+            }));
+
+            this.set( 'mouseLeaveListenerResize', Ember.run.bind( this, function() {
+                Ember.$( 'body' ).removeClass( 'resizing' )
+                    .off( 'mouseleave', this.mouseLeaveListenerResize )
+                    .off( 'mousemove', this.mouseMoveListenerResize )
+                    .off( 'mouseup',  this.mouseUpListener );
+
+                this.setProperties({
+                    'column.width'      : this.get( 'startWidth'),
+                    'column.highlight'  : false,
+                    'global.isResizing' : false
+                });
+
+                this.$().on( 'mousemove', this.mouseMoveListenerHighlight );
+                this.$().on( 'mouseleave', this.mouseLeaveListenerHighlight );
+
+                //browser will revert to user selection, this will clear it
+                Ember.run.next( this, function(){
+                    window.getSelection().removeAllRanges();
+                });
+            }));
+
+            this.set( 'mouseUpListener', Ember.run.bind( this, function() {
+                Ember.$( 'body' ).removeClass( 'resizing' )
+                    .off( 'mouseleave', this.mouseLeaveListenerResize )
+                    .off( 'mousemove', this.mouseMoveListenerResize )
+                    .off( 'mouseup', this.mouseUpListener );
+
+                this.$().on( 'mousemove', this.mouseMoveListenerHighlight );
+                this.$().on( 'mouseleave', this.mouseLeaveListenerHighlight );
+
+                this.setProperties({
+                    'column.highlight'  : false,
+                    'global.isResizing' : false
+                });
+            }));
+
+            this.set( 'mouseMoveListenerHighlight', Ember.run.bind( this, function( event ){
+                var offset = this.$().offset(),
+                    offsetLeft = offset.left,
+                    outerWidth = this.$().outerWidth(),
+                    rightBorder = offsetLeft + outerWidth,
+                    resizeZone = rightBorder - 8,
+                    mouseX = event.pageX;
+
+                if( this.get( 'global.isResizing') ){
+                    return;
+                }
+
+                if( this.get( 'column.highlight' ) &&
+                     ( mouseX < resizeZone || mouseX > rightBorder) ) {
+
+                    this.set( 'column.highlight', false );
+
+                } else if ( !this.get( 'global.isResizing' ) &&
+                     ( mouseX >= resizeZone && mouseX <= rightBorder) ) {
+
+                    this.set( 'column.highlight', true );
+                }
+            }));
+
+            this.set( 'mouseMoveListenerResize', Ember.run.bind( this, function( event ) {
+                var startWidth = this.get( 'startWidth' ),
+                    widthDelta = event.pageX - this.get( 'startX' ),
+                    finalWidth = startWidth + widthDelta,
+                    minWidth   = this.getWithDefault( 'column.minWidth', 20 );
+
+                this.set( 'column.width', Math.max( minWidth, finalWidth ) );
+
+                return false;
+            }));
+
+            this.$()
+                .on( 'mousedown', this.mouseDownListener )
+                .on( 'mousemove', this.mouseMoveListenerHighlight )
+                .on( 'mouseleave', this.mouseLeaveListenerHighlight );
+
+
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Removes any event listeners that might have been added
+         *
+         * @function removeBoundEventListeners
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        removeBoundEventListeners: function(){
+            this.$()
+                .off( 'mousedown', this.mouseDownListener )
+                .off( 'mousemove', this.mouseMoveListenerHighlight )
+                .off( 'mouseleave', this.mouseLeaveListenerHighlight );
+
+            //just in case
+            Ember.$( 'body' )
+                .off( 'mouseleave', this.mouseLeaveListenerResize )
+                .off( 'mousemove', this.mouseMoveListenerResize )
+                .off( 'mouseup',  this.mouseUpListener );
+
+        }.on( 'willClearRender' )
+
+        // -------------------------------------------------------------------------
+        // Methods
+    });
+  });
+define("sl-ember-components/mixins/sl-input-based", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-input-based
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Class name bindings for the component
+         *
+         * @property {Ember.Array} classNameBindings
+         */
+        classNameBindings: [ 'disabled', 'optional', 'readonly', 'required' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Whether the input-based component should be disabled
+         *
+         * The internal input element should be passed this attribute as a property.
+         *
+         * @property {boolean} disabled
+         * @default  false
+         */
+        disabled: false,
+
+        /**
+         * Whether the input-based component should be displayed as optional
+         *
+         * @property {boolean} optional
+         * @default  false
+         */
+        optional: false,
+
+        /**
+         * Whether the input-based component is readonly or not
+         *
+         * The internal input element should be passed this attribute as a property.
+         *
+         * @property {boolean} readonly
+         * @default  false
+         */
+        readonly: false,
+
+        /**
+         * Whether the input-based component is required
+         *
+         * @property {boolean} required
+         * @default  false
+         */
+        required: false
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/mixins/sl-modal-manager", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-modal-manager
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Controller actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Trigger showing the specified modal
+             *
+             * @function actions.showModal
+             * @param   {Ember.String} selector - The selector for the modal to show
+             * @param   {Ember.ObjectController|Ember.ArrayController|Ember.String} controller - The controller to use for context within the modal
+             * @param   {model} model - An instance of a model to pass to the controller as content data
+             * @returns {void}
+             */
+            showModal: function( selector, controller, model ) {
+                Ember.$( selector ).modal( 'show' );
+
+                if ( !Ember.isBlank( controller ) && !Ember.isBlank( model ) ) {
+                    if ( typeof controller === 'string' ) {
+                        controller = this.controllerFor( controller );
+                    }
+
+                    controller.set( 'modalContent', model );
+                }
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/mixins/sl-modal", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-modal
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * The name of the layout/template to render for this mixin
+         *
+         * @property {Ember.String} layoutName
+         * @default  "sl-modal"
+         */
+        layoutName: 'sl-modal',
+
+        /**
+         * Attribute value bindings for the containing element
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [
+            'aria-describedby',
+            'aria-hidden',
+            'aria-labelledby',
+            'tabindex'
+        ],
+
+        /**
+         * Class names for the containing element
+         *
+         * @property {Ember.Array} classNames
+         */
+        classNames: [ 'fade', 'modal' ],
+
+        /**
+         * `role` attribute value
+         *
+         * @property {Ember.String} role
+         * @default  "dialog"
+         */
+        ariaRole: 'dialog',
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * `aria-describedby` attribute value
+         *
+         * @property {Ember.String} aria-describedby
+         * @default  null
+         */
+        'aria-describedby': null,
+
+        /**
+         * `aria-hidden` attribute to inform assistive technologies to skip the
+         * modal's DOM elements
+         *
+         * @property {Ember.String} aria-hidden
+         * @default  "true"
+         */
+        'aria-hidden': 'true',
+
+        /**
+         * Bootstrap's modal backdrop option
+         *
+         * @property {boolean|Ember.String} backdrop
+         * @default  true
+         */
+        backdrop: true,
+
+        /**
+         * `tabindex` attribute value
+         *
+         * @property {Ember.String} tab index
+         * @default  '-1'
+         */
+        tabindex: '-1',
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Binds handlers for exposed Twitter Bootstrap 3 modal events
+         *
+         * @function modalize
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        modalize: function() {
+            var modal = this.$().modal({
+                keyboard : true,
+                show     : false,
+                backdrop : this.get( 'backdrop' )
+            });
+
+            modal.on( 'show.bs.modal', this.showHandler.bind( this ) );
+            modal.on( 'shown.bs.modal', this.shownHandler.bind( this ) );
+            modal.on( 'hide.bs.modal', this.hideHandler.bind( this ) );
+            modal.on( 'hidden.bs.modal', this.hiddenHandler.bind( this ) );
+            modal.on( 'loaded.bs.modal', this.loadedHandler.bind( this ) );
+        }.on( 'didInsertElement' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * `aria-labelledby` attribute value
+         *
+         * Is a randomly-generated unique string
+         *
+         * @function aria-labelledby
+         * @returns  {Ember.String}
+         */
+        'aria-labelledby': function() {
+            return 'modalTitle-' + Math.random();
+        }.property(),
+
+        /**
+         * Overridable method stub
+         *
+         * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
+         *
+         * @function hiddenHandler
+         * @returns  {void}
+         */
+        hiddenHandler: function() {},
+
+        /**
+         * Overridable method stub
+         *
+         * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
+         *
+         * @function hideHandler
+         * @returns  {void}
+         */
+        hideHandler: function() {},
+
+        /**
+         * Overridable method stub
+         *
+         * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
+         *
+         * @function loadedHandler
+         * @returns  {void}
+         */
+        loadedHandler: function() {},
+
+        /**
+         * Overridable method stub
+         *
+         * Triggered by Twitter Bootstrap 3 modal's `show.bs.modal` event.
+         *
+         * @function showHandler
+         * @returns  {void}
+         */
+        showHandler: function() {},
+
+        /**
+         * Overridable method stub
+         *
+         * Triggered by Twitter Bootstrap 3 modal's `shown.bs.modal` event.
+         *
+         * @function shownHandler
+         * @returns  {void}
+         */
+        shownHandler: function() {}
+
+    });
+  });
+define("sl-ember-components/mixins/sl-notify-view", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-notify-view
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Notify the view's controller by sending "viewDidInsertElement"
+         *
+         * @function notifyDidInsertElement
+         * @observes "didInsertElement" event
+         * @returns  {void}
+         */
+        notifyDidInsertElement: function() {
+            this.get( 'controller' ).send( 'viewDidInsertElement' );
+        }.on( 'didInsertElement' ),
+
+        /**
+         * Notify the view's controller by sending "viewWillClearRender"
+         *
+         * @function notifyWillClearRender
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        notifyWillClearRender: function() {
+            this.get( 'controller' ).send( 'viewWillClearRender' );
+        }.on( 'willClearRender' ),
+
+        /**
+         * Notify the view's controller by sending "viewWillDestroyElement"
+         *
+         * @function notifyWillDestroyElement
+         * @observes "willDestroyElement" event
+         * @returns  {void}
+         */
+        notifyWillDestroyElement: function() {
+            this.get( 'controller' ).send( 'viewWillDestroyElement' );
+        }.on( 'willDestroyElement' ),
+
+        /**
+         * Notify the view's controller by sending "viewWillInsertElement"
+         *
+         * @function notifyWillInsertElement
+         * @observes "willInsertElement" event
+         * @returns  {void}
+         */
+        notifyWillInsertElement: function() {
+            this.get( 'controller' ).send( 'viewWillInsertElement' );
+        }.on( 'willInsertElement' )
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+    });
+  });
+define("sl-ember-components/mixins/sl-pagination-controller", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-pagination-controller
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        /**
+         * Controller actions hash
+         *
+         * @property {Ember.Object} actions
+         */
+        actions: {
+
+            /**
+             * Change current page to the specified page
+             *
+             * @function actions.changePage
+             * @param    {number} page - The page number to change to
+             * @returns  {void}
+             */
+            changePage: function( page ) {
+                var currentPage = this.get( 'currentPage' ),
+                    nextPage,
+                    prevPage,
+                    totalPages;
+
+                totalPages = Math.ceil(
+                    this.get( 'metaData.total' ) / this.get( 'itemCountPerPage' )
+                );
+
+                switch( page ) {
+                    case 'first':
+                        currentPage = 1;
+                        break;
+
+                    case 'prev':
+                        prevPage = currentPage - 1;
+                        currentPage = prevPage > 0 ? prevPage : 1;
+                        break;
+
+                    case 'next':
+                        nextPage = currentPage + 1;
+                        currentPage = nextPage <= totalPages ? nextPage : totalPages;
+                        break;
+
+                    case 'last':
+                        currentPage = totalPages;
+                        break;
+
+                    case 'currentPageInput':
+                    /* falls through */
+                    default:
+                        page = parseInt( page );
+                        currentPage = isNaN( page ) ? 1 : page;
+                }
+
+                this.set( 'currentPage', currentPage );
+            },
+
+            /**
+             * Change the "per page" record limit
+             *
+             * @function actions.changePerPage
+             * @param    {number} perPage - The number of records to limit to per page
+             * @returns  {void}
+             */
+            changePerPage: function( perPage ) {
+                perPage = parseInt( perPage );
+                perPage = isNaN( perPage ) ? this.get( 'perPageOptions.firstObject' ) : perPage;
+                this.set( 'itemCountPerPage', perPage );
+            }
+        },
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * The current page number
+         *
+         * @property {number} currentPage
+         * @default  1
+         */
+        currentPage: 1,
+
+        /**
+         * Options for the "per page" resource limit number
+         *
+         * @property {Ember.Array} perPageOptions
+         */
+        perPageOptions: [ 25, 50, 100 ],
+
+        /**
+         * Accepted controller query parameters
+         *
+         * @property {Ember.array} queryParams
+         */
+        queryParams: [ 'currentPage', 'itemCountPerPage' ],
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Reloads the model when currentPage changes
+         *
+         * @function currentPageObserver
+         * @observes currentPage
+         * @returns  {void}
+         */
+        currentPageObserver: function(){
+            Ember.run.once( this, this.reloadModel );
+        }.observes( 'currentPage' ),
+
+        /**
+         * Reloads the model when itemCountPerPage changes
+         *
+         * @function itemCountPerPageObserver
+         * @observes itemCountPerPage
+         * @returns  {void}
+         */
+        itemCountPerPageObserver: function(){
+            this.set( 'currentPage', 1 );
+            Ember.run.once( this, this.reloadModel );
+        }.observes( 'itemCountPerPage' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Override this method with your own to handle loading of a model, using the
+         * currentPage and itemCountPerPage member variables
+         *
+         * @function reloadModel
+         * @throws  {Ember.assert}
+         * @returns {void}
+         */
+        reloadModel: function() {
+            Ember.assert( 'SL-Ember-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
+        },
+
+        /**
+         * Paging data for the grid to pass to its pagination controls
+         *
+         * @function pagingData
+         * @observes currentPage, itemCountPerPage, metaData, perPageOptions
+         * @returns  {Ember.Object} Pagination data
+         */
+        pagingData: function() {
+            var pageNumber = this.get( 'currentPage' ) - 1,
+                pageCount  = this.getWithDefault( 'metaData.pageCount', null ),
+                total      = this.getWithDefault( 'metaData.total', null ),
+                perPage    = this.get( 'itemCountPerPage' ),
+                totalPages = this.getWithDefault( 'metaData.totalPages', 1 ),
+                firstRow   = pageNumber * perPage + 1;
+
+            return {
+                pageFirstRow     : firstRow,
+                pageLastRow      : firstRow + pageCount - 1,
+                totalRows        : total,
+                totalPages       : totalPages,
+                perPageOptions   : this.get( 'perPageOptions' ),
+                itemCountPerPage : this.get( 'itemCountPerPage' ),
+                currentPage      : this.get( 'currentPage' ),
+                modelNames       : this.get( 'metaData.modelNames' )
+            };
+        }.property(
+            'currentPage',
+            'itemCountPerPage',
+            'metaData',
+            'perPageOptions'
+        )
+
+    });
+  });
+define("sl-ember-components/mixins/sl-tooltip-enabled", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-tooltip-enabled
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * Attribute bindings for the tooltip-based component
+         *
+         * @property {Ember.Array} attributeBindings
+         */
+        attributeBindings: [ 'data-toggle', 'title' ],
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * 'data-toggle' attribute for use in template binding
+         *
+         * @property {boolean} data-toggle
+         * @default  null
+         */
+        'data-toggle': null,
+
+        /**
+         * Title attribute
+         *
+         * Used as attribute in template binding by popover
+         * Used as "data-original-title" attribute by tooltip
+         *
+         * @property {Ember.String} title
+         * @default  null
+         */
+        title: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Enable the tooltip functionality, based on component's `popover` attribute
+         *
+         * @function enableTooltip
+         * @observes "didInsertElement" event, popover, title
+         * @throws   {Ember.assert}
+         * @returns  {void}
+         */
+        enable: function() {
+            if ( this.get( 'popover' ) ) {
+                this.enablePopover();
+            } else if ( this.get( 'title' ) ) {
+                 this.enableTooltip();
+            }
+        }.observes( 'popover', 'title' ).on( 'didInsertElement' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Enable popover
+         *
+         * @private
+         * @function enablePopover
+         * @returns  {void}
+         */
+        enablePopover: function() {
+            var popover = this.get( 'popover' );
+
+            // First-time rendering
+            if ( 'undefined' === typeof this.$().attr( 'data-original-title' ) ) {
+                this.set( 'data-toggle', 'popover' );
+
+                this.$().popover({
+                    content   : popover,
+                    placement : 'top'
+                });
+
+            // Reset title value
+            } else {
+                this.$().attr( 'data-original-title', this.get( 'title' ) );
+                this.$().attr( 'data-content', popover );
+            }
+        },
+
+        /**
+         * Enable tooltip
+         *
+         * @private
+         * @function enableTooltip
+         * @returns  {void}
+         */
+        enableTooltip: function() {
+            var title = this.get( 'title' );
+
+            // First-time rendering
+            if ( 'undefined' === typeof this.$().attr( 'data-original-title' ) ) {
+                this.set( 'data-toggle', 'tooltip' );
+
+                this.$().tooltip({
+                    container : 'body',
+                    title     : title
+                });
+
+            // Reset title value
+            } else {
+                this.$().attr( 'data-original-title', title );
+            }
+        }
+    });
+  });
+define("sl-ember-components/utils/sl-grid-key-adapter", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module utils
+     * @class  sl-grid-key-adapter
+     */
+    __exports__["default"] = Ember.Object.extend( Ember.Evented, {
+
+        /**
+         * Triggers the grid's reload action
+         *
+         * @function reload
+         * @returns  {void}
+         */
+        reload: function() {
+            this.trigger( 'reload' );
+        },
+
+        /**
+         * Triggers the grid's changePage action
+         *
+         * @function changePage
+         * @param   {number} page
+         * @returns {void}
+         */
+        changePage: function( page ) {
+            this.trigger( 'changePage', page );
+        }
+    });
+  });
+define("sl-ember-components/utils/sl-menu-key-adapter", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module utils
+     * @class  sl-menu-key-adapter
+     */
+    __exports__["default"] = Ember.Object.extend( Ember.Evented, {
+
+        /**
+         * Trigger the menu's childSelection action
+         *
+         * @function childSelection
+         * @param   {Ember.String} key
+         * @returns {void}
+         */
+        childSelection: function( key ) {
+            if ( typeof key === 'string' ) {
+                key = parseInt( key, 10 );
+            }
+
+            this.trigger( 'childSelected', key );
+        },
+
+        /**
+         * Trigger the menu's drillDown action
+         *
+         * @function drillDown
+         * @param   {Ember.String} key
+         * @returns {void}
+         */
+        drillDown: function( key ) {
+            this.trigger( 'drillDown', key );
+        },
+
+        /**
+         * Trigger the menu's cycleRootSelectionNext action
+         *
+         * @function cycleRootSelectionNext
+         * @returns {void}
+         */
+        cycleRootSelectionNext: function() {
+            this.trigger( 'cycleRootSelectionNext' );
+        },
+
+        /**
+         * Trigger the menu's cycleRootSelectionPrevious action
+         *
+         * @function cycleRootSelectionPrevious
+         * @returns {void}
+         */
+        cycleRootSelectionPrevious: function() {
+            this.trigger( 'cycleRootSelectionPrevious' );
+        },
+
+        /**
+         * Trigger the menu's closeAll action
+         *
+         * @function closeAll
+         * @returns {void}
+         */
+        closeAll: function() {
+            this.trigger( 'closeAll' );
+        },
+
+        /**
+         * Trigger the menu's showAll action
+         *
+         * @function showAll
+         * @returns {void}
+         */
+        showAll: function() {
+            this.trigger( 'showAll' );
+        }
+
+    });
+  });
+define("sl-ember-components", ["sl-ember-components/index","exports"], function(__index__, __exports__) {
+  "use strict";
+  Object.keys(__index__).forEach(function(key){
+    __exports__[key] = __index__[key];
+  });
+});
+
+define("sl-ember-translate/components/sl-translate", 
+  ["ember","sl-ember-translate/templates/components/sl-translate","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    var template = __dependency2__["default"];
+
+    /**
+     * @module components
+     * @class  sl-translate
+     */
+    __exports__["default"] = Ember.Component.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        /**
+         * The tag type of the root element
+         *
+         * @property {Ember.String} tagName
+         * @default  "span"
+         */
+        tagName: 'span',
+
+        /**
+         * The template used to render the view
+         *
+         * @property {function} layout
+         * @default  template:components/sl-translate
+         */
+        layout: template,
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Filtered array of parameters passed to this component
+         *
+         * Only contains those that are a number that begin with "$" and are to be bound to
+         *
+         * @property {Ember.Array} observedParameters
+         * @default  null
+         */
+        observedParameters: null,
+
+        /**
+         * Filtered array of parameters passed to this component
+         *
+         * Only contains those that are a number that begin with "$" and also do not end in "Binding"
+         *
+         * @property {Ember.Array} parameters
+         * @default  null
+         */
+        parameters: null,
+
+        /**
+         * Translated string
+         *
+         * @property {Ember.String} translatedString
+         * @default  null
+         */
+        translatedString: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        /**
+         * Filter passed parameters on initialization
+         *
+         * @function extractParameterKeys
+         * @observes "init" event
+         * @returns  {void}
+         */
+        extractParameterKeys: function() {
+            var parameters         = [],
+                observedParameters = [];
+
+            Ember.keys( this ).map( function( key ) {
+
+                // Is a number that begins with $ but doesn't also end with "Binding"
+                if ( /^\$/.test( key ) && !/^\$.*(Binding)$/.test( key ) ) {
+                    parameters.push( key );
+                }
+
+                // Is a number that begins with $ and was passed as a binding
+                if ( /^\$[0-9]*$/.test( key ) && this.hasOwnProperty( key + 'Binding' ) ) {
+                    observedParameters.push( key );
+                }
+            }.bind( this ));
+
+            this.setProperties({
+                'parameters'         : parameters,
+                'observedParameters' : observedParameters
+            });
+        }.on( 'init' ),
+
+        /**
+         * Register observers on filtered parameter list
+         *
+         * The reason observers have to be manually (de)registered rather than calling .property() on translateString() is
+         * because in order to support token replacement within a tranlsation string a user needs to be able to pass in a
+         * variable amount of (potentially) bound properties.  There is not a way to specify such a dynamic list of
+         * properties in a .property() call.
+         *
+         * @function registerObservers
+         * @observes "willInsertElement" event
+         * @returns  {void}
+         */
+        registerObservers: function() {
+            this.get( 'observedParameters' ).map( function( key ) {
+                this.addObserver( key, this, this.setTranslatedString );
+            }.bind( this ));
+
+            this.setTranslatedString();
+        }.on( 'willInsertElement' ),
+
+        /**
+         * Remove observers on filtered parameter list
+         *
+         * @function unregisterObservers
+         * @observes "willClearRender" event
+         * @returns  {void}
+         */
+        unregisterObservers: function() {
+            this.get( 'observedParameters' ).map( function( key ) {
+                this.removeObserver( key, this, this.setTranslatedString );
+            }.bind( this ));
+        }.on( 'willClearRender' ),
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Set translated string value on property used by template
+         *
+         * @function setTranslatedString
+         * @returns {void}
+         */
+        setTranslatedString: function() {
+            this.set( 'translatedString', this.translateString() );
+        },
+
+        /**
+         * Translate provided key
+         *
+         * Supports
+         * - singular/plural string substitution
+         * - replacement of placeholder tokens in translation strings with passed parameters
+         *
+         * @function translateString
+         * @returns {Ember.String} Translated string
+         */
+        translateString: function() {
+            var parametersHash = {};
+
+            this.get( 'parameters' ).map( function( key ) {
+                parametersHash[key] = this.get( key );
+            }.bind( this ));
+
+            return this.get( 'translateService' ).translateKey({
+                key         : this.get( 'key' ),
+                pluralKey   : this.get( 'pluralKey' ),
+                pluralCount : this.get( 'pluralCount' ),
+                parameters  : parametersHash
+            });
+        }
+    });
+  });
+define("sl-ember-translate/initializers/translate-service", 
+  ["sl-ember-translate/services/translate","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var TranslateService = __dependency1__["default"];
+
+    /**
+     * @module initializers
+     * @class  translate-service
+     */
+    __exports__["default"] = function( container, app ) {
+        var translateService  = TranslateService.create();
+
+        // Inject Translate Service
+        container.register( 'translateService:main', translateService, { instantiate: false } );
+        app.inject( 'view', 'translateService', 'translateService:main' );
+        app.inject( 'controller', 'translateService', 'translateService:main' );
+        app.inject( 'component', 'translateService', 'translateService:main' );
+    }
+  });
+define("sl-ember-translate/mixins/sl-get-translation", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module mixins
+     * @class  sl-get-translation
+     */
+    __exports__["default"] = Ember.Mixin.create({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Based on value of key, retrieve translation or usual get() value
+         *
+         * @function get
+         * @argument {Ember.String} key property to retrieve
+         * @returns  {Ember.String}
+         */
+        get: function( key ) {
+            var translationsRegex = /translate\.(.*)/,
+                matches           = key.match( translationsRegex );
+
+            return ( matches ) ? this.translate( matches[1] ) : this._super( key );
+        },
+
+        /**
+         * Retrieve translated key without support for token replacement or pluralization
+         *
+         * @function translate
+         * @argument {Ember.String} key key to translate
+         * @returns  {Ember.String} translated key
+         */
+        translate: function( key ) {
+            return this.translateService.getKeyValue( key );
+        }
+    });
+  });
+define("sl-ember-translate/services/translate", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+
+    /**
+     * @module services
+     * @class  translate
+     */
+    __exports__["default"] = Ember.Object.extend({
+
+        // -------------------------------------------------------------------------
+        // Dependencies
+
+        // -------------------------------------------------------------------------
+        // Attributes
+
+        // -------------------------------------------------------------------------
+        // Actions
+
+        // -------------------------------------------------------------------------
+        // Events
+
+        // -------------------------------------------------------------------------
+        // Properties
+
+        /**
+         * Translations
+         *
+         * @property {Ember.Object} dictionary
+         * @default  null
+         */
+        dictionary: null,
+
+        // -------------------------------------------------------------------------
+        // Observers
+
+        // -------------------------------------------------------------------------
+        // Methods
+
+        /**
+         * Set translation dictionary data
+         *
+         * @function setDictionary
+         * @argument {Ember.Object} translations  Translation model
+         * @returns  {void}
+         */
+        setDictionary: function( translations ) {
+            this.set( 'dictionary', translations );
+        },
+
+        /**
+         * Retrieve value for specified dictionary key
+         *
+         * @function getKeyValue
+         * @argument {Ember.String} key Dictionary key to retrieve value for
+         * @returns  {Ember.String}
+         */
+        getKeyValue: function( key ) {
+            var defaultKeyValue = 'KEY__NOT__PRESENT',
+                retrievedKey    = this.get( 'dictionary' ).getWithDefault( key, defaultKeyValue ),
+                returnValue;
+
+            if ( defaultKeyValue !== retrievedKey ) {
+                returnValue = retrievedKey;
+
+            } else {
+                console.warn( 'No translation match for key "' + key + '".' );
+                returnValue = key;
+            }
+
+            return returnValue;
+        },
+
+        /**
+         * Translate provided key
+         *
+         * Supports
+         * - singular/plural string substitution
+         * - replacement of placeholder tokens in translation strings with passed parameters
+         *
+         * @function translateKey
+         * @argument {Ember.Object} data
+         * @example
+         * // Example object that can be passed as argument
+         * {
+         *     key
+         *     pluralKey
+         *     pluralCount
+         *     parameters: {
+         *         $0: value
+         *     }
+         * }
+         * @return {Ember.String}       Translated string
+         */
+        translateKey: function( data ) {
+
+            Ember.assert( 'Argument must be supplied', data );
+
+            if ( undefined === data ) {
+                return;
+            }
+
+            data.parameters = data.parameters || {};
+
+            var pluralErrorTracker = 0,
+                token              = data.key,
+                getTokenValue      = function( value ) {
+                    try {
+                        value = this.getKeyValue( value );
+                    } catch ( e ) {
+                        console.warn( 'Unable to translate key "' + value + '".' );
+                    }
+
+                    return value;
+                }.bind( this ),
+                translatedString;
+
+            // BEGIN: Pluralization error checking
+            if ( !Ember.isEmpty( data.pluralKey ) ) {
+                pluralErrorTracker++;
+            }
+
+            if ( !Ember.isEmpty( data.pluralCount ) ) {
+                pluralErrorTracker++;
+            }
+
+            if ( 1 === pluralErrorTracker ) {
+                console.warn( 'If either "pluralKey" or "pluralCount" are provided then both must be.' +
+                    'Singular key value was returned.' );
+                return getTokenValue( token );
+            }
+            // END: Pluralization error checking
+
+            // Pluralization
+            if ( !Ember.isEmpty( data.pluralCount ) && Number(data.pluralCount) > 1 ) {
+                token = data.pluralKey;
+            }
+
+            translatedString = getTokenValue( token );
+
+            // Parameter replacement
+            Ember.keys( data.parameters ).map( function( key ) {
+                translatedString = translatedString.replace( '{' + key.replace( '$', '' ) + '}' , data.parameters[key] );
+            }.bind( this ) );
+
+            return translatedString;
+        }
+    });
+  });
+define("sl-ember-translate/templates/components/sl-translate", 
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Ember = __dependency1__["default"];
+    __exports__["default"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+    this.compilerInfo = [4,'>= 1.0.0'];
+    helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+      var stack1;
+
+
+      stack1 = helpers._triageMustache.call(depth0, "translatedString", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+      if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+      else { data.buffer.push(''); }
+      
+    });
+  });
+define("sl-ember-translate", ["sl-ember-translate/index","exports"], function(__index__, __exports__) {
+  "use strict";
+  Object.keys(__index__).forEach(function(key){
+    __exports__[key] = __index__[key];
+  });
+});
+//# sourceMappingURL=vendor.map
