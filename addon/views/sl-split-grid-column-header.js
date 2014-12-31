@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
 /**
- * @module controllers
- * @class  sl-split-grid-column
+ * @module views
+ * @class  sl-split-grid-column-header
  */
-export default Ember.ObjectController.extend({
+export default Ember.View.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -12,32 +12,45 @@ export default Ember.ObjectController.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /**
+     * The HTML tag name of the view element
+     *
+     * @property {string} tagName
+     * @default  "th"
+     */
+    tagName: 'th',
+
+    /**
+     * Attribute bindings for the view element
+     *
+     * @property {array} attributeBindings
+     */
+    attributeBindings: [ 'style' ],
+
+    /**
+     * Class name bindings for the view element
+     *
+     * @property {array} classNameBindings
+     */
+    classNameBindings: [ 'content.primary:primary-column', 'sortedClass' ],
+
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * A hash of object actions
-     *
-     * @property {object} actions
-     */
-    actions: {
-
-        /**
-         * Fired when a column header is clicked, handles sorting
-         *
-         * @function actions.columnHeaderClick
-         * @returns  {void}
-         */
-        columnHeaderClick: function() {
-            if ( this.get( 'content.sortable' ) === true ) {
-                this.send( 'sortColumn', this.get( 'content' ) );
-            }
-        }
-
-    },
-
     // -------------------------------------------------------------------------
     // Events
+
+    /**
+     * The click event handler
+     *
+     * @function click
+     * @returns  {void}
+     */
+    click: function() {
+        if ( this.get( 'content.sortable' ) === true ) {
+            this.trigger( 'sortColumn', this.get( 'content' ) );
+        }
+    },
 
     // -------------------------------------------------------------------------
     // Properties
@@ -47,36 +60,6 @@ export default Ember.ObjectController.extend({
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * Class name string based on align property
-     *
-     * @function alignmentClass
-     * @observes content.align
-     * @returns  {string}
-     */
-    alignmentClass: function() {
-        var align = this.get( 'content.align' );
-
-        if ( align === 'right' ) {
-            return 'text-right';
-        }
-    }.property( 'content.align' ),
-
-    /**
-     * Class name string based on size string
-     *
-     * @function sizeClass
-     * @observes content.size
-     * @returns  {string}
-     */
-    sizeClass: function() {
-        var size = this.get( 'content.size' );
-
-        if ( typeof size === 'string' ) {
-            return 'column-' + size;
-        }
-    }.property( 'content.size' ),
 
     /**
      * Class name string based on sorted property
@@ -128,6 +111,8 @@ export default Ember.ObjectController.extend({
         if ( typeof size === 'number' ) {
             return 'width: ' + size + 'px';
         }
+
+        return 'width: auto';
     }.property( 'content.size' )
 
 });

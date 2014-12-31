@@ -16,19 +16,19 @@
     </div>
 </header>
 
-{{#if filterOpen}}
-    <div class="filter-pane">
+<div class="filter-pane">
+    {{#if filterOpen}}
         <div class="filter-content">
             {{split-grid-filter}}
         </div>
-    </div>
-{{/if}}
+    {{/if}}
+</div>
 
 <div class="list-pane">
     <table class="table column-headers">
         <thead>
             <tr>
-                {{#each column in columns itemController="sl-split-grid-column"}}
+                {{#each column in columns itemViewClass="sl-split-grid-column-header"}}
                     <th {{action "columnHeaderClick" on="click"}} {{bind-attr class="column.alignmentClass column.primary:primary-column column.sizeClass column.sortable:sortable-column column.sortedClass" style=column.style}}>
                         {{column.title}}
                         {{#if column.sortable}}
@@ -37,7 +37,7 @@
                     </th>
                 {{/each}}
 
-                {{#if rowActions}}
+                {{#if view.rowActions}}
                     <th {{bind-attr style=actionsColumnStyle}} class="actions-cell"></th>
                 {{/if}}
             </tr>
@@ -47,25 +47,27 @@
     <div class="content">
         <table class="table table-hover table-striped">
             <tbody>
-                {{#each row in content itemController=rowController}}
-                    <tr {{bind-attr class="row.active:active row.classString"}}>
-                        {{#each column in columns itemController="sl-split-grid-column"}}
-                            <td {{action "openDetailsPane" row on="click"}} {{bind-attr class="column.alignmentClass column.primary:primary-column column.sizeClass" style=column.style}}>
-                                {{split-grid-cell}}
-                            </td>
+                {{#if view.rowActions}}
+                    {{#each row in content itemController=view.rowController itemViewClass="sl-split-grid-row"}}
+                        {{#each column in columns itemViewClass="sl-split-grid-cell"}}
+                            {{split-grid-cell}}
                         {{/each}}
 
-                        {{#if view.rowActions}}
-                            <td {{bind-attr style=actionsColumnStyle}} class="actions-cell">
-                                {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
-                                    {{#each rowAction in view.rowActions}}
-                                        {{sl-drop-option action=rowAction.action label=rowAction.label}}
-                                    {{/each}}
-                                {{/sl-drop-button}}
-                            </td>
-                        {{/if}}
-                    </tr>
-                {{/each}}
+                        <td {{bind-attr style=actionsColumnStyle}} class="actions-cell">
+                            {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
+                                {{#each rowAction in rowActions}}
+                                    {{sl-drop-option action=rowAction.action label=rowAction.label}}
+                                {{/each}}
+                            {{/sl-drop-button}}
+                        </td>
+                    {{/each}}
+                {{else}}
+                    {{#each row in content itemController=view.rowController itemViewClass="sl-split-grid-row"}}
+                        {{#each column in columns itemViewClass="sl-split-grid-cell"}}
+                            {{split-grid-cell}}
+                        {{/each}}
+                    {{/each}}
+                {{/if}}
             </tbody>
         </table>
     </div>

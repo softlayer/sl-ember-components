@@ -367,7 +367,6 @@ export default Ember.Component.extend({
     setupContinuousPaging: function() {
         if ( this.get( 'hasMorePages' ) ) {
             this.enableContinuousPaging();
-            this.requestNextPage();
         }
     }.on( 'didInsertElement' ),
 
