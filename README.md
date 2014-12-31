@@ -1,15 +1,13 @@
 
-Ember CLI version: **0.1.5**
+[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-0.1.5-orange.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) (though see the "License Warning" section) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
 
-License: [MIT](LICENSE.md) (though see the "License Warning" section)
+[![Dependencies](https://img.shields.io/david/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components) [![Dev Dependencies](https://img.shields.io/david/dev/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components#info=devDependencies)
+
+[![Build Status](https://img.shields.io/travis/softlayer/sl-ember-components/develop.svg)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://img.shields.io/codeclimate/github/softlayer/sl-ember-components.svg)](https://codeclimate.com/github/softlayer/sl-ember-components)
 
 ---
 
 ### Is currently in BETA
-
----
-
-[![Build Status](https://travis-ci.org/softlayer/sl-ember-components.svg?branch=develop)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://codeclimate.com/github/softlayer/sl-ember-components/badges/gpa.svg)](https://codeclimate.com/github/softlayer/sl-ember-components)
 
 ---
 
