@@ -62,6 +62,9 @@ module.exports = {
                 files   : [ 'fontawesome-webfont.woff' ],
                 destDir : '/fonts'
             })
-        ]);
+        ],
+        {
+            overwrite: true
+        });
     }
 };
