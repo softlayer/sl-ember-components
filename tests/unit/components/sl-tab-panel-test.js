@@ -23,8 +23,10 @@ test( 'Expected default classes are applied', function() {
     contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ], 'Default classes are not correctly applied' );
 });
 
-// @TODO 5th test - selector does not return results when there's an expectation that it should (in test environment)
 test( 'setupTabs() does so correctly', function() {
+    expect(5);
+    stop();
+
     var component  = this.subject({
             template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -35,16 +37,20 @@ test( 'setupTabs() does so correctly', function() {
 
     this.append();
 
-    // All tabs are rendered
-    equal( $('.tab[data-tab-name]' ).length, 3 );
+    component.paneFor( 'a' ).queue( function() {
+        // All tabs are rendered
+        equal( $('.tab[data-tab-name]' ).length, 3 );
 
-    // Tab content is rendered
-    equal( $('.sl-tab-pane[data-tab-name]').length, 3 );
-    equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
+        // Tab content is rendered
+        equal( $('.sl-tab-pane[data-tab-name]').length, 3 );
+        equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
 
-    // First tab is active
-    equal( $('.tab.active[data-tab-name="a"]').length, 1 );
-    equal( $('.sl-tab-pane.active[data-tab-name="a"]').length, 1 );
+        // First tab is active
+        equal( $('.tab.active[data-tab-name="a"]').length, 1 );
+        equal( $('.sl-tab-pane.active[data-tab-name="a"]').length, 1 );
+
+        start();
+    });
 });
 
 test( 'ARIA roles are implemented', function() {
