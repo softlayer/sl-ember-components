@@ -70,6 +70,9 @@ test( 'ARIA roles are implemented', function() {
 
 // @TODO 2nd test - selector does not return results when there's an expectation that it should (in test environment)
 test( '"initialTabName" property is respected', function() {
+    expect(2);
+    stop();
+
     var component  = this.subject({
             initialTabName : 'b',
             template       : Ember.Handlebars.compile(
@@ -81,8 +84,13 @@ test( '"initialTabName" property is respected', function() {
 
     this.append();
 
-    equal( $('.tab.active[data-tab-name="b"]').length, 1 );
-    equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+    component.paneFor( 'b' ).queue( function() {
+
+        equal( $('.tab.active[data-tab-name="b"]').length, 1 );
+        equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+
+        start();
+    });
 });
 
 test( '"alignTabs" property is respected', function() {
