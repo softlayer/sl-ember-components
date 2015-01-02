@@ -68,7 +68,6 @@ test( 'ARIA roles are implemented', function() {
     equal( $('.tab a[role="tab"]').length, 3 );
 });
 
-// @TODO 2nd test - selector does not return results when there's an expectation that it should (in test environment)
 test( '"initialTabName" property is respected', function() {
     expect(2);
     stop();
@@ -140,22 +139,29 @@ test( 'Tabs display in expected order when "alignTabs" property is set to "right
     deepEqual( labels, [ 'c', 'b', 'a' ] );
 });
 
-// @TODO 2nd test - selector does not return results when there's an expectation that it should (in test environment)
 test( 'Clicking tab changes active tab', function() {
+    expect(2);
+    stop();
+
     var component  = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
-        }),
-        $component = this.append();
+        });
+
+    this.append();
 
     click( $('.tab[data-tab-name="b"] a') );
 
-    andThen( function() {
-        equal( $('.tab.active[data-tab-name="b"]').length, 1 );
-        equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+    component.paneFor( 'a' ).queue( function() {
+        component.paneFor( 'b' ).queue( function() {
+            equal( $('.tab.active[data-tab-name="b"]').length, 1 );
+            equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+
+            start();
+        });
     });
 });
 
