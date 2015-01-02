@@ -145,8 +145,10 @@ test( 'Clicking tab changes active tab', function() {
     });
 });
 
-// @TODO height value does not change when expected to (in test environment)
 test( 'Tab content height is adjusted after new tab selection', function() {
+    expect(1);
+    stop();
+
     var component  = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -154,13 +156,20 @@ test( 'Tab content height is adjusted after new tab selection', function() {
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
         }),
-        $component    = this.append(),
-        initialHeight = $('.tab-content').height();
+        initialHeight;
+
+    this.append(),
 
     click( $('.tab[data-tab-name="b"] a') );
 
-    andThen( function() {
-        notEqual( initialHeight, $('.tab-content').height() );
+    component.paneFor( 'a' ).queue( function() {
+        initialHeight = $('.tab-content').height();
+
+        component.paneFor( 'b' ).queue( function() {
+            notEqual( initialHeight, $('.tab-content').height() );
+
+            start();
+        });
     });
 });
 
