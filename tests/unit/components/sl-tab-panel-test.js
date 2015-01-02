@@ -119,26 +119,6 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
     deepEqual( labels, [ 'a', 'b', 'c' ] );
 });
 
-// @TODO - Determine how tabs are visually displayed different than DOM order and test appropriately
-test( 'Tabs display in expected order when "alignTabs" property is set to "right"', function() {
-    var component  = this.subject({
-            alignTabs : 'right',
-            template  : Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        $component = this.append(),
-        labels     = [];
-
-    $('.tab[data-tab-name]').each( function() {
-        labels.push( $( this ).attr('data-tab-name') );
-    });
-
-    deepEqual( labels, [ 'c', 'b', 'a' ] );
-});
-
 test( 'Clicking tab changes active tab', function() {
     expect(2);
     stop();
