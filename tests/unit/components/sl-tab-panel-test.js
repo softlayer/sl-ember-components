@@ -158,7 +158,7 @@ test( 'Tab content height is adjusted after new tab selection', function() {
         }),
         initialHeight;
 
-    this.append(),
+    this.append();
 
     click( $('.tab[data-tab-name="b"] a') );
 
