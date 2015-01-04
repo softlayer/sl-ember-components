@@ -27,7 +27,7 @@ test( 'setupTabs() does so correctly', function() {
     expect(5);
     stop();
 
-    var component  = this.subject({
+    var component = this.subject({
             template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
@@ -54,7 +54,7 @@ test( 'setupTabs() does so correctly', function() {
 });
 
 test( 'ARIA roles are implemented', function() {
-    var component  = this.subject({
+    var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
@@ -123,7 +123,7 @@ test( 'Clicking tab changes active tab', function() {
     expect(2);
     stop();
 
-    var component  = this.subject({
+    var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
@@ -149,7 +149,7 @@ test( 'Tab content height is adjusted after new tab selection', function() {
     expect(1);
     stop();
 
-    var component  = this.subject({
+    var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content<br><br>Taller content{{/sl-tab-pane}}' +
@@ -193,10 +193,28 @@ test( '"activatePane" animates as expected', function() {
     });
 });
 
-// @TODO - fadeOut is not firing (in test environment)
 test( '"deactivatePane" animates as expected', function() {
+    expect(1);
+    stop();
 
+    var component = this.subject({
+            template : Ember.Handlebars.compile(
+                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+            )
+        }),
+        spy = sinon.spy( $.prototype, 'fadeOut' );
 
+    this.append();
+
+    click( $('.tab[data-tab-name="b"] a') );
+
+    component.paneFor( 'a' ).queue( function() {
+        component.paneFor( 'b' ).queue( function() {
+            equal( spy.calledOnce, true );
+            start();
+        });
+    });
 });
 
 // @TODO - fadeOut is not firing (in test environment)
