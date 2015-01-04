@@ -23,9 +23,11 @@ test( 'Expected default classes are applied', function() {
     contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ], 'Default classes are not correctly applied' );
 });
 
-// @TODO 5th test - selector does not return results when there's an expectation that it should (in test environment)
 test( 'setupTabs() does so correctly', function() {
-    var component  = this.subject({
+    expect(5);
+    stop();
+
+    var component = this.subject({
             template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
@@ -35,20 +37,24 @@ test( 'setupTabs() does so correctly', function() {
 
     this.append();
 
-    // All tabs are rendered
-    equal( $('.tab[data-tab-name]' ).length, 3 );
+    component.paneFor( 'a' ).queue( function() {
+        // All tabs are rendered
+        equal( $('.tab[data-tab-name]' ).length, 3 );
 
-    // Tab content is rendered
-    equal( $('.sl-tab-pane[data-tab-name]').length, 3 );
-    equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
+        // Tab content is rendered
+        equal( $('.sl-tab-pane[data-tab-name]').length, 3 );
+        equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
 
-    // First tab is active
-    equal( $('.tab.active[data-tab-name="a"]').length, 1 );
-    equal( $('.sl-tab-pane.active[data-tab-name="a"]').length, 1 );
+        // First tab is active
+        equal( $('.tab.active[data-tab-name="a"]').length, 1 );
+        equal( $('.sl-tab-pane.active[data-tab-name="a"]').length, 1 );
+
+        start();
+    });
 });
 
 test( 'ARIA roles are implemented', function() {
-    var component  = this.subject({
+    var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
@@ -62,8 +68,10 @@ test( 'ARIA roles are implemented', function() {
     equal( $('.tab a[role="tab"]').length, 3 );
 });
 
-// @TODO 2nd test - selector does not return results when there's an expectation that it should (in test environment)
 test( '"initialTabName" property is respected', function() {
+    expect(2);
+    stop();
+
     var component  = this.subject({
             initialTabName : 'b',
             template       : Ember.Handlebars.compile(
@@ -75,8 +83,13 @@ test( '"initialTabName" property is respected', function() {
 
     this.append();
 
-    equal( $('.tab.active[data-tab-name="b"]').length, 1 );
-    equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+    component.paneFor( 'b' ).queue( function() {
+
+        equal( $('.tab.active[data-tab-name="b"]').length, 1 );
+        equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+
+        start();
+    });
 });
 
 test( '"alignTabs" property is respected', function() {
@@ -106,71 +119,122 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
     deepEqual( labels, [ 'a', 'b', 'c' ] );
 });
 
-// @TODO - Determine how tabs are visually displayed different than DOM order and test appropriately
-test( 'Tabs display in expected order when "alignTabs" property is set to "right"', function() {
-    var component  = this.subject({
-            alignTabs : 'right',
-            template  : Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        $component = this.append(),
-        labels     = [];
-
-    $('.tab[data-tab-name]').each( function() {
-        labels.push( $( this ).attr('data-tab-name') );
-    });
-
-    deepEqual( labels, [ 'c', 'b', 'a' ] );
-});
-
-// @TODO 2nd test - selector does not return results when there's an expectation that it should (in test environment)
 test( 'Clicking tab changes active tab', function() {
-    var component  = this.subject({
+    expect(2);
+    stop();
+
+    var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
-        }),
-        $component = this.append();
+        });
+
+    this.append();
 
     click( $('.tab[data-tab-name="b"] a') );
 
-    andThen( function() {
-        equal( $('.tab.active[data-tab-name="b"]').length, 1 );
-        equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+    component.paneFor( 'a' ).queue( function() {
+        component.paneFor( 'b' ).queue( function() {
+            equal( $('.tab.active[data-tab-name="b"]').length, 1 );
+            equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+
+            start();
+        });
     });
 });
 
-// @TODO height value does not change when expected to (in test environment)
 test( 'Tab content height is adjusted after new tab selection', function() {
-    var component  = this.subject({
+    expect(1);
+    stop();
+
+    var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content<br><br>Taller content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
         }),
-        $component    = this.append(),
-        initialHeight = $('.tab-content').height();
+        initialHeight;
+
+    this.append();
 
     click( $('.tab[data-tab-name="b"] a') );
 
-    andThen( function() {
-        notEqual( initialHeight, $('.tab-content').height() );
+    component.paneFor( 'a' ).queue( function() {
+        initialHeight = $('.tab-content').height();
+
+        component.paneFor( 'b' ).queue( function() {
+            notEqual( initialHeight, $('.tab-content').height() );
+
+            start();
+        });
     });
 });
 
 test( '"activatePane" animates as expected', function() {
+    expect(1);
+    stop();
+
+    var component = this.subject({
+            template : Ember.Handlebars.compile(
+                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+            )
+        }),
+        spy = sinon.spy( $.prototype, 'fadeIn' );
+
+    this.append();
+
+    component.paneFor( 'a' ).queue( function() {
+        equal( spy.calledOnce, true );
+        start();
+    });
 });
 
-// @TODO - fadeOut is not firing (in test environment)
 test( '"deactivatePane" animates as expected', function() {
+    expect(1);
+    stop();
+
+    var component = this.subject({
+            template : Ember.Handlebars.compile(
+                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+            )
+        }),
+        spy = sinon.spy( $.prototype, 'fadeOut' );
+
+    this.append();
+
+    click( $('.tab[data-tab-name="b"] a') );
+
+    component.paneFor( 'a' ).queue( function() {
+        component.paneFor( 'b' ).queue( function() {
+            equal( spy.calledOnce, true );
+            start();
+        });
+    });
 });
 
-// @TODO - fadeOut is not firing (in test environment)
 test( '"deactivatePane" calls specified callback', function() {
+    expect(1);
+    stop();
+
+    var component = this.subject({
+            template : Ember.Handlebars.compile(
+                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+            )
+        }),
+        callback  = sinon.spy();
+
+    this.append();
+
+    component.deactivatePane( 'a', callback );
+
+    component.paneFor( 'a' ).queue( function() {
+        equal( callback.calledOnce, true );
+        start();
+    });
 });
