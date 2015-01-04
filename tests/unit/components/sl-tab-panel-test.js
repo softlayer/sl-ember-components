@@ -217,6 +217,24 @@ test( '"deactivatePane" animates as expected', function() {
     });
 });
 
-// @TODO - fadeOut is not firing (in test environment)
 test( '"deactivatePane" calls specified callback', function() {
+    expect(1);
+    stop();
+
+    var component = this.subject({
+            template : Ember.Handlebars.compile(
+                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+            )
+        }),
+        callback  = sinon.spy();
+
+    this.append();
+
+    component.deactivatePane( 'a', callback );
+
+    component.paneFor( 'a' ).queue( function() {
+        equal( callback.calledOnce, true );
+        start();
+    });
 });
