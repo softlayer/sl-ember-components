@@ -174,10 +174,29 @@ test( 'Tab content height is adjusted after new tab selection', function() {
 });
 
 test( '"activatePane" animates as expected', function() {
+    expect(1);
+    stop();
+
+    var component = this.subject({
+            template : Ember.Handlebars.compile(
+                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+            )
+        }),
+        spy = sinon.spy( $.prototype, 'fadeIn' );
+
+    this.append();
+
+    component.paneFor( 'a' ).queue( function() {
+        equal( spy.calledOnce, true );
+        start();
+    });
 });
 
 // @TODO - fadeOut is not firing (in test environment)
 test( '"deactivatePane" animates as expected', function() {
+
+
 });
 
 // @TODO - fadeOut is not firing (in test environment)
