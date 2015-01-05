@@ -5,17 +5,19 @@ export default Ember.ArrayController.extend({
     actions: {
 
         nextPage: function() {
-            this.set( 'loading', true );
+            if ( !this.get( 'loading' ) ) {
+                this.set( 'loading', true );
 
-            var contentLength = this.get( 'content.length' ),
-                start         = contentLength + 1,
-                self          = this,
-                end           = contentLength + 50;
+                var contentLength = this.get( 'content.length' ),
+                    start         = contentLength + 1,
+                    self          = this,
+                    end           = contentLength + 50;
 
-            Ember.$.getJSON( '/fake-records-' + start + '-' + end + '.json', function( data ) {
-                self.pushObjects( data );
-                self.set( 'loading', false );
-            });
+                Ember.$.getJSON( '/fake-records-' + start + '-' + end + '.json', function( data ) {
+                    self.pushObjects( data );
+                    self.set( 'loading', false );
+                });
+            }
         }
 
     },

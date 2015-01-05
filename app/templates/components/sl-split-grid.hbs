@@ -29,12 +29,10 @@
         <thead>
             <tr>
                 {{#each column in columns itemViewClass="sl-split-grid-column-header"}}
-                    <th {{action "columnHeaderClick" on="click"}} {{bind-attr class="column.alignmentClass column.primary:primary-column column.sizeClass column.sortable:sortable-column column.sortedClass" style=column.style}}>
-                        {{column.title}}
-                        {{#if column.sortable}}
-                            <i {{bind-attr class=":fa column.sortIconClass"}}></i>
-                        {{/if}}
-                    </th>
+                    {{column.title}}
+                    {{#if column.sortable}}
+                        <i {{bind-attr class=":fa view.sortIconClass"}}></i>
+                    {{/if}}
                 {{/each}}
 
                 {{#if view.rowActions}}

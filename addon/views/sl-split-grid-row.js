@@ -25,7 +25,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      *
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'active' ],
+    classNameBindings: [ 'content.active:active' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -34,26 +34,26 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     // Events
 
     /**
+     * Handle the click event for the row
      *
+     * @function click
+     * @param    {event} event - The raw click event
+     * @returns  {void}
      */
-    click: function() {
-        this.triggerAction({
-            action        : 'openDetailsPane',
-            actionContext : this.get( 'content' ),
-            target        : this.get( 'parentController' )
-        });
+    click: function( event ) {
+        var targetType = event.target.nodeName;
+
+        if ( targetType !== 'A' && targetType !== 'BUTTON' ) {
+            this.triggerAction({
+                action        : 'openDetailsPane',
+                actionContext : this.get( 'content' ),
+                target        : this.get( 'parentController' )
+            });
+        }
     },
 
     // -------------------------------------------------------------------------
     // Properties
-
-    /**
-     * Whether this is the active record row
-     *
-     * @property {boolean} active
-     * @default  false
-     */
-    active: false
 
     // -------------------------------------------------------------------------
     // Observers

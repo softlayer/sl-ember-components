@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import SlSplitGridCellView from './sl-split-grid-cell';
 
 /**
  * @module views
  * @class  sl-split-grid-column-header
  */
-export default Ember.View.extend({
+export default SlSplitGridCellView.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -32,7 +32,7 @@ export default Ember.View.extend({
      *
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'content.primary:primary-column', 'sortedClass' ],
+    classNameBindings: [ 'content.sortable:sortable-column', 'sortedClass' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -48,7 +48,11 @@ export default Ember.View.extend({
      */
     click: function() {
         if ( this.get( 'content.sortable' ) === true ) {
-            this.trigger( 'sortColumn', this.get( 'content' ) );
+            this.triggerAction({
+                action        : 'sortColumn',
+                actionContext : this.get( 'content' ),
+                target        : this.get( 'parentController' )
+            });
         }
     },
 
@@ -96,23 +100,6 @@ export default Ember.View.extend({
         }
 
         return iconClass;
-    }.property( 'content.sorted' ),
-
-    /**
-     * Calculated style string based on column size
-     *
-     * @function style
-     * @observes content.size
-     * @returns  {string}
-     */
-    style: function() {
-        var size = this.get( 'content.size' );
-
-        if ( typeof size === 'number' ) {
-            return 'width: ' + size + 'px';
-        }
-
-        return 'width: auto';
-    }.property( 'content.size' )
+    }.property( 'content.sorted' )
 
 });

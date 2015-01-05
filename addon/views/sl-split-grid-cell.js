@@ -4,7 +4,7 @@ import Ember from 'ember';
  * @module views
  * @class  sl-split-grid-column
  */
-export default Ember.View.extend({
+export default Ember.View.extend( Ember.ViewTargetActionSupport, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -92,8 +92,6 @@ export default Ember.View.extend({
         if ( typeof size === 'number' ) {
             return 'width: ' + size + 'px';
         }
-
-        return 'width: auto';
     }.property( 'content.size' )
 
 });
