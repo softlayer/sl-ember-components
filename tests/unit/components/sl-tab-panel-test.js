@@ -227,11 +227,11 @@ test( '"deactivatePane" calls specified callback', function() {
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
-        callback  = sinon.spy();
+        callback = sinon.spy();
 
     this.append();
 
-    component.deactivatePane( 'a', callback );
+    component.deactivatePane( callback );
 
     component.paneFor( 'a' ).queue( function() {
         equal( callback.calledOnce, true );
