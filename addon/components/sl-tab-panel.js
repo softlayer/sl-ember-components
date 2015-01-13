@@ -54,9 +54,6 @@ export default Ember.Component.extend({
                         self.activatePane( tabName );
                     });
                 }
-            } else {
-                this.setActiveTab( tabName );
-                this.activatePane( tabName );
             }
         }
     },
