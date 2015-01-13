@@ -47,13 +47,11 @@ export default Ember.Component.extend({
             var activeTabName = this.get( 'activeTabName' ),
                 self          = this;
 
-            if ( activeTabName ) {
-                if ( activeTabName !== tabName ) {
-                    this.setActiveTab( tabName );
-                    this.deactivatePane( activeTabName, function() {
-                        self.activatePane( tabName );
-                    });
-                }
+            if ( activeTabName !== tabName ) {
+                this.setActiveTab( tabName );
+                this.deactivatePane( function() {
+                    self.activatePane( tabName );
+                });
             }
         }
     },
@@ -93,7 +91,7 @@ export default Ember.Component.extend({
     /**
      * The name of the tab to open when the component is first rendered
      *
-     * @property {Ember.S`tring} initialTabName
+     * @property {Ember.String} initialTabName
      * @default  null
      */
     initialTabName: null,
@@ -152,7 +150,7 @@ export default Ember.Component.extend({
      * Activate a tab pane, animating the transition
      *
      * @function activatePane
-     * @param    {string}   tabName - The name of the tab to activate
+     * @param    {string} tabName - The name of the tab to activate
      * @returns  {void}
      */
     activatePane: function( tabName ) {
@@ -162,6 +160,7 @@ export default Ember.Component.extend({
             pane.addClass( 'active' );
         });
 
+        this.set( 'activeTabName', tabName );
         this.set( 'contentHeight', parseInt( pane.css( 'height' ) ) );
     },
 
@@ -169,12 +168,11 @@ export default Ember.Component.extend({
      * Deactivate a tab pane, animating the transition
      *
      * @function deactivatePane
-     * @param    {string}   tabName - The name of the tab to deactivate
      * @param    {function} callback - Function called when the pane is deactivated
      * @returns  {void}
      */
-    deactivatePane: function( tabName, callback ) {
-        var pane = this.paneFor( tabName );
+    deactivatePane: function( callback ) {
+        var pane = this.paneFor( this.get( 'activeTabName' ) );
 
         pane.fadeOut( 'fast', function() {
             pane.removeClass( 'active' );
@@ -206,15 +204,8 @@ export default Ember.Component.extend({
     setActiveTab: function( tabName ) {
         var activeTabName = this.get( 'activeTabName' );
 
-        if ( activeTabName ) {
-            this.tabFor( activeTabName ).removeClass( 'active' );
-        }
-
-        this.set( 'activeTabName', tabName );
-
-        if ( tabName !== null ) {
-            this.tabFor( tabName ).addClass( 'active' );
-        }
+        this.tabFor( activeTabName ).removeClass( 'active' );
+        this.tabFor( tabName ).addClass( 'active' );
     },
 
     /**
