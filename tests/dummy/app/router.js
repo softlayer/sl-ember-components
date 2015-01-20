@@ -42,9 +42,6 @@ Router.map( function() {
         this.route( 'sl-textarea' );
         this.route( 'sl-tooltip' );
     });
-
-    // This route is temporary
-    this.route( 'split-grid' );
 });
 
 export default Router;
