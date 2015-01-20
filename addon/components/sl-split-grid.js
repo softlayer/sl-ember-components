@@ -378,7 +378,7 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     setupSizes: function() {
-        if ( this.get( 'autoHeight' ) ) {
+        if ( this.get( 'autoHeight' ) === true ) {
             Ember.$( window ).on( 'resize', this.updateContentHeight.bind( this ) );
             this.updateContentHeight();
         } else {
@@ -518,11 +518,11 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     updateDetailContentHeight: function() {
-        var viewportHeight      = Ember.$( window ).innerHeight(),
-            topPosition         = this.$().position().top,
-            gridHeaderHeight    = parseInt( this.$( '.grid-header' ).css( 'height' ) ),
-            detailHeaderHeight  = parseInt( this.$( '.detail-pane header' ).css( 'height' ) ),
-            detailFooterHeight  = parseInt( this.$( '.detail-pane footer' ).css( 'height' ) ) || 0,
+        var viewportHeight     = Ember.$( window ).innerHeight(),
+            topPosition        = this.$().position().top,
+            gridHeaderHeight   = parseInt( this.$( '.grid-header' ).css( 'height' ) ),
+            detailHeaderHeight = parseInt( this.$( '.detail-pane header' ).css( 'height' ) ),
+            detailFooterHeight = parseInt( this.$( '.detail-pane footer' ).css( 'height' ) ) || 0,
             detailContentHeight,
             filterPaneHeight;
 
@@ -543,11 +543,11 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     updateListContentHeight: function() {
-        var viewportHeight      = Ember.$( window ).innerHeight(),
-            topPosition         = this.$().position().top,
-            gridHeaderHeight    = parseInt( this.$( '.grid-header' ).css( 'height' ) ),
-            listHeaderHeight    = parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) ),
-            listFooterHeight    = parseInt( this.$( '.list-pane footer' ).css( 'height' ) ),
+        var viewportHeight   = Ember.$( window ).innerHeight(),
+            topPosition      = this.$().position().top,
+            gridHeaderHeight = parseInt( this.$( '.grid-header' ).css( 'height' ) ),
+            listHeaderHeight = parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) ),
+            listFooterHeight = parseInt( this.$( '.list-pane footer' ).css( 'height' ) ),
             filterPaneHeight,
             listContentHeight;
 
