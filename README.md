@@ -5,6 +5,8 @@
 
 [![Build Status](https://img.shields.io/travis/softlayer/sl-ember-components/develop.svg)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://img.shields.io/codeclimate/github/softlayer/sl-ember-components.svg)](https://codeclimate.com/github/softlayer/sl-ember-components)
 
+To see which issues are currently being worked on or are scheduled to be worked on next, visit [https://huboard.com/softlayer/sl-ember-components/#/](https://huboard.com/softlayer/sl-ember-components/#/)
+
 ---
 
 ### Is currently in BETA
