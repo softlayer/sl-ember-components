@@ -25,6 +25,7 @@ export default Ember.Controller.extend({
         { name: 'radio-group',                lib: { 'twb': true } },
         { name: 'select',                     lib: { 's2': true } },
         { name: 'span',                       lib: { 'sec': true } },
+        { name: 'split-grid',                 lib: { 'sec': true } },
         { name: 'tab-panel',                  lib: { 'twb': true } },
         { name: 'textarea',                   lib: { 'sec': true } },
         { name: 'tooltip',                    lib: { 'twb': true } }

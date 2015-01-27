@@ -43,6 +43,7 @@ is served from the *gh-pages* branch of this repository.
 * sl-radio-group
 * sl-select
 * sl-span
+* sl-split-grid
 * sl-tab-panel
 * sl-textarea
 * sl-tooltip

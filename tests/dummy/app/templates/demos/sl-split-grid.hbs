@@ -53,6 +53,7 @@
             headerTemplate="demos/colors-header"
             listFooterTemplate="demos/colors-footer"
             listContentHeight=500
+            rowActions=rowActions
             sortColumn="sortColumn"
             totalCount=totalCount
         }}
@@ -67,6 +68,7 @@
     {{#property-text name="columns" type="array" required=true}}
         <p>An array of column definition objects. Each column definition object can contain the following values:</p>
         <ul>
+            <li><strong>align</strong> - A <em>string</em> that determines which direction to align the column's text (default: "left")</li>
             <li><strong>primary</strong> - A <em>boolean</em> that determines whether the column remains shown when the detail pane is visible (default: <em>false</em>)</li>
             <li><strong>size</strong> - The width of the column; either a string for relative sizing ("small", "medium", or "large"), or a number for exact number of pixels; the default is null for auto width</li>
             <li><strong>sortable</strong> - A <em>boolean</em> that determines whether the column is sortable or not (default: <em>false</em>)</li>
@@ -106,6 +108,10 @@
 
     {{#property-text name="filterName" type="string"}}
         The name of the controller/template to render for the filter section. If this is omitted, no filter button or interface will be created for the split-grid.
+    {{/property-text}}
+
+    {{#property-text name="filterText" type="string" default="Filter"}}
+        The string to use for the filter button title.
     {{/property-text}}
 
     {{#property-text name="headerTemplate" type="string"}}

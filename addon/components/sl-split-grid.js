@@ -15,7 +15,7 @@ export default Ember.Component.extend({
     /**
      * HTML tag name of the root element
      *
-     * @property {string} tagName
+     * @property {Ember.String} tagName
      * @default  "div"
      */
     tagName: 'div',
@@ -44,7 +44,7 @@ export default Ember.Component.extend({
     /**
      * Component actions hash
      *
-     * @property {object} actions
+     * @property {Ember.Object} actions
      */
     actions: {
 
@@ -69,7 +69,7 @@ export default Ember.Component.extend({
          * Open the details pane with a specific row object
          *
          * @function actions.openDetailsPane
-         * @param    {object} row - The object that the clicked row represents
+         * @param    {Ember.Object} row - The object that the clicked row represents
          * @returns  {void}
          */
         openDetailsPane: function( row ) {
@@ -94,7 +94,7 @@ export default Ember.Component.extend({
          * bound action the column and direction to sort
          *
          * @function actions.sortColumn
-         * @param    {object} column - The column definition for the triggered header's column
+         * @param    {Ember.Object} column - The column definition for the triggered header's column
          * @returns  {void}
          */
         sortColumn: function( column ) {
@@ -128,7 +128,7 @@ export default Ember.Component.extend({
          * @returns  {void}
          */
         toggleFilterPane: function() {
-            this.set( 'filterOpen', !this.get( 'filterOpen' ) );
+            this.toggleProperty( 'filterOpen' );
 
             if ( this.get( 'autoHeight' ) ) {
                 Ember.run.next( this.updateContentHeight.bind( this ) );
@@ -145,23 +145,15 @@ export default Ember.Component.extend({
     /**
      * The text label for the rows' actions buttons
      *
-     * @property {string} actionsButtonLabel
+     * @property {Ember.String} actionsButtonLabel
      * @default  "Actions"
      */
     actionsButtonLabel: 'Actions',
 
     /**
-     * The width of the actions column, in pixels
-     *
-     * @property {number} actionsColumnWidth
-     * @default  120
-     */
-    actionsColumnWidth: 120,
-
-    /**
      * The row record that is currently active in the detail pane
      *
-     * @property {object} activeRecord
+     * @property {Ember.Object} activeRecord
      * @default  null
      */
     activeRecord: null,
@@ -188,7 +180,7 @@ export default Ember.Component.extend({
     /**
      * The name of the controller/template/view to use for the detail pane's footer section
      *
-     * @property {string} detailFooterTemplate
+     * @property {Ember.String} detailFooterTemplate
      * @default  null
      */
     detailFooterTemplate: null,
@@ -199,7 +191,7 @@ export default Ember.Component.extend({
      * If this value is null (default), then the detail pane's header will be
      * populated by text determined by the `detailTitlePath` attribute.
      *
-     * @property {string} detailHeaderTemplate
+     * @property {Ember.String} detailHeaderTemplate
      * @default  null
      */
     detailHeaderTemplate: null,
@@ -210,7 +202,7 @@ export default Ember.Component.extend({
      * The controller matching this name also drives the data for the detail's
      * footer template and header template.
      *
-     * @property {string} detailContent
+     * @property {Ember.String} detailContent
      * @default  null
      */
     detailName: null,
@@ -226,7 +218,7 @@ export default Ember.Component.extend({
     /**
      * The name of the controller/template/view to use for the filter panel
      *
-     * @property {string} filterName
+     * @property {Ember.String} filterName
      * @default  null
      */
     filterName: null,
@@ -242,7 +234,7 @@ export default Ember.Component.extend({
     /**
      * The text to display on the filter panel toggle button
      *
-     * @property {string} filterText
+     * @property {Ember.String} filterText
      * @default  "Filter"
      */
     filterText: 'Filter',
@@ -253,7 +245,7 @@ export default Ember.Component.extend({
      * This template will be rendered in the left part of the split-grid's
      * header, and effectively overrides the `title` property.
      *
-     * @property {string} headerTemplate
+     * @property {Ember.String} headerTemplate
      * @default  null
      */
     headerTemplate: null,
@@ -277,7 +269,7 @@ export default Ember.Component.extend({
     /**
      * The name of the template to use for the footer of the list pane
      *
-     * @property {string} listFooterTemplate
+     * @property {Ember.String} listFooterTemplate
      * @default  null
      */
     listFooterTemplate: null,
@@ -302,7 +294,7 @@ export default Ember.Component.extend({
     /**
      * The title of the column that is currently being sorted
      *
-     * @property {object} sortedColumnTitle
+     * @property {Ember.Object} sortedColumnTitle
      * @default  null
      */
     sortedColumnTitle: null,
@@ -312,7 +304,7 @@ export default Ember.Component.extend({
      *
      * Value is either "ascending" or "descending".
      *
-     * @property {string} sortedDirection
+     * @property {Ember.String} sortedDirection
      * @default  null
      */
     sortedDirection: null,
@@ -391,17 +383,6 @@ export default Ember.Component.extend({
     // Methods
 
     /**
-     * The text for the actions column's `style` attribute
-     *
-     * @function actionsColumnStyle
-     * @observes actionsColumnWidth
-     * @returns  {string} - The `style` attribute for the column
-     */
-    actionsColumnStyle: function() {
-        return 'width: ' + this.get( 'actionsColumnWidth' ) + 'px;';
-    }.property( 'actionsColumnWidth' ),
-
-    /**
      * The desired title for the detail pane, based on `detailTitlePath`
      *
      * @function detailTitle
@@ -440,7 +421,7 @@ export default Ember.Component.extend({
      * Retrieve the sorted column definition
      *
      * @function getSortedColumn
-     * @returns  {object} - The definition for the currently sorted column
+     * @returns  {Ember.Object} - The definition for the currently sorted column
      */
     getSortedColumn: function() {
         var columns           = this.get( 'columns' ),

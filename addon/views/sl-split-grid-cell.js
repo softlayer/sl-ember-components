@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module views
- * @class  sl-split-grid-column
+ * @class  sl-split-grid-cell
  */
 export default Ember.View.extend( Ember.ViewTargetActionSupport, {
 
@@ -15,7 +15,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     /**
      * The HTML tag name for the view
      *
-     * @property {string} tagName
+     * @property {Ember.String} tagName
      * @default  "td"
      */
     tagName: 'td',
@@ -54,7 +54,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      *
      * @function alignmentClass
      * @observes content.align
-     * @returns  {string}
+     * @returns  {Ember.String}
      */
     alignmentClass: function() {
         var align = this.get( 'content.align' );
@@ -69,7 +69,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      *
      * @function sizeClass
      * @observes content.size
-     * @returns  {string}
+     * @returns  {Ember.String}
      */
     sizeClass: function() {
         var size = this.get( 'content.size' );
@@ -84,7 +84,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      *
      * @function style
      * @observes content.size
-     * @returns  {string}
+     * @returns  {Ember.String}
      */
     style: function() {
         var size = this.get( 'content.size' );

@@ -33,6 +33,8 @@ export default Ember.ArrayController.extend({
 
     count: Ember.computed.alias( 'content.length' ),
 
+    rowActions: [ 'One', 'Two' ],
+
     totalCount: 6
 
 });

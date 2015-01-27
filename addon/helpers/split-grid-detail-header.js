@@ -5,11 +5,11 @@ import Ember from 'ember';
  */
 
 /**
- * Lookup and output a split-grid row's cell value based on column's path
+ * Render a split-grid table header cell based on relevant split-grid view settings
  *
  * @function split-grid-detail-header
- * @param    {object} options - The Ember-supplied bound options representing
- *                    the calling view's state
+ * @param    {Ember.Object} options - The Ember-supplied bound options
+ *                          representing the calling view's state
  * @returns  {void}
  */
 export default function( options ) {

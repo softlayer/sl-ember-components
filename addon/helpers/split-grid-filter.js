@@ -8,8 +8,8 @@ import Ember from 'ember';
  * Render the split-grid's filter template based on templateKey
  *
  * @function split-grid-filter
- * @param    {object} options
- * @returns  {string}
+ * @param    {Ember.Object} options
+ * @returns  {Ember.String}
  */
 export default function( options ) {
     var name = options.data.keywords.view.filterName;

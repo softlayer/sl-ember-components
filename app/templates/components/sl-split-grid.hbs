@@ -36,7 +36,7 @@
                 {{/each}}
 
                 {{#if view.rowActions}}
-                    <th {{bind-attr style=actionsColumnStyle}} class="actions-cell"></th>
+                    <th class="actions-cell"></th>
                 {{/if}}
             </tr>
         </thead>
@@ -45,13 +45,17 @@
     <div class="content">
         <table class="table table-hover table-striped">
             <tbody>
+                {{!
+                    The following if/else statement contains some duplicated
+                    code in order to speed up rendering within Handlebars.
+                }}
                 {{#if view.rowActions}}
                     {{#each row in content itemController=view.rowController itemViewClass="sl-split-grid-row"}}
                         {{#each column in columns itemViewClass="sl-split-grid-cell"}}
                             {{split-grid-cell}}
                         {{/each}}
 
-                        <td {{bind-attr style=actionsColumnStyle}} class="actions-cell">
+                        <td class="actions-cell">
                             {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
                                 {{#each rowAction in rowActions}}
                                     {{sl-drop-option action=rowAction.action label=rowAction.label}}

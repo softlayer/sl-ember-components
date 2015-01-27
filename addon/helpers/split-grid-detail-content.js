@@ -8,7 +8,8 @@ import Ember from 'ember';
  * Lookup and render the template for a split-grid row's record
  *
  * @function split-grid-detail-content
- * @param    {object} options - The Ember-supplied bound options representing the calling view's state
+ * @param    {Ember.Object} options - The Ember-supplied bound options
+ *                          representing the calling view's state
  * @returns  {void}
  */
 export default function( options ) {
