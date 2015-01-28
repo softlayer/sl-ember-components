@@ -1,3 +1,4 @@
+/* global alert */
 import Ember from 'ember';
 import SlGridMixin from 'sl-ember-components/mixins/sl-grid-controller';
 
