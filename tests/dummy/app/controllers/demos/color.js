@@ -1,3 +1,4 @@
+/* globals alert */
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
@@ -5,12 +6,11 @@ export default Ember.ObjectController.extend({
     actions: {
 
         sendAlert: function() {
-            alert( 'Okay!' );
-            console.log( this );
+            alert( this.get( 'model.name' ) );
         },
 
         sendLog: function() {
-            console.log( this );
+            console.log( this.get( 'model.name' ) );
         }
     }
 
