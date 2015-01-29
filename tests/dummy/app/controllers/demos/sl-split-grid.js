@@ -31,9 +31,15 @@ export default Ember.ArrayController.extend({
         }
     ],
 
-    count: Ember.computed.alias( 'content.length' ),
-
-    rowActions: [ 'One', 'Two' ],
+    rowActions: [
+        {
+            action : 'sendAlert',
+            label  : 'Alert'
+        }, {
+            action : 'sendLog',
+            label  : 'Log'
+        }
+    ],
 
     totalCount: 6
 
