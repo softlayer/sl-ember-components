@@ -13,7 +13,7 @@ import Ember from 'ember';
  * @returns  {void}
  */
 export default function( options ) {
-    var name = options.data.keywords.view.detailName;
+    var name = options.data.keywords.view.detail;
 
     options.contexts.push( options.data.keywords.view );
     options.types[ 0 ] = 'STRING';

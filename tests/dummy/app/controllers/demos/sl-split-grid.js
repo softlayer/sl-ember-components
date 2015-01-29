@@ -31,16 +31,6 @@ export default Ember.ArrayController.extend({
         }
     ],
 
-    rowActions: [
-        {
-            action : 'sendAlert',
-            label  : 'Alert'
-        }, {
-            action : 'sendLog',
-            label  : 'Log'
-        }
-    ],
-
     totalCount: 6
 
 });

@@ -13,8 +13,8 @@ import Ember from 'ember';
  * @returns  {void}
  */
 export default function( options ) {
-    var templateName = options.data.keywords.view.detailHeaderTemplate,
-        detailName   = options.data.keywords.view.detailName;
+    var templateName = options.data.keywords.view.detailHeader,
+        detailName   = options.data.keywords.view.detail;
 
     options.contexts.push( options.data.keywords.view );
     options.hash.controller = detailName;

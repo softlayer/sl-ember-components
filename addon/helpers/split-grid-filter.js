@@ -12,7 +12,7 @@ import Ember from 'ember';
  * @returns  {Ember.String}
  */
 export default function( options ) {
-    var name = options.data.keywords.view.filterName;
+    var name = options.data.keywords.view.filter;
 
     options.types[ 0 ] = 'STRING';
 

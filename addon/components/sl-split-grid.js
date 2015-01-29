@@ -170,6 +170,17 @@ export default Ember.Component.extend({
     autoHeight: true,
 
     /**
+     * The name of the controller/template/view to use for the detail pane content
+     *
+     * The controller matching this name also drives the data for the detail's
+     * footer template and header template.
+     *
+     * @property {Ember.String} detail
+     * @default  null
+     */
+    detail: null,
+
+    /**
      * The height of the split-grid's detail pane content, in pixels
      *
      * @property {number} detailContentHeight
@@ -180,10 +191,10 @@ export default Ember.Component.extend({
     /**
      * The name of the controller/template/view to use for the detail pane's footer section
      *
-     * @property {Ember.String} detailFooterTemplate
+     * @property {Ember.String} detailFooter
      * @default  null
      */
-    detailFooterTemplate: null,
+    detailFooter: null,
 
     /**
      * The name of the controller/template/view to use for the detail pane's header section
@@ -191,21 +202,10 @@ export default Ember.Component.extend({
      * If this value is null (default), then the detail pane's header will be
      * populated by text determined by the `detailTitlePath` attribute.
      *
-     * @property {Ember.String} detailHeaderTemplate
+     * @property {Ember.String} detailHeader
      * @default  null
      */
-    detailHeaderTemplate: null,
-
-    /**
-     * The name of the controller/template/view to use for the detail pane content
-     *
-     * The controller matching this name also drives the data for the detail's
-     * footer template and header template.
-     *
-     * @property {Ember.String} detailContent
-     * @default  null
-     */
-    detailName: null,
+    detailHeader: null,
 
     /**
      * Indicates when the details pane is open
@@ -218,10 +218,10 @@ export default Ember.Component.extend({
     /**
      * The name of the controller/template/view to use for the filter panel
      *
-     * @property {Ember.String} filterName
+     * @property {Ember.String} filter
      * @default  null
      */
-    filterName: null,
+    filter: null,
 
     /**
      * Indicates when the filter pane is open
@@ -245,10 +245,10 @@ export default Ember.Component.extend({
      * This template will be rendered in the left part of the split-grid's
      * header, and effectively overrides the `title` property.
      *
-     * @property {Ember.String} headerTemplate
+     * @property {Ember.String} header
      * @default  null
      */
-    headerTemplate: null,
+    header: null,
 
     /**
      * When true, the split-grid is in a loading state
@@ -269,10 +269,10 @@ export default Ember.Component.extend({
     /**
      * The name of the template to use for the footer of the list pane
      *
-     * @property {Ember.String} listFooterTemplate
+     * @property {Ember.String} listFooter
      * @default  null
      */
-    listFooterTemplate: null,
+    listFooter: null,
 
     /**
      * The "top" value for the table scroll to request a new page at

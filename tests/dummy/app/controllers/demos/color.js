@@ -12,6 +12,16 @@ export default Ember.ObjectController.extend({
         sendLog: function() {
             console.log( this.get( 'model.name' ) );
         }
-    }
+    },
+
+    rowActions: [
+        {
+            action : 'sendAlert',
+            label  : 'Alert'
+        }, {
+            action : 'sendLog',
+            label  : 'Log'
+        }
+    ]
 
 });

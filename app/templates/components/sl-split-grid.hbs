@@ -1,14 +1,14 @@
 <header class="grid-header">
     <div class="row">
         <div class="col-sm-6">
-            {{#if view.headerTemplate}}
+            {{#if view.header}}
                 <h3 class="title">
-                    {{partial view.headerTemplate}}
+                    {{partial view.header}}
                 </h3>
             {{/if}}
         </div>
 
-        {{#if filterName}}
+        {{#if filter}}
             <div class="col-sm-6 text-right">
                 {{#sl-button action="toggleFilterPane" size="small"}}{{filterText}}{{/sl-button}}
             </div>
@@ -35,7 +35,7 @@
                     {{/if}}
                 {{/each}}
 
-                {{#if view.rowActions}}
+                {{#if view.showActions}}
                     <th class="actions-cell"></th>
                 {{/if}}
             </tr>
@@ -49,22 +49,22 @@
                     The following if/else statement contains some duplicated
                     code in order to speed up rendering within Handlebars.
                 }}
-                {{#if view.rowActions}}
-                    {{#each row in content itemController=view.rowController itemViewClass="sl-split-grid-row"}}
+                {{#if view.showActions}}
+                    {{#each row in content itemController=view.detail itemViewClass="sl-split-grid-row"}}
                         {{#each column in columns itemViewClass="sl-split-grid-cell"}}
                             {{split-grid-cell}}
                         {{/each}}
 
                         <td class="actions-cell">
                             {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
-                                {{#each rowAction in rowActions}}
+                                {{#each rowAction in row.rowActions}}
                                     {{sl-drop-option action=rowAction.action label=rowAction.label}}
                                 {{/each}}
                             {{/sl-drop-button}}
                         </td>
                     {{/each}}
                 {{else}}
-                    {{#each row in content itemController=view.rowController itemViewClass="sl-split-grid-row"}}
+                    {{#each row in content itemController=view.detail itemViewClass="sl-split-grid-row"}}
                         {{#each column in columns itemViewClass="sl-split-grid-cell"}}
                             {{split-grid-cell}}
                         {{/each}}
@@ -77,8 +77,8 @@
     <footer>
         <div class="row">
             <div class="col-xs-6">
-                {{#if view.listFooterTemplate}}
-                    {{partial view.listFooterTemplate}}
+                {{#if view.listFooter}}
+                    {{partial view.listFooter}}
                 {{/if}}
             </div>
             <div class="col-xs-6 text-right">
@@ -92,7 +92,7 @@
 
 <div class="detail-pane">
     <header>
-        {{#if view.detailHeaderTemplate}}
+        {{#if view.detailHeader}}
             <span class="title">
                 {{split-grid-detail-header}}
             </span>
@@ -107,7 +107,7 @@
         </div>
     </div>
 
-    {{#if view.detailFooterTemplate}}
+    {{#if view.detailFooter}}
         <footer>
             {{split-grid-detail-footer}}
         </footer>

@@ -13,13 +13,12 @@
     columns=columns
     content=arrangedContent
     detailContentHeight=500
-    detailName="demos/color"
-    detailHeaderTemplate="demos/color-header"
-    headerTemplate="demos/colors-header"
-    listFooterTemplate="demos/colors-footer"
+    detail="demos/color"
+    detailHeader="demos/color-header"
+    header="demos/colors-header"
+    listFooter="demos/colors-footer"
     listContentHeight=500
-    rowActions=rowActions
-    rowController="demos/color"
+    showActions=true
     sortColumn="sortColumn"
     totalCount=totalCount
 }}</pre>
@@ -50,13 +49,12 @@
             columns=columns
             content=arrangedContent
             detailContentHeight=500
-            detailName="demos/color"
-            detailHeaderTemplate="demos/color-header"
-            headerTemplate="demos/colors-header"
-            listFooterTemplate="demos/colors-footer"
+            detail="demos/color"
+            detailHeader="demos/color-header"
+            header="demos/colors-header"
+            listFooter="demos/colors-footer"
             listContentHeight=500
-            rowActions=rowActions
-            rowController="demos/color"
+            showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
         }}
@@ -85,8 +83,8 @@
         Array of records to display as the rows.
     {{/property-text}}
 
-    {{#property-text name="detailName" type="string" required=true}}
-        The name of the controller/template to render for the detail pane. <span class="text-warning">The controller with this name also controls the <code>detailFooterTemplate</code> and <code>detailHeaderTemplate</code> properties' rendered templates.</span>
+    {{#property-text name="detail" type="string" required=true}}
+        The name of the controller/template/view objects that should control the record-specific data. The controller with this name will be used in the context of each row, its actions (via a <code>rowActions</code> array property), and the detail pane's three areas (header, content, and footer). The template with this name will be placed in the main content area of the detail pane.
     {{/property-text}}
 
     {{#property-text name="actionButtonLabel" type="string" default="\"Actions\""}}
@@ -101,15 +99,15 @@
         Determines the detail pane's content height in pixels. <span class="text-warning">Only used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
-    {{#property-text name="detailFooterTemplate" type="string"}}
-        The name of a template to use for the footer section of the detail pane. This template's controller is bound to the controller matching the <code>detailName</code> property.
+    {{#property-text name="detailFooter" type="string"}}
+        The name of a template to use for the footer section of the detail pane. This template's controller is bound to the controller matching the <code>detail</code> property.
     {{/property-text}}
 
-    {{#property-text name="detailHeaderTemplate" type="string"}}
-        The name of a template to use for the header section of the detail pane. This template's controller is bound to the controller matching the <code>detailName</code> property.
+    {{#property-text name="detailHeader" type="string"}}
+        The name of a template to use for the header section of the detail pane. This template's controller is bound to the controller matching the <code>detail</code> property.
     {{/property-text}}
 
-    {{#property-text name="filterName" type="string"}}
+    {{#property-text name="filter" type="string"}}
         The name of the controller/template to render for the filter section. If this is omitted, no filter button or interface will be created for the split-grid.
     {{/property-text}}
 
@@ -125,7 +123,7 @@
         Determines the list pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
-    {{#property-text name="listFooterTemplate" type="string"}}
+    {{#property-text name="listFooter" type="string"}}
         The name of a template to use for the split-grid's footer section.
     {{/property-text}}
 
@@ -133,20 +131,8 @@
         The name of an action to trigger when the next page of data is requested from the split-grid. This action should load the next page of data itself.
     {{/property-text}}
 
-    {{#property-text name="rowActions" type="array"}}
-        <p>An array of objects used to populate an actions drop-button, each with the following options:</p>
-        <ul>
-            <li><strong>action</strong> - The string name of an action to fire on the <code>rowController</code></li>
-            <li><strong>label</strong> - The string to display on the drop-option</li>
-        </ul>
-    {{/property-text}}
-
-    {{#property-text name="rowController" type="string"}}
-        <p>The name of an ObjectController to use as each row's itemController. This controller can contain the following properties:</p>
-        <ul>
-            <li><strong>actions</strong> - The bound <code>rowActions</code> will fire from this controller's actions hash</li>
-            <li><strong>classString</strong> - This <em>string</em> property is inserted into the &lt;td&gt;'s <code>class</code> attribute</li>
-        </ul>
+    {{#property-text name="showActions" type="boolean" default="false"}}
+        Whether to show a column for the actions dropdown on the right side of the table. The drop-button options are populated by the detail controller's <code>rowActions</code> array property.
     {{/property-text}}
 
     {{#property-text name="sortColumn" type="string"}}
