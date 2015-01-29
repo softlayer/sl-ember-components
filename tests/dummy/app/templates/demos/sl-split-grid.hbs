@@ -18,7 +18,7 @@
     headerTemplate="demos/colors-header"
     listFooterTemplate="demos/colors-footer"
     listContentHeight=500
-    rowActions=rowAction
+    rowActions=rowActions
     rowController="demos/color"
     sortColumn="sortColumn"
     totalCount=totalCount
@@ -134,7 +134,11 @@
     {{/property-text}}
 
     {{#property-text name="rowActions" type="array"}}
-        An array of action names, displayed in an "Actions" drop-button, that triggers actions on the <code>rowController</code> per record row.
+        <p>An array of objects used to populate an actions drop-button, each with the following options:</p>
+        <ul>
+            <li><strong>action</strong> - The string name of an action to fire on the <code>rowController</code></li>
+            <li><strong>label</strong> - The string to display on the drop-option</li>
+        </ul>
     {{/property-text}}
 
     {{#property-text name="rowController" type="string"}}
