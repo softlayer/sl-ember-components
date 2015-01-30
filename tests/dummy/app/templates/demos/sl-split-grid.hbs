@@ -109,6 +109,10 @@
         Whether to show a column for the actions dropdown on the right side of the table. The drop-button options are populated by the detail controller's <code>rowActions</code> array property.
     {{/property-text}}
 
+    {{#property-text name="showFilter" type="boolean" default="false"}}
+        Whether to show the filter button and filter pane.
+    {{/property-text}}
+
     {{#property-text name="sortColumn" type="string"}}
         The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and the direction as a string ("ascending" or "descending").
     {{/property-text}}

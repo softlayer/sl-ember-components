@@ -286,6 +286,22 @@ export default Ember.Component.extend({
     pendingData: false,
 
     /**
+     * Whether to show the column for the rows' action drop-buttons
+     *
+     * @property {boolean} showActions
+     * @default  false
+     */
+    showActions: false,
+
+    /**
+     * Whether to show the filter button and filter-pane
+     *
+     * @property {boolean} showFilter
+     * @default  false
+     */
+    showFilter: false,
+
+    /**
      * The title of the column that is currently being sorted
      *
      * @property {Ember.Object} sortedColumnTitle

@@ -6,9 +6,11 @@
             </h3>
         </div>
 
-        <div class="col-sm-6 text-right">
-            {{#sl-button action="toggleFilterPane" size="small"}}{{filterText}}{{/sl-button}}
-        </div>
+        {{#if showFilter}}
+            <div class="col-sm-6 text-right">
+                {{#sl-button action="toggleFilterPane" size="small"}}{{filterText}}{{/sl-button}}
+            </div>
+        {{/if}}
     </div>
 </header>
 
@@ -31,7 +33,7 @@
                     {{/if}}
                 {{/each}}
 
-                {{#if view.showActions}}
+                {{#if showActions}}
                     <th class="actions-cell"></th>
                 {{/if}}
             </tr>
