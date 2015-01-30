@@ -43,7 +43,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     click: function( event ) {
         if ( this.$( event.target ).closest( '.sl-drop-button' ).length < 1 ) {
             this.triggerAction({
-                action        : 'openDetailsPane',
+                action        : 'openDetailPane',
                 actionContext : this.get( 'content' ),
                 target        : this.get( 'parentController' )
             });

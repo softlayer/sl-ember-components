@@ -19,7 +19,7 @@
 <div class="filter-pane">
     {{#if filterOpen}}
         <div class="filter-content">
-            {{split-grid-filter}}
+            {{render-dynamic filter}}
         </div>
     {{/if}}
 </div>
@@ -45,16 +45,12 @@
     <div class="content">
         <table class="table table-hover table-striped">
             <tbody>
-                {{!
-                    The following if/else statement contains some duplicated
-                    code in order to speed up rendering within Handlebars.
-                }}
-                {{#if view.showActions}}
-                    {{#each row in content itemController=view.detail itemViewClass="sl-split-grid-row"}}
-                        {{#each column in columns itemViewClass="sl-split-grid-cell"}}
-                            {{split-grid-cell}}
-                        {{/each}}
+                {{#each row in content itemController=view.detail itemViewClass="sl-split-grid-row"}}
+                    {{#each column in columns itemViewClass="sl-split-grid-cell"}}
+                        {{split-grid-cell}}
+                    {{/each}}
 
+                    {{#if showActions}}
                         <td class="actions-cell">
                             {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
                                 {{#each rowAction in row.rowActions}}
@@ -62,14 +58,8 @@
                                 {{/each}}
                             {{/sl-drop-button}}
                         </td>
-                    {{/each}}
-                {{else}}
-                    {{#each row in content itemController=view.detail itemViewClass="sl-split-grid-row"}}
-                        {{#each column in columns itemViewClass="sl-split-grid-cell"}}
-                            {{split-grid-cell}}
-                        {{/each}}
-                    {{/each}}
-                {{/if}}
+                    {{/if}}
+                {{/each}}
             </tbody>
         </table>
     </div>
@@ -77,8 +67,8 @@
     <footer>
         <div class="row">
             <div class="col-xs-6">
-                {{#if view.listFooter}}
-                    {{partial view.listFooter}}
+                {{#if view.footer}}
+                    {{partial view.footer}}
                 {{/if}}
             </div>
             <div class="col-xs-6 text-right">
@@ -92,24 +82,24 @@
 
 <div class="detail-pane">
     <header>
-        {{#if view.detailHeader}}
+        {{#if detailHeader}}
             <span class="title">
-                {{split-grid-detail-header}}
+                {{render-dynamic detailHeader activeRecord context=detail}}
             </span>
         {{/if}}
 
-        <button {{action "closeDetailsPane"}} class="close">&times;</button>
+        <button {{action "closeDetailPane"}} class="close">&times;</button>
     </header>
 
     <div class="content">
         <div class="detail-content">
-            {{split-grid-detail-content}}
+            {{render-dynamic detail activeRecord}}
         </div>
     </div>
 
-    {{#if view.detailFooter}}
+    {{#if detailFooter}}
         <footer>
-            {{split-grid-detail-footer}}
+            {{render-dynamic detailFooter activeRecord context=detail}}
         </footer>
     {{/if}}
 </div>

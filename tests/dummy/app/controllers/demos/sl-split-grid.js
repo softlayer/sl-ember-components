@@ -31,6 +31,14 @@ export default Ember.ArrayController.extend({
         }
     ],
 
+    sayGoodbye: function() {
+        console.log( 'Goodbye! from page' );
+    },
+
+    sayHello: function() {
+        console.log( 'Hello! from page' );
+    },
+
     totalCount: 6
 
 });

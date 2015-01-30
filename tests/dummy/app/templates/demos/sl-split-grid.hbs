@@ -8,19 +8,23 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-split-grid
+        <pre>\{{#sl-split-grid
     autoHeight=false
     columns=columns
     content=arrangedContent
     detailContentHeight=500
     detail="demos/color"
+    detailFooter="demos/color-footer"
     detailHeader="demos/color-header"
+    footer="demos/colors-footer"
     header="demos/colors-header"
-    listFooter="demos/colors-footer"
     listContentHeight=500
     showActions=true
     sortColumn="sortColumn"
     totalCount=totalCount
+
+    sayGoodbye=sayGoodbye
+    sayHello=sayHello
 }}</pre>
 
         <h6>Controller</h6>
@@ -50,13 +54,17 @@
             content=arrangedContent
             detailContentHeight=500
             detail="demos/color"
+            detailFooter="demos/color-footer"
             detailHeader="demos/color-header"
+            footer="demos/colors-footer"
             header="demos/colors-header"
-            listFooter="demos/colors-footer"
             listContentHeight=500
             showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
+
+            sayGoodbye=sayGoodbye
+            sayHello=sayHello
         }}
     </div>
 </div>
@@ -100,11 +108,11 @@
     {{/property-text}}
 
     {{#property-text name="detailFooter" type="string"}}
-        The name of a template to use for the footer section of the detail pane. This template's controller is bound to the controller matching the <code>detail</code> property.
+        The name of a template to use for the detail-pane footer.
     {{/property-text}}
 
     {{#property-text name="detailHeader" type="string"}}
-        The name of a template to use for the header section of the detail pane. This template's controller is bound to the controller matching the <code>detail</code> property.
+        The name of a template to use for the detail-pane header.
     {{/property-text}}
 
     {{#property-text name="filter" type="string"}}
@@ -115,16 +123,16 @@
         The string to use for the filter button title.
     {{/property-text}}
 
-    {{#property-text name="headerTemplate" type="string"}}
-        The name of a template to use for the split-grid's header section. If this property is not set, then the split-grid will use the <code>title</code> property to populate the main title text.
+    {{#property-text name="footer" type="string"}}
+        The name of a template to use for the main footer.
+    {{/property-text}}
+
+    {{#property-text name="header" type="string"}}
+        The name of a template to use for the main header.
     {{/property-text}}
 
     {{#property-text name="listContentHeight" type="number" default="600"}}
         Determines the list pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
-    {{/property-text}}
-
-    {{#property-text name="listFooter" type="string"}}
-        The name of a template to use for the split-grid's footer section.
     {{/property-text}}
 
     {{#property-text name="nextPage" type="string"}}

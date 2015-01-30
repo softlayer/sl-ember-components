@@ -33,7 +33,7 @@ export default Ember.Component.extend({
      * @property {array} classNameBindings
      */
     classNameBindings: [
-        'detailsOpen:details-open',
+        'detailPaneOpen:details-open',
         'isLoading:sl-loading',
         'pendingData:pending-data'
     ],
@@ -49,12 +49,12 @@ export default Ember.Component.extend({
     actions: {
 
         /**
-         * Close the details pane
+         * Close the detail-pane
          *
-         * @function actions.closeDetailsPane
+         * @function actions.closeDetailPane
          * @returns  {void}
          */
-        closeDetailsPane: function() {
+        closeDetailPane: function() {
             var activeRecord = this.get( 'activeRecord' );
 
             if ( activeRecord ) {
@@ -62,17 +62,17 @@ export default Ember.Component.extend({
                 this.set( 'activeRecord', null );
             }
 
-            this.set( 'detailsOpen', false );
+            this.set( 'detailPaneOpen', false );
         },
 
         /**
-         * Open the details pane with a specific row object
+         * Open the detail-pane with a specific row object
          *
-         * @function actions.openDetailsPane
+         * @function actions.openDetailPane
          * @param    {Ember.Object} row - The object that the clicked row represents
          * @returns  {void}
          */
-        openDetailsPane: function( row ) {
+        openDetailPane: function( row ) {
             var activeRecord = this.get( 'activeRecord' );
 
             if ( activeRecord ) {
@@ -82,7 +82,7 @@ export default Ember.Component.extend({
             Ember.set( row, 'active', true );
             this.set( 'activeRecord', row );
 
-            this.set( 'detailsOpen', true );
+            this.set( 'detailPaneOpen', true );
 
             if ( this.get( 'autoHeight' ) ) {
                 Ember.run.next( this.updateDetailContentHeight.bind( this ) );
@@ -189,7 +189,7 @@ export default Ember.Component.extend({
     detailContentHeight: 600,
 
     /**
-     * The name of the controller/template/view to use for the detail pane's footer section
+     * The name of a template to use for the detail-pane footer
      *
      * @property {Ember.String} detailFooter
      * @default  null
@@ -197,10 +197,7 @@ export default Ember.Component.extend({
     detailFooter: null,
 
     /**
-     * The name of the controller/template/view to use for the detail pane's header section
-     *
-     * If this value is null (default), then the detail pane's header will be
-     * populated by text determined by the `detailTitlePath` attribute.
+     * The name of a template to use for the detail-pane header
      *
      * @property {Ember.String} detailHeader
      * @default  null
@@ -210,10 +207,10 @@ export default Ember.Component.extend({
     /**
      * Indicates when the details pane is open
      *
-     * @property {boolean} detailsOpen
+     * @property {boolean} detailsPaneOpen
      * @default  false
      */
-    detailsOpen: false,
+    detailPaneOpen: false,
 
     /**
      * The name of the controller/template/view to use for the filter panel
@@ -240,15 +237,12 @@ export default Ember.Component.extend({
     filterText: 'Filter',
 
     /**
-     * The name of the template to use for the header section of the split-grid
+     * The name of the template to use for the footer of the list pane
      *
-     * This template will be rendered in the left part of the split-grid's
-     * header, and effectively overrides the `title` property.
-     *
-     * @property {Ember.String} header
+     * @property {Ember.String} listFooter
      * @default  null
      */
-    header: null,
+    footer: null,
 
     /**
      * When true, the split-grid is in a loading state
@@ -265,14 +259,6 @@ export default Ember.Component.extend({
      * @default  600
      */
     listContentHeight: 600,
-
-    /**
-     * The name of the template to use for the footer of the list pane
-     *
-     * @property {Ember.String} listFooter
-     * @default  null
-     */
-    listFooter: null,
 
     /**
      * The "top" value for the table scroll to request a new page at
@@ -359,6 +345,8 @@ export default Ember.Component.extend({
     setupContinuousPaging: function() {
         if ( this.get( 'hasMorePages' ) ) {
             this.enableContinuousPaging();
+
+            //if ( this.$( '.list-pane section '))
         }
     }.on( 'didInsertElement' ),
 
@@ -381,21 +369,6 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * The desired title for the detail pane, based on `detailTitlePath`
-     *
-     * @function detailTitle
-     * @observes activeRecord, detailTitlePath
-     * @returns  {void}
-     */
-    detailTitle: function() {
-        var activeRecord = this.get( 'activeRecord' );
-
-        if ( activeRecord ) {
-            return Ember.get( activeRecord, this.get( 'detailTitlePath' ) );
-        }
-    }.property( 'activeRecord', 'detailTitlePath' ),
 
     /**
      * Disables the scroll event handling for continuous paging

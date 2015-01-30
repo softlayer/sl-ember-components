@@ -24,5 +24,5 @@ export default function( options ) {
     options.contexts.push( options.data.keywords.view );
     options.types[ 0 ] = 'STRING';
 
-    Ember.Handlebars.helpers.render.call( this, templateName, 'row', options );
+    return Ember.Handlebars.helpers.render( templateName, 'row', options );
 }
