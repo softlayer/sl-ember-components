@@ -15,18 +15,19 @@ import Ember from 'ember';
  * @returns
  */
 export default function( renderKey, model, options ) {
+    var viewName;
+
     if ( !options ) {
         options = model;
         model = null;
     }
 
-    var viewName = options.data.keywords.view[ renderKey ];
-
+    viewName = Ember.get( options.data.keywords.view, renderKey );
     options.types[ 0 ] = 'STRING';
 
     if ( model === null ) {
-        return Ember.Handlebars.helpers.render( viewName, options );
+        Ember.Handlebars.helpers.render( viewName, options );
     } else {
-        return Ember.Handlebars.helpers.render( viewName, model, options );
+        Ember.Handlebars.helpers.render( viewName, model, options );
     }
 }

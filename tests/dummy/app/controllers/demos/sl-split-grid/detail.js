@@ -22,6 +22,8 @@ export default Ember.ObjectController.extend({
             action : 'sendLog',
             label  : 'Log'
         }
-    ]
+    ],
+
+    testValue: 'Okay'
 
 });

@@ -13,11 +13,6 @@
     columns=columns
     content=arrangedContent
     detailContentHeight=500
-    detail="demos/color"
-    detailFooter="demos/color-footer"
-    detailHeader="demos/color-header"
-    footer="demos/colors-footer"
-    header="demos/colors-header"
     listContentHeight=500
     showActions=true
     sortColumn="sortColumn"
@@ -53,11 +48,6 @@
             columns=columns
             content=arrangedContent
             detailContentHeight=500
-            detail="demos/color"
-            detailFooter="demos/color-footer"
-            detailHeader="demos/color-header"
-            footer="demos/colors-footer"
-            header="demos/colors-header"
             listContentHeight=500
             showActions=true
             sortColumn="sortColumn"
@@ -91,10 +81,6 @@
         Array of records to display as the rows.
     {{/property-text}}
 
-    {{#property-text name="detail" type="string" required=true}}
-        The name of the controller/template/view objects that should control the record-specific data. The controller with this name will be used in the context of each row, its actions (via a <code>rowActions</code> array property), and the detail pane's three areas (header, content, and footer). The template with this name will be placed in the main content area of the detail pane.
-    {{/property-text}}
-
     {{#property-text name="actionButtonLabel" type="string" default="\"Actions\""}}
         The text to label the row actions' button with.
     {{/property-text}}
@@ -107,28 +93,8 @@
         Determines the detail pane's content height in pixels. <span class="text-warning">Only used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
-    {{#property-text name="detailFooter" type="string"}}
-        The name of a template to use for the detail-pane footer.
-    {{/property-text}}
-
-    {{#property-text name="detailHeader" type="string"}}
-        The name of a template to use for the detail-pane header.
-    {{/property-text}}
-
-    {{#property-text name="filter" type="string"}}
-        The name of the controller/template to render for the filter section. If this is omitted, no filter button or interface will be created for the split-grid.
-    {{/property-text}}
-
     {{#property-text name="filterText" type="string" default="Filter"}}
         The string to use for the filter button title.
-    {{/property-text}}
-
-    {{#property-text name="footer" type="string"}}
-        The name of a template to use for the main footer.
-    {{/property-text}}
-
-    {{#property-text name="header" type="string"}}
-        The name of a template to use for the main header.
     {{/property-text}}
 
     {{#property-text name="listContentHeight" type="number" default="600"}}
