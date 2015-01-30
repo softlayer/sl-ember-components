@@ -106,21 +106,26 @@ test( 'Menu click supports native function', function() {
 });
 
 test( 'Menu click supports action names', function() {
-    var component = this.subject({ menu: modelStub }),
-        $component = this.append(),
-        child = $component.find( 'li:visible' ).first(),
-        targetObject = {
-            actionHandler: function( actionName ) {
-                equal( actionName, 'MyAction' );
-            }
-        };
-
     expect( 1 );
 
-    child.mouseenter();
+    var component    = this.subject({ menu: modelStub }),
+        $component   = this.append(),
+        child        = $component.find( 'li:visible' ).first(),
+        spy          = sinon.spy(),
+        targetObject = {
+            actionHandler: spy
+        };
+
     component.set( 'actionInitiated', 'actionHandler' );
     component.set( 'targetObject', targetObject );
-    child.find( 'li:visible' )[ 0 ].click();
+
+    triggerEvent( child, 'mouseenter' );
+
+    click( child.find( 'li:visible' )[ 0 ] );
+
+    andThen( function() {
+        equal( spy.args[0][0], 'MyAction' );
+    });
 });
 
 test( 'Menu click supports action names with supporting data', function() {
