@@ -129,22 +129,27 @@ test( 'Menu click supports action names', function() {
 });
 
 test( 'Menu click supports action names with supporting data', function() {
-    var component = this.subject({ menu: modelStub }),
-        $component = this.append(),
-        child = $component.find( 'li:visible' ).first(),
-        targetObject = {
-            actionHandler: function( actionName, data ) {
-                equal( actionName, 'MyAction' );
-                equal( data.name, 'Joe' );
-            }
-        };
-
     expect( 2 );
 
-    child.mouseenter();
+    var component    = this.subject({ menu: modelStub }),
+        $component   = this.append(),
+        child        = $component.find( 'li:visible' ).first(),
+        spy          = sinon.spy(),
+        targetObject = {
+            actionHandler: spy
+        };
+
     component.set( 'actionInitiated', 'actionHandler' );
     component.set( 'targetObject', targetObject );
-    child.find( 'li:visible' )[ 2 ].click();
+
+    triggerEvent( child, 'mouseenter' );
+
+    click( child.find( 'li:visible' )[ 2 ] );
+
+    andThen( function() {
+        equal( spy.args[0][0], 'MyAction' );
+        equal( spy.args[0][1]['name'], 'Joe' );
+    });
 });
 
 test( 'Menu selection fires proper selection event', function() {
