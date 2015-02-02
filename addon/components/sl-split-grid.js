@@ -245,14 +245,6 @@ export default Ember.Component.extend({
     footerPath: null,
 
     /**
-     * The path for the template to use for the header of the split grid
-     *
-     * @property {Ember.String} headerPath
-     * @default  null
-     */
-    headerPath: null,
-
-    /**
      * When true, the split-grid is in a loading state
      *
      * @property {boolean} isLoading
@@ -392,7 +384,11 @@ export default Ember.Component.extend({
     }.on( 'didInsertElement' ),
 
     /**
+     * Setup paths for the various sections within the split-grid
      *
+     * @function setupTemplates
+     * @observes "init" event
+     * @returns  {void}
      */
     setupTemplates: function() {
         var root = this.get( 'templateData.view.renderedName' ).replace( '.', '/' ) + '/';
@@ -402,9 +398,8 @@ export default Ember.Component.extend({
             detailHeaderPath : root + 'detail-header',
             detailPath       : root + 'detail',
             filterPath       : root + 'filter',
-            footerPath       : root + 'footer',
-            headerPath       : root + 'header'
-        })
+            footerPath       : root + 'footer'
+        });
     }.on( 'init' ),
 
     // -------------------------------------------------------------------------

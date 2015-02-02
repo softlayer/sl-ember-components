@@ -43,7 +43,7 @@
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{sl-split-grid
+        {{#sl-split-grid
             autoHeight=false
             columns=columns
             content=arrangedContent
@@ -52,10 +52,9 @@
             showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
-
-            sayGoodbye=sayGoodbye
-            sayHello=sayHello
         }}
+            <h3>Colors</h3>
+        {{/sl-split-grid}}
     </div>
 </div>
 

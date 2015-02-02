@@ -1,9 +1,7 @@
 <header class="grid-header">
     <div class="row">
         <div class="col-sm-6">
-            <h3 class="title">
-                {{partial headerPath}}
-            </h3>
+            {{yield}}
         </div>
 
         {{#if showFilter}}
