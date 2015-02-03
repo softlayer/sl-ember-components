@@ -165,17 +165,17 @@ export default Ember.Component.extend({
      * to the available viewport height when the viewport changes.
      *
      * @property {boolean} autoHeight
-     * @default  true
+     * @default  false
      */
-    autoHeight: true,
+    autoHeight: false,
 
     /**
      * The height of the split-grid's detail pane content, in pixels
      *
-     * @property {number} detailContentHeight
-     * @default  600
+     * @property {number|Ember.String} detailContentHeight
+     * @default  "auto"
      */
-    detailContentHeight: 600,
+    detailContentHeight: 'auto',
 
     /**
      * The path of a template to use for the detail-pane footer
@@ -255,10 +255,10 @@ export default Ember.Component.extend({
     /**
      * The height of the split-grid's list pane content, in pixels
      *
-     * @property {number} listContentHeight
-     * @default  600
+     * @property {number|Ember.String} listContentHeight
+     * @default  "auto"
      */
-    listContentHeight: 600,
+    listContentHeight: 'auto',
 
     /**
      * The "top" value for the table scroll to request a new page at

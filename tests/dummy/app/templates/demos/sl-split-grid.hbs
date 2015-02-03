@@ -9,18 +9,14 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{#sl-split-grid
-    autoHeight=false
     columns=columns
     content=arrangedContent
-    detailContentHeight=500
-    listContentHeight=500
     showActions=true
     sortColumn="sortColumn"
     totalCount=totalCount
-
-    sayGoodbye=sayGoodbye
-    sayHello=sayHello
-}}</pre>
+}}
+    &lt;h3&gt;Colors&lt;/h3&gt;
+\{{/sl-split-grid}}</pre>
 
         <h6>Controller</h6>
         <pre>columns: [
@@ -44,11 +40,8 @@
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{#sl-split-grid
-            autoHeight=false
             columns=columns
             content=arrangedContent
-            detailContentHeight=500
-            listContentHeight=500
             showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
@@ -84,7 +77,7 @@
         The text to label the row actions' button with.
     {{/property-text}}
 
-    {{#property-text name="autoHeight" type="boolean" default="true"}}
+    {{#property-text name="autoHeight" type="boolean" default="false"}}
         Determines whether the content areas of the split-grid will dynamically calculate their allowed heights within the viewport when the window is resized. When false, the <code>height</code> property is used to determine the content areas' heights manually.
     {{/property-text}}
 
