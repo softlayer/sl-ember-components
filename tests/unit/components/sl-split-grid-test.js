@@ -12,8 +12,7 @@ moduleForComponent( 'sl-split-grid', 'Unit - component:sl-split-grid', {
 test( 'Detail content height is correctly set', function() {
     var height    = 350,
         component = this.subject({
-            autoHeight          : false,
-            detailContentHeight : height
+            detailContentHeight: height
         }),
         $component = this.append();
 
@@ -23,8 +22,7 @@ test( 'Detail content height is correctly set', function() {
 test( 'List content height is correctly set', function() {
     var height    = 350,
         component = this.subject({
-            autoHeight        : false,
-            listContentHeight : height
+            listContentHeight: height
         }),
         $component = this.append();
 

@@ -391,15 +391,19 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     setupTemplates: function() {
-        var root = this.get( 'templateData.view.renderedName' ).replace( '.', '/' ) + '/';
+        var renderedName = this.get( 'templateData.view.renderedName' );
 
-        this.setProperties({
-            detailFooterPath : root + 'detail-footer',
-            detailHeaderPath : root + 'detail-header',
-            detailPath       : root + 'detail',
-            filterPath       : root + 'filter',
-            footerPath       : root + 'footer'
-        });
+        if ( renderedName ) {
+            var root = renderedName.replace( '.', '/' ) + '/';
+
+            this.setProperties({
+                detailFooterPath : root + 'detail-footer',
+                detailHeaderPath : root + 'detail-header',
+                detailPath       : root + 'detail',
+                filterPath       : root + 'filter',
+                footerPath       : root + 'footer'
+            });
+        }
     }.on( 'init' ),
 
     // -------------------------------------------------------------------------

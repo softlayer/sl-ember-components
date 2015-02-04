@@ -15,7 +15,9 @@
 <div class="filter-pane">
     {{#if filterOpen}}
         <div class="filter-content">
-            {{render-dynamic filterPath}}
+            {{#if filterPath}}
+                {{render-dynamic filterPath}}
+            {{/if}}
         </div>
     {{/if}}
 </div>
@@ -79,7 +81,9 @@
 <div class="detail-pane">
     <header>
         <span class="title">
-            {{render-dynamic detailHeaderPath activeRecord context=detailPath}}
+            {{#if detailHeaderPath}}
+                {{render-dynamic detailHeaderPath activeRecord context=detailPath}}
+            {{/if}}
         </span>
 
         <button {{action "closeDetailPane"}} class="close">&times;</button>
@@ -87,11 +91,15 @@
 
     <div class="content">
         <div class="detail-content">
-            {{render-dynamic detailPath activeRecord}}
+            {{#if detailPath}}
+                {{render-dynamic detailPath activeRecord}}
+            {{/if}}
         </div>
     </div>
 
     <footer>
-        {{render-dynamic detailFooterPath activeRecord context=detailPath}}
+        {{#if detailFooterPath}}
+            {{render-dynamic detailFooterPath activeRecord context=detailPath}}
+        {{/if}}
     </footer>
 </div>

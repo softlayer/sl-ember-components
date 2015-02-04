@@ -12,7 +12,7 @@ import Ember from 'ember';
  * @param    {Ember.String} renderKey - The key variable name to lookup and render
  * @param    {Ember.Object} model     - A model to use for the rendered view
  * @param    {Ember.Object} options   - Handlebars helper options
- * @returns
+ * @returns  {void}
  */
 export default function( renderKey, model, options ) {
     var viewName;

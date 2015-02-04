@@ -1,16 +1,17 @@
 import Ember from 'ember';
-import GetKeyHelper from 'sl-ember-components/helpers/get-key';
-import RenderComponentHelper from 'sl-ember-components/helpers/render-component';
-import RenderDynamicHelper from 'sl-ember-components/helpers/render-dynamic';
-import SplitGridCellHelper from 'sl-ember-components/helpers/split-grid-cell';
+import getKeyHelper from 'sl-ember-components/helpers/get-key';
+import renderComponentHelper from 'sl-ember-components/helpers/render-component';
+import renderDynamicHelper from 'sl-ember-components/helpers/render-dynamic';
+import splitGridCellHelper from 'sl-ember-components/helpers/split-grid-cell';
 
 /**
-@module initializers
-@class  register-helpers
+ * @module   initializers
+ * @function register-helpers
+ * @returns  {void}
 */
 export default function() {
-    Ember.Handlebars.registerHelper( 'get-key', GetKeyHelper );
-    Ember.Handlebars.registerHelper( 'render-component', RenderComponentHelper );
-    Ember.Handlebars.registerHelper( 'render-dynamic', RenderDynamicHelper );
-    Ember.Handlebars.registerHelper( 'split-grid-cell', SplitGridCellHelper );
+    Ember.Handlebars.helper( 'get-key', getKeyHelper );
+    Ember.Handlebars.registerHelper( 'render-component', renderComponentHelper );
+    Ember.Handlebars.registerHelper( 'render-dynamic', renderDynamicHelper );
+    Ember.Handlebars.registerHelper( 'split-grid-cell', splitGridCellHelper );
 }
