@@ -160,17 +160,17 @@ test( 'Tab content height is adjusted after new tab selection', function() {
 
     this.append();
 
-    click( $('.tab[data-tab-name="b"] a') );
-
     component.paneFor( 'a' ).queue( function() {
         initialHeight = $('.tab-content').height();
-
-        component.paneFor( 'b' ).queue( function() {
-            notEqual( initialHeight, $('.tab-content').height() );
-
-            start();
-        });
     });
+
+    component.paneFor( 'b' ).queue( function() {
+        notEqual( initialHeight, $('.tab-content').height() );
+
+        start();
+    });
+
+    click( $('.tab[data-tab-name="b"] a') );
 });
 
 test( '"activatePane" animates as expected', function() {

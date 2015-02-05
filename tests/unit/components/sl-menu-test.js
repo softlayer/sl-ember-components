@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { test, moduleFor, moduleForComponent } from 'ember-qunit';
+import startApp from '../../helpers/start-app';
 import SlMenu from 'sl-ember-components/components/sl-menu';
 
 var clickCounter = 0,
@@ -20,9 +21,18 @@ var clickCounter = 0,
             { label: 'Top Level B' },
             { label: 'Top Level C' }
         ]
-    };
+    },
+    App;
 
-moduleForComponent( 'sl-menu', 'Component: Sl-Menu' );
+moduleForComponent( 'sl-menu', 'Component: Sl-Menu', {
+    setup: function() {
+        App = startApp();
+    },
+
+    teardown: function() {
+        Ember.run( App, App.destroy );
+    }
+});
 
 test( 'Menu creates correct DOM structure', function() {
     var component = this.subject({ menu: modelStub }),
@@ -71,54 +81,75 @@ test( 'Menu closes child on mouse exit', function() {
 });
 
 test( 'Menu click supports native function', function() {
-    var component = this.subject({ menu: modelStub }),
-        $component = this.append(),
-        child = $component.find( 'li:visible' ).first();
+    expect( 1 );
 
-    expect( 2 );
+    var spy = sinon.spy(),
+        component,
+        $component,
+        child;
 
-    equal( clickCounter, 0 );
+    modelStub.pages[0].pages[1]['action'] = spy;
 
-    child.mouseenter();
-    child.find( 'li:visible' )[ 1 ].click();
-    equal( clickCounter, 1 );
+    component = this.subject({ menu: modelStub });
+
+    $component = this.append();
+
+    child = $component.find( 'li:visible' ).first();
+
+    triggerEvent( child, 'mouseenter' );
+
+    click( child.find( 'li:visible' )[ 1 ] );
+
+    andThen( function() {
+        equal( spy.calledOnce, true );
+    });
 });
 
 test( 'Menu click supports action names', function() {
-    var component = this.subject({ menu: modelStub }),
-        $component = this.append(),
-        child = $component.find( 'li:visible' ).first(),
-        targetObject = {
-            actionHandler: function( actionName ) {
-                equal( actionName, 'MyAction' );
-            }
-        };
-
     expect( 1 );
 
-    child.mouseenter();
+    var component    = this.subject({ menu: modelStub }),
+        $component   = this.append(),
+        child        = $component.find( 'li:visible' ).first(),
+        spy          = sinon.spy(),
+        targetObject = {
+            actionHandler: spy
+        };
+
     component.set( 'actionInitiated', 'actionHandler' );
     component.set( 'targetObject', targetObject );
-    child.find( 'li:visible' )[ 0 ].click();
+
+    triggerEvent( child, 'mouseenter' );
+
+    click( child.find( 'li:visible' )[ 0 ] );
+
+    andThen( function() {
+        equal( spy.args[0][0], 'MyAction' );
+    });
 });
 
 test( 'Menu click supports action names with supporting data', function() {
-    var component = this.subject({ menu: modelStub }),
-        $component = this.append(),
-        child = $component.find( 'li:visible' ).first(),
-        targetObject = {
-            actionHandler: function( actionName, data ) {
-                equal( actionName, 'MyAction' );
-                equal( data.name, 'Joe' );
-            }
-        };
-
     expect( 2 );
 
-    child.mouseenter();
+    var component    = this.subject({ menu: modelStub }),
+        $component   = this.append(),
+        child        = $component.find( 'li:visible' ).first(),
+        spy          = sinon.spy(),
+        targetObject = {
+            actionHandler: spy
+        };
+
     component.set( 'actionInitiated', 'actionHandler' );
     component.set( 'targetObject', targetObject );
-    child.find( 'li:visible' )[ 2 ].click();
+
+    triggerEvent( child, 'mouseenter' );
+
+    click( child.find( 'li:visible' )[ 2 ] );
+
+    andThen( function() {
+        equal( spy.args[0][0], 'MyAction' );
+        equal( spy.args[0][1]['name'], 'Joe' );
+    });
 });
 
 test( 'Menu selection fires proper selection event', function() {
