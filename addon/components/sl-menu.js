@@ -488,13 +488,13 @@ export default Ember.Component.extend({
             child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
         }
 
-        this.get( 'children' ).forEach( function( item ) {
+        Ember.run.bind( this, this.get( 'children' ).forEach( function( item ) {
             if ( item === child ) {
                 child.performAction();
             } else {
                 item.$().removeClass( 'active' );
             }
-        }.bind( this ));
+        }));
     },
 
     /**
