@@ -119,9 +119,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
 
         // Apply change() listener to keep group value in sync with select sl-radio option
-        this.$('input[name=' + name + ']:radio').change( function () {
+        Ember.run.bind( this, this.$('input[name=' + name + ']:radio').change( function () {
             this.set( 'value', this.$('input[name=' + name + ']:radio').filter(':checked').val() );
-        }.bind(this));
+        }));
 
     }.on( 'didInsertElement' ),
 
