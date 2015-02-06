@@ -3,7 +3,7 @@ import { test, moduleFor, moduleForComponent } from 'ember-qunit';
 import SlButton from 'sl-ember-components/components/sl-button';
 import AjaxHelper from '../../helpers/ajax-helper';
 
-moduleForComponent( 'sl-button', 'Component: Sl-Button' );
+moduleForComponent( 'sl-button', 'Unit - component:sl-button' );
 
 test( 'Label changes during associated AJAX activity', function() {
     var component = this.subject({
