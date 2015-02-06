@@ -175,9 +175,9 @@ export default Ember.Mixin.create({
      */
     ajaxCompleteProxy: function( event, jqXHR, options ) {
         if ( this.matchesUrl( this.get( 'urlScope' ), options.url ) ) {
-            this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
+            Ember.run.bind( this, this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
                 behavior.call( this, event, jqXHR, options );
-            }.bind( this ) );
+            }));
 
             this.ajaxCompleteHandler();
         }
@@ -198,9 +198,9 @@ export default Ember.Mixin.create({
      */
     ajaxSendProxy: function( event, jqXHR, options ) {
         if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
-            this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
+            Ember.run.bind( this, this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
                 behavior.call( this, event, jqXHR, options );
-            }.bind( this ));
+            }));
 
             this.ajaxSendHandler();
         }
@@ -221,9 +221,9 @@ export default Ember.Mixin.create({
      * @returns  {void}
      */
     ajaxStartProxy: function() {
-        this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
+        Ember.run.bind( this, this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
             behavior.call( this );
-        }.bind( this ));
+        }));
 
         this.ajaxStartHandler();
     },
@@ -243,9 +243,9 @@ export default Ember.Mixin.create({
      * @returns  {void}
      */
     ajaxStopProxy: function() {
-        this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
+        Ember.run.bind( this, this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
             behavior.call( this );
-        }.bind( this ));
+        }));
 
         this.ajaxStopHandler();
     },
@@ -259,10 +259,10 @@ export default Ember.Mixin.create({
      */
     createProxyMethods: function() {
         this.setProperties({
-            ajaxSendProxyBound     : this.ajaxSendProxy.bind( this ),
-            ajaxCompleteProxyBound : this.ajaxCompleteProxy.bind( this ),
-            ajaxStartProxyBound    : this.ajaxStartProxy.bind( this ),
-            ajaxStopProxyBound     : this.ajaxStopProxy.bind( this )
+            ajaxSendProxyBound     : Ember.run.bind( this, this.ajaxSendProxy ),
+            ajaxCompleteProxyBound : Ember.run.bind( this, this.ajaxCompleteProxy ),
+            ajaxStartProxyBound    : Ember.run.bind( this, this.ajaxStartProxy ),
+            ajaxStopProxyBound     : Ember.run.bind( this, this.ajaxStopProxy ),
         });
     },
 
