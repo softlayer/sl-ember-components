@@ -146,35 +146,40 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * @returns  {void}
      */
     setupHandlers: function() {
-        this.registerAjaxBehavior( function() {
-            var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
+       this.registerAjaxBehavior(
 
-            if ( !Ember.isBlank( props.activeLabelText ) ) {
-                this.set( 'label', props.activeLabelText );
-            }
+            Ember.run.bind( this, function() {
+                var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
-            if ( props.disableOnAjax ) {
-                this.set( 'disabled', true );
-            }
+                if ( !Ember.isBlank( props.activeLabelText ) ) {
+                    this.set( 'label', props.activeLabelText );
+                }
 
-            if ( props.hideOnAjax ) {
-                this.$().css( 'visibility', 'hidden' );
-            }
-        }.bind( this ), function() {
-            var props = this.getProperties([ 'activeLabelText', 'inactiveLabelText', 'disableOnAjax', 'hideOnAjax' ]);
+                if ( props.disableOnAjax ) {
+                    this.set( 'disabled', true );
+                }
 
-            if ( !Ember.isBlank( 'activeLabelText' ) ) {
-                this.set( 'label', props.inactiveLabelText );
-            }
+                if ( props.hideOnAjax ) {
+                    this.$().css( 'visibility', 'hidden' );
+                }
+            }),
 
-            if ( props.disableOnAjax ) {
-                this.set( 'disabled', false );
-            }
+            Ember.run.bind( this, function() {
+                var props = this.getProperties([ 'activeLabelText', 'inactiveLabelText', 'disableOnAjax', 'hideOnAjax' ]);
 
-            if ( props.hideOnAjax ) {
-                this.$().css( 'visibility', 'visible' );
-            }
-        }.bind( this ));
+                if ( !Ember.isBlank( 'activeLabelText' ) ) {
+                    this.set( 'label', props.inactiveLabelText );
+                }
+
+                if ( props.disableOnAjax ) {
+                    this.set( 'disabled', false );
+                }
+
+                if ( props.hideOnAjax ) {
+                    this.$().css( 'visibility', 'visible' );
+                }
+            })
+        );
     }.on( 'init' ),
 
     // -------------------------------------------------------------------------
