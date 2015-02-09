@@ -66,3 +66,25 @@ test( 'The element disables during associated AJAX activity', function() {
     AjaxHelper.end();
     equal( this.$().is( ':disabled' ), false );
 });
+
+/**
+ * While it appears that core Ember functionality is being tested this test is ensuring
+ * that the implied contract about which DOM element is rendered is adhered to.
+ */
+/*
+test( 'Renders as a button tag', function() {
+});
+
+test( 'Expected default classes are applied', function() {
+});
+
+
+test( 'Labels are correctly initialized', function() {
+});
+
+test( 'sizeClass() returns correct values', function() {
+});
+
+test( 'themeClass() returns correct value', function() {
+});
+*/
