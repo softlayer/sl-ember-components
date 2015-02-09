@@ -21,33 +21,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
 
     /**
-     * Class attribute bindings for the button
+     * Class name bindings for the div element
      *
-     * @property {Ember.Array} classNameBindings
+     * @property {Ember.Array} themeClass
      */
     classNameBindings: [ 'themeClass' ],
 
     // -------------------------------------------------------------------------
     // Actions
-
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
-    actions: {
-
-        /**
-         * Used to trigger specific option-bound action
-         *
-         * @function click
-         * @param    {string} action to trigger
-         * @returns  {void}
-         */
-        click: function( action ) {
-            this.triggerAction({ action: action });
-        }
-    },
 
     // -------------------------------------------------------------------------
     // Events
