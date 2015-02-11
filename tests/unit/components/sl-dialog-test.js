@@ -25,7 +25,7 @@ test( 'Correct DOM structure is in place', function() {
     var component  = this.subject({
             title: 'Test Title'
         }),
-        $component = this.append();
+        $component = this.render();
 
     equal( $component.prop( 'firstChild' ).nodeName, 'DIV' );
     equal( $component.prop( 'firstChild' ).className, 'modal-dialog' );
@@ -40,7 +40,7 @@ test( 'Correct DOM structure is in place', function() {
 });
 
 test( 'If "title" property is not populated, span with "modal-title" class is not rendered', function() {
-    this.append();
+    this.render();
 
     equal( $('.modal-title').length, 0 );
 });
@@ -51,7 +51,7 @@ test( '"title" is rendered as span with "modal-title" class if populated', funct
             title: testTitle
         });
 
-    this.append();
+    this.render();
 
     equal( $('span.modal-title').length, 1 );
     equal( $.trim( $('.modal-title').text() ), testTitle );

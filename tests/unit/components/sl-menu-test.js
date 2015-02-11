@@ -36,7 +36,7 @@ moduleForComponent( 'sl-menu', 'Component: Sl-Menu', {
 
 test( 'Menu creates correct DOM structure', function() {
     var component = this.subject({ menu: modelStub }),
-        $component = this.append();
+        $component = this.render();
 
     expect( 1 );
 
@@ -45,7 +45,7 @@ test( 'Menu creates correct DOM structure', function() {
 
 test( 'Menu properly hides all but root list', function() {
     var component = this.subject({ menu: modelStub }),
-        $component = this.append();
+        $component = this.render();
 
     expect( 1 );
 
@@ -54,7 +54,7 @@ test( 'Menu properly hides all but root list', function() {
 
 test( 'Menu shows child on hover', function() {
     var component = this.subject({ menu: modelStub }),
-        $component = this.append();
+        $component = this.render();
 
     expect( 2 );
 
@@ -66,7 +66,7 @@ test( 'Menu shows child on hover', function() {
 
 test( 'Menu closes child on mouse exit', function() {
     var component = this.subject({ menu: modelStub }),
-        $component = this.append(),
+        $component = this.render(),
         child = $component.find( 'li:visible' ).first();
 
     expect( 3 );
@@ -92,7 +92,7 @@ test( 'Menu click supports native function', function() {
 
     component = this.subject({ menu: modelStub });
 
-    $component = this.append();
+    $component = this.render();
 
     child = $component.find( 'li:visible' ).first();
 
@@ -109,7 +109,7 @@ test( 'Menu click supports action names', function() {
     expect( 1 );
 
     var component    = this.subject({ menu: modelStub }),
-        $component   = this.append(),
+        $component   = this.render(),
         child        = $component.find( 'li:visible' ).first(),
         spy          = sinon.spy(),
         targetObject = {
@@ -132,7 +132,7 @@ test( 'Menu click supports action names with supporting data', function() {
     expect( 2 );
 
     var component    = this.subject({ menu: modelStub }),
-        $component   = this.append(),
+        $component   = this.render(),
         child        = $component.find( 'li:visible' ).first(),
         spy          = sinon.spy(),
         targetObject = {
@@ -154,7 +154,7 @@ test( 'Menu click supports action names with supporting data', function() {
 
 test( 'Menu selection fires proper selection event', function() {
     var component = this.subject({ menu: modelStub }),
-        $component = this.append(),
+        $component = this.render(),
         selectionCounter = 0,
         targetObject = {
             selectionHandler: function( path ) {

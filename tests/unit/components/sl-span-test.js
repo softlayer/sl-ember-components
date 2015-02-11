@@ -7,7 +7,7 @@ test( '"value" property is supported', function() {
     var component  = this.subject({
             value: 'Test content'
         }),
-        $component = this.append();
+        $component = this.render();
 
     equal( $.trim( $component.text() ), 'Test content' );
 });
@@ -17,7 +17,7 @@ test( 'If "isLoading" is true, sl-loading-icon component is displayed', function
         isLoading: true
     });
 
-    this.append();
+    this.render();
 
     equal( component._childViews[0]._childViews[0].path, 'sl-loading-icon' );
 });

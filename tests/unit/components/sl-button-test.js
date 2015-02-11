@@ -6,17 +6,22 @@ import AjaxHelper from '../../helpers/ajax-helper';
 moduleForComponent( 'sl-button', 'Unit - component:sl-button' );
 
 test( 'Label changes during associated AJAX activity', function() {
-    var component = this.subject({
-        ajaxEnabled: true,
-        label: 'Static Text',
-        activeLabelText: 'Active Text'
-    });
+    var activeText = 'Active Text',
+        staticText = 'Static Text',
+        component = this.subject({
+            activeLabelText : activeText,
+            ajaxEnabled     : true,
+            label           : staticText
+        }),
+        $component = this.render();
+
+    console.log( $component );
 
     AjaxHelper.begin();
-    equal( component.get( 'label' ), 'Active Text' );
+    equal( component.get( 'label' ), activeText );
 
     AjaxHelper.end();
-    equal( component.get( 'label' ), 'Static Text' );
+    equal( component.get( 'label' ), staticText );
 });
 
 test( 'The element hides during associated AJAX activity', function() {
@@ -38,7 +43,7 @@ test( 'The element fires event when clicked', function() {
     expect( 1 );
 
     var component = this.subject();
-    var $component = this.append();
+    var $component = this.render();
 
     var targetObject = {
         externalAction: function() {

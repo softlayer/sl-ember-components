@@ -18,7 +18,7 @@ moduleForComponent( 'sl-tab-panel', 'Unit - component:sl-tab-panel', {
 });
 
 test( 'Expected default classes are applied', function() {
-    var $component = this.append();
+    var $component = this.render();
 
     contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ], 'Default classes are not correctly applied' );
 });
@@ -35,7 +35,7 @@ test( 'setupTabs() does so correctly', function() {
             )
         });
 
-    this.append();
+    this.render();
 
     component.paneFor( 'a' ).queue( function() {
         // All tabs are rendered
@@ -62,7 +62,7 @@ test( 'ARIA roles are implemented', function() {
             )
         });
 
-    this.append();
+    this.render();
 
     equal( $('.nav-tabs[role="tablist"]').length, 1 );
     equal( $('.tab a[role="tab"]').length, 3 );
@@ -81,7 +81,7 @@ test( '"initialTabName" property is respected', function() {
             )
         });
 
-    this.append();
+    this.render();
 
     component.paneFor( 'b' ).queue( function() {
 
@@ -96,7 +96,7 @@ test( '"alignTabs" property is respected', function() {
     var component  = this.subject({
             alignTabs : 'right'
         }),
-        $component = this.append();
+        $component = this.render();
 
     contains( $component.prop( 'class' ), 'sl-align-tabs-right', 'Tab alignment class not applied' );
 });
@@ -109,7 +109,7 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
         }),
-        $component = this.append(),
+        $component = this.render(),
         labels     = [];
 
     $('.tab[data-tab-name]').each( function() {
@@ -131,7 +131,7 @@ test( 'Clicking tab changes active tab', function() {
             )
         });
 
-    this.append();
+    this.render();
 
     click( $('.tab[data-tab-name="b"] a') );
 
@@ -158,7 +158,7 @@ test( 'Tab content height is adjusted after new tab selection', function() {
         }),
         initialHeight;
 
-    this.append();
+    this.render();
 
     component.paneFor( 'a' ).queue( function() {
         initialHeight = $('.tab-content').height();
@@ -185,7 +185,7 @@ test( '"activatePane" animates as expected', function() {
         }),
         spy = sinon.spy( $.prototype, 'fadeIn' );
 
-    this.append();
+    this.render();
 
     component.paneFor( 'a' ).queue( function() {
         equal( spy.calledOnce, true );
@@ -205,7 +205,7 @@ test( '"deactivatePane" animates as expected', function() {
         }),
         spy = sinon.spy( $.prototype, 'fadeOut' );
 
-    this.append();
+    this.render();
 
     click( $('.tab[data-tab-name="b"] a') );
 
@@ -229,7 +229,7 @@ test( '"deactivatePane" calls specified callback', function() {
         }),
         callback = sinon.spy();
 
-    this.append();
+    this.render();
 
     component.deactivatePane( callback );
 
