@@ -1,43 +1,25 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import AjaxHelper from '../../helpers/ajax-helper';
 import SlButton from 'sl-ember-components/components/sl-button';
 
 moduleForComponent( 'sl-button', 'Unit - component: sl-button' );
 
-test( 'Label changes during associated AJAX activity', function() {
-    var activeText = 'Active Text',
-        staticText = 'Static Text',
-        component = this.subject({
-            activeLabelText : activeText,
-            ajaxEnabled     : true,
-            label           : staticText
+test( 'Label changes for pending state', function() {
+    var pendingText = 'Pending',
+        staticText  = 'Static',
+        component   = this.subject({
+            pendingLabel : pendingText,
+            label        : staticText
         }),
         $component = this.render();
 
-    equal( component.get( 'label' ), staticText );
+    equal( component.get( 'currentLabel' ), staticText );
 
-    AjaxHelper.begin();
-    Ember.run.later( function() { equal( component.get( 'label' ), activeText ); });
+    Ember.run( function() {
+        component.set( 'pending', true );
+    });
 
-    AjaxHelper.end();
-    Ember.run.later( function() { equal( component.get( 'label' ), staticText ); });
-});
-
-test( 'The element hides during associated AJAX activity', function() {
-    var component = this.subject({
-            ajaxEnabled : true,
-            hideOnAjax  : true
-        }),
-        $component = this.render();
-
-    equal( $component.css( 'visibility' ), 'visible' );
-
-    AjaxHelper.begin();
-    equal( $component.css( 'visibility' ), 'hidden' );
-
-    AjaxHelper.end();
-    equal( $component.css( 'visibility' ), 'visible' );
+    equal( component.get( 'currentLabel' ), pendingText );
 });
 
 test( 'The element fires event when clicked', function() {
@@ -55,20 +37,17 @@ test( 'The element fires event when clicked', function() {
     $component.click();
 });
 
-test( 'The element disables during associated AJAX activity', function() {
-    var component = this.subject({
-            ajaxEnabled   : true,
-            disableOnAjax : true
-        }),
+test( 'Button supports disabled state', function() {
+    var component  = this.subject(),
         $component = this.render();
 
     equal( $component.is( ':disabled' ), false );
 
-    AjaxHelper.begin();
-    equal( $component.is( ':disabled' ), true );
+    Ember.run( function() {
+        component.set( 'disabled', true );
+    });
 
-    AjaxHelper.end();
-    equal( $component.is( ':disabled' ), false );
+    equal( $component.is( ':disabled' ), true );
 });
 
 /**
@@ -81,7 +60,6 @@ test( 'Renders as a button tag', function() {
 
 test( 'Expected default classes are applied', function() {
 });
-
 
 test( 'Labels are correctly initialized', function() {
 });
