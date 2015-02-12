@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import { test, moduleFor, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 import { contains } from '../../helpers/sl/synchronous';
 
 var App;
 
-moduleForComponent( 'sl-tab-panel', 'Unit - component:sl-tab-panel', {
+moduleForComponent( 'sl-tab-panel', 'Unit - component: sl-tab-panel', {
     needs: [ 'component:sl-tab-pane' ],
 
     setup: function() {
@@ -24,9 +24,6 @@ test( 'Expected default classes are applied', function() {
 });
 
 test( 'setupTabs() does so correctly', function() {
-    expect(5);
-    stop();
-
     var component = this.subject({
             template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -35,19 +32,21 @@ test( 'setupTabs() does so correctly', function() {
             )
         });
 
+    expect( 5 );
     this.render();
+    stop();
 
     component.paneFor( 'a' ).queue( function() {
         // All tabs are rendered
-        equal( $('.tab[data-tab-name]' ).length, 3 );
+        equal( $( '.tab[data-tab-name]' ).length, 3 );
 
         // Tab content is rendered
-        equal( $('.sl-tab-pane[data-tab-name]').length, 3 );
-        equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
+        equal( $( '.sl-tab-pane[data-tab-name]' ).length, 3 );
+        equal( $.trim( $( '.sl-tab-pane[data-tab-name="b"]' ).text() ), 'B content' );
 
         // First tab is active
-        equal( $('.tab.active[data-tab-name="a"]').length, 1 );
-        equal( $('.sl-tab-pane.active[data-tab-name="a"]').length, 1 );
+        equal( $( '.tab.active[data-tab-name="a"]' ).length, 1 );
+        equal( $( '.sl-tab-pane.active[data-tab-name="a"]' ).length, 1 );
 
         start();
     });
@@ -64,14 +63,11 @@ test( 'ARIA roles are implemented', function() {
 
     this.render();
 
-    equal( $('.nav-tabs[role="tablist"]').length, 1 );
-    equal( $('.tab a[role="tab"]').length, 3 );
+    equal( $( '.nav-tabs[role="tablist"]' ).length, 1 );
+    equal( $( '.tab a[role="tab"]' ).length, 3 );
 });
 
 test( '"initialTabName" property is respected', function() {
-    expect(2);
-    stop();
-
     var component  = this.subject({
             initialTabName : 'b',
             template       : Ember.Handlebars.compile(
@@ -81,12 +77,15 @@ test( '"initialTabName" property is respected', function() {
             )
         });
 
+    expect( 2 );
+    stop();
+
     this.render();
 
     component.paneFor( 'b' ).queue( function() {
 
-        equal( $('.tab.active[data-tab-name="b"]').length, 1 );
-        equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+        equal( $( '.tab.active[data-tab-name="b"]' ).length, 1 );
+        equal( $( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
 
         start();
     });
@@ -112,17 +111,14 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
         $component = this.render(),
         labels     = [];
 
-    $('.tab[data-tab-name]').each( function() {
-        labels.push( $( this ).attr('data-tab-name') );
+    $( '.tab[data-tab-name]' ).each( function() {
+        labels.push( $( this ).attr( 'data-tab-name' ) );
     });
 
     deepEqual( labels, [ 'a', 'b', 'c' ] );
 });
 
 test( 'Clicking tab changes active tab', function() {
-    expect(2);
-    stop();
-
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -131,14 +127,17 @@ test( 'Clicking tab changes active tab', function() {
             )
         });
 
+    expect( 2 );
+    stop();
+
     this.render();
 
-    click( $('.tab[data-tab-name="b"] a') );
+    click( $( '.tab[data-tab-name="b"] a' ) );
 
     component.paneFor( 'a' ).queue( function() {
         component.paneFor( 'b' ).queue( function() {
-            equal( $('.tab.active[data-tab-name="b"]').length, 1 );
-            equal( $('.sl-tab-pane.active[data-tab-name="b"]').length, 1 );
+            equal( $( '.tab.active[data-tab-name="b"]' ).length, 1 );
+            equal( $( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
 
             start();
         });
@@ -146,9 +145,6 @@ test( 'Clicking tab changes active tab', function() {
 });
 
 test( 'Tab content height is adjusted after new tab selection', function() {
-    expect(1);
-    stop();
-
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -158,25 +154,25 @@ test( 'Tab content height is adjusted after new tab selection', function() {
         }),
         initialHeight;
 
+    expect( 1 );
+    stop();
+
     this.render();
 
     component.paneFor( 'a' ).queue( function() {
-        initialHeight = $('.tab-content').height();
+        initialHeight = $( '.tab-content' ).height();
     });
 
     component.paneFor( 'b' ).queue( function() {
-        notEqual( initialHeight, $('.tab-content').height() );
+        notEqual( initialHeight, $( '.tab-content' ).height() );
 
         start();
     });
 
-    click( $('.tab[data-tab-name="b"] a') );
+    click( $( '.tab[data-tab-name="b"] a' ) );
 });
 
 test( '"activatePane" animates as expected', function() {
-    expect(1);
-    stop();
-
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -184,6 +180,9 @@ test( '"activatePane" animates as expected', function() {
             )
         }),
         spy = sinon.spy( $.prototype, 'fadeIn' );
+
+    expect( 1 );
+    stop();
 
     this.render();
 
@@ -194,9 +193,6 @@ test( '"activatePane" animates as expected', function() {
 });
 
 test( '"deactivatePane" animates as expected', function() {
-    expect(1);
-    stop();
-
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -205,9 +201,12 @@ test( '"deactivatePane" animates as expected', function() {
         }),
         spy = sinon.spy( $.prototype, 'fadeOut' );
 
+    expect( 1 );
+    stop();
+
     this.render();
 
-    click( $('.tab[data-tab-name="b"] a') );
+    click( $( '.tab[data-tab-name="b"] a' ) );
 
     component.paneFor( 'a' ).queue( function() {
         component.paneFor( 'b' ).queue( function() {
@@ -218,9 +217,6 @@ test( '"deactivatePane" animates as expected', function() {
 });
 
 test( '"deactivatePane" calls specified callback', function() {
-    expect(1);
-    stop();
-
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -228,6 +224,9 @@ test( '"deactivatePane" calls specified callback', function() {
             )
         }),
         callback = sinon.spy();
+
+    expect( 1 );
+    stop();
 
     this.render();
 

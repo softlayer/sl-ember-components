@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { test, moduleFor } from 'ember-qunit';
 import AjaxAwareMixin from 'sl-ember-components/mixins/sl-ajax-aware';
 import AjaxHelper from '../../helpers/ajax-helper';
 
@@ -37,17 +36,13 @@ var BaseObject = Ember.Object.extend( AjaxAwareMixin, {
 
 var mixin;
 
-module( 'AjaxAware Mixin:Global Scope', {
+module( 'Unit - mixin: ajax-aware (Global Scope)', {
     setup: function() {
         Ember.run( function() {
             mixin = BaseObject.create({
                 ajaxEnabled: true
             });
         });
-    },
-
-    teardown: function() {
-        mixin = null;
     }
 });
 
@@ -67,7 +62,7 @@ test( 'Stop Handler is called when URL is global scope', function() {
     equal( mixin.completeHandlerCalled, false );
 });
 
-module( 'AjaxAware Mixin:URL Scope (String)', {
+module( 'Unit - mixin: ajax-aware (URL Scope - String)', {
     setup: function() {
         Ember.run( function() {
             mixin = BaseObject.create({
@@ -75,10 +70,6 @@ module( 'AjaxAware Mixin:URL Scope (String)', {
                 urlScope: 'my/api/endpoint'
             });
         });
-    },
-
-    teardown: function() {
-        mixin = null;
     }
 });
 
@@ -98,7 +89,7 @@ test( 'Complete Handler is called when URL is specifically scoped', function() {
     equal( mixin.stopHandlerCalled, false );
 });
 
-module( 'AjaxAware Mixin:URL Scope (Regex)', {
+module( 'Unit - mixin: ajax-aware (URL Scope - Regex)', {
     setup: function() {
         Ember.run( function() {
             mixin = BaseObject.create({
@@ -106,10 +97,6 @@ module( 'AjaxAware Mixin:URL Scope (Regex)', {
                 urlScope: /api\/endpoint/
             });
         });
-    },
-
-    teardown: function() {
-        mixin = null;
     }
 });
 
@@ -132,18 +119,13 @@ test( 'Scope supports multiple URLs via regular expression', function() {
     equal( mixin.startHandlerCalled, false );
 });
 
-
-module( 'AjaxAware Mixin:Ajax Enabled False (Global)', {
+module( 'Unit - mixin: ajax-aware (Ajax Enabled False - Global)', {
     setup: function() {
         Ember.run( function() {
             mixin = BaseObject.create({
                 ajaxEnabled: false
             });
         });
-    },
-
-    teardown: function() {
-        mixin = null;
     }
 });
 
@@ -157,17 +139,13 @@ test( 'Stop Handler is not called if ajaxEnabled is false', function() {
     equal( mixin.stopHandlerCalled, false );
 });
 
-module( 'AjaxAware Mixin:Ajax Enabled True (Global)', {
+module( 'Unit - mixin: ajax-aware (Ajax Enabled True - Global)', {
     setup: function() {
         Ember.run( function() {
             mixin = BaseObject.create({
                 ajaxEnabled: true
             });
         });
-    },
-
-    teardown: function() {
-        mixin = null;
     }
 });
 
@@ -181,7 +159,7 @@ test( 'Stop Handler is called if ajaxEnabled is true', function() {
     equal( mixin.stopHandlerCalled, true );
 });
 
-module( 'AjaxAware Mixin:Ajax Enabled False (Scoped)', {
+module( 'Unit - mixin: ajax-aware (Ajax Enabled False - Scoped)', {
     setup: function() {
         Ember.run( function() {
             mixin = BaseObject.create({
@@ -189,10 +167,6 @@ module( 'AjaxAware Mixin:Ajax Enabled False (Scoped)', {
                 urlScope: 'my/api/endpoint'
             });
         });
-    },
-
-    teardown: function() {
-        mixin = null;
     }
 });
 
@@ -206,18 +180,14 @@ test( 'Complete Handler is not called if ajaxEnabled is false', function() {
     equal( mixin.completeHandlerCalled, false );
 });
 
-module( 'AjaxAware Mixin:Ajax Enabled True (Scoped)', {
+module( 'Unit - mixin: ajax-aware (Ajax Enabled True - Scoped)', {
     setup: function() {
         Ember.run( function() {
             mixin = BaseObject.create({
-                ajaxEnabled: true,
-                urlScope: 'my/api/endpoint'
+                ajaxEnabled : true,
+                urlScope    : 'my/api/endpoint'
             });
         });
-    },
-
-    teardown: function() {
-        mixin = null;
     }
 });
 

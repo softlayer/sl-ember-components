@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import { test, moduleFor, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 import { contains } from '../../helpers/sl/synchronous';
 
 var App;
 
-moduleForComponent( 'sl-tab-pane', 'Unit - component:sl-tab-pane', {
+moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
     needs: [ 'component:sl-tab-panel' ],
 
     setup: function() {

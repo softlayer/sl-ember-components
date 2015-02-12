@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import { test, moduleFor, moduleForComponent } from 'ember-qunit';
-import SlButton from 'sl-ember-components/components/sl-button';
+import { moduleForComponent, test } from 'ember-qunit';
 import AjaxHelper from '../../helpers/ajax-helper';
+import SlButton from 'sl-ember-components/components/sl-button';
 
-moduleForComponent( 'sl-button', 'Unit - component:sl-button' );
+moduleForComponent( 'sl-button', 'Unit - component: sl-button' );
 
 test( 'Label changes during associated AJAX activity', function() {
     var activeText = 'Active Text',
@@ -15,61 +15,60 @@ test( 'Label changes during associated AJAX activity', function() {
         }),
         $component = this.render();
 
-    console.log( $component );
+    equal( component.get( 'label' ), staticText );
 
     AjaxHelper.begin();
-    equal( component.get( 'label' ), activeText );
+    Ember.run.later( function() { equal( component.get( 'label' ), activeText ); });
 
     AjaxHelper.end();
-    equal( component.get( 'label' ), staticText );
+    Ember.run.later( function() { equal( component.get( 'label' ), staticText ); });
 });
 
 test( 'The element hides during associated AJAX activity', function() {
     var component = this.subject({
-        ajaxEnabled: true,
-        hideOnAjax: true
-    });
+            ajaxEnabled : true,
+            hideOnAjax  : true
+        }),
+        $component = this.render();
 
-    equal( this.$().css( 'visibility' ), 'visible' );
+    equal( $component.css( 'visibility' ), 'visible' );
 
     AjaxHelper.begin();
-    equal( this.$().css( 'visibility' ), 'hidden' );
+    equal( $component.css( 'visibility' ), 'hidden' );
 
     AjaxHelper.end();
-    equal( this.$().css( 'visibility' ), 'visible' );
+    equal( $component.css( 'visibility' ), 'visible' );
 });
 
 test( 'The element fires event when clicked', function() {
+    var component = this.subject({
+            action: 'externalAction',
+            targetObject: {
+                externalAction: function() {
+                    ok( true, 'External action was called' );
+                }
+            }
+        }),
+        $component = this.render();
+
     expect( 1 );
-
-    var component = this.subject();
-    var $component = this.render();
-
-    var targetObject = {
-        externalAction: function() {
-            ok( true, 'External action was called' );
-        }
-    };
-
-    component.set( 'action', 'externalAction' );
-    component.set( 'targetObject', targetObject );
-
     $component.click();
 });
 
 test( 'The element disables during associated AJAX activity', function() {
     var component = this.subject({
-        ajaxEnabled: true,
-        disableOnAjax: true
-    });
+            ajaxEnabled   : true,
+            disableOnAjax : true
+        }),
+        $component = this.render();
 
-    equal( this.$().is( ':disabled' ), false );
+    equal( $component.is( ':disabled' ), false );
 
     AjaxHelper.begin();
-    equal( this.$().is( ':disabled' ), true );
+    equal( $component.is( ':disabled' ), true );
 
     AjaxHelper.end();
-    equal( this.$().is( ':disabled' ), false );
+    equal( $component.is( ':disabled' ), false );
 });
 
 /**

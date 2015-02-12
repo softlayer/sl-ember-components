@@ -1,26 +1,23 @@
 import Ember from 'ember';
 
-var AjaxHelper = function() {};
+export default {
+    begin: function( endpoint ) {
+        Ember.run( function() {
+            if ( endpoint ) {
+                Ember.$( document ).trigger( 'ajaxSend', [ null, { url: endpoint }]);
+            } else {
+                Ember.$( document ).trigger( 'ajaxStart' );
+            }
+        });
+    },
 
-AjaxHelper.prototype.begin = function( endpoint ) {
-    Ember.run( function() {
-        if ( endpoint ) {
-            $( document ).trigger( 'ajaxSend', [ null, { url: endpoint }]);
-        } else {
-            $( document ).trigger( 'ajaxStart' );
-        }
-    });
+    end: function( endpoint ) {
+        Ember.run( function() {
+            if ( endpoint ) {
+                Ember.$( document ).trigger( 'ajaxComplete', [ null, { url: endpoint }]);
+            } else {
+                Ember.$( document ).trigger( 'ajaxStop' );
+            }
+        });
+    }
 };
-
-AjaxHelper.prototype.end = function( endpoint ) {
-    Ember.run( function() {
-        if ( endpoint ) {
-            $( document ).trigger( 'ajaxComplete', [ null, { url: endpoint }]);
-        } else {
-            $( document ).trigger( 'ajaxStop' );
-        }
-    });
-};
-
-var helper = new AjaxHelper();
-export default helper;

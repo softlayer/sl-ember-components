@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import { test, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-alert', 'Unit - component:sl-alert' );
+moduleForComponent( 'sl-alert', 'Unit - component: sl-alert' );
 
 test( 'ARIA role is applied', function() {
     var $component = this.render();

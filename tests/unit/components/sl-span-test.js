@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import { test, moduleFor, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-span', 'Unit - component:sl-span' );
+moduleForComponent( 'sl-span', 'Unit - component: sl-span' );
 
 test( '"value" property is supported', function() {
     var component  = this.subject({

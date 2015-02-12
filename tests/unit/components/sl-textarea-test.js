@@ -1,9 +1,9 @@
 import Ember from 'ember';
-import { test, moduleFor, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
-moduleForComponent( 'sl-textarea', 'Unit - component:sl-textarea' );
+moduleForComponent( 'sl-textarea', 'Unit - component: sl-textarea' );
 
 test( 'Expected Mixins are present', function() {
     ok( InputBasedMixin.detect( this.subject() ), 'InputBased Mixin is present' );
@@ -13,13 +13,13 @@ test( 'Expected Mixins are present', function() {
 test( 'Expected classes are only ones applied', function() {
     var $component = this.render();
 
-    equal( $component.prop( 'class' ), ['ember-view form-group sl-textarea'] );
+    equal( $component.prop( 'class' ), [ 'ember-view form-group sl-textarea' ] );
 });
 
 test( 'If "label" property is not populated, label element is not rendered', function() {
     var $component = this.render();
 
-    equal( $component.find( 'label' ).prop( 'for' ), undefined );
+    equal( typeof $component.find( 'label' ).prop( 'for' ), 'undefined' );
 });
 
 test( 'If "label" property is populated, label element is rendered', function() {
@@ -31,7 +31,7 @@ test( 'If "label" property is populated, label element is rendered', function() 
 
     this.render();
 
-    label = $('label[for="' + $('textarea').prop( 'id' ) + '"]');
+    label = $( 'label[for="' + $( 'textarea' ).prop( 'id' ) + '"]' );
 
     equal( label.length, 1 );
     equal( $.trim( label.text() ), labelText );
