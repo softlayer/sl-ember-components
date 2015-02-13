@@ -1,12 +1,11 @@
 import Ember from 'ember';
-import AjaxAware from '../mixins/sl-ajax-aware';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
  * @class  sl-button
  */
-export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
+export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -41,7 +40,7 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      *
      * @property {Ember.Array} classNameBindings
      */
-    classNameBindings: [ 'sizeClass', 'themeClass' ],
+    classNameBindings: [ 'pending', 'sizeClass', 'themeClass' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -63,14 +62,6 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     // Properties
 
     /**
-     * The text to display during AJAX activity
-     *
-     * @property {Ember.String} activeLabelText
-     * @default  null
-     */
-    activeLabelText: null,
-
-    /**
      * Whether or not the button should be disabled during AJAX activity
      *
      * @property {boolean} disableOnAjax
@@ -87,15 +78,6 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     hideOnAjax: false,
 
     /**
-     * This is primarily used internally to avoid losing the "default" value of
-     * the label when switching to the active text
-     *
-     * @property {Ember.String} inactiveLabelText
-     * @default  null
-     */
-    inactiveLabelText: null,
-
-    /**
      * Text to apply to the button label
      *
      * It is preferred you use this to set your "default" text rather than
@@ -105,6 +87,22 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
      * @default  null
      */
     label: null,
+
+    /**
+     * Whether the button is in a "pending" state
+     *
+     * @property {boolean} pending
+     * @default  false
+     */
+    pending: false,
+
+    /**
+     * The text to display during AJAX activity
+     *
+     * @property {Ember.String} pendingLabel
+     * @default  null
+     */
+    pendingLabel: null,
 
     /**
      * The size of the button
@@ -125,65 +123,29 @@ export default Ember.Component.extend( AjaxAware, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Observers
 
-    /**
-     * Initialize labels
-     *
-     * @function initLabel
-     * @observes "init" event
-     * @returns  {void}
-     */
-    initLabel: function() {
-        if ( Ember.isBlank( this.get( 'inactiveLabelText' ) ) ) {
-            this.set( 'inactiveLabelText', this.get( 'label' ) );
-        }
-    }.on( 'init' ),
-
-    /**
-     * Register our behaviors with the convenience method from the AJAX mixin
-     *
-     * @function setupHandlers
-     * @observes "init" event
-     * @returns  {void}
-     */
-    setupHandlers: function() {
-       this.registerAjaxBehavior(
-
-            Ember.run.bind( this, function() {
-                var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
-
-                if ( !Ember.isBlank( props.activeLabelText ) ) {
-                    this.set( 'label', props.activeLabelText );
-                }
-
-                if ( props.disableOnAjax ) {
-                    this.set( 'disabled', true );
-                }
-
-                if ( props.hideOnAjax ) {
-                    this.$().css( 'visibility', 'hidden' );
-                }
-            }),
-
-            Ember.run.bind( this, function() {
-                var props = this.getProperties([ 'activeLabelText', 'inactiveLabelText', 'disableOnAjax', 'hideOnAjax' ]);
-
-                if ( !Ember.isBlank( 'activeLabelText' ) ) {
-                    this.set( 'label', props.inactiveLabelText );
-                }
-
-                if ( props.disableOnAjax ) {
-                    this.set( 'disabled', false );
-                }
-
-                if ( props.hideOnAjax ) {
-                    this.$().css( 'visibility', 'visible' );
-                }
-            })
-        );
-    }.on( 'init' ),
-
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * The current label text for the button
+     *
+     * @function currentLabel
+     * @observes label, pending, pendingLabel
+     * @returns  {Ember.String}
+     */
+    currentLabel: function() {
+        var label        = this.get( 'label' ),
+            pending      = this.get( 'pending' ),
+            pendingLabel = this.get( 'pendingLabel' );
+
+        if ( pending && pendingLabel ) {
+            return pendingLabel;
+        }
+
+        if ( label ) {
+            return label;
+        }
+    }.property( 'label', 'pending', 'pendingLabel' ),
 
     /**
      * Converted size string to Bootstrap button class

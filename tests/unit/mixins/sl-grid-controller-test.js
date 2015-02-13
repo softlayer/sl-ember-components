@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import { test, moduleFor } from 'ember-qunit';
 import SlGridController from 'sl-ember-components/mixins/sl-grid-controller';
 
 var gridController;
 
-module( 'Unit - mixins:sl-grid-controller', {
+module( 'Unit - mixin: sl-grid-controller', {
     setup: function() {
         gridController = Ember.ArrayController.createWithMixins( SlGridController,
             {

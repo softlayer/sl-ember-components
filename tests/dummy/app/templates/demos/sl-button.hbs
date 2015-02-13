@@ -119,7 +119,6 @@
 
 <div class="list-group">
     <div class="list-group-item">
-        <p>sl-ajax-aware</p>
         <p>sl-tooltip-enabled</p>
     </div>
 </div>
@@ -133,32 +132,24 @@
         An action to fire when the button is clicked.
     {{/property-text}}
 
-    {{#property-text name="activeLabelText" type="function" default="null" requires="ajaxEnabled=true"}}
-        Text to display during associated AJAX activity.
-    {{/property-text}}
-
-    {{#property-text name="ajaxEnabled" type="boolean" default="false"}}
-        Allow behaviors to be bound to associated AJAX activity.
-    {{/property-text}}
-
     {{#property-text name="class" type="string"}}
         <code>class</code> attribute for the button.
-    {{/property-text}}
-
-    {{#property-text name="disabledOnAjax" type="boolean" default="false" requires="ajaxEnabled=true"}}
-        When true, button will become disabled during associated AJAX activity.
     {{/property-text}}
 
     {{#property-text name="disabled" type="boolean" default="false"}}
         Whether the button is disabled.
     {{/property-text}}
 
-    {{#property-text name="hideOnAjax" type="boolean" default="false" requires="ajaxEnabled=true"}}
-        When true, button will become hidden during associated AJAX activity.
-    {{/property-text}}
-
     {{#property-text name="label" type="string"}}
         Text label on the button.
+    {{/property-text}}
+
+    {{#property-text name="pending" type="boolean" default="false"}}
+        When true, the button is placed in a pending state, with the <code>pendingLabel</code> value becoming the primary button label text.
+    {{/property-text}}
+
+    {{#property-text name="pendingLabel" type="function" default="null" requires="ajaxEnabled=true"}}
+        Text to display during associated AJAX activity.
     {{/property-text}}
 
     {{#property-text name="popover" type="string" requires="title"}}
@@ -175,9 +166,5 @@
 
     {{#property-text name="title" type="string"}}
         Tooltip text string, or becomes popover title with supplied popover property.
-    {{/property-text}}
-
-    {{#property-text name="urlScope" type="string"}}
-        A string or regular expression used to scope associated AJAX activity.
     {{/property-text}}
 </div>

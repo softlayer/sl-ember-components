@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import { test, moduleFor, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 import { contains } from '../../helpers/sl/synchronous';
 
 var App;
 
-moduleForComponent( 'sl-tab-pane', 'Unit - component:sl-tab-pane', {
+moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
     needs: [ 'component:sl-tab-panel' ],
 
     setup: function() {
@@ -18,7 +18,7 @@ moduleForComponent( 'sl-tab-pane', 'Unit - component:sl-tab-pane', {
 });
 
 test( 'Expected default classes are applied', function() {
-    var $component = this.append();
+    var $component = this.render();
 
     contains( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ], 'Default classes are not correctly applied' );
 });
@@ -28,7 +28,7 @@ test( '"data-tab-label" attribute gets set as expected', function() {
             label : 'Test Label'
         });
 
-    this.append();
+    this.render();
 
     equal( $('.sl-tab-pane[data-tab-label="Test Label"]').length, 1 );
 });
@@ -38,7 +38,7 @@ test( '"data-tab-name" attribute gets set as expected', function() {
             name : 'Test Name'
         });
 
-    this.append();
+    this.render();
 
     equal( $('.sl-tab-pane[data-tab-name="Test Name"]').length, 1 );
 });
@@ -53,7 +53,7 @@ test( 'Can provide content in block form', function() {
             )
         });
 
-    this.append();
+    this.render();
 
     equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
 });
@@ -72,7 +72,7 @@ test( 'Can provide content via "templateName" property', function() {
     App.__container__.register( 'view:tabtest', Ember.View.extend() );
     component.container = App.__container__;
 
-    this.append();
+    this.render();
 
     equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B template content' );
 });

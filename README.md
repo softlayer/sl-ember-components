@@ -1,5 +1,5 @@
 
-[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-0.1.12-orange.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
+[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-0.1.15-orange.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
 
 [![Dependencies](https://img.shields.io/david/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components) [![Dev Dependencies](https://img.shields.io/david/dev/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components#info=devDependencies)
 
@@ -53,12 +53,6 @@ The *sl-grid system* isn't an Ember Component in the sense that you can use it w
 
 
 **Mixins**
-
-*sl-ajax-aware*
-
-A common use case for this mixin is to initialize particular behaviors during AJAX activity and fall back to other,
-default, behaviors when no AJAX activity is ongoing.  This is mixed into the *sl-button* component by default but can be
-applied to other situations as needed.
 
 
 *sl-modal-manager*

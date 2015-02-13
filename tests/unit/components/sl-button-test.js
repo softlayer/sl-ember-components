@@ -1,70 +1,53 @@
 import Ember from 'ember';
-import { test, moduleFor, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 import SlButton from 'sl-ember-components/components/sl-button';
-import AjaxHelper from '../../helpers/ajax-helper';
 
-moduleForComponent( 'sl-button', 'Unit - component:sl-button' );
+moduleForComponent( 'sl-button', 'Unit - component: sl-button' );
 
-test( 'Label changes during associated AJAX activity', function() {
-    var component = this.subject({
-        ajaxEnabled: true,
-        label: 'Static Text',
-        activeLabelText: 'Active Text'
+test( 'Label changes for pending state', function() {
+    var pendingText = 'Pending',
+        staticText  = 'Static',
+        component   = this.subject({
+            pendingLabel : pendingText,
+            label        : staticText
+        }),
+        $component = this.render();
+
+    equal( component.get( 'currentLabel' ), staticText );
+
+    Ember.run( function() {
+        component.set( 'pending', true );
     });
 
-    AjaxHelper.begin();
-    equal( component.get( 'label' ), 'Active Text' );
-
-    AjaxHelper.end();
-    equal( component.get( 'label' ), 'Static Text' );
-});
-
-test( 'The element hides during associated AJAX activity', function() {
-    var component = this.subject({
-        ajaxEnabled: true,
-        hideOnAjax: true
-    });
-
-    equal( this.$().css( 'visibility' ), 'visible' );
-
-    AjaxHelper.begin();
-    equal( this.$().css( 'visibility' ), 'hidden' );
-
-    AjaxHelper.end();
-    equal( this.$().css( 'visibility' ), 'visible' );
+    equal( component.get( 'currentLabel' ), pendingText );
 });
 
 test( 'The element fires event when clicked', function() {
+    var component = this.subject({
+            action: 'externalAction',
+            targetObject: {
+                externalAction: function() {
+                    ok( true, 'External action was called' );
+                }
+            }
+        }),
+        $component = this.render();
+
     expect( 1 );
-
-    var component = this.subject();
-    var $component = this.append();
-
-    var targetObject = {
-        externalAction: function() {
-            ok( true, 'External action was called' );
-        }
-    };
-
-    component.set( 'action', 'externalAction' );
-    component.set( 'targetObject', targetObject );
-
     $component.click();
 });
 
-test( 'The element disables during associated AJAX activity', function() {
-    var component = this.subject({
-        ajaxEnabled: true,
-        disableOnAjax: true
+test( 'Button supports disabled state', function() {
+    var component  = this.subject(),
+        $component = this.render();
+
+    equal( $component.is( ':disabled' ), false );
+
+    Ember.run( function() {
+        component.set( 'disabled', true );
     });
 
-    equal( this.$().is( ':disabled' ), false );
-
-    AjaxHelper.begin();
-    equal( this.$().is( ':disabled' ), true );
-
-    AjaxHelper.end();
-    equal( this.$().is( ':disabled' ), false );
+    equal( $component.is( ':disabled' ), true );
 });
 
 /**
@@ -77,7 +60,6 @@ test( 'Renders as a button tag', function() {
 
 test( 'Expected default classes are applied', function() {
 });
-
 
 test( 'Labels are correctly initialized', function() {
 });
