@@ -20,7 +20,7 @@ moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
 test( 'Expected default classes are applied', function() {
     var $component = this.render();
 
-    contains( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ], 'Default classes are not correctly applied' );
+    ok( contains( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ] ), 'Default classes are not correctly applied' );
 });
 
 test( '"data-tab-label" attribute gets set as expected', function() {
