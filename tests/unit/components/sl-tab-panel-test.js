@@ -20,7 +20,7 @@ moduleForComponent( 'sl-tab-panel', 'Unit - component: sl-tab-panel', {
 test( 'Expected default classes are applied', function() {
     var $component = this.render();
 
-    contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ], 'Default classes are not correctly applied' );
+    ok( contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ] ), 'Default classes are not correctly applied' );
 });
 
 test( 'setupTabs() does so correctly', function() {
@@ -97,7 +97,7 @@ test( '"alignTabs" property is respected', function() {
         }),
         $component = this.render();
 
-    contains( $component.prop( 'class' ), 'sl-align-tabs-right', 'Tab alignment class not applied' );
+    ok( contains( $component.prop( 'class' ), 'sl-align-tabs-right' ), 'Tab alignment class not applied' );
 });
 
 test( 'Tabs display in expected order when "alignTabs" property is not specified', function() {
