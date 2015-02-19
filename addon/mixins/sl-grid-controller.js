@@ -215,17 +215,17 @@ export default Ember.Mixin.create( Ember.Evented, {
             columns = Ember.get( definitions, 'columns' ),
             options = Ember.get( definitions, 'options' );
 
-        Ember.assert( 'Grid definition requires a `columns` array', 
+        Ember.assert( 'Grid definition requires a `columns` array',
             Ember.typeOf( columns  ) === 'array'  &&
             columns.length );
 
-        Ember.assert( 'Grid definition requires a `options` object', 
-            Ember.typeOf( options  ) === 'object' );        
+        Ember.assert( 'Grid definition requires a `options` object',
+            Ember.typeOf( options  ) === 'object' );
 
          Ember.keys( definitions ).forEach( function( key ) {
             var definition = Ember.get( definitions, key ),
                 setting;
-                
+
 
             switch( Ember.typeOf( definition ) ) {
                 case 'object':
@@ -236,7 +236,7 @@ export default Ember.Mixin.create( Ember.Evented, {
                     break;
 
                 case 'array':
-                    setting = Ember.A([]);
+                    setting = [];
 
                     // We will only add elements that exist on the definition
                     definition.forEach( function( item ) {
@@ -254,7 +254,7 @@ export default Ember.Mixin.create( Ember.Evented, {
             }
             Ember.set( grid, key, setting );
         });
-        this.set( 'grid',  grid );  
+        this.set( 'grid',  grid );
     },
 
     /**

@@ -136,7 +136,7 @@ export default Ember.Component.extend({
      * @returns  {Ember.Array}
      */
     clickableActions: function() {
-        var actions  = Ember.A([]),
+        var actions  = [],
             settings = this.get( 'settings' );
 
         if ( settings.actions ) {
@@ -155,7 +155,7 @@ export default Ember.Component.extend({
      */
     hideableColumns: function() {
         var columns         = this.get( 'columns' ),
-            hideableColumns = Ember.A( [] ),
+            hideableColumns = [],
             settings        = this.get( 'settings' );
 
         if ( settings.hideableColumns ) {

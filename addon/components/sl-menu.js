@@ -392,7 +392,7 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     initChildren: function() {
-        this.set( 'children', Ember.A() );
+        this.set( 'children', [] );
     }.on( 'init' ),
 
     /**
@@ -405,7 +405,7 @@ export default Ember.Component.extend({
     initKeyListeners: function() {
         var keyEvents = this.get( 'keyEvents' ),
             parent    = this.get( 'parentView' ),
-            path      = Ember.A(),
+            path      = [],
             rootNode  = this,
             self      = this;
 
