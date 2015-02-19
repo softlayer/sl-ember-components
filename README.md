@@ -178,6 +178,26 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 ember install:addon sl-ember-components
 ```
 
+```
+npm install --save-dev ember-cli-less
+```
+
+Modify `Brocfile.js` file to add:
+
+```
+app.import({
+    development : 'bower_components/bootstrap/dist/js/bootstrap.js',
+    production  : 'bower_components/bootstrap/dist/js/bootstrap.min.js'
+});
+```
+
+Create `app/styles/app.less` file.  Then add to it:
+
+```
+@import 'sl-ember-components';
+```
+
+
 
 ## Examples and documentation on how to use each component
 
