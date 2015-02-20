@@ -488,13 +488,13 @@ export default Ember.Component.extend({
             child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
         }
 
-        Ember.run.bind( this, this.get( 'children' ).forEach( function( item ) {
+        this.get( 'children' ).forEach( function( item ) {
             if ( item === child ) {
                 child.performAction();
             } else {
                 item.$().removeClass( 'active' );
             }
-        }));
+        });
     },
 
     /**
@@ -616,7 +616,7 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     registerChild: function( child ) {
-        this.get( 'children' ).push( child );
+        this.get( 'children' ).pushObject( child );
     },
 
     /**
