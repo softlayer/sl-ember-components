@@ -8,22 +8,22 @@ var App;
 moduleForComponent( 'sl-tab-panel', 'Unit - component: sl-tab-panel', {
     needs: [ 'component:sl-tab-pane' ],
 
-    setup: function() {
+    beforeEach: function() {
         App = startApp();
     },
 
-    teardown: function() {
+    afterEach: function() {
         Ember.run( App, App.destroy );
     }
 });
 
-test( 'Expected default classes are applied', function() {
+test( 'Expected default classes are applied', function( assert ) {
     var $component = this.render();
 
-    ok( contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ] ), 'Default classes are not correctly applied' );
+    assert.ok( contains( $component.prop( 'class' ), [ 'sl-tab-panel', 'sl-align-tabs-left' ] ), 'Default classes are not correctly applied' );
 });
 
-test( 'setupTabs() does so correctly', function() {
+test( 'setupTabs() does so correctly', function( assert ) {
     var component = this.subject({
             template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -32,27 +32,27 @@ test( 'setupTabs() does so correctly', function() {
             )
         });
 
-    expect( 5 );
+    assert.expect( 5 );
     this.render();
     stop();
 
     component.paneFor( 'a' ).queue( function() {
         // All tabs are rendered
-        equal( $( '.tab[data-tab-name]' ).length, 3 );
+        assert.equal( $( '.tab[data-tab-name]' ).length, 3 );
 
         // Tab content is rendered
-        equal( $( '.sl-tab-pane[data-tab-name]' ).length, 3 );
-        equal( $.trim( $( '.sl-tab-pane[data-tab-name="b"]' ).text() ), 'B content' );
+        assert.equal( $( '.sl-tab-pane[data-tab-name]' ).length, 3 );
+        assert.equal( $.trim( $( '.sl-tab-pane[data-tab-name="b"]' ).text() ), 'B content' );
 
         // First tab is active
-        equal( $( '.tab.active[data-tab-name="a"]' ).length, 1 );
-        equal( $( '.sl-tab-pane.active[data-tab-name="a"]' ).length, 1 );
+        assert.equal( $( '.tab.active[data-tab-name="a"]' ).length, 1 );
+        assert.equal( $( '.sl-tab-pane.active[data-tab-name="a"]' ).length, 1 );
 
         start();
     });
 });
 
-test( 'ARIA roles are implemented', function() {
+test( 'ARIA roles are implemented', function( assert ) {
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -63,11 +63,11 @@ test( 'ARIA roles are implemented', function() {
 
     this.render();
 
-    equal( $( '.nav-tabs[role="tablist"]' ).length, 1 );
-    equal( $( '.tab a[role="tab"]' ).length, 3 );
+    assert.equal( $( '.nav-tabs[role="tablist"]' ).length, 1 );
+    assert.equal( $( '.tab a[role="tab"]' ).length, 3 );
 });
 
-test( '"initialTabName" property is respected', function() {
+test( '"initialTabName" property is respected', function( assert ) {
     var component  = this.subject({
             initialTabName : 'b',
             template       : Ember.Handlebars.compile(
@@ -77,30 +77,30 @@ test( '"initialTabName" property is respected', function() {
             )
         });
 
-    expect( 2 );
+    assert.expect( 2 );
     stop();
 
     this.render();
 
     component.paneFor( 'b' ).queue( function() {
 
-        equal( $( '.tab.active[data-tab-name="b"]' ).length, 1 );
-        equal( $( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
+        assert.equal( $( '.tab.active[data-tab-name="b"]' ).length, 1 );
+        assert.equal( $( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
 
         start();
     });
 });
 
-test( '"alignTabs" property is respected', function() {
+test( '"alignTabs" property is respected', function( assert ) {
     var component  = this.subject({
             alignTabs : 'right'
         }),
         $component = this.render();
 
-    ok( contains( $component.prop( 'class' ), 'sl-align-tabs-right' ), 'Tab alignment class not applied' );
+    assert.ok( contains( $component.prop( 'class' ), 'sl-align-tabs-right' ), 'Tab alignment class not applied' );
 });
 
-test( 'Tabs display in expected order when "alignTabs" property is not specified', function() {
+test( 'Tabs display in expected order when "alignTabs" property is not specified', function( assert ) {
     var component  = this.subject({
             template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -115,10 +115,10 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
         labels.push( $( this ).attr( 'data-tab-name' ) );
     });
 
-    deepEqual( labels, [ 'a', 'b', 'c' ] );
+    assert.deepEqual( labels, [ 'a', 'b', 'c' ] );
 });
 
-test( 'Clicking tab changes active tab', function() {
+test( 'Clicking tab changes active tab', function( assert ) {
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -127,7 +127,7 @@ test( 'Clicking tab changes active tab', function() {
             )
         });
 
-    expect( 2 );
+    assert.expect( 2 );
     stop();
 
     this.render();
@@ -136,15 +136,15 @@ test( 'Clicking tab changes active tab', function() {
 
     component.paneFor( 'a' ).queue( function() {
         component.paneFor( 'b' ).queue( function() {
-            equal( $( '.tab.active[data-tab-name="b"]' ).length, 1 );
-            equal( $( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
+            assert.equal( $( '.tab.active[data-tab-name="b"]' ).length, 1 );
+            assert.equal( $( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
 
             start();
         });
     });
 });
 
-test( 'Tab content height is adjusted after new tab selection', function() {
+test( 'Tab content height is adjusted after new tab selection', function( assert ) {
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -154,7 +154,7 @@ test( 'Tab content height is adjusted after new tab selection', function() {
         }),
         initialHeight;
 
-    expect( 1 );
+    assert.expect( 1 );
     stop();
 
     this.render();
@@ -164,7 +164,7 @@ test( 'Tab content height is adjusted after new tab selection', function() {
     });
 
     component.paneFor( 'b' ).queue( function() {
-        notEqual( initialHeight, $( '.tab-content' ).height() );
+        assert.notEqual( initialHeight, $( '.tab-content' ).height() );
 
         start();
     });
@@ -172,7 +172,7 @@ test( 'Tab content height is adjusted after new tab selection', function() {
     click( $( '.tab[data-tab-name="b"] a' ) );
 });
 
-test( '"activatePane" animates as expected', function() {
+test( '"activatePane" animates as expected', function( assert ) {
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -181,18 +181,18 @@ test( '"activatePane" animates as expected', function() {
         }),
         spy = sinon.spy( $.prototype, 'fadeIn' );
 
-    expect( 1 );
+    assert.expect( 1 );
     stop();
 
     this.render();
 
     component.paneFor( 'a' ).queue( function() {
-        equal( spy.calledOnce, true );
+        assert.equal( spy.calledOnce, true );
         start();
     });
 });
 
-test( '"deactivatePane" animates as expected', function() {
+test( '"deactivatePane" animates as expected', function( assert ) {
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -201,7 +201,7 @@ test( '"deactivatePane" animates as expected', function() {
         }),
         spy = sinon.spy( $.prototype, 'fadeOut' );
 
-    expect( 1 );
+    assert.expect( 1 );
     stop();
 
     this.render();
@@ -210,13 +210,13 @@ test( '"deactivatePane" animates as expected', function() {
 
     component.paneFor( 'a' ).queue( function() {
         component.paneFor( 'b' ).queue( function() {
-            equal( spy.calledOnce, true );
+            assert.equal( spy.calledOnce, true );
             start();
         });
     });
 });
 
-test( '"deactivatePane" calls specified callback', function() {
+test( '"deactivatePane" calls specified callback', function( assert ) {
     var component = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -225,7 +225,7 @@ test( '"deactivatePane" calls specified callback', function() {
         }),
         callback = sinon.spy();
 
-    expect( 1 );
+    assert.expect( 1 );
     stop();
 
     this.render();
@@ -233,7 +233,7 @@ test( '"deactivatePane" calls specified callback', function() {
     component.deactivatePane( callback );
 
     component.paneFor( 'a' ).queue( function() {
-        equal( callback.calledOnce, true );
+        assert.equal( callback.calledOnce, true );
         start();
     });
 });

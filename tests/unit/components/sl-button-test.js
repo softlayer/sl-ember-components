@@ -4,7 +4,7 @@ import SlButton from 'sl-ember-components/components/sl-button';
 
 moduleForComponent( 'sl-button', 'Unit - component: sl-button' );
 
-test( 'Label changes for pending state', function() {
+test( 'Label changes for pending state', function( assert ) {
     var pendingText = 'Pending',
         staticText  = 'Static',
         component   = this.subject({
@@ -13,16 +13,16 @@ test( 'Label changes for pending state', function() {
         }),
         $component = this.render();
 
-    equal( component.get( 'currentLabel' ), staticText );
+    assert.equal( component.get( 'currentLabel' ), staticText );
 
     Ember.run( function() {
         component.set( 'pending', true );
     });
 
-    equal( component.get( 'currentLabel' ), pendingText );
+    assert.equal( component.get( 'currentLabel' ), pendingText );
 });
 
-test( 'The element fires event when clicked', function() {
+test( 'The element fires event when clicked', function( assert ) {
     var component = this.subject({
             action: 'externalAction',
             targetObject: {
@@ -33,21 +33,21 @@ test( 'The element fires event when clicked', function() {
         }),
         $component = this.render();
 
-    expect( 1 );
+    assert.expect( 1 );
     $component.click();
 });
 
-test( 'Button supports disabled state', function() {
+test( 'Button supports disabled state', function( assert ) {
     var component  = this.subject(),
         $component = this.render();
 
-    equal( $component.is( ':disabled' ), false );
+    assert.equal( $component.is( ':disabled' ), false );
 
     Ember.run( function() {
         component.set( 'disabled', true );
     });
 
-    equal( $component.is( ':disabled' ), true );
+    assert.equal( $component.is( ':disabled' ), true );
 });
 
 /**
@@ -55,18 +55,18 @@ test( 'Button supports disabled state', function() {
  * that the implied contract about which DOM element is rendered is adhered to.
  */
 /*
-test( 'Renders as a button tag', function() {
+test( 'Renders as a button tag', function( assert ) {
 });
 
-test( 'Expected default classes are applied', function() {
+test( 'Expected default classes are applied', function( assert ) {
 });
 
-test( 'Labels are correctly initialized', function() {
+test( 'Labels are correctly initialized', function( assert ) {
 });
 
-test( 'sizeClass() returns correct values', function() {
+test( 'sizeClass() returns correct values', function( assert ) {
 });
 
-test( 'themeClass() returns correct value', function() {
+test( 'themeClass() returns correct value', function( assert ) {
 });
 */
