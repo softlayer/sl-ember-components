@@ -34,6 +34,15 @@ moduleForComponent( 'sl-menu', 'Unit - component: sl-menu', {
     }
 });
 
+test( '"children" property is an empty array on initialization', function() {
+    var component  = this.subject();
+
+    this.render();
+
+    equal( Ember.typeOf( component.get( 'children' ) ), 'array', 'Is array' );
+    equal( component.get( 'children' ).length, 0, 'Array is empty' );
+});
+
 test( 'Menu creates correct DOM structure', function() {
     var component  = this.subject({ menu: modelStub }),
         $component = this.render();
