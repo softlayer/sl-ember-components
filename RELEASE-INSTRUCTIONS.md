@@ -38,11 +38,8 @@ Then follow these steps:
 * Run `ember build`
 * Copy the following files from */dist* folder outside of the working directory so they can be retained between switching branches:
     * *index.html*
-    * *assets/images* folder
-    * *assets/dummy.js*
-    * *assets/sl-ember-components.css*
-    * *assets/vendor.css*
-    * *assets/vendor.js*
+    * *assets/dummy.* *
+    * *assets/vendor.* *
     * *fonts* folder
     * *sl-ember-components* folder
 * Switch to the `gh-pages` branch
