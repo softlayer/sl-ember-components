@@ -3,6 +3,8 @@
 window.EmberENV = {"FEATURES":{}};
 var runningTests = false;
 
+
+
 /* jshint ignore:end */
 
 ;var define, requireModule, require, requirejs;
@@ -63364,6 +63366,17 @@ define("ember/container-debug-adapter",
     },
 
     /**
+     * Get all defined modules.
+     *
+     * @method _getEntries
+     * @return {Array} the list of registered modules.
+     * @private
+     */
+    _getEntries: function() {
+      return requirejs.entries;
+    },
+
+    /**
       Returns the available classes a given type.
 
       @method catalogEntriesByType
@@ -63371,7 +63384,7 @@ define("ember/container-debug-adapter",
       @return {Array} An array of classes.
     */
     catalogEntriesByType: function(type) {
-      var entries = requirejs.entries,
+      var entries = this._getEntries(),
           module,
           types = Ember.A();
 
@@ -63379,24 +63392,39 @@ define("ember/container-debug-adapter",
         return this.shortname;
       };
 
+      var prefix = this.namespace.modulePrefix;
+
       for(var key in entries) {
-        if(entries.hasOwnProperty(key) && key.indexOf(type) !== -1)
-        {
-          // // TODO return the name instead of the module itself
-          // module = require(key, null, null, true);
+        if(entries.hasOwnProperty(key) && key.indexOf(type) !== -1) {
+          // Check if it's a pod module
+          var name = getPod(type, key, this.namespace.podModulePrefix || prefix);
+          if (!name) {
+            // Not pod
+            name = key.split(type + 's/').pop();
 
-          // if (module && module['default']) { module = module['default']; }
-          // module.shortname = key.split(type +'s/').pop();
-          // module.toString = makeToString;
+            // Support for different prefix (such as ember-cli addons).
+            // Uncomment the code below when
+            // https://github.com/ember-cli/ember-resolver/pull/80 is merged.
 
-          // types.push(module);
-          types.push(key.split(type +'s/').pop());
+            //var match = key.match('^/?(.+)/' + type);
+            //if (match && match[1] !== prefix) {
+              // Different prefix such as an addon
+              //name = match[1] + '@' + name;
+            //}
+          }
+          types.addObject(name);
         }
       }
-
       return types;
     }
   });
+
+  function getPod(type, key, prefix) {
+    var match = key.match(new RegExp('^/?' + prefix + '/(.+)/' + type + '$'));
+    if (match) {
+      return match[1];
+    }
+  }
 
   ContainerDebugAdapter['default'] = ContainerDebugAdapter;
   return ContainerDebugAdapter;
@@ -63413,11 +63441,12 @@ define("ember/container-debug-adapter",
   Ember.Application.initializer({
     name: 'container-debug-adapter',
 
-    initialize: function(container) {
+    initialize: function(container, app) {
       var ContainerDebugAdapter = require('ember/container-debug-adapter');
       var Resolver = require('ember/resolver');
 
       container.register('container-debug-adapter:main', ContainerDebugAdapter);
+      app.inject('container-debug-adapter:main', 'namespace', 'application:main');
     }
   });
 }());
@@ -63454,1558 +63483,6 @@ define("ember/load-initializers",
 );
 })();
 
-;/*!
- * https://github.com/es-shims/es5-shim
- * @license es5-shim Copyright 2009-2014 by contributors, MIT License
- * see https://github.com/es-shims/es5-shim/blob/master/LICENSE
- */
-
-// vim: ts=4 sts=4 sw=4 expandtab
-
-
-// UMD (Universal Module Definition)
-// see https://github.com/umdjs/umd/blob/master/returnExports.js
-// Add semicolon to prevent IIFE from being passed as argument to concatenated code.
-;(function (root, factory) {
-    'use strict';
-    /*global define, exports, module */
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(factory);
-    } else if (typeof exports === 'object') {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like enviroments that support module.exports,
-        // like Node.
-        module.exports = factory();
-    } else {
-        // Browser globals (root is window)
-        root.returnExports = factory();
-    }
-}(this, function () {
-
-/**
- * Brings an environment as close to ECMAScript 5 compliance
- * as is possible with the facilities of erstwhile engines.
- *
- * Annotated ES5: http://es5.github.com/ (specific links below)
- * ES5 Spec: http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf
- * Required reading: http://javascriptweblog.wordpress.com/2011/12/05/extending-javascript-natives/
- */
-
-// Shortcut to an often accessed properties, in order to avoid multiple
-// dereference that costs universally.
-var ArrayPrototype = Array.prototype;
-var ObjectPrototype = Object.prototype;
-var FunctionPrototype = Function.prototype;
-var StringPrototype = String.prototype;
-var NumberPrototype = Number.prototype;
-var array_slice = ArrayPrototype.slice;
-var array_splice = ArrayPrototype.splice;
-var array_push = ArrayPrototype.push;
-var array_unshift = ArrayPrototype.unshift;
-var call = FunctionPrototype.call;
-
-// Having a toString local variable name breaks in Opera so use to_string.
-var to_string = ObjectPrototype.toString;
-
-var isFunction = function (val) {
-    return to_string.call(val) === '[object Function]';
-};
-var isRegex = function (val) {
-    return to_string.call(val) === '[object RegExp]';
-};
-var isArray = function isArray(obj) {
-    return to_string.call(obj) === '[object Array]';
-};
-var isString = function isString(obj) {
-    return to_string.call(obj) === '[object String]';
-};
-var isArguments = function isArguments(value) {
-    var str = to_string.call(value);
-    var isArgs = str === '[object Arguments]';
-    if (!isArgs) {
-        isArgs = !isArray(value) &&
-          value !== null &&
-          typeof value === 'object' &&
-          typeof value.length === 'number' &&
-          value.length >= 0 &&
-          isFunction(value.callee);
-    }
-    return isArgs;
-};
-
-var supportsDescriptors = Object.defineProperty && (function () {
-    try {
-        Object.defineProperty({}, 'x', {});
-        return true;
-    } catch (e) { /* this is ES3 */
-        return false;
-    }
-}());
-
-// Define configurable, writable and non-enumerable props
-// if they don't exist.
-var defineProperty;
-if (supportsDescriptors) {
-    defineProperty = function (object, name, method, forceAssign) {
-        if (!forceAssign && (name in object)) { return; }
-        Object.defineProperty(object, name, {
-            configurable: true,
-            enumerable: false,
-            writable: true,
-            value: method
-        });
-    };
-} else {
-    defineProperty = function (object, name, method, forceAssign) {
-        if (!forceAssign && (name in object)) { return; }
-        object[name] = method;
-    };
-}
-var defineProperties = function (object, map, forceAssign) {
-    for (var name in map) {
-        if (ObjectPrototype.hasOwnProperty.call(map, name)) {
-          defineProperty(object, name, map[name], forceAssign);
-        }
-    }
-};
-
-//
-// Util
-// ======
-//
-
-// ES5 9.4
-// http://es5.github.com/#x9.4
-// http://jsperf.com/to-integer
-
-function toInteger(num) {
-    var n = +num;
-    if (n !== n) { // isNaN
-        n = 0;
-    } else if (n !== 0 && n !== (1 / 0) && n !== -(1 / 0)) {
-        n = (n > 0 || -1) * Math.floor(Math.abs(n));
-    }
-    return n;
-}
-
-function isPrimitive(input) {
-    var type = typeof input;
-    return input === null ||
-        type === 'undefined' ||
-        type === 'boolean' ||
-        type === 'number' ||
-        type === 'string';
-}
-
-function toPrimitive(input) {
-    var val, valueOf, toStr;
-    if (isPrimitive(input)) {
-        return input;
-    }
-    valueOf = input.valueOf;
-    if (isFunction(valueOf)) {
-        val = valueOf.call(input);
-        if (isPrimitive(val)) {
-            return val;
-        }
-    }
-    toStr = input.toString;
-    if (isFunction(toStr)) {
-        val = toStr.call(input);
-        if (isPrimitive(val)) {
-            return val;
-        }
-    }
-    throw new TypeError();
-}
-
-var ES = {
-    // ES5 9.9
-    // http://es5.github.com/#x9.9
-    ToObject: function (o) {
-        /*jshint eqnull: true */
-        if (o == null) { // this matches both null and undefined
-            throw new TypeError("can't convert " + o + ' to object');
-        }
-        return Object(o);
-    },
-    ToUint32: function ToUint32(x) {
-        return x >>> 0;
-    }
-};
-
-//
-// Function
-// ========
-//
-
-// ES-5 15.3.4.5
-// http://es5.github.com/#x15.3.4.5
-
-var Empty = function Empty() {};
-
-defineProperties(FunctionPrototype, {
-    bind: function bind(that) { // .length is 1
-        // 1. Let Target be the this value.
-        var target = this;
-        // 2. If IsCallable(Target) is false, throw a TypeError exception.
-        if (!isFunction(target)) {
-            throw new TypeError('Function.prototype.bind called on incompatible ' + target);
-        }
-        // 3. Let A be a new (possibly empty) internal list of all of the
-        //   argument values provided after thisArg (arg1, arg2 etc), in order.
-        // XXX slicedArgs will stand in for "A" if used
-        var args = array_slice.call(arguments, 1); // for normal call
-        // 4. Let F be a new native ECMAScript object.
-        // 11. Set the [[Prototype]] internal property of F to the standard
-        //   built-in Function prototype object as specified in 15.3.3.1.
-        // 12. Set the [[Call]] internal property of F as described in
-        //   15.3.4.5.1.
-        // 13. Set the [[Construct]] internal property of F as described in
-        //   15.3.4.5.2.
-        // 14. Set the [[HasInstance]] internal property of F as described in
-        //   15.3.4.5.3.
-        var bound;
-        var binder = function () {
-
-            if (this instanceof bound) {
-                // 15.3.4.5.2 [[Construct]]
-                // When the [[Construct]] internal method of a function object,
-                // F that was created using the bind function is called with a
-                // list of arguments ExtraArgs, the following steps are taken:
-                // 1. Let target be the value of F's [[TargetFunction]]
-                //   internal property.
-                // 2. If target has no [[Construct]] internal method, a
-                //   TypeError exception is thrown.
-                // 3. Let boundArgs be the value of F's [[BoundArgs]] internal
-                //   property.
-                // 4. Let args be a new list containing the same values as the
-                //   list boundArgs in the same order followed by the same
-                //   values as the list ExtraArgs in the same order.
-                // 5. Return the result of calling the [[Construct]] internal
-                //   method of target providing args as the arguments.
-
-                var result = target.apply(
-                    this,
-                    args.concat(array_slice.call(arguments))
-                );
-                if (Object(result) === result) {
-                    return result;
-                }
-                return this;
-
-            } else {
-                // 15.3.4.5.1 [[Call]]
-                // When the [[Call]] internal method of a function object, F,
-                // which was created using the bind function is called with a
-                // this value and a list of arguments ExtraArgs, the following
-                // steps are taken:
-                // 1. Let boundArgs be the value of F's [[BoundArgs]] internal
-                //   property.
-                // 2. Let boundThis be the value of F's [[BoundThis]] internal
-                //   property.
-                // 3. Let target be the value of F's [[TargetFunction]] internal
-                //   property.
-                // 4. Let args be a new list containing the same values as the
-                //   list boundArgs in the same order followed by the same
-                //   values as the list ExtraArgs in the same order.
-                // 5. Return the result of calling the [[Call]] internal method
-                //   of target providing boundThis as the this value and
-                //   providing args as the arguments.
-
-                // equiv: target.call(this, ...boundArgs, ...args)
-                return target.apply(
-                    that,
-                    args.concat(array_slice.call(arguments))
-                );
-
-            }
-
-        };
-
-        // 15. If the [[Class]] internal property of Target is "Function", then
-        //     a. Let L be the length property of Target minus the length of A.
-        //     b. Set the length own property of F to either 0 or L, whichever is
-        //       larger.
-        // 16. Else set the length own property of F to 0.
-
-        var boundLength = Math.max(0, target.length - args.length);
-
-        // 17. Set the attributes of the length own property of F to the values
-        //   specified in 15.3.5.1.
-        var boundArgs = [];
-        for (var i = 0; i < boundLength; i++) {
-            boundArgs.push('$' + i);
-        }
-
-        // XXX Build a dynamic function with desired amount of arguments is the only
-        // way to set the length property of a function.
-        // In environments where Content Security Policies enabled (Chrome extensions,
-        // for ex.) all use of eval or Function costructor throws an exception.
-        // However in all of these environments Function.prototype.bind exists
-        // and so this code will never be executed.
-        bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this, arguments); }')(binder);
-
-        if (target.prototype) {
-            Empty.prototype = target.prototype;
-            bound.prototype = new Empty();
-            // Clean up dangling references.
-            Empty.prototype = null;
-        }
-
-        // TODO
-        // 18. Set the [[Extensible]] internal property of F to true.
-
-        // TODO
-        // 19. Let thrower be the [[ThrowTypeError]] function Object (13.2.3).
-        // 20. Call the [[DefineOwnProperty]] internal method of F with
-        //   arguments "caller", PropertyDescriptor {[[Get]]: thrower, [[Set]]:
-        //   thrower, [[Enumerable]]: false, [[Configurable]]: false}, and
-        //   false.
-        // 21. Call the [[DefineOwnProperty]] internal method of F with
-        //   arguments "arguments", PropertyDescriptor {[[Get]]: thrower,
-        //   [[Set]]: thrower, [[Enumerable]]: false, [[Configurable]]: false},
-        //   and false.
-
-        // TODO
-        // NOTE Function objects created using Function.prototype.bind do not
-        // have a prototype property or the [[Code]], [[FormalParameters]], and
-        // [[Scope]] internal properties.
-        // XXX can't delete prototype in pure-js.
-
-        // 22. Return F.
-        return bound;
-    }
-});
-
-// _Please note: Shortcuts are defined after `Function.prototype.bind` as we
-// us it in defining shortcuts.
-var owns = call.bind(ObjectPrototype.hasOwnProperty);
-
-//
-// Array
-// =====
-//
-
-// ES5 15.4.4.12
-// http://es5.github.com/#x15.4.4.12
-var spliceNoopReturnsEmptyArray = (function () {
-    var a = [1, 2];
-    var result = a.splice();
-    return a.length === 2 && isArray(result) && result.length === 0;
-}());
-defineProperties(ArrayPrototype, {
-    // Safari 5.0 bug where .splice() returns undefined
-    splice: function splice(start, deleteCount) {
-        if (arguments.length === 0) {
-            return [];
-        } else {
-            return array_splice.apply(this, arguments);
-        }
-    }
-}, spliceNoopReturnsEmptyArray);
-
-var spliceWorksWithEmptyObject = (function () {
-    var obj = {};
-    ArrayPrototype.splice.call(obj, 0, 0, 1);
-    return obj.length === 1;
-}());
-defineProperties(ArrayPrototype, {
-    splice: function splice(start, deleteCount) {
-        if (arguments.length === 0) { return []; }
-        var args = arguments;
-        this.length = Math.max(toInteger(this.length), 0);
-        if (arguments.length > 0 && typeof deleteCount !== 'number') {
-            args = array_slice.call(arguments);
-            if (args.length < 2) {
-                args.push(this.length - start);
-            } else {
-                args[1] = toInteger(deleteCount);
-            }
-        }
-        return array_splice.apply(this, args);
-    }
-}, !spliceWorksWithEmptyObject);
-
-// ES5 15.4.4.12
-// http://es5.github.com/#x15.4.4.13
-// Return len+argCount.
-// [bugfix, ielt8]
-// IE < 8 bug: [].unshift(0) === undefined but should be "1"
-var hasUnshiftReturnValueBug = [].unshift(0) !== 1;
-defineProperties(ArrayPrototype, {
-    unshift: function () {
-        array_unshift.apply(this, arguments);
-        return this.length;
-    }
-}, hasUnshiftReturnValueBug);
-
-// ES5 15.4.3.2
-// http://es5.github.com/#x15.4.3.2
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/isArray
-defineProperties(Array, { isArray: isArray });
-
-// The IsCallable() check in the Array functions
-// has been replaced with a strict check on the
-// internal class of the object to trap cases where
-// the provided function was actually a regular
-// expression literal, which in V8 and
-// JavaScriptCore is a typeof "function".  Only in
-// V8 are regular expression literals permitted as
-// reduce parameters, so it is desirable in the
-// general case for the shim to match the more
-// strict and common behavior of rejecting regular
-// expressions.
-
-// ES5 15.4.4.18
-// http://es5.github.com/#x15.4.4.18
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/array/forEach
-
-// Check failure of by-index access of string characters (IE < 9)
-// and failure of `0 in boxedString` (Rhino)
-var boxedString = Object('a');
-var splitString = boxedString[0] !== 'a' || !(0 in boxedString);
-
-var properlyBoxesContext = function properlyBoxed(method) {
-    // Check node 0.6.21 bug where third parameter is not boxed
-    var properlyBoxesNonStrict = true;
-    var properlyBoxesStrict = true;
-    if (method) {
-        method.call('foo', function (_, __, context) {
-            if (typeof context !== 'object') { properlyBoxesNonStrict = false; }
-        });
-
-        method.call([1], function () {
-            'use strict';
-            properlyBoxesStrict = typeof this === 'string';
-        }, 'x');
-    }
-    return !!method && properlyBoxesNonStrict && properlyBoxesStrict;
-};
-
-defineProperties(ArrayPrototype, {
-    forEach: function forEach(fun /*, thisp*/) {
-        var object = ES.ToObject(this),
-            self = splitString && isString(this) ? this.split('') : object,
-            thisp = arguments[1],
-            i = -1,
-            length = self.length >>> 0;
-
-        // If no callback function or if callback is not a callable function
-        if (!isFunction(fun)) {
-            throw new TypeError(); // TODO message
-        }
-
-        while (++i < length) {
-            if (i in self) {
-                // Invoke the callback function with call, passing arguments:
-                // context, property value, property key, thisArg object
-                // context
-                fun.call(thisp, self[i], i, object);
-            }
-        }
-    }
-}, !properlyBoxesContext(ArrayPrototype.forEach));
-
-// ES5 15.4.4.19
-// http://es5.github.com/#x15.4.4.19
-// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/map
-defineProperties(ArrayPrototype, {
-    map: function map(fun /*, thisp*/) {
-        var object = ES.ToObject(this),
-            self = splitString && isString(this) ? this.split('') : object,
-            length = self.length >>> 0,
-            result = Array(length),
-            thisp = arguments[1];
-
-        // If no callback function or if callback is not a callable function
-        if (!isFunction(fun)) {
-            throw new TypeError(fun + ' is not a function');
-        }
-
-        for (var i = 0; i < length; i++) {
-            if (i in self) {
-                result[i] = fun.call(thisp, self[i], i, object);
-            }
-        }
-        return result;
-    }
-}, !properlyBoxesContext(ArrayPrototype.map));
-
-// ES5 15.4.4.20
-// http://es5.github.com/#x15.4.4.20
-// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/filter
-defineProperties(ArrayPrototype, {
-    filter: function filter(fun /*, thisp */) {
-        var object = ES.ToObject(this),
-            self = splitString && isString(this) ? this.split('') : object,
-            length = self.length >>> 0,
-            result = [],
-            value,
-            thisp = arguments[1];
-
-        // If no callback function or if callback is not a callable function
-        if (!isFunction(fun)) {
-            throw new TypeError(fun + ' is not a function');
-        }
-
-        for (var i = 0; i < length; i++) {
-            if (i in self) {
-                value = self[i];
-                if (fun.call(thisp, value, i, object)) {
-                    result.push(value);
-                }
-            }
-        }
-        return result;
-    }
-}, !properlyBoxesContext(ArrayPrototype.filter));
-
-// ES5 15.4.4.16
-// http://es5.github.com/#x15.4.4.16
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/every
-defineProperties(ArrayPrototype, {
-    every: function every(fun /*, thisp */) {
-        var object = ES.ToObject(this),
-            self = splitString && isString(this) ? this.split('') : object,
-            length = self.length >>> 0,
-            thisp = arguments[1];
-
-        // If no callback function or if callback is not a callable function
-        if (!isFunction(fun)) {
-            throw new TypeError(fun + ' is not a function');
-        }
-
-        for (var i = 0; i < length; i++) {
-            if (i in self && !fun.call(thisp, self[i], i, object)) {
-                return false;
-            }
-        }
-        return true;
-    }
-}, !properlyBoxesContext(ArrayPrototype.every));
-
-// ES5 15.4.4.17
-// http://es5.github.com/#x15.4.4.17
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
-defineProperties(ArrayPrototype, {
-    some: function some(fun /*, thisp */) {
-        var object = ES.ToObject(this),
-            self = splitString && isString(this) ? this.split('') : object,
-            length = self.length >>> 0,
-            thisp = arguments[1];
-
-        // If no callback function or if callback is not a callable function
-        if (!isFunction(fun)) {
-            throw new TypeError(fun + ' is not a function');
-        }
-
-        for (var i = 0; i < length; i++) {
-            if (i in self && fun.call(thisp, self[i], i, object)) {
-                return true;
-            }
-        }
-        return false;
-    }
-}, !properlyBoxesContext(ArrayPrototype.some));
-
-// ES5 15.4.4.21
-// http://es5.github.com/#x15.4.4.21
-// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduce
-var reduceCoercesToObject = false;
-if (ArrayPrototype.reduce) {
-    reduceCoercesToObject = typeof ArrayPrototype.reduce.call('es5', function (_, __, ___, list) { return list; }) === 'object';
-}
-defineProperties(ArrayPrototype, {
-    reduce: function reduce(fun /*, initial*/) {
-        var object = ES.ToObject(this),
-            self = splitString && isString(this) ? this.split('') : object,
-            length = self.length >>> 0;
-
-        // If no callback function or if callback is not a callable function
-        if (!isFunction(fun)) {
-            throw new TypeError(fun + ' is not a function');
-        }
-
-        // no value to return if no initial value and an empty array
-        if (!length && arguments.length === 1) {
-            throw new TypeError('reduce of empty array with no initial value');
-        }
-
-        var i = 0;
-        var result;
-        if (arguments.length >= 2) {
-            result = arguments[1];
-        } else {
-            do {
-                if (i in self) {
-                    result = self[i++];
-                    break;
-                }
-
-                // if array contains no values, no initial value to return
-                if (++i >= length) {
-                    throw new TypeError('reduce of empty array with no initial value');
-                }
-            } while (true);
-        }
-
-        for (; i < length; i++) {
-            if (i in self) {
-                result = fun.call(void 0, result, self[i], i, object);
-            }
-        }
-
-        return result;
-    }
-}, !reduceCoercesToObject);
-
-// ES5 15.4.4.22
-// http://es5.github.com/#x15.4.4.22
-// https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/reduceRight
-var reduceRightCoercesToObject = false;
-if (ArrayPrototype.reduceRight) {
-    reduceRightCoercesToObject = typeof ArrayPrototype.reduceRight.call('es5', function (_, __, ___, list) { return list; }) === 'object';
-}
-defineProperties(ArrayPrototype, {
-    reduceRight: function reduceRight(fun /*, initial*/) {
-        var object = ES.ToObject(this),
-            self = splitString && isString(this) ? this.split('') : object,
-            length = self.length >>> 0;
-
-        // If no callback function or if callback is not a callable function
-        if (!isFunction(fun)) {
-            throw new TypeError(fun + ' is not a function');
-        }
-
-        // no value to return if no initial value, empty array
-        if (!length && arguments.length === 1) {
-            throw new TypeError('reduceRight of empty array with no initial value');
-        }
-
-        var result, i = length - 1;
-        if (arguments.length >= 2) {
-            result = arguments[1];
-        } else {
-            do {
-                if (i in self) {
-                    result = self[i--];
-                    break;
-                }
-
-                // if array contains no values, no initial value to return
-                if (--i < 0) {
-                    throw new TypeError('reduceRight of empty array with no initial value');
-                }
-            } while (true);
-        }
-
-        if (i < 0) {
-            return result;
-        }
-
-        do {
-            if (i in self) {
-                result = fun.call(void 0, result, self[i], i, object);
-            }
-        } while (i--);
-
-        return result;
-    }
-}, !reduceRightCoercesToObject);
-
-// ES5 15.4.4.14
-// http://es5.github.com/#x15.4.4.14
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
-var hasFirefox2IndexOfBug = Array.prototype.indexOf && [0, 1].indexOf(1, 2) !== -1;
-defineProperties(ArrayPrototype, {
-    indexOf: function indexOf(sought /*, fromIndex */) {
-        var self = splitString && isString(this) ? this.split('') : ES.ToObject(this),
-            length = self.length >>> 0;
-
-        if (!length) {
-            return -1;
-        }
-
-        var i = 0;
-        if (arguments.length > 1) {
-            i = toInteger(arguments[1]);
-        }
-
-        // handle negative indices
-        i = i >= 0 ? i : Math.max(0, length + i);
-        for (; i < length; i++) {
-            if (i in self && self[i] === sought) {
-                return i;
-            }
-        }
-        return -1;
-    }
-}, hasFirefox2IndexOfBug);
-
-// ES5 15.4.4.15
-// http://es5.github.com/#x15.4.4.15
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf
-var hasFirefox2LastIndexOfBug = Array.prototype.lastIndexOf && [0, 1].lastIndexOf(0, -3) !== -1;
-defineProperties(ArrayPrototype, {
-    lastIndexOf: function lastIndexOf(sought /*, fromIndex */) {
-        var self = splitString && isString(this) ? this.split('') : ES.ToObject(this),
-            length = self.length >>> 0;
-
-        if (!length) {
-            return -1;
-        }
-        var i = length - 1;
-        if (arguments.length > 1) {
-            i = Math.min(i, toInteger(arguments[1]));
-        }
-        // handle negative indices
-        i = i >= 0 ? i : length - Math.abs(i);
-        for (; i >= 0; i--) {
-            if (i in self && sought === self[i]) {
-                return i;
-            }
-        }
-        return -1;
-    }
-}, hasFirefox2LastIndexOfBug);
-
-//
-// Object
-// ======
-//
-
-// ES5 15.2.3.14
-// http://es5.github.com/#x15.2.3.14
-
-// http://whattheheadsaid.com/2010/10/a-safer-object-keys-compatibility-implementation
-var hasDontEnumBug = !({'toString': null}).propertyIsEnumerable('toString'),
-    hasProtoEnumBug = function () {}.propertyIsEnumerable('prototype'),
-    dontEnums = [
-        'toString',
-        'toLocaleString',
-        'valueOf',
-        'hasOwnProperty',
-        'isPrototypeOf',
-        'propertyIsEnumerable',
-        'constructor'
-    ],
-    dontEnumsLength = dontEnums.length;
-
-defineProperties(Object, {
-    keys: function keys(object) {
-        var isFn = isFunction(object),
-            isArgs = isArguments(object),
-            isObject = object !== null && typeof object === 'object',
-            isStr = isObject && isString(object);
-
-        if (!isObject && !isFn && !isArgs) {
-            throw new TypeError('Object.keys called on a non-object');
-        }
-
-        var theKeys = [];
-        var skipProto = hasProtoEnumBug && isFn;
-        if (isStr || isArgs) {
-            for (var i = 0; i < object.length; ++i) {
-                theKeys.push(String(i));
-            }
-        } else {
-            for (var name in object) {
-                if (!(skipProto && name === 'prototype') && owns(object, name)) {
-                    theKeys.push(String(name));
-                }
-            }
-        }
-
-        if (hasDontEnumBug) {
-            var ctor = object.constructor,
-                skipConstructor = ctor && ctor.prototype === object;
-            for (var j = 0; j < dontEnumsLength; j++) {
-                var dontEnum = dontEnums[j];
-                if (!(skipConstructor && dontEnum === 'constructor') && owns(object, dontEnum)) {
-                    theKeys.push(dontEnum);
-                }
-            }
-        }
-        return theKeys;
-    }
-});
-
-var keysWorksWithArguments = Object.keys && (function () {
-    // Safari 5.0 bug
-    return Object.keys(arguments).length === 2;
-}(1, 2));
-var originalKeys = Object.keys;
-defineProperties(Object, {
-    keys: function keys(object) {
-        if (isArguments(object)) {
-            return originalKeys(ArrayPrototype.slice.call(object));
-        } else {
-            return originalKeys(object);
-        }
-    }
-}, !keysWorksWithArguments);
-
-//
-// Date
-// ====
-//
-
-// ES5 15.9.5.43
-// http://es5.github.com/#x15.9.5.43
-// This function returns a String value represent the instance in time
-// represented by this Date object. The format of the String is the Date Time
-// string format defined in 15.9.1.15. All fields are present in the String.
-// The time zone is always UTC, denoted by the suffix Z. If the time value of
-// this object is not a finite Number a RangeError exception is thrown.
-var negativeDate = -62198755200000;
-var negativeYearString = '-000001';
-var hasNegativeDateBug = Date.prototype.toISOString && new Date(negativeDate).toISOString().indexOf(negativeYearString) === -1;
-
-defineProperties(Date.prototype, {
-    toISOString: function toISOString() {
-        var result, length, value, year, month;
-        if (!isFinite(this)) {
-            throw new RangeError('Date.prototype.toISOString called on non-finite value.');
-        }
-
-        year = this.getUTCFullYear();
-
-        month = this.getUTCMonth();
-        // see https://github.com/es-shims/es5-shim/issues/111
-        year += Math.floor(month / 12);
-        month = (month % 12 + 12) % 12;
-
-        // the date time string format is specified in 15.9.1.15.
-        result = [month + 1, this.getUTCDate(), this.getUTCHours(), this.getUTCMinutes(), this.getUTCSeconds()];
-        year = (
-            (year < 0 ? '-' : (year > 9999 ? '+' : '')) +
-            ('00000' + Math.abs(year)).slice(0 <= year && year <= 9999 ? -4 : -6)
-        );
-
-        length = result.length;
-        while (length--) {
-            value = result[length];
-            // pad months, days, hours, minutes, and seconds to have two
-            // digits.
-            if (value < 10) {
-                result[length] = '0' + value;
-            }
-        }
-        // pad milliseconds to have three digits.
-        return (
-            year + '-' + result.slice(0, 2).join('-') +
-            'T' + result.slice(2).join(':') + '.' +
-            ('000' + this.getUTCMilliseconds()).slice(-3) + 'Z'
-        );
-    }
-}, hasNegativeDateBug);
-
-
-// ES5 15.9.5.44
-// http://es5.github.com/#x15.9.5.44
-// This function provides a String representation of a Date object for use by
-// JSON.stringify (15.12.3).
-var dateToJSONIsSupported = false;
-try {
-    dateToJSONIsSupported = (
-        Date.prototype.toJSON &&
-        new Date(NaN).toJSON() === null &&
-        new Date(negativeDate).toJSON().indexOf(negativeYearString) !== -1 &&
-        Date.prototype.toJSON.call({ // generic
-            toISOString: function () {
-                return true;
-            }
-        })
-    );
-} catch (e) {
-}
-if (!dateToJSONIsSupported) {
-    Date.prototype.toJSON = function toJSON(key) {
-        // When the toJSON method is called with argument key, the following
-        // steps are taken:
-
-        // 1.  Let O be the result of calling ToObject, giving it the this
-        // value as its argument.
-        // 2. Let tv be toPrimitive(O, hint Number).
-        var o = Object(this),
-            tv = toPrimitive(o),
-            toISO;
-        // 3. If tv is a Number and is not finite, return null.
-        if (typeof tv === 'number' && !isFinite(tv)) {
-            return null;
-        }
-        // 4. Let toISO be the result of calling the [[Get]] internal method of
-        // O with argument "toISOString".
-        toISO = o.toISOString;
-        // 5. If IsCallable(toISO) is false, throw a TypeError exception.
-        if (typeof toISO !== 'function') {
-            throw new TypeError('toISOString property is not callable');
-        }
-        // 6. Return the result of calling the [[Call]] internal method of
-        //  toISO with O as the this value and an empty argument list.
-        return toISO.call(o);
-
-        // NOTE 1 The argument is ignored.
-
-        // NOTE 2 The toJSON function is intentionally generic; it does not
-        // require that its this value be a Date object. Therefore, it can be
-        // transferred to other kinds of objects for use as a method. However,
-        // it does require that any such object have a toISOString method. An
-        // object is free to use the argument key to filter its
-        // stringification.
-    };
-}
-
-// ES5 15.9.4.2
-// http://es5.github.com/#x15.9.4.2
-// based on work shared by Daniel Friesen (dantman)
-// http://gist.github.com/303249
-var supportsExtendedYears = Date.parse('+033658-09-27T01:46:40.000Z') === 1e15;
-var acceptsInvalidDates = !isNaN(Date.parse('2012-04-04T24:00:00.500Z')) || !isNaN(Date.parse('2012-11-31T23:59:59.000Z'));
-var doesNotParseY2KNewYear = isNaN(Date.parse('2000-01-01T00:00:00.000Z'));
-if (!Date.parse || doesNotParseY2KNewYear || acceptsInvalidDates || !supportsExtendedYears) {
-    // XXX global assignment won't work in embeddings that use
-    // an alternate object for the context.
-    /*global Date: true */
-    Date = (function (NativeDate) {
-
-        // Date.length === 7
-        function Date(Y, M, D, h, m, s, ms) {
-            var length = arguments.length;
-            if (this instanceof NativeDate) {
-                var date = length === 1 && String(Y) === Y ? // isString(Y)
-                    // We explicitly pass it through parse:
-                    new NativeDate(Date.parse(Y)) :
-                    // We have to manually make calls depending on argument
-                    // length here
-                    length >= 7 ? new NativeDate(Y, M, D, h, m, s, ms) :
-                    length >= 6 ? new NativeDate(Y, M, D, h, m, s) :
-                    length >= 5 ? new NativeDate(Y, M, D, h, m) :
-                    length >= 4 ? new NativeDate(Y, M, D, h) :
-                    length >= 3 ? new NativeDate(Y, M, D) :
-                    length >= 2 ? new NativeDate(Y, M) :
-                    length >= 1 ? new NativeDate(Y) :
-                                  new NativeDate();
-                // Prevent mixups with unfixed Date object
-                date.constructor = Date;
-                return date;
-            }
-            return NativeDate.apply(this, arguments);
-        }
-
-        // 15.9.1.15 Date Time String Format.
-        var isoDateExpression = new RegExp('^' +
-            '(\\d{4}|[+-]\\d{6})' + // four-digit year capture or sign +
-                                      // 6-digit extended year
-            '(?:-(\\d{2})' + // optional month capture
-            '(?:-(\\d{2})' + // optional day capture
-            '(?:' + // capture hours:minutes:seconds.milliseconds
-                'T(\\d{2})' + // hours capture
-                ':(\\d{2})' + // minutes capture
-                '(?:' + // optional :seconds.milliseconds
-                    ':(\\d{2})' + // seconds capture
-                    '(?:(\\.\\d{1,}))?' + // milliseconds capture
-                ')?' +
-            '(' + // capture UTC offset component
-                'Z|' + // UTC capture
-                '(?:' + // offset specifier +/-hours:minutes
-                    '([-+])' + // sign capture
-                    '(\\d{2})' + // hours offset capture
-                    ':(\\d{2})' + // minutes offset capture
-                ')' +
-            ')?)?)?)?' +
-        '$');
-
-        var months = [
-            0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365
-        ];
-
-        function dayFromMonth(year, month) {
-            var t = month > 1 ? 1 : 0;
-            return (
-                months[month] +
-                Math.floor((year - 1969 + t) / 4) -
-                Math.floor((year - 1901 + t) / 100) +
-                Math.floor((year - 1601 + t) / 400) +
-                365 * (year - 1970)
-            );
-        }
-
-        function toUTC(t) {
-            return Number(new NativeDate(1970, 0, 1, 0, 0, 0, t));
-        }
-
-        // Copy any custom methods a 3rd party library may have added
-        for (var key in NativeDate) {
-            Date[key] = NativeDate[key];
-        }
-
-        // Copy "native" methods explicitly; they may be non-enumerable
-        Date.now = NativeDate.now;
-        Date.UTC = NativeDate.UTC;
-        Date.prototype = NativeDate.prototype;
-        Date.prototype.constructor = Date;
-
-        // Upgrade Date.parse to handle simplified ISO 8601 strings
-        Date.parse = function parse(string) {
-            var match = isoDateExpression.exec(string);
-            if (match) {
-                // parse months, days, hours, minutes, seconds, and milliseconds
-                // provide default values if necessary
-                // parse the UTC offset component
-                var year = Number(match[1]),
-                    month = Number(match[2] || 1) - 1,
-                    day = Number(match[3] || 1) - 1,
-                    hour = Number(match[4] || 0),
-                    minute = Number(match[5] || 0),
-                    second = Number(match[6] || 0),
-                    millisecond = Math.floor(Number(match[7] || 0) * 1000),
-                    // When time zone is missed, local offset should be used
-                    // (ES 5.1 bug)
-                    // see https://bugs.ecmascript.org/show_bug.cgi?id=112
-                    isLocalTime = Boolean(match[4] && !match[8]),
-                    signOffset = match[9] === '-' ? 1 : -1,
-                    hourOffset = Number(match[10] || 0),
-                    minuteOffset = Number(match[11] || 0),
-                    result;
-                if (
-                    hour < (
-                        minute > 0 || second > 0 || millisecond > 0 ?
-                        24 : 25
-                    ) &&
-                    minute < 60 && second < 60 && millisecond < 1000 &&
-                    month > -1 && month < 12 && hourOffset < 24 &&
-                    minuteOffset < 60 && // detect invalid offsets
-                    day > -1 &&
-                    day < (
-                        dayFromMonth(year, month + 1) -
-                        dayFromMonth(year, month)
-                    )
-                ) {
-                    result = (
-                        (dayFromMonth(year, month) + day) * 24 +
-                        hour +
-                        hourOffset * signOffset
-                    ) * 60;
-                    result = (
-                        (result + minute + minuteOffset * signOffset) * 60 +
-                        second
-                    ) * 1000 + millisecond;
-                    if (isLocalTime) {
-                        result = toUTC(result);
-                    }
-                    if (-8.64e15 <= result && result <= 8.64e15) {
-                        return result;
-                    }
-                }
-                return NaN;
-            }
-            return NativeDate.parse.apply(this, arguments);
-        };
-
-        return Date;
-    }(Date));
-    /*global Date: false */
-}
-
-// ES5 15.9.4.4
-// http://es5.github.com/#x15.9.4.4
-if (!Date.now) {
-    Date.now = function now() {
-        return new Date().getTime();
-    };
-}
-
-
-//
-// Number
-// ======
-//
-
-// ES5.1 15.7.4.5
-// http://es5.github.com/#x15.7.4.5
-var hasToFixedBugs = NumberPrototype.toFixed && (
-  (0.00008).toFixed(3) !== '0.000' ||
-  (0.9).toFixed(0) !== '1' ||
-  (1.255).toFixed(2) !== '1.25' ||
-  (1000000000000000128).toFixed(0) !== '1000000000000000128'
-);
-
-var toFixedHelpers = {
-  base: 1e7,
-  size: 6,
-  data: [0, 0, 0, 0, 0, 0],
-  multiply: function multiply(n, c) {
-      var i = -1;
-      while (++i < toFixedHelpers.size) {
-          c += n * toFixedHelpers.data[i];
-          toFixedHelpers.data[i] = c % toFixedHelpers.base;
-          c = Math.floor(c / toFixedHelpers.base);
-      }
-  },
-  divide: function divide(n) {
-      var i = toFixedHelpers.size, c = 0;
-      while (--i >= 0) {
-          c += toFixedHelpers.data[i];
-          toFixedHelpers.data[i] = Math.floor(c / n);
-          c = (c % n) * toFixedHelpers.base;
-      }
-  },
-  numToString: function numToString() {
-      var i = toFixedHelpers.size;
-      var s = '';
-      while (--i >= 0) {
-          if (s !== '' || i === 0 || toFixedHelpers.data[i] !== 0) {
-              var t = String(toFixedHelpers.data[i]);
-              if (s === '') {
-                  s = t;
-              } else {
-                  s += '0000000'.slice(0, 7 - t.length) + t;
-              }
-          }
-      }
-      return s;
-  },
-  pow: function pow(x, n, acc) {
-      return (n === 0 ? acc : (n % 2 === 1 ? pow(x, n - 1, acc * x) : pow(x * x, n / 2, acc)));
-  },
-  log: function log(x) {
-      var n = 0;
-      while (x >= 4096) {
-          n += 12;
-          x /= 4096;
-      }
-      while (x >= 2) {
-          n += 1;
-          x /= 2;
-      }
-      return n;
-  }
-};
-
-defineProperties(NumberPrototype, {
-    toFixed: function toFixed(fractionDigits) {
-        var f, x, s, m, e, z, j, k;
-
-        // Test for NaN and round fractionDigits down
-        f = Number(fractionDigits);
-        f = f !== f ? 0 : Math.floor(f);
-
-        if (f < 0 || f > 20) {
-            throw new RangeError('Number.toFixed called with invalid number of decimals');
-        }
-
-        x = Number(this);
-
-        // Test for NaN
-        if (x !== x) {
-            return 'NaN';
-        }
-
-        // If it is too big or small, return the string value of the number
-        if (x <= -1e21 || x >= 1e21) {
-            return String(x);
-        }
-
-        s = '';
-
-        if (x < 0) {
-            s = '-';
-            x = -x;
-        }
-
-        m = '0';
-
-        if (x > 1e-21) {
-            // 1e-21 < x < 1e21
-            // -70 < log2(x) < 70
-            e = toFixedHelpers.log(x * toFixedHelpers.pow(2, 69, 1)) - 69;
-            z = (e < 0 ? x * toFixedHelpers.pow(2, -e, 1) : x / toFixedHelpers.pow(2, e, 1));
-            z *= 0x10000000000000; // Math.pow(2, 52);
-            e = 52 - e;
-
-            // -18 < e < 122
-            // x = z / 2 ^ e
-            if (e > 0) {
-                toFixedHelpers.multiply(0, z);
-                j = f;
-
-                while (j >= 7) {
-                    toFixedHelpers.multiply(1e7, 0);
-                    j -= 7;
-                }
-
-                toFixedHelpers.multiply(toFixedHelpers.pow(10, j, 1), 0);
-                j = e - 1;
-
-                while (j >= 23) {
-                    toFixedHelpers.divide(1 << 23);
-                    j -= 23;
-                }
-
-                toFixedHelpers.divide(1 << j);
-                toFixedHelpers.multiply(1, 1);
-                toFixedHelpers.divide(2);
-                m = toFixedHelpers.numToString();
-            } else {
-                toFixedHelpers.multiply(0, z);
-                toFixedHelpers.multiply(1 << (-e), 0);
-                m = toFixedHelpers.numToString() + '0.00000000000000000000'.slice(2, 2 + f);
-            }
-        }
-
-        if (f > 0) {
-            k = m.length;
-
-            if (k <= f) {
-                m = s + '0.0000000000000000000'.slice(0, f - k + 2) + m;
-            } else {
-                m = s + m.slice(0, k - f) + '.' + m.slice(k - f);
-            }
-        } else {
-            m = s + m;
-        }
-
-        return m;
-    }
-}, hasToFixedBugs);
-
-
-//
-// String
-// ======
-//
-
-// ES5 15.5.4.14
-// http://es5.github.com/#x15.5.4.14
-
-// [bugfix, IE lt 9, firefox 4, Konqueror, Opera, obscure browsers]
-// Many browsers do not split properly with regular expressions or they
-// do not perform the split correctly under obscure conditions.
-// See http://blog.stevenlevithan.com/archives/cross-browser-split
-// I've tested in many browsers and this seems to cover the deviant ones:
-//    'ab'.split(/(?:ab)*/) should be ["", ""], not [""]
-//    '.'.split(/(.?)(.?)/) should be ["", ".", "", ""], not ["", ""]
-//    'tesst'.split(/(s)*/) should be ["t", undefined, "e", "s", "t"], not
-//       [undefined, "t", undefined, "e", ...]
-//    ''.split(/.?/) should be [], not [""]
-//    '.'.split(/()()/) should be ["."], not ["", "", "."]
-
-var string_split = StringPrototype.split;
-if (
-    'ab'.split(/(?:ab)*/).length !== 2 ||
-    '.'.split(/(.?)(.?)/).length !== 4 ||
-    'tesst'.split(/(s)*/)[1] === 't' ||
-    'test'.split(/(?:)/, -1).length !== 4 ||
-    ''.split(/.?/).length ||
-    '.'.split(/()()/).length > 1
-) {
-    (function () {
-        var compliantExecNpcg = typeof (/()??/).exec('')[1] === 'undefined'; // NPCG: nonparticipating capturing group
-
-        StringPrototype.split = function (separator, limit) {
-            var string = this;
-            if (typeof separator === 'undefined' && limit === 0) {
-                return [];
-            }
-
-            // If `separator` is not a regex, use native split
-            if (to_string.call(separator) !== '[object RegExp]') {
-                return string_split.call(this, separator, limit);
-            }
-
-            var output = [],
-                flags = (separator.ignoreCase ? 'i' : '') +
-                        (separator.multiline ? 'm' : '') +
-                        (separator.extended ? 'x' : '') + // Proposed for ES6
-                        (separator.sticky ? 'y' : ''), // Firefox 3+
-                lastLastIndex = 0,
-                // Make `global` and avoid `lastIndex` issues by working with a copy
-                separator2, match, lastIndex, lastLength;
-            separator = new RegExp(separator.source, flags + 'g');
-            string += ''; // Type-convert
-            if (!compliantExecNpcg) {
-                // Doesn't need flags gy, but they don't hurt
-                separator2 = new RegExp('^' + separator.source + '$(?!\\s)', flags);
-            }
-            /* Values for `limit`, per the spec:
-             * If undefined: 4294967295 // Math.pow(2, 32) - 1
-             * If 0, Infinity, or NaN: 0
-             * If positive number: limit = Math.floor(limit); if (limit > 4294967295) limit -= 4294967296;
-             * If negative number: 4294967296 - Math.floor(Math.abs(limit))
-             * If other: Type-convert, then use the above rules
-             */
-            limit = typeof limit === 'undefined' ?
-                -1 >>> 0 : // Math.pow(2, 32) - 1
-                ES.ToUint32(limit);
-            while (match = separator.exec(string)) {
-                // `separator.lastIndex` is not reliable cross-browser
-                lastIndex = match.index + match[0].length;
-                if (lastIndex > lastLastIndex) {
-                    output.push(string.slice(lastLastIndex, match.index));
-                    // Fix browsers whose `exec` methods don't consistently return `undefined` for
-                    // nonparticipating capturing groups
-                    if (!compliantExecNpcg && match.length > 1) {
-                        match[0].replace(separator2, function () {
-                            for (var i = 1; i < arguments.length - 2; i++) {
-                                if (typeof arguments[i] === 'undefined') {
-                                    match[i] = void 0;
-                                }
-                            }
-                        });
-                    }
-                    if (match.length > 1 && match.index < string.length) {
-                        array_push.apply(output, match.slice(1));
-                    }
-                    lastLength = match[0].length;
-                    lastLastIndex = lastIndex;
-                    if (output.length >= limit) {
-                        break;
-                    }
-                }
-                if (separator.lastIndex === match.index) {
-                    separator.lastIndex++; // Avoid an infinite loop
-                }
-            }
-            if (lastLastIndex === string.length) {
-                if (lastLength || !separator.test('')) {
-                    output.push('');
-                }
-            } else {
-                output.push(string.slice(lastLastIndex));
-            }
-            return output.length > limit ? output.slice(0, limit) : output;
-        };
-    }());
-
-// [bugfix, chrome]
-// If separator is undefined, then the result array contains just one String,
-// which is the this value (converted to a String). If limit is not undefined,
-// then the output array is truncated so that it contains no more than limit
-// elements.
-// "0".split(undefined, 0) -> []
-} else if ('0'.split(void 0, 0).length) {
-    StringPrototype.split = function split(separator, limit) {
-        if (typeof separator === 'undefined' && limit === 0) { return []; }
-        return string_split.call(this, separator, limit);
-    };
-}
-
-var str_replace = StringPrototype.replace;
-var replaceReportsGroupsCorrectly = (function () {
-    var groups = [];
-    'x'.replace(/x(.)?/g, function (match, group) {
-        groups.push(group);
-    });
-    return groups.length === 1 && typeof groups[0] === 'undefined';
-}());
-
-if (!replaceReportsGroupsCorrectly) {
-    StringPrototype.replace = function replace(searchValue, replaceValue) {
-        var isFn = isFunction(replaceValue);
-        var hasCapturingGroups = isRegex(searchValue) && (/\)[*?]/).test(searchValue.source);
-        if (!isFn || !hasCapturingGroups) {
-            return str_replace.call(this, searchValue, replaceValue);
-        } else {
-            var wrappedReplaceValue = function (match) {
-                var length = arguments.length;
-                var originalLastIndex = searchValue.lastIndex;
-                searchValue.lastIndex = 0;
-                var args = searchValue.exec(match) || [];
-                searchValue.lastIndex = originalLastIndex;
-                args.push(arguments[length - 2], arguments[length - 1]);
-                return replaceValue.apply(this, args);
-            };
-            return str_replace.call(this, searchValue, wrappedReplaceValue);
-        }
-    };
-}
-
-// ECMA-262, 3rd B.2.3
-// Not an ECMAScript standard, although ECMAScript 3rd Edition has a
-// non-normative section suggesting uniform semantics and it should be
-// normalized across all browsers
-// [bugfix, IE lt 9] IE < 9 substr() with negative value not working in IE
-var string_substr = StringPrototype.substr;
-var hasNegativeSubstrBug = ''.substr && '0b'.substr(-1) !== 'b';
-defineProperties(StringPrototype, {
-    substr: function substr(start, length) {
-        return string_substr.call(
-            this,
-            start < 0 ? ((start = this.length + start) < 0 ? 0 : start) : start,
-            length
-        );
-    }
-}, hasNegativeSubstrBug);
-
-// ES5 15.5.4.20
-// whitespace from: http://es5.github.io/#x15.5.4.20
-var ws = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
-    '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028' +
-    '\u2029\uFEFF';
-var zeroWidth = '\u200b';
-var wsRegexChars = '[' + ws + ']';
-var trimBeginRegexp = new RegExp('^' + wsRegexChars + wsRegexChars + '*');
-var trimEndRegexp = new RegExp(wsRegexChars + wsRegexChars + '*$');
-var hasTrimWhitespaceBug = StringPrototype.trim && (ws.trim() || !zeroWidth.trim());
-defineProperties(StringPrototype, {
-    // http://blog.stevenlevithan.com/archives/faster-trim-javascript
-    // http://perfectionkills.com/whitespace-deviations/
-    trim: function trim() {
-        if (typeof this === 'undefined' || this === null) {
-            throw new TypeError("can't convert " + this + ' to object');
-        }
-        return String(this).replace(trimBeginRegexp, '').replace(trimEndRegexp, '');
-    }
-}, hasTrimWhitespaceBug);
-
-// ES-5 15.1.2.2
-if (parseInt(ws + '08') !== 8 || parseInt(ws + '0x16') !== 22) {
-    /*global parseInt: true */
-    parseInt = (function (origParseInt) {
-        var hexRegex = /^0[xX]/;
-        return function parseIntES5(str, radix) {
-            str = String(str).trim();
-            if (!Number(radix)) {
-                radix = hexRegex.test(str) ? 16 : 10;
-            }
-            return origParseInt(str, radix);
-        };
-    }(parseInt));
-}
-
-}));
-
-;define("ic-ajax",
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    /*!
-     * ic-ajax
-     *
-     * - (c) 2013 Instructure, Inc
-     * - please see license at https://github.com/instructure/ic-ajax/blob/master/LICENSE
-     * - inspired by discourse ajax: https://github.com/discourse/discourse/blob/master/app/assets/javascripts/discourse/mixins/ajax.js#L19
-     */
-
-    var Ember = __dependency1__["default"] || __dependency1__;
-
-    /*
-     * jQuery.ajax wrapper, supports the same signature except providing
-     * `success` and `error` handlers will throw an error (use promises instead)
-     * and it resolves only the response (no access to jqXHR or textStatus).
-     */
-
-    function request() {
-      return raw.apply(null, arguments).then(function(result) {
-        return result.response;
-      }, null, 'ic-ajax: unwrap raw ajax response');
-    }
-
-    __exports__.request = request;__exports__["default"] = request;
-
-    /*
-     * Same as `request` except it resolves an object with `{response, textStatus,
-     * jqXHR}`, useful if you need access to the jqXHR object for headers, etc.
-     */
-
-    function raw() {
-      return makePromise(parseArgs.apply(null, arguments));
-    }
-
-    __exports__.raw = raw;var __fixtures__ = {};
-    __exports__.__fixtures__ = __fixtures__;
-    /*
-     * Defines a fixture that will be used instead of an actual ajax
-     * request to a given url. This is useful for testing, allowing you to
-     * stub out responses your application will send without requiring
-     * libraries like sinon or mockjax, etc.
-     *
-     * For example:
-     *
-     *    defineFixture('/self', {
-     *      response: { firstName: 'Ryan', lastName: 'Florence' },
-     *      textStatus: 'success'
-     *      jqXHR: {}
-     *    });
-     *
-     * @param {String} url
-     * @param {Object} fixture
-     */
-
-    function defineFixture(url, fixture) {
-      if (fixture.response) {
-        fixture.response = JSON.parse(JSON.stringify(fixture.response));
-      }
-      __fixtures__[url] = fixture;
-    }
-
-    __exports__.defineFixture = defineFixture;/*
-     * Looks up a fixture by url.
-     *
-     * @param {String} url
-     */
-
-    function lookupFixture (url) {
-      return __fixtures__ && __fixtures__[url];
-    }
-
-    __exports__.lookupFixture = lookupFixture;function makePromise(settings) {
-      return new Ember.RSVP.Promise(function(resolve, reject) {
-        var fixture = lookupFixture(settings.url);
-        if (fixture) {
-          if (fixture.textStatus === 'success' || fixture.textStatus == null) {
-            return Ember.run.later(null, resolve, fixture);
-          } else {
-            return Ember.run.later(null, reject, fixture);
-          }
-        }
-        settings.success = makeSuccess(resolve);
-        settings.error = makeError(reject);
-        Ember.$.ajax(settings);
-      }, 'ic-ajax: ' + (settings.type || 'GET') + ' to ' + settings.url);
-    };
-
-    function parseArgs() {
-      var settings = {};
-      if (arguments.length === 1) {
-        if (typeof arguments[0] === "string") {
-          settings.url = arguments[0];
-        } else {
-          settings = arguments[0];
-        }
-      } else if (arguments.length === 2) {
-        settings = arguments[1];
-        settings.url = arguments[0];
-      }
-      if (settings.success || settings.error) {
-        throw new Ember.Error("ajax should use promises, received 'success' or 'error' callback");
-      }
-      return settings;
-    }
-
-    function makeSuccess(resolve) {
-      return function(response, textStatus, jqXHR) {
-        Ember.run(null, resolve, {
-          response: response,
-          textStatus: textStatus,
-          jqXHR: jqXHR
-        });
-      }
-    }
-
-    function makeError(reject) {
-      return function(jqXHR, textStatus, errorThrown) {
-        Ember.run(null, reject, {
-          jqXHR: jqXHR,
-          textStatus: textStatus,
-          errorThrown: errorThrown
-        });
-      };
-    }
-  });
 ;/*!
  * Bootstrap v1.0.0 (https://github.com/softlayer/sl-bootstrap)
  * Copyright 2011-2014 Twitter, Inc. / SoftLayer
@@ -102273,18 +100750,146 @@ the specific language governing permissions and limitations under the Apache Lic
         };
     })();
 })(window.jQuery);
-;define("sl-ember-components/components/sl-alert", 
-  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
+;define("ic-ajax",
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
     "use strict";
-    var Ember = __dependency1__["default"];
-    var TooltipEnabled = __dependency2__["default"];
-
-    /**
-     * @module components
-     * @class  sl-alert
+    /*!
+     * ic-ajax
+     *
+     * - (c) 2013 Instructure, Inc
+     * - please see license at https://github.com/instructure/ic-ajax/blob/master/LICENSE
+     * - inspired by discourse ajax: https://github.com/discourse/discourse/blob/master/app/assets/javascripts/discourse/mixins/ajax.js#L19
      */
-    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+
+    var Ember = __dependency1__["default"] || __dependency1__;
+
+    /*
+     * jQuery.ajax wrapper, supports the same signature except providing
+     * `success` and `error` handlers will throw an error (use promises instead)
+     * and it resolves only the response (no access to jqXHR or textStatus).
+     */
+
+    function request() {
+      return raw.apply(null, arguments).then(function(result) {
+        return result.response;
+      }, null, 'ic-ajax: unwrap raw ajax response');
+    }
+
+    __exports__.request = request;__exports__["default"] = request;
+
+    /*
+     * Same as `request` except it resolves an object with `{response, textStatus,
+     * jqXHR}`, useful if you need access to the jqXHR object for headers, etc.
+     */
+
+    function raw() {
+      return makePromise(parseArgs.apply(null, arguments));
+    }
+
+    __exports__.raw = raw;var __fixtures__ = {};
+    __exports__.__fixtures__ = __fixtures__;
+    /*
+     * Defines a fixture that will be used instead of an actual ajax
+     * request to a given url. This is useful for testing, allowing you to
+     * stub out responses your application will send without requiring
+     * libraries like sinon or mockjax, etc.
+     *
+     * For example:
+     *
+     *    defineFixture('/self', {
+     *      response: { firstName: 'Ryan', lastName: 'Florence' },
+     *      textStatus: 'success'
+     *      jqXHR: {}
+     *    });
+     *
+     * @param {String} url
+     * @param {Object} fixture
+     */
+
+    function defineFixture(url, fixture) {
+      if (fixture.response) {
+        fixture.response = JSON.parse(JSON.stringify(fixture.response));
+      }
+      __fixtures__[url] = fixture;
+    }
+
+    __exports__.defineFixture = defineFixture;/*
+     * Looks up a fixture by url.
+     *
+     * @param {String} url
+     */
+
+    function lookupFixture (url) {
+      return __fixtures__ && __fixtures__[url];
+    }
+
+    __exports__.lookupFixture = lookupFixture;function makePromise(settings) {
+      return new Ember.RSVP.Promise(function(resolve, reject) {
+        var fixture = lookupFixture(settings.url);
+        if (fixture) {
+          if (fixture.textStatus === 'success' || fixture.textStatus == null) {
+            return Ember.run.later(null, resolve, fixture);
+          } else {
+            return Ember.run.later(null, reject, fixture);
+          }
+        }
+        settings.success = makeSuccess(resolve);
+        settings.error = makeError(reject);
+        Ember.$.ajax(settings);
+      }, 'ic-ajax: ' + (settings.type || 'GET') + ' to ' + settings.url);
+    };
+
+    function parseArgs() {
+      var settings = {};
+      if (arguments.length === 1) {
+        if (typeof arguments[0] === "string") {
+          settings.url = arguments[0];
+        } else {
+          settings = arguments[0];
+        }
+      } else if (arguments.length === 2) {
+        settings = arguments[1];
+        settings.url = arguments[0];
+      }
+      if (settings.success || settings.error) {
+        throw new Ember.Error("ajax should use promises, received 'success' or 'error' callback");
+      }
+      return settings;
+    }
+
+    function makeSuccess(resolve) {
+      return function(response, textStatus, jqXHR) {
+        Ember.run(null, resolve, {
+          response: response,
+          textStatus: textStatus,
+          jqXHR: jqXHR
+        });
+      }
+    }
+
+    function makeError(reject) {
+      return function(jqXHR, textStatus, errorThrown) {
+        Ember.run(null, reject, {
+          jqXHR: jqXHR,
+          textStatus: textStatus,
+          errorThrown: errorThrown
+        });
+      };
+    }
+  });
+;define("sl-ember-components", ["sl-ember-components/index","exports"], function(__index__, __exports__) {
+  "use strict";
+  Object.keys(__index__).forEach(function(key){
+    __exports__[key] = __index__[key];
+  });
+});
+
+define('sl-ember-components/components/sl-alert', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -102375,20 +100980,13 @@ the specific language governing permissions and limitations under the Apache Lic
         }.property( 'theme' )
 
     });
-  });
-define("sl-ember-components/components/sl-button", 
-  ["ember","sl-ember-components/mixins/sl-ajax-aware","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var AjaxAware = __dependency2__["default"];
-    var TooltipEnabled = __dependency3__["default"];
 
-    /**
-     * @module components
-     * @class  sl-button
-     */
-    __exports__["default"] = Ember.Component.extend( AjaxAware, TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-button', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -102423,7 +101021,7 @@ define("sl-ember-components/components/sl-button",
          *
          * @property {Ember.Array} classNameBindings
          */
-        classNameBindings: [ 'sizeClass', 'themeClass' ],
+        classNameBindings: [ 'pending', 'sizeClass', 'themeClass' ],
 
         // -------------------------------------------------------------------------
         // Actions
@@ -102445,14 +101043,6 @@ define("sl-ember-components/components/sl-button",
         // Properties
 
         /**
-         * The text to display during AJAX activity
-         *
-         * @property {Ember.String} activeLabelText
-         * @default  null
-         */
-        activeLabelText: null,
-
-        /**
          * Whether or not the button should be disabled during AJAX activity
          *
          * @property {boolean} disableOnAjax
@@ -102469,15 +101059,6 @@ define("sl-ember-components/components/sl-button",
         hideOnAjax: false,
 
         /**
-         * This is primarily used internally to avoid losing the "default" value of
-         * the label when switching to the active text
-         *
-         * @property {Ember.String} inactiveLabelText
-         * @default  null
-         */
-        inactiveLabelText: null,
-
-        /**
          * Text to apply to the button label
          *
          * It is preferred you use this to set your "default" text rather than
@@ -102487,6 +101068,22 @@ define("sl-ember-components/components/sl-button",
          * @default  null
          */
         label: null,
+
+        /**
+         * Whether the button is in a "pending" state
+         *
+         * @property {boolean} pending
+         * @default  false
+         */
+        pending: false,
+
+        /**
+         * The text to display during AJAX activity
+         *
+         * @property {Ember.String} pendingLabel
+         * @default  null
+         */
+        pendingLabel: null,
 
         /**
          * The size of the button
@@ -102507,60 +101104,29 @@ define("sl-ember-components/components/sl-button",
         // -------------------------------------------------------------------------
         // Observers
 
-        /**
-         * Initialize labels
-         *
-         * @function initLabel
-         * @observes "init" event
-         * @returns  {void}
-         */
-        initLabel: function() {
-            if ( Ember.isBlank( this.get( 'inactiveLabelText' ) ) ) {
-                this.set( 'inactiveLabelText', this.get( 'label' ) );
-            }
-        }.on( 'init' ),
-
-        /**
-         * Register our behaviors with the convenience method from the AJAX mixin
-         *
-         * @function setupHandlers
-         * @observes "init" event
-         * @returns  {void}
-         */
-        setupHandlers: function() {
-            this.registerAjaxBehavior( function() {
-                var props = this.getProperties([ 'activeLabelText', 'disableOnAjax', 'hideOnAjax' ]);
-
-                if ( !Ember.isBlank( props.activeLabelText ) ) {
-                    this.set( 'label', props.activeLabelText );
-                }
-
-                if ( props.disableOnAjax ) {
-                    this.set( 'disabled', true );
-                }
-
-                if ( props.hideOnAjax ) {
-                    this.$().css( 'visibility', 'hidden' );
-                }
-            }.bind( this ), function() {
-                var props = this.getProperties([ 'activeLabelText', 'inactiveLabelText', 'disableOnAjax', 'hideOnAjax' ]);
-
-                if ( !Ember.isBlank( 'activeLabelText' ) ) {
-                    this.set( 'label', props.inactiveLabelText );
-                }
-
-                if ( props.disableOnAjax ) {
-                    this.set( 'disabled', false );
-                }
-
-                if ( props.hideOnAjax ) {
-                    this.$().css( 'visibility', 'visible' );
-                }
-            }.bind( this ));
-        }.on( 'init' ),
-
         // -------------------------------------------------------------------------
         // Methods
+
+        /**
+         * The current label text for the button
+         *
+         * @function currentLabel
+         * @observes label, pending, pendingLabel
+         * @returns  {Ember.String}
+         */
+        currentLabel: function() {
+            var label        = this.get( 'label' ),
+                pending      = this.get( 'pending' ),
+                pendingLabel = this.get( 'pendingLabel' );
+
+            if ( pending && pendingLabel ) {
+                return pendingLabel;
+            }
+
+            if ( label ) {
+                return label;
+            }
+        }.property( 'label', 'pending', 'pendingLabel' ),
 
         /**
          * Converted size string to Bootstrap button class
@@ -102602,18 +101168,13 @@ define("sl-ember-components/components/sl-button",
         }.property( 'theme' )
 
     });
-  });
-define("sl-ember-components/components/sl-calendar-day", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-calendar-day
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-calendar-day', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -102669,20 +101230,15 @@ define("sl-ember-components/components/sl-calendar-day",
         }
 
     });
-  });
-define("sl-ember-components/components/sl-calendar-month", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
+
+});
+define('sl-ember-components/components/sl-calendar-month', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
     /* global moment */
 
-    var Ember = __dependency1__["default"];
-
-    /**
-     * @module components
-     * @class  sl-calendar-month
-     */
-    __exports__["default"] = Ember.Component.extend({
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -102748,18 +101304,13 @@ define("sl-ember-components/components/sl-calendar-month",
         }.property()
 
     });
-  });
-define("sl-ember-components/components/sl-calendar-year", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-calendar-year
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-calendar-year', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -102808,20 +101359,15 @@ define("sl-ember-components/components/sl-calendar-year",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-calendar", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
+
+});
+define('sl-ember-components/components/sl-calendar', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
     /* global moment */
 
-    var Ember = __dependency1__["default"];
-
-    /**
-     * @module components
-     * @class  sl-calendar-calendar
-     */
-    __exports__["default"] = Ember.Component.extend({
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -103083,7 +101629,7 @@ define("sl-ember-components/components/sl-calendar",
 
             if ( content ) {
                 content.forEach( function( item ) {
-                    date = new Date( Ember.get( item, dateValuePath ) );
+                    date = new Date( Ember['default'].get( item, dateValuePath ) );
                     year = date.getFullYear();
                     month = date.getMonth() + 1;
                     day = date.getDate();
@@ -103359,18 +101905,13 @@ define("sl-ember-components/components/sl-calendar",
         }.property( 'contentDates', 'decadeEnd', 'decadeStart' )
 
     });
-  });
-define("sl-ember-components/components/sl-chart", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-calendar-chart
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-chart', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -103461,7 +102002,7 @@ define("sl-ember-components/components/sl-chart",
                 fontSize   : '13px'
             };
 
-            options = Ember.$.extend( true, {
+            options = Ember['default'].$.extend( true, {
                 title: '',
                 chart: {
                     animation: false,
@@ -103555,19 +102096,13 @@ define("sl-ember-components/components/sl-chart",
         }.property( 'height', 'width' )
 
     });
-  });
-define("sl-ember-components/components/sl-checkbox", 
-  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var TooltipEnabled = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-checkbox
-     */
-    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-checkbox', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -103612,19 +102147,13 @@ define("sl-ember-components/components/sl-checkbox",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-date-picker", 
-  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var TooltipEnabled = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-date-picker
-     */
-    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-date-picker', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -103936,18 +102465,13 @@ define("sl-ember-components/components/sl-date-picker",
         }.property()
 
     });
-  });
-define("sl-ember-components/components/sl-date-range-picker", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-date-range-picker
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-date-range-picker', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104099,21 +102623,15 @@ define("sl-ember-components/components/sl-date-range-picker",
         }.property( 'endDateValue', 'maxDate' )
 
     });
-  });
-define("sl-ember-components/components/sl-date-time", 
-  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
+
+});
+define('sl-ember-components/components/sl-date-time', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
     /* global moment */
 
-    var Ember = __dependency1__["default"];
-    var TooltipEnabled = __dependency2__["default"];
-
-    /**
-     * @module components
-     * @class  sl-date-time
-     */
-    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104257,19 +102775,13 @@ define("sl-ember-components/components/sl-date-time",
         }.property( 'datetime' )
 
     });
-  });
-define("sl-ember-components/components/sl-dialog", 
-  ["ember","sl-ember-components/mixins/sl-modal","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var ModalMixin = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-dialog
-     */
-    __exports__["default"] = Ember.Component.extend( ModalMixin, {
+});
+define('sl-ember-components/components/sl-dialog', ['exports', 'ember', 'sl-ember-components/mixins/sl-modal'], function (exports, Ember, ModalMixin) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( ModalMixin['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104331,19 +102843,13 @@ define("sl-ember-components/components/sl-dialog",
         }
 
     });
-  });
-define("sl-ember-components/components/sl-drop-button", 
-  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var TooltipEnabled = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-drop-button
-     */
-    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-drop-button', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104448,18 +102954,13 @@ define("sl-ember-components/components/sl-drop-button",
         }.property( 'theme' )
 
     });
-  });
-define("sl-ember-components/components/sl-drop-option", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-drop-option
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-drop-option', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104543,18 +103044,13 @@ define("sl-ember-components/components/sl-drop-option",
         }.property( 'label' )
 
     });
-  });
-define("sl-ember-components/components/sl-grid-header-settings", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-grid-header-settings
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-grid-header-settings', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104614,7 +103110,7 @@ define("sl-ember-components/components/sl-grid-header-settings",
          * @returns  {false|void}
          */
         click: function( event ){
-            if ( Ember.$( event.target ).closest( '.stay-open' ).length ) {
+            if ( Ember['default'].$( event.target ).closest( '.stay-open' ).length ) {
                 return false;
             }
         },
@@ -104625,10 +103121,10 @@ define("sl-ember-components/components/sl-grid-header-settings",
          * @return {void}
          */
         mouseLeave: function( event ){
-            var toggleEl = Ember.$(event.target).closest( '.dropdown-toggle');
+            var toggleEl = Ember['default'].$(event.target).closest( '.dropdown-toggle');
 
             if( ! toggleEl.length ){
-                toggleEl = Ember.$(event.target).closest( '.dropdown-menu').siblings( '.dropdown-toggle');
+                toggleEl = Ember['default'].$(event.target).closest( '.dropdown-menu').siblings( '.dropdown-toggle');
             }
 
             if ( toggleEl.length && this.$(toggleEl).parents('.sl-grid-header-settings').hasClass('open') ){
@@ -104643,29 +103139,29 @@ define("sl-ember-components/components/sl-grid-header-settings",
          * alias to the translation keys on the settings object
          * @type {alias}
          */
-        translationKeys: Ember.computed.alias( 'settings.translationKeys' ),
+        translationKeys: Ember['default'].computed.alias( 'settings.translationKeys' ),
 
         /**
          * Whether to show actions
          *
          * @property {boolean} showActions
          */
-        showActions: Ember.computed.bool( 'settings.actions' ),
+        showActions: Ember['default'].computed.bool( 'settings.actions' ),
 
         /**
          * Whether to show columns
          *
          * @property {boolean} showColumns
          */
-        showColumns: Ember.computed.bool( 'settings.hideableColumns' ),
+        showColumns: Ember['default'].computed.bool( 'settings.hideableColumns' ),
 
         /**
          * A checkbox that binds click event for a related action
          *
          * @property {Ember.Checkbox} columnCheckbox
          */
-        columnCheckbox: Ember.Checkbox.extend({
-            checked: Ember.computed.not( 'column.hidden' ),
+        columnCheckbox: Ember['default'].Checkbox.extend({
+            checked: Ember['default'].computed.not( 'column.hidden' ),
 
             click: function() {
                 this.get( 'parentView' ).send( 'click', this.get( 'column.action' ), this.get( 'column.key' ) );
@@ -104686,7 +103182,7 @@ define("sl-ember-components/components/sl-grid-header-settings",
          * @returns  {Ember.Array}
          */
         clickableActions: function() {
-            var actions  = Ember.A([]),
+            var actions  = [],
                 settings = this.get( 'settings' );
 
             if ( settings.actions ) {
@@ -104705,7 +103201,7 @@ define("sl-ember-components/components/sl-grid-header-settings",
          */
         hideableColumns: function() {
             var columns         = this.get( 'columns' ),
-                hideableColumns = Ember.A( [] ),
+                hideableColumns = [],
                 settings        = this.get( 'settings' );
 
             if ( settings.hideableColumns ) {
@@ -104722,18 +103218,13 @@ define("sl-ember-components/components/sl-grid-header-settings",
         }.property( 'settings', 'columns.@each.hidden' )
 
     });
-  });
-define("sl-ember-components/components/sl-grid-table-cell-actions", 
-  ["sl-ember-components/components/sl-grid-table-cell","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var SlGridTableCell = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-grid-table-cell-link
-     */
-    __exports__["default"] = SlGridTableCell.extend({
+});
+define('sl-ember-components/components/sl-grid-table-cell-actions', ['exports', 'sl-ember-components/components/sl-grid-table-cell'], function (exports, SlGridTableCell) {
+
+    'use strict';
+
+    exports['default'] = SlGridTableCell['default'].extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104757,18 +103248,13 @@ define("sl-ember-components/components/sl-grid-table-cell-actions",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-grid-table-cell-link", 
-  ["sl-ember-components/components/sl-grid-table-cell","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var SlGridTableCell = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-grid-table-cell-link
-     */
-    __exports__["default"] = SlGridTableCell.extend({
+});
+define('sl-ember-components/components/sl-grid-table-cell-link', ['exports', 'sl-ember-components/components/sl-grid-table-cell'], function (exports, SlGridTableCell) {
+
+    'use strict';
+
+    exports['default'] = SlGridTableCell['default'].extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104792,19 +103278,13 @@ define("sl-ember-components/components/sl-grid-table-cell-link",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-grid-table-cell-row-expander", 
-  ["ember","sl-ember-components/components/sl-grid-table-cell","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var SlGridTableCell = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-grid-table-cell-row-expander
-     */
-    __exports__["default"] = SlGridTableCell.extend({
+});
+define('sl-ember-components/components/sl-grid-table-cell-row-expander', ['exports', 'ember', 'sl-ember-components/components/sl-grid-table-cell'], function (exports, Ember, SlGridTableCell) {
+
+    'use strict';
+
+    exports['default'] = SlGridTableCell['default'].extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104843,7 +103323,7 @@ define("sl-ember-components/components/sl-grid-table-cell-row-expander",
          *
          * @property {boolean} expanded
          */
-        expanded: Ember.computed.bool( 'row.rowExpanderIsOpen' )
+        expanded: Ember['default'].computed.bool( 'row.rowExpanderIsOpen' )
 
         // -------------------------------------------------------------------------
         // Observers
@@ -104852,19 +103332,13 @@ define("sl-ember-components/components/sl-grid-table-cell-row-expander",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-grid-table-cell", 
-  ["ember","sl-ember-components/mixins/sl-grid-table-cell-resize","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var SlGridTableCellResize = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-grid-table-cell
-     */
-    __exports__["default"] = Ember.Component.extend( SlGridTableCellResize, {
+});
+define('sl-ember-components/components/sl-grid-table-cell', ['exports', 'ember', 'sl-ember-components/mixins/sl-grid-table-cell-resize'], function (exports, Ember, SlGridTableCellResize) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( SlGridTableCellResize['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104903,18 +103377,13 @@ define("sl-ember-components/components/sl-grid-table-cell",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-grid-table-header", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-grid-table-header
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-grid-table-header', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -104984,7 +103453,7 @@ define("sl-ember-components/components/sl-grid-table-header",
          */
         mouseDown: function() {
             if ( !this.get( 'disabled' ) && this.getWithDefault( 'column.movable', true ) ) {
-                Ember.$( 'body' )
+                Ember['default'].$( 'body' )
                     .on( 'mousemove', this.mouseMoveListener )
                     .on( 'mouseup', this.mouseUpListener )
                     .on( 'mouseleave', this.mouseLeaveListener );
@@ -105051,7 +103520,7 @@ define("sl-ember-components/components/sl-grid-table-header",
          * @returns  {void}
          */
         setupBoundListeners: function() {
-            this.set( 'mouseUpListener', Ember.run.bind( this, function() {
+            this.set( 'mouseUpListener', Ember['default'].run.bind( this, function() {
                 var hlReorderCol = this.get( 'hlReorderCol' ),
                     newIndex     = this.get( 'newIndex' ),
                     oldIndex     = this.get( 'oldIndex' ),
@@ -105067,7 +103536,7 @@ define("sl-ember-components/components/sl-grid-table-header",
                     this.set( 'hlReorderCol', null );
                 }
 
-                Ember.$( 'body' ).removeClass( 'reordering' )
+                Ember['default'].$( 'body' ).removeClass( 'reordering' )
                     .off( 'mouseleave', this.mouseLeaveListener )
                     .off( 'mousemove', this.mouseMoveListener )
                     .off( 'mouseup', this.mouseUpListener );
@@ -105080,14 +103549,14 @@ define("sl-ember-components/components/sl-grid-table-header",
                 }
             }));
 
-            this.set( 'mouseMoveListener', Ember.run.bind( this, function( event ) {
+            this.set( 'mouseMoveListener', Ember['default'].run.bind( this, function( event ) {
                 var reorderCol = this.get( 'reorderCol' );
 
                 if ( !reorderCol ) {
                     //do setup
-                    Ember.$( 'body' ).addClass( 'reordering' );
+                    Ember['default'].$( 'body' ).addClass( 'reordering' );
 
-                    reorderCol = Ember.$( '<div class="reordering"></div>' );
+                    reorderCol = Ember['default'].$( '<div class="reordering"></div>' );
                     reorderCol.text( this.$()[ 0 ].textContent );
                     reorderCol.css({
                         top     : this.$().offset().top + 'px',
@@ -105098,7 +103567,7 @@ define("sl-ember-components/components/sl-grid-table-header",
                         font    : this.$().css( 'font' )
                     });
 
-                    reorderCol.appendTo( Ember.$( 'body' ) );
+                    reorderCol.appendTo( Ember['default'].$( 'body' ) );
 
                     this.set( 'reorderCol', reorderCol );
                     this.set( 'oldIndex', this.getCurrentColumnIndex() );
@@ -105115,7 +103584,7 @@ define("sl-ember-components/components/sl-grid-table-header",
                 return false;
             }));
 
-            this.set( 'mouseLeaveListener', Ember.run.bind( this, function(){
+            this.set( 'mouseLeaveListener', Ember['default'].run.bind( this, function(){
                 var hlReorderCol = this.get( 'hlReorderCol' ),
                     reorderCol   = this.get( 'reorderCol' );
 
@@ -105129,12 +103598,12 @@ define("sl-ember-components/components/sl-grid-table-header",
                     this.set( 'hlReorderCol', null );
                 }
 
-                Ember.$( 'body' ).removeClass( 'reordering' )
+                Ember['default'].$( 'body' ).removeClass( 'reordering' )
                     .off( 'mouseleave', this.mouseLeaveListener )
                     .off( 'mousemove', this.mouseMoveListener )
                     .off( 'mouseup', this.mouseUpListener );
 
-                Ember.run.next( this, function(){
+                Ember['default'].run.next( this, function(){
                     window.getSelection().removeAllRanges();
                 });
 
@@ -105156,7 +103625,7 @@ define("sl-ember-components/components/sl-grid-table-header",
          */
         removeBoundEventListeners: function(){
             //just in case
-            Ember.$( 'body' )
+            Ember['default'].$( 'body' )
                 .off( 'mouseleave', this.mouseLeaveListener )
                 .off( 'mousemove', this.mouseMoveListener )
                 .off( 'mouseup', this.mouseUpListener );
@@ -105184,8 +103653,8 @@ define("sl-ember-components/components/sl-grid-table-header",
          * @returns  {Ember.Object}
          */
         getPosition: function( element ) {
-            var leftOffset = Ember.$( element ).offset().left,
-                width = Ember.$( element ).outerWidth(),
+            var leftOffset = Ember['default'].$( element ).offset().left,
+                width = Ember['default'].$( element ).outerWidth(),
                 rightOffset = leftOffset + width;
 
             return {
@@ -105254,14 +103723,14 @@ define("sl-ember-components/components/sl-grid-table-header",
                     hlReorderCol.remove();
                 }
 
-                hlReorderCol = Ember.$( '<div class="reordering">&nbsp;</div>' );
+                hlReorderCol = Ember['default'].$( '<div class="reordering">&nbsp;</div>' );
                 hlReorderCol.css({
                     top    : this.$().offset().top + 'px',
                     left   : offsets[ currentIndex ].left + 'px',
                     width  : '8px',
                     height : this.$().parents( 'table' ).outerHeight() + 'px',
                 });
-                hlReorderCol.appendTo( Ember.$( 'body' ));
+                hlReorderCol.appendTo( Ember['default'].$( 'body' ));
                 this.set( 'hlReorderCol', hlReorderCol );
             }
 
@@ -105287,18 +103756,13 @@ define("sl-ember-components/components/sl-grid-table-header",
         }.property( 'column.isSorted', 'column.sortAscending' )
 
     });
-  });
-define("sl-ember-components/components/sl-grid-table-row-expander", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-grid-table-row-expander
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-grid-table-row-expander', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -105338,20 +103802,13 @@ define("sl-ember-components/components/sl-grid-table-row-expander",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-input", 
-  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var InputBased = __dependency2__["default"];
-    var TooltipEnabled = __dependency3__["default"];
 
-    /**
-     * @module components
-     * @class  sl-input
-     */
-    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-input', ['exports', 'ember', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, InputBased, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( InputBased['default'], TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -105476,7 +103933,7 @@ define("sl-ember-components/components/sl-input",
                 }, {
                     displayKey: function( item ) {
                         if ( item instanceof Object ) {
-                            return Ember.get( item, namePath );
+                            return Ember['default'].get( item, namePath );
                         }
 
                         return item;
@@ -105489,7 +103946,7 @@ define("sl-ember-components/components/sl-input",
                             var searchCandidate;
 
                             if ( suggestion instanceof Object ) {
-                                searchCandidate = Ember.get( suggestion, namePath );
+                                searchCandidate = Ember['default'].get( suggestion, namePath );
                             } else {
                                 searchCandidate = suggestion;
                             }
@@ -105501,8 +103958,8 @@ define("sl-ember-components/components/sl-input",
 
                 /* jshint ignore:start */
                 var selectItem = function( event, item ) {
-                    Ember.run( function() {
-                        var value = item instanceof Object ? Ember.get( item, namePath ) : item;
+                    Ember['default'].run( function() {
+                        var value = item instanceof Object ? Ember['default'].get( item, namePath ) : item;
 
                         self.set( 'value', value );
                     });
@@ -105560,18 +104017,13 @@ define("sl-ember-components/components/sl-input",
             return classes.join( ' ' );
         }.property()
     });
-  });
-define("sl-ember-components/components/sl-loading-icon", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-loading-icon
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-loading-icon', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -105625,18 +104077,13 @@ define("sl-ember-components/components/sl-loading-icon",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-menu", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-menu
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-menu', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -105922,7 +104369,7 @@ define("sl-ember-components/components/sl-menu",
          *
          * @property {Ember.View} AllView
          */
-        AllView: Ember.View.extend({
+        AllView: Ember['default'].View.extend({
 
             /**
              * HTML tag name of the root element
@@ -106024,41 +104471,47 @@ define("sl-ember-components/components/sl-menu",
          * @returns  {void}
          */
         initChildren: function() {
-            this.set( 'children', Ember.A() );
+            this.set( 'children', [] );
         }.on( 'init' ),
 
         /**
-         * Initialize keyboard event listeners
+         * Initialize menu
          *
-         * @function initKeyListeners
-         * @observes "didInsertElement" event, keyEvents
+         * @function initMenu
+         * @observes "didInsertElement" event
          * @returns  {void}
          */
-        initKeyListeners: function() {
+        initMenu: function() {
             var keyEvents = this.get( 'keyEvents' ),
                 parent    = this.get( 'parentView' ),
-                path      = Ember.A(),
+                path      = [],
                 rootNode  = this,
                 self      = this;
 
+            // Register keyboard event listeners
             if ( keyEvents ) {
                 this.set( 'keyHandler', true );
 
                 keyEvents.on( 'childSelected', function( key ) {
                     self.set( 'keyboardInUse', true );
                     self.childSelected( key );
-                }).on( 'drillDown', function() {
-                    if ( self.get( 'useDrillDownKey' )) {
+                })
+                .on( 'drillDown', function() {
+                    if ( self.get( 'useDrillDownKey' ) ) {
                         self.send( 'drillDown' );
                     }
-                }).on( 'cycleRootSelectionNext', function( event ) {
+                })
+                .on( 'cycleRootSelectionNext', function( event ) {
                     self.send( 'cycleRootSelectionNext', event );
-                }).on( 'cycleRootSelectionPrevious', function( event ) {
+                })
+                .on( 'cycleRootSelectionPrevious', function( event ) {
                     self.send( 'cycleRootSelectionPrevious', event );
-                }).on( 'closeAll', function() {
+                })
+                .on( 'closeAll', function() {
                     self.set( 'keyboardInUse', false );
                     self.send( 'closeAll' );
-                }).on( 'showAll', function() {
+                })
+                .on( 'showAll', function() {
                     self.set( 'keyboardInUse', true );
                     self.send( 'showAll' );
                 });
@@ -106078,18 +104531,18 @@ define("sl-ember-components/components/sl-menu",
                 path     : path,
                 rootNode : rootNode
             });
-        }.observes( 'keyEvents' ).on( 'didInsertElement' ),
+        }.on( 'didInsertElement' ),
 
         /**
          * Remove bound events and current menu state
          *
-         * @function cleanUp
+         * @function destroyMenu
          * @observes "willClearRender" event
          * @returns  {void}
          */
-        cleanUp: function() {
+        destroyMenu: function() {
             var keyEvents = this.get( 'keyEvents' ),
-                parent = this.get( 'parentView' );
+                parent    = this.get( 'parentView' );
 
             if ( typeof parent.unregisterChild === 'function' ) {
                 parent.unregisterChild( this );
@@ -106126,7 +104579,7 @@ define("sl-ember-components/components/sl-menu",
                 } else {
                     item.$().removeClass( 'active' );
                 }
-            }.bind( this ));
+            });
         },
 
         /**
@@ -106248,7 +104701,7 @@ define("sl-ember-components/components/sl-menu",
          * @returns  {void}
          */
         registerChild: function( child ) {
-            this.get( 'children' ).push( child );
+            this.get( 'children' ).insertAt( 0, child );
         },
 
         /**
@@ -106277,18 +104730,13 @@ define("sl-ember-components/components/sl-menu",
         }
 
     });
-  });
-define("sl-ember-components/components/sl-pagination-controls", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-pagination-controls
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-pagination-controls', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106344,7 +104792,7 @@ define("sl-ember-components/components/sl-pagination-controls",
          *
          * @property {number} currentPageInput
          */
-        currentPageInput: Ember.computed.oneWay( 'currentPage' ),
+        currentPageInput: Ember['default'].computed.oneWay( 'currentPage' ),
 
         /**
          * Whether the page input is disabled
@@ -106352,7 +104800,7 @@ define("sl-ember-components/components/sl-pagination-controls",
          * @property {boolean} currentPageInputDisabled
          * @default  false
          */
-        currentPageInputDisabled: Ember.computed.alias( 'disabled' ),
+        currentPageInputDisabled: Ember['default'].computed.alias( 'disabled' ),
 
         /**
          * When true, the last link control is disabled
@@ -106360,7 +104808,7 @@ define("sl-ember-components/components/sl-pagination-controls",
          * @property {boolean} lastLinkDisabled
          * @default  false;
          */
-        lastLinkDisabled: Ember.computed.alias( 'nextLinkDisabled' ),
+        lastLinkDisabled: Ember['default'].computed.alias( 'nextLinkDisabled' ),
 
         /**
          * When true, the previous link control is disabled
@@ -106368,7 +104816,7 @@ define("sl-ember-components/components/sl-pagination-controls",
          * @property {boolean} prevLinkDisabled
          * @default  false
          */
-        prevLinkDisabled: Ember.computed.alias( 'firstLinkDisabled' ),
+        prevLinkDisabled: Ember['default'].computed.alias( 'firstLinkDisabled' ),
 
         // -------------------------------------------------------------------------
         // Observers
@@ -106399,18 +104847,13 @@ define("sl-ember-components/components/sl-pagination-controls",
         }.property( 'currentPage', 'disabled', 'totalPages' )
 
     });
-  });
-define("sl-ember-components/components/sl-pagination-info", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-pagination-info
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-pagination-info', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106449,18 +104892,13 @@ define("sl-ember-components/components/sl-pagination-info",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-pagination-per-page-select", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-pagination-per-page-select
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-pagination-per-page-select', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106499,18 +104937,13 @@ define("sl-ember-components/components/sl-pagination-per-page-select",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-panel", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-panel
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-panel', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106556,19 +104989,13 @@ define("sl-ember-components/components/sl-panel",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-progress-bar", 
-  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var TooltipEnabled = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-progress-bar
-    */
-    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-progress-bar', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106671,20 +105098,13 @@ define("sl-ember-components/components/sl-progress-bar",
         }.property( 'theme' ),
 
     });
-  });
-define("sl-ember-components/components/sl-radio-group", 
-  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var InputBased = __dependency2__["default"];
-    var TooltipEnabled = __dependency3__["default"];
 
-    /**
-     * @module components
-     * @class  sl-radio-group
-     */
-    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-radio-group', ['exports', 'ember', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, InputBased, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( InputBased['default'], TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106756,7 +105176,7 @@ define("sl-ember-components/components/sl-radio-group",
                 isInline   = this.get( 'inline' ),
                 isReadonly = this.get( 'readonly' );
 
-            Ember.assert( 'The name property must be set on the sl-radio-group component', name );
+            Ember['default'].assert( 'The name property must be set on the sl-radio-group component', name );
 
             /**
              * To each sl-radio component apply...
@@ -106765,8 +105185,8 @@ define("sl-ember-components/components/sl-radio-group",
              * - Classes: radio, radio-inline
              */
             this.$( '.sl-radio' ).each( function () {
-                var radio = Ember.$( this ),
-                    input = Ember.$( 'input', radio );
+                var radio = Ember['default'].$( this ),
+                    input = Ember['default'].$( 'input', radio );
 
                 input.attr( 'name', name );
 
@@ -106797,9 +105217,9 @@ define("sl-ember-components/components/sl-radio-group",
             }
 
             // Apply change() listener to keep group value in sync with select sl-radio option
-            this.$('input[name=' + name + ']:radio').change( function () {
+            Ember['default'].run.bind( this, this.$('input[name=' + name + ']:radio').change( function () {
                 this.set( 'value', this.$('input[name=' + name + ']:radio').filter(':checked').val() );
-            }.bind(this));
+            }));
 
         }.on( 'didInsertElement' ),
 
@@ -106814,18 +105234,13 @@ define("sl-ember-components/components/sl-radio-group",
             this.$('input[name=' + this.get( 'name' ) + ']:radio').off();
         }.on( 'willClearRender' )
     });
-  });
-define("sl-ember-components/components/sl-radio", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-radio
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-radio', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106881,20 +105296,13 @@ define("sl-ember-components/components/sl-radio",
             return this.get( 'inline' ) ? 'radio-inline' : 'radio';
         }.property( 'inline' )
     });
-  });
-define("sl-ember-components/components/sl-select", 
-  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var InputBased = __dependency2__["default"];
-    var TooltipEnabled = __dependency3__["default"];
 
-    /**
-     * @module components
-     * @class  sl-select
-     */
-    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-select', ['exports', 'ember', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, InputBased, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( InputBased['default'], TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -106997,7 +105405,7 @@ define("sl-ember-components/components/sl-select",
          * @returns  {void}
          */
         setupSelect2: function() {
-            var get  = Ember.get,
+            var get  = Ember['default'].get,
                 self = this,
                 input;
 
@@ -107084,7 +105492,7 @@ define("sl-ember-components/components/sl-select",
                         warning = warning.concat( '. The input will be disabled until a) the desired objects are added ' );
                         warning = warning.concat( 'to the "content" array, or b) the "value" is changed.' );
 
-                        Ember.warn( warning, !values.length );
+                        Ember['default'].warn( warning, !values.length );
                     }
 
                     return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ) );
@@ -107112,7 +105520,7 @@ define("sl-ember-components/components/sl-select",
             });
 
             input.on( 'change', function() {
-                Ember.run( function() {
+                Ember['default'].run( function() {
                     self.set( 'value', input.select2( 'val' ) );
                 });
             });
@@ -107173,7 +105581,7 @@ define("sl-ember-components/components/sl-select",
                 if ( multiple ) {
                     value = data.getEach( optionValuePath );
                 } else {
-                    value = Ember.get( data, optionValuePath );
+                    value = Ember['default'].get( data, optionValuePath );
                 }
             } else {
                 value = data;
@@ -107181,18 +105589,13 @@ define("sl-ember-components/components/sl-select",
         }
 
     });
-  });
-define("sl-ember-components/components/sl-span", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-span
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-span', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -107232,18 +105635,13 @@ define("sl-ember-components/components/sl-span",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-tab-pane", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-tab-pane
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-tab-pane', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -107287,14 +105685,14 @@ define("sl-ember-components/components/sl-tab-pane",
          *
          * @property {Ember.String} data-tab-label
          */
-        'data-tab-label': Ember.computed.alias( 'label' ),
+        'data-tab-label': Ember['default'].computed.alias( 'label' ),
 
         /**
          * Text for internal tab identification
          *
          * @property {Ember.String} data-tab-name
          */
-        'data-tab-name': Ember.computed.alias( 'name' ),
+        'data-tab-name': Ember['default'].computed.alias( 'name' ),
 
         // -------------------------------------------------------------------------
         // Observers
@@ -107303,18 +105701,13 @@ define("sl-ember-components/components/sl-tab-pane",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-tab-panel", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module components
-     * @class  sl-tab-panel
-     */
-    __exports__["default"] = Ember.Component.extend({
+});
+define('sl-ember-components/components/sl-tab-panel', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -107357,16 +105750,11 @@ define("sl-ember-components/components/sl-tab-panel",
                 var activeTabName = this.get( 'activeTabName' ),
                     self          = this;
 
-                if ( activeTabName ) {
-                    if ( activeTabName !== tabName ) {
-                        this.setActiveTab( tabName );
-                        this.deactivatePane( activeTabName, function() {
-                            self.activatePane( tabName );
-                        });
-                    }
-                } else {
+                if ( activeTabName !== tabName ) {
                     this.setActiveTab( tabName );
-                    this.activatePane( tabName );
+                    this.deactivatePane( function() {
+                        self.activatePane( tabName );
+                    });
                 }
             }
         },
@@ -107406,7 +105794,7 @@ define("sl-ember-components/components/sl-tab-panel",
         /**
          * The name of the tab to open when the component is first rendered
          *
-         * @property {Ember.S`tring} initialTabName
+         * @property {Ember.String} initialTabName
          * @default  null
          */
         initialTabName: null,
@@ -107465,7 +105853,7 @@ define("sl-ember-components/components/sl-tab-panel",
          * Activate a tab pane, animating the transition
          *
          * @function activatePane
-         * @param    {string}   tabName - The name of the tab to activate
+         * @param    {string} tabName - The name of the tab to activate
          * @returns  {void}
          */
         activatePane: function( tabName ) {
@@ -107475,6 +105863,7 @@ define("sl-ember-components/components/sl-tab-panel",
                 pane.addClass( 'active' );
             });
 
+            this.set( 'activeTabName', tabName );
             this.set( 'contentHeight', parseInt( pane.css( 'height' ) ) );
         },
 
@@ -107482,12 +105871,11 @@ define("sl-ember-components/components/sl-tab-panel",
          * Deactivate a tab pane, animating the transition
          *
          * @function deactivatePane
-         * @param    {string}   tabName - The name of the tab to deactivate
          * @param    {function} callback - Function called when the pane is deactivated
          * @returns  {void}
          */
-        deactivatePane: function( tabName, callback ) {
-            var pane = this.paneFor( tabName );
+        deactivatePane: function( callback ) {
+            var pane = this.paneFor( this.get( 'activeTabName' ) );
 
             pane.fadeOut( 'fast', function() {
                 pane.removeClass( 'active' );
@@ -107519,15 +105907,8 @@ define("sl-ember-components/components/sl-tab-panel",
         setActiveTab: function( tabName ) {
             var activeTabName = this.get( 'activeTabName' );
 
-            if ( activeTabName ) {
-                this.tabFor( activeTabName ).removeClass( 'active' );
-            }
-
-            this.set( 'activeTabName', tabName );
-
-            if ( tabName !== null ) {
-                this.tabFor( tabName ).addClass( 'active' );
-            }
+            this.tabFor( activeTabName ).removeClass( 'active' );
+            this.tabFor( tabName ).addClass( 'active' );
         },
 
         /**
@@ -107552,20 +105933,13 @@ define("sl-ember-components/components/sl-tab-panel",
         }
 
     });
-  });
-define("sl-ember-components/components/sl-textarea", 
-  ["ember","sl-ember-components/mixins/sl-input-based","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var InputBased = __dependency2__["default"];
-    var TooltipEnabled = __dependency3__["default"];
 
-    /**
-     * @module components
-     * @class  sl-textarea
-     */
-    __exports__["default"] = Ember.Component.extend( InputBased, TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-textarea', ['exports', 'ember', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, InputBased, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( InputBased['default'], TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -107650,19 +106024,13 @@ define("sl-ember-components/components/sl-textarea",
         // Methods
 
     });
-  });
-define("sl-ember-components/components/sl-tooltip", 
-  ["ember","sl-ember-components/mixins/sl-tooltip-enabled","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var TooltipEnabled = __dependency2__["default"];
 
-    /**
-     * @module components
-     * @class  sl-tooltip
-     */
-    __exports__["default"] = Ember.Component.extend( TooltipEnabled, {
+});
+define('sl-ember-components/components/sl-tooltip', ['exports', 'ember', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (exports, Ember, TooltipEnabled) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend( TooltipEnabled['default'], {
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -107694,501 +106062,77 @@ define("sl-ember-components/components/sl-tooltip",
         // Methods
 
     });
-  });
-define("sl-ember-components/helpers/get-key", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module helpers
-     */
+});
+define('sl-ember-components/helpers/get-key', ['exports', 'ember'], function (exports, Ember) {
 
-    /**
-     * A lookup on an object with supplied key
-     *
-     * Takes an object, a key and a default key. The key is resolved on the object
-     * and the result is returned. If the result is falsy and a defaultKey is
-     * supplied then the defaultKey is resolved on the object and that result
-     * is returned.
-     *
-     * @function get-key
-     * @param    {object} object - Context object to lookup value for
-     * @param    {string} key - The key string used for lookup on the object
-     * @param    {string} defaultKey - A fallback key value
-     * @returns  {mixed}
-     */
-    __exports__["default"] = Ember.Handlebars.makeBoundHelper( function( object, key, defaultKey ) {
+    'use strict';
+
+    exports['default'] = Ember['default'].Handlebars.makeBoundHelper( function( object, key, defaultKey ) {
         var value = object.get ? object.get( key ) : object[ key ];
 
-        if ( Ember.isNone( value ) && Ember.typeOf( defaultKey ) === 'string' ) {
+        if ( Ember['default'].isNone( value ) && Ember['default'].typeOf( defaultKey ) === 'string' ) {
             value = object.get ? object.get( defaultKey ) : object[ defaultKey ];
         }
 
         return value;
     });
-  });
-define("sl-ember-components/helpers/render-component", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module helpers
-     */
+});
+define('sl-ember-components/helpers/render-component', ['exports', 'ember'], function (exports, Ember) {
 
-    /**
-     * Render the component stored in the variable that is passed to this helper as
-     * the first argument. Bound properties can be passed to the component in the
-     * normal fashion.
-     *
-     * @example
-     * {{render-component 'sl-grid-table-cell-link' foo=bar doo=car }}
-     *
-     * @function render-component
-     * @param    {string} componentPath - Lookup path for the component name
-     * @returns  {string} The rendered component
-     */
-    __exports__["default"] = function( componentPath ) {
+    'use strict';
+
+    exports['default'] = function( componentPath ) {
         var options   = arguments[ arguments.length - 1 ],
-            component = Ember.Handlebars.get( this, componentPath, options ),
-            helper    = Ember.Handlebars.resolveHelper( options.data.view.container, component );
+            component = Ember['default'].Handlebars.get( this, componentPath, options ),
+            helper    = Ember['default'].Handlebars.resolveHelper( options.data.view.container, component );
 
         helper.call( this, options );
     }
-  });
-define("sl-ember-components/helpers/render-tab-pane", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module helpers
-     */
+});
+define('sl-ember-components/helpers/render-tab-pane', ['exports', 'ember'], function (exports, Ember) {
 
-    /**
-     * Render the sl-tab-pane content based on template key string
-     *
-     * @function render-tab-pane
-     * @param    {string} templateKey - The string key for the template name lookup
-     * @return   {string} The rendered template
-     */
-    __exports__["default"] = function( templateKey, options ) {
+    'use strict';
+
+    exports['default'] = function( templateKey, options ) {
         var templateName = options.contexts[ 0 ][ templateKey ];
 
         options.types[ 0 ] = 'STRING';
 
-        return Ember.Handlebars.helpers.render.call( this, templateName, options );
+        return Ember['default'].Handlebars.helpers.render.call( this, templateName, options );
     }
-  });
-define("sl-ember-components/helpers/render-template", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module helpers
-     */
+});
+define('sl-ember-components/helpers/render-template', ['exports', 'ember'], function (exports, Ember) {
 
-    /**
-     * Render a specified template with a model and options
-     *
-     * @function render-template
-     * @param    {string} templateName - Name of the template to render
-     * @param    {object} model - Model instance to supply the template with
-     * @param    {object} options - Options hash for render options
-     * @returns  {string} The rendered template
-     */
-    __exports__["default"] = function( templateName, model, options ) {
+    'use strict';
+
+    exports['default'] = function( templateName, model, options ) {
         options.types[ 0 ] = 'STRING';
 
-        return Ember.Handlebars.helpers.render.call( this, templateName, model, options );
+        return Ember['default'].Handlebars.helpers.render.call( this, templateName, model, options );
     }
-  });
-define("sl-ember-components/initializers/register-helpers", 
-  ["ember","sl-ember-components/helpers/get-key","sl-ember-components/helpers/render-component","sl-ember-components/helpers/render-tab-pane","sl-ember-components/helpers/render-template","exports"],
-  function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var GetKeyHelper = __dependency2__["default"];
-    var RenderComponentHelper = __dependency3__["default"];
-    var RenderTabPaneHelper = __dependency4__["default"];
-    var RenderTemplateHelper = __dependency5__["default"];
 
-    /**
-    @module initializers
-    @class  register-helpers
-    */
-    __exports__["default"] = function() {
-        Ember.Handlebars.registerHelper( 'get-key', GetKeyHelper );
-        Ember.Handlebars.registerHelper( 'render-component', RenderComponentHelper );
-        Ember.Handlebars.registerHelper( 'render-tab-pane', RenderTabPaneHelper );
-        Ember.Handlebars.registerHelper( 'render-template', RenderTemplateHelper );
+});
+define('sl-ember-components/initializers/register-helpers', ['exports', 'ember', 'sl-ember-components/helpers/get-key', 'sl-ember-components/helpers/render-component', 'sl-ember-components/helpers/render-tab-pane', 'sl-ember-components/helpers/render-template'], function (exports, Ember, GetKeyHelper, RenderComponentHelper, RenderTabPaneHelper, RenderTemplateHelper) {
+
+    'use strict';
+
+    exports['default'] = function() {
+        Ember['default'].Handlebars.registerHelper( 'get-key', GetKeyHelper['default'] );
+        Ember['default'].Handlebars.registerHelper( 'render-component', RenderComponentHelper['default'] );
+        Ember['default'].Handlebars.registerHelper( 'render-tab-pane', RenderTabPaneHelper['default'] );
+        Ember['default'].Handlebars.registerHelper( 'render-template', RenderTemplateHelper['default'] );
     }
-  });
-define("sl-ember-components/mixins/sl-ajax-aware", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-ajax-aware
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-grid-controller', ['exports', 'ember'], function (exports, Ember) {
 
-        // -------------------------------------------------------------------------
-        // Dependencies
+    'use strict';
 
-        // -------------------------------------------------------------------------
-        // Attributes
-
-        // -------------------------------------------------------------------------
-        // Actions
-
-        // -------------------------------------------------------------------------
-        // Events
-
-        // -------------------------------------------------------------------------
-        // Properties
-
-        /**
-         * Placeholder
-         *
-         * @property {function} ajaxCompleteProxyBound
-         * @default  null
-         */
-        ajaxCompleteProxyBound: null,
-
-        /**
-         * Whether or not AJAX events are bound to the element
-         *
-         * If disabled, the instance will not even create the bindings to be made
-         * aware of the AJAX activity.
-         *
-         * @property {boolean} ajaxEnabled
-         * @default false
-         */
-        ajaxEnabled: false,
-
-        /**
-         * Placeholder
-         *
-         * @property {function} ajaxSendProxyBound
-         * @default  null
-         */
-        ajaxSendProxyBound: null,
-
-        /**
-         * Placeholder
-         *
-         * @property {function} ajaxStartProxyBound
-         * @default  null
-         */
-        ajaxStartProxyBound: null,
-
-        /**
-         * Placeholder
-         *
-         * @property {function} ajaxStopProxyBound
-         * @default  null
-         */
-        ajaxStopProxyBound: null,
-
-        /**
-         * Used internally to track registered AJAX behaviors
-         *
-         * @private
-         * @property {Ember.Array} onActiveBehaviors
-         * @default  []
-         */
-        onActiveBehaviors: [],
-
-        /**
-         * Used internally to track registered AJAX behaviors
-         *
-         * @property {Ember.Array} onInactiveBehaviors
-         * @default  []
-         */
-        onInactiveBehaviors: [],
-
-        /**
-         * Indicates which endpoint(s) AJAX activity we are concerned with
-         *
-         * URL scope can be given as either a string or a regular expression.
-         *
-         * @property {Ember.String} urlScope
-         * @default  null
-         */
-        urlScope: null,
-
-        // -------------------------------------------------------------------------
-        // Observers
-
-        /**
-         * Initialize AJAX connectivity
-         *
-         * @function initAjax
-         * @observes "init" event
-         * @returns  {void}
-         */
-        initAjax: function() {
-            this.createProxyMethods();
-            this.connectAjax();
-        }.on( 'init' ),
-
-        /**
-         * Bind to the appropriate AJAX calls if enabled
-         *
-         * This method will consider the URL scoping and bind to either
-         * Send/Complete (for specific URLs) or Start/Stop (for global
-         * AJAX activity).
-         *
-         * @function connectAjax
-         * @observes "ajaxEnabled" event
-         * @returns  {void}
-         */
-        connectAjax: function() {
-            var props = this.getProperties([ 'ajaxEnabled', 'ajaxBound', 'urlScope' ]);
-
-            if ( props.ajaxEnabled === true && !props.ajaxBound ) {
-                if ( !Ember.isBlank( props.urlScope ) ) {
-                    Ember.$( document )
-                        .ajaxSend( this.get( 'ajaxSendProxyBound' ) )
-                        .ajaxComplete( this.get( 'ajaxCompleteProxyBound' ) );
-                } else {
-                    Ember.$( document )
-                        .ajaxStart( this.get( 'ajaxStartProxyBound' ) )
-                        .ajaxStop( this.get( 'ajaxStopProxyBound' ) );
-                }
-            }
-
-        }.observes( 'ajaxEnabled' ),
-
-        /**
-         * Unbind from AJAX methods
-         *
-         * @function disconnectAjax
-         * @observes "ajaxEnabled" event
-         * @returns  {void}
-         */
-        disconnectAjax: function() {
-            var ajaxBound   = this.get( 'ajaxBound' ),
-                ajaxEnabled = this.get( 'ajaxEnabled' );
-
-            if ( !ajaxEnabled && ajaxBound ) {
-                Ember.$( document ).off( 'ajaxSend', this.get( 'ajaxSendProxyBound' ) );
-                Ember.$( document ).off( 'ajaxComplete', this.get( 'ajaxCompleteProxyBound' ) );
-                Ember.$( document ).off( 'ajaxStart', this.get( 'ajaxStartProxyBound' ) );
-                Ember.$( document ).off( 'ajaxStop', this.get( 'ajaxStopProxyBound' ) );
-            }
-        }.observes( 'ajaxEnabled' ),
-
-        // -------------------------------------------------------------------------
-        // Methods
-
-        /**
-         * Empty implementations of AJAX handler to be overriden by client code
-         *
-         * @function ajaxCompleteHandler
-         * @default  {function} empty
-         */
-        ajaxCompleteHandler: function() {},
-
-        /**
-         * Internally used proxy method for ajaxComplete
-         *
-         * @function ajaxCompleteProxy
-         * @param   {object} event
-         * @param   {jqXHR}  jqXHR
-         * @param   {object} options
-         * @returns {void}
-         */
-        ajaxCompleteProxy: function( event, jqXHR, options ) {
-            if ( this.matchesUrl( this.get( 'urlScope' ), options.url ) ) {
-                this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
-                    behavior.call( this, event, jqXHR, options );
-                }.bind( this ) );
-
-                this.ajaxCompleteHandler();
-            }
-        },
-
-        /**
-         * Empty implementations of AJAX handler to be overriden by client code
-         *
-         * @function ajaxSendHandler
-         * @default  {function} empty
-         */
-        ajaxSendHandler: function() {},
-
-        /**
-         * Internally used proxy method for ajaxSend
-         *
-         * @function ajaxSendProxy
-         */
-        ajaxSendProxy: function( event, jqXHR, options ) {
-            if ( this.matchesUrl( this.get( 'urlScope' ), options.url )) {
-                this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
-                    behavior.call( this, event, jqXHR, options );
-                }.bind( this ));
-
-                this.ajaxSendHandler();
-            }
-        },
-
-        /**
-         * Empty implementations of AJAX handler to be overriden by client code
-         *
-         * @function ajaxStartHandler
-         * @default  {function} empty
-         */
-        ajaxStartHandler: function() {},
-
-        /**
-         * Internally used proxy method for ajaxStart
-         *
-         * @function ajaxStartProxy
-         * @returns  {void}
-         */
-        ajaxStartProxy: function() {
-            this.get( 'onActiveBehaviors' ).forEach( function( behavior ) {
-                behavior.call( this );
-            }.bind( this ));
-
-            this.ajaxStartHandler();
-        },
-
-        /**
-         * Empty implementations of AJAX handler to be overriden by client code
-         *
-         * @function ajaxStopHandler
-         * @default  {function} empty
-         */
-        ajaxStopHandler: function() {},
-
-        /**
-         * Internally used proxy method for ajaxStop
-         *
-         * @function ajaxStopProxy
-         * @returns  {void}
-         */
-        ajaxStopProxy: function() {
-            this.get( 'onInactiveBehaviors' ).forEach( function( behavior ) {
-                behavior.call( this );
-            }.bind( this ));
-
-            this.ajaxStopHandler();
-        },
-
-        /**
-         * Create pre-bound proxy methods for each of the 4 AJAX callbacks we are
-         * concerned with
-         *
-         * @function createProxyMethods
-         * @returns  {void}
-         */
-        createProxyMethods: function() {
-            this.setProperties({
-                ajaxSendProxyBound     : this.ajaxSendProxy.bind( this ),
-                ajaxCompleteProxyBound : this.ajaxCompleteProxy.bind( this ),
-                ajaxStartProxyBound    : this.ajaxStartProxy.bind( this ),
-                ajaxStopProxyBound     : this.ajaxStopProxy.bind( this )
-            });
-        },
-
-        /**
-         * Check if the AJAX URL matches the specified scope
-         *
-         * Scope can be set as a specific endpoint string or as a regex to be
-         * tested against.
-         *
-         * @function matchesUrl
-         * @param   {RegExp|Ember.String} urlScope
-         * @param   {Ember.String} ajaxUrl - The URL that the AJAX action is requested on
-         * @returns {boolean}
-         */
-        matchesUrl: function( urlScope, ajaxUrl ) {
-            var returnValue = false;
-
-            if ( urlScope instanceof RegExp ) {
-                returnValue = urlScope.test( ajaxUrl );
-            } else if ( typeof urlScope === 'string' ) {
-                returnValue = urlScope.toLowerCase() === ajaxUrl.toLowerCase();
-            }
-
-            return returnValue;
-        },
-
-        /**
-         * Initialize AJAX behavior
-         *
-         * A common use case will be to initialize particular behaviors during AJAX
-         * activity and fall back to other, default, behaviors when no AJAX activity
-         * is ongoing. To accomodate this, the registerAjaxBehavior method will
-         * allow a user to pass in functions that will be called when AJAX activity
-         * starts and stops. This can be accomplished by overriding the ajax hooks
-         * (ajaxSend, ajaxComplete, ajaxStart & ajaxStop) but this method does have
-         * some benefits. For one, it allows you to group your functionality within
-         * the registerAjaxBehavior so it becomes obvious when a behavior is turned
-         * on and off. Also, it allows you to use the same procedure for registering
-         * behaviors regardless of the URL scope. If you change from a globally
-         * scoped URL (i.e. no urlScope defined) to having a particular API endpoint
-         * or end points set up, the methods will be executed at the appropriate
-         * time. If using the AJAX hooks, you'll need to move the calls from
-         * ajaxStart/ajaxStop to ajaxSend/ajaxComplete.
-         *
-         * @function registerAjaxBehavior
-         * @param   {function} onActive - Executed when associated AJAX activity begins
-         * @param   {function} onInactive - Executed when associated AJAX activity ends
-         * @returns {void}
-         */
-        registerAjaxBehavior: function( onActive, onInactive ) {
-            if ( onActive ) {
-                this.get( 'onActiveBehaviors' ).push( onActive );
-            }
-
-            if ( onInactive ) {
-                this.get( 'onInactiveBehaviors' ).push( onInactive );
-            }
-        },
-
-        /**
-         * Allows you to unregister ajax behaviors
-         *
-         * @function unregisterAjaxBehavior
-         * @param   {function} onActive - Executed when associated AJAX activity begins
-         * @param   {function} onInactive - Executed when associated AJAX activity ends
-         * @returns {void}
-         */
-        unregisterAjaxBehavior: function( onActive, onInactive ) {
-            if ( onActive ) {
-                this.get( 'onActiveBehaviors' ).removeObject( onActive );
-            }
-
-            if ( onInactive ) {
-                this.get( 'onInactiveBehaviors' ).removeObject( onInactive );
-            }
-        }
-
-    });
-  });
-define("sl-ember-components/mixins/sl-grid-controller", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-
-    /**
-     * @module mixins
-     * @class  sl-grid-controller
-     */
-    __exports__["default"] = Ember.Mixin.create( Ember.Evented, {
+    exports['default'] = Ember['default'].Mixin.create( Ember['default'].Evented, {
 
 
         // -------------------------------------------------------------------------
@@ -108234,7 +106178,7 @@ define("sl-ember-components/mixins/sl-grid-controller",
              * @returns {void}
              */
             sortColumn: function( column ) {
-                Ember.assert( 'column is sortable', Ember.get( column, 'sortable' ) );
+                Ember['default'].assert( 'column is sortable', Ember['default'].get( column, 'sortable' ) );
                 if ( column.get( 'isSorted' ) ) {
                     column.toggleProperty( 'sortAscending' );
                 } else {
@@ -108277,7 +106221,7 @@ define("sl-ember-components/mixins/sl-grid-controller",
          *
          * @property {Ember.Array} columns
          */
-        columns: Ember.computed.alias( 'grid.columns' ),
+        columns: Ember['default'].computed.alias( 'grid.columns' ),
         /**
          * Properties of the filter panel
          *
@@ -108292,28 +106236,28 @@ define("sl-ember-components/mixins/sl-grid-controller",
          * @property {Ember.Object} grid
          * @default  {Ember.Object} fresh instantiation
          */
-        grid: Ember.Object.create(),
+        grid: Ember['default'].Object.create(),
 
         /**
          * Alias to the controller's model's pending state
          *
          * @property {boolean} isLoading
          */
-        isLoading: Ember.computed.alias( 'model.isPending' ),
+        isLoading: Ember['default'].computed.alias( 'model.isPending' ),
 
         /**
          * Alias to the number of records shown per page
          *
          * @property {number} itemCountPerPage
          */
-        itemCountPerPage: Ember.computed.alias( 'options.itemCountPerPage' ),
+        itemCountPerPage: Ember['default'].computed.alias( 'options.itemCountPerPage' ),
 
         /**
          * Alias to the grid's options
          *
          * @property {Ember.Object} options
          */
-        options: Ember.computed.alias( 'grid.options' ),
+        options: Ember['default'].computed.alias( 'grid.options' ),
 
         // -------------------------------------------------------------------------
         // Observers
@@ -108337,7 +106281,7 @@ define("sl-ember-components/mixins/sl-grid-controller",
          * @returns  {void}
          */
         onColumnWidthsChange: function() {
-            Ember.run.debounce( this, 'trigger', 'gridStateChanged', 500 );
+            Ember['default'].run.debounce( this, 'trigger', 'gridStateChanged', 500 );
         }.observes( 'columns.@each.width' ),
 
         /**
@@ -108361,7 +106305,7 @@ define("sl-ember-components/mixins/sl-grid-controller",
          * @observes columns.length
          * @returns  {number}
          */
-        columnCount: Ember.computed.alias( 'columns.length' ),
+        columnCount: Ember['default'].computed.alias( 'columns.length' ),
 
         /**
          * The number of visible columns - used for layout
@@ -108395,39 +106339,39 @@ define("sl-ember-components/mixins/sl-grid-controller",
          */
         loadGridDefinition: function(){
             var definitions = this.get( 'gridDefinition' ),
-                grid = Ember.Object.create(),
-                columns = Ember.get( definitions, 'columns' ),
-                options = Ember.get( definitions, 'options' );
+                grid = Ember['default'].Object.create(),
+                columns = Ember['default'].get( definitions, 'columns' ),
+                options = Ember['default'].get( definitions, 'options' );
 
-            Ember.assert( 'Grid definition requires a `columns` array', 
-                Ember.typeOf( columns  ) === 'array'  &&
+            Ember['default'].assert( 'Grid definition requires a `columns` array',
+                Ember['default'].typeOf( columns  ) === 'array'  &&
                 columns.length );
 
-            Ember.assert( 'Grid definition requires a `options` object', 
-                Ember.typeOf( options  ) === 'object' );        
+            Ember['default'].assert( 'Grid definition requires a `options` object',
+                Ember['default'].typeOf( options  ) === 'object' );
 
-             Ember.keys( definitions ).forEach( function( key ) {
-                var definition = Ember.get( definitions, key ),
+             Ember['default'].keys( definitions ).forEach( function( key ) {
+                var definition = Ember['default'].get( definitions, key ),
                     setting;
-                    
 
-                switch( Ember.typeOf( definition ) ) {
+
+                switch( Ember['default'].typeOf( definition ) ) {
                     case 'object':
                     case 'instance':
                         // Need to make a copy of the definition so we don't
                         // corrupt the original.
-                        setting = Ember.Object.create( definition );
+                        setting = Ember['default'].Object.create( definition );
                         break;
 
                     case 'array':
-                        setting = Ember.A([]);
+                        setting = [];
 
                         // We will only add elements that exist on the definition
                         definition.forEach( function( item ) {
-                            Ember.assert( 'Items in arrays on the `definition` must be objects',
-                                Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'object' );
+                            Ember['default'].assert( 'Items in arrays on the `definition` must be objects',
+                                Ember['default'].typeOf( item ) === 'object' || Ember['default'].typeOf( item ) === 'object' );
 
-                            setting.pushObject( Ember.Object.create( item ) );
+                            setting.pushObject( Ember['default'].Object.create( item ) );
                         });
 
                         break;
@@ -108436,9 +106380,9 @@ define("sl-ember-components/mixins/sl-grid-controller",
                         setting = definition;
 
                 }
-                Ember.set( grid, key, setting );
+                Ember['default'].set( grid, key, setting );
             });
-            this.set( 'grid',  grid );  
+            this.set( 'grid',  grid );
         },
 
         /**
@@ -108453,8 +106397,8 @@ define("sl-ember-components/mixins/sl-grid-controller",
             var columns = this.get( 'columns' ),
                 elementToMove;
 
-            Ember.assert( 'oldIndex exists', oldIndex < columns.length );
-            Ember.assert( 'newIndex exists', newIndex < columns.length );
+            Ember['default'].assert( 'oldIndex exists', oldIndex < columns.length );
+            Ember['default'].assert( 'newIndex exists', newIndex < columns.length );
 
             columns.arrayContentWillChange( oldIndex, 1 );
             elementToMove = columns.splice( oldIndex, 1 )[ 0 ];
@@ -108478,7 +106422,7 @@ define("sl-ember-components/mixins/sl-grid-controller",
                 tmpColumns     = [];
 
             gridColumnDefs.forEach( function( columnDef ) {
-               tmpColumns.pushObject( Ember.Object.create( columnDef ) );
+               tmpColumns.pushObject( Ember['default'].Object.create( columnDef ) );
             });
 
             this.set( 'columns', tmpColumns );
@@ -108535,18 +106479,13 @@ define("sl-ember-components/mixins/sl-grid-controller",
             return totalWidthHints;
         }.property( 'columns.@each.widthHint' )
     });
-  });
-define("sl-ember-components/mixins/sl-grid-key-controller", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-grid-key-controller
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-grid-key-controller', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -108686,18 +106625,13 @@ define("sl-ember-components/mixins/sl-grid-key-controller",
         }
 
     });
-  });
-define("sl-ember-components/mixins/sl-grid-table-cell-resize", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-grid-table-cell-resize
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-grid-table-cell-resize', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -108743,7 +106677,7 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
          * @property {boolean} isHighlighted
          * @default  false
          */
-        isHighlighted: Ember.computed.alias( 'column.highlight' ),
+        isHighlighted: Ember['default'].computed.alias( 'column.highlight' ),
 
         /**
          * Starting x offset
@@ -108770,14 +106704,14 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
                 return;
             }
 
-            this.set( 'mouseDownListener', Ember.run.bind( this, function( event ) {
+            this.set( 'mouseDownListener', Ember['default'].run.bind( this, function( event ) {
                 //make sure the mouse has already moved to the highlight region
                 if ( !this.get( 'disabled' ) &&  this.get( 'column.highlight' )) {
 
                     this.$().off( 'mousemove', this.mouseMoveListenerHighlight );
                     this.$().off( 'mouseleave', this.mouseLeaveListenerHighlight );
 
-                    Ember.$( 'body' ).addClass( 'resizing' )
+                    Ember['default'].$( 'body' ).addClass( 'resizing' )
                         .on( 'mouseleave', this.mouseLeaveListenerResize )
                         .on( 'mousemove', this.mouseMoveListenerResize )
                         .on( 'mouseup', this.mouseUpListener );
@@ -108790,14 +106724,14 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
                 }
             }));
 
-            this.set( 'mouseLeaveListenerHighlight', Ember.run.bind( this, function() {
+            this.set( 'mouseLeaveListenerHighlight', Ember['default'].run.bind( this, function() {
                 if ( !this.get( 'global.isResizing' ) ) {
                     this.set( 'column.highlight', false );
                 }
             }));
 
-            this.set( 'mouseLeaveListenerResize', Ember.run.bind( this, function() {
-                Ember.$( 'body' ).removeClass( 'resizing' )
+            this.set( 'mouseLeaveListenerResize', Ember['default'].run.bind( this, function() {
+                Ember['default'].$( 'body' ).removeClass( 'resizing' )
                     .off( 'mouseleave', this.mouseLeaveListenerResize )
                     .off( 'mousemove', this.mouseMoveListenerResize )
                     .off( 'mouseup',  this.mouseUpListener );
@@ -108812,13 +106746,13 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
                 this.$().on( 'mouseleave', this.mouseLeaveListenerHighlight );
 
                 //browser will revert to user selection, this will clear it
-                Ember.run.next( this, function(){
+                Ember['default'].run.next( this, function(){
                     window.getSelection().removeAllRanges();
                 });
             }));
 
-            this.set( 'mouseUpListener', Ember.run.bind( this, function() {
-                Ember.$( 'body' ).removeClass( 'resizing' )
+            this.set( 'mouseUpListener', Ember['default'].run.bind( this, function() {
+                Ember['default'].$( 'body' ).removeClass( 'resizing' )
                     .off( 'mouseleave', this.mouseLeaveListenerResize )
                     .off( 'mousemove', this.mouseMoveListenerResize )
                     .off( 'mouseup', this.mouseUpListener );
@@ -108832,7 +106766,7 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
                 });
             }));
 
-            this.set( 'mouseMoveListenerHighlight', Ember.run.bind( this, function( event ){
+            this.set( 'mouseMoveListenerHighlight', Ember['default'].run.bind( this, function( event ){
                 var offset = this.$().offset(),
                     offsetLeft = offset.left,
                     outerWidth = this.$().outerWidth(),
@@ -108856,7 +106790,7 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
                 }
             }));
 
-            this.set( 'mouseMoveListenerResize', Ember.run.bind( this, function( event ) {
+            this.set( 'mouseMoveListenerResize', Ember['default'].run.bind( this, function( event ) {
                 var startWidth = this.get( 'startWidth' ),
                     widthDelta = event.pageX - this.get( 'startX' ),
                     finalWidth = startWidth + widthDelta,
@@ -108889,7 +106823,7 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
                 .off( 'mouseleave', this.mouseLeaveListenerHighlight );
 
             //just in case
-            Ember.$( 'body' )
+            Ember['default'].$( 'body' )
                 .off( 'mouseleave', this.mouseLeaveListenerResize )
                 .off( 'mousemove', this.mouseMoveListenerResize )
                 .off( 'mouseup',  this.mouseUpListener );
@@ -108899,18 +106833,13 @@ define("sl-ember-components/mixins/sl-grid-table-cell-resize",
         // -------------------------------------------------------------------------
         // Methods
     });
-  });
-define("sl-ember-components/mixins/sl-input-based", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-input-based
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-input-based', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -108977,18 +106906,13 @@ define("sl-ember-components/mixins/sl-input-based",
         // Methods
 
     });
-  });
-define("sl-ember-components/mixins/sl-modal-manager", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-modal-manager
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-modal-manager', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -109016,9 +106940,9 @@ define("sl-ember-components/mixins/sl-modal-manager",
              * @returns {void}
              */
             showModal: function( selector, controller, model ) {
-                Ember.$( selector ).modal( 'show' );
+                Ember['default'].$( selector ).modal( 'show' );
 
-                if ( !Ember.isBlank( controller ) && !Ember.isBlank( model ) ) {
+                if ( !Ember['default'].isBlank( controller ) && !Ember['default'].isBlank( model ) ) {
                     if ( typeof controller === 'string' ) {
                         controller = this.controllerFor( controller );
                     }
@@ -109041,18 +106965,13 @@ define("sl-ember-components/mixins/sl-modal-manager",
         // Methods
 
     });
-  });
-define("sl-ember-components/mixins/sl-modal", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-modal
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-modal', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -109154,11 +107073,11 @@ define("sl-ember-components/mixins/sl-modal",
                 backdrop : this.get( 'backdrop' )
             });
 
-            modal.on( 'show.bs.modal', this.showHandler.bind( this ) );
-            modal.on( 'shown.bs.modal', this.shownHandler.bind( this ) );
-            modal.on( 'hide.bs.modal', this.hideHandler.bind( this ) );
-            modal.on( 'hidden.bs.modal', this.hiddenHandler.bind( this ) );
-            modal.on( 'loaded.bs.modal', this.loadedHandler.bind( this ) );
+            modal.on( 'show.bs.modal', Ember['default'].run.bind( this, this.showHandler ) );
+            modal.on( 'shown.bs.modal', Ember['default'].run.bind( this, this.shownHandler ) );
+            modal.on( 'hide.bs.modal', Ember['default'].run.bind( this, this.hideHandler ) );
+            modal.on( 'hidden.bs.modal', Ember['default'].run.bind( this, this.hiddenHandler ) );
+            modal.on( 'loaded.bs.modal', Ember['default'].run.bind( this, this.loadedHandler ) );
         }.on( 'didInsertElement' ),
 
         // -------------------------------------------------------------------------
@@ -109227,18 +107146,13 @@ define("sl-ember-components/mixins/sl-modal",
         shownHandler: function() {}
 
     });
-  });
-define("sl-ember-components/mixins/sl-notify-view", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-notify-view
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-notify-view', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -109306,18 +107220,13 @@ define("sl-ember-components/mixins/sl-notify-view",
         // Methods
 
     });
-  });
-define("sl-ember-components/mixins/sl-pagination-controller", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-pagination-controller
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-pagination-controller', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -109434,7 +107343,7 @@ define("sl-ember-components/mixins/sl-pagination-controller",
          * @returns  {void}
          */
         currentPageObserver: function(){
-            Ember.run.once( this, this.reloadModel );
+            Ember['default'].run.once( this, this.reloadModel );
         }.observes( 'currentPage' ),
 
         /**
@@ -109446,7 +107355,7 @@ define("sl-ember-components/mixins/sl-pagination-controller",
          */
         itemCountPerPageObserver: function(){
             this.set( 'currentPage', 1 );
-            Ember.run.once( this, this.reloadModel );
+            Ember['default'].run.once( this, this.reloadModel );
         }.observes( 'itemCountPerPage' ),
 
         // -------------------------------------------------------------------------
@@ -109461,7 +107370,7 @@ define("sl-ember-components/mixins/sl-pagination-controller",
          * @returns {void}
          */
         reloadModel: function() {
-            Ember.assert( 'SL-Ember-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
+            Ember['default'].assert( 'SL-Ember-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
         },
 
         /**
@@ -109497,18 +107406,13 @@ define("sl-ember-components/mixins/sl-pagination-controller",
         )
 
     });
-  });
-define("sl-ember-components/mixins/sl-tooltip-enabled", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-tooltip-enabled
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-components/mixins/sl-tooltip-enabled', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -109624,18 +107528,13 @@ define("sl-ember-components/mixins/sl-tooltip-enabled",
             }
         }
     });
-  });
-define("sl-ember-components/utils/sl-grid-key-adapter", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module utils
-     * @class  sl-grid-key-adapter
-     */
-    __exports__["default"] = Ember.Object.extend( Ember.Evented, {
+});
+define('sl-ember-components/utils/sl-grid-key-adapter', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Object.extend( Ember['default'].Evented, {
 
         /**
          * Triggers the grid's reload action
@@ -109658,18 +107557,13 @@ define("sl-ember-components/utils/sl-grid-key-adapter",
             this.trigger( 'changePage', page );
         }
     });
-  });
-define("sl-ember-components/utils/sl-menu-key-adapter", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module utils
-     * @class  sl-menu-key-adapter
-     */
-    __exports__["default"] = Ember.Object.extend( Ember.Evented, {
+});
+define('sl-ember-components/utils/sl-menu-key-adapter', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Object.extend( Ember['default'].Evented, {
 
         /**
          * Trigger the menu's childSelection action
@@ -109738,26 +107632,20 @@ define("sl-ember-components/utils/sl-menu-key-adapter",
         }
 
     });
-  });
-define("sl-ember-components", ["sl-ember-components/index","exports"], function(__index__, __exports__) {
+
+});
+define("sl-ember-translate", ["sl-ember-translate/index","exports"], function(__index__, __exports__) {
   "use strict";
   Object.keys(__index__).forEach(function(key){
     __exports__[key] = __index__[key];
   });
 });
 
-define("sl-ember-translate/components/sl-translate", 
-  ["ember","sl-ember-translate/templates/components/sl-translate","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var template = __dependency2__["default"];
+define('sl-ember-translate/components/sl-translate', ['exports', 'ember', 'sl-ember-translate/templates/components/sl-translate'], function (exports, Ember, template) {
 
-    /**
-     * @module components
-     * @class  sl-translate
-     */
-    __exports__["default"] = Ember.Component.extend({
+    'use strict';
+
+    exports['default'] = Ember['default'].Component.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -109779,7 +107667,7 @@ define("sl-ember-translate/components/sl-translate",
          * @property {function} layout
          * @default  template:components/sl-translate
          */
-        layout: template,
+        layout: template['default'],
 
         // -------------------------------------------------------------------------
         // Actions
@@ -109832,7 +107720,7 @@ define("sl-ember-translate/components/sl-translate",
             var parameters         = [],
                 observedParameters = [];
 
-            Ember.keys( this ).map( function( key ) {
+            Ember['default'].keys( this ).map( Ember['default'].run.bind( this, function( key ) {
 
                 // Is a number that begins with $ but doesn't also end with "Binding"
                 if ( /^\$/.test( key ) && !/^\$.*(Binding)$/.test( key ) ) {
@@ -109843,7 +107731,7 @@ define("sl-ember-translate/components/sl-translate",
                 if ( /^\$[0-9]*$/.test( key ) && this.hasOwnProperty( key + 'Binding' ) ) {
                     observedParameters.push( key );
                 }
-            }.bind( this ));
+            }));
 
             this.setProperties({
                 'parameters'         : parameters,
@@ -109864,9 +107752,9 @@ define("sl-ember-translate/components/sl-translate",
          * @returns  {void}
          */
         registerObservers: function() {
-            this.get( 'observedParameters' ).map( function( key ) {
+            this.get( 'observedParameters' ).map( Ember['default'].run.bind( this, function( key ) {
                 this.addObserver( key, this, this.setTranslatedString );
-            }.bind( this ));
+            }));
 
             this.setTranslatedString();
         }.on( 'willInsertElement' ),
@@ -109879,9 +107767,9 @@ define("sl-ember-translate/components/sl-translate",
          * @returns  {void}
          */
         unregisterObservers: function() {
-            this.get( 'observedParameters' ).map( function( key ) {
+            this.get( 'observedParameters' ).map( Ember['default'].run.bind( this, function( key ) {
                 this.removeObserver( key, this, this.setTranslatedString );
-            }.bind( this ));
+            }));
         }.on( 'willClearRender' ),
 
         // -------------------------------------------------------------------------
@@ -109910,9 +107798,9 @@ define("sl-ember-translate/components/sl-translate",
         translateString: function() {
             var parametersHash = {};
 
-            this.get( 'parameters' ).map( function( key ) {
+            this.get( 'parameters' ).map( Ember['default'].run.bind( this, function( key ) {
                 parametersHash[key] = this.get( key );
-            }.bind( this ));
+            }));
 
             return this.get( 'translateService' ).translateKey({
                 key         : this.get( 'key' ),
@@ -109922,19 +107810,14 @@ define("sl-ember-translate/components/sl-translate",
             });
         }
     });
-  });
-define("sl-ember-translate/initializers/translate-service", 
-  ["sl-ember-translate/services/translate","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var TranslateService = __dependency1__["default"];
 
-    /**
-     * @module initializers
-     * @class  translate-service
-     */
-    __exports__["default"] = function( container, app ) {
-        var translateService  = TranslateService.create();
+});
+define('sl-ember-translate/initializers/translate-service', ['exports', 'sl-ember-translate/services/translate'], function (exports, TranslateService) {
+
+    'use strict';
+
+    exports['default'] = function( container, app ) {
+        var translateService  = TranslateService['default'].create();
 
         // Inject Translate Service
         container.register( 'translateService:main', translateService, { instantiate: false } );
@@ -109942,18 +107825,13 @@ define("sl-ember-translate/initializers/translate-service",
         app.inject( 'controller', 'translateService', 'translateService:main' );
         app.inject( 'component', 'translateService', 'translateService:main' );
     }
-  });
-define("sl-ember-translate/mixins/sl-get-translation", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module mixins
-     * @class  sl-get-translation
-     */
-    __exports__["default"] = Ember.Mixin.create({
+});
+define('sl-ember-translate/mixins/sl-get-translation', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -110001,18 +107879,13 @@ define("sl-ember-translate/mixins/sl-get-translation",
             return this.translateService.getKeyValue( key );
         }
     });
-  });
-define("sl-ember-translate/services/translate", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    /**
-     * @module services
-     * @class  translate
-     */
-    __exports__["default"] = Ember.Object.extend({
+});
+define('sl-ember-translate/services/translate', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Object.extend({
 
         // -------------------------------------------------------------------------
         // Dependencies
@@ -110048,9 +107921,16 @@ define("sl-ember-translate/services/translate",
          *
          * @function setDictionary
          * @argument {Ember.Object} translations  Translation model
+         * @throws   {Ember.assert}
          * @returns  {void}
          */
         setDictionary: function( translations ) {
+
+            Ember['default'].assert(
+                'services/translation.setDictionary() expects parameter to be an object',
+                'object' === typeof translations && !Array.isArray( translations )
+            );
+
             this.set( 'dictionary', translations );
         },
 
@@ -110070,7 +107950,7 @@ define("sl-ember-translate/services/translate",
                 returnValue = retrievedKey;
 
             } else {
-                console.warn( 'No translation match for key "' + key + '".' );
+                Ember['default'].warn( 'No translation match for key "' + key + '".' );
                 returnValue = key;
             }
 
@@ -110100,80 +107980,76 @@ define("sl-ember-translate/services/translate",
          */
         translateKey: function( data ) {
 
-            Ember.assert( 'Argument must be supplied', data );
-
-            if ( undefined === data ) {
-                return;
-            }
+            Ember['default'].assert( 'Argument must be an object', 'object' === typeof data && !Array.isArray( data ) );
 
             data.parameters = data.parameters || {};
 
             var pluralErrorTracker = 0,
                 token              = data.key,
-                getTokenValue      = function( value ) {
+                getTokenValue      = Ember['default'].run.bind( this, function( value ) {
                     try {
                         value = this.getKeyValue( value );
                     } catch ( e ) {
-                        console.warn( 'Unable to translate key "' + value + '".' );
+                        Ember['default'].warn( 'Unable to translate key "' + value + '".' );
                     }
 
                     return value;
-                }.bind( this ),
+                }),
                 translatedString;
 
             // BEGIN: Pluralization error checking
-            if ( !Ember.isEmpty( data.pluralKey ) ) {
+            if ( !Ember['default'].isEmpty( data.pluralKey ) ) {
                 pluralErrorTracker++;
             }
 
-            if ( !Ember.isEmpty( data.pluralCount ) ) {
+            if ( !Ember['default'].isEmpty( data.pluralCount ) ) {
                 pluralErrorTracker++;
             }
 
             if ( 1 === pluralErrorTracker ) {
-                console.warn( 'If either "pluralKey" or "pluralCount" are provided then both must be.' +
+                Ember['default'].warn( 'If either "pluralKey" or "pluralCount" are provided then both must be.' +
                     'Singular key value was returned.' );
                 return getTokenValue( token );
             }
             // END: Pluralization error checking
 
             // Pluralization
-            if ( !Ember.isEmpty( data.pluralCount ) && Number(data.pluralCount) > 1 ) {
+            if ( !Ember['default'].isEmpty( data.pluralCount ) && Number(data.pluralCount) > 1 ) {
                 token = data.pluralKey;
             }
 
             translatedString = getTokenValue( token );
 
             // Parameter replacement
-            Ember.keys( data.parameters ).map( function( key ) {
+            Ember['default'].keys( data.parameters ).map( function( key ) {
                 translatedString = translatedString.replace( '{' + key.replace( '$', '' ) + '}' , data.parameters[key] );
-            }.bind( this ) );
+            });
 
             return translatedString;
         }
     });
-  });
-define("sl-ember-translate/templates/components/sl-translate", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    __exports__["default"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
-    this.compilerInfo = [4,'>= 1.0.0'];
-    helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-      var stack1;
 
-
-      stack1 = helpers._triageMustache.call(depth0, "translatedString", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
-      if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-      else { data.buffer.push(''); }
-      
-    });
-  });
-define("sl-ember-translate", ["sl-ember-translate/index","exports"], function(__index__, __exports__) {
-  "use strict";
-  Object.keys(__index__).forEach(function(key){
-    __exports__[key] = __index__[key];
-  });
 });
+define('sl-ember-translate/templates/components/sl-translate', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+  helpers = this.merge(helpers, Ember['default'].Handlebars.helpers); data = data || {};
+    var stack1;
+
+
+    stack1 = helpers._triageMustache.call(depth0, "translatedString", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+    if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+    else { data.buffer.push(''); }
+    
+  });
+
+});
+;/* jshint ignore:start */
+
+
+
+/* jshint ignore:end */
 //# sourceMappingURL=vendor.map
