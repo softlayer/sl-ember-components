@@ -396,37 +396,43 @@ export default Ember.Component.extend({
     }.on( 'init' ),
 
     /**
-     * Initialize keyboard event listeners
+     * Initialize menu
      *
-     * @function initKeyListeners
-     * @observes "didInsertElement" event, keyEvents
+     * @function initMenu
+     * @observes "didInsertElement" event
      * @returns  {void}
      */
-    initKeyListeners: function() {
+    initMenu: function() {
         var keyEvents = this.get( 'keyEvents' ),
             parent    = this.get( 'parentView' ),
             path      = [],
             rootNode  = this,
             self      = this;
 
+        // Register keyboard event listeners
         if ( keyEvents ) {
             this.set( 'keyHandler', true );
 
             keyEvents.on( 'childSelected', function( key ) {
                 self.set( 'keyboardInUse', true );
                 self.childSelected( key );
-            }).on( 'drillDown', function() {
-                if ( self.get( 'useDrillDownKey' )) {
+            })
+            .on( 'drillDown', function() {
+                if ( self.get( 'useDrillDownKey' ) ) {
                     self.send( 'drillDown' );
                 }
-            }).on( 'cycleRootSelectionNext', function( event ) {
+            })
+            .on( 'cycleRootSelectionNext', function( event ) {
                 self.send( 'cycleRootSelectionNext', event );
-            }).on( 'cycleRootSelectionPrevious', function( event ) {
+            })
+            .on( 'cycleRootSelectionPrevious', function( event ) {
                 self.send( 'cycleRootSelectionPrevious', event );
-            }).on( 'closeAll', function() {
+            })
+            .on( 'closeAll', function() {
                 self.set( 'keyboardInUse', false );
                 self.send( 'closeAll' );
-            }).on( 'showAll', function() {
+            })
+            .on( 'showAll', function() {
                 self.set( 'keyboardInUse', true );
                 self.send( 'showAll' );
             });
@@ -446,18 +452,18 @@ export default Ember.Component.extend({
             path     : path,
             rootNode : rootNode
         });
-    }.observes( 'keyEvents' ).on( 'didInsertElement' ),
+    }.on( 'didInsertElement' ),
 
     /**
      * Remove bound events and current menu state
      *
-     * @function cleanUp
+     * @function destroyMenu
      * @observes "willClearRender" event
      * @returns  {void}
      */
-    cleanUp: function() {
+    destroyMenu: function() {
         var keyEvents = this.get( 'keyEvents' ),
-            parent = this.get( 'parentView' );
+            parent    = this.get( 'parentView' );
 
         if ( typeof parent.unregisterChild === 'function' ) {
             parent.unregisterChild( this );
@@ -616,7 +622,7 @@ export default Ember.Component.extend({
      * @returns  {void}
      */
     registerChild: function( child ) {
-        this.get( 'children' ).pushObject( child );
+        this.get( 'children' ).insertAt( 0, child );
     },
 
     /**
