@@ -25,63 +25,63 @@ var clickCounter = 0,
     App;
 
 moduleForComponent( 'sl-menu', 'Unit - component: sl-menu', {
-    setup: function() {
+    beforeEach: function() {
         App = startApp();
     },
 
-    teardown: function() {
+    afterEach: function() {
         Ember.run( App, App.destroy );
     }
 });
 
-test( '"children" property is an empty array on initialization', function() {
+test( '"children" property is an empty array on initialization', function( assert ) {
     var component  = this.subject();
 
     this.render();
 
-    equal( Ember.typeOf( component.get( 'children' ) ), 'array', 'Is array' );
-    equal( component.get( 'children' ).length, 0, 'Array is empty' );
+    assert.equal( Ember.typeOf( component.get( 'children' ) ), 'array', 'Is array' );
+    assert.equal( component.get( 'children' ).length, 0, 'Array is empty' );
 });
 
-test( 'Menu creates correct DOM structure', function() {
+test( 'Menu creates correct DOM structure', function( assert ) {
     var component  = this.subject({ menu: modelStub }),
         $component = this.render();
 
-    equal( $component.find( 'li' ).length, 11 );
+    assert.equal( $component.find( 'li' ).length, 11 );
 });
 
-test( 'Menu properly hides all but root list', function() {
+test( 'Menu properly hides all but root list', function( assert ) {
     var component  = this.subject({ menu: modelStub }),
         $component = this.render();
 
-    equal( $component.find( 'li:visible' ).length, 3 );
+    assert.equal( $component.find( 'li:visible' ).length, 3 );
 });
 
-test( 'Menu shows child on hover', function() {
+test( 'Menu shows child on hover', function( assert ) {
     var component  = this.subject({ menu: modelStub }),
         $component = this.render();
 
-    equal( $component.find( 'li:visible' ).length, 3 );
+    assert.equal( $component.find( 'li:visible' ).length, 3 );
 
     $component.find( 'li:visible' ).first().mouseenter();
-    equal( $component.find( 'li:visible' ).length, 7 );
+    assert.equal( $component.find( 'li:visible' ).length, 7 );
 });
 
-test( 'Menu closes child on mouse exit', function() {
+test( 'Menu closes child on mouse exit', function( assert ) {
     var component  = this.subject({ menu: modelStub }),
         $component = this.render(),
         child      = $component.find( 'li:visible' ).first();
 
-    equal( $component.find( 'li:visible' ).length, 3 );
+    assert.equal( $component.find( 'li:visible' ).length, 3 );
 
     child.mouseenter();
-    equal( $component.find( 'li:visible' ).length, 7 );
+    assert.equal( $component.find( 'li:visible' ).length, 7 );
 
     child.mouseleave();
-    equal( $component.find( 'li:visible' ).length, 3 );
+    assert.equal( $component.find( 'li:visible' ).length, 3 );
 });
 
-test( 'Menu click supports native function', function() {
+test( 'Menu click supports native function', function( assert ) {
     var component  = this.subject({ menu: modelStub }),
         $component = this.render(),
         child      = $component.find( 'li:visible' ).first(),
@@ -93,11 +93,11 @@ test( 'Menu click supports native function', function() {
     click( child.find( 'li:visible' )[ 1 ] );
 
     andThen( function() {
-        equal( spy.calledOnce, true );
+        assert.equal( spy.calledOnce, true );
     });
 });
 
-test( 'Menu click supports action names', function() {
+test( 'Menu click supports action names', function( assert ) {
     var component    = this.subject({ menu: modelStub }),
         $component   = this.render(),
         child        = $component.find( 'li:visible' ).first(),
@@ -114,11 +114,11 @@ test( 'Menu click supports action names', function() {
     click( child.find( 'li:visible' )[ 0 ] );
 
     andThen( function() {
-        equal( spy.args[0][0], 'MyAction' );
+        assert.equal( spy.args[0][0], 'MyAction' );
     });
 });
 
-test( 'Menu click supports action names with supporting data', function() {
+test( 'Menu click supports action names with supporting data', function( assert ) {
     var component    = this.subject({ menu: modelStub }),
         $component   = this.render(),
         child        = $component.find( 'li:visible' ).first(),
@@ -135,12 +135,12 @@ test( 'Menu click supports action names with supporting data', function() {
     click( child.find( 'li:visible' )[ 2 ] );
 
     andThen( function() {
-        equal( spy.args[0][0], 'MyAction' );
-        equal( spy.args[0][1]['name'], 'Joe' );
+        assert.equal( spy.args[0][0], 'MyAction' );
+        assert.equal( spy.args[0][1]['name'], 'Joe' );
     });
 });
 
-test( 'Menu selection fires proper selection event', function() {
+test( 'Menu selection fires proper selection event', function( assert ) {
     var component        = this.subject({ menu: modelStub }),
         $component       = this.render(),
         selectionCounter = 0,
@@ -168,5 +168,5 @@ test( 'Menu selection fires proper selection event', function() {
     child3.trigger( 'mouseenter' );
     child3.trigger( 'click' );
 
-    equal( selectionCounter, 3 );
+    assert.equal( selectionCounter, 3 );
 });

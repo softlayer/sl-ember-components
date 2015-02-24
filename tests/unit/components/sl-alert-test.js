@@ -3,29 +3,29 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-alert', 'Unit - component: sl-alert' );
 
-test( 'ARIA role is applied', function() {
+test( 'ARIA role is applied', function( assert ) {
     var $component = this.render();
 
-    equal( $component.attr( 'role' ), 'alert' );
+    assert.equal( $component.attr( 'role' ), 'alert' );
 });
 
-test( 'Dismissable option allows dismissal', function() {
+test( 'Dismissable option allows dismissal', function( assert ) {
     var component  = this.subject({ dismissable: true }),
         $component = this.render();
 
-    ok( component.dismissable === true, 'Component is dismissable' );
-    ok( $component.find( 'button.close' ), 'Close button is rendered' );
-    ok( $component.hasClass( 'alert-dismissable' ), 'Dismissable indicator class is applied' );
+    assert.ok( component.dismissable === true, 'Component is dismissable' );
+    assert.ok( $component.find( 'button.close' ), 'Close button is rendered' );
+    assert.ok( $component.hasClass( 'alert-dismissable' ), 'Dismissable indicator class is applied' );
 });
 
-test( 'Dismiss action is handled', function() {
+test( 'Dismiss action is handled', function( assert ) {
     var component = this.subject({
             dismiss     : 'dismiss',
             dismissable : true,
 
             targetObject: {
                 dismiss: function() {
-                    ok( true, 'Bound dismiss action fired' );
+                    assert.ok( true, 'Bound dismiss action fired' );
                 }
             }
         }),
@@ -34,9 +34,9 @@ test( 'Dismiss action is handled', function() {
     $component.find( 'button.close' ).trigger( 'click' );
 });
 
-test( 'Theme class is applied', function() {
+test( 'Theme class is applied', function( assert ) {
     var component  = this.subject({ theme: 'success' }),
         $component = this.render();
 
-    ok( $component.hasClass( 'alert-success' ), 'Theme class is applied' );
+    assert.ok( $component.hasClass( 'alert-success' ), 'Theme class is applied' );
 });

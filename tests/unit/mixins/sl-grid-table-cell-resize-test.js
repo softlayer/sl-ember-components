@@ -4,9 +4,9 @@ import SlGridTableCellResizeMixin from 'sl-ember-components/mixins/sl-grid-table
 module( 'Unit - mixin: sl-grid-table-cell-resize' );
 
 // Replace this with your real tests.
-test( 'It works', function() {
+test( 'It works', function( assert ) {
     var SlGridTableCellResizeObject = Ember.Component.extend( SlGridTableCellResizeMixin ),
         subject = SlGridTableCellResizeObject.create();
 
-    ok( subject );
+    assert.ok( subject );
 });

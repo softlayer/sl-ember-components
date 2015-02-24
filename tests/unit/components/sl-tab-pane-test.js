@@ -8,42 +8,42 @@ var App;
 moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
     needs: [ 'component:sl-tab-panel' ],
 
-    setup: function() {
+    beforeEach: function() {
         App = startApp();
     },
 
-    teardown: function() {
+    afterEach: function() {
         Ember.run( App, App.destroy );
     }
 });
 
-test( 'Expected default classes are applied', function() {
+test( 'Expected default classes are applied', function( assert ) {
     var $component = this.render();
 
-    ok( contains( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ] ), 'Default classes are not correctly applied' );
+    assert.ok( contains( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ] ), 'Default classes are not correctly applied' );
 });
 
-test( '"data-tab-label" attribute gets set as expected', function() {
+test( '"data-tab-label" attribute gets set as expected', function( assert ) {
     var component  = this.subject({
             label : 'Test Label'
         });
 
     this.render();
 
-    equal( $('.sl-tab-pane[data-tab-label="Test Label"]').length, 1 );
+    assert.equal( $('.sl-tab-pane[data-tab-label="Test Label"]').length, 1 );
 });
 
-test( '"data-tab-name" attribute gets set as expected', function() {
+test( '"data-tab-name" attribute gets set as expected', function( assert ) {
     var component  = this.subject({
             name : 'Test Name'
         });
 
     this.render();
 
-    equal( $('.sl-tab-pane[data-tab-name="Test Name"]').length, 1 );
+    assert.equal( $('.sl-tab-pane[data-tab-name="Test Name"]').length, 1 );
 });
 
-test( 'Can provide content in block form', function() {
+test( 'Can provide content in block form', function( assert ) {
     var component  = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-panel}}' +
@@ -58,7 +58,7 @@ test( 'Can provide content in block form', function() {
     equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
 });
 
-test( 'Can provide content via "templateName" property', function() {
+test( 'Can provide content via "templateName" property', function( assert ) {
     var component  = this.subject({
             template : Ember.Handlebars.compile(
                 '{{#sl-tab-panel}}' +
@@ -74,5 +74,5 @@ test( 'Can provide content via "templateName" property', function() {
 
     this.render();
 
-    equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B template content' );
+    assert.equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B template content' );
 });
