@@ -1,5 +1,21 @@
 # sl-ember-components Changelog
 
+### 0.8.0
+
+* [#167](https://github.com/softlayer/sl-ember-components/pull/167) [ENHANCEMENT] Overwrite Font Awesome fonts if already in application tree
+* [INTERNAL] Increase test coverage
+* [INTERNAL] Refactor tests
+* [#266](https://github.com/softlayer/sl-ember-components/pull/266) [BREAKING ENHANCEMENT] Remove es5-shim
+* [#271](https://github.com/softlayer/sl-ember-components/pull/271) [BREAKING ENHANCEMENT] Upgrade to Ember CLI 0.1.15
+* [#276](https://github.com/softlayer/sl-ember-components/pull/276) [ENHANCEMENT] Update sl-ember-test-helpers to 1.3.0
+* [#279](https://github.com/softlayer/sl-ember-components/pull/279) [EHHANCEMENT] Removed ember-cli-6to5 3.0.0. Added ember-cli-babel 4.0.0
+* [#280](https://github.com/softlayer/sl-ember-components/pull/280) [DOCUMENATION] Update installation instructions
+* [#283](https://github.com/softlayer/sl-ember-components/pull/283) [INTERNAL] Replaced instances of `Ember.A()` with `[]`
+* [#284](https://github.com/softlayer/sl-ember-components/pull/284) [ENHANCEMENT] Update sl-ember-translate to 1.4.0
+* [#286](https://github.com/softlayer/sl-ember-components/pull/286) [BUGFIX] Closes [#130](https://github.com/softlayer/sl-ember-components/issues/130) - Keyboard shortcuts not working correctly in menu
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.7.0...v0.8.0)
+
 ### 0.7.0
 
 * [#159](https://github.com/softlayer/sl-ember-components/pull/159) [BREAKING ENHANCEMENT] Upgrade to Ember CLI 0.1.5
