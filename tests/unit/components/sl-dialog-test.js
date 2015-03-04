@@ -57,7 +57,7 @@ test( '"title" is rendered as span with "modal-title" class if populated', funct
     assert.equal( $.trim( $('.modal-title').text() ), testTitle );
 });
 
-test( 'There are more tests to write', function( assert ) {
+QUnit.skip( 'There are more tests to write', function( assert ) {
     assert.expect(0);
 
 // remaining tests to write:

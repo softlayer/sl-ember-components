@@ -54,19 +54,17 @@ test( 'Button supports disabled state', function( assert ) {
  * While it appears that core Ember functionality is being tested this test is ensuring
  * that the implied contract about which DOM element is rendered is adhered to.
  */
-/*
-test( 'Renders as a button tag', function( assert ) {
+QUnit.skip( 'Renders as a button tag', function( assert ) {
 });
 
-test( 'Expected default classes are applied', function( assert ) {
+QUnit.skip( 'Expected default classes are applied', function( assert ) {
 });
 
-test( 'Labels are correctly initialized', function( assert ) {
+QUnit.skip( 'Labels are correctly initialized', function( assert ) {
 });
 
-test( 'sizeClass() returns correct values', function( assert ) {
+QUnit.skip( 'sizeClass() returns correct values', function( assert ) {
 });
 
-test( 'themeClass() returns correct value', function( assert ) {
+QUnit.skip( 'themeClass() returns correct value', function( assert ) {
 });
-*/
