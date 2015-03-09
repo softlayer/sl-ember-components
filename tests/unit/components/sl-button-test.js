@@ -50,21 +50,38 @@ test( 'Button supports disabled state', function( assert ) {
     assert.equal( $component.is( ':disabled' ), true );
 });
 
-/**
- * While it appears that core Ember functionality is being tested this test is ensuring
- * that the implied contract about which DOM element is rendered is adhered to.
- */
-QUnit.skip( 'Renders as a button tag', function( assert ) {
+test( 'Renders as a button tag', function( assert ) {
+    var component  = this.subject(),
+        $component = this.render();
+
+    assert.ok( $component.is( 'button' ), 'Is a <button>' );
 });
 
-QUnit.skip( 'Expected default classes are applied', function( assert ) {
+test( 'Expected default classes are applied', function( assert ) {
+    var component  = this.subject(),
+        $component = this.render();
+
+    assert.ok( $component.hasClass( 'btn' ), 'Has class "btn"' );
+    assert.ok( $component.hasClass( 'sl-button' ), 'Has class "sl-button"' );
 });
 
-QUnit.skip( 'Labels are correctly initialized', function( assert ) {
+test( 'Labels are correctly initialized', function( assert ) {
+    var component  = this.subject({ label: 'Test' }),
+        $component = this.render();
+
+    assert.equal( Ember.$.trim( $component.text() ), 'Test' );
 });
 
-QUnit.skip( 'sizeClass() returns correct values', function( assert ) {
+test( 'sizeClass() returns correct values', function( assert ) {
+    var component  = this.subject({ size: 'large' }),
+        $component = this.render();
+
+    assert.equal( component.get( 'sizeClass' ), 'btn-lg' );
 });
 
-QUnit.skip( 'themeClass() returns correct value', function( assert ) {
+test( 'themeClass() returns correct value', function( assert ) {
+    var component  = this.subject({ theme: 'success' }),
+        $component = this.render();
+
+    assert.equal( component.get( 'themeClass' ), 'btn-success' );
 });
