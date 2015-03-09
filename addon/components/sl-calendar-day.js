@@ -43,6 +43,32 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Properties
 
+    /**
+     * Whether the calendar day this cell represents is actively selected day
+     *
+     * @property {boolean} active
+     * @default  false
+     */
+    active: false,
+
+    /**
+     * Whether the calendar day this cell represents is part of the next month
+     * in the primary calendar view
+     *
+     * @property {boolean} new
+     * @default  false
+     */
+    'new': false,
+
+    /**
+     * Whether the calendar day this cell represents is part of the previous
+     * month in the primary calendar view
+     *
+     * @property {boolean} old
+     * @default  false
+     */
+    old: false,
+
     // -------------------------------------------------------------------------
     // Observers
 
