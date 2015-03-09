@@ -21,6 +21,13 @@ export default Ember.Component.extend({
     tagName: 'div',
 
     /**
+     * Attribute bindings for the root element
+     *
+     * @property {Ember.Array} attributeBindings
+     */
+    attributeBindings: [ 'disabled' ],
+
+    /**
      * Class names for the root element
      *
      * @property {Ember.Array} classNames
@@ -42,6 +49,14 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether the component is in the disabled state or not
+     *
+     * @property {boolean} disabled
+     * @default  false
+     */
+    disabled: false,
 
     // -------------------------------------------------------------------------
     // Observers

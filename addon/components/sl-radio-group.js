@@ -61,6 +61,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     inline: null,
 
+    /**
+     * Whether the radio buttons should be readonly
+     *
+     * @property {boolean} readonly
+     * @default  false
+     */
+    readonly: false,
+
     // -------------------------------------------------------------------------
     // Observers
 
@@ -88,17 +96,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
          */
         this.$( '.sl-radio' ).each( function () {
             var radio = Ember.$( this ),
-                input = Ember.$( 'input', radio );
+                input = Ember.$( 'input', this );
 
             input.attr( 'name', name );
 
             if ( isDisabled ) {
-                radio.prop( 'disabled', true );
+                input.prop( 'disabled', true );
                 radio.addClass( 'disabled' );
             }
 
             if ( isReadonly ) {
-                radio.prop( 'readonly', true );
+                input.prop( 'readonly', true );
                 radio.addClass( 'readonly' );
             }
 
@@ -119,10 +127,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
 
         // Apply change() listener to keep group value in sync with select sl-radio option
-        Ember.run.bind( this, this.$('input[name=' + name + ']:radio').change( function () {
+        this.$('input[name=' + name + ']:radio').change( Ember.run.bind( this, function () {
             this.set( 'value', this.$('input[name=' + name + ']:radio').filter(':checked').val() );
         }));
-
     }.on( 'didInsertElement' ),
 
     /**
