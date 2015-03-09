@@ -39,7 +39,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether to animate the progress bar or not
      *
-     * @property {boolean} active
+     * @property {boolean} animated
      * @default  false
      */
     animated: false,
@@ -51,6 +51,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @default  false
      */
     label: false,
+
+    /**
+     * Whether to style the progress bar with stripes
+     *
+     * @property {boolean} striped
+     * @default  false
+     */
+    striped: false,
 
     /**
      * The Bootstrap "theme" style name
