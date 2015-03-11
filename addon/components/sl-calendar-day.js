@@ -52,6 +52,14 @@ export default Ember.Component.extend({
     active: false,
 
     /**
+     * The various data representing the day (created and passed in through sl-calendar)
+     *
+     * @property {object} content
+     * @default  {}
+     */
+    content: {},
+
+    /**
      * Whether the calendar day this cell represents is part of the next month
      * in the primary calendar view
      *

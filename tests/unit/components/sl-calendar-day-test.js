@@ -50,19 +50,22 @@ test( 'Property "day" populates component content', function( assert ) {
     assert.strictEqual( Ember.$.trim( $component.text() ), '42', '"day" value is set to element content' );
 });
 
-test( 'Action bindings sends action', function( assert ) {
-    var component = this.subject({
+test( 'Action bindings sends action with expected day content', function( assert ) {
+    var dayContent = { day: 42 },
+        $component;
+
+    this.subject({
         action: 'test',
+        content: dayContent,
         targetObject: {
-            test: function() {
-                assert.ok( true, 'Test action fired' );
+            test: function( content ) {
+                assert.strictEqual( content, dayContent, 'Test action fired with expected value' );
             }
         }
     });
+    $component = this.render();
 
     assert.expect( 1 );
 
-    this.render();
-
-    component.triggerAction();
+    $component.trigger( 'click' );
 });
