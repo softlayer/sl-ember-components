@@ -42,8 +42,27 @@ test( 'Old state is applied correctly', function( assert ) {
 });
 
 test( 'Property "day" populates component content', function( assert ) {
-    var component  = this.subject({ day: 42 }),
-        $component = this.render();
+    var $component;
+
+    this.subject({ day: 42 });
+    $component = this.render();
 
     assert.strictEqual( Ember.$.trim( $component.text() ), '42', '"day" value is set to element content' );
+});
+
+test( 'Action bindings sends action', function( assert ) {
+    var component = this.subject({
+        action: 'test',
+        targetObject: {
+            test: function() {
+                assert.ok( true, 'Test action fired' );
+            }
+        }
+    });
+
+    assert.expect( 1 );
+
+    this.render();
+
+    component.triggerAction();
 });
