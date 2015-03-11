@@ -6,8 +6,10 @@ moduleForComponent( 'sl-tab-panel', 'Unit - component: sl-tab-panel', {
 });
 
 test( 'Expected default classes are applied', function( assert ) {
-    var component  = this.subject(),
-        $component = this.render();
+    var $component;
+
+    this.subject();
+    $component = this.render();
 
     assert.ok( $component.hasClass( 'sl-tab-panel' ), 'Has class "sl-tab-panel"' );
     assert.ok( $component.hasClass( 'sl-align-tabs-left' ), 'Has class "sl-align-tabs-left"' );
@@ -43,14 +45,16 @@ test( 'setupTabs() does so correctly', function( assert ) {
 });
 
 test( 'ARIA roles are implemented', function( assert ) {
-    var component = this.subject({
-            template : Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        $component = this.render();
+    var $component;
+
+    this.subject({
+        template : Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
+        )
+    });
+    $component = this.render();
 
     assert.equal( $component.find( '.nav-tabs[role="tablist"]' ).length, 1 );
     assert.equal( $component.find( '.tab a[role="tab"]' ).length, 3 );
@@ -79,26 +83,30 @@ test( '"initialTabName" property is respected', function( assert ) {
 });
 
 test( '"alignTabs" property is respected', function( assert ) {
-    var component  = this.subject({
-            alignTabs : 'right'
-        }),
-        $component = this.render();
+    var $component;
+
+    this.subject({
+        alignTabs : 'right'
+    });
+    $component = this.render();
 
     assert.ok( $component.hasClass( 'sl-align-tabs-right' ), 'Tab alignment class is applied' );
 });
 
 test( 'Tabs display in expected order when "alignTabs" property is not specified', function( assert ) {
-    var component  = this.subject({
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        $component = this.render(),
-        labels     = [];
+    var labels = [],
+        $component;
 
-    $( '.tab[data-tab-name]' ).each( function() {
+    this.subject({
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
+        )
+    });
+    $component = this.render();
+
+    $component.find( '.tab[data-tab-name]' ).each( function() {
         labels.push( $( this ).attr( 'data-tab-name' ) );
     });
 
@@ -164,9 +172,10 @@ test( '"activatePane" animates as expected', function( assert ) {
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
-        spy        = sinon.spy( $.prototype, 'fadeIn' ),
-        $component = this.render(),
-        done       = assert.async();
+        spy  = sinon.spy( $.prototype, 'fadeIn' ),
+        done = assert.async();
+
+    this.render();
 
     assert.expect( 1 );
 
@@ -206,9 +215,10 @@ test( '"deactivatePane" calls specified callback', function( assert ) {
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
-        $component = this.render(),
-        callback   = sinon.spy(),
-        done       = assert.async();
+        callback = sinon.spy(),
+        done     = assert.async();
+
+    this.render();
 
     assert.expect( 1 );
 
