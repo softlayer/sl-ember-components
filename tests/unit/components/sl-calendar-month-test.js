@@ -28,21 +28,23 @@ test( 'Active state is set correctly', function( assert ) {
     assert.ok( $component.hasClass( 'active' ), '"active" class is present' );
 });
 
-test( 'Action binding sends action', function( assert ) {
-    var component = this.subject({
+test( 'Action binding sends action with month', function( assert ) {
+    var $component;
+
+    this.subject({
         action: 'test',
+        month: 6,
         targetObject: {
-            test: function() {
-                assert.ok( true, 'Test action fired' );
+            test: function( month ) {
+                assert.equal( month, 6, 'Test action fired with expected month' );
             }
         }
     });
+    $component = this.render();
 
     assert.expect( 1 );
 
-    this.render();
-
-    component.triggerAction();
+    $component.trigger( 'click' );
 });
 
 test( 'Short name property is invalid without month', function( assert ) {
