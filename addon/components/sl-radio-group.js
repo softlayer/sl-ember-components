@@ -62,12 +62,28 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     inline: null,
 
     /**
+     * The "name" attribute for the children radio buttons
+     *
+     * @property {string} name
+     * @default  null
+     */
+    name: null,
+
+    /**
      * Whether the radio buttons should be readonly
      *
      * @property {boolean} readonly
      * @default  false
      */
     readonly: false,
+
+    /**
+     * The component's current value property
+     *
+     * @property {string} value
+     * @default  null
+     */
+    value: null,
 
     // -------------------------------------------------------------------------
     // Observers
