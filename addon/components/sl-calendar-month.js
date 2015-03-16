@@ -55,6 +55,23 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Properties
 
+    /**
+     * Whether the month that this component represents is selected by the
+     * overall calendar component
+     *
+     * @property {boolean} active
+     * @default  false
+     */
+    active: false,
+
+    /**
+     * The number of the month (1-12)
+     *
+     * @property {number} month
+     * @default  null
+     */
+    month: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
