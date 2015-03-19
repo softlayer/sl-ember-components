@@ -27,7 +27,8 @@
     "tabs",
     "tooltip",
     "progress bar",
-    "modal"
+    "modal",
+    "bootstrap
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
