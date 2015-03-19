@@ -67,23 +67,14 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-input
-    type="number"
-    value=dynamicValue
-}}
-\{{sl-progress-bar
-    label=true
-    value=dynamicValue
-}}</pre>
+        <pre>\{{sl-input type="number" value=dynamicValue}}
+\{{sl-progress-bar label=true value=dynamicValue}}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        Dynamic value input: {{sl-input min="0" max="100" step="1" type="number" value=dynamicValue}}
-        {{sl-progress-bar
-            label=true
-            value=dynamicValue
-        }}
+        Dynamic value input: {{sl-input type="number" value=dynamicValue}}
+        {{sl-progress-bar label=true value=dynamicValue}}
     </div>
 </div>
 
