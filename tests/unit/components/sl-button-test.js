@@ -51,24 +51,19 @@ test( 'Button supports disabled state', function( assert ) {
 });
 
 /**
- * While it appears that core Ember functionality is being tested this test is ensuring
- * that the implied contract about which DOM element is rendered is adhered to.
+ * While it appears that core Ember functionality is being tested this test is
+ * ensuring that the implied contract about which DOM element is rendered is
+ * adhered to.
  */
 
 test( 'Renders as a button tag', function( assert ) {
-    var $component;
-
-    this.subject();
-    $component = this.render();
+    var $component = this.render();
 
     assert.ok( $component.is( 'button' ), 'Is a <button>' );
 });
 
 test( 'Expected default classes are applied', function( assert ) {
-    var $component;
-
-    this.subject();
-    $component = this.render();
+    var $component = this.render();
 
     assert.ok( $component.hasClass( 'btn' ), 'Has class "btn"' );
     assert.ok( $component.hasClass( 'sl-button' ), 'Has class "sl-button"' );
