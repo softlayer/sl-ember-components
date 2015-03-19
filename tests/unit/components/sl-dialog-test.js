@@ -57,11 +57,30 @@ test( '"title" is rendered as span with "modal-title" class if populated', funct
     assert.equal( $.trim( $('.modal-title').text() ), testTitle );
 });
 
+test( 'The show property toggles the component', function( assert ) {
+    var component  = this.subject(),
+        $component = this.render();
+
+    assert.strictEqual( component.get( 'show' ), false, 'Component is in hidden state initially' );
+    assert.strictEqual( $component.is( ':visible' ), false, 'Element is hidden initially' );
+
+    Ember.run( function() {
+        component.set( 'show', true );
+    });
+    assert.strictEqual( $component.is( ':visible' ), true, 'Element is visible after first toggle' );
+
+    /*
+    Ember.run( function() {
+        component.set( 'show', false );
+    });
+    assert.strictEqual( $component.is( ':visible' ), false, 'Element is hidden again after second toggle' );
+    // */
+});
+
 QUnit.skip( 'There are more tests to write', function( assert ) {
     assert.expect(0);
 
 // remaining tests to write:
-// toggle
 // hideHandler
 // close
 // show
