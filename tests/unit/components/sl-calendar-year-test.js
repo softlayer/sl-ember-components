@@ -46,7 +46,9 @@ test( 'Default state is not active, new, or old', function( assert ) {
 
 test( 'Click event sends action with year value', function( assert ) {
     let exampleYear = 2000,
-        $component = this.render();
+        $component;
+
+    assert.expect( 1 );
 
     this.subject({
         action: 'test',
@@ -60,7 +62,7 @@ test( 'Click event sends action with year value', function( assert ) {
         year: exampleYear
     });
 
-    assert.expect( 1 );
+    $component = this.render();
 
     $component.trigger( 'click' );
 });
