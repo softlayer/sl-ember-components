@@ -3,14 +3,14 @@
         <tr>
             {{#each column in columns}}
                 {{#unless column.hidden}}
-                    {{sl-grid-table-header 
-                        action="sortColumn" 
+                    {{sl-grid-table-header
+                        action="sortColumn"
                         column=column
                         columns=columns
-                        disabled=isLoading 
+                        disabled=isLoading
                         totalWidthHints=totalWidthHints
                         totalFixedWidths=totalFixedWidths
-                        cssThClass=column.cssThClass }} 
+                        cssThClass=column.cssThClass }}
                 {{/unless}}
             {{/each}}
         </tr>
