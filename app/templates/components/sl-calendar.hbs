@@ -9,13 +9,9 @@
                         <th {{action "changeMonth" 1}}class="next"><span class="fa fa-angle-right"></span></th>
                     </tr>
                     <tr>
-                        <th class="dow">{{shortWeekDayName 0}}</th>
-                        <th class="dow">{{shortWeekDayName 1}}</th>
-                        <th class="dow">{{shortWeekDayName 2}}</th>
-                        <th class="dow">{{shortWeekDayName 3}}</th>
-                        <th class="dow">{{shortWeekDayName 4}}</th>
-                        <th class="dow">{{shortWeekDayName 5}}</th>
-                        <th class="dow">{{shortWeekDayName 6}}</th>
+                        {{#each day in shortWeekDayNames}}
+                            <th class="dow">{{day}}</th>
+                        {{/each}}
                     </tr>
                 </thead>
                 <tbody>

@@ -368,14 +368,21 @@ export default Ember.Component.extend({
     }.property( 'contentDates', 'currentYear' ),
 
     /**
-     * The abbreviated, formatted day name of the week day
+     * An array of abbreviated, formatted day names of each week day
      *
-     * @function shortWeekDayName
-     * @returns  {Ember.String}
+     * @property {array} shortWeekDayNames
      */
-    shortWeekDayName: function( weekday ) {
-        return moment().day( weekday ).format( 'dd' );
-    },
+    shortWeekDayNames: function() {
+        return [
+            moment().day( 0 ).format( 'dd' ),
+            moment().day( 1 ).format( 'dd' ),
+            moment().day( 2 ).format( 'dd' ),
+            moment().day( 3 ).format( 'dd' ),
+            moment().day( 4 ).format( 'dd' ),
+            moment().day( 5 ).format( 'dd' ),
+            moment().day( 6 ).format( 'dd' )
+        ];
+    }.property(),
 
     /**
      * Whether the current view is "days"
