@@ -4,7 +4,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent( 'sl-calendar-year', 'Unit - component: sl-calendar-year' );
 
 test( 'Default state is not active, new, or old', function( assert ) {
-    let component  = this.subject(),
+    var component  = this.subject(),
         $component = this.render();
 
     assert.strictEqual(
@@ -45,7 +45,7 @@ test( 'Default state is not active, new, or old', function( assert ) {
 });
 
 test( 'Click event sends action with year value', function( assert ) {
-    let exampleYear = 2000,
+    var exampleYear = 2000,
         $component;
 
     assert.expect( 1 );
