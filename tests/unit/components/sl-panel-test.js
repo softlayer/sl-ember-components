@@ -4,7 +4,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent( 'sl-panel', 'Unit - component: sl-panel' );
 
 test( 'Default classes are present', function( assert ) {
-    let $component = this.render();
+    var $component = this.render();
 
     assert.ok(
         $component.hasClass( 'panel' ),
@@ -23,7 +23,7 @@ test( 'Default classes are present', function( assert ) {
 });
 
 test( 'Loading state applies class name', function( assert ) {
-    let component  = this.subject(),
+    var component  = this.subject(),
         $component = this.render();
 
     assert.strictEqual(
@@ -43,7 +43,7 @@ test( 'Loading state applies class name', function( assert ) {
 });
 
 test( 'Valid heading value renders panel-heading', function( assert ) {
-    let component  = this.subject(),
+    var component  = this.subject(),
         $component = this.render();
 
     assert.strictEqual(
