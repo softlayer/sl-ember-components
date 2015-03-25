@@ -15,7 +15,7 @@ test( '"value" property is supported', function( assert ) {
 });
 
 test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
-    let component  = this.subject({
+    var component  = this.subject({
             loading: true
         }),
         $component = this.render();

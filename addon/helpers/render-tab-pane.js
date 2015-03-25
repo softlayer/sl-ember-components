@@ -12,7 +12,7 @@ import Ember from 'ember';
  * @return   {string} The rendered template
  */
 export default function( templateKey, options ) {
-    let templateName = this.get( `context.${templateKey}` );
+    var templateName = this.get( `context.${templateKey}` );
 
     return Ember.Handlebars.helpers.render.helperFunction.call( this, [ templateName ], options, options, options );
 }

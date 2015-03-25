@@ -17,7 +17,7 @@ moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
 });
 
 test( 'Expected default classes are applied', function( assert ) {
-    let $component = this.render();
+    var $component = this.render();
 
     assert.ok(
         $component.hasClass( 'sl-tab-pane' ),
@@ -31,9 +31,11 @@ test( 'Expected default classes are applied', function( assert ) {
 });
 
 test( '"data-tab-label" attribute gets set as expected', function( assert ) {
-    let label = 'Test Label';
+    var label = 'Test Label',
+        $component;
+
     this.subject({ label });
-    let $component = this.render();
+    $component = this.render();
 
     assert.strictEqual(
         $component.attr( 'data-tab-label' ),
@@ -43,9 +45,11 @@ test( '"data-tab-label" attribute gets set as expected', function( assert ) {
 });
 
 test( '"data-tab-name" attribute gets set as expected', function( assert ) {
-    let name = 'Test Name';
+    var name = 'Test Name',
+        $component;
+
     this.subject({ name });
-    let $component = this.render();
+    $component = this.render();
 
     assert.equal(
         $component.attr( 'data-tab-name' ),
@@ -55,6 +59,8 @@ test( '"data-tab-name" attribute gets set as expected', function( assert ) {
 });
 
 test( 'Can provide content in block form', function( assert ) {
+    var $component;
+
     this.subject({
         template: Ember.Handlebars.compile(
             '{{#sl-tab-panel}}' +
@@ -64,7 +70,7 @@ test( 'Can provide content in block form', function( assert ) {
         )
     });
 
-    let $component = this.render();
+    $component = this.render();
 
     assert.equal(
         Ember.$.trim( $component.find( '.sl-tab-pane[data-tab-name="b"]' ).text() ),
@@ -74,10 +80,11 @@ test( 'Can provide content in block form', function( assert ) {
 });
 
 test( 'Can provide content via "templateName" property', function( assert ) {
-    let templateContent = 'Template content',
+    var templateContent = 'Template content',
         component = this.subject({
             templateName: 'tabtest'
-        });
+        }),
+        $component;
 
     window.component = component;
 
@@ -88,7 +95,7 @@ test( 'Can provide content via "templateName" property', function( assert ) {
     App.__container__.register( 'view:tabtest', Ember.View.extend() );
     component.set( 'container', App.__container__ );
 
-    let $component = this.render();
+    $component = this.render();
 
     assert.equal(
         Ember.$.trim( $component.text() ),
