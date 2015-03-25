@@ -11,7 +11,7 @@
         <pre>&lt;p&gt;
     Loads in 5 seconds:&amp;emsp;\{{sl-span
         class="text-success"
-        isLoading=isLoading
+        loading=isLoading
         value="Done!"
     }}
 &lt;/p&gt;</pre>
@@ -21,7 +21,7 @@
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        <p>Loads in 5 seconds:&emsp;{{sl-span class="text-success" isLoading=isLoading value="Done!"}}</p>
+        <p>Loads in 5 seconds:&emsp;{{sl-span class="text-success" loading=isLoading value="Done!"}}</p>
     </div>
 </div>
 
@@ -30,16 +30,15 @@
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="value" type="mixed"}}
-        The value to display once loaded/ready.
-    {{/property-text}}
-
     {{#property-text name="class" type="string"}}
         The <code>class</code> attribute to apply to the span.
     {{/property-text}}
 
-    {{#property-text name="isLoading" type="boolean" default="false"}}
+    {{#property-text name="loading" type="boolean" default="false"}}
         When true, a loading icon will be displayed in place of content.
     {{/property-text}}
 
+    {{#property-text name="value" type="mixed"}}
+        The value to display once loaded/ready.
+    {{/property-text}}
 </div>

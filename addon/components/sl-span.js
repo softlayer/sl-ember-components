@@ -32,10 +32,10 @@ export default Ember.Component.extend({
     /**
      * Whether to show the loading icon or content
      *
-     * @property {boolean} isLoading
+     * @property {boolean} loading
      * @default  false
      */
-    isLoading: false
+    loading: false
 
     // -------------------------------------------------------------------------
     // Observers

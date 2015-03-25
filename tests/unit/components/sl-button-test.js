@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import SlButton from 'sl-ember-components/components/sl-button';
 
 moduleForComponent( 'sl-button', 'Unit - component: sl-button' );
 

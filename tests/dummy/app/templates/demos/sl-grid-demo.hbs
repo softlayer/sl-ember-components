@@ -65,16 +65,16 @@
     <div class="list-group">
 
         {{#property-text name="gridDefinition.columns" type="array" required=true}}
-            <p>An array of column definitions.  This is required in your `gridDefinition`</p>
+            An array of column definitions.  This is required in your `gridDefinition`.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.options" required=true}}
-            <p>Option object holds all of the option settings for your grid</p>
+            Option object holds all of the option settings for your grid.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.options.rowExpander" type="boolean"}}
             <p>Option to enable the `rowExpander` functionality.</p>
-            <p>If enabled, specify the `rowExpanderComponent'
+            <p>If enabled, specify the `rowExpanderComponent'.</p>
 
             <p>Here is the specification from this demo's `itemController`:
                 <pre>rowExpanderComponent: 'row-expander-content'</pre>
@@ -92,71 +92,71 @@
         {{/property-text}}
 
         {{#property-text name="gridDefinition.options.settingsMenu.actions[].icon" type="string"}}
-            <p>A path to an icon image to be used in this entry in the actions menu.</p>
+            A path to an icon image to be used in this entry in the actions menu.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.options.settingsMenu.actions[].label" type="string"}}
-            <p>A key that will be used by sl-translate to generate a translated string to display to the user, specifically for this entry in the actions menu.</p>
+            A key that will be used by sl-translate to generate a translated string to display to the user, specifically for this entry in the actions menu.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.options.settingsMenu.actions[].action" type="string"}}
-            <p>The action to invoke on your grid `arrayController`.</p>
+            The action to invoke on your grid `arrayController`.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.options.settingsMenu.hideableColumns" type="boolean"}}
-            <p>Whether to show the `hideable` column checkboxes in the settings menu</p>
+            Whether to show the `hideable` column checkboxes in the settings menu.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].cssClass" type="string"}}
-            <p>An optional css class to apply to each cell<p>
+            An optional css class to apply to each cell.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].cssThClass" type="string"}}
-            <p>An optional css class to apply to each header cell<p>
+            An optional css class to apply to each header cell.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].component" type="string"}}
-            <p>The component to be rendered into each cell in this column.  The default is `sl-grid-table-cell`.</p>
+            The component to be rendered into each cell in this column.  The default is `sl-grid-table-cell`.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].defaultText" type="string"}}
-            <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
+            A key that will be used by sl-translate to generate a translated string to display to the user in the column header.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].fixedWidth" type="number"}}
-            <p>An integer that specifies the width of this column in pixels.  Setting a column to a fixedWidth will cause it not to be used in the calculations for widthHints</p>
+            An integer that specifies the width of this column in pixels.  Setting a column to a fixedWidth will cause it not to be used in the calculations for widthHints.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].hideable" type="string"}}
-            <p>Whether this column is hideable, requires the settings menu to have `hideableColumns` set to `true`</p>
+            Whether this column is hideable, requires the settings menu to have `hideableColumns` set to `true`
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].key" type="string"}}
-            <p>The key to the object on this array entry that will be used for this column</p>
+            The key to the object on this array entry that will be used for this column.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].link" type="string"}}
-            <p>The ember route to link to if you are using the `sl-grid-table-cell-link` component.</p>
+            The ember route to link to if you are using the `sl-grid-table-cell-link` component.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].movable" type="boolean"}}
-            <p>Whether this column's position can be changed by dragging the header.  Defaults to true.  Movable columns can not be dragged past unmovable columns.</p>
+            Whether this column's position can be changed by dragging the header.  Defaults to true.  Movable columns can not be dragged past unmovable columns.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].resizable" type="boolean"}}
-            <p>Whether this column is resizable</p>
+            Whether this column is resizable.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].sortable" type="string"}}
-            <p>Whether this column is sortable</p>
+            Whether this column is sortable.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].title" type="string"}}
-            <p>A key that will be used by sl-translate to generate a translated string to display to the user in the column header</p>
+            A key that will be used by sl-translate to generate a translated string to display to the user in the column header.
         {{/property-text}}
 
         {{#property-text name="gridDefinition.columns[].widthHint" type="number"}}
-            <p>An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If the first column gets a width hint of `2` and the rest of the columns have width hints of `1` then the first column will initially render with a width twice as large as the rest.  All columns are assumed to have a widthHint of `1` unless they have `fixedWidth` specified.
+            An integer that will give 'hints' to the table layout for column sizing.  These sizes are relative.  If the first column gets a width hint of `2` and the rest of the columns have width hints of `1` then the first column will initially render with a width twice as large as the rest.  All columns are assumed to have a widthHint of `1` unless they have `fixedWidth` specified.
         {{/property-text}}
     </div>
 
@@ -247,11 +247,11 @@
         <p>A controller using the <em>sl-grid-controller</em> mixin should also use this mixin when it is desired to bind keyboard events to any of the following supported actions on the grid:</p>
 
         <ul>
-        <li>navigate to the first page of records</li>
-        <li>navigate to the last page of records</li>
-        <li>navigate to the next page of records</li>
-        <li>navigate to the previous page of records</li>
-        <li>refresh the grid</li>
+            <li>navigate to the first page of records</li>
+            <li>navigate to the last page of records</li>
+            <li>navigate to the next page of records</li>
+            <li>navigate to the previous page of records</li>
+            <li>refresh the grid</li>
         </ul>
   </div>
 </div>
@@ -262,7 +262,7 @@
 <div class="list-group">
     <div class="list-group-item">
         <h6>sl-grid/table</h6>
-        <p>View this partial to get an idea of how the grid layout works.  The grid is an integrated system and most of the components will not work in isolation.</p>
+        <p>View this partial to get an idea of how the grid layout works. The grid is an integrated system and most of the components will not work in isolation.</p>
     </div>
 </div>
 
@@ -283,7 +283,7 @@
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-cell-row-expander</h6>
-        <p>Used by the grid to show/hide the sl-grid-table-row-expander component.  The <code>gridDefinition.options.rowExpander</code> setting must be set to true in able to use the row-expander.
+        <p>Used by the grid to show/hide the sl-grid-table-row-expander component.  The <code>gridDefinition.options.rowExpander</code> setting must be set to true in able to use the row-expander.</p>
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-column-resize</h6>
@@ -291,7 +291,7 @@
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-header</h6>
-        <p>This component displays the <code>th</code> table header cell and implements the <code>widthHinting</code> and column reordering functionality.
+        <p>This component displays the <code>th</code> table header cell and implements the <code>widthHinting</code> and column reordering functionality.</p>
     </div>
     <div class="list-group-item">
         <h6>sl-grid-table-row-expander</h6>
