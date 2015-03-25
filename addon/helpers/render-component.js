@@ -23,8 +23,8 @@ export default {
     helperFunction( properties, hash, options, env) {
         var path = Ember.get( properties[ 0 ], '_label' );
 
-        hash[ 'componentName' ] = Ember.get( this, `_keywords.${path}` ),
-        hash['_dynamicOptions'] = hash;
+        hash[ 'componentName' ] = Ember.get( this, `_keywords.${path}` );
+        hash[ '_dynamicOptions' ] = hash;
 
         return env.helpers.view.helperFunction.call(
             this, [ RenderComponentView ], hash, options, env
