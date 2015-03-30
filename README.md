@@ -219,7 +219,7 @@ Employs [Semantic Versioning 2.0.0](http://semver.org/)
 ---
 
 # Copyright and License
-sl-ember-components and its source files are Copyright © 2014 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
+sl-ember-components and its source files are Copyright © 2014-2015 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
 The software is [MIT Licensed](LICENSE.md)
 
 sl-ember-components leverages several third-party libraries which are not all MIT licensed.  Specifically, Highcharts is only
