@@ -52,7 +52,7 @@ export default Ember.Component.extend({
                 return;
             }
 
-            this.set( 'decadeStart', this.get( 'decadeStart' ) + ( 10 * decadeMod ) );
+            this.incrementProperty( 'decadeStart', 10 * decadeMod );
         },
 
         /**
@@ -106,7 +106,7 @@ export default Ember.Component.extend({
                 return;
             }
 
-            this.set( 'currentYear', this.get( 'currentYear' ) + yearMod );
+            this.incrementProperty( 'currentYear', yearMod );
         },
 
         /**
@@ -182,6 +182,14 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Array of date value objects
+     *
+     * @property {array} content
+     * @default  []
+     */
+    content: [],
 
     /**
      * The currently selected/viewed month (1-12)
