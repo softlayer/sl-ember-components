@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
          * @function actions.viewDidInsertElement
          * @returns  {void}
          */
-        viewDidInsertElement: function() {
+        viewDidInsertElement() {
             this.bindKeys();
         },
 
@@ -38,7 +38,7 @@ export default Ember.Mixin.create({
          * @function actions.viewWillDestroyElement
          * @returns  {void}
          */
-        viewWillDestroyElement: function() {
+        viewWillDestroyElement() {
             this.unbindKeys();
         }
     },
@@ -69,7 +69,7 @@ export default Ember.Mixin.create({
      * @function bindKeys
      * @returns  {void}
      */
-    bindKeys: function() {
+    bindKeys() {
         this.get( 'gridKeyManager' )
             .on( 'keyMapGridFirstPage', this, this.firstPage )
             .on( 'keyMapGridLastPage', this, this.lastPage )
@@ -84,7 +84,7 @@ export default Ember.Mixin.create({
      * @function firstPage
      * @returns  {void}
      */
-    firstPage: function() {
+    firstPage() {
         this.send( 'changePage', 'first' );
     },
 
@@ -94,7 +94,7 @@ export default Ember.Mixin.create({
      * @function lastPage
      * @returns  {void}
      */
-    lastPage: function() {
+    lastPage() {
         this.send( 'changePage', 'last' );
     },
 
@@ -104,7 +104,7 @@ export default Ember.Mixin.create({
      * @function nextPage
      * @returns  {void}
      */
-    nextPage: function() {
+    nextPage() {
         this.send( 'changePage', 'next' );
     },
 
@@ -114,7 +114,7 @@ export default Ember.Mixin.create({
      * @function prevPage
      * @returns  {void}
      */
-    prevPage: function() {
+    prevPage() {
         this.send( 'changePage', 'prev' );
     },
 
@@ -124,7 +124,7 @@ export default Ember.Mixin.create({
      * @function refresh
      * @returns  {void}
      */
-    refresh: function() {
+    refresh() {
         this.send( 'reload' );
     },
 
@@ -134,7 +134,7 @@ export default Ember.Mixin.create({
      * @function unbindKeys
      * @returns  {void}
      */
-    unbindKeys: function() {
+    unbindKeys() {
         this.get( 'gridKeyManager' )
             .off( 'keyMapGridFirstPage', this, this.firstPage )
             .off( 'keyMapGridLastPage', this, this.lastPage )

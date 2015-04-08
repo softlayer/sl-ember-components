@@ -31,9 +31,9 @@ export default Ember.Mixin.create({
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    notifyDidInsertElement: function() {
+    notifyDidInsertElement: Ember.on( 'didInsertElement', function() {
         this.get( 'controller' ).send( 'viewDidInsertElement' );
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Notify the view's controller by sending "viewWillClearRender"
@@ -42,9 +42,9 @@ export default Ember.Mixin.create({
      * @observes "willClearRender" event
      * @returns  {void}
      */
-    notifyWillClearRender: function() {
+    notifyWillClearRender: Ember.on( 'willClearRender', function() {
         this.get( 'controller' ).send( 'viewWillClearRender' );
-    }.on( 'willClearRender' ),
+    }),
 
     /**
      * Notify the view's controller by sending "viewWillDestroyElement"
@@ -53,9 +53,9 @@ export default Ember.Mixin.create({
      * @observes "willDestroyElement" event
      * @returns  {void}
      */
-    notifyWillDestroyElement: function() {
+    notifyWillDestroyElement: Ember.on( 'willDestroyElement', function() {
         this.get( 'controller' ).send( 'viewWillDestroyElement' );
-    }.on( 'willDestroyElement' ),
+    }),
 
     /**
      * Notify the view's controller by sending "viewWillInsertElement"
@@ -64,9 +64,9 @@ export default Ember.Mixin.create({
      * @observes "willInsertElement" event
      * @returns  {void}
      */
-    notifyWillInsertElement: function() {
+    notifyWillInsertElement: Ember.on( 'willInsertElement', function() {
         this.get( 'controller' ).send( 'viewWillInsertElement' );
-    }.on( 'willInsertElement' )
+    })
 
     // -------------------------------------------------------------------------
     // Methods

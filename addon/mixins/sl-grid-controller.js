@@ -6,7 +6,6 @@ import Ember from 'ember';
  */
 export default Ember.Mixin.create( Ember.Evented, {
 
-
     // -------------------------------------------------------------------------
     // Attributes
 
@@ -28,7 +27,7 @@ export default Ember.Mixin.create( Ember.Evented, {
          * @param   {number} newIndex - The new index number to move the column to
          * @returns {void}
          */
-        reorderColumn: function( oldIndex, newIndex ) {
+        reorderColumn( oldIndex, newIndex ) {
             this.reorderColumn( oldIndex, newIndex );
         },
 
@@ -38,7 +37,7 @@ export default Ember.Mixin.create( Ember.Evented, {
          * @function actions.resetColumns
          * @returns  {void}
          */
-        resetColumns: function() {
+        resetColumns() {
             this.resetColumns();
         },
 
@@ -49,7 +48,7 @@ export default Ember.Mixin.create( Ember.Evented, {
          * @param   {Ember.Object} column - The column to sort
          * @returns {void}
          */
-        sortColumn: function( column ) {
+        sortColumn( column ) {
             Ember.assert( 'column is sortable', Ember.get( column, 'sortable' ) );
             if ( column.get( 'isSorted' ) ) {
                 column.toggleProperty( 'sortAscending' );
@@ -71,7 +70,7 @@ export default Ember.Mixin.create( Ember.Evented, {
          * @param   {Ember.String} columnName - The name of the column to toggle
          * @returns {void}
          */
-        toggleColumnVisibility: function( columnName ) {
+        toggleColumnVisibility( columnName ) {
             var foundColumn = this.get( 'columns' ).findBy( 'key', columnName );
 
             if ( foundColumn ) {
@@ -94,6 +93,7 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @property {Ember.Array} columns
      */
     columns: Ember.computed.alias( 'grid.columns' ),
+
     /**
      * Properties of the filter panel
      *
@@ -141,9 +141,9 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes "init" event
      * @returns  {void}
      */
-    initialize: function() {
+    initialize: Ember.on( 'init', function() {
         this.loadGridDefinition();
-    }.on( 'init' ),
+    }),
 
     /**
      * Run when columns' widths are changed
@@ -152,9 +152,9 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes columns.@each.width
      * @returns  {void}
      */
-    onColumnWidthsChange: function() {
+    onColumnWidthsChange: Ember.observer( 'columns.@each.width', function() {
         Ember.run.debounce( this, 'trigger', 'gridStateChanged', 500 );
-    }.observes( 'columns.@each.width' ),
+    }),
 
     /**
      * Run when itemCountPerPage is changed
@@ -163,9 +163,9 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes itemCountPerPage
      * @returns  {void}
      */
-    onItemCountPerPageChange: function() {
+    onItemCountPerPageChange: Ember.observer( 'itemCountPerPage', function() {
         this.trigger( 'gridStateChanged' );
-    }.observes( 'itemCountPerPage' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -186,11 +186,9 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes columns.@each.hidden
      * @return {number}
      */
-     visibleColumns: function() {
-
+     visibleColumns: Ember.computed( 'columns.@each.hidden', function() {
         return this.get( 'columns' ).rejectBy( 'hidden' ).length;
-
-     }.property( 'columns.@each.hidden' ),
+     }),
 
     /**
      * Placeholder for a grid's definition object
@@ -209,23 +207,25 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @function loadGridDefinition
      * @return {void}
      */
-    loadGridDefinition: function(){
+    loadGridDefinition() {
         var definitions = this.get( 'gridDefinition' ),
-            grid = Ember.Object.create(),
-            columns = Ember.get( definitions, 'columns' ),
-            options = Ember.get( definitions, 'options' );
+            grid        = Ember.Object.create(),
+            columns     = Ember.get( definitions, 'columns' ),
+            options     = Ember.get( definitions, 'options' );
 
-        Ember.assert( 'Grid definition requires a `columns` array',
-            Ember.typeOf( columns  ) === 'array'  &&
-            columns.length );
+        Ember.assert(
+            'Grid definition requires a `columns` array',
+            Ember.typeOf( columns  ) === 'array' && columns.length
+        );
 
-        Ember.assert( 'Grid definition requires a `options` object',
-            Ember.typeOf( options  ) === 'object' );
+        Ember.assert(
+            'Grid definition requires a `options` object',
+            Ember.typeOf( options ) === 'object'
+        );
 
-         Ember.keys( definitions ).forEach( function( key ) {
+        Ember.keys( definitions ).forEach( function( key ) {
             var definition = Ember.get( definitions, key ),
                 setting;
-
 
             switch( Ember.typeOf( definition ) ) {
                 case 'object':
@@ -240,20 +240,23 @@ export default Ember.Mixin.create( Ember.Evented, {
 
                     // We will only add elements that exist on the definition
                     definition.forEach( function( item ) {
-                        Ember.assert( 'Items in arrays on the `definition` must be objects',
-                            Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'object' );
+                        Ember.assert(
+                            'Items in arrays on the `definition` must be objects',
+                            Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'object'
+                        );
 
-                        setting.pushObject( Ember.Object.create( item ) );
+                        setting.push( Ember.Object.create( item ) );
                     });
-
                     break;
 
                 default:
                     setting = definition;
 
             }
+
             Ember.set( grid, key, setting );
         });
+
         this.set( 'grid',  grid );
     },
 
@@ -265,8 +268,8 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @param   {number} newIndex - What to change the column index to
      * @returns {void}
      */
-    reorderColumn: function( oldIndex, newIndex ) {
-        var columns = this.get( 'columns' ),
+    reorderColumn( oldIndex, newIndex ) {
+        var columns = Ember.A( this.get( 'columns' ) ),
             elementToMove;
 
         Ember.assert( 'oldIndex exists', oldIndex < columns.length );
@@ -289,12 +292,12 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @function resetColumns
      * @returns {void}
      */
-    resetColumns: function() {
+    resetColumns() {
         var gridColumnDefs = this.get( 'gridDefinition.columns' ),
             tmpColumns     = [];
 
         gridColumnDefs.forEach( function( columnDef ) {
-           tmpColumns.pushObject( Ember.Object.create( columnDef ) );
+           tmpColumns.push( Ember.Object.create( columnDef ) );
         });
 
         this.set( 'columns', tmpColumns );
@@ -308,11 +311,17 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes columns.@each.sortAscending
      * @returns  {boolean}
      */
-    sortAscending: function() {
-        var sortedColumn = this.getWithDefault( 'columns', [] ).findBy( 'isSorted' );
+    sortAscending: Ember.computed( 'columns.@each.sortAscending', function() {
+        var sortedColumn = Ember.A(
+            Ember.A(
+                this.getWithDefault( 'columns', [] )
+            ).findBy( 'isSorted' )
+        );
 
-        return sortedColumn ? sortedColumn.get( 'sortAscending' ) : undefined;
-    }.property( 'columns.@each.sortAscending' ),
+        if ( sortedColumn.get( 'sortAscending' ) ) {
+            return sortedColumn;
+        }
+    }),
 
     /**
      * Mapped array of properties
@@ -321,17 +330,28 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes columns.@each.isSorted
      * @returns  {Ember.Array}
      */
-    sortProperties: function() {
-        return this.getWithDefault( 'columns', [] ).filterBy( 'isSorted' ).mapBy( 'key' );
-    }.property( 'columns.@each.isSorted' ),
+    sortProperties: Ember.computed( 'columns.@each.isSorted', function() {
+        return Ember.A(
+            Ember.A(
+                Ember.A(
+                    this.getWithDefault( 'columns', [] )
+                ).filterBy( 'isSorted' )
+            ).mapBy( 'key' )
+        );
+    }),
 
-
-    totalFixedWidths: function() {
-        return this.get( 'columns').reduce( function( prev, item ){
+    /**
+     * An array of total fixed width values
+     *
+     * @function totalFixedWidths
+     * @observes columns.@each.fixedWidth
+     * @returns  {Ember.Array}
+     */
+    totalFixedWidths: Ember.computed( 'columns.@each.fixedWidth', function() {
+        return Ember.A( this.get( 'columns' ) ).reduce( function( prev, item ) {
             return prev + parseInt( item.getWithDefault( 'fixedWidth', 0 ) );
-        }, 0);
-
-    }.property( 'columns.@each.fixedWidth' ),
+        }, 0 );
+    }),
 
     /**
      * Total number of width hints
@@ -340,7 +360,7 @@ export default Ember.Mixin.create( Ember.Evented, {
      * @observes columns.@each.widthHint
      * @returns  {number}
      */
-    totalWidthHints: function() {
+    totalWidthHints: Ember.computed( 'columns.@each.widthHint', function() {
         var columns = this.get( 'columns' ),
             totalWidthHints = 0;
 
@@ -349,5 +369,5 @@ export default Ember.Mixin.create( Ember.Evented, {
         });
 
         return totalWidthHints;
-    }.property( 'columns.@each.widthHint' )
+    })
 });

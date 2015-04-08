@@ -32,7 +32,7 @@ export default SlGridTableCell.extend({
      * @function click
      * @returns  {void}
      */
-    click: function() {
+    click() {
         this.toggleProperty( 'row.rowExpanderIsOpen' );
     },
 

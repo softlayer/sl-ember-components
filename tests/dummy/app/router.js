@@ -4,9 +4,9 @@ import config from './config/environment';
 var Router = Ember.Router.extend({
     location: config.locationType,
 
-    scrollToTopAfterRouteTransition: function() {
+    scrollToTopAfterRouteTransition: Ember.observer( 'url', function() {
         window.scrollTo( 0, 0 );
-    }.observes( 'url' )
+    })
 });
 
 Router.map( function() {

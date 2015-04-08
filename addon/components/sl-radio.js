@@ -71,7 +71,7 @@ export default Ember.Component.extend({
      * @observes inline
      * @returns  {Ember.String}
      */
-    radioType: function() {
+    radioType: Ember.computed( 'inline', function() {
         return this.get( 'inline' ) ? 'radio-inline' : 'radio';
-    }.property( 'inline' )
+    })
 });

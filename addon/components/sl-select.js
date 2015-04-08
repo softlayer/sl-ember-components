@@ -97,9 +97,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @observes "willClearRender" event
      * @returns  {void}
      */
-    destroySelect2: function() {
+    destroySelect2: Ember.on( 'willClearRender', function() {
         this.input.off( 'change' ).select2( 'destroy' );
-    }.on( 'willClearRender' ),
+    }),
 
     /**
      * Set up select2 initialization after the element is inserted in the DOM
@@ -108,7 +108,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    setupSelect2: function() {
+    setupSelect2: Ember.on( 'didInsertElement', function() {
         var get  = Ember.get,
             self = this,
             input;
@@ -118,15 +118,15 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             multiple             : this.get( 'multiple' ),
             placeholder          : this.get( 'placeholder' ),
 
-            formatResult: function( item ) {
+            formatResult: ( item ) => {
                 if ( !item ) { return; }
 
                 if ( !( item instanceof Object ) ) {
                     return item;
                 }
 
-                var description = get( item, self.get( 'optionDescriptionPath' ) ),
-                    output      = get( item, self.get( 'optionLabelPath' ) );
+                var description = get( item, this.get( 'optionDescriptionPath' ) ),
+                    output      = get( item, this.get( 'optionLabelPath' ) );
 
                 if ( description ) {
                     output +=  ' <span class="text-muted">' + description + '</span>';
@@ -135,43 +135,43 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 return output;
             },
 
-            formatSelection: function( item ) {
+            formatSelection: item => {
                 if ( !item ) { return; }
 
                 if ( item instanceof Object ) {
-                    return get( item, self.get( 'optionLabelPath' ) );
+                    return get( item, this.get( 'optionLabelPath' ) );
                 }
 
                 return item;
             },
 
-            id: function( item ) {
+            id: item => {
                 if ( item instanceof Object ) {
-                    return get( item, self.get( 'optionValuePath' ) );
+                    return get( item, this.get( 'optionValuePath' ) );
                 }
 
                 return item;
             },
 
-            initSelection: function( element, callback ) {
+            initSelection: ( element, callback ) => {
                 var value = element.val();
 
                 if ( !value || !value.length ) {
                     return callback( [] );
                 }
 
-                var content         = self.get( 'content' ),
+                var content         = this.get( 'content' ),
                     contentLength   = content.length,
                     filteredContent = [],
-                    multiple        = self.get( 'multiple' ),
-                    optionValuePath = self.get( 'optionValuePath' ),
+                    multiple        = this.get( 'multiple' ),
+                    optionValuePath = this.get( 'optionValuePath' ),
                     values          = value.split( ',' ),
                     unmatchedValues = values.length,
                     item,
                     matchIndex,
                     text;
 
-                for ( var i = 0; i < contentLength; i++ ) {
+                for ( let i = 0; i < contentLength; i++ ) {
                     item = content[i];
                     text = item instanceof Object ? get( item, optionValuePath ) : item;
                     matchIndex = values.indexOf( text.toString() );
@@ -185,9 +185,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 }
 
                 if ( unmatchedValues === 0 ) {
-                    self.input.select2( 'readonly', false );
+                    this.input.select2( 'readonly', false );
                 } else {
-                    self.input.select2( 'readonly', true );
+                    this.input.select2( 'readonly', true );
 
                     var warning = 'sl-select:select2#initSelection was not able to map each "';
                     warning = warning.concat( optionValuePath );
@@ -223,19 +223,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             }
         });
 
-        input.on( 'change', function() {
-            Ember.run( function() {
-                self.set( 'value', input.select2( 'val' ) );
-            });
+        input.on( 'change', () => {
+            this.set( 'value', input.select2( 'val' ) );
         });
 
         var originalBodyOverflow = document.body.style.overflow || 'auto';
 
-        input.on( 'select2-open', function() {
+        input.on( 'select2-open', () => {
             document.body.style.overflow = 'hidden';
         });
 
-        input.on( 'select2-close', function() {
+        input.on( 'select2-close', () => {
             document.body.style.overflow = originalBodyOverflow;
         });
 
@@ -248,7 +246,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         if ( this.get( 'value' ) ) {
             this.valueChanged();
         }
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Set data bound value based on changed value
@@ -257,7 +255,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @observes content.@each, value
      * @returns  {void}
      */
-    valueChanged: function() {
+    valueChanged: Ember.observer( 'content.@each', 'value', function() {
         var value = this.get( 'value' );
 
         if ( this.get( 'optionValuePath' ) ) {
@@ -265,7 +263,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         } else {
             this.input.select2( 'data', value );
         }
-    }.observes( 'content.@each', 'value' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -276,7 +274,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @function selectionChanged
      * @param    {mixed} data - Select2 data
      */
-    selectionChanged: function( data ) {
+    selectionChanged( data ) {
         var multiple        = this.get( 'multiple' ),
             optionValuePath = this.get( 'optionValuePath' ),
             value;

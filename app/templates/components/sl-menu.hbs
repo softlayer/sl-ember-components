@@ -4,8 +4,8 @@
 
 {{#if menu.pages}}
     <ul {{bind-attr class="view.isRoot:list-inline"}}>
-        {{#each page in menu.pages}}
-            {{sl-menu tagName="li" menuBinding="page" isRoot=false}}
+        {{#each page in pages}}
+            {{sl-menu tagName="li" menu=page isRoot=false}}
         {{/each}}
 
         {{#if view.displayShowAll}}

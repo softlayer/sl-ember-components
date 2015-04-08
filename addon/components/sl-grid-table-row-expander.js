@@ -36,7 +36,13 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Properties
 
-    style: 'width:30px;'
+    /**
+     * The style attribute value for the rendered component element
+     *
+     * @property {Ember.String} style
+     */
+    style: 'width: 30px;'
+
     // -------------------------------------------------------------------------
     // Observers
 

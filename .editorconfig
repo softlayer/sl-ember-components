@@ -4,7 +4,6 @@
 
 root = true
 
-
 [*]
 end_of_line = lf
 charset = utf-8
@@ -18,6 +17,7 @@ indent_style = space
 indent_size = 2
 
 [*.hbs]
+insert_final_newline = false
 indent_style = space
 indent_size = 2
 

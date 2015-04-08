@@ -48,7 +48,7 @@ export default Ember.Component.extend({
      * @function click
      * @returns  {void}
      */
-    click: function() {
+    click() {
         this.sendAction( 'action', this.get( 'month' ) );
     },
 
@@ -84,8 +84,8 @@ export default Ember.Component.extend({
      * @function shortName
      * @returns  {Ember.String}
      */
-    shortName: function() {
+    shortName: Ember.computed( 'month', function() {
         return moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );
-    }.property()
+    })
 
 });

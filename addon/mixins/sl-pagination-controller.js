@@ -29,7 +29,7 @@ export default Ember.Mixin.create({
          * @param    {number} page - The page number to change to
          * @returns  {void}
          */
-        changePage: function( page ) {
+        changePage( page ) {
             var currentPage = this.get( 'currentPage' ),
                 nextPage,
                 prevPage,
@@ -75,7 +75,7 @@ export default Ember.Mixin.create({
          * @param    {number} perPage - The number of records to limit to per page
          * @returns  {void}
          */
-        changePerPage: function( perPage ) {
+        changePerPage( perPage ) {
             perPage = parseInt( perPage );
             perPage = isNaN( perPage ) ? this.get( 'perPageOptions.firstObject' ) : perPage;
             this.set( 'itemCountPerPage', perPage );
@@ -120,9 +120,9 @@ export default Ember.Mixin.create({
      * @observes currentPage
      * @returns  {void}
      */
-    currentPageObserver: function(){
+    currentPageObserver: Ember.observer( 'currentPage', function() {
         Ember.run.once( this, this.reloadModel );
-    }.observes( 'currentPage' ),
+    }),
 
     /**
      * Reloads the model when itemCountPerPage changes
@@ -131,10 +131,10 @@ export default Ember.Mixin.create({
      * @observes itemCountPerPage
      * @returns  {void}
      */
-    itemCountPerPageObserver: function(){
+    itemCountPerPageObserver: Ember.observer( 'itemCountPerPage', function() {
         this.set( 'currentPage', 1 );
         Ember.run.once( this, this.reloadModel );
-    }.observes( 'itemCountPerPage' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -147,7 +147,7 @@ export default Ember.Mixin.create({
      * @throws  {Ember.assert}
      * @returns {void}
      */
-    reloadModel: function() {
+    reloadModel() {
         Ember.assert( 'SL-Ember-Components:Pagination controller mixin: You must implement reloadModel in your controller.', false );
     },
 
@@ -158,29 +158,27 @@ export default Ember.Mixin.create({
      * @observes currentPage, itemCountPerPage, metaData, perPageOptions
      * @returns  {Ember.Object} Pagination data
      */
-    pagingData: function() {
-        var pageNumber = this.get( 'currentPage' ) - 1,
-            pageCount  = this.getWithDefault( 'metaData.pageCount', null ),
-            total      = this.getWithDefault( 'metaData.total', null ),
-            perPage    = this.get( 'itemCountPerPage' ),
-            totalPages = this.getWithDefault( 'metaData.totalPages', 1 ),
-            firstRow   = pageNumber * perPage + 1;
+    pagingData: Ember.computed(
+        'currentPage', 'itemCountPerPage', 'metaData', 'perPageOptions',
+        function() {
+            var pageNumber = this.get( 'currentPage' ) - 1,
+                pageCount  = this.getWithDefault( 'metaData.pageCount', null ),
+                total      = this.getWithDefault( 'metaData.total', null ),
+                perPage    = this.get( 'itemCountPerPage' ),
+                totalPages = this.getWithDefault( 'metaData.totalPages', 1 ),
+                firstRow   = pageNumber * perPage + 1;
 
-        return {
-            pageFirstRow     : firstRow,
-            pageLastRow      : firstRow + pageCount - 1,
-            totalRows        : total,
-            totalPages       : totalPages,
-            perPageOptions   : this.get( 'perPageOptions' ),
-            itemCountPerPage : this.get( 'itemCountPerPage' ),
-            currentPage      : this.get( 'currentPage' ),
-            modelNames       : this.get( 'metaData.modelNames' )
-        };
-    }.property(
-        'currentPage',
-        'itemCountPerPage',
-        'metaData',
-        'perPageOptions'
+            return {
+                pageFirstRow     : firstRow,
+                pageLastRow      : firstRow + pageCount - 1,
+                totalRows        : total,
+                totalPages       : totalPages,
+                perPageOptions   : this.get( 'perPageOptions' ),
+                itemCountPerPage : this.get( 'itemCountPerPage' ),
+                currentPage      : this.get( 'currentPage' ),
+                modelNames       : this.get( 'metaData.modelNames' )
+            };
+        }
     )
 
 });

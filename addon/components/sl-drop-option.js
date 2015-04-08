@@ -58,7 +58,7 @@ export default Ember.Component.extend({
          * @function actions.click
          * @returns  {void}
          */
-        click: function() {
+        click() {
             this.sendAction();
         }
     },
@@ -83,8 +83,8 @@ export default Ember.Component.extend({
      * @observes label
      * @returns  {Ember.String}
      */
-    optionType: function() {
+    optionType: Ember.computed( 'label', function() {
         return this.get( 'label' ) ? 'presentation' : 'divider';
-    }.property( 'label' )
+    })
 
 });

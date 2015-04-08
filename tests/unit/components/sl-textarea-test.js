@@ -6,213 +6,263 @@ import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 moduleForComponent( 'sl-textarea', 'Unit - component: sl-textarea' );
 
 test( 'Expected Mixins are present', function( assert ) {
-    assert.ok( InputBasedMixin.detect( this.subject() ), 'InputBased Mixin is present' );
-    assert.ok( TooltipEnabledMixin.detect( this.subject() ), 'TooltipEnabled Mixin is present' );
+    assert.ok(
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
+    );
+
+    assert.ok(
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
+    );
 });
 
 test( 'Expected classes are only ones applied', function( assert ) {
-    var $component = this.render();
-
-    assert.equal( $component.prop( 'class' ), [ 'ember-view form-group sl-textarea' ] );
+    assert.equal(
+        this.$().prop( 'class' ),
+        [ 'ember-view form-group sl-textarea' ],
+        'Rendered component has expected classes'
+    );
 });
 
 test( 'If "label" property is not populated, label element is not rendered', function( assert ) {
-    var $component = this.render();
-
-    assert.equal( typeof $component.find( 'label' ).prop( 'for' ), 'undefined' );
+    assert.equal(
+        typeof this.$( 'label' ).prop( 'for' ),
+        'undefined',
+        'Label element is not rendered'
+    );
 });
 
 test( 'If "label" property is populated, label element is rendered', function( assert ) {
-    var labelText  = 'Test Label',
-        component  = this.subject({
-            label: labelText
-        }),
+    var labelText = 'Test Label',
+        component = this.subject({ label: labelText }),
         label;
 
-    this.render();
+    label = this.$( 'label[for="' + this.$( 'textarea' ).prop( 'id' ) + '"]' );
 
-    label = $( 'label[for="' + $( 'textarea' ).prop( 'id' ) + '"]' );
-
-    assert.equal( label.length, 1 );
-    assert.equal( $.trim( label.text() ), labelText );
+    assert.equal( label.length, 1, 'Label is present' );
+    assert.equal(
+        Ember.$.trim( label.text() ),
+        labelText,
+        'Label text is expected value'
+    );
 });
 
 test( 'If "label" property is populated, "for" attribute is expected value', function( assert ) {
-    var labelText  = 'Test Label',
-        component  = this.subject({
+    var labelText = 'Test Label',
+        component = this.subject({
             label: labelText
-        }),
-        $component = this.render();
+        });
 
-    assert.equal( $component.find( 'label' ).prop( 'for' ), $component.find( 'textarea' ).prop( 'id' ) );
+    assert.equal(
+        this.$( 'label' ).prop( 'for' ),
+        this.$( 'textarea' ).prop( 'id' ),
+        'Label "for" property matches textarea\'s "id" property'
+    );
 });
 
-test( 'If "label" property is not populated, "optional" and "required" properties are not rendered even if populated', function( assert ) {
+test( 'If "label" property is not populated, "optional" and "required" elements are not rendered even if populated', function( assert ) {
     var component  = this.subject({
-            optional : true,
-            required : true
-        }),
-        $component = this.render();
+        optional : true,
+        required : true
+    });
 
-    assert.equal( $component.find( 'label > .text-info' ).prop( 'tagName' ), undefined );
-    assert.equal( $component.find( 'label > .text-danger' ).prop( 'tagName' ), undefined );
+    assert.strictEqual(
+        this.$( 'label > .text-info' ).length,
+        0,
+        "Label's text-info is not rendered"
+    );
+
+    assert.strictEqual(
+        this.$( 'label > .text-danger' ).length,
+        0,
+        "Label's text-danger is not rendered"
+    );
 });
 
-test( '"optional" and "required" properties are rendered if populated along with "label" property', function( assert ) {
+test( '"optional" and "required" elements are rendered if populated along with "label" property', function( assert ) {
     var component  = this.subject({
-            label    : 'Test Label',
-            optional : true,
-            required : true
-        }),
-        $component = this.render();
+        label    : 'Test Label',
+        optional : true,
+        required : true
+    });
 
-    assert.equal( $component.find( 'label > .text-info' ).prop( 'tagName' ), 'SMALL' );
-    assert.equal( $component.find( 'label > .text-danger' ).prop( 'tagName' ), 'SMALL' );
+    assert.equal(
+        this.$( 'label > .text-info' ).prop( 'tagName' ),
+        'SMALL',
+        "Label's text-info <small> is rendered"
+    );
+
+    assert.equal(
+        this.$( 'label > .text-danger' ).prop( 'tagName' ),
+        'SMALL',
+        "Label's text-danger <small> is rendered"
+    );
 });
 
 test( '"helpText" is rendered if populated', function( assert ) {
     var helpText  = 'Help Text',
-        component = this.subject({
-            helpText: helpText
-        }),
-        $component = this.render();
+        component = this.subject({ helpText });
 
-    assert.equal( $component.find( '.help-block' ).prop( 'tagName' ), 'P' );
-    assert.equal( $.trim( $component.find( '.help-block' ).text() ), helpText );
+    assert.equal(
+        this.$( '.help-block' ).prop( 'tagName' ),
+        'P',
+        'Help text block is rendered as a <p>'
+    );
+
+    assert.equal(
+        Ember.$.trim( this.$( '.help-block' ).text() ),
+        helpText,
+        'Help text block text is expected value'
+    );
 });
 
 test( '"autofocus" property is supported', function( assert ) {
-    var component = this.subject({
-            autofocus: true
-        }),
-        $component = this.render();
+    var component = this.subject({ autofocus: true });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'autofocus' ), "autofocus" );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'autofocus' ),
+        'autofocus',
+        `Textarea's "autofocus" attribute is present`
+    );
 });
 
 test( '"cols" property is supported', function( assert ) {
     var cols      = '8',
-        component = this.subject({
-            cols: cols
-        }),
-        $component = this.render();
+        component = this.subject({ cols });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'cols' ), cols );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'cols' ),
+        cols,
+        `Textarea's "cols" attribute is expected value`
+    );
 });
 
 test( '"disabled" property is supported', function( assert ) {
-    var component = this.subject({
-            disabled: true
-        }),
-        $component = this.render();
+    var component = this.subject({ disabled: true });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'disabled' ), 'disabled' );
+    assert.ok(
+        this.$( 'textarea' ).is( ':disabled' ),
+        'Textarea is disabled as expected'
+    );
 });
 
 test( '"maxlength" property is supported', function( assert ) {
     var maxlength = '12',
-        component = this.subject({
-            maxlength: maxlength
-        }),
-        $component = this.render();
+        component = this.subject({ maxlength });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'maxlength' ), maxlength );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'maxlength' ),
+        maxlength,
+        `Textarea's "maxlength" attribute is expected value`
+    );
 });
 
 test( '"placeholder" property is supported', function( assert ) {
     var placeholder = 'Placeholder text',
-        component   = this.subject({
-            placeholder: placeholder
-        }),
-        $component = this.render();
+        component   = this.subject({ placeholder });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'placeholder' ), placeholder );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'placeholder' ),
+        placeholder,
+        `Textarea's "placeholder" attribute is expected value`
+    );
 });
 
 test( '"readonly" property is supported', function( assert ) {
-    var component = this.subject({
-            readonly: true
-        }),
-        $component = this.render();
+    var component = this.subject({ readonly: true });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'readonly' ), 'readonly' );
+    assert.ok(
+        this.$( 'textarea' ).prop( 'readonly' ),
+        'Textarea is readonly as expected'
+    );
 });
 
 test( '"rows" property is supported', function( assert ) {
     var rows      = '4',
-        component = this.subject({
-            rows: rows
-        }),
-        $component = this.render();
+        component = this.subject({ rows });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'rows' ), rows );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'rows' ),
+        rows,
+        `Textarea's "rows" attribute is expected value`
+    );
 });
 
 test( '"selectionDirection" is supported', function( assert ) {
     var component = this.subject({
-            selectionDirection: 'backward'
-        }),
-        $component = this.render();
+        selectionDirection: 'backward'
+    });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'selectionDirection' ), 'backward' );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'selectionDirection' ),
+        'backward',
+        `Textarea's "selectionDirection" attribute is expected value`
+    );
 });
 
 test( '"selectionEnd" is supported', function( assert ) {
     var selectionEnd = '10',
-        component = this.subject({
-            selectionEnd: selectionEnd
-        }),
-        $component = this.render();
+        component = this.subject({ selectionEnd });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'selectionEnd' ), selectionEnd );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'selectionEnd' ),
+        selectionEnd,
+        `Textarea's "selectionEnd" attribute is expected value`
+    );
 });
 
 test( '"selectionStart" is supported', function( assert ) {
     var selectionStart = '10',
-        component = this.subject({
-            selectionStart: selectionStart
-        }),
-        $component = this.render();
+        component = this.subject({ selectionStart });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'selectionStart' ), selectionStart );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'selectionStart' ),
+        selectionStart,
+        `Textarea's "selectionStart" attribute is expected value`
+    );
 });
 
 test( '"spellcheck" property is supported', function( assert ) {
     var spellcheck = 'true',
-        component  = this.subject({
-            spellcheck: spellcheck
-        }),
-        $component = this.render();
+        component  = this.subject({ spellcheck });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'spellcheck' ), spellcheck );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'spellcheck' ),
+        spellcheck,
+        `Textarea's "spellcheck" attribute is expected value`
+    );
 });
 
 test( '"tabindex" property is supported', function( assert ) {
     var tabindex  = '2',
-        component = this.subject({
-            tabindex: tabindex
-        }),
-        $component = this.render();
+        component = this.subject({ tabindex });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'tabindex' ), tabindex );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'tabindex' ),
+        tabindex,
+        `Textarea's "tabindex" attribute is expected value`
+    );
 });
 
 test( '"wrap" property is supported', function( assert ) {
     var wrap      = 'hard',
-        component = this.subject({
-            wrap: wrap
-        }),
-        $component = this.render();
+        component = this.subject({ wrap });
 
-    assert.equal( $component.find( 'textarea' ).attr( 'wrap' ), wrap );
+    assert.equal(
+        this.$( 'textarea' ).attr( 'wrap' ),
+        wrap,
+        `Textarea's "wrap" attribute is expected value`
+    );
 });
 
 test( '"value" property is supported', function( assert ) {
     var value     = 'Bound Value',
-        component = this.subject({
-            value: value
-        }),
-        $component = this.render();
+        component = this.subject({ value });
 
-    assert.equal( $component.find( 'textarea' ).val(), value );
+    assert.equal(
+        this.$( 'textarea' ).val(),
+        value,
+        "Textarea's value is expected value"
+    );
 });

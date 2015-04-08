@@ -19,10 +19,10 @@ import Ember from 'ember';
  * @returns  {mixed}
  */
 export default Ember.Handlebars.makeBoundHelper( function( object, key, defaultKey ) {
-    var value = object.get ? object.get( key ) : object[ key ];
+    var value = Ember.get( object, key );
 
     if ( Ember.isNone( value ) && Ember.typeOf( defaultKey ) === 'string' ) {
-        value = object.get ? object.get( defaultKey ) : object[ defaultKey ];
+        value = Ember.get( object, defaultKey );
     }
 
     return value;

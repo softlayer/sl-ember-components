@@ -85,9 +85,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes timezoneString, value
      * @returns  {string}
      */
-    datetime: function() {
+    datetime: Ember.computed( 'timezoneString', 'value', function() {
         return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
-    }.property( 'timezoneString', 'value' ),
+    }),
 
     /**
      * Formatted string based on value and supplied format
@@ -96,7 +96,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes format, momentValue
      * @returns  {string}
      */
-    formattedValue: function() {
+    formattedValue: Ember.computed( 'format', 'momentValue', function() {
         var momentValue     = this.get( 'momentValue' ),
             formattedString = '';
 
@@ -115,7 +115,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         }
 
         return formattedString;
-    }.property( 'format', 'momentValue' ),
+    }),
 
     /**
      * The component's current value wrapped in moment
@@ -124,9 +124,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes value
      * @returns  {object}
      */
-    momentValue: function() {
+    momentValue: Ember.computed( 'value', function() {
         return moment( this.get( 'value' ) );
-    }.property( 'value' ),
+    }),
 
     /**
      * Formatted timezone string based on component's timezone value
@@ -135,9 +135,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes timezone, momentValue
      * @returns  {string}
      */
-    timezoneString: function() {
+    timezoneString: Ember.computed( 'timezone', 'momentValue', function() {
         return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
-    }.property( 'timezone', 'momentValue' ),
+    }),
 
     /**
      * The text to use for the component's tooltip
@@ -146,8 +146,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes datetime
      * @returns  {string}
      */
-    title: function() {
+    title: Ember.computed( 'datetime', function() {
         return this.get( 'datetime' );
-    }.property( 'datetime' )
+    })
 
 });

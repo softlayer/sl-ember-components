@@ -7,21 +7,23 @@ moduleForComponent( 'sl-span', 'Unit - component: sl-span', {
 
 test( '"value" property is supported', function( assert ) {
     var component  = this.subject({
-            value: 'Test content'
-        }),
-        $component = this.render();
+        value: 'Test content'
+    });
 
-    assert.equal( $.trim( $component.text() ), 'Test content' );
+    assert.equal(
+        Ember.$.trim( this.$().text() ),
+        'Test content',
+        "Rendered component's text is expected value"
+    );
 });
 
 test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
     var component  = this.subject({
-            loading: true
-        }),
-        $component = this.render();
+        loading: true
+    });
 
     assert.strictEqual(
-        $component.find( '.sl-loading-icon' ).length,
+        this.$( '.sl-loading-icon' ).length,
         1,
         'Loading icon is present'
     );
