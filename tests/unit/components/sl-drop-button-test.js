@@ -73,3 +73,28 @@ test( 'Alignment property is supported', function( assert ) {
         'Component is correctly rightAligned'
     );
 });
+
+test( 'Icon class property is supported', function( assert ) {
+    var component = this.subject({ label: 'Test' });
+
+    assert.equal(
+        component.get( 'iconClass' ),
+        'caret',
+        'Default component has iconClass "caret"'
+    );
+
+    assert.equal(
+        this.$( 'span.caret' ).length,
+        1,
+        'Default rendered component includes caret icon span'
+    );
+
+    Ember.run( () => {
+        component.set( 'iconClass', 'test' );
+    });
+    assert.equal(
+        this.$( 'span.test' ).length,
+        1,
+        'Rendered component includes test icon span'
+    );
+});
