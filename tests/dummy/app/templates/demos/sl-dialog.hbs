@@ -41,6 +41,10 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="animated" type="boolean" default="false"}}
+        Whether the dialog's modal show/hide transition is animated or not.
+    {{/property-text}}
+
     {{#property-text name="buttonText" type="string" default="\"Close\""}}
         Text label for the button.
     {{/property-text}}

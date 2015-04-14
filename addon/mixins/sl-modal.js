@@ -37,7 +37,14 @@ export default Ember.Mixin.create({
      *
      * @property {Ember.Array} classNames
      */
-    classNames: [ 'fade', 'modal' ],
+    classNames: [ 'modal' ],
+
+    /**
+     * Bindings for the component's element's class names
+     *
+     * @property {Ember.Array} classNameBindings
+     */
+    classNameBindings: [ 'animated:fade' ],
 
     /**
      * `role` attribute value
@@ -55,6 +62,14 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether the modal is animated with transition or not
+     *
+     * @property {boolean} animated
+     * @default  true
+     */
+    animated: true,
 
     /**
      * `aria-describedby` attribute value
@@ -82,6 +97,14 @@ export default Ember.Mixin.create({
     backdrop: true,
 
     /**
+     * Whether the modal is shown initially or not
+     *
+     * @property {boolean} show
+     * @default  false
+     */
+    show: false,
+
+    /**
      * `tabindex` attribute value
      *
      * @property {Ember.String} tab index
@@ -102,7 +125,7 @@ export default Ember.Mixin.create({
     modalize: function() {
         var modal = this.$().modal({
             keyboard : true,
-            show     : false,
+            show     : this.get( 'show' ),
             backdrop : this.get( 'backdrop' )
         });
 

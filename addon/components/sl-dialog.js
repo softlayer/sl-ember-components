@@ -30,14 +30,6 @@ export default Ember.Component.extend( ModalMixin, {
      */
     buttonText: 'Close',
 
-    /**
-     * Binding for whether the dialog is shown or not
-     *
-     * @property {boolean} show
-     * @default  false
-     */
-    show: false,
-
     // -------------------------------------------------------------------------
     // Observers
 

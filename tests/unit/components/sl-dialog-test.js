@@ -2,7 +2,13 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
-moduleForComponent( 'sl-dialog', 'Unit - component: sl-dialog' );
+moduleForComponent( 'sl-dialog', 'Unit - component: sl-dialog', {
+    afterEach() {
+        // These are done to make the test results page usable
+        Ember.$( '.modal-backdrop' ).css( 'display', 'none' );
+        Ember.$( '.modal-open' ).removeClass( 'modal-open' );
+    }
+});
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok( ModalMixin.detect( this.subject() ), 'Modal Mixin is present' );
@@ -11,8 +17,25 @@ test( 'Expected Mixins are present', function( assert ) {
 test( '"buttonText" property defaults to a non-empty string', function( assert ) {
     var component = this.subject();
 
-    assert.ok( typeof component.buttonText === 'string', '"buttonText" must default to a non-empty string'  );
-    assert.ok( component.buttonText.length > 0, '"buttonText" must default to a non-empty string' );
+    assert.ok(
+        typeof component.get( 'buttonText' ) === 'string',
+        '"buttonText" must default to a non-empty string'
+    );
+
+    assert.ok(
+        component.get( 'buttonText' ).length > 0,
+        '"buttonText" must default to a non-empty string'
+    );
+});
+
+test( '"buttonText" property displays correctly', function( assert ) {
+    this.subject({ buttonText: 'Test' });
+
+    assert.ok(
+        Ember.$.trim( this.$().text() ),
+        'Test',
+        'Button text is expected value'
+    );
 });
 
 test( '"show" property defaults to false', function( assert ) {
@@ -23,67 +46,140 @@ test( '"show" property defaults to false', function( assert ) {
 
 test( 'Correct DOM structure is in place', function( assert ) {
     var component  = this.subject({
-            title: 'Test Title'
-        }),
-        $component = this.render();
+        title: 'Test Title'
+    });
 
-    assert.equal( $component.prop( 'firstChild' ).nodeName, 'DIV' );
-    assert.equal( $component.prop( 'firstChild' ).className, 'modal-dialog' );
-    assert.equal( $('div.modal-dialog > div.modal-content').length, 1 );
-    assert.equal( $('div.modal-dialog > div.modal-content > div.modal-header').length, 1 );
-    assert.equal( $('div.modal-dialog > div.modal-content > div.modal-header > button[data-dismiss="modal"]').length, 1 );
-//    assert.equal( $('div.modal-dialog > div.modal-content > div.modal-header > button[data-dismiss="modal"] > span[aria-hidden="true"]').text(), 'x' );
-    assert.equal( $('div.modal-dialog > div.modal-content > div.modal-header > span.modal-title').length, 1 );
-    assert.equal( $('div.modal-dialog > div.modal-content > div.modal-body').length, 1 );
-    assert.equal( $('div.modal-dialog > div.modal-content > div.modal-footer').length, 1 );
-    assert.equal( $('div.modal-dialog > div.modal-content > div.modal-footer > button.btn-primary[data-dismiss="modal"]').length, 1 );
+    assert.equal(
+        this.$().prop( 'firstChild' ).nodeName,
+        'DIV',
+        'First child is a <div>'
+    );
+
+    assert.ok(
+        this.$().prop( 'firstChild' ).className,
+        'modal-dialog',
+        'First child element has class "modal-dialog"'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content' ).length,
+        1,
+        'Rendered component contains modal-content div'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content > div.modal-header' ).length,
+        1,
+        'Rendered component contains modal-header'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content > div.modal-header > button[data-dismiss="modal"]' ).length,
+        1,
+        'Rendered component contains open modal button'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content > div.modal-header > button[data-dismiss="modal"] > span[aria-hidden="true"]' ).text(),
+        '×',
+        'Rendered close button contains expected text character'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content > div.modal-header > span.modal-title' ).length,
+        1,
+        'Rendered component contains modal-title'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content > div.modal-body' ).length,
+        1,
+        'Rendered component contains modal-body'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content > div.modal-footer' ).length,
+        1,
+        'Rendered component contains modal-footer'
+    );
+
+    assert.equal(
+        this.$( 'div.modal-dialog > div.modal-content > div.modal-footer > button.btn-primary[data-dismiss="modal"]' ).length,
+        1,
+        'Rendered component contains modal dismiss button'
+    );
 });
 
 test( 'If "title" property is not populated, span with "modal-title" class is not rendered', function( assert ) {
-    this.render();
-
-    assert.equal( $('.modal-title').length, 0 );
+    assert.equal(
+        this.$( '.modal-title').length,
+        0,
+        'Rendered component does not contain modal-title'
+    );
 });
 
 test( '"title" is rendered as span with "modal-title" class if populated', function( assert ) {
-    var testTitle  = 'Test Title',
-        component  = this.subject({
-            title: testTitle
-        });
+    var testTitle = 'Test Title',
+        component = this.subject({ title: testTitle });
 
-    this.render();
+    assert.equal(
+        this.$( 'span.modal-title' ).length,
+        1,
+        'Rendered component contains modal-title'
+    );
 
-    assert.equal( $('span.modal-title').length, 1 );
-    assert.equal( $.trim( $('.modal-title').text() ), testTitle );
+    assert.equal(
+        Ember.$.trim( $('.modal-title').text() ),
+        testTitle,
+        'Rendered modal-title contains expected text'
+    );
 });
 
-test( 'The show property toggles the component', function( assert ) {
-    var component  = this.subject(),
-        $component = this.render();
+test( 'The "show" property toggles the Bootstrap classes', function( assert ) {
+    var component = this.subject({ animated: false });
 
-    assert.strictEqual( component.get( 'show' ), false, 'Component is in hidden state initially' );
-    assert.strictEqual( $component.is( ':visible' ), false, 'Element is hidden initially' );
+    assert.strictEqual(
+        component.get( 'show' ),
+        false,
+        'Component is in hidden state initially'
+    );
 
-    Ember.run( function() {
+    assert.strictEqual(
+        this.$().is( ':visible' ),
+        false,
+        'Rendered component is hidden initially'
+    );
+
+    Ember.run( () => {
         component.set( 'show', true );
     });
-    assert.strictEqual( $component.is( ':visible' ), true, 'Element is visible after first toggle' );
+    assert.ok(
+        this.$().is( ':visible' ),
+        'Element is visible after first toggle'
+    );
 
-    /*
-    Ember.run( function() {
+    Ember.run( () => {
         component.set( 'show', false );
     });
-    assert.strictEqual( $component.is( ':visible' ), false, 'Element is hidden again after second toggle' );
-    // */
+    assert.strictEqual(
+        this.$().is( ':visible' ),
+        false,
+        'Element is hidden again after second toggle'
+    );
 });
 
-QUnit.skip( 'There are more tests to write', function( assert ) {
-    assert.expect(0);
+test( 'hideHandler properly handles hiding', function( assert ) {
+    var component = this.subject({ show: true });
 
-// remaining tests to write:
-// hideHandler
-// close
-// show
-// aria support
+    assert.ok(
+        component.get( 'show' ),
+        'Initial component property "show" is set to true'
+    );
 
+    this.$().trigger( 'hide.bs.modal' );
+    assert.strictEqual(
+        component.get( 'show' ),
+        false,
+        'Component property "show" is set to false'
+    );
 });
