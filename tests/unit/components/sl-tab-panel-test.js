@@ -6,10 +6,7 @@ moduleForComponent( 'sl-tab-panel', 'Unit - component: sl-tab-panel', {
 });
 
 test( 'Expected default classes are applied', function( assert ) {
-    var $component;
-
-    this.subject();
-    $component = this.render();
+    var $component = this.render();
 
     assert.ok( $component.hasClass( 'sl-tab-panel' ), 'Has class "sl-tab-panel"' );
     assert.ok( $component.hasClass( 'sl-align-tabs-left' ), 'Has class "sl-align-tabs-left"' );
