@@ -29,8 +29,6 @@ var EmberAddon   = require( 'ember-cli/lib/broccoli/ember-addon' ),
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
-app.import( 'bower_components/ember/ember-template-compiler.js' );
-
 // Development dependencies
 if ( !isProduction ) {
     app.import( app.bowerDirectory + '/sinonjs/sinon.js', { type: 'test' } );
