@@ -13,7 +13,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @param   {Ember.String} key
      * @returns {void}
      */
-    childSelection: function( key ) {
+    childSelection( key ) {
         if ( typeof key === 'string' ) {
             key = parseInt( key, 10 );
         }
@@ -28,7 +28,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @param   {Ember.String} key
      * @returns {void}
      */
-    drillDown: function( key ) {
+    drillDown( key ) {
         this.trigger( 'drillDown', key );
     },
 
@@ -38,7 +38,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @function cycleRootSelectionNext
      * @returns {void}
      */
-    cycleRootSelectionNext: function() {
+    cycleRootSelectionNext() {
         this.trigger( 'cycleRootSelectionNext' );
     },
 
@@ -48,7 +48,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @function cycleRootSelectionPrevious
      * @returns {void}
      */
-    cycleRootSelectionPrevious: function() {
+    cycleRootSelectionPrevious() {
         this.trigger( 'cycleRootSelectionPrevious' );
     },
 
@@ -58,7 +58,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @function closeAll
      * @returns {void}
      */
-    closeAll: function() {
+    closeAll() {
         this.trigger( 'closeAll' );
     },
 
@@ -68,7 +68,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @function showAll
      * @returns {void}
      */
-    showAll: function() {
+    showAll() {
         this.trigger( 'showAll' );
     }
 

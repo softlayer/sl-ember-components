@@ -12,7 +12,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @function reload
      * @returns  {void}
      */
-    reload: function() {
+    reload() {
         this.trigger( 'reload' );
     },
 
@@ -23,7 +23,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @param   {number} page
      * @returns {void}
      */
-    changePage: function( page ) {
+    changePage( page ) {
         this.trigger( 'changePage', page );
     }
 });

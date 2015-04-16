@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-pagination-controls';
 
 /**
  * @module components
  * @class  sl-pagination-controls
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -44,7 +45,7 @@ export default Ember.Component.extend({
          * @param    {number} page - The page number being changed to
          * @returns  {void}
          */
-        changePage: function( page ) {
+        changePage( page ) {
             this.sendAction( 'action', page ? page : this.get( 'currentPageInput' ) );
         }
     },
@@ -99,9 +100,9 @@ export default Ember.Component.extend({
      * @observes currentPage, disabled
      * @returns  {boolean}
      */
-    firstLinkDisabled: function() {
+    firstLinkDisabled: Ember.computed( 'currentPage', 'disabled', function() {
         return this.get( 'disabled' ) || this.get( 'currentPage' ) === 1;
-    }.property( 'currentPage', 'disabled' ),
+    }),
 
     /**
      * When true, the next link control is disabled
@@ -110,8 +111,10 @@ export default Ember.Component.extend({
      * @observes currentPage, disabled, totalPages
      * @returns  {boolean}
      */
-    nextLinkDisabled: function() {
-        return this.get( 'disabled' ) || this.get( 'currentPage' ) === this.get( 'totalPages' );
-    }.property( 'currentPage', 'disabled', 'totalPages' )
+    nextLinkDisabled: Ember.computed(
+        'currentPage', 'disabled', 'totalPages', function() {
+            return this.get( 'disabled' ) || this.get( 'currentPage' ) === this.get( 'totalPages' );
+        }
+    )
 
 });

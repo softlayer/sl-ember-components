@@ -6,10 +6,15 @@ moduleForComponent( 'sl-tab-panel', 'Unit - component: sl-tab-panel', {
 });
 
 test( 'Expected default classes are applied', function( assert ) {
-    var $component = this.render();
+    assert.ok(
+        this.$().hasClass( 'sl-tab-panel' ),
+        'Has class "sl-tab-panel"'
+    );
 
-    assert.ok( $component.hasClass( 'sl-tab-panel' ), 'Has class "sl-tab-panel"' );
-    assert.ok( $component.hasClass( 'sl-align-tabs-left' ), 'Has class "sl-align-tabs-left"' );
+    assert.ok(
+        this.$().hasClass( 'sl-align-tabs-left' ),
+        'Has class "sl-align-tabs-left"'
+    );
 });
 
 test( 'setupTabs() does so correctly', function( assert ) {
@@ -20,30 +25,48 @@ test( 'setupTabs() does so correctly', function( assert ) {
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
         }),
-        $component = this.render(),
-        done       = assert.async();
+        done = assert.async();
 
     assert.expect( 5 );
 
-    component.paneFor( 'a' ).queue( function() {
-        // All tabs are rendered
-        assert.equal( $component.find( '.tab[data-tab-name]' ).length, 3 );
+    this.render();
 
-        // Tab content is rendered
-        assert.equal( $component.find( '.sl-tab-pane[data-tab-name]' ).length, 3 );
-        assert.equal( Ember.$.trim( $component.find( '.sl-tab-pane[data-tab-name="b"]' ).text() ), 'B content' );
+    component.paneFor( 'a' ).queue( () => {
+        assert.equal(
+            this.$( '.tab[data-tab-name]' ).length,
+            3,
+            'Three tabs are rendered'
+        );
 
-        // First tab is active
-        assert.equal( $component.find( '.tab.active[data-tab-name="a"]' ).length, 1 );
-        assert.equal( $component.find( '.sl-tab-pane.active[data-tab-name="a"]' ).length, 1 );
+        assert.equal(
+            this.$( '.sl-tab-pane[data-tab-name]' ).length,
+            3,
+            'Three tab panes are rendered'
+        );
+
+        assert.equal(
+            Ember.$.trim( this.$( '.sl-tab-pane[data-tab-name="b"]' ).text() ),
+            'B content',
+            'Expected content is present in second tab pane'
+        );
+
+        assert.equal(
+            this.$( '.tab.active[data-tab-name="a"]' ).length,
+            1,
+            'Rendered component has tab "a" as its active tab'
+        );
+
+        assert.equal(
+            this.$( '.sl-tab-pane.active[data-tab-name="a"]' ).length,
+            1,
+            'Rendered component has panel for tab "a" as its active panel'
+        );
 
         done();
     });
 });
 
 test( 'ARIA roles are implemented', function( assert ) {
-    var $component;
-
     this.subject({
         template : Ember.Handlebars.compile(
             '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
@@ -51,10 +74,18 @@ test( 'ARIA roles are implemented', function( assert ) {
             '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
         )
     });
-    $component = this.render();
 
-    assert.equal( $component.find( '.nav-tabs[role="tablist"]' ).length, 1 );
-    assert.equal( $component.find( '.tab a[role="tab"]' ).length, 3 );
+    assert.equal(
+        this.$( '.nav-tabs[role="tablist"]' ).length,
+        1,
+        'Rendered component has "tablist" ARIA role'
+    );
+
+    assert.equal(
+        this.$('.tab a[role="tab"]' ).length,
+        3,
+        'Rendered component has three <a> with "tab" ARIA role'
+    );
 });
 
 test( '"initialTabName" property is respected', function( assert ) {
@@ -66,33 +97,42 @@ test( '"initialTabName" property is respected', function( assert ) {
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
         }),
-        $component = this.render(),
-        done       = assert.async();
+        done = assert.async();
 
     assert.expect( 2 );
 
-    component.paneFor( 'b' ).queue( function() {
-        assert.equal( $component.find( '.tab.active[data-tab-name="b"]' ).length, 1 );
-        assert.equal( $component.find( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
+    this.render();
+
+    component.paneFor( 'b' ).queue( () => {
+        assert.equal(
+            this.$( '.tab.active[data-tab-name="b"]' ).length,
+            1,
+            'Initial tab is expected "b"'
+        );
+
+        assert.equal(
+            this.$( '.sl-tab-pane.active[data-tab-name="b"]' ).length,
+            1,
+            'Initial tab pane is expected "b"'
+        );
 
         done();
     });
 });
 
 test( '"alignTabs" property is respected', function( assert ) {
-    var $component;
-
     this.subject({
         alignTabs : 'right'
     });
-    $component = this.render();
 
-    assert.ok( $component.hasClass( 'sl-align-tabs-right' ), 'Tab alignment class is applied' );
+    assert.ok(
+        this.$().hasClass( 'sl-align-tabs-right' ),
+        'Tab alignment class is applied'
+    );
 });
 
 test( 'Tabs display in expected order when "alignTabs" property is not specified', function( assert ) {
-    var labels = [],
-        $component;
+    var labels = [];
 
     this.subject({
         template: Ember.Handlebars.compile(
@@ -101,9 +141,8 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
             '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
         )
     });
-    $component = this.render();
 
-    $component.find( '.tab[data-tab-name]' ).each( function() {
+    this.$( '.tab[data-tab-name]' ).each( function() {
         labels.push( $( this ).attr( 'data-tab-name' ) );
     });
 
@@ -118,17 +157,16 @@ test( 'Clicking tab changes active tab', function( assert ) {
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
         }),
-        $component = this.render(),
-        done       = assert.async();
+        done = assert.async();
 
     assert.expect( 2 );
 
-    $component.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
+    this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
-    component.paneFor( 'a' ).queue( function() {
-        component.paneFor( 'b' ).queue( function() {
-            assert.equal( $component.find( '.tab.active[data-tab-name="b"]' ).length, 1 );
-            assert.equal( $component.find( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
+    component.paneFor( 'a' ).queue( () => {
+        component.paneFor( 'b' ).queue( () => {
+            assert.equal( this.$( '.tab.active[data-tab-name="b"]' ).length, 1 );
+            assert.equal( this.$( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
 
             done();
         });
@@ -143,23 +181,24 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
             )
         }),
-        $component = this.render(),
-        done       = assert.async(),
+        done = assert.async(),
         initialHeight;
 
     assert.expect( 1 );
 
-    component.paneFor( 'a' ).queue( function() {
-        initialHeight = $component.find( '.tab-content' ).height();
+    this.render();
+
+    component.paneFor( 'a' ).queue( () => {
+        initialHeight = this.$( '.tab-content' ).height();
     });
 
-    component.paneFor( 'b' ).queue( function() {
-        assert.notEqual( initialHeight, $component.find( '.tab-content' ).height() );
+    component.paneFor( 'b' ).queue( () => {
+        assert.notEqual( initialHeight, this.$( '.tab-content' ).height() );
 
         done();
     });
 
-    $component.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
+    this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 });
 
 test( '"activatePane" animates as expected', function( assert ) {
@@ -169,14 +208,14 @@ test( '"activatePane" animates as expected', function( assert ) {
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
-        spy  = sinon.spy( $.prototype, 'fadeIn' ),
+        spy  = sinon.spy( Ember.$.prototype, 'fadeIn' ),
         done = assert.async();
 
     this.render();
 
     assert.expect( 1 );
 
-    component.paneFor( 'a' ).queue( function() {
+    component.paneFor( 'a' ).queue( () => {
         assert.equal( spy.calledOnce, true );
         done();
     });
@@ -189,16 +228,15 @@ test( '"deactivatePane" animates as expected', function( assert ) {
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
-        spy        = sinon.spy( $.prototype, 'fadeOut' ),
-        $component = this.render(),
-        done       = assert.async();
+        spy  = sinon.spy( Ember.$.prototype, 'fadeOut' ),
+        done = assert.async();
 
     assert.expect( 1 );
 
-    $component.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
+    this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
-    component.paneFor( 'a' ).queue( function() {
-        component.paneFor( 'b' ).queue( function() {
+    component.paneFor( 'a' ).queue( () => {
+        component.paneFor( 'b' ).queue( () => {
             assert.equal( spy.calledOnce, true );
             done();
         });
@@ -221,7 +259,7 @@ test( '"deactivatePane" calls specified callback', function( assert ) {
 
     component.deactivatePane( callback );
 
-    component.paneFor( 'a' ).queue( function() {
+    component.paneFor( 'a' ).queue( () => {
         assert.equal( callback.calledOnce, true );
         done();
     });

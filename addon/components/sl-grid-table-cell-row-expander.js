@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import SlGridTableCell from './sl-grid-table-cell';
+import layout from '../templates/components/sl-grid-table-cell-row-expander';
 
 /**
  * @module components
  * @class  sl-grid-table-cell-row-expander
  */
-export default SlGridTableCell.extend({
+export default SlGridTableCell.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -32,7 +33,7 @@ export default SlGridTableCell.extend({
      * @function click
      * @returns  {void}
      */
-    click: function() {
+    click() {
         this.toggleProperty( 'row.rowExpanderIsOpen' );
     },
 

@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-drop-option';
 
 /**
  * @module components
  * @class  sl-drop-option
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -58,7 +59,7 @@ export default Ember.Component.extend({
          * @function actions.click
          * @returns  {void}
          */
-        click: function() {
+        click() {
             this.sendAction();
         }
     },
@@ -83,8 +84,8 @@ export default Ember.Component.extend({
      * @observes label
      * @returns  {Ember.String}
      */
-    optionType: function() {
+    optionType: Ember.computed( 'label', function() {
         return this.get( 'label' ) ? 'presentation' : 'divider';
-    }.property( 'label' )
+    })
 
 });

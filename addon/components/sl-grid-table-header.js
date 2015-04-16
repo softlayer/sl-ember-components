@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-grid-table-header';
 
 /**
  * @module components
  * @class  sl-grid-table-header
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -58,7 +59,7 @@ export default Ember.Component.extend({
          * @param    {string} key - The key for the sorted column
          * @returns  {void}
          */
-        sortColumn: function( key ) {
+        sortColumn( key ) {
             this.sendAction( 'action', key );
         }
     },
@@ -72,7 +73,7 @@ export default Ember.Component.extend({
      * @function mouseDown
      * @returns  {void}
      */
-    mouseDown: function() {
+    mouseDown() {
         if ( !this.get( 'disabled' ) && this.getWithDefault( 'column.movable', true ) ) {
             Ember.$( 'body' )
                 .on( 'mousemove', this.mouseMoveListener )
@@ -105,33 +106,54 @@ export default Ember.Component.extend({
      * @observes didInsertElement event, column.width
      * @returns  {void}
      */
-    columnWidthObserver: function() {
-        var width = this.get( 'column.width' ),
-            fixedWidth = this.get( 'column.fixedWidth' ),
-            finalWidth = fixedWidth || width,
-            tableWidth,
-            totalHintingWidth,
-            totalWidthHints,
-            totalFixedWidth,
-            widthHint;
+    columnWidthObserver: Ember.observer(
+        'column.width', 'column.fixedWidth',
+        Ember.on( 'didInsertElement', function() {
+            var width = this.get( 'column.width' ),
+                fixedWidth = this.get( 'column.fixedWidth' ),
+                finalWidth = fixedWidth || width,
+                tableWidth,
+                totalHintingWidth,
+                totalWidthHints,
+                totalFixedWidth,
+                widthHint;
 
 
-        if ( finalWidth ) {
-            this.set( 'style', 'width:' + finalWidth + 'px;' );
-            return;
-        }
+            if ( finalWidth ) {
+                this.set( 'style', Ember.String.htmlSafe(
+                    'width:' + finalWidth + 'px;'
+                ));
+                return;
+            }
 
-        tableWidth       = this.$().parents( 'table.sl-grid' ).width();
-        totalWidthHints  = this.get( 'totalWidthHints' );
-        totalFixedWidth  = this.get( 'totalFixedWidths' );
-        widthHint        = this.getWithDefault( 'column.widthHint', 1 );
+            tableWidth      = this.$().parents( 'table.sl-grid' ).width();
+            totalWidthHints = this.get( 'totalWidthHints' );
+            totalFixedWidth = this.get( 'totalFixedWidths' );
+            widthHint       = this.getWithDefault( 'column.widthHint', 1 );
 
-        totalHintingWidth = tableWidth - totalFixedWidth;
+            totalHintingWidth = tableWidth - totalFixedWidth;
 
-        width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
+            width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
 
-        this.set( 'style', 'width:' + width + 'px;' );
-    }.observes( 'column.width' ).on( 'didInsertElement' ),
+            this.set( 'style', Ember.String.htmlSafe(
+                'width:' + width + 'px;'
+            ));
+        })
+    ),
+
+    /**
+     * Removes any listeners that may have been set up
+     *
+     * @function removeBoundEventListeners
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    removeBoundEventListeners: Ember.on( 'willClearRender', function() {
+        Ember.$( 'body' )
+            .off( 'mouseleave', this.mouseLeaveListener )
+            .off( 'mousemove', this.mouseMoveListener )
+            .off( 'mouseup', this.mouseUpListener );
+    }),
 
     /**
      * Setup listeners for bound actions
@@ -140,8 +162,8 @@ export default Ember.Component.extend({
      * @observes didInsertElement event
      * @returns  {void}
      */
-    setupBoundListeners: function() {
-        this.set( 'mouseUpListener', Ember.run.bind( this, function() {
+    setupBoundListeners: Ember.on( 'didInsertElement', function() {
+        this.set( 'mouseUpListener', () => {
             var hlReorderCol = this.get( 'hlReorderCol' ),
                 newIndex     = this.get( 'newIndex' ),
                 oldIndex     = this.get( 'oldIndex' ),
@@ -168,9 +190,9 @@ export default Ember.Component.extend({
                     actionContext : [ oldIndex, newIndex ]
                 });
             }
-        }));
+        });
 
-        this.set( 'mouseMoveListener', Ember.run.bind( this, function( event ) {
+        this.set( 'mouseMoveListener', event => {
             var reorderCol = this.get( 'reorderCol' );
 
             if ( !reorderCol ) {
@@ -203,9 +225,9 @@ export default Ember.Component.extend({
             this._setNewColumnIndex();
 
             return false;
-        }));
+        });
 
-        this.set( 'mouseLeaveListener', Ember.run.bind( this, function(){
+        this.set( 'mouseLeaveListener', () => {
             var hlReorderCol = this.get( 'hlReorderCol' ),
                 reorderCol   = this.get( 'reorderCol' );
 
@@ -228,30 +250,14 @@ export default Ember.Component.extend({
                 window.getSelection().removeAllRanges();
             });
 
-        }));
+        });
 
-        if( this.get( 'column.sortable' ) ){
-            //prevent links from becoming 'dragged' elements during column reordering
-            this.$('a').on( 'dragstart', function(){ return false; });
+        if ( this.get( 'column.sortable' ) ) {
+            // Prevent links from becoming 'dragged' elements during
+            // column reordering
+            this.$('a').on( 'dragstart', function() { return false; } );
         }
-
-    }.on( 'didInsertElement' ),
-
-    /**
-     * Removes any listeners that may have been set up
-     *
-     * @function removeBoundEventListeners
-     * @observes "willClearRender" event
-     * @returns  {void}
-     */
-    removeBoundEventListeners: function(){
-        //just in case
-        Ember.$( 'body' )
-            .off( 'mouseleave', this.mouseLeaveListener )
-            .off( 'mousemove', this.mouseMoveListener )
-            .off( 'mouseup', this.mouseUpListener );
-
-    }.on( 'willClearRender' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -262,7 +268,7 @@ export default Ember.Component.extend({
      * @function getCurrentColumnIndex
      * @returns  {number} The index of the column
      */
-    getCurrentColumnIndex: function() {
+    getCurrentColumnIndex() {
         return this.$().parent().children( 'th.sl-grid-table-header' ).index( this.$() );
     },
 
@@ -273,7 +279,7 @@ export default Ember.Component.extend({
      * @param    {object} element - The element to get the position of
      * @returns  {Ember.Object}
      */
-    getPosition: function( element ) {
+    getPosition( element ) {
         var leftOffset = Ember.$( element ).offset().left,
             width = Ember.$( element ).outerWidth(),
             rightOffset = leftOffset + width;
@@ -294,14 +300,13 @@ export default Ember.Component.extend({
      * @function setNewColumnIndex
      * @returns  {void}
      */
-    _setNewColumnIndex: function() {
+    _setNewColumnIndex() {
         var reorderCol  = this.get( 'reorderCol' ),
             currentLeft = reorderCol.offset().left,
             currentWidth= reorderCol.outerWidth(),
             currentRight= currentLeft + currentWidth,
             id          = this.get( 'elementId' ),
             lastIndex   = this.get( 'newIndex' ),
-            self        = this,
             headers,
             offsets,
             availableOffsets,
@@ -311,34 +316,34 @@ export default Ember.Component.extend({
         headers = this.$().parent().children( 'th.sl-grid-table-header' );
 
         /* jshint unused: false */
-        offsets = headers.map( function( index, el ) {
+        offsets = headers.map( ( index, el ) => {
             if ( el.id === id ) {
                 return this.get( 'oldPosition' );
             }
             return this.getPosition( el );
-        }.bind( this ));
-
-        //filter
-        availableOffsets = offsets.filter( function( index, el ){
-            return self.getWithDefault( 'columns.'+index+'.movable', true);
         });
 
-        if( currentLeft < availableOffsets[0].left ){
-            currentLeft = availableOffsets[0].left;
+        // Filter
+        availableOffsets = offsets.filter( ( index, el ) => {
+            return this.getWithDefault( 'columns.' + index + '.movable', true );
+        });
+
+        if ( currentLeft < availableOffsets[ 0 ].left ) {
+            currentLeft = availableOffsets[ 0 ].left;
             reorderCol.offset({ left: currentLeft });
         }
 
-        if( currentLeft > availableOffsets[ availableOffsets.length -1].left ){
-            currentLeft = availableOffsets[ availableOffsets.length -1].left;
+        if ( currentLeft > availableOffsets[ availableOffsets.length - 1 ].left ) {
+            currentLeft = availableOffsets[ availableOffsets.length  - 1 ].left;
             reorderCol.offset({ left: currentLeft });
         }
 
-        currentIndex = Array.prototype.slice.call( offsets ).reduce( function( prev, el, index ) {
+        currentIndex = Array.prototype.slice.call( offsets ).reduce( ( prev, el, index ) => {
             return currentLeft >= el.left ? index : prev;
         }, 0 );
 
         if ( lastIndex !== currentIndex ) {
-            var hlReorderCol = this.get( 'hlReorderCol' );
+            let hlReorderCol = this.get( 'hlReorderCol' );
 
             if ( hlReorderCol ) {
                 hlReorderCol.remove();
@@ -365,15 +370,17 @@ export default Ember.Component.extend({
      * @observes column.isSorted, column.sortAscending
      * @returns  {Ember.String}
      */
-    sortClasses: function() {
-        var isSorted    = this.get( 'column.isSorted' ),
-            classString = '';
+    sortClasses: Ember.computed(
+        'column.isSorted', 'column.sortAscending', function() {
+            var isSorted    = this.get( 'column.isSorted' ),
+                classString = '';
 
-        if ( isSorted ) {
-            classString = 'fa ' + ( this.get( 'column.sortAscending' ) ? 'fa-chevron-up' : 'fa-chevron-down' );
+            if ( isSorted ) {
+                classString = 'fa ' + ( this.get( 'column.sortAscending' ) ? 'fa-chevron-up' : 'fa-chevron-down' );
+            }
+
+            return classString;
         }
-
-        return classString;
-    }.property( 'column.isSorted', 'column.sortAscending' )
+    )
 
 });

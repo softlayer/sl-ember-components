@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-radio-group';
 
 /**
  * @module components
  * @class  sl-radio-group
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -95,7 +96,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    initialize: function() {
+    initialize: Ember.on( 'didInsertElement', function() {
         var name       = this.get( 'name' ),
             value      = this.get( 'value' ),
             isDisabled = this.get( 'disabled' ),
@@ -146,7 +147,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         this.$('input[name=' + name + ']:radio').change( Ember.run.bind( this, function () {
             this.set( 'value', this.$('input[name=' + name + ']:radio').filter(':checked').val() );
         }));
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Remove events
@@ -155,7 +156,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @observes "willClearRender" event
      * @returns  {void}
      */
-    unregisterEvents: function() {
+    unregisterEvents: Ember.on( 'willClearRender', function() {
         this.$('input[name=' + this.get( 'name' ) + ']:radio').off();
-    }.on( 'willClearRender' )
+    })
 });

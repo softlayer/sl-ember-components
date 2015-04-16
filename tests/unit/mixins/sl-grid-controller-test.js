@@ -4,35 +4,34 @@ import SlGridController from 'sl-ember-components/mixins/sl-grid-controller';
 var gridController;
 
 module( 'Unit - mixin: sl-grid-controller', {
-    beforeEach: function() {
-        gridController = Ember.ArrayController.createWithMixins( SlGridController,
-            {
+    beforeEach() {
+        gridController = Ember.ArrayController.createWithMixins(
+            SlGridController, {
                 gridDefinition: {
-                    options: {
-                    },
+                    options: {},
+
                     columns: [
                         {
-                            key: 'test1',
-                            title: 'test 1',
-                            sortable: true
-
-                        },
-                        {
-                            key: 'test2',
-                            title: 'test 2',
-                            sortable: true
+                            key      : 'test1',
+                            title    : 'test 1',
+                            sortable : true
+                        }, {
+                            key      : 'test2',
+                            title    : 'test 2',
+                            sortable : true
                         }
                     ]
                 }
-            } );
+            }
+        );
+
         sinon.spy( gridController, 'reorderColumn' );
         sinon.spy( gridController, 'resetColumns' );
         sinon.spy( gridController, 'loadGridDefinition' );
         sinon.spy( gridController, 'onColumnWidthsChange' );
-
     },
 
-    afterEach: function() {
+    afterEach() {
         gridController.reorderColumn.restore();
         gridController.resetColumns.restore();
     }
@@ -40,21 +39,33 @@ module( 'Unit - mixin: sl-grid-controller', {
 
 test( 'action: reorderColumn should call reorderColumn with correct arguments', function( assert ) {
     gridController.send( 'reorderColumn', 0, 1 );
-    assert.ok( gridController.reorderColumn.calledOnce, 'reorderColumn was called once' );
-    assert.ok( gridController.reorderColumn.calledWith( 0, 1 ), 'reorderColumn was called with correct args' );
+
+    assert.ok(
+        gridController.reorderColumn.calledOnce,
+        'reorderColumn was called once'
+    );
+
+    assert.ok(
+        gridController.reorderColumn.calledWith( 0, 1 ),
+        'reorderColumn was called with correct args'
+    );
 });
 
 test( 'action: resetColumns should call resetColumns', function( assert ) {
     gridController.send( 'resetColumns' );
-    assert.ok( gridController.resetColumns.calledOnce, 'resetColumns was called once' );
+
+    assert.ok(
+        gridController.resetColumns.calledOnce,
+        'resetColumns was called once'
+    );
 });
 
 test( 'action: sortColumn should fail for unsortable column', function( assert ) {
     gridController.set('columns.firstObject.sortable', false);
-    try{
+    try {
         gridController.send( 'sortColumn', gridController.get( 'columns.firstObject' ) );
         assert.ok( false, 'assertion did not catch unsortable column');
-    } catch(e){
+    } catch( e ) {
         assert.ok( true, 'assertion did catch unsortable column' );
     }
 });

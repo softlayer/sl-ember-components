@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-tab-panel';
 
 /**
  * @module components
  * @class  sl-tab-panel
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -43,14 +44,13 @@ export default Ember.Component.extend({
          * @param    {string} tabName - The name of the tab to change into
          * @returns  {void}
          */
-        change: function( tabName ) {
-            var activeTabName = this.get( 'activeTabName' ),
-                self          = this;
+        change( tabName ) {
+            var activeTabName = this.get( 'activeTabName' );
 
             if ( activeTabName !== tabName ) {
                 this.setActiveTab( tabName );
-                this.deactivatePane( function() {
-                    self.activatePane( tabName );
+                this.deactivatePane( () => {
+                    this.activatePane( tabName );
                 });
             }
         }
@@ -107,9 +107,9 @@ export default Ember.Component.extend({
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    setupTabs: function() {
+    setupTabs: Ember.on( 'didInsertElement', function() {
         var initialTabName = this.get( 'initialTabName' ),
-            tabs           = [],
+            tabs           = Ember.A(),
             tabName;
 
         if ( !initialTabName ) {
@@ -130,7 +130,7 @@ export default Ember.Component.extend({
         });
 
         this.set( 'tabs', tabs );
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Sets the tab-content div height based on current contentHeight value
@@ -139,9 +139,9 @@ export default Ember.Component.extend({
      * @observes contentHeight
      * @returns  {void}
      */
-    updateContentHeight: function() {
+    updateContentHeight: Ember.observer( 'contentHeight', function() {
         this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
-    }.observes( 'contentHeight' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -153,7 +153,7 @@ export default Ember.Component.extend({
      * @param    {string} tabName - The name of the tab to activate
      * @returns  {void}
      */
-    activatePane: function( tabName ) {
+    activatePane( tabName ) {
         var pane = this.paneFor( tabName );
 
         pane.fadeIn( 'fast', function() {
@@ -171,7 +171,7 @@ export default Ember.Component.extend({
      * @param    {function} callback - Function called when the pane is deactivated
      * @returns  {void}
      */
-    deactivatePane: function( callback ) {
+    deactivatePane( callback ) {
         var pane = this.paneFor( this.get( 'activeTabName' ) );
 
         pane.fadeOut( 'fast', function() {
@@ -190,8 +190,8 @@ export default Ember.Component.extend({
      * @param    {string} tabName - The name of the tab to get the pane for
      * @returns  {void}
      */
-    paneFor: function( tabName ) {
-        return this.$( '.tab-pane[data-tab-name="' + tabName + '"]' );
+    paneFor( tabName ) {
+        return this.$( `.tab-pane[data-tab-name="${tabName}"]` );
     },
 
     /**
@@ -201,7 +201,7 @@ export default Ember.Component.extend({
      * @param    {string} tabName - The name of the tab to switch state to
      * @returns  {void}
      */
-    setActiveTab: function( tabName ) {
+    setActiveTab( tabName ) {
         var activeTabName = this.get( 'activeTabName' );
 
         this.tabFor( activeTabName ).removeClass( 'active' );
@@ -214,9 +214,9 @@ export default Ember.Component.extend({
      * @function tabAlignmentClass
      * @returns  {Ember.String}
      */
-    tabAlignmentClass: function() {
+    tabAlignmentClass: Ember.computed( 'alignTabs', function() {
         return 'sl-align-tabs-' + this.get( 'alignTabs' );
-    }.property( 'alignTabs' ),
+    }),
 
     /**
      * Get the tab with the specified tabName
@@ -225,7 +225,7 @@ export default Ember.Component.extend({
      * @param   {string} tabName - The name for the tab to get
      * @returns {object} DOM Element
      */
-    tabFor: function( tabName ) {
+    tabFor( tabName ) {
         return this.$( '.tab[data-tab-name="' + tabName + '"]' );
     }
 

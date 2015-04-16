@@ -11,9 +11,9 @@
         <pre>\{{sl-menu
     actionInitiated="actionInitiatedHandler"
     changeRoute="changeRouteHandler"
-    keyEventsBinding="controller.keyHandler"
-    keyboardInUseBinding="controller.keyboardInUse"
-    menuBinding="controller.content"
+    keyEvents=controller.keyHandler
+    keyboardInUse=controller.keyboardInUse
+    menu=controller.content
     selectionMade="selectionMadeHandler"
     showAll="true"
 }}</pre>
@@ -24,9 +24,9 @@
         {{sl-menu
             actionInitiated="actionInitiatedHandler"
             changeRoute="changeRouteHandler"
-            keyEventsBinding="controller.keyHandler"
-            keyboardInUseBinding="controller.keyboardInUse"
-            menuBinding="controller.content"
+            keyEvents=controller.keyHandler
+            keyboardInUse=controller.keyboardInUse
+            menu=controller.content
             selectionMade="selectionMadeHandler"
             showAll="true"
         }}
@@ -39,11 +39,11 @@
         <p>In addition to being able to interact with the menu via a mouse, the following keyboard shortcuts can also be used:</p>
 
         <ul>
-        <li>The numbers 1-4 can be selected to expand the menu option corresponding to its same location in the menu.</li>
-        <li>The numbers 0 can be selected to expand the "Show All" menu option.  How this option is visually rendered is a product of the applied CSS, which you can specify.</li>
-        <li>The ESC key can be used to close the expanded menu option.</li>
-        <li>To select an option from the expanded menu follow up your previous numerical selection with the selection of the dash/hyphen key followed by the numerical digit representing the location of the desired option desired in the display.</li>
-        <li>Once a top-level menu option has been selected you can use the TAB key or SHIFT+TAB key combination to cycle forwards and backwards through the menu options.</li>
+            <li>The numbers 1-4 can be selected to expand the menu option corresponding to its same location in the menu.</li>
+            <li>The numbers 0 can be selected to expand the "Show All" menu option.  How this option is visually rendered is a product of the applied CSS, which you can specify.</li>
+            <li>The ESC key can be used to close the expanded menu option.</li>
+            <li>To select an option from the expanded menu follow up your previous numerical selection with the selection of the dash/hyphen key followed by the numerical digit representing the location of the desired option desired in the display.</li>
+            <li>Once a top-level menu option has been selected you can use the TAB key or SHIFT+TAB key combination to cycle forwards and backwards through the menu options.</li>
         </ul>
 
         <p>Instructions on how to implement your own keyboard shortcuts can be found further below.</p>
@@ -61,7 +61,7 @@
             <li><strong>pages</strong> - An array of nodes that will be embedded under the <code>label</code> attribute as a sub-menu.</li>
             <li><strong>label</strong> - The label of the menu itself. This should be <em>null</em> for top level menus and will provide the name of the sub-menu for sub-menu lists</li>
             <li><strong>action</strong> - This can either be a string, which will be received by the <code>actionInitiated</code> binding on the template or can actually be a function that will be executed when the item is selected with either a mouse click or through a keyboard shortcut.</li>
-            <li><strong>route</strong> - This can be used to specify a route to which the application will transition if the menu item is selected.
+            <li><strong>route</strong> - This can be used to specify a route to which the application will transition if the menu item is selected.</li>
             <li><strong>link</strong> - This can be used to specify a link to another page.  This should be used to link to pages outside of the Ember app. </li>
         </ul>
         <br>
@@ -175,7 +175,7 @@ export default Ember.View.extend({
 
     registerKeyListeners: function() {
         Ember.$( document ).on( 'keypress.menu', function( e ) {
-            if ( e.charCode >= 49 && e.charCode <= 57 ) {
+            if ( e.charCode &gt;= 49 &amp;&amp; e.charCode &lt;= 57 ) {
                 var keypressed = e.charCode - 48;
                 this.get( 'controller.keyHandler' ).childSelection( keypressed );
             } else if ( e.charCode === 45 ) {
@@ -194,7 +194,7 @@ export default Ember.View.extend({
 
         // need to capture TAB key with keydown event
         Ember.$( document ).on( 'keydown.menu', function( e ) {
-            if ( 9 === e.keyCode && this.get( 'controller.keyboardInUse' ) ) {
+            if ( 9 === e.keyCode &amp;&amp; this.get( 'controller.keyboardInUse' ) ) {
                 e.preventDefault();
 
                 if ( e.shiftKey ) {

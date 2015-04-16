@@ -2,13 +2,13 @@ import Ember from 'ember';
 /* global moment */
 
 export default Ember.Controller.extend({
-    firstDayDate: function () {
+    firstDayDate: Ember.computed( function () {
         return moment().dayOfYear( 1 );
-    }.property(),
+    }),
 
-    threeMonthsAgoDate: function () {
+    threeMonthsAgoDate: Ember.computed( function () {
         var now = moment();
 
         return moment().month( now.month() - 3 );
-    }.property()
+    })
 });

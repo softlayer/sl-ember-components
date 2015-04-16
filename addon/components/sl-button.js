@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-button';
 
 /**
  * @module components
  * @class  sl-button
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -54,7 +55,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function click
      * @returns  {void}
      */
-    click: function() {
+    click() {
         this.sendAction();
     },
 
@@ -133,7 +134,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes label, pending, pendingLabel
      * @returns  {Ember.String}
      */
-    currentLabel: function() {
+    currentLabel: Ember.computed( 'label', 'pending', 'pendingLabel', function() {
         var label        = this.get( 'label' ),
             pending      = this.get( 'pending' ),
             pendingLabel = this.get( 'pendingLabel' );
@@ -145,7 +146,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         if ( label ) {
             return label;
         }
-    }.property( 'label', 'pending', 'pendingLabel' ),
+    }),
 
     /**
      * Converted size string to Bootstrap button class
@@ -154,7 +155,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes size
      * @returns  {Ember.String} Defaults to undefined
      */
-    sizeClass: function() {
+    sizeClass: Ember.computed( 'size', function() {
         var size = this.get( 'size' ),
             sizeClass;
 
@@ -173,7 +174,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         }
 
         return sizeClass;
-    }.property( 'size' ),
+    }),
 
     /**
      * Converted theme string to Bootstrap button class
@@ -182,8 +183,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes theme
      * @returns  {Ember.String} Defaults to "btn-default"
      */
-    themeClass: function() {
+    themeClass: Ember.computed( 'theme', function() {
         return 'btn-' + this.get( 'theme' );
-    }.property( 'theme' )
+    })
 
 });

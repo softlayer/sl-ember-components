@@ -99,7 +99,7 @@ export default Ember.Mixin.create({
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    modalize: function() {
+    modalize: Ember.on( 'didInsertElement', function() {
         var modal = this.$().modal({
             keyboard : true,
             show     : false,
@@ -111,7 +111,7 @@ export default Ember.Mixin.create({
         modal.on( 'hide.bs.modal', Ember.run.bind( this, this.hideHandler ) );
         modal.on( 'hidden.bs.modal', Ember.run.bind( this, this.hiddenHandler ) );
         modal.on( 'loaded.bs.modal', Ember.run.bind( this, this.loadedHandler ) );
-    }.on( 'didInsertElement' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -124,9 +124,9 @@ export default Ember.Mixin.create({
      * @function aria-labelledby
      * @returns  {Ember.String}
      */
-    'aria-labelledby': function() {
+    'aria-labelledby': Ember.computed( function() {
         return 'modalTitle-' + Math.random();
-    }.property(),
+    }),
 
     /**
      * Overridable method stub
@@ -136,7 +136,7 @@ export default Ember.Mixin.create({
      * @function hiddenHandler
      * @returns  {void}
      */
-    hiddenHandler: function() {},
+    hiddenHandler() {},
 
     /**
      * Overridable method stub
@@ -146,7 +146,7 @@ export default Ember.Mixin.create({
      * @function hideHandler
      * @returns  {void}
      */
-    hideHandler: function() {},
+    hideHandler() {},
 
     /**
      * Overridable method stub
@@ -156,7 +156,7 @@ export default Ember.Mixin.create({
      * @function loadedHandler
      * @returns  {void}
      */
-    loadedHandler: function() {},
+    loadedHandler() {},
 
     /**
      * Overridable method stub
@@ -166,7 +166,7 @@ export default Ember.Mixin.create({
      * @function showHandler
      * @returns  {void}
      */
-    showHandler: function() {},
+    showHandler() {},
 
     /**
      * Overridable method stub
@@ -176,6 +176,6 @@ export default Ember.Mixin.create({
      * @function shownHandler
      * @returns  {void}
      */
-    shownHandler: function() {}
+    shownHandler() {}
 
 });

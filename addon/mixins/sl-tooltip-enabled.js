@@ -58,13 +58,15 @@ export default Ember.Mixin.create({
      * @throws   {Ember.assert}
      * @returns  {void}
      */
-    enable: function() {
-        if ( this.get( 'popover' ) ) {
-            this.enablePopover();
-        } else if ( this.get( 'title' ) ) {
-             this.enableTooltip();
-        }
-    }.observes( 'popover', 'title' ).on( 'didInsertElement' ),
+    enable: Ember.observer( 'popover', 'title',
+        Ember.on( 'didInsertElement', function() {
+            if ( this.get( 'popover' ) ) {
+                this.enablePopover();
+            } else if ( this.get( 'title' ) ) {
+                this.enableTooltip();
+            }
+        })
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -76,7 +78,7 @@ export default Ember.Mixin.create({
      * @function enablePopover
      * @returns  {void}
      */
-    enablePopover: function() {
+    enablePopover() {
         var popover = this.get( 'popover' );
 
         // First-time rendering
@@ -102,7 +104,7 @@ export default Ember.Mixin.create({
      * @function enableTooltip
      * @returns  {void}
      */
-    enableTooltip: function() {
+    enableTooltip() {
         var title = this.get( 'title' );
 
         // First-time rendering

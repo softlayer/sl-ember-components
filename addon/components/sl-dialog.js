@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import ModalMixin from '../mixins/sl-modal';
+import layout from '../templates/components/sl-dialog';
 
 /**
  * @module components
  * @class  sl-dialog
  */
-export default Ember.Component.extend( ModalMixin, {
+export default Ember.Component.extend( ModalMixin, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -48,9 +49,9 @@ export default Ember.Component.extend( ModalMixin, {
      * @observes show
      * @returns  {void}
      */
-    toggle: function() {
+    toggle: Ember.observer( 'show', function() {
         this.$().modal( this.get( 'show' ) ? 'show' : 'hide' );
-    }.observes( 'show' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods

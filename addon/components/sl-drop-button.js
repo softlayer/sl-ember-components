@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-drop-button';
 
 /**
  * @module components
  * @class  sl-drop-button
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -44,7 +45,7 @@ export default Ember.Component.extend( TooltipEnabled, {
          * @param    {string} action to trigger
          * @returns  {void}
          */
-        click: function( action ) {
+        click( action ) {
             this.triggerAction({ action: action });
         }
     },
@@ -94,9 +95,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes align
      * @returns  {boolean}
      */
-    rightAligned: function() {
+    rightAligned: Ember.computed( 'align', function() {
         return this.get( 'align' ) === 'right';
-    }.property( 'align' ),
+    }),
 
     /**
      * The class value for the drop-button based on the current "theme"
@@ -105,8 +106,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes theme
      * @returns  {string}
      */
-    themeClass: function() {
+    themeClass: Ember.computed( 'theme', function() {
         return 'dropdown-' + this.get( 'theme' );
-    }.property( 'theme' )
+    })
 
 });

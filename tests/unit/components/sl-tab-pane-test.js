@@ -1,78 +1,88 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
-import { contains } from '../../helpers/sl/synchronous';
 
 var App;
 
 moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
     needs: [ 'component:sl-tab-panel' ],
 
-    beforeEach: function() {
+    beforeEach() {
         App = startApp();
     },
 
-    afterEach: function() {
+    afterEach() {
         Ember.run( App, App.destroy );
     }
 });
 
 test( 'Expected default classes are applied', function( assert ) {
-    var $component = this.render();
+    assert.ok(
+        this.$().hasClass( 'sl-tab-pane' ),
+        'Default rendered component has class "sl-tab-pane"'
+    );
 
-    assert.ok( contains( $component.prop( 'class' ), [ 'sl-tab-pane', 'tab-pane' ] ), 'Default classes are not correctly applied' );
+    assert.ok(
+        this.$().hasClass( 'tab-pane' ),
+        'Default rendered component has class "tab-pane"'
+    );
 });
 
 test( '"data-tab-label" attribute gets set as expected', function( assert ) {
-    var component  = this.subject({
-            label : 'Test Label'
-        });
+    var label = 'Test Label';
 
-    this.render();
+    this.subject({ label });
 
-    assert.equal( $('.sl-tab-pane[data-tab-label="Test Label"]').length, 1 );
+    assert.strictEqual(
+        this.$().attr( 'data-tab-label' ),
+        label,
+        'Data tab label is set properly'
+    );
 });
 
 test( '"data-tab-name" attribute gets set as expected', function( assert ) {
-    var component  = this.subject({
-            name : 'Test Name'
-        });
+    var name = 'Test Name';
 
-    this.render();
+    this.subject({ name });
 
-    assert.equal( $('.sl-tab-pane[data-tab-name="Test Name"]').length, 1 );
+    assert.equal(
+        this.$().attr( 'data-tab-name' ),
+        name,
+        'Data tab name is set properly'
+    );
 });
 
 test( 'Can provide content in block form', function( assert ) {
-    var component  = this.subject({
-            template : Ember.Handlebars.compile(
-                '{{#sl-tab-panel}}' +
-                '    {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '    {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{/sl-tab-panel}}'
-            )
-        });
+    this.subject({
+        layout: Ember.HTMLBars.compile(
+            '{{#sl-tab-panel}}' +
+            '    {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '    {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
+            '{{/sl-tab-panel}}'
+        )
+    });
 
-    this.render();
-
-    equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B content' );
+    assert.equal(
+        Ember.$.trim( this.$( '.sl-tab-pane[data-tab-name="b"]' ).text() ),
+        'B content',
+        'Expected content is present'
+    );
 });
 
 test( 'Can provide content via "templateName" property', function( assert ) {
-    var component  = this.subject({
-            template : Ember.Handlebars.compile(
-                '{{#sl-tab-panel}}' +
-                '    {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '    {{sl-tab-pane label="B" name="b" templateName="tabtest"}}' +
-                '{{/sl-tab-panel}}'
-            )
+    var templateContent = 'Template content',
+        component       = this.subject({
+            container    : App.__container__,
+            templateName : 'tabtest'
         });
 
-    App.__container__.register( 'template:tabtest', Ember.Handlebars.compile( 'B template content' ) );
-    App.__container__.register( 'view:tabtest', Ember.View.extend() );
-    component.container = App.__container__;
+    App.registry.register(
+        'template:tabtest', Ember.HTMLBars.compile( templateContent )
+    );
 
-    this.render();
-
-    assert.equal( $.trim( $('.sl-tab-pane[data-tab-name="b"]').text() ), 'B template content' );
+    assert.equal(
+        Ember.$.trim( this.$().text() ),
+        templateContent,
+        'Template content is populated as expected'
+    );
 });

@@ -1,32 +1,33 @@
 import Ember from 'ember';
 import KeyManager from 'sl-ember-components/utils/sl-menu-key-adapter';
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
 
     keyHandler: KeyManager.create(),
 
     /**
      * Is the menu being interacted with via the keyboard?
      *
-     * This value gets set by the inner workings of the component and is exposed for use by view logic
+     * This value gets set by the inner workings of the component and is exposed
+     * for use by view logic
      *
-     * @param {boolean}
+     * @param {boolean} keyboardInUse
      */
     keyboardInUse: null,
 
     actions: {
-        selectionMadeHandler: function( path ) {
+        selectionMadeHandler( path ) {
             console.log( 'Selection:', path );
         },
 
-        actionInitiatedHandler: function( actionName, data ) {
+        actionInitiatedHandler( actionName, data ) {
             console.log( 'Action [', actionName, ']' );
             if ( data ) {
                 console.log( '   data:', data );
             }
         },
 
-        changeRouteHandler: function( route ) {
+        changeRouteHandler( route ) {
             this.transitionToRoute( route );
         }
     }

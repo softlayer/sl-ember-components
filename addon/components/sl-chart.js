@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-chart';
 
 /**
  * @module components
  * @class  sl-calendar-chart
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -85,7 +86,7 @@ export default Ember.Component.extend({
      * @observes didInsertElement event
      * @returns  {void}
      */
-    setupChart: function() {
+    setupChart: Ember.on( 'didInsertElement', function() {
         var chartDiv = this.$( 'div.chart' ),
             chartStyle,
             options;
@@ -148,7 +149,7 @@ export default Ember.Component.extend({
         chartDiv.highcharts( options );
         this.set( 'chart', chartDiv.highcharts() );
         this.updateData();
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Updates the chart's series data
@@ -157,7 +158,7 @@ export default Ember.Component.extend({
      * @observes series
      * @returns  {void}
      */
-    updateData: function() {
+    updateData: Ember.observer( 'series', function() {
         var chart  = this.get( 'chart' ),
             series = this.get( 'series' );
 
@@ -165,14 +166,14 @@ export default Ember.Component.extend({
             chart.series = [];
         }
 
-        for ( var i = 0; i < series.length; i++ ) {
+        for ( let i = 0; i < series.length; i++ ) {
             if ( chart.series.length <= i ) {
                 chart.addSeries( series[ i ] );
             } else {
-                chart.series[i].setData( series[ i ].data );
+                chart.series[ i ].setData( series[ i ].data );
             }
         }
-    }.observes( 'series' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -184,8 +185,11 @@ export default Ember.Component.extend({
      * @observes height, width
      * @returns  {Ember.String}
      */
-    style: function() {
-        return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
-    }.property( 'height', 'width' )
+    style: Ember.computed( 'height', 'width', function() {
+        var height = this.get( 'height' ),
+            width  = this.get( 'width' );
+
+        return Ember.String.htmlSafe( `height: $.height}; width: ${width};` );
+    })
 
 });

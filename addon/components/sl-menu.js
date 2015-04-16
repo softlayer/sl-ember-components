@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-menu';
 
 /**
  * @module components
  * @class  sl-menu
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -43,7 +44,7 @@ export default Ember.Component.extend({
          * @function actions.closeAll
          * @returns  {void}
          */
-        closeAll: function() {
+        closeAll() {
             if ( this.$() ) {
                 this.$().removeClass( 'active' );
 
@@ -76,7 +77,7 @@ export default Ember.Component.extend({
          * @function cycleRootSelectionNext
          * @returns  {void}
          */
-        cycleRootSelectionNext: function() {
+        cycleRootSelectionNext() {
             var currentIndex = this.get( 'currentRootNodeIndex' );
 
             if ( !this.get( 'keyboardInUse' ) ) {
@@ -131,7 +132,7 @@ export default Ember.Component.extend({
          * @function cycleRootSelectionPrevious
          * @returns  {void}
          */
-        cycleRootSelectionPrevious: function() {
+        cycleRootSelectionPrevious() {
             var currentIndex = this.get( 'currentRootNodeIndex' );
 
             if ( !this.get( 'keyboardInUse' ) ) {
@@ -179,7 +180,7 @@ export default Ember.Component.extend({
          * @function actions.drillDown
          * @returns  {void}
          */
-        drillDown: function() {
+        drillDown() {
             var child = this.get( 'activeChild' );
 
             if ( this.get( 'keyHandler' )) {
@@ -198,7 +199,7 @@ export default Ember.Component.extend({
          * @function actions.selected
          * @returns  {void}
          */
-        selected: function() {
+        selected() {
             this.performAction();
         },
 
@@ -208,7 +209,7 @@ export default Ember.Component.extend({
          * @function actions.showAll
          * @returns  {void}
          */
-        showAll: function() {
+        showAll() {
             if ( this.$() ) {
                 this.$().addClass( 'active' );
 
@@ -232,7 +233,7 @@ export default Ember.Component.extend({
      * @function click
      * @returns  {boolean} false
      */
-    click: function() {
+    click() {
         this.performAction();
 
         return false;
@@ -244,7 +245,7 @@ export default Ember.Component.extend({
      * @function mouseEnter
      * @returns  {void}
      */
-    mouseEnter: function() {
+    mouseEnter() {
         var currentActiveRootNodeIndex = this.get( 'currentRootNodeIndex' ),
             query;
 
@@ -266,7 +267,7 @@ export default Ember.Component.extend({
      * @function mouseLeave
      * @returns  {void}
      */
-    mouseLeave: function() {
+    mouseLeave() {
         if ( this.get( 'isRoot' ) ) {
             this.send( 'closeAll' );
         } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' ) ) {
@@ -313,7 +314,7 @@ export default Ember.Component.extend({
          * @function AllView.mouseEnter
          * @returns  {void}
          */
-        mouseEnter: function() {
+        mouseEnter() {
             this.send( 'showAll' );
         },
 
@@ -324,9 +325,9 @@ export default Ember.Component.extend({
          * @observes parentView
          * @return   {Ember.View}
          */
-        target: function() {
+        target: Ember.computed( 'parentView', function() {
             return this.get( 'parentView' );
-        }.property( 'parentView' )
+        })
     }),
 
     /**
@@ -391,9 +392,9 @@ export default Ember.Component.extend({
      * @observes "init" event
      * @returns  {void}
      */
-    initChildren: function() {
-        this.set( 'children', [] );
-    }.on( 'init' ),
+    initChildren: Ember.on( 'init', function() {
+        this.set( 'children', Ember.A() );
+    }),
 
     /**
      * Initialize menu
@@ -402,39 +403,40 @@ export default Ember.Component.extend({
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    initMenu: function() {
+    initMenu: Ember.on( 'didInsertElement', function() {
         var keyEvents = this.get( 'keyEvents' ),
             parent    = this.get( 'parentView' ),
-            path      = [],
-            rootNode  = this,
-            self      = this;
+            path      = Ember.A(),
+            rootNode  = this;
+
+        this.set( 'pages', Ember.A( this.get( 'menu.pages' ) ) );
 
         // Register keyboard event listeners
         if ( keyEvents ) {
             this.set( 'keyHandler', true );
 
-            keyEvents.on( 'childSelected', function( key ) {
-                self.set( 'keyboardInUse', true );
-                self.childSelected( key );
+            keyEvents.on( 'childSelected', ( key ) => {
+                this.set( 'keyboardInUse', true );
+                this.childSelected( key );
             })
-            .on( 'drillDown', function() {
-                if ( self.get( 'useDrillDownKey' ) ) {
-                    self.send( 'drillDown' );
+            .on( 'drillDown', () => {
+                if ( this.get( 'useDrillDownKey' ) ) {
+                    this.send( 'drillDown' );
                 }
             })
-            .on( 'cycleRootSelectionNext', function( event ) {
-                self.send( 'cycleRootSelectionNext', event );
+            .on( 'cycleRootSelectionNext', ( event ) => {
+                this.send( 'cycleRootSelectionNext', event );
             })
-            .on( 'cycleRootSelectionPrevious', function( event ) {
-                self.send( 'cycleRootSelectionPrevious', event );
+            .on( 'cycleRootSelectionPrevious', ( event ) => {
+                this.send( 'cycleRootSelectionPrevious', event );
             })
-            .on( 'closeAll', function() {
-                self.set( 'keyboardInUse', false );
-                self.send( 'closeAll' );
+            .on( 'closeAll', () => {
+                this.set( 'keyboardInUse', false );
+                this.send( 'closeAll' );
             })
-            .on( 'showAll', function() {
-                self.set( 'keyboardInUse', true );
-                self.send( 'showAll' );
+            .on( 'showAll', () => {
+                this.set( 'keyboardInUse', true );
+                this.send( 'showAll' );
             });
         }
 
@@ -443,16 +445,16 @@ export default Ember.Component.extend({
             parent.registerChild( this );
         }
 
-        while( !rootNode.get( 'isRoot' ) ) {
-            path.insertAt( 0, rootNode.get( 'menu.label' ) );
-            rootNode = rootNode.get( 'parentView' );
+        while( !Ember.get( rootNode, 'isRoot' ) ) {
+            path.insertAt( 0, Ember.get( rootNode, 'menu.label' ) );
+            rootNode = Ember.get( rootNode, 'parentView' );
         }
 
         this.setProperties({
             path     : path,
             rootNode : rootNode
         });
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Remove bound events and current menu state
@@ -461,7 +463,7 @@ export default Ember.Component.extend({
      * @observes "willClearRender" event
      * @returns  {void}
      */
-    destroyMenu: function() {
+    destroyMenu: Ember.on( 'willClearRender', function() {
         var keyEvents = this.get( 'keyEvents' ),
             parent    = this.get( 'parentView' );
 
@@ -477,7 +479,7 @@ export default Ember.Component.extend({
                 .off( 'cycleRootSelectionNext' )
                 .off( 'cycleRootSelectionPrevious' );
         }
-    }.on( 'willClearRender' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -489,7 +491,7 @@ export default Ember.Component.extend({
      * @param    {mixed} child - Which child to activate
      * @returns  {void}
      */
-    activateChild: function( child ) {
+    activateChild( child ) {
         if ( typeof child === 'number' ) {
             child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
         }
@@ -510,7 +512,7 @@ export default Ember.Component.extend({
      * @param    {number} childIndex - Index of the child that is being selected
      * @returns  {void}
      */
-    childSelected: function( childIndex ) {
+    childSelected( childIndex ) {
         var child;
 
         if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' ) ) {
@@ -534,7 +536,7 @@ export default Ember.Component.extend({
      * @function currentRootNodeIndex
      * @returns  {number} - The current root node index
      */
-    currentRootNodeIndex: function() {
+    currentRootNodeIndex: Ember.computed( function() {
         var currentIndex = null;
 
         // Determine index of rootNode currently on
@@ -545,7 +547,7 @@ export default Ember.Component.extend({
         }, this );
 
         return currentIndex;
-    }.property().volatile(),
+    }).volatile(),
 
     /**
      * Boolean representation of showAll property
@@ -554,9 +556,9 @@ export default Ember.Component.extend({
      * @observes showAll
      * @returns  {boolean}
      */
-    showAllBoolean: function() {
+    showAllBoolean: Ember.computed( 'showAll', function() {
         return ( 'true' === this.get( 'showAll' ) ) ? true : false;
-    }.property( 'showAll' ),
+    }),
 
     /**
      * Whether to display the AllView view
@@ -565,9 +567,9 @@ export default Ember.Component.extend({
      * @observes isRoot, showAllBoolean
      * @returns  {boolean}
      */
-    displayShowAll: function() {
+    displayShowAll: Ember.computed( 'isRoot', 'showAllBoolean', function() {
         return this.get( 'isRoot' ) && this.get( 'showAllBoolean' );
-    }.property( 'isRoot', 'showAllBoolean' ),
+    }),
 
     /**
      * Send the primary action
@@ -575,7 +577,7 @@ export default Ember.Component.extend({
      * @function performAction
      * @returns  {void}
      */
-    performAction: function() {
+    performAction() {
         this.$().addClass( 'active' );
 
         var rootNode = this.get( 'rootNode' ),
@@ -621,7 +623,7 @@ export default Ember.Component.extend({
      * @param    {mixed} child
      * @returns  {void}
      */
-    registerChild: function( child ) {
+    registerChild( child ) {
         this.get( 'children' ).insertAt( 0, child );
     },
 
@@ -631,7 +633,7 @@ export default Ember.Component.extend({
      * @function showContent
      * @returns  {void}
      */
-    showContent: function() {
+    showContent() {
         this.get( 'parentView' ).set( 'activeChild', this );
     },
 
@@ -642,7 +644,7 @@ export default Ember.Component.extend({
      * @param    {mixed} child - The child to un-register from this menu
      * @returns  {void}
      */
-    unregisterChild: function( child ) {
+    unregisterChild( child ) {
         if ( child === this.get( 'activeChild' ) ) {
             this.set( 'activeChild', null );
         }

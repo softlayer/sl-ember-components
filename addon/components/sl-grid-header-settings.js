@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-grid-header-settings';
 
 /**
  * @module components
  * @class  sl-grid-header-settings
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -45,7 +46,7 @@ export default Ember.Component.extend({
          * @param    {integer} key    - Key of context to pass to triggered action
          * @returns  {void}
          */
-        click: function( action, key ) {
+        click( action, key ) {
             this.triggerAction({
                 action        : action,
                 actionContext : [ key ]
@@ -63,7 +64,7 @@ export default Ember.Component.extend({
      * @param    {event} event - The click event
      * @returns  {false|void}
      */
-    click: function( event ){
+    click( event ){
         if ( Ember.$( event.target ).closest( '.stay-open' ).length ) {
             return false;
         }
@@ -74,7 +75,7 @@ export default Ember.Component.extend({
      * @param  {Event} event
      * @return {void}
      */
-    mouseLeave: function( event ){
+    mouseLeave( event ){
         var toggleEl = Ember.$(event.target).closest( '.dropdown-toggle');
 
         if( ! toggleEl.length ){
@@ -117,7 +118,7 @@ export default Ember.Component.extend({
     columnCheckbox: Ember.Checkbox.extend({
         checked: Ember.computed.not( 'column.hidden' ),
 
-        click: function() {
+        click() {
             this.get( 'parentView' ).send( 'click', this.get( 'column.action' ), this.get( 'column.key' ) );
         }
     }),
@@ -135,8 +136,8 @@ export default Ember.Component.extend({
      * @observes settings
      * @returns  {Ember.Array}
      */
-    clickableActions: function() {
-        var actions  = [],
+    clickableActions: Ember.computed( 'settings', function() {
+        var actions  = Ember.A(),
             settings = this.get( 'settings' );
 
         if ( settings.actions ) {
@@ -144,7 +145,7 @@ export default Ember.Component.extend({
         }
 
         return actions;
-    }.property( 'settings' ),
+    }),
 
     /**
      * Get the columns in the header that are hideable
@@ -153,22 +154,25 @@ export default Ember.Component.extend({
      * @observes settings, columns.@each.hidden
      * @returns  {Ember.Array}
      */
-    hideableColumns: function() {
-        var columns         = this.get( 'columns' ),
-            hideableColumns = [],
-            settings        = this.get( 'settings' );
+    hideableColumns: Ember.computed(
+        'settings', 'columns.@each.hidden',
+        function() {
+            var columns         = this.get( 'columns' ),
+                hideableColumns = Ember.A(),
+                settings        = this.get( 'settings' );
 
-        if ( settings.hideableColumns ) {
-            hideableColumns.pushObjects( columns.filterBy( 'hideable', true ).map( function( column ) {
-                return {
-                    action : 'toggleColumnVisibility',
-                    hidden : column.hidden,
-                    key    : column.key,
-                    label  : column.title
-                };
-            }));
+            if ( settings.hideableColumns ) {
+                hideableColumns.pushObjects( columns.filterBy( 'hideable', true ).map( function( column ) {
+                    return {
+                        action : 'toggleColumnVisibility',
+                        hidden : column.hidden,
+                        key    : column.key,
+                        label  : column.title
+                    };
+                }));
+            }
+            return hideableColumns;
         }
-        return hideableColumns;
-    }.property( 'settings', 'columns.@each.hidden' )
+    )
 
 });

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RenderComponentView from '../views/sl-render-component';
 
 /**
  * @module helpers
@@ -14,12 +15,26 @@ import Ember from 'ember';
  *
  * @function render-component
  * @param    {string} componentPath - Lookup path for the component name
+ * @param    {object} options - Various bindings to related objects in context
  * @returns  {string} The rendered component
  */
-export default function( componentPath ) {
-    var options   = arguments[ arguments.length - 1 ],
-        component = Ember.Handlebars.get( this, componentPath, options ),
-        helper    = Ember.Handlebars.resolveHelper( options.data.view.container, component );
+export default {
 
-    helper.call( this, options );
-}
+    helperFunction( properties, hash, options, env ) {
+        var path = Ember.get( properties[ 0 ], '_label' );
+
+        hash[ 'componentName' ] = Ember.get(
+            env, `data.view._keywords.${path}`
+        );
+        hash[ '_dynamicOptions' ] = hash;
+
+        return env.helpers.view.helperFunction(
+            [ RenderComponentView ], hash, options, env
+        );
+    },
+
+    isHTMLBars: true,
+
+    preprocessArguments() {}
+
+};

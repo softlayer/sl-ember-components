@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-date-picker';
 
 /**
  * @module components
  * @class  sl-date-picker
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -232,9 +233,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    setInputElementId: function() {
+    setInputElementId: Ember.on( 'didInsertElement', function() {
         this.set( 'inputElementId', this.$( 'input.date-picker' ).prop( 'id' ) );
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Setup the bootstrap-datepicker plugin and events
@@ -243,14 +244,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes "didInsertElement" event
      * @returns  {void}
      */
-    setupDatepicker: function() {
-        var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' ) ),
-            self       = this;
+    setupDatepicker: Ember.on( 'didInsertElement', function() {
+        var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' ) );
 
-        datepicker.on( 'changeDate', function() {
-            self.sendAction( 'change' );
+        datepicker.on( 'changeDate', () => {
+            this.sendAction( 'change' );
         });
-    }.on( 'didInsertElement' ),
+    }),
 
     /**
      * Remove events
@@ -259,9 +259,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes "willClearRender" event
      * @returns  {void}
      */
-    unregisterEvents: function() {
+    unregisterEvents: Ember.on( 'willClearRender', function() {
         this.$( 'input.date-picker' ).off();
-    }.on( 'willClearRender' ),
+    }),
 
     /**
      * Dynamically update the endDate value for the datepicker
@@ -270,9 +270,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes endDate
      * @returns  {void}
      */
-    setEndDate: function() {
+    setEndDate: Ember.computed( 'endDate', function() {
         this.$( 'input.date-picker' ).datepicker( 'setEndDate', this.get( 'endDate' ) );
-    }.observes( 'endDate' ),
+    }),
 
     /**
      * Dynamically update the startDate value for the datepicker
@@ -281,9 +281,9 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes startDate
      * @returns  {void}
      */
-    setStartDate: function() {
+    setStartDate: Ember.computed( 'startDate', function() {
         this.$( 'input.date-picker' ).datepicker( 'setStartDate', this.get( 'startDate' ) );
-    }.observes( 'startDate' ),
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -294,7 +294,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function options
      * @returns  {Ember.Object}
      */
-    options: function() {
+    options: Ember.computed( function() {
         return {
             autoclose          : this.get( 'autoclose' ),
             calendarWeeks      : this.get( 'calendarWeeks' ),
@@ -314,6 +314,6 @@ export default Ember.Component.extend( TooltipEnabled, {
             todayHighlight     : this.get( 'todayHighlight' ),
             weekStart          : this.get( 'weekStart' )
         };
-    }.property()
+    })
 
 });

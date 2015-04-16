@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-radio';
 
 /**
  * @module components
  * @class  sl-radio
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -71,7 +72,7 @@ export default Ember.Component.extend({
      * @observes inline
      * @returns  {Ember.String}
      */
-    radioType: function() {
+    radioType: Ember.computed( 'inline', function() {
         return this.get( 'inline' ) ? 'radio-inline' : 'radio';
-    }.property( 'inline' )
+    })
 });

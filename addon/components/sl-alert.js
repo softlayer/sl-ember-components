@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-alert';
 
 /**
  * @module components
  * @class  sl-alert
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -51,7 +52,7 @@ export default Ember.Component.extend( TooltipEnabled, {
          * @function actions.dismiss
          * @returns  {void}
          */
-        dismiss: function() {
+        dismiss() {
             this.sendAction( 'dismiss' );
         }
     },
@@ -91,8 +92,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @observes theme
      * @returns  {Ember.String}  Defaults to "alert-info"
      */
-    themeClassName: function() {
+    themeClassName: Ember.computed( 'theme', function() {
         return 'alert-' + this.get( 'theme' );
-    }.property( 'theme' )
+    })
 
 });

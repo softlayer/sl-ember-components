@@ -31,7 +31,7 @@ export default Ember.Mixin.create({
          * @param   {model} model - An instance of a model to pass to the controller as content data
          * @returns {void}
          */
-        showModal: function( selector, controller, model ) {
+        showModal( selector, controller, model ) {
             Ember.$( selector ).modal( 'show' );
 
             if ( !Ember.isBlank( controller ) && !Ember.isBlank( model ) ) {

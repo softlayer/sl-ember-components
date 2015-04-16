@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model: function () {
-        return [
+        return Ember.A([
             {
                 label: 'Red',
                 description: 'Apples',
@@ -28,6 +28,6 @@ export default Ember.Route.extend({
                 description: '???',
                 value: 'splorge'
             }
-        ];
+        ]);
     }
 });
