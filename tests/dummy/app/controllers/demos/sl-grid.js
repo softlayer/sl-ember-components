@@ -1,35 +1,24 @@
 /* global alert */
+
 import Ember from 'ember';
 import SlGridMixin from 'sl-ember-components/mixins/sl-grid-controller';
 
 export default Ember.ArrayController.extend( SlGridMixin, {
 
     actions: {
-        /**
-         * Trigger reload of the model
-         *
-         * @function actions.reload
-         * @returns  {void}
-         */
-        reload: function() {
-            this.reloadModel( true );
-        },
 
-        /**
-         * testAction - simple test action
-         * @return {void}
-         */
-        testAction: function(){
+        testAction() {
             alert( 'This is a test from the sl-grid controller!' );
         }
+
     },
 
     itemController: 'demos.sl-grid-item',
 
     gridDefinition: {
         options: {
-            rowExpander      : true,
-            settingsMenu     : {
+            rowExpander  : true,
+            settingsMenu : {
                 translationKeys: {
                     actions: 'ACTIONS',
                     columns: 'COLUMNS',
@@ -51,8 +40,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 cssThClass: 'sl-grid-table-cell-row-expander',
                 movable: false,
                 fixedWidth: 30
-            },
-            {
+            }, {
                 component: 'sl-grid-table-cell',
                 key: 'name',
                 title: 'HOSTNAME',
@@ -60,8 +48,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 sortable: true,
                 resizable: true,
                 widthHint: 2
-            },
-            {
+            }, {
                 component: 'sl-grid-table-cell',
                 key: 'ip',
                 title: 'IPADDRESS',
@@ -69,8 +56,7 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 hideable: true,
                 resizable: true,
                 widthHint: 1
-            },
-            {
+            }, {
                 component: 'sl-grid-table-cell',
                 key: 'type',
                 title: 'DEVICETYPE',
@@ -78,24 +64,21 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 hideable: true,
                 resizable: true,
                 widthHint: 1
-            },
-            {
+            }, {
                 component: 'sl-grid-table-cell',
                 key: 'notes',
                 title: 'NOTES',
                 hideable: true,
                 resizable: true,
                 widthHint: 2
-            },
-            {
+            }, {
                 component: 'sl-grid-table-cell',
                 key: 'fmtProvisionDate',
                 title: 'PROVISIONDATE',
                 hideable: true,
                 resizable: true,
                 widthHint: 1
-            },
-            {
+            }, {
                 cssClass: 'sl-grid-table-cell-actions',
                 cssThClass: 'sl-grid-table-cell-actions',
                 component: 'sl-grid-table-cell-actions',
@@ -103,17 +86,6 @@ export default Ember.ArrayController.extend( SlGridMixin, {
                 fixedWidth: 120
             }
         ]
-    },
-
-    /**
-     * Reload the model for this controller
-     *
-     * @function reloadModel
-     * @return {void}
-     */
-    reloadModel: function() {
-        var model = this.store.find( 'device' );
-
-        this.set( 'model', model );
     }
+
 });

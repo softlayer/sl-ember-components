@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-drop-option';
 
 /**
  * @module components
  * @class  sl-drop-option
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

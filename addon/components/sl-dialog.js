@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import ModalMixin from '../mixins/sl-modal';
+import layout from '../templates/components/sl-dialog';
 
 /**
  * @module components
  * @class  sl-dialog
  */
-export default Ember.Component.extend( ModalMixin, {
+export default Ember.Component.extend( ModalMixin, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

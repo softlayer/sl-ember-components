@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-input';
 
 /**
  * @module components
  * @class  sl-input
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

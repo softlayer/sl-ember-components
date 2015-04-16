@@ -1,12 +1,13 @@
 /* global moment */
 
 import Ember from 'ember';
+import layout from '../templates/components/sl-calendar-month';
 
 /**
  * @module components
  * @class  sl-calendar-month
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

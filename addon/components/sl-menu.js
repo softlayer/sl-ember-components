@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-menu';
 
 /**
  * @module components
  * @class  sl-menu
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

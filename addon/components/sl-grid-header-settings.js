@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-grid-header-settings';
 
 /**
  * @module components
  * @class  sl-grid-header-settings
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -136,7 +137,7 @@ export default Ember.Component.extend({
      * @returns  {Ember.Array}
      */
     clickableActions: Ember.computed( 'settings', function() {
-        var actions  = [],
+        var actions  = Ember.A(),
             settings = this.get( 'settings' );
 
         if ( settings.actions ) {
@@ -157,7 +158,7 @@ export default Ember.Component.extend({
         'settings', 'columns.@each.hidden',
         function() {
             var columns         = this.get( 'columns' ),
-                hideableColumns = [],
+                hideableColumns = Ember.A(),
                 settings        = this.get( 'settings' );
 
             if ( settings.hideableColumns ) {

@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-grid-table-header';
 
 /**
  * @module components
  * @class  sl-grid-table-header
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -119,7 +120,9 @@ export default Ember.Component.extend({
 
 
             if ( finalWidth ) {
-                this.set( 'style', 'width:' + finalWidth + 'px;' );
+                this.set( 'style', Ember.String.htmlSafe(
+                    'width:' + finalWidth + 'px;'
+                ));
                 return;
             }
 
@@ -132,9 +135,25 @@ export default Ember.Component.extend({
 
             width = Math.floor( ( totalHintingWidth / totalWidthHints ) * widthHint );
 
-            this.set( 'style', 'width:' + width + 'px;' );
+            this.set( 'style', Ember.String.htmlSafe(
+                'width:' + width + 'px;'
+            ));
         })
     ),
+
+    /**
+     * Removes any listeners that may have been set up
+     *
+     * @function removeBoundEventListeners
+     * @observes "willClearRender" event
+     * @returns  {void}
+     */
+    removeBoundEventListeners: Ember.on( 'willClearRender', function() {
+        Ember.$( 'body' )
+            .off( 'mouseleave', this.mouseLeaveListener )
+            .off( 'mousemove', this.mouseMoveListener )
+            .off( 'mouseup', this.mouseUpListener );
+    }),
 
     /**
      * Setup listeners for bound actions
@@ -238,20 +257,6 @@ export default Ember.Component.extend({
             // column reordering
             this.$('a').on( 'dragstart', function() { return false; } );
         }
-    }),
-
-    /**
-     * Removes any listeners that may have been set up
-     *
-     * @function removeBoundEventListeners
-     * @observes "willClearRender" event
-     * @returns  {void}
-     */
-    removeBoundEventListeners: Ember.on( 'willClearRender', function() {
-        Ember.$( 'body' )
-            .off( 'mouseleave', this.mouseLeaveListener )
-            .off( 'mousemove', this.mouseMoveListener )
-            .off( 'mouseup', this.mouseUpListener );
     }),
 
     // -------------------------------------------------------------------------

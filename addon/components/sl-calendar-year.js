@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-calendar-year';
 
 /**
  * @module components
  * @class  sl-calendar-year
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

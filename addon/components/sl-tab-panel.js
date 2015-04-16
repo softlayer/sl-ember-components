@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-tab-panel';
 
 /**
  * @module components
  * @class  sl-tab-panel
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

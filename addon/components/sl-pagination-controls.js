@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-pagination-controls';
 
 /**
  * @module components
  * @class  sl-pagination-controls
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

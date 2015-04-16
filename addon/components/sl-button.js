@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-button';
 
 /**
  * @module components
  * @class  sl-button
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

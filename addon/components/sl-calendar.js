@@ -1,12 +1,13 @@
 /* global moment */
 
 import Ember from 'ember';
+import layout from '../templates/components/sl-calendar';
 
 /**
  * @module components
  * @class  sl-calendar-calendar
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -345,7 +346,7 @@ export default Ember.Component.extend({
      * @function decadeStart
      * @returns  {number}
      */
-    decadeStart: Ember.comupted( 'currentYear', function() {
+    decadeStart: Ember.computed( 'currentYear', function() {
         var currentYear = this.get( 'currentYear' );
 
         return currentYear - ( currentYear % 10 );
@@ -387,10 +388,10 @@ export default Ember.Component.extend({
     /**
      * An array of abbreviated, formatted day names of each week day
      *
-     * @property {array} shortWeekDayNames
+     * @property {Ember.Array} shortWeekDayNames
      */
     shortWeekDayNames: Ember.computed( function() {
-        return [
+        return Ember.A([
             moment().day( 0 ).format( 'dd' ),
             moment().day( 1 ).format( 'dd' ),
             moment().day( 2 ).format( 'dd' ),
@@ -398,7 +399,7 @@ export default Ember.Component.extend({
             moment().day( 4 ).format( 'dd' ),
             moment().day( 5 ).format( 'dd' ),
             moment().day( 6 ).format( 'dd' )
-        ];
+        ]);
     }),
 
     /**
@@ -456,7 +457,7 @@ export default Ember.Component.extend({
                 currentYear                = this.get( 'currentYear' ),
                 daysInCurrentMonth         = this.get( 'daysInMonth' ),
                 firstWeekdayOfCurrentMonth = ( new Date( currentYear, currentMonth - 1, 1 ) ).getDay(),
-                weeks                      = [],
+                weeks                      = Ember.A(),
                 inNextMonth                = false,
                 previousMonth,
                 previousMonthYear,
@@ -501,7 +502,7 @@ export default Ember.Component.extend({
             }
 
             for ( let week = 0; week < 6; week++ ) {
-                days = [];
+                days = Ember.A();
 
                 for ( let wday = 0; wday < 7; wday++ ) {
                     isActive = !inPreviousMonth && !inNextMonth &&

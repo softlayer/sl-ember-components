@@ -1,13 +1,22 @@
-import Ember from 'ember';
 /* global moment */
+
+import Ember from 'ember';
 
 export default Ember.Route.extend({
 
+    actions: {
+
+        reload() {
+            console.log( '!reload' );
+        }
+
+    },
+
     store: Ember.Object.create({
-        find: function() {
+        find() {
             var promise = new Ember.RSVP.Promise( function( resolve ) {
-                Ember.run.later( this, function() {
-                    resolve([
+                Ember.run.later( () => {
+                    resolve(Ember.A([
                         {
                             id: 1,
                             type: 'server',
@@ -57,7 +66,7 @@ export default Ember.Route.extend({
                             notes: 'Test Note',
                             provisionDate: moment( '2014-09-12' )
                         },
-                    ]);
+                    ]));
                 }, 1000 );
             }),
             devices = Ember.ArrayProxy.createWithMixins( Ember.PromiseProxyMixin );
@@ -67,7 +76,7 @@ export default Ember.Route.extend({
             return devices;
         },
 
-        metadataFor: function() {
+        metadataFor() {
             return {
                 totalCount: 7,
                 totalPages: 1
@@ -75,16 +84,16 @@ export default Ember.Route.extend({
         }
     }),
 
-    model: function () {
+    model() {
         return this.store.find( 'devices' );
     },
 
-    setupController: function( controller, model ) {
+    setupController( controller, model ) {
         this._super( controller, model );
         controller.set( 'store', this.store );
     },
 
-    renderTemplate: function() {
+    renderTemplate() {
         this.render( 'demos.sl-grid-demo' );
     }
 });

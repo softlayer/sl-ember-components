@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-grid-table-row-expander';
 
 /**
  * @module components
  * @class  sl-grid-table-row-expander
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -41,7 +42,7 @@ export default Ember.Component.extend({
      *
      * @property {Ember.String} style
      */
-    style: 'width: 30px;'
+    style: Ember.String.htmlSafe( 'width: 30px;' )
 
     // -------------------------------------------------------------------------
     // Observers

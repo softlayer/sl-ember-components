@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-select';
 
 /**
  * @module components
  * @class  sl-select
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -199,7 +200,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     Ember.warn( warning, !values.length );
                 }
 
-                return callback( multiple ? filteredContent : filteredContent.get( 'firstObject' ) );
+                return callback( multiple ? filteredContent : Ember.get( filteredContent, 'firstObject' ) );
             },
 
             minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,

@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-span';
 
 /**
  * @module components
  * @class  sl-span
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies

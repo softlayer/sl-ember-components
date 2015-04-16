@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-chart';
 
 /**
  * @module components
  * @class  sl-calendar-chart
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -157,7 +158,7 @@ export default Ember.Component.extend({
      * @observes series
      * @returns  {void}
      */
-    updateData: Ember.computed( 'series', function() {
+    updateData: Ember.observer( 'series', function() {
         var chart  = this.get( 'chart' ),
             series = this.get( 'series' );
 
@@ -169,7 +170,7 @@ export default Ember.Component.extend({
             if ( chart.series.length <= i ) {
                 chart.addSeries( series[ i ] );
             } else {
-                chart.series[i].setData( series[ i ].data );
+                chart.series[ i ].setData( series[ i ].data );
             }
         }
     }),
@@ -185,7 +186,10 @@ export default Ember.Component.extend({
      * @returns  {Ember.String}
      */
     style: Ember.computed( 'height', 'width', function() {
-        return 'height: ' + this.get( 'height' ) + '; width: ' + this.get( 'width' ) + ';';
+        var height = this.get( 'height' ),
+            width  = this.get( 'width' );
+
+        return Ember.String.htmlSafe( `height: $.height}; width: ${width};` );
     })
 
 });

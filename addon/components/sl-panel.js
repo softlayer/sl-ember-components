@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-panel';
 
 /**
  * @module components
  * @class  sl-panel
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend({ layout,
 
     // -------------------------------------------------------------------------
     // Dependencies
