@@ -4,8 +4,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent( 'sl-calendar-year', 'Unit - component: sl-calendar-year' );
 
 test( 'Default state is not active, new, or old', function( assert ) {
-    var component  = this.subject(),
-        $component = this.render();
+    var component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
@@ -26,27 +25,26 @@ test( 'Default state is not active, new, or old', function( assert ) {
     );
 
     assert.strictEqual(
-        $component.hasClass( 'active' ),
+        this.$().hasClass( 'active' ),
         false,
         'Default rendered component does not have class "active"'
     );
 
     assert.strictEqual(
-        $component.hasClass( 'new' ),
+        this.$().hasClass( 'new' ),
         false,
         'Default rendered component does not have class "new"'
     );
 
     assert.strictEqual(
-        $component.hasClass( 'old' ),
+        this.$().hasClass( 'old' ),
         false,
         'Default rendered component does not have class "old"'
     );
 });
 
 test( 'Click event sends action with year value', function( assert ) {
-    var exampleYear = 2000,
-        $component;
+    var exampleYear = 2000;
 
     assert.expect( 1 );
 
@@ -62,7 +60,5 @@ test( 'Click event sends action with year value', function( assert ) {
         year: exampleYear
     });
 
-    $component = this.render();
-
-    $component.trigger( 'click' );
+    this.$().trigger( 'click' );
 });

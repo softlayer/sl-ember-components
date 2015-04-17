@@ -60,7 +60,7 @@
     "ember-export-application-global": "^1.0.2",
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-try": "0.0.4",
-    "sl-ember-test-helpers": "joshforisha/sl-ember-test-helpers#ember-cli/0-2-3",
-    "sl-ember-translate": "joshforisha/sl-ember-translate#ember-cli/0-2-3"
+    "sl-ember-test-helpers": "1.4.0",
+    "sl-ember-translate": "1.6.0"
   }
 }

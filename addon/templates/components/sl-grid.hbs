@@ -1,0 +1,105 @@
+<header class="grid-header">
+    <div class="row">
+        <div class="col-sm-6">
+            {{yield}}
+        </div>
+
+        {{#if filterPath}}
+            <div class="col-sm-6 text-right">
+                {{#sl-button action="toggleFilterPane" size="small"}}{{filterText}}{{/sl-button}}
+            </div>
+        {{/if}}
+    </div>
+</header>
+
+<div class="filter-pane">
+    {{#if filterOpen}}
+        <div class="filter-content">
+            {{#if filterPath}}
+                {{render-dynamic filterPath}}
+            {{/if}}
+        </div>
+    {{/if}}
+</div>
+
+<div class="list-pane">
+    <table class="table column-headers">
+        <thead>
+            <tr>
+                {{#each column in columns itemViewClass="sl-grid-column-header"}}
+                    {{column.title}}
+                    {{#if column.sortable}}
+                        <i {{bind-attr class=":fa view.sortIconClass"}}></i>
+                    {{/if}}
+                {{/each}}
+
+                {{#if showActions}}
+                    <th class="actions-cell"></th>
+                {{/if}}
+            </tr>
+        </thead>
+    </table>
+
+    <div class="content">
+        <table class="table table-hover table-striped">
+            <tbody>
+                {{#each row in content itemController=detailPath itemViewClass="sl-grid-row"}}
+                    {{#each column in columns itemViewClass="sl-grid-cell"}}
+                        {{grid-cell}}
+                    {{/each}}
+
+                    {{#if showActions}}
+                        <td class="actions-cell">
+                            {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
+                                {{#each rowAction in row.rowActions}}
+                                    {{sl-drop-option action=rowAction.action label=rowAction.label}}
+                                {{/each}}
+                            {{/sl-drop-button}}
+                        </td>
+                    {{/if}}
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-xs-6">
+                {{#if footerPath}}
+                    {{partial footerPath}}
+                {{/if}}
+            </div>
+            <div class="col-xs-6 text-right">
+                {{#if pendingData}}
+                    {{sl-loading-icon}}
+                {{/if}}
+            </div>
+        </div>
+    </footer>
+</div>
+
+<div class="detail-pane">
+    <header>
+        <span class="title">
+            {{#if detailHeaderPath}}
+                {{render-dynamic detailHeaderPath activeRecord context=detailPath}}
+            {{/if}}
+        </span>
+
+        <button {{action "closeDetailPane"}} class="close">&times;</button>
+    </header>
+
+    <div class="content">
+        <div class="detail-content">
+            {{#if detailPath}}
+                {{render-dynamic detailPath activeRecord}}
+            {{/if}}
+        </div>
+    </div>
+
+    <footer>
+        {{#if detailFooterPath}}
+            {{render-dynamic detailFooterPath activeRecord context=detailPath}}
+        {{/if}}
+    </footer>
+</div>

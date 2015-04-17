@@ -1,0 +1,111 @@
+<h2>sl-grid</h2>
+<p class="lead">A dual-pane, master-detail split panel grid.</p>
+
+<hr>
+
+<h3>Example</h3>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{#sl-grid
+    columns=columns
+    content=arrangedContent
+    showActions=true
+    sortColumn="sortColumn"
+    totalCount=totalCount
+}}
+    &lt;h3&gt;Colors&lt;/h3&gt;
+\{{/sl-grid}}</pre>
+
+        <h6>Controller</h6>
+        <pre>columns: [
+    {
+        primary   : true,
+        title     : 'Color',
+        valuePath : 'name'
+    }, {
+        size      : 'small',
+        sortable  : true,
+        title     : 'Fruit',
+        valuePath : 'fruit'
+    }, {
+        size      : 'small',
+        title     : 'Hex Code',
+        valuePath : 'hexCode'
+    }
+]</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{#sl-grid
+            columns=columns
+            content=arrangedContent
+            showActions=true
+            sortColumn="sortColumn"
+            totalCount=totalCount
+        }}
+            <h3>Colors</h3>
+        {{/sl-grid}}
+    </div>
+</div>
+
+<hr>
+
+<h3>Properties</h3>
+
+<div class="list-group">
+    {{#property-text name="columns" type="array" required=true}}
+        <p>An array of column definition objects. Each column definition object can contain the following values:</p>
+        <ul>
+            <li><strong>align</strong> - A <em>string</em> that determines which direction to align the column's text (default: "left")</li>
+            <li><strong>primary</strong> - A <em>boolean</em> that determines whether the column remains shown when the detail pane is visible (default: <em>false</em>)</li>
+            <li><strong>size</strong> - The width of the column; either a string for relative sizing ("small", "medium", or "large"), or a number for exact number of pixels; the default is null for auto width</li>
+            <li><strong>sortable</strong> - A <em>boolean</em> that determines whether the column is sortable or not (default: <em>false</em>)</li>
+            <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content; uses the <code>rowController</code> as its controller</li>
+            <li><strong>title</strong> - The displayed title of the column</li>
+            <li><strong>valuePath</strong> - The lookup string for the column's basic output; only used if <strong>template</strong> is omitted</li>
+        </ul>
+    {{/property-text}}
+
+    {{#property-text name="content" type="array" required=true}}
+        Array of records to display as the rows.
+    {{/property-text}}
+
+    {{#property-text name="actionButtonLabel" type="string" default="\"Actions\""}}
+        The text to label the row actions' button with.
+    {{/property-text}}
+
+    {{#property-text name="autoHeight" type="boolean" default="false"}}
+        Determines whether the content areas of the grid will dynamically calculate their allowed heights within the viewport when the window is resized. When false, the <code>height</code> property is used to determine the content areas' heights manually.
+    {{/property-text}}
+
+    {{#property-text name="detailContentHeight" type="number" default="600"}}
+        Determines the detail pane's content height in pixels. <span class="text-warning">Only used when <code>autoHeight</code> is <em>false</em></span>.
+    {{/property-text}}
+
+    {{#property-text name="filterText" type="string" default="Filter"}}
+        The string to use for the filter button title.
+    {{/property-text}}
+
+    {{#property-text name="listContentHeight" type="number" default="600"}}
+        Determines the list pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
+    {{/property-text}}
+
+    {{#property-text name="nextPage" type="string"}}
+        The name of an action to trigger when the next page of data is requested from the grid. This action should load the next page of data itself.
+    {{/property-text}}
+
+    {{#property-text name="showActions" type="boolean" default="false"}}
+        Whether to show a column for the actions dropdown on the right side of the table. The drop-button options are populated by the detail controller's <code>rowActions</code> array property.
+    {{/property-text}}
+
+    {{#property-text name="sortColumn" type="string"}}
+        The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and the direction as a string ("ascending" or "descending").
+    {{/property-text}}
+
+    {{#property-text name="totalCount" type="number"}}
+        The total number of records for the content. This value is used to determine when new pages should be requested.
+    {{/property-text}}
+</div>

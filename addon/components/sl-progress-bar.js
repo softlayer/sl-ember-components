@@ -102,7 +102,9 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      * @returns  {Ember.String}
      */
     styleString: Ember.computed( 'value', function() {
-        return 'width: ' + this.get( 'value' ) + '%;';
+        var value = this.get( 'value' );
+
+        return Ember.String.htmlSafe( `width: ${value}%;` );
     }),
 
     /**

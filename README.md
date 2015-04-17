@@ -32,6 +32,7 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-time
 * sl-dialog
 * sl-drop-button
+* sl-grid
 * sl-input
 * sl-loading-icon
 * sl-menu
