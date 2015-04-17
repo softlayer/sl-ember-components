@@ -67,12 +67,28 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
     align: 'left',
 
     /**
+     * Drop button options array
+     *
+     * @property {array} content
+     * @default  null
+     */
+    content: null,
+
+    /**
      * Class string for the button's icon
      *
      * @property {Ember.String} iconClass
      * @default  "caret"
      */
     iconClass: 'caret',
+
+    /**
+     * Text string used for labeling the drop-button
+     *
+     * @property {Ember.String} label
+     * @default  null
+     */
+    label: null,
 
     /**
      * The string name of the style theme for the button
