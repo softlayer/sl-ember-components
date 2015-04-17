@@ -377,7 +377,7 @@ export default Ember.Component.extend({ layout,
                         contentDates[ currentYear ].hasOwnProperty( month )
                     ),
 
-                    month: month
+                    month
                 });
             }
 

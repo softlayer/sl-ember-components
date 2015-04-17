@@ -10,6 +10,7 @@ export default Ember.Controller.extend( SlGetTranslate, {
     },
 
     fmtProvisionDate: Ember.computed( 'provisionDate', function() {
+        console.log( 'Provision date:', this.get( 'provisionDate' ) );
         return this.get( 'provisionDate' ).format( 'MM-DD-YY' );
     }),
 

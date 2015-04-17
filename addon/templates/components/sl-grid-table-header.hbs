@@ -1,9 +1,0 @@
-{{#if column.title}}
-    {{#if column.sortable }}
-        <a href="#" {{action "sortColumn" column}}>{{sl-translate key=column.title}} 
-        <span {{bind-attr class="view.sortClasses"}}/>
-        </a>
-    {{else}}
-        {{sl-translate key=column.title}}
-    {{/if}}
-{{/if}}

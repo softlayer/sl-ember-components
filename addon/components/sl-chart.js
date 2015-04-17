@@ -189,7 +189,7 @@ export default Ember.Component.extend({ layout,
         var height = this.get( 'height' ),
             width  = this.get( 'width' );
 
-        return Ember.String.htmlSafe( `height: $.height}; width: ${width};` );
+        return Ember.String.htmlSafe( `height: ${height}; width: ${width};` );
     })
 
 });
