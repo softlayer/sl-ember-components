@@ -18,7 +18,7 @@ export default Ember.Component.extend({ layout,
      *
      * @property {array} classNameBindings
      */
-    classNameBindings: [ 'isLoading:sl-loading' ],
+    classNameBindings: [ 'loading:sl-loading' ],
 
     /**
      * Class names for the panel container
@@ -37,12 +37,20 @@ export default Ember.Component.extend({ layout,
     // Properties
 
     /**
+     * Heading text to display in the header section of the panel
+     *
+     * @property {Ember.String} heading
+     * @default  null
+     */
+    heading: null,
+
+    /**
      * When true, the panel body will be in a loading state
      *
      * @property {boolean} isLoading
      * @default  false
      */
-    isLoading: false
+    loading: false
 
     // -------------------------------------------------------------------------
     // Observers
