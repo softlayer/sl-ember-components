@@ -117,8 +117,6 @@ test( 'Computed timezoneString is set and updated correctly', function( assert )
         value    : new Date( 2015, 0, 1 )
     });
 
-    console.log( component.get( 'timezoneString' ) );
-
     assert.equal(
         component.get( 'timezoneString' ),
         'CST',
