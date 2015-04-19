@@ -45,6 +45,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     checked: false,
 
     /**
+     * Whether the input is disabled or not
+     *
+     * @property {boolean} disabled
+     * @default  false
+     */
+    disabled: false,
+
+    /**
      * The input's label text
      *
      * @property {Ember.String} label
