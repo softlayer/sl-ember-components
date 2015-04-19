@@ -13,20 +13,17 @@ moduleForComponent( 'sl-calendar', 'Unit - component: sl-calendar', {
 });
 
 test( 'Default class name is present', function( assert ) {
-    var $component = this.render();
-
     assert.ok(
-        $component.hasClass( 'sl-calendar' ),
+        this.$().hasClass( 'sl-calendar' ),
         'Default rendered component has class "sl-calendar"'
     );
 });
 
 test( 'Locked property applies class', function( assert ) {
-    var component  = this.subject(),
-        $component = this.render();
+    var component = this.subject();
 
     assert.strictEqual(
-        $component.hasClass( 'sl-calendar-locked' ),
+        this.$().hasClass( 'sl-calendar-locked' ),
         false,
         'Default rendered component does not have class "sl-calendar-locked"'
     );
@@ -36,7 +33,7 @@ test( 'Locked property applies class', function( assert ) {
     });
 
     assert.ok(
-        $component.hasClass( 'sl-calendar-locked' ),
+        this.$().hasClass( 'sl-calendar-locked' ),
         'Locked, rendered component has class "sl-calendar-locked"'
     );
 });
@@ -95,27 +92,26 @@ test( 'Clicking a day with a valid content value sends data', function( assert )
     var testDay   = 1,
         testMonth = 1,
         testYear  = 2015,
-        testDate  = new Date( testYear, testMonth - 1, testDay ),
-        component = this.subject({
-            action       : 'test',
-            content      : [ { date: testDate } ],
-            currentMonth : testMonth,
-            currentYear  : testYear,
+        testDate  = new Date( testYear, testMonth - 1, testDay );
 
-            targetObject: {
-                test: dateContent => {
-                    assert.equal(
-                        dateContent[ 0 ].date,
-                        testDate,
-                        'Date content received'
-                    );
-                }
+    this.subject({
+        action       : 'test',
+        content      : [ { date: testDate } ],
+        currentMonth : testMonth,
+        currentYear  : testYear,
+
+        targetObject: {
+            test: dateContent => {
+                assert.equal(
+                    dateContent[ 0 ].date,
+                    testDate,
+                    'Date content received'
+                );
             }
-        }),
-        $component = this.render();
+        }
+    });
 
-    assert.expect( 1 );
-    $component.find( '.active.day' ).trigger( 'click' );
+    this.$( '.active.day' ).trigger( 'click' );
 });
 
 test( 'changeDecade action works', function( assert ) {
@@ -216,8 +212,6 @@ test( 'Incrementing month from December causes year to increment', function( ass
 });
 
 test( 'Setting dateValuePath works', function( assert ) {
-    var $component;
-
     this.subject({
         content       : [ { test: new Date(2015, 0, 1) } ],
         currentMonth  : 1,
@@ -225,10 +219,8 @@ test( 'Setting dateValuePath works', function( assert ) {
         dateValuePath : 'test'
     });
 
-    $component = this.render();
-
     assert.equal(
-        $component.find( '.active.day' ).text(),
+        this.$( '.active.day' ).text(),
         '1',
         'Active day is expected text value'
     );
