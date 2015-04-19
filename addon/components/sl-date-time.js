@@ -65,10 +65,18 @@ export default Ember.Component.extend( TooltipEnabled, {
     timezone: null,
 
     /**
+     * The text to use for the component's tooltip (aliased to "datetime")
+     *
+     * @property title
+     * @returns  {string}
+     */
+    title: Ember.computed.alias( 'datetime' ),
+
+    /**
      * The bound value of the component's date value
      *
      * @property {date} value
-     * @default  (new Date)
+     * @default  (current date)
      */
     value: new Date(),
 
@@ -137,17 +145,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     timezoneString: function() {
         return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
-    }.property( 'timezone', 'momentValue' ),
-
-    /**
-     * The text to use for the component's tooltip
-     *
-     * @function title
-     * @observes datetime
-     * @returns  {string}
-     */
-    title: function() {
-        return this.get( 'datetime' );
-    }.property( 'datetime' )
+    }.property( 'timezone', 'momentValue' )
 
 });
