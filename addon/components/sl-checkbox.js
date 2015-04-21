@@ -14,13 +14,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /**
-     * Attribute bindings for containing div
-     *
-     * @property {Ember.Array} attributeBindings
-     */
-    attributeBindings: [ 'checked', 'disabled' ],
-
-    /**
      * Class names for containing div
      *
      * @property {Ember.Array} classNames
@@ -32,7 +25,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @property {Ember.Array} classNameBindings
      */
-    classNameBindings: [ 'disabled' ]
+    classNameBindings: [ 'disabled' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -42,6 +35,38 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether the input is checked or not
+     *
+     * @property {boolean} checked
+     * @default  false
+     */
+    checked: false,
+
+    /**
+     * Whether the input is disabled or not
+     *
+     * @property {boolean} disabled
+     * @default  false
+     */
+    disabled: false,
+
+    /**
+     * The input's label text
+     *
+     * @property {Ember.String} label
+     * @default  null
+     */
+    label: null,
+
+    /**
+     * The input's name property value
+     *
+     * @property {Ember.String} name
+     * @default  null
+     */
+    name: null
 
     // -------------------------------------------------------------------------
     // Observers
