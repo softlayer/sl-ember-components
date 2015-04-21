@@ -16,22 +16,22 @@ export default Ember.Component.extend({ layout,
     /**
      * HTML tag name of the root element
      *
-     * @property {Ember.String} tagName
-     * @default  "div"
+     * @property {String} tagName
+     * @default "div"
      */
     tagName: 'div',
 
     /**
      * Class names for the root element
      *
-     * @property {array} classNames
+     * @property {Array} classNames
      */
     classNames: [ 'sl-grid' ],
 
     /**
      * Class name bindings for the root element
      *
-     * @property {array} classNameBindings
+     * @property {Array} classNameBindings
      */
     classNameBindings: [
         'detailPaneOpen:details-open',
@@ -45,7 +45,7 @@ export default Ember.Component.extend({ layout,
     /**
      * Component actions hash
      *
-     * @property {Ember.Object} actions
+     * @property {Object} actions
      */
     actions: {
 
@@ -53,7 +53,7 @@ export default Ember.Component.extend({ layout,
          * Close the detail-pane
          *
          * @function actions.closeDetailPane
-         * @returns  {void}
+         * @returns {undefined}
          */
         closeDetailPane() {
             var activeRecord = this.get( 'activeRecord' );
@@ -70,9 +70,8 @@ export default Ember.Component.extend({ layout,
          * Open the detail-pane with a specific row object
          *
          * @function actions.openDetailPane
-         * @param    {Ember.Object} row - The object that the clicked row
-         *                                represents
-         * @returns  {void}
+         * @param {Object} row - The object that the clicked row represents
+         * @returns {undefined}
          */
         openDetailPane( row ) {
             var activeRecord = this.get( 'activeRecord' );
@@ -96,9 +95,9 @@ export default Ember.Component.extend({ layout,
          * bound action the column and direction to sort
          *
          * @function actions.sortColumn
-         * @param    {Ember.Object} column - The column definition for the
-         *                                   triggered header's column
-         * @returns  {undefined}
+         * @param {Object} column - The column definition for the triggered 
+         *                          header's column
+         * @returns {undefined}
          */
         sortColumn( column ) {
             if ( this.get( 'loading' ) || this.get( 'pendingData' ) ) {
@@ -132,7 +131,7 @@ export default Ember.Component.extend({ layout,
          * Opens/closes the filter pane
          *
          * @function actions.toggleFilterPane
-         * @returns  {void}
+         * @returns {undefined}
          */
         toggleFilterPane() {
             this.toggleProperty( 'filterOpen' );
@@ -152,16 +151,16 @@ export default Ember.Component.extend({ layout,
     /**
      * The text label for the rows' actions buttons
      *
-     * @property {Ember.String} actionsButtonLabel
-     * @default  "Actions"
+     * @property {String} actionsButtonLabel
+     * @default "Actions"
      */
     actionsButtonLabel: 'Actions',
 
     /**
      * The row record that is currently active in the detail pane
      *
-     * @property {Ember.Object} activeRecord
-     * @default  null
+     * @property {?Object} activeRecord
+     * @default null
      */
     activeRecord: null,
 
@@ -171,40 +170,40 @@ export default Ember.Component.extend({ layout,
      * When true, the component's content areas will be automatically resized
      * to the available viewport height when the viewport changes.
      *
-     * @property {boolean} autoHeight
-     * @default  false
+     * @property {Boolean} autoHeight
+     * @default false
      */
     autoHeight: false,
 
     /**
      * The height of the split-grid's detail pane content, in pixels
      *
-     * @property {number|Ember.String} detailContentHeight
-     * @default  "auto"
+     * @property {Number|String} detailContentHeight
+     * @default "auto"
      */
     detailContentHeight: 'auto',
 
     /**
      * The path of a template to use for the detail-pane footer
      *
-     * @property {Ember.String} detailFooterPath
-     * @default  null
+     * @property {?String} detailFooterPath
+     * @default null
      */
     detailFooterPath: null,
 
     /**
      * The path of a template to use for the detail-pane header
      *
-     * @property {Ember.String} detailHeaderPath
-     * @default  null
+     * @property {?String} detailHeaderPath
+     * @default null
      */
     detailHeaderPath: null,
 
     /**
      * Indicates when the details pane is open
      *
-     * @property {boolean} detailsPaneOpen
-     * @default  false
+     * @property {Boolean} detailsPaneOpen
+     * @default false
      */
     detailPaneOpen: false,
 
@@ -214,64 +213,64 @@ export default Ember.Component.extend({ layout,
      * The controller matching this name also drives the data for the detail's
      * footer template and header template.
      *
-     * @property {Ember.String} detailPath
-     * @default  null
+     * @property {?String} detailPath
+     * @default null
      */
     detailPath: null,
 
     /**
      * Indicates when the filter pane is open
      *
-     * @property {boolean} filterOpen
-     * @default  false
+     * @property {Boolean} filterOpen
+     * @default false
      */
     filterOpen: false,
 
     /**
      * The path of the controller/template/view to use for the filter panel
      *
-     * @property {Ember.String} filterPath
-     * @default  null
+     * @property {?String} filterPath
+     * @default null
      */
     filterPath: null,
 
     /**
      * The text to display on the filter panel toggle button
      *
-     * @property {Ember.String} filterText
-     * @default  "Filter"
+     * @property {String} filterText
+     * @default "Filter"
      */
     filterText: 'Filter',
 
     /**
      * The path for the template to use for the footer of the list pane
      *
-     * @property {Ember.String} listFooterPath
-     * @default  null
+     * @property {?String} listFooterPath
+     * @default null
      */
     footerPath: null,
 
     /**
      * The height of the split-grid's list pane content, in pixels
      *
-     * @property {number|Ember.String} listContentHeight
-     * @default  "auto"
+     * @property {Number|String} listContentHeight
+     * @default "auto"
      */
     listContentHeight: 'auto',
 
     /**
      * When true, the split-grid is in a loading state
      *
-     * @property {boolean} loading
-     * @default  false
+     * @property {Boolean} loading
+     * @default false
      */
     loading: false,
 
     /**
      * The "top" value for the table scroll to request a new page at
      *
-     * @property {number} nextPageScrollPoint
-     * @default  0
+     * @property {Number} nextPageScrollPoint
+     * @default 0
      */
     nextPageScrollPoint: 0,
 
@@ -279,24 +278,24 @@ export default Ember.Component.extend({ layout,
      * True when a next page of data has been requested, but before it has been
      * received
      *
-     * @property {boolean} pendingData
-     * @default  false
+     * @property {Boolean} pendingData
+     * @default false
      */
     pendingData: false,
 
     /**
      * Whether to show the column for the rows' action drop-buttons
      *
-     * @property {boolean} showActions
-     * @default  false
+     * @property {Boolean} showActions
+     * @default false
      */
     showActions: false,
 
     /**
      * The title of the column that is currently being sorted
      *
-     * @property {Ember.Object} sortedColumnTitle
-     * @default  null
+     * @property {?Object} sortedColumnTitle
+     * @default null
      */
     sortedColumnTitle: null,
 
@@ -305,10 +304,10 @@ export default Ember.Component.extend({ layout,
      *
      * Value is either "ascending" or "descending".
      *
-     * @property {Ember.String} sortedDirection
-     * @default  null
+     * @property {String} sortedDirection
+     * @default "ascending"
      */
-    sortedDirection: null,
+    sortedDirection: 'ascending',
 
     // -------------------------------------------------------------------------
     // Observers
@@ -318,7 +317,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function handleNewContent
      * @observes content.length
-     * @returns  {void}
+     * @returns {undefined}
      */
     handleNewContent: Ember.observer( 'content.length', function() {
         this.set( 'pendingData', false );
@@ -333,7 +332,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function resizeDetailContent
      * @observes autoHeight, detailContentHeight, "didInsertElement" event
-     * @returns  {void}
+     * @returns {undefined}
      */
     resizeDetailContent: Ember.observer( 'detailContentHeight',
         Ember.on( 'didInsertElement', function() {
@@ -348,7 +347,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function resizeListContent
      * @observes autoHeight, listContentHeight, "didInsertElement" event
-     * @returns  {void}
+     * @returns {undefined}
      */
     resizeListContent: Ember.observer( 'listContentHeight',
         Ember.on( 'didInsertElement', function() {
@@ -364,7 +363,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function setupContinuousPaging
      * @observes "didInsertElement" event
-     * @returns  {void}
+     * @returns {undefined}
      */
     setupContinuousPaging: Ember.on( 'didInsertElement', function() {
         if ( this.get( 'hasMorePages' ) ) {
@@ -378,7 +377,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function setupSizes
      * @observes "didInsertElement" event
-     * @returns  {void}
+     * @returns {undefined}
      */
     setupSizes: Ember.on( 'didInsertElement', function() {
         if ( this.get( 'autoHeight' ) === true ) {
@@ -397,13 +396,13 @@ export default Ember.Component.extend({ layout,
      *
      * @function setupTemplates
      * @observes "init" event
-     * @returns  {void}
+     * @returns {undefined}
      */
     setupTemplates: Ember.on( 'init', function() {
-        var renderedName = this.get( 'templateData.view.renderedName' );
+        var renderedName = this.get( '_parentView.renderedName' );
 
         if ( renderedName ) {
-            var container        = this.get( 'container' ),
+            var registry         = this.get( 'container._registry' ),
                 root             = renderedName.replace( '.', '/' ) + '/',
                 detailFooterPath = root + 'detail-footer',
                 detailHeaderPath = root + 'detail-header',
@@ -411,23 +410,23 @@ export default Ember.Component.extend({ layout,
                 filterPath       = root + 'filter',
                 footerPath       = root + 'footer';
             
-            if ( container.resolve( 'template:' + detailFooterPath ) ) {
+            if ( registry.resolve( 'template:' + detailFooterPath ) ) {
                 this.set( 'detailFooterPath', detailFooterPath );
             }
 
-            if ( container.resolve( 'template:' + detailHeaderPath ) ) {
+            if ( registry.resolve( 'template:' + detailHeaderPath ) ) {
                 this.set( 'detailHeaderPath', detailHeaderPath );
             }
 
-            if ( container.resolve( 'template:' + detailPath ) ) {
+            if ( registry.resolve( 'template:' + detailPath ) ) {
                 this.set( 'detailPath', detailPath );
             }
 
-            if ( container.resolve( 'template:' + filterPath ) ) {
+            if ( registry.resolve( 'template:' + filterPath ) ) {
                 this.set( 'filterPath', filterPath );
             }
 
-            if ( container.resolve( 'template:' + footerPath ) ) {
+            if ( registry.resolve( 'template:' + footerPath ) ) {
                 this.set( 'footerPath', footerPath );
             }
         }
@@ -440,7 +439,7 @@ export default Ember.Component.extend({ layout,
      * Disables the scroll event handling for continuous paging
      *
      * @function disableContinuousPaging
-     * @returns  {void}
+     * @returns {undefined}
      */
     disableContinuousPaging() {
         this.$( '.list-pane .content' ).unbind( 'scroll' );
@@ -450,7 +449,7 @@ export default Ember.Component.extend({ layout,
      * Enables the scroll event handling for continuous paging
      *
      * @function enableContinuousPaging
-     * @returns  {void}
+     * @returns {undefined}
      */
     enableContinuousPaging() {
         this.$( '.list-pane .content' ).bind( 'scroll',
@@ -462,7 +461,7 @@ export default Ember.Component.extend({ layout,
      * Retrieve the sorted column definition
      *
      * @function getSortedColumn
-     * @returns  {Ember.Object} - The definition for the currently sorted column
+     * @returns {Object} - The definition for the currently sorted column
      */
     getSortedColumn() {
         var columns           = this.get( 'columns' ),
@@ -483,8 +482,8 @@ export default Ember.Component.extend({ layout,
      * scroll location of the content
      *
      * @function handleListContentScroll
-     * @param    {jQuery.Event} event - The scroll trigger event
-     * @returns  {undefined}
+     * @param {jQuery.Event} event - The scroll trigger event
+     * @returns {undefined}
      */
     handleListContentScroll( event ) {
         var listContent  = this.$( event.target ),
@@ -499,7 +498,7 @@ export default Ember.Component.extend({ layout,
      * Whether the content has more available data to page in
      *
      * @function hasMorePages
-     * @returns  {Boolean} - True if more content pages are available
+     * @returns {Boolean} - True if more content pages are available
      */
     hasMorePages: Ember.computed( 'content.length', 'totalCount', function() {
         return this.get( 'content.length' ) < this.get( 'totalCount' );
@@ -509,7 +508,7 @@ export default Ember.Component.extend({ layout,
      * Trigger the bound `nextPage` action for more data
      *
      * @function requestNextPage
-     * @returns  {undefined}
+     * @returns {undefined}
      */
     requestNextPage() {
         if ( this.get( 'hasMorePages' ) ) {
@@ -526,7 +525,7 @@ export default Ember.Component.extend({ layout,
      * Trigger calculation of content height for the list pane and detail pane
      *
      * @function updateContentHeight
-     * @returns  {undefined}
+     * @returns {undefined}
      */
     updateContentHeight() {
         this.updateDetailContentHeight();
@@ -537,7 +536,7 @@ export default Ember.Component.extend({ layout,
      * Calculate and set the content height for the detail pane
      *
      * @function updateDetailContentHeight
-     * @returns  {undefined}
+     * @returns {undefined}
      */
     updateDetailContentHeight() {
         var viewportHeight     = Ember.$( window ).innerHeight(),
@@ -568,7 +567,7 @@ export default Ember.Component.extend({ layout,
      * Calculate and set the content height for the list pane
      *
      * @function updateListContentHeight
-     * @returns  {undefined}
+     * @returns {undefined}
      */
     updateListContentHeight() {
         var viewportHeight   = Ember.$( window ).innerHeight(),
@@ -582,10 +581,12 @@ export default Ember.Component.extend({ layout,
             listFooterHeight = parseInt(
                 this.$( '.list-pane footer' ).css( 'height' )
             ),
-            filterPaneHeight,
-            listContentHeight;
-
-        listContentHeight = viewportHeight - topPosition - gridHeaderHeight - listHeaderHeight - listFooterHeight;
+            listContentHeight = viewportHeight -
+                topPosition -
+                gridHeaderHeight -
+                listHeaderHeight -
+                listFooterHeight,
+            filterPaneHeight;
 
         if ( this.get( 'filterOpen' ) ) {
             filterPaneHeight = parseInt( this.$( '.filter-pane' ).css( 'height' ) );

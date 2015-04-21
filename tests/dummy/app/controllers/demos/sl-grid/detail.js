@@ -2,7 +2,7 @@
 
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
 
     actions: {
 
@@ -13,9 +13,10 @@ export default Ember.ObjectController.extend({
         sendLog() {
             console.log( this.get( 'model.name' ) );
         }
+
     },
 
-    rowActions: [
+    rowActions: Ember.A([
         {
             action : 'sendAlert',
             label  : 'Alert'
@@ -23,7 +24,11 @@ export default Ember.ObjectController.extend({
             action : 'sendLog',
             label  : 'Log'
         }
-    ],
+    ]),
+
+    test: Ember.computed( function() {
+        return Math.random();
+    }),
 
     testValue: 'Okay'
 

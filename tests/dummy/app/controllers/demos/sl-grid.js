@@ -13,9 +13,10 @@ export default Ember.ArrayController.extend({
 
     },
 
-    columns: [
+    columns: Ember.A([
         {
             primary   : true,
+            size      : 'small',
             title     : 'Color',
             valuePath : 'name'
         }, {
@@ -27,9 +28,9 @@ export default Ember.ArrayController.extend({
             size      : 'small',
             sortable  : true,
             title     : 'Hex Code',
-            valuePath : 'hexCode'
+            valuePath : 'test'
         }
-    ],
+    ]),
 
     sayGoodbye() {
         console.log( 'Goodbye! from page' );

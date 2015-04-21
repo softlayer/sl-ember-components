@@ -23,6 +23,11 @@ export default {
     helperFunction( properties, hash, options, env ) {
         var path = Ember.get( properties[ 0 ], '_label' );
 
+        console.log( 'Properties:', properties );
+        console.log( 'Hash:', hash );
+        console.log( 'Options:', options );
+        console.log( 'Env:', env );
+
         hash[ 'componentName' ] = Ember.get(
             env, `data.view._keywords.${path}`
         );
