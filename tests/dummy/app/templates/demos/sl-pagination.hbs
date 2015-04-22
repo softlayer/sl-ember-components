@@ -1,0 +1,35 @@
+<h2>sl-pagination</h2>
+<p class="lead">A component used for displaying and controlling pages of content.</p>
+
+<hr>
+
+<h3>Example</h3>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-pagination currentPage=1 pageChange="pageChange" totalPages=5}}</pre>
+    </div>
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-pagination currentPage=1 pageChange="pageChange" totalPages=5}}
+    </div>
+</div>
+
+<hr>
+
+<h3>Properties</h3>
+
+<div class="list-group">
+    {{#property-text name="currentPage" required=true type="Number"}}
+        The current page bound value.
+    {{/property-text}}
+
+    {{#property-text name="totalPages" required=true type="Number"}}
+        The total number of pages.
+    {{/property-text}}
+
+    {{#property-text name="pageChange" type="function"}}
+        An action triggered when the currentPage value is changed.
+    {{/property-text}}
+</div>
