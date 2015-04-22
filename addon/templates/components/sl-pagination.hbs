@@ -1,11 +1,11 @@
-<li {{bind-attr class="onFirstPage:disabled :sl-pagination-button"}}>
-    <a {{action "previousPage"}} aria-label="Previous">
+<li {{bind-attr class="onFirstPage:disabled"}}>
+    <a {{action "previousPage"}} aria-label="Previous" class="previous-page-button sl-pagination-button">
         <span aria-hidden="true">&laquo;</span>
     </a>
 </li>
 <li><a>{{currentPage}}</a></li>
-<li {{bind-attr class="onLastPage:disabled :sl-pagination-button"}}>
-    <a {{action "nextPage"}} aria-label="Next">
+<li {{bind-attr class="onLastPage:disabled"}}>
+    <a {{action "nextPage"}} aria-label="Next" class="next-page-button sl-pagination-button">
         <span aria-hidden="true">&raquo;</span>
     </a>
 </li>
