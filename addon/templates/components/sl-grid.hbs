@@ -82,7 +82,7 @@
     <header>
         <span class="title">
             {{#if detailHeaderPath}}
-                {{render-dynamic detailHeaderPath activeRecord context=detailPath}}
+                {{render-dynamic detailHeaderPath activeRecord}}
             {{/if}}
         </span>
 
@@ -99,7 +99,7 @@
 
     <footer>
         {{#if detailFooterPath}}
-            {{render-dynamic detailFooterPath activeRecord context=detailPath}}
+            {{render-dynamic detailFooterPath activeRecord}}
         {{/if}}
     </footer>
 </div>

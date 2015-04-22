@@ -14,20 +14,18 @@ import Ember from 'ember';
  * @param {Ember.Object} env - The env context of the helper caller
  * @returns {undefined}
  */
-export default function( viewPath, modelPath, env ) {
-    var hash     = {},
-        viewName = Ember.get( env, `data.view._keywords.view.${viewPath}` ),
-        options  = [],
-        model;
+export default {
 
-    if ( modelPath ) {
-        model = Ember.get( env, `data.view._keywords.view.${modelPath}` );
-    }
+    helperFunction( params, hash, options, env ) {
+        params[ 0 ] = env.data.view._parentView[ params[ 0 ]._label ];
 
-    if ( model ) {
         return Ember.Handlebars.helpers.render.helperFunction(
-            [ viewName.replace( /\//g, '.' ), model ],
-            hash, options, env
+            params, hash, options, env
         );
-    }
-}
+    },
+
+    isHelper: true,
+
+    isHTMLBars: true
+
+};

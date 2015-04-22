@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "ember try:testall"
+    "test": "ember test"
   },
   "bugs": "https://github.com/softlayer/sl-ember-components/issues",
   "repository": {
@@ -60,7 +60,6 @@
     "ember-export-application-global": "^1.0.2",
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-try": "0.0.4",
-    "sl-ember-test-helpers": "1.4.0",
-    "sl-ember-translate": "1.6.0"
+    "sl-ember-test-helpers": "1.4.0"
   }
 }

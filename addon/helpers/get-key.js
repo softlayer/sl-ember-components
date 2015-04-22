@@ -5,4 +5,4 @@ export default function( objectKey, pathKey, context ) {
         path   = Ember.get( context, `data.view._keywords.${pathKey}` );
 
     return Ember.get( object, path );
-};
+}

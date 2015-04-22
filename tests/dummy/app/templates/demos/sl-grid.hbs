@@ -7,16 +7,43 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <h6>Template</h6>
+        <h6>Template: grid.hbs</h6>
         <pre>\{{#sl-grid
     columns=columns
     content=arrangedContent
+    contentHeight=600
     showActions=true
     sortColumn="sortColumn"
     totalCount=totalCount
 }}
     &lt;h3&gt;Colors&lt;/h3&gt;
 \{{/sl-grid}}</pre>
+
+        <h6>Template: grid/detail-footer.hbs</h6>
+        <pre>\{{model.hexCode}}</pre>
+
+        <h6>Template: grid/detail-header.hbs</h6>
+        <pre>Color: \{{model.name}}</pre>
+
+        <h6>Template: grid/detail.hbs</h6>
+        <pre>&lt;h3&gt;\{{model.name}} fruit: \{{model.fruit}}&lt;/h3&gt;</pre>
+
+        <h6>Template: grid/footer.hbs</h6>
+        <pre>Viewing \{{content.length}} of \{{totalCount}} Colors</pre>
+
+        <h6>Template: grid/header.hbs</h6>
+        <pre>\{{#sl-drop-button label="Do something"}}
+    \{{sl-drop-option
+        click=sayHello
+        label="Say Hello"
+        targetObject=parentView
+    }}
+    \{{sl-drop-option
+        click=sayGoodbye
+        label="Say Goodbye"
+        targetObject=parentView
+    }}
+\{{/sl-drop-button}}</pre>
 
         <h6>Controller</h6>
         <pre>columns: [
@@ -42,6 +69,7 @@
         {{#sl-grid
             columns=columns
             content=arrangedContent
+            contentHeight=600
             showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
@@ -81,7 +109,7 @@
         Determines whether the content areas of the grid will dynamically calculate their allowed heights within the viewport when the window is resized. When false, the <code>height</code> property is used to determine the content areas' heights manually.
     {{/property-text}}
 
-    {{#property-text name="detailContentHeight" type="number" default="600"}}
+    {{#property-text name="detailContentHeight" type="number/string" default="\"auto\""}}
         Determines the detail pane's content height in pixels. <span class="text-warning">Only used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
@@ -89,7 +117,7 @@
         The string to use for the filter button title.
     {{/property-text}}
 
-    {{#property-text name="listContentHeight" type="number" default="600"}}
+    {{#property-text name="listContentHeight" type="number/string" default="\"auto\""}}
         Determines the list pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
     {{/property-text}}
 
