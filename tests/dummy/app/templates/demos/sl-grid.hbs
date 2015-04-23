@@ -11,7 +11,7 @@
         <pre>\{{#sl-grid
     columns=columns
     content=arrangedContent
-    contentHeight=198
+    height=400
     showActions=true
     sortColumn="sortColumn"
     totalCount=totalCount
@@ -30,20 +30,6 @@
 
         <h6>Template: grid/footer.hbs</h6>
         <pre>Viewing \{{content.length}} of \{{totalCount}} Colors</pre>
-
-        <h6>Template: grid/header.hbs</h6>
-        <pre>\{{#sl-drop-button label="Do something"}}
-    \{{sl-drop-option
-        click=sayHello
-        label="Say Hello"
-        targetObject=parentView
-    }}
-    \{{sl-drop-option
-        click=sayGoodbye
-        label="Say Goodbye"
-        targetObject=parentView
-    }}
-\{{/sl-drop-button}}</pre>
 
         <h6>Controller</h6>
         <pre>columns: [
@@ -69,7 +55,7 @@
         {{#sl-grid
             columns=columns
             content=arrangedContent
-            contentHeight=198
+            height=400
             showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
@@ -105,20 +91,12 @@
         The text to label the row actions' button with.
     {{/property-text}}
 
-    {{#property-text name="autoHeight" type="boolean" default="false"}}
-        Determines whether the content areas of the grid will dynamically calculate their allowed heights within the viewport when the window is resized. When false, the <code>height</code> property is used to determine the content areas' heights manually.
-    {{/property-text}}
-
-    {{#property-text name="detailContentHeight" type="number/string" default="\"auto\""}}
-        Determines the detail pane's content height in pixels. <span class="text-warning">Only used when <code>autoHeight</code> is <em>false</em></span>.
-    {{/property-text}}
-
     {{#property-text name="filterText" type="string" default="Filter"}}
         The string to use for the filter button title.
     {{/property-text}}
 
-    {{#property-text name="listContentHeight" type="number/string" default="\"auto\""}}
-        Determines the list pane's content height in pixels. <span class="text-warning">Will only be used when <code>autoHeight</code> is <em>false</em></span>.
+    {{#property-text name="height" type="number/string" default="\"auto\""}}
+        Determines the overall height of the sl-grid component. When the value is "auto" (the default), then the component will responsively size its own height to the allowed space in the viewport. Setting it to a number will lock the height to that many pixels high.
     {{/property-text}}
 
     {{#property-text name="nextPage" type="string"}}
