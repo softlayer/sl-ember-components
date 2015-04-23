@@ -1,7 +1,12 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-pagination';
 
-export default Ember.Component.extend({ layout,
+/**
+ * @module components
+ * @class sl-pagination
+ * @augments Ember.Component
+ */
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -9,29 +14,15 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag to use for the component's element
-     *
-     * @property {String} tagName
-     * @default "ul"
-     */
-    tagName: 'ul',
-
-    /**
-     * Class names for the component's element
-     *
-     * @property {Array} classNames
-     */
     classNames: [ 'pagination', 'sl-pagination' ],
+
+    layout,
+
+    tagName: 'ul',
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * The bound actions of the component
-     *
-     * @property {Object} actions
-     */
     actions: {
 
         /**

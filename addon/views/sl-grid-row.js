@@ -2,7 +2,9 @@ import Ember from 'ember';
 
 /**
  * @module views
- * @class  sl-grid-row
+ * @class sl-grid-row
+ * @augments Ember.View
+ * @mixes Ember.ViewTargetActionSupport
  */
 export default Ember.View.extend( Ember.ViewTargetActionSupport, {
 
@@ -12,20 +14,9 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag name for the view element
-     *
-     * @property {string} tagName
-     * @default  "tr"
-     */
-    tagName: 'tr',
-
-    /**
-     * Class name bindings for the view element
-     *
-     * @property {array} classNameBindings
-     */
     classNameBindings: [ 'content.active:active' ],
+
+    tagName: 'tr',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -33,13 +24,6 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     // -------------------------------------------------------------------------
     // Events
 
-    /**
-     * Handle the click event for the row
-     *
-     * @function click
-     * @param    {event} event - The raw click event
-     * @returns  {void}
-     */
     click( event ) {
         if ( this.$( event.target ).closest( '.sl-drop-button' ).length < 1 ) {
             this.triggerAction({

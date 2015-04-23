@@ -6,9 +6,11 @@ import layout from '../templates/components/sl-date-time';
 
 /**
  * @module components
- * @class  sl-date-time
+ * @class sl-date-time
+ * @augments Ember.Component
+ * @mixes sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, { layout,
+export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -16,20 +18,13 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag type of the component's root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "time"
-     */
-    tagName: 'time',
+    attributeBindings: [ 'datetime' ],
 
-    /**
-     * Class names for the component's root element, <time>
-     *
-     * @property {Ember.Array} classNames
-     */
     classNames: [ 'sl-datetime' ],
+
+    layout,
+
+    tagName: 'time',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -41,18 +36,11 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
     // Properties
 
     /**
-     * Bindings for the date-time's attribute values
-     *
-     * @property {Ember.Array} attributeBindings
-     */
-    attributeBindings: [ 'datetime' ],
-
-    /**
      * String name for the format to render inline; can be "date", "datetime",
      * or "relative"
      *
-     * @property {Ember.String} format
-     * @default  "datetime"
+     * @property {String} format
+     * @default "datetime"
      */
     format: 'datetime',
 
@@ -60,16 +48,16 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      * String representing the full timezone name, as used by and interpreted by
      * Moment-timezone: http://momentjs.com/timezone/docs/#/using-timezones/
      *
-     * @property {Ember.String} timezone
-     * @default  null
+     * @property {?String} timezone
+     * @default null
      */
     timezone: null,
 
     /**
      * The bound value of the component's date value
      *
-     * @property {date} value
-     * @default  (new Date)
+     * @property {Date} value
+     * @default (new Date)
      */
     value: new Date(),
 
@@ -84,7 +72,7 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * @function datetime
      * @observes timezoneString, value
-     * @returns  {string}
+     * @returns {String}
      */
     datetime: Ember.computed( 'timezoneString', 'value', function() {
         return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
@@ -95,7 +83,7 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * @function formattedValue
      * @observes format, momentValue
-     * @returns  {string}
+     * @returns {String}
      */
     formattedValue: Ember.computed( 'format', 'momentValue', function() {
         var momentValue     = this.get( 'momentValue' ),
@@ -123,7 +111,7 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * @function momentValue
      * @observes value
-     * @returns  {object}
+     * @returns {Object}
      */
     momentValue: Ember.computed( 'value', function() {
         return moment( this.get( 'value' ) );
@@ -134,7 +122,7 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * @function timezoneString
      * @observes timezone, momentValue
-     * @returns  {string}
+     * @returns {String}
      */
     timezoneString: Ember.computed( 'timezone', 'momentValue', function() {
         return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
@@ -145,7 +133,7 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * @function title
      * @observes datetime
-     * @returns  {string}
+     * @returns {String}
      */
     title: Ember.computed( 'datetime', function() {
         return this.get( 'datetime' );

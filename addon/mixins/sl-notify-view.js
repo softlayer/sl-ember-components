@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class  sl-notify-view
+ * @class sl-notify-view
+ * @augments Ember.Mixin
  */
 export default Ember.Mixin.create({
 
@@ -28,8 +29,8 @@ export default Ember.Mixin.create({
      * Notify the view's controller by sending "viewDidInsertElement"
      *
      * @function notifyDidInsertElement
-     * @observes "didInsertElement" event
-     * @returns  {void}
+     * @listens didInsertElement
+     * @returns {undefined}
      */
     notifyDidInsertElement: Ember.on( 'didInsertElement', function() {
         this.get( 'controller' ).send( 'viewDidInsertElement' );
@@ -39,8 +40,8 @@ export default Ember.Mixin.create({
      * Notify the view's controller by sending "viewWillClearRender"
      *
      * @function notifyWillClearRender
-     * @observes "willClearRender" event
-     * @returns  {void}
+     * @listens willClearRender
+     * @returns {undefined}
      */
     notifyWillClearRender: Ember.on( 'willClearRender', function() {
         this.get( 'controller' ).send( 'viewWillClearRender' );
@@ -50,8 +51,8 @@ export default Ember.Mixin.create({
      * Notify the view's controller by sending "viewWillDestroyElement"
      *
      * @function notifyWillDestroyElement
-     * @observes "willDestroyElement" event
-     * @returns  {void}
+     * @listens willDestroyElement
+     * @returns {undefined}
      */
     notifyWillDestroyElement: Ember.on( 'willDestroyElement', function() {
         this.get( 'controller' ).send( 'viewWillDestroyElement' );
@@ -61,8 +62,8 @@ export default Ember.Mixin.create({
      * Notify the view's controller by sending "viewWillInsertElement"
      *
      * @function notifyWillInsertElement
-     * @observes "willInsertElement" event
-     * @returns  {void}
+     * @listens willInsertElement
+     * @returns {undefined}
      */
     notifyWillInsertElement: Ember.on( 'willInsertElement', function() {
         this.get( 'controller' ).send( 'viewWillInsertElement' );

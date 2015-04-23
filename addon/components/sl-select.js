@@ -5,9 +5,12 @@ import layout from '../templates/components/sl-select';
 
 /**
  * @module components
- * @class  sl-select
+ * @class sl-select
+ * @augments Ember.Component
+ * @mixes sl-input-based
+ * @mixes sl-tooltip-enabled
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -15,12 +18,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the select element
-     *
-     * @property {Ember.Array} classNames
-     */
     classNames: [ 'form-group', 'sl-select' ],
+
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -34,57 +34,56 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
     /**
      * Whether to show the search filter input or not
      *
-     * @property {boolean} disableSearch
-     * @default  false
+     * @property {Boolean} disableSearch
+     * @default false
      */
     disableSearch: false,
 
     /**
      * The internal input element, used for Select2's bindings
      *
-     * @private
-     * @property {object} input
-     * @default  null
+     * @property {?Object} input
+     * @default null
      */
     input: null,
 
     /**
      * The maximum number of selections allowed when `multiple` is enabled
      *
-     * @property {number} maximumSelectionSize
-     * @default  null
+     * @property {?Number} maximumSelectionSize
+     * @default null
      */
     maximumSelectionSize: null,
 
     /**
      * Whether to allow multiple selections
      *
-     * @property {boolean} multiple
-     * @default  false
+     * @property {Boolean} multiple
+     * @default false
      */
     multiple: false,
 
     /**
      * The path key for each option object's description
      *
-     * @property {Ember.tring} optionDescriptionPath
-     * @default  "description"
+     * @property {String} optionDescriptionPath
+     * @default "description"
      */
     optionDescriptionPath: 'description',
 
     /**
      * The path key for each option object's label
      *
-     * @property {Ember.String} optionLabelPath
-     * @default  "label"
+     * @property {String} optionLabelPath
+     * @default "label"
      */
     optionLabelPath: 'label',
 
     /**
      * The path key for each option object's value
      *
-     * @property {Ember.String} optionValuePath
-     * @default  "value"
+     * @property {String} optionValuePath
+     * @default "value"
      */
     optionValuePath: 'value',
 
@@ -95,8 +94,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      * Teardown the select2 to prevent memory leaks
      *
      * @function destroySelect2
-     * @observes "willClearRender" event
-     * @returns  {void}
+     * @listens willClearRender
+     * @returns {undefined}
      */
     destroySelect2: Ember.on( 'willClearRender', function() {
         this.input.off( 'change' ).select2( 'destroy' );
@@ -106,8 +105,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      * Set up select2 initialization after the element is inserted in the DOM
      *
      * @function setupSelect2
-     * @observes "didInsertElement" event
-     * @returns  {void}
+     * @listens didInsertElement
+     * @returns {undefined}
      */
     setupSelect2: Ember.on( 'didInsertElement', function() {
         var get  = Ember.get,
@@ -254,7 +253,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      *
      * @function valueChanged
      * @observes content.@each, value
-     * @returns  {void}
+     * @returns {undefined}
      */
     valueChanged: Ember.observer( 'content.@each', 'value', function() {
         var value = this.get( 'value' );
@@ -273,7 +272,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      * Update the bound value when the Select2's selection has changed
      *
      * @function selectionChanged
-     * @param    {mixed} data - Select2 data
+     * @param {Object|Object[]} data - Select2 data
+     * @returns {undefined}
      */
     selectionChanged( data ) {
         var multiple        = this.get( 'multiple' ),

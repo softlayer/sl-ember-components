@@ -5,9 +5,10 @@ import layout from '../templates/components/sl-calendar';
 
 /**
  * @module components
- * @class  sl-calendar-calendar
+ * @class sl-calendar-calendar
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -15,28 +16,15 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
+    classNameBindings: [ 'locked:sl-calendar-locked' ],
+
     classNames: [ 'sl-calendar' ],
 
-    /**
-     * Bindings for the component's class names
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'locked:sl-calendar-locked' ],
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Object of actions
-     *
-     * @property {Ember.Object} actions
-     */
     actions: {
 
         /**
@@ -44,9 +32,9 @@ export default Ember.Component.extend({ layout,
          * the decadeStart year number
          *
          * @function actions.changeDecade
-         * @param    {number} decadeMod - A number to adjust the decadeStart by
-         *           (positive to increment, negative to decrement)
-         * @returns  {void}
+         * @param {Number} decadeMod - A number to adjust the decadeStart by
+         *        (positive to increment, negative to decrement)
+         * @returns {undefined}
          */
         changeDecade( decadeMod ) {
             if ( this.get( 'locked' ) ) {
@@ -61,10 +49,10 @@ export default Ember.Component.extend({ layout,
          * the currentMonth (and currentYear if needed)
          *
          * @function actions.changeMonth
-         * @param    {number} monthMod - A number to adjust the currentMonth by
-         *           (positive to increment, negative to decrement). The
-         *           currentYear is adjusted as needed.
-         * @returns  {void}
+         * @param {Number} monthMod - A number to adjust the currentMonth by
+         *        (positive to increment, negative to decrement). The
+         *        currentYear is adjusted as needed.
+         * @returns {undefined}
          */
         changeMonth( monthMod ) {
             var month,
@@ -98,9 +86,9 @@ export default Ember.Component.extend({ layout,
          * currentYear
          *
          * @function actions.changeYear
-         * @param    {number} yearMod - A number to adjust the currentYear by
-         *           (positive to increment, negative to decrement)
-         * @returns  {void}
+         * @param {Number} yearMod - A number to adjust the currentYear by
+         *        (positive to increment, negative to decrement)
+         * @returns {undefined}
          */
         changeYear( yearMod ) {
             if ( this.get( 'locked' ) ) {
@@ -115,9 +103,9 @@ export default Ember.Component.extend({ layout,
          * values with dates occurring on the clicked date
          *
          * @function actions.sendDateContent
-         * @param    {array} dateContent - Collection of content objects with
-         *           date values of the clicked date
-         * @returns  {void}
+         * @param {array} dateContent - Collection of content objects with
+         *        date values of the clicked date
+         * @returns {undefined}
          */
         sendDateContent( dateContent ) {
             if ( dateContent ) {
@@ -129,8 +117,8 @@ export default Ember.Component.extend({ layout,
          * Set the current month and change view mode to that month
          *
          * @function actions.setMonth
-         * @param    {number} month - The number of the month to change view to
-         * @returns  {void}
+         * @param {Number} month - The number of the month to change view to
+         * @returns {undefined}
          */
         setMonth( month ) {
             if ( this.get( 'locked' ) ) {
@@ -147,9 +135,9 @@ export default Ember.Component.extend({ layout,
          * Set the view mode of the calendar
          *
          * @function actions.setView
-         * @param    {string} view - The view mode to switch to; "days",
-         *           "months", or "years"
-         * @returns  {void}
+         * @param {String} view - The view mode to switch to; "days", "months",
+         *        or "years"
+         * @returns {undefined}
          */
         setView( view ) {
             if ( this.get( 'locked' ) ) {
@@ -163,8 +151,8 @@ export default Ember.Component.extend({ layout,
          * Set the current year
          *
          * @function actions.setYear
-         * @param    {number} year - The year to set to the current value
-         * @returns  {void}
+         * @param {Number} year - The year to set to the current value
+         * @returns {undefined}
          */
         setYear( year ) {
             if ( this.get( 'locked' ) ) {
@@ -187,24 +175,24 @@ export default Ember.Component.extend({ layout,
     /**
      * The currently selected/viewed month (1-12)
      *
-     * @property {number} currentMonth
-     * @default  null
+     * @property {Number} currentMonth
+     * @default null
      */
     currentMonth: null,
 
     /**
      * The currently selected/viewed year
      *
-     * @property {number} currentYear
-     * @default  null
+     * @property {Number} currentYear
+     * @default null
      */
     currentYear: null,
 
     /**
      * String lookup for the date value on the content objects
      *
-     * @property {Ember.String} dateValuePath
-     * @default  "date"
+     * @property {String} dateValuePath
+     * @default "date"
      */
     dateValuePath: 'date',
 
@@ -212,16 +200,16 @@ export default Ember.Component.extend({ layout,
      * When true, the view mode is locked and users cannot navigate forward
      * and back
      *
-     * @property {boolean} locked
-     * @default  false
+     * @property {Boolean} locked
+     * @default false
      */
     locked: false,
 
     /**
      * The current view mode for the calendar
      *
-     * @property {Ember.String} viewMode
-     * @default  "days"
+     * @property {String} viewMode
+     * @default "days"
      */
     viewMode: 'days',
 
@@ -233,7 +221,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function initialize
      * @observes "init" event
-     * @returns  {void}
+     * @returns {undefined}
      */
     initialize: Ember.on( 'init', function() {
         var today = new Date();
@@ -256,7 +244,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function contentDates
      * @observes content, dateValuePath
-     * @returns  {Ember.Object}
+     * @returns {Object}
      */
     contentDates: Ember.computed( 'content', 'dateValuePath', function() {
         var content       = this.get( 'content' ),
@@ -298,7 +286,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function currentMonthString
      * @observes currentMonth
-     * @returns  {Ember.String}
+     * @returns {String}
      */
     currentMonthString: Ember.computed(
         'currentMonth',
@@ -316,7 +304,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function daysInMonth
      * @observes currentMonth, currentYear
-     * @returns  {number}
+     * @returns {Number}
      */
     daysInMonth: Ember.computed(
         'currentMonth',
@@ -334,7 +322,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function decadeEnd
      * @observes decadeStart
-     * @returns  {number}
+     * @returns {Number}
      */
     decadeEnd: Ember.computed( 'decadeStart', function() {
         return this.get( 'decadeStart' ) + 9;
@@ -344,7 +332,7 @@ export default Ember.Component.extend({ layout,
      * The first year in the currently selected/viewed decade
      *
      * @function decadeStart
-     * @returns  {number}
+     * @returns {Number}
      */
     decadeStart: Ember.computed( 'currentYear', function() {
         var currentYear = this.get( 'currentYear' );
@@ -356,12 +344,12 @@ export default Ember.Component.extend({ layout,
      * Get an array of objects representing months in the year view
      *
      * Each item contains the following values:
-     * - {boolean} active - Whether a content item's date occurs on this month
-     * - {number}  month  - The month number in the year (1-12)
+     * - {Boolean} active - Whether a content item's date occurs on this month
+     * - {Number} month - The month number in the year (1-12)
      *
      * @function monthsInYearView
      * @observes contentDates, currentYear
-     * @returns  {Ember.Array}
+     * @returns {Object[]}
      */
     monthsInYearView: Ember.computed(
         'contentDates', 'currentYear',
@@ -407,7 +395,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function viewingDays
      * @observes viewMode
-     * @returns  {boolean}
+     * @returns {Boolean}
      */
     viewingDays: Ember.computed( 'viewMode', function() {
         return this.get( 'viewMode' ) === 'days';
@@ -418,7 +406,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function viewingMonths
      * @observes viewMode
-     * @returns  {boolean}
+     * @returns {Boolean}
      */
     viewingMonths: Ember.computed( 'viewMode', function() {
         return this.get( 'viewMode' ) === 'months';
@@ -429,7 +417,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function viewingYears
      * @observes viewMode
-     * @returns  {boolean}
+     * @returns {Boolean}
      */
     viewingYears: Ember.computed( 'viewMode', function() {
         return this.get( 'viewMode' ) === 'years';
@@ -439,15 +427,15 @@ export default Ember.Component.extend({ layout,
      * An array of objects representing weeks and days in the month view
      *
      * Each day object contains the following values:
-     * - {boolean} active - Whether a content item occurs on this date
-     * - {array} content - Collection of content items occurring on this date
-     * - {number} day - The day number of the month (1-31)
-     * - {boolean} new - Whether the day occurs in the next month
-     * - {boolean} old - Whether the day occurs in the previous month
+     * - {Boolean} active - Whether a content item occurs on this date
+     * - {Array} content - Collection of content items occurring on this date
+     * - {Number} day - The day number of the month (1-31)
+     * - {Boolean} new - Whether the day occurs in the next month
+     * - {Boolean} old - Whether the day occurs in the previous month
      *
      * @function weeksInMonthView
      * @observes contentDates, currentMonth, currentYear, daysInMonth
-     * @returns  {Ember.Array}
+     * @returns {Ember.Array}
      */
     weeksInMonthView: Ember.computed(
         'contentDates', 'currentMonth', 'currentYear', 'daysInMonth',
@@ -544,14 +532,14 @@ export default Ember.Component.extend({ layout,
      * An array of objects representing years in the decade view
      *
      * Each object contains the following values:
-     * - {boolean} active - Whether a content item occurs on this year
-     * - {boolean} new - Whether this year is in the next decade range
-     * - {boolean} old - Whether this year is in the previous decade range
-     * - {number} year - The year number
+     * - {Boolean} active - Whether a content item occurs on this year
+     * - {Boolean} new - Whether this year is in the next decade range
+     * - {Boolean} old - Whether this year is in the previous decade range
+     * - {Number} year - The year number
      *
      * @function yearsInDecadeView
      * @observes contentDates, decadeEnd, decadeStart
-     * @returns  {Ember.Array}
+     * @returns {Object[]}
      */
     yearsInDecadeView: Ember.computed(
         'contentDates', 'decadeEnd', 'decadeStart',

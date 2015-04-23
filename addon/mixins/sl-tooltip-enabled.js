@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class  sl-tooltip-enabled
+ * @class sl-tooltip-enabled
+ * @augments Ember.Mixin
  */
 export default Ember.Mixin.create({
 
@@ -12,11 +13,6 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Attribute bindings for the tooltip-based component
-     *
-     * @property {Ember.Array} attributeBindings
-     */
     attributeBindings: [ 'data-toggle', 'title' ],
 
     // -------------------------------------------------------------------------
@@ -31,8 +27,8 @@ export default Ember.Mixin.create({
     /**
      * 'data-toggle' attribute for use in template binding
      *
-     * @property {boolean} data-toggle
-     * @default  null
+     * @property {?Boolean} data-toggle
+     * @default null
      */
     'data-toggle': null,
 
@@ -42,8 +38,8 @@ export default Ember.Mixin.create({
      * Used as attribute in template binding by popover
      * Used as "data-original-title" attribute by tooltip
      *
-     * @property {Ember.String} title
-     * @default  null
+     * @property {?String} title
+     * @default null
      */
     title: null,
 
@@ -54,9 +50,10 @@ export default Ember.Mixin.create({
      * Enable the tooltip functionality, based on component's `popover` attribute
      *
      * @function enableTooltip
-     * @observes "didInsertElement" event, popover, title
-     * @throws   {Ember.assert}
-     * @returns  {void}
+     * @listens didInsertElement
+     * @observes popover, title
+     * @throws {Ember.assert}
+     * @returns {undefined}
      */
     enable: Ember.observer( 'popover', 'title',
         Ember.on( 'didInsertElement', function() {
@@ -74,9 +71,8 @@ export default Ember.Mixin.create({
     /**
      * Enable popover
      *
-     * @private
      * @function enablePopover
-     * @returns  {void}
+     * @returns {undefined}
      */
     enablePopover() {
         var popover = this.get( 'popover' );
@@ -100,9 +96,8 @@ export default Ember.Mixin.create({
     /**
      * Enable tooltip
      *
-     * @private
      * @function enableTooltip
-     * @returns  {void}
+     * @returns {undefined}
      */
     enableTooltip() {
         var title = this.get( 'title' );

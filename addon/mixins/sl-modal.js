@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class  sl-modal
+ * @class sl-modal
+ * @augments Ember.Mixin
  */
 export default Ember.Mixin.create({
 
@@ -12,19 +13,6 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The name of the layout/template to render for this mixin
-     *
-     * @property {Ember.String} layoutName
-     * @default  "sl-modal"
-     */
-    layoutName: 'sl-modal',
-
-    /**
-     * Attribute value bindings for the containing element
-     *
-     * @property {Ember.Array} attributeBindings
-     */
     attributeBindings: [
         'aria-describedby',
         'aria-hidden',
@@ -32,20 +20,11 @@ export default Ember.Mixin.create({
         'tabindex'
     ],
 
-    /**
-     * Class names for the containing element
-     *
-     * @property {Ember.Array} classNames
-     */
+    ariaRole: 'dialog',
+
     classNames: [ 'fade', 'modal' ],
 
-    /**
-     * `role` attribute value
-     *
-     * @property {Ember.String} role
-     * @default  "dialog"
-     */
-    ariaRole: 'dialog',
+    layoutName: 'sl-modal',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -59,8 +38,8 @@ export default Ember.Mixin.create({
     /**
      * `aria-describedby` attribute value
      *
-     * @property {Ember.String} aria-describedby
-     * @default  null
+     * @property {?String} aria-describedby
+     * @default null
      */
     'aria-describedby': null,
 
@@ -68,24 +47,24 @@ export default Ember.Mixin.create({
      * `aria-hidden` attribute to inform assistive technologies to skip the
      * modal's DOM elements
      *
-     * @property {Ember.String} aria-hidden
-     * @default  "true"
+     * @property {String} aria-hidden
+     * @default "true"
      */
     'aria-hidden': 'true',
 
     /**
      * Bootstrap's modal backdrop option
      *
-     * @property {boolean|Ember.String} backdrop
-     * @default  true
+     * @property {Boolean|String} backdrop
+     * @default true
      */
     backdrop: true,
 
     /**
      * `tabindex` attribute value
      *
-     * @property {Ember.String} tab index
-     * @default  '-1'
+     * @property {String} tab index
+     * @default "-1"
      */
     tabindex: '-1',
 
@@ -96,8 +75,8 @@ export default Ember.Mixin.create({
      * Binds handlers for exposed Twitter Bootstrap 3 modal events
      *
      * @function modalize
-     * @observes "didInsertElement" event
-     * @returns  {void}
+     * @listens didInsertElement
+     * @returns {undefined}
      */
     modalize: Ember.on( 'didInsertElement', function() {
         var modal = this.$().modal({
@@ -122,7 +101,7 @@ export default Ember.Mixin.create({
      * Is a randomly-generated unique string
      *
      * @function aria-labelledby
-     * @returns  {Ember.String}
+     * @returns {String}
      */
     'aria-labelledby': Ember.computed( function() {
         return 'modalTitle-' + Math.random();
@@ -133,8 +112,9 @@ export default Ember.Mixin.create({
      *
      * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
      *
+     * @abstract
      * @function hiddenHandler
-     * @returns  {void}
+     * @returns {undefined}
      */
     hiddenHandler() {},
 
@@ -143,8 +123,9 @@ export default Ember.Mixin.create({
      *
      * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
      *
+     * @abstract
      * @function hideHandler
-     * @returns  {void}
+     * @returns {undefined}
      */
     hideHandler() {},
 
@@ -153,8 +134,9 @@ export default Ember.Mixin.create({
      *
      * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
      *
+     * @abstract
      * @function loadedHandler
-     * @returns  {void}
+     * @returns {undefined}
      */
     loadedHandler() {},
 
@@ -163,8 +145,9 @@ export default Ember.Mixin.create({
      *
      * Triggered by Twitter Bootstrap 3 modal's `show.bs.modal` event.
      *
+     * @abstract
      * @function showHandler
-     * @returns  {void}
+     * @returns {undefined}
      */
     showHandler() {},
 
@@ -173,8 +156,9 @@ export default Ember.Mixin.create({
      *
      * Triggered by Twitter Bootstrap 3 modal's `shown.bs.modal` event.
      *
+     * @abstract
      * @function shownHandler
-     * @returns  {void}
+     * @returns {undefined}
      */
     shownHandler() {}
 

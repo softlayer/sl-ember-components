@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-date-range-picker';
 
 /**
  * @module components
- * @class  sl-date-range-picker
+ * @class sl-date-range-picker
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,12 +14,9 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the date-range-picker component
-     *
-     * @property {Ember.Array} classNames
-     */
     classNames: [ 'sl-date-range-picker' ],
+
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -32,23 +30,23 @@ export default Ember.Component.extend({ layout,
     /**
      * The value for the endDate input
      *
-     * @property {Ember.String} endDateValue
-     * @default  null
+     * @property {?String} endDateValue
+     * @default null
      */
     endDateValue: null,
 
     /**
      * The string format for date values
      *
-     * @property {Ember.String} format
-     * @default  "mm/dd/yyyy"
+     * @property {String} format
+     * @default "mm/dd/yyyy"
      */
     format: 'mm/dd/yyyy',
 
     /**
      * Bound value of Start Date input element's id
      *
-     * @type    {Ember.String}
+     * @property {?String} inputElementId
      * @default null
      */
     inputElementId: null,
@@ -56,23 +54,23 @@ export default Ember.Component.extend({ layout,
     /**
      * The last valid date for the date range
      *
-     * @property {date|Ember.String} endDate
-     * @default  null
+     * @property {?Date|String} endDate
+     * @default null
      */
     maxDate: null,
 
     /**
      * The earliest date selectable in the range
      *
-     * @property {date|Ember.String} minDate
-     * @default  null
+     * @property {?Date|String} minDate
+     * @default null
      */
     minDate: null,
 
     /**
      * The value for the startDate input
      *
-     * @property {Ember.String} startDateValue
+     * @property {?String} startDateValue
      * @default null
      */
     startDateValue: null,
@@ -85,8 +83,8 @@ export default Ember.Component.extend({ layout,
      * startDate input is changed
      *
      * @function setupFocusTransition
-     * @observes 'didInsertElement' event
-     * @returns  {void}
+     * @observes "didInsertElement" event
+     * @returns {undefined}
      */
     setupFocusTransition: Ember.on( 'didInsertElement', function() {
         var endDateInput = this.$( '.sl-daterange-end-date input' );
@@ -101,7 +99,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function unregisterEvents
      * @observes "willClearRender" event
-     * @returns  {void}
+     * @returns {undefined}
      */
     unregisterEvents: Ember.on( 'willClearRender', function() {
         this.$( '.sl-daterange-start-date input' ).off();
@@ -116,7 +114,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function earliestEndDate
      * @observes minDate, startDateValue
-     * @returns  {date|Ember.String}  Defaults to null
+     * @returns {?Date|String} Defaults to null
      */
     earliestEndDate: Ember.computed( 'minDate', 'startDateValue', function() {
         var minDate        = this.get( 'minDate' ),
@@ -139,7 +137,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function latestStartDate
      * @observes endDateValue, maxDate
-     * @returns  {date|Ember.String}  Defaults to null
+     * @returns {Date|String} Defaults to null
      */
     latestStartDate: Ember.computed( 'endDateValue', 'maxDate', function() {
         var endDateValue = this.get( 'endDateValue' ),

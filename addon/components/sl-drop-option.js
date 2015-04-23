@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-drop-option';
 
 /**
  * @module components
- * @class  sl-drop-option
+ * @class sl-drop-option
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,55 +14,31 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name for the root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "li"
-     */
-    tagName: 'li',
+    ariaRole: 'menuitem',
 
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'sl-drop-option' ],
-
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
     classNameBindings: [ 'optionType' ],
 
-    /**
-     * The ARIA role name for the drop button option
-     *
-     * @property {string} ariaRole
-     * @default  "menuItem"
-     */
-    ariaRole: 'menuitem',
+    classNames: [ 'sl-drop-option' ],
+
+    layout,
+
+    tagName: 'li',
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
     actions: {
 
         /**
          * Send the primary action when the click action is triggered
          *
          * @function actions.click
-         * @returns  {void}
+         * @returns {undefined}
          */
         click() {
             this.sendAction();
         }
+
     },
 
     // -------------------------------------------------------------------------
@@ -82,7 +59,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function optionType
      * @observes label
-     * @returns  {Ember.String}
+     * @returns {String}
      */
     optionType: Ember.computed( 'label', function() {
         return this.get( 'label' ) ? 'presentation' : 'divider';

@@ -3,7 +3,8 @@ import SlGridCellView from './sl-grid-cell';
 
 /**
  * @module views
- * @class  sl-grid-column-header
+ * @class sl-grid-column-header
+ * @augments views/sl-grid-cell
  */
 export default SlGridCellView.extend({
 
@@ -13,27 +14,11 @@ export default SlGridCellView.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag name of the view element
-     *
-     * @property {string} tagName
-     * @default  "th"
-     */
-    tagName: 'th',
-
-    /**
-     * Attribute bindings for the view element
-     *
-     * @property {array} attributeBindings
-     */
     attributeBindings: [ 'style' ],
 
-    /**
-     * Class name bindings for the view element
-     *
-     * @property {array} classNameBindings
-     */
     classNameBindings: [ 'content.sortable:sortable-column', 'sortedClass' ],
+
+    tagName: 'th',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -41,12 +26,6 @@ export default SlGridCellView.extend({
     // -------------------------------------------------------------------------
     // Events
 
-    /**
-     * The click event handler
-     *
-     * @function click
-     * @returns  {void}
-     */
     click() {
         if ( this.get( 'content.sortable' ) === true ) {
             this.triggerAction({
@@ -71,7 +50,7 @@ export default SlGridCellView.extend({
      *
      * @function sortedClass
      * @observes content.sorted
-     * @returns  {string}
+     * @returns {?String}
      */
     sortedClass: Ember.computed( 'content.sorted', function() {
         var sorted = this.get( 'content.sorted' );
@@ -86,7 +65,7 @@ export default SlGridCellView.extend({
      *
      * @function sortIconClass
      * @observes content.sorted
-     * @returns  {string}
+     * @returns {?String}
      */
     sortIconClass: Ember.computed( 'content.sorted', function() {
         var sorted = this.get( 'content.sorted' ),

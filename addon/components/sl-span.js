@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-span';
 
 /**
  * @module components
- * @class  sl-span
+ * @class sl-span
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,12 +14,8 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag name of the component
-     *
-     * @property {Ember.String} tagname
-     * @default  "span"
-     */
+    layout,
+
     tagName: 'span',
 
     // -------------------------------------------------------------------------
@@ -33,8 +30,8 @@ export default Ember.Component.extend({ layout,
     /**
      * Whether to show the loading icon or content
      *
-     * @property {boolean} loading
-     * @default  false
+     * @property {Boolean} loading
+     * @default false
      */
     loading: false
 

@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-chart';
 
 /**
  * @module components
- * @class  sl-calendar-chart
+ * @class sl-calendar-chart
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,19 +14,11 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
+    classNameBindings: [ 'isLoading:sl-loading' ],
+
     classNames: [ 'panel', 'panel-default', 'sl-chart', 'sl-panel' ],
 
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'isLoading:sl-loading' ],
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -39,40 +32,40 @@ export default Ember.Component.extend({ layout,
     /**
      * The highchart instantiation
      *
-     * @property {Ember.Object} chart
-     * @default  null
+     * @property {Object} chart
+     * @default null
      */
     chart: null,
 
     /**
      * Height value used for inline style
      *
-     * @property {Ember.String} height
-     * @default  "auto"
+     * @property {String} height
+     * @default "auto"
      */
     height: 'auto',
 
     /**
      * When true, the chart's panel body will be in a loading state
      *
-     * @property {boolean} isLoading
-     * @default  false
+     * @property {Boolean} isLoading
+     * @default false
      */
     isLoading: false,
 
     /**
      * The collection of series data for the chart
      *
-     * @property {Ember.Array} series
-     * @default  null
+     * @property {?Array} series
+     * @default null
      */
     series: null,
 
     /**
      * Width value used for inline style
      *
-     * @property {Ember.String} width
-     * @default  "auto"
+     * @property {Number|String} width
+     * @default "auto"
      */
     width: 'auto',
 
@@ -83,8 +76,8 @@ export default Ember.Component.extend({ layout,
      * Sets up Highcharts initialization
      *
      * @function setupChart
-     * @observes didInsertElement event
-     * @returns  {void}
+     * @listens didInsertElement
+     * @returns {undefined}
      */
     setupChart: Ember.on( 'didInsertElement', function() {
         var chartDiv = this.$( 'div.chart' ),
@@ -156,7 +149,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function updateSeries
      * @observes series
-     * @returns  {void}
+     * @returns {undefined}
      */
     updateData: Ember.observer( 'series', function() {
         var chart  = this.get( 'chart' ),
@@ -183,7 +176,7 @@ export default Ember.Component.extend({ layout,
      *
      * @function style
      * @observes height, width
-     * @returns  {Ember.String}
+     * @returns {String}
      */
     style: Ember.computed( 'height', 'width', function() {
         var height = this.get( 'height' ),

@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-panel';
 
 /**
  * @module components
- * @class  sl-panel
+ * @class sl-panel
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,19 +14,11 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class name bindings for the panel component
-     *
-     * @property {array} classNameBindings
-     */
     classNameBindings: [ 'loading:sl-loading' ],
 
-    /**
-     * Class names for the panel container
-     *
-     * @property {array} classNames
-     */
     classNames: [ 'panel', 'panel-default', 'sl-panel' ],
+
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -39,16 +32,16 @@ export default Ember.Component.extend({ layout,
     /**
      * Heading text to display in the header section of the panel
      *
-     * @property {Ember.String} heading
-     * @default  null
+     * @property {?String} heading
+     * @default null
      */
     heading: null,
 
     /**
      * When true, the panel body will be in a loading state
      *
-     * @property {boolean} isLoading
-     * @default  false
+     * @property {Boolean} loading
+     * @default false
      */
     loading: false
 

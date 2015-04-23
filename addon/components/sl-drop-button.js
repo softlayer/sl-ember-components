@@ -4,9 +4,11 @@ import layout from '../templates/components/sl-drop-button';
 
 /**
  * @module components
- * @class  sl-drop-button
+ * @class sl-drop-button
+ * @augments Ember.Component
+ * @mixes sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, { layout,
+export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -14,40 +16,28 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the div element
-     *
-     * @property {Ember.Array} classNames
-     */
+    classNameBindings: [ 'themeClass' ],
+
     classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
 
-    /**
-     * Class attribute bindings for the button
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'themeClass' ],
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
     actions: {
 
         /**
          * Used to trigger specific option-bound action
          *
-         * @function click
-         * @param    {string} action to trigger
-         * @returns  {void}
+         * @function actions.click
+         * @param {String} action to trigger
+         * @returns {undefined}
          */
         click( action ) {
-            this.triggerAction({ action: action });
+            this.triggerAction({ action });
         }
+
     },
 
     // -------------------------------------------------------------------------
@@ -61,40 +51,40 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * Possible values are "left" or "right".
      *
-     * @property {string} align
-     * @default  "left"
+     * @property {String} align
+     * @default "left"
      */
     align: 'left',
 
     /**
      * Drop button options array
      *
-     * @property {array} content
-     * @default  null
+     * @property {?Object[]} content
+     * @default null
      */
     content: null,
 
     /**
      * Class string for the button's icon
      *
-     * @property {Ember.String} iconClass
-     * @default  "caret"
+     * @property {String} iconClass
+     * @default "caret"
      */
     iconClass: 'caret',
 
     /**
      * Text string used for labeling the drop-button
      *
-     * @property {Ember.String} label
-     * @default  null
+     * @property {?String} label
+     * @default null
      */
     label: null,
 
     /**
      * The string name of the style theme for the button
      *
-     * @property {Ember.String} theme
-     * @default  "default"
+     * @property {String} theme
+     * @default "default"
      */
     theme: 'default',
 
@@ -109,7 +99,7 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * @function rightAligned
      * @observes align
-     * @returns  {boolean}
+     * @returns {Boolean}
      */
     rightAligned: Ember.computed( 'align', function() {
         return this.get( 'align' ) === 'right';
@@ -120,7 +110,7 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
      *
      * @function themeClass
      * @observes theme
-     * @returns  {string}
+     * @returns {String}
      */
     themeClass: Ember.computed( 'theme', function() {
         return 'dropdown-' + this.get( 'theme' );

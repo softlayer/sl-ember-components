@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 /**
  * @module mixins
- * @class  sl-input-based
+ * @class sl-input-based
+ * @augments Ember.Mixin
  */
 export default Ember.Mixin.create({
 
@@ -12,11 +13,6 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class name bindings for the component
-     *
-     * @property {Ember.Array} classNameBindings
-     */
     classNameBindings: [ 'disabled', 'optional', 'readonly', 'required' ],
 
     // -------------------------------------------------------------------------
@@ -33,16 +29,16 @@ export default Ember.Mixin.create({
      *
      * The internal input element should be passed this attribute as a property.
      *
-     * @property {boolean} disabled
-     * @default  false
+     * @property {Boolean} disabled
+     * @default false
      */
     disabled: false,
 
     /**
      * Whether the input-based component should be displayed as optional
      *
-     * @property {boolean} optional
-     * @default  false
+     * @property {Boolean} optional
+     * @default false
      */
     optional: false,
 
@@ -51,16 +47,16 @@ export default Ember.Mixin.create({
      *
      * The internal input element should be passed this attribute as a property.
      *
-     * @property {boolean} readonly
-     * @default  false
+     * @property {Boolean} readonly
+     * @default false
      */
     readonly: false,
 
     /**
      * Whether the input-based component is required
      *
-     * @property {boolean} required
-     * @default  false
+     * @property {Boolean} required
+     * @default false
      */
     required: false
 

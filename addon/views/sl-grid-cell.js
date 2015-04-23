@@ -2,7 +2,9 @@ import Ember from 'ember';
 
 /**
  * @module views
- * @class  sl-grid-cell
+ * @class sl-grid-cell
+ * @augments Ember.View
+ * @mixes Ember.ViewTargetActionSupport
  */
 export default Ember.View.extend( Ember.ViewTargetActionSupport, {
 
@@ -12,29 +14,13 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag name for the view
-     *
-     * @property {Ember.String} tagName
-     * @default  "td"
-     */
-    tagName: 'td',
-
-    /**
-     * Attribute bindings for the view element
-     *
-     * @property {array} attributeBindings
-     */
     attributeBindings: [ 'style' ],
 
-    /**
-     * Class name bindings for the view element
-     *
-     * @property {array} classNameBindings
-     */
     classNameBindings: [
         'alignmentClass', 'content.primary:primary-column', 'sizeClass'
     ],
+
+    tagName: 'td',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -56,7 +42,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      *
      * @function alignmentClass
      * @observes content.align
-     * @returns  {?String}
+     * @returns {?String}
      */
     alignmentClass: Ember.computed( 'content.align', function() {
         var align = this.get( 'content.align' );
@@ -71,7 +57,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      *
      * @function sizeClass
      * @observes content.size
-     * @returns  {?String}
+     * @returns {?String}
      */
     sizeClass: Ember.computed( 'content.size', function() {
         var size = this.get( 'content.size' );
@@ -86,7 +72,7 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      *
      * @function style
      * @observes content.size
-     * @returns  {Ember.String}
+     * @returns {Ember.String}
      */
     style: Ember.computed( 'content.size', function() {
         var size = this.get( 'content.size' );

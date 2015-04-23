@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-tab-pane';
 
 /**
  * @module components
- * @class  sl-tab-pane
+ * @class sl-tab-pane
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,27 +14,13 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag for tab-pane component
-     *
-     * @property {Ember.String} tagName
-     * @default "div"
-     */
-    tagName: 'div',
-
-    /**
-     * Bindings for HTML attributes on the tab pane
-     *
-     * @property {Ember.Array} attributeBindings
-     */
     attributeBindings: [ 'data-tab-label', 'data-tab-name' ],
 
-    /**
-     * Class name values for the tab pane component
-     *
-     * @property {Ember.Array} classNames
-     */
     classNames: [ 'sl-tab-pane', 'tab-pane' ],
+
+    layout,
+
+    tagName: 'div',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -45,18 +32,34 @@ export default Ember.Component.extend({ layout,
     // Properties
 
     /**
-     * Label text for the displayed tab name
+     * The data attribute for the tab label, used by Bootstrap
      *
-     * @property {Ember.String} data-tab-label
+     * @alias label
      */
     'data-tab-label': Ember.computed.alias( 'label' ),
 
     /**
-     * Text for internal tab identification
+     * The data attribute for the tab name, used by Bootstrap
      *
-     * @property {Ember.String} data-tab-name
+     * @alias name
      */
     'data-tab-name': Ember.computed.alias( 'name' ),
+
+    /**
+     * Label text for the displayed tab name
+     * 
+     * @property {?String} label
+     * @default null
+     */
+    label: null,
+
+    /**
+     * Text for internal tab identification
+     *
+     * @property {?String} name
+     * @default null
+     */
+    name: null
 
     // -------------------------------------------------------------------------
     // Observers

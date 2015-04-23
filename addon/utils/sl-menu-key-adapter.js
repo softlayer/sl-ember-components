@@ -2,7 +2,9 @@ import Ember from 'ember';
 
 /**
  * @module utils
- * @class  sl-menu-key-adapter
+ * @class sl-menu-key-adapter
+ * @augments Ember.Object
+ * @mixes Ember.Evented
  */
 export default Ember.Object.extend( Ember.Evented, {
 
@@ -10,8 +12,8 @@ export default Ember.Object.extend( Ember.Evented, {
      * Trigger the menu's childSelection action
      *
      * @function childSelection
-     * @param   {Ember.String} key
-     * @returns {void}
+     * @param {String} key
+     * @returns {undefined}
      */
     childSelection( key ) {
         if ( typeof key === 'string' ) {
@@ -22,21 +24,20 @@ export default Ember.Object.extend( Ember.Evented, {
     },
 
     /**
-     * Trigger the menu's drillDown action
+     * Trigger the menu's closeAll action
      *
-     * @function drillDown
-     * @param   {Ember.String} key
-     * @returns {void}
+     * @function closeAll
+     * @returns {undefined}
      */
-    drillDown( key ) {
-        this.trigger( 'drillDown', key );
+    closeAll() {
+        this.trigger( 'closeAll' );
     },
 
     /**
      * Trigger the menu's cycleRootSelectionNext action
      *
      * @function cycleRootSelectionNext
-     * @returns {void}
+     * @returns {undefined}
      */
     cycleRootSelectionNext() {
         this.trigger( 'cycleRootSelectionNext' );
@@ -46,27 +47,28 @@ export default Ember.Object.extend( Ember.Evented, {
      * Trigger the menu's cycleRootSelectionPrevious action
      *
      * @function cycleRootSelectionPrevious
-     * @returns {void}
+     * @returns {undefined}
      */
     cycleRootSelectionPrevious() {
         this.trigger( 'cycleRootSelectionPrevious' );
     },
 
     /**
-     * Trigger the menu's closeAll action
+     * Trigger the menu's drillDown action
      *
-     * @function closeAll
-     * @returns {void}
+     * @function drillDown
+     * @param {String} key
+     * @returns {undefined}
      */
-    closeAll() {
-        this.trigger( 'closeAll' );
+    drillDown( key ) {
+        this.trigger( 'drillDown', key );
     },
 
     /**
      * Trigger the menu's showAll action
      *
      * @function showAll
-     * @returns {void}
+     * @returns {undefined}
      */
     showAll() {
         this.trigger( 'showAll' );

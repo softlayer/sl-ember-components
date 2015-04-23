@@ -4,9 +4,11 @@ import layout from '../templates/components/sl-checkbox';
 
 /**
  * @module components
- * @class  sl-checkbox
+ * @class sl-checkbox
+ * @augments Ember.Component
+ * @mixes sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, { layout,
+export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -14,26 +16,13 @@ export default Ember.Component.extend( TooltipEnabled, { layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Attribute bindings for containing div
-     *
-     * @property {Ember.Array} attributeBindings
-     */
     attributeBindings: [ 'checked', 'disabled' ],
 
-    /**
-     * Class names for containing div
-     *
-     * @property {Ember.Array} classNames
-     */
+    classNameBindings: [ 'disabled' ],
+
     classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ],
 
-    /**
-     * Bindings for the base component class
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'disabled' ]
+    layout
 
     // -------------------------------------------------------------------------
     // Actions

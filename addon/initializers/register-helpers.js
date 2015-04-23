@@ -4,8 +4,14 @@ import GridCellHelper from 'sl-ember-components/helpers/grid-cell';
 import RenderDynamicHelper from 'sl-ember-components/helpers/render-dynamic';
 
 /**
-@module initializers
-@class  register-helpers
+ * @module initializers
+*/
+
+/**
+ * Register the addon helpers to Handlebars
+ *
+ * @function register-helpers
+ * @returns {undefined}
 */
 export default function() {
     Ember.Handlebars.registerHelper( 'get-key', GetKeyHelper );

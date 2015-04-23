@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-grid';
 
 /**
  * @module components
- * @class  sl-grid
+ * @class sl-grid
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,40 +14,21 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name of the root element
-     *
-     * @property {String} tagName
-     * @default "div"
-     */
-    tagName: 'div',
-
-    /**
-     * Class names for the root element
-     *
-     * @property {Array} classNames
-     */
-    classNames: [ 'sl-grid' ],
-
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Array} classNameBindings
-     */
     classNameBindings: [
         'detailPaneOpen:details-open',
         'loading:sl-loading',
         'pendingData:pending-data'
     ],
 
+    classNames: [ 'sl-grid' ],
+
+    layout,
+
+    tagName: 'div',
+
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Object} actions
-     */
     actions: {
 
         /**
@@ -96,7 +78,7 @@ export default Ember.Component.extend({ layout,
          *
          * @function actions.sortColumn
          * @param {Object} column - The column definition for the triggered 
-         *                          header's column
+         *                 header's column
          * @returns {undefined}
          */
         sortColumn( column ) {
@@ -316,7 +298,8 @@ export default Ember.Component.extend({ layout,
      * Resize the split-grid's detail pane content to the set height value
      *
      * @function resizeContent
-     * @observes autoHeight, contentHeight, "didInsertElement" event
+     * @listens didInsertElement
+     * @observes autoHeight, contentHeight
      * @returns {undefined}
      */
     resizeContent: Ember.observer( 'autoHeight', 'contentHeight',
@@ -333,7 +316,7 @@ export default Ember.Component.extend({ layout,
      * not complete
      *
      * @function setupContinuousPaging
-     * @observes "didInsertElement" event
+     * @listens didInsertElement
      * @returns {undefined}
      */
     setupContinuousPaging: Ember.on( 'didInsertElement', function() {
@@ -347,7 +330,7 @@ export default Ember.Component.extend({ layout,
      * in pixels
      *
      * @function setupSizes
-     * @observes "didInsertElement" event
+     * @listens didInsertElement
      * @returns {undefined}
      */
     setupSizes: Ember.on( 'didInsertElement', function() {
@@ -365,7 +348,7 @@ export default Ember.Component.extend({ layout,
      * Setup paths for the various sections within the split-grid
      *
      * @function setupTemplates
-     * @observes "init" event
+     * @listens init
      * @returns {undefined}
      */
     setupTemplates: Ember.on( 'init', function() {

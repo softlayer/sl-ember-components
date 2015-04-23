@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-radio';
 
 /**
  * @module components
- * @class  sl-radio
+ * @class sl-radio
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,34 +14,15 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name for the root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "div"
-     */
-    tagName: 'div',
-
-    /**
-     * Attribute bindings for the root element
-     *
-     * @property {Ember.Array} attributeBindings
-     */
     attributeBindings: [ 'disabled' ],
 
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
+    classNameBindings: [ 'disabled', 'radioType' ],
+
     classNames: [ 'sl-radio' ],
 
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'disabled', 'radioType' ],
+    layout,
+
+    tagName: 'div',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -54,8 +36,8 @@ export default Ember.Component.extend({ layout,
     /**
      * Whether the component is in the disabled state or not
      *
-     * @property {boolean} disabled
-     * @default  false
+     * @property {Boolean} disabled
+     * @default false
      */
     disabled: false,
 
@@ -70,9 +52,10 @@ export default Ember.Component.extend({ layout,
      *
      * @function radioType
      * @observes inline
-     * @returns  {Ember.String}
+     * @returns {String}
      */
     radioType: Ember.computed( 'inline', function() {
         return this.get( 'inline' ) ? 'radio-inline' : 'radio';
     })
+
 });

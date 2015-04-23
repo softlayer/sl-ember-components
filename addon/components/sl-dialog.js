@@ -4,15 +4,19 @@ import layout from '../templates/components/sl-dialog';
 
 /**
  * @module components
- * @class  sl-dialog
+ * @class sl-dialog
+ * @augments Ember.Component
+ * @mixes sl-modal
  */
-export default Ember.Component.extend( ModalMixin, { layout,
+export default Ember.Component.extend( ModalMixin, {
 
     // -------------------------------------------------------------------------
     // Dependencies
 
     // -------------------------------------------------------------------------
     // Attributes
+
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -26,16 +30,16 @@ export default Ember.Component.extend( ModalMixin, { layout,
     /**
      * Text string for the "cancel" button
      *
-     * @property {Ember.String} cancelText
-     * @default  "Close"
+     * @property {String} cancelText
+     * @default "Close"
      */
     buttonText: 'Close',
 
     /**
      * Binding for whether the dialog is shown or not
      *
-     * @property {boolean} show
-     * @default  false
+     * @property {Boolean} show
+     * @default false
      */
     show: false,
 
@@ -47,7 +51,7 @@ export default Ember.Component.extend( ModalMixin, { layout,
      *
      * @function toggle
      * @observes show
-     * @returns  {void}
+     * @returns {undefined}
      */
     toggle: Ember.observer( 'show', function() {
         this.$().modal( this.get( 'show' ) ? 'show' : 'hide' );
@@ -59,8 +63,9 @@ export default Ember.Component.extend( ModalMixin, { layout,
     /**
      * Custom dialog handler for setting the `show` property to false
      *
+     * @override
      * @function hideHandler
-     * @returns  {void}
+     * @returns {undefined}
      */
     hideHandler: function() {
         this._super();

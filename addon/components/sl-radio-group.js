@@ -5,9 +5,12 @@ import layout from '../templates/components/sl-radio-group';
 
 /**
  * @module components
- * @class  sl-radio-group
+ * @class sl-radio-group
+ * @augments Ember.Component
+ * @mixes sl-input-based
+ * @mixes sl-tooltip-enabled
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -15,27 +18,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name for the component's root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "fieldset"
-     */
-    tagName: 'fieldset',
-
-    /**
-     * Attribute bindings for the component's root element
-     *
-     * @property {Ember.Array} attributeBindings
-     */
     attributeBindings: [ 'disabled' ],
 
-    /**
-     * Class names for the containing element
-     *
-     * @property {Ember.Array} classNames
-     */
     classNames: [ 'form-group', 'sl-radio-group' ],
+
+    layout,
+
+    tagName: 'fieldset',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -49,40 +38,49 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
     /**
      * Whether the radio buttons should be disabled
      *
-     * @property {boolean} disabled
-     * @default  false
+     * @property {Boolean} disabled
+     * @default false
      */
     disabled: false,
 
     /**
      * Whether the radio buttons should be put inline together
      *
-     * @property {boolean} inline
-     * @default  null
+     * This value is null by default, which means that the sl-radio-group will
+     * not override anything. If the `inline` value is false, the children
+     * buttons will be forced to not inline, and if true, they will be forced to
+     * be inline.
+     *
+     * @property {?Boolean} inline
+     * @default null
      */
     inline: null,
 
     /**
      * The "name" attribute for the children radio buttons
      *
-     * @property {string} name
-     * @default  null
+     * Similar to the `inline` property; the default value is null, so the
+     * children buttons will not be overridden. Any string value will overwrite
+     * the children buttons' name property.
+     *
+     * @property {?String} name
+     * @default null
      */
     name: null,
 
     /**
      * Whether the radio buttons should be readonly
      *
-     * @property {boolean} readonly
-     * @default  false
+     * @property {Boolean} readonly
+     * @default false
      */
     readonly: false,
 
     /**
      * The component's current value property
      *
-     * @property {string} value
-     * @default  null
+     * @property {String} value
+     * @default null
      */
     value: null,
 
@@ -93,8 +91,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      * Initialize the group-wide options and setup child radio buttons
      *
      * @function initialize
-     * @observes "didInsertElement" event
-     * @returns  {void}
+     * @listens didInsertElement
+     * @returns {undefined}
      */
     initialize: Ember.on( 'didInsertElement', function() {
         var name       = this.get( 'name' ),
@@ -140,23 +138,32 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
 
         // Pre-select radio button if a value is set
         if ( value ) {
-            this.$('input[name=' + name + ']:radio[value=' + value + ']').prop( 'checked', true );
+            this.$( `input[name=${name}]:radio[value=${value}]` ).prop(
+                'checked', true
+            );
         }
 
-        // Apply change() listener to keep group value in sync with select sl-radio option
-        this.$('input[name=' + name + ']:radio').change( Ember.run.bind( this, function () {
-            this.set( 'value', this.$('input[name=' + name + ']:radio').filter(':checked').val() );
-        }));
+        // Apply change() listener to keep group value in sync with select
+        // sl-radio option
+        this.$( `input[name=${name}]:radio` ).change( () => {
+            this.set(
+                'value',
+                this.$( `input[name=${name}]:radio` ).filter( ':checked' ).val()
+            );
+        });
     }),
 
     /**
      * Remove events
      *
      * @function unregisterEvents
-     * @observes "willClearRender" event
-     * @returns  {void}
+     * @listens willClearRender
+     * @returns {undefined}
      */
     unregisterEvents: Ember.on( 'willClearRender', function() {
-        this.$('input[name=' + this.get( 'name' ) + ']:radio').off();
+        var name = this.get( 'name' );
+
+        this.$( `input[name=${name}]:radio` ).off();
     })
+
 });

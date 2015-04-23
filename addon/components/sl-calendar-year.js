@@ -3,9 +3,10 @@ import layout from '../templates/components/sl-calendar-year';
 
 /**
  * @module components
- * @class  sl-calendar-year
+ * @class sl-calendar-year
+ * @augments Ember.Component
  */
-export default Ember.Component.extend({ layout,
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,20 +14,11 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name for the component's root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "span"
-     */
-    tagName: 'span',
-
-    /**
-     * Class name bindings for the component's root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
     classNameBindings: [ 'active', 'new', 'old' ],
+
+    layout,
+
+    tagName: 'span',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -34,12 +26,6 @@ export default Ember.Component.extend({ layout,
     // -------------------------------------------------------------------------
     // Events
 
-    /**
-     * Send back primary action with this year value
-     *
-     * @function click
-     * @returns  {void}
-     */
     click() {
         this.sendAction( 'action', this.get( 'year' ) );
     },
@@ -51,8 +37,8 @@ export default Ember.Component.extend({ layout,
      * Whether the year this component represents is the currently active year
      * of the parent calendar component
      *
-     * @property {boolean} active
-     * @default  false
+     * @property {Boolean} active
+     * @default false
      */
     active: false,
 
@@ -60,8 +46,8 @@ export default Ember.Component.extend({ layout,
      * Whether the year this component represents is in the next decade from the
      * parent calendar's current year
      *
-     * @property {boolean} new
-     * @default  false
+     * @property {Boolean} new
+     * @default false
      */
     'new': false,
 
@@ -69,16 +55,16 @@ export default Ember.Component.extend({ layout,
      * Whether the year this component represents is in the previous decade from
      * the parent calendar's current year
      *
-     * @property {boolean} old
-     * @default  false
+     * @property {Boolean} old
+     * @default false
      */
     old: false,
 
     /**
      * The year number this component represents
      *
-     * @property {number} year
-     * @default  null
+     * @property {Number} year
+     * @default null
      */
     year: null
 

@@ -3,7 +3,9 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * @module components
- * @class  sl-tooltip
+ * @class sl-tooltip
+ * @augments Ember.Component
+ * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -13,12 +15,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The tag type of the root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "span"
-     */
     tagName: 'span'
 
     // -------------------------------------------------------------------------

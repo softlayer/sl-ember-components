@@ -5,9 +5,12 @@ import layout from '../templates/components/sl-textarea';
 
 /**
  * @module components
- * @class  sl-textarea
+ * @class sl-textarea
+ * @augments Ember.Component
+ * @mixes sl-input-based
+ * @mixes sl-tooltip-enabled
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -15,12 +18,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the component
-     *
-     * @property {Ember.Array} classNames
-     */
     classNames: [ 'form-group', 'sl-textarea' ],
+
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -34,8 +34,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
     /**
      * The `autofocus` HTML attribute value
      *
-     * @property {boolean} autofocus
-     * @default  false
+     * @property {Boolean} autofocus
+     * @default false
      */
     autofocus: false,
 
@@ -44,24 +44,24 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      *
      * Accepted values are either "forward" (default), "backward", or "none".
      *
-     * @property {string} selectionDirection
-     * @default  "forward"
+     * @property {String} selectionDirection
+     * @default "forward"
      */
     selectionDirection: 'forward',
 
     /**
      * The `selectionEnd` HTML attribute value
      *
-     * @property {number|string} selectionEnd
-     * @default  null
+     * @property {?Number|String} selectionEnd
+     * @default null
      */
     selectionEnd: null,
 
     /**
      * The `selectionStart` HTML attribute value
      *
-     * @property {number|string} selectionStart
-     * @default  null
+     * @property {?Number|String} selectionStart
+     * @default null
      */
     selectionStart: null,
 
@@ -70,8 +70,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      *
      * Accepted values are true, false, "default" (default), "true", or "false".
      *
-     * @property {boolean|string} spellcheck
-     * @default  "default"
+     * @property {Boolean|String} spellcheck
+     * @default "default"
      */
     spellcheck: 'default',
 
@@ -80,8 +80,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, { layout,
      *
      * Accepted values are "soft" (default), or "hard".
      *
-     * @property {string} wrap
-     * @default  "soft"
+     * @property {String} wrap
+     * @default "soft"
      */
     wrap: 'soft'
 
