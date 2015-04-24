@@ -28,7 +28,7 @@ export default Ember.ArrayController.extend({
             size      : 'small',
             sortable  : true,
             title     : 'Hex Code',
-            valuePath : 'test'
+            valuePath : 'hexCode'
         }
     ]),
 

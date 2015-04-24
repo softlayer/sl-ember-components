@@ -24,12 +24,6 @@ export default Ember.Controller.extend({
             action : 'sendLog',
             label  : 'Log'
         }
-    ]),
-
-    test: Ember.computed( function() {
-        return Math.random();
-    }),
-
-    testValue: 'Okay'
+    ])
 
 });
