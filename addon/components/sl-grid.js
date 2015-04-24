@@ -63,7 +63,7 @@ export default Ember.Component.extend({
             }
 
             Ember.set( row, 'active', true );
-            this.set( 'activeRecord', row );
+            this.set( 'activeRecord', Ember.get( row, 'model' ) );
             this.set( 'detailPaneOpen', true );
         },
 
