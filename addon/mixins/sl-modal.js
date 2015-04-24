@@ -22,7 +22,9 @@ export default Ember.Mixin.create({
 
     ariaRole: 'dialog',
 
-    classNames: [ 'fade', 'modal' ],
+    classNameBindings: [ 'animated:fade' ],
+
+    classNames: [ 'modal' ],
 
     layoutName: 'sl-modal',
 
@@ -34,6 +36,14 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether the modal is animated with transition or not
+     *
+     * @property {boolean} animated
+     * @default  true
+     */
+    animated: true,
 
     /**
      * `aria-describedby` attribute value
@@ -61,6 +71,14 @@ export default Ember.Mixin.create({
     backdrop: true,
 
     /**
+     * Whether the modal is shown initially or not
+     *
+     * @property {boolean} show
+     * @default  false
+     */
+    show: false,
+
+    /**
      * `tabindex` attribute value
      *
      * @property {String} tab index
@@ -81,7 +99,7 @@ export default Ember.Mixin.create({
     modalize: Ember.on( 'didInsertElement', function() {
         var modal = this.$().modal({
             keyboard : true,
-            show     : false,
+            show     : this.get( 'show' ),
             backdrop : this.get( 'backdrop' )
         });
 

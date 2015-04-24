@@ -28,6 +28,14 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    click() {
+        var content = this.get( 'content' );
+
+        if ( content ) {
+            this.sendAction( 'action', content );
+        }
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -46,7 +54,7 @@ export default Ember.Component.extend({
      * @property {Object} content
      * @default {}
      */
-    content: {},
+    content: null,
 
     /**
      * Whether the calendar day this cell represents is part of the next month
@@ -64,22 +72,12 @@ export default Ember.Component.extend({
      * @property {Boolean} old
      * @default false
      */
-    old: false,
+    old: false
 
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * Function triggered by clicking a calendar day
-     *
-     * @function click
-     * @returns {undefined}
-     */
-    click() {
-        this.sendAction( 'action', this.get( 'content' ) );
-    }
 
 });

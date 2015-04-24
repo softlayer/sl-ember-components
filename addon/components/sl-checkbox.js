@@ -22,7 +22,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ],
 
-    layout
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -32,6 +32,38 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether the input is checked or not
+     *
+     * @property {boolean} checked
+     * @default  false
+     */
+    checked: false,
+
+    /**
+     * Whether the input is disabled or not
+     *
+     * @property {boolean} disabled
+     * @default  false
+     */
+    disabled: false,
+
+    /**
+     * The input's label text
+     *
+     * @property {Ember.String} label
+     * @default  null
+     */
+    label: null,
+
+    /**
+     * The input's name property value
+     *
+     * @property {Ember.String} name
+     * @default  null
+     */
+    name: null
 
     // -------------------------------------------------------------------------
     // Observers

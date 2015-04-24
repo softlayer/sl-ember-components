@@ -9,15 +9,15 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{sl-checkbox
+    checked=checkboxValue
     label="Checkbox"
     name="checkbox"
-    value=checkboxValue
 }}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{sl-checkbox label="Checkbox" name="checkbox" value=checkboxValue}}
+        {{sl-checkbox checked=checkboxValue label="Checkbox" name="checkbox"}}
 
         {{#if checkboxValue}}
             <span class="label label-success">Checked!</span>
@@ -55,6 +55,10 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="checked" type="boolean" default="false"}}
+        The bound value indicating if the checkbox is checked or not.
+    {{/property-text}}
+
     {{#property-text name="disabled" type="boolean" default="false"}}
         When true, the checkbox is disabled.
     {{/property-text}}
@@ -65,9 +69,5 @@
 
     {{#property-text name="name" type="string"}}
         <code>name</code> attribute value for the input.
-    {{/property-text}}
-
-    {{#property-text name="value" type="mixed"}}
-        Bound value for the checkbox.
     {{/property-text}}
 </div>
