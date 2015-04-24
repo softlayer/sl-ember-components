@@ -12,7 +12,6 @@
     columns=columns
     content=arrangedContent
     height=400
-    rowClick="rowClick"
     showActions=true
     sortColumn="sortColumn"
     totalCount=totalCount
@@ -57,7 +56,6 @@
             columns=columns
             content=arrangedContent
             height=400
-            rowClick="rowClick"
             showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
@@ -93,8 +91,24 @@
         The text to label the row actions' button with.
     {{/property-text}}
 
+    {{#property-text name="detailFooterPath" type="string"}}
+        The application path to a template to use for the detail-pane footer. This template's controller is the one corresponding to <code>detailPath</code>. If this property is omitted, the component will look for a file named in the current context <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
+    {{/property-text}}
+
+    {{#property-text name="detailHeaderPath" type="string"}}
+        The application path to a template to use for the detail-pane header. This template's controller is the one corresponding to <code>detailPath</code>. If this property is omitted, the component will look for a file named in the current context <code>./detail-header.hbs</code>, and if not found, will not render anything for the detail header.
+    {{/property-text}}
+
+    {{#property-text name="detailPath" type="string"}}
+        The application path to a controller and template to use for the detail-pane and all of its content. The controller this path points to will be used for the detailFooter and detailHeader content areas. If this property is omitted, the component will assume a path named in the current context <code>./detail</code>.
+    {{/property-text}}
+
     {{#property-text name="filterText" type="string" default="Filter"}}
         The string to use for the filter button title.
+    {{/property-text}}
+
+    {{#property-text name="footerPath" type="string"}}
+        The application path to a template to use for list-pane footer. This template's controller will be the current controller. If this property is omitted, the component will look for a file named in the current context <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
     {{/property-text}}
 
     {{#property-text name="height" type="number/string" default="\"auto\""}}

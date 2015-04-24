@@ -74,7 +74,7 @@ export default Ember.Component.extend({
             if ( this.get( 'rowClick' ) ) {
                 this.sendAction( 'rowClick', row );
             } else {
-                this.trigger( 'openDetailPane', row );
+                this.send( 'openDetailPane', row );
             }
         },
 
@@ -340,23 +340,35 @@ export default Ember.Component.extend({
                 filterPath       = root + 'filter',
                 footerPath       = root + 'footer';
             
-            if ( registry.resolve( 'template:' + detailFooterPath ) ) {
+            if ( !this.get( 'detailFooterPath' ) && registry.resolve( 'template:' + detailFooterPath ) ) {
                 this.set( 'detailFooterPath', detailFooterPath );
             }
 
-            if ( registry.resolve( 'template:' + detailHeaderPath ) ) {
+            if (
+                !this.get( 'detailHeaderPath' ) &&
+                registry.resolve( 'template:' + detailHeaderPath )
+            ) {
                 this.set( 'detailHeaderPath', detailHeaderPath );
             }
 
-            if ( registry.resolve( 'template:' + detailPath ) ) {
+            if (
+                !this.get( 'detailPath' ) &&
+                registry.resolve( 'template:' + detailPath )
+            ) {
                 this.set( 'detailPath', detailPath );
             }
 
-            if ( registry.resolve( 'template:' + filterPath ) ) {
+            if (
+                !this.get( 'filterPath' ) &&
+                registry.resolve( 'template:' + filterPath )
+            ) {
                 this.set( 'filterPath', filterPath );
             }
 
-            if ( registry.resolve( 'template:' + footerPath ) ) {
+            if (
+                !this.get( 'footerPath' ) &&
+                registry.resolve( 'template:' + footerPath )
+            ) {
                 this.set( 'footerPath', footerPath );
             }
         }
