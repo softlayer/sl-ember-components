@@ -12,6 +12,7 @@
     columns=columns
     content=arrangedContent
     height=400
+    rowClick="rowClick"
     showActions=true
     sortColumn="sortColumn"
     totalCount=totalCount
@@ -56,6 +57,7 @@
             columns=columns
             content=arrangedContent
             height=400
+            rowClick="rowClick"
             showActions=true
             sortColumn="sortColumn"
             totalCount=totalCount
@@ -101,6 +103,10 @@
 
     {{#property-text name="nextPage" type="string"}}
         The name of an action to trigger when the next page of data is requested from the grid. This action should load the next page of data itself.
+    {{/property-text}}
+
+    {{#property-text name="rowClick" type="string"}}
+        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record.
     {{/property-text}}
 
     {{#property-text name="showActions" type="boolean" default="false"}}

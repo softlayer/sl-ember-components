@@ -68,6 +68,17 @@ export default Ember.Component.extend({
         },
 
         /**
+         * 
+         */
+        rowClick( row ) {
+            if ( this.get( 'rowClick' ) ) {
+                this.sendAction( 'rowClick', row );
+            } else {
+                this.trigger( 'openDetailPane', row );
+            }
+        },
+
+        /**
          * Toggle sorting of the selected column, and send the "sortAction"
          * bound action the column and direction to sort
          *
@@ -154,7 +165,7 @@ export default Ember.Component.extend({
     detailHeaderPath: null,
 
     /**
-     * Indicates when the details pane is open
+     * Indicates when the detail-pane is open
      *
      * @property {Boolean} detailPaneOpen
      * @default false
@@ -240,6 +251,17 @@ export default Ember.Component.extend({
      * @default false
      */
     pendingData: false,
+
+    /**
+     * Bound action to call when a row is clicked
+     *
+     * When this value is not set, the detail pane will be opened whenever a row
+     * is clicked.
+     *
+     * @property {?String} rowClick
+     * @default null
+     */
+    rowClick: null,
 
     /**
      * Whether to show the column for the rows' action drop-buttons
@@ -367,11 +389,11 @@ export default Ember.Component.extend({
      *
      * @function updateHeight
      * @listens didInsertElement
-     * @observes detailPaneOpen, filterPaneOpen, height
+     * @observes detailsPaneOpen, filterPaneOpen, height
      * @returns {undefined}
      */
     updateHeight: Ember.observer(
-        'detailPaneOpen', 'filterPaneOpen', 'height',
+        'detailsPaneOpen', 'filterPaneOpen', 'height',
         Ember.on( 'didInsertElement', function() {
             Ember.run.next( () => {
                 var componentHeight  = this.get( 'height' ),

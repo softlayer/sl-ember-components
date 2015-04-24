@@ -4,6 +4,10 @@ export default Ember.ArrayController.extend({
 
     actions: {
 
+        rowClick( row ) {
+            console.log( 'Clicked', row );
+        },
+
         sortColumn( column, direction ) {
             this.setProperties({
                 'sortAscending'  : direction === 'ascending',
