@@ -82,7 +82,7 @@
     <header>
         <span class="title">
             {{#if detailHeaderPath}}
-                {{render-dynamic detailHeaderPath activeRecord}}
+                {{render-dynamic detailHeaderPath activeRecord.model}}
             {{/if}}
         </span>
 
@@ -92,14 +92,14 @@
     <div class="content">
         <div class="detail-content">
             {{#if detailPath}}
-                {{render-dynamic detailPath activeRecord}}
+                {{render-dynamic detailPath activeRecord.model}}
             {{/if}}
         </div>
     </div>
 
     <footer>
         {{#if detailFooterPath}}
-            {{render-dynamic detailFooterPath activeRecord}}
+            {{render-dynamic detailFooterPath activeRecord.model}}
         {{/if}}
     </footer>
 </div>
