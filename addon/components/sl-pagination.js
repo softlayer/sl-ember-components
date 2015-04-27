@@ -34,6 +34,10 @@ export default Ember.Component.extend({
         nextPage() {
             if ( this.get( 'currentPage' ) < this.get( 'totalPages' ) ) {
                 this.incrementProperty( 'currentPage' );
+
+                if ( this.get( 'nextPage' ) ) {
+                    this.sendAction( 'nextPage', this.get( 'currentPage' ) );
+                }
             }
         },
 
@@ -46,6 +50,10 @@ export default Ember.Component.extend({
         previousPage() {
             if ( this.get( 'currentPage' ) > 1 ) {
                 this.decrementProperty( 'currentPage' );
+
+                if ( this.get( 'previousPage' ) ) {
+                    this.sendAction( 'previousPage', this.get( 'currentPage' ) );
+                }
             }
         }
 
@@ -60,10 +68,10 @@ export default Ember.Component.extend({
     /**
      * The current page number
      *
-     * @property {?Number} currentPage
-     * @default null
+     * @property {Number} currentPage
+     * @default 1
      */
-    currentPage: null,
+    currentPage: 1,
 
     /**
      * The total number of pages
@@ -106,7 +114,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     pageChanged: Ember.observer( 'currentPage', function() {
-        this.sendAction( 'pageChange', this.get( 'currentPage' ) );
+        this.sendAction( 'changePage', this.get( 'currentPage' ) );
     })
 
     // -------------------------------------------------------------------------

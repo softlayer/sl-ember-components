@@ -101,5 +101,14 @@
         {{#if detailFooterPath}}
             {{render-dynamic detailFooterPath activeRecord.model}}
         {{/if}}
+
+        {{#unless continuous}}
+            {{sl-pagination
+                currentPage=currentPage
+                nextPage="nextPage"
+                previousPage="previousPage"
+                totalPages=totalPages
+            }}
+        {{/unless}}
     </footer>
 </div>

@@ -93,6 +93,16 @@
         The text to label the row actions' button with.
     {{/property-text}}
 
+    {{#property-text name="continuous" type="boolean" default="false"}}
+        When this is true, the grid requests data in a continuous paging manner, without the use of pagination options or data. See <code>requestData</code> for information on how content is handled in a <code>continuous</code> grid.
+    {{/property-text}}
+
+    {{#property-text name="currentPage" type="number"}}
+        <p><em>Valid only for non-<code>continuous</code> grids</em>.</p>
+
+        <p>The current page of data being viewed.</p>
+    {{/property-text}}
+
     {{#property-text name="detailFooterPath" type="string"}}
         The application path to a template to use for the detail-pane footer. This template's controller is the one corresponding to <code>detailPath</code>. If this property is omitted, the component will look for a file named in the current context <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
     {{/property-text}}
@@ -121,12 +131,22 @@
         Determines the overall height of the sl-grid component. When the value is "auto" (the default), then the component will responsively size its own height to the allowed space in the viewport. Setting it to a number will lock the height to that many pixels high.
     {{/property-text}}
 
-    {{#property-text name="nextPage" type="string"}}
-        The name of an action to trigger when the next page of data is requested from the grid. This action should load the next page of data itself.
+    {{#property-text name="pageSize" type="number" default="25"}}
+        <p><em>Valid only for non-<code>continuous</code> grids</em>.</p>
+
+        <p>The number of records shown per page.</p>
+    {{/property-text}}
+
+    {{#property-text name="requestData" type="string"}}
+        <p>The name of an action to trigger when a data change is requested.</p>
+        
+        <p>For a <code>continuous</code> grid, this is triggered when the end of the content data in the grid's table is encountered. The action function is not sent anything, and should handle simply appending data onto the bound <code>content</code> array itself.</p>
+
+        <p>For a non-<code>continuous</code> grid&mdash;the default&mdash;the action function should accept a page number to load data into <code>content</code> for.</p>
     {{/property-text}}
 
     {{#property-text name="rowClick" type="string"}}
-        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record.
+        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record. If no valid detailPath is defined, then nothing will happen when a list-pane row is clicked.
     {{/property-text}}
 
     {{#property-text name="showActions" type="boolean" default="false"}}
@@ -138,6 +158,6 @@
     {{/property-text}}
 
     {{#property-text name="totalCount" type="number"}}
-        The total number of records for the content. This value is used to determine when new pages should be requested.
+        The total number of records for the content. This value is used to determine when new pages in a <code>continuous</code> grid should be requested, and the interface text in a non-<code>continuous</code> grid.
     {{/property-text}}
 </div>

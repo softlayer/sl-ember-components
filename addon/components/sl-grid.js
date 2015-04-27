@@ -70,6 +70,11 @@ export default Ember.Component.extend({
         /**
          * Handle a list item's row click
          *
+         * If an action is bound to the `rowClick` property, then it will be
+         * called when this is triggered. Otherwise, the detail-pane will be
+         * opened for the triggering row's model record, unless no detailPath is
+         * defined.
+         *
          * @function actions.rowClick
          * @param {Object} row - The object that the clicked row represents
          * @returns {undefined}
@@ -150,6 +155,24 @@ export default Ember.Component.extend({
      * @default null
      */
     activeRecord: null,
+
+    /**
+     * Whether the grid's data should be handled by continuous-scrolling
+     *
+     * When this is false (default), then the grid will have pagination enabled.
+     *
+     * @property {Boolean} continuous
+     * @default false
+     */
+    continuous: false,
+
+    /**
+     * The current page, valid for a non-`continuous` grid
+     *
+     * @property {?Number} currentPage
+     * @default null
+     */
+    currentPage: null,
 
     /**
      * The path of a template to use for the detail-pane footer
@@ -245,6 +268,14 @@ export default Ember.Component.extend({
      * @default 0
      */
     nextPageScrollPoint: 0,
+
+    /**
+     * The number of records to request for each page
+     *
+     * @property {Number} pageSize
+     * @default 25
+     */
+    pageSize: 25,
 
     /**
      * True when a next page of data has been requested, but before it has been
@@ -395,6 +426,24 @@ export default Ember.Component.extend({
     }),
 
     /**
+     * The total number of pages of bound content, based on pageSize
+     *
+     * @function totalPages
+     * @observes continuous, pageSize, totalCount
+     * @returns 
+     */
+    totalPages: Ember.computed(
+        'continuous', 'pageSize', 'totalCount',
+        function() {
+            if ( !this.get( 'continuous' ) ) {
+                return Math.ceil(
+                    this.get( 'totalCount' ) / this.get( 'pageSize' )
+                );
+            }
+        }
+    ),
+
+    /**
      * Update the panes' heights according to `height` property value
      *
      * The actual sizing calculation code must be done in an Ember.run.next,
@@ -496,7 +545,7 @@ export default Ember.Component.extend({
             scrollBottom = listContent.scrollTop() + listContent.height();
 
         if ( scrollBottom >= this.get( 'nextPageScrollPoint' ) && !this.get( 'pendingData' ) ) {
-            this.requestNextPage();
+            this.requestMoreData();
         }
     },
 
@@ -511,19 +560,21 @@ export default Ember.Component.extend({
     }),
 
     /**
-     * Trigger the bound `nextPage` action for more data
+     * Trigger the bound `requestData` action for more content data
      *
-     * @function requestNextPage
+     * @function requestMoreData
      * @returns {undefined}
      */
-    requestNextPage() {
+    requestMoreData() {
+        var nextPageScrollPoint = this.$( '.list-pane .content' )[ 0 ].scrollHeight;
+
         if ( this.get( 'hasMorePages' ) ) {
             this.setProperties({
-                'pendingData'         : true,
-                'nextPageScrollPoint' : this.$( '.list-pane .content' )[ 0 ].scrollHeight
+                nextPageScrollPoint,
+                'pendingData': true
             });
 
-            this.sendAction( 'nextPage' );
+            this.sendAction( 'requestData' );
         }
     }
 

@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
 
     actions: {
 
-        pageChange( pageNumber ) {
+        changePage( pageNumber ) {
             console.log( 'Page changed to', pageNumber );
         }
 
