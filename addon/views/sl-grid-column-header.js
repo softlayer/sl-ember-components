@@ -49,14 +49,16 @@ export default SlGridCellView.extend({
      * Class name string based on sorted property
      *
      * @function sortedClass
-     * @observes content.sorted
+     * @observes content.sortAscending
      * @returns {?String}
      */
-    sortedClass: Ember.computed( 'content.sorted', function() {
-        var sorted = this.get( 'content.sorted' );
+    sortedClass: Ember.computed( 'content.sortAscending', function() {
+        var sortAscending = this.get( 'content.sortAscending' );
 
-        if ( sorted ) {
-            return 'column-' + sorted;
+        if ( typeof sorted === 'boolean' ) {
+            return 'column-' + (
+                sortAscending === true ? 'ascending' : 'descending'
+            );
         }
     }),
 
@@ -64,16 +66,16 @@ export default SlGridCellView.extend({
      * Class name string for the icon on a sortable column
      *
      * @function sortIconClass
-     * @observes content.sorted
-     * @returns {?String}
+     * @observes content.sortAscending
+     * @returns {String}
      */
-    sortIconClass: Ember.computed( 'content.sorted', function() {
-        var sorted = this.get( 'content.sorted' ),
+    sortIconClass: Ember.computed( 'content.sortAscending', function() {
+        var sortAscending = this.get( 'content.sortAscending' ),
             iconClass;
 
-        if ( sorted === 'ascending' ) {
+        if ( sortAscending === true ) {
             iconClass = 'fa-sort-asc';
-        } else if ( sorted === 'descending' ) {
+        } else if ( sortAscending === false ) {
             iconClass = 'fa-sort-desc';
         } else {
             iconClass = 'fa-sort';

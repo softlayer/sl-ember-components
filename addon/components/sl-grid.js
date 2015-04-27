@@ -52,7 +52,7 @@ export default Ember.Component.extend({
          * Open the detail-pane with a specific row object
          *
          * @function actions.openDetailPane
-         * @param {Object} row - The object that the clicked row represents
+         * @param {Object} row - An object representing the row to make active
          * @returns {undefined}
          */
         openDetailPane( row ) {
@@ -68,12 +68,16 @@ export default Ember.Component.extend({
         },
 
         /**
-         * 
+         * Handle a list item's row click
+         *
+         * @function actions.rowClick
+         * @param {Object} row - The object that the clicked row represents
+         * @returns {undefined}
          */
         rowClick( row ) {
             if ( this.get( 'rowClick' ) ) {
                 this.sendAction( 'rowClick', row );
-            } else {
+            } else if ( this.get( 'detailPath' ) ) {
                 this.send( 'openDetailPane', row );
             }
         },
@@ -95,24 +99,23 @@ export default Ember.Component.extend({
             var columnTitle       = Ember.get( column, 'title' ),
                 sortedColumn      = this.get( 'sortedColumn' ),
                 sortedColumnTitle = this.get( 'sortedColumnTitle' ),
-                sortedDirection   = this.get( 'sortedDirection' ),
-                direction;
+                sortDirection     = this.get( 'sortDirection' );
 
             if ( sortedColumnTitle === columnTitle ) {
-                direction = sortedDirection === 'ascending' ? 'descending' : 'ascending';
+                sortDirection = !sortDirection;
             } else {
                 if ( sortedColumn ) {
-                    Ember.set( sortedColumn, 'sorted' );
+                    Ember.set( sortedColumn, 'sortAscending' );
                 }
 
                 this.set( 'sortedColumnTitle', columnTitle );
-                direction = 'ascending';
+                sortDirection = true;
             }
 
-            this.set( 'sortedDirection', direction );
-            Ember.set( column, 'sorted', direction );
+            this.set( 'sortDirection', sortDirection );
+            Ember.set( column, 'sortAscending', sortDirection );
 
-            this.sendAction( 'sortColumn', column, direction );
+            this.sendAction( 'sortColumn', column, sortDirection );
         },
 
         /**
@@ -280,14 +283,12 @@ export default Ember.Component.extend({
     sortedColumnTitle: null,
 
     /**
-     * The direction the currently sorted column is being sorted in
+     * Whether the currently sorted column is ascending or not
      *
-     * Value is either "ascending" or "descending".
-     *
-     * @property {String} sortedDirection
-     * @default "ascending"
+     * @property {Boolean} sortAscending
+     * @default true
      */
-    sortedDirection: 'ascending',
+    sortDirection: true,
 
     // -------------------------------------------------------------------------
     // Observers
