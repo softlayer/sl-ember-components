@@ -103,8 +103,12 @@
         The application path to a controller and template to use for the detail-pane and all of its content. The controller this path points to will be used for the detailFooter and detailHeader content areas. If this property is omitted, the component will assume a path named in the current context <code>./detail</code>.
     {{/property-text}}
 
-    {{#property-text name="filterText" type="string" default="Filter"}}
-        The string to use for the filter button title.
+    {{#property-text name="filterButtonLabel" type="string" default="Filter"}}
+        The string to use for the filter button label text.
+    {{/property-text}}
+
+    {{#property-text name="filterPath" type="string"}}
+        The application path to a controller and template to use for the filter-pane content. If this property is omitted, the component will assume a path named in the current context <code>./filter</code>.
     {{/property-text}}
 
     {{#property-text name="footerPath" type="string"}}

@@ -184,6 +184,14 @@ export default Ember.Component.extend({
     detailPath: null,
 
     /**
+     * The text to display on the filter panel toggle button
+     *
+     * @property {String} filterButtonLabel
+     * @default "Filter"
+     */
+    filterButtonLabel: 'Filter',
+
+    /**
      * Indicates when the filter pane is open
      *
      * @property {Boolean} filterPaneOpen
@@ -198,14 +206,6 @@ export default Ember.Component.extend({
      * @default null
      */
     filterPath: null,
-
-    /**
-     * The text to display on the filter panel toggle button
-     *
-     * @property {String} filterText
-     * @default "Filter"
-     */
-    filterText: 'Filter',
 
     /**
      * The path for the template to use for the footer of the list pane
