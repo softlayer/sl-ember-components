@@ -32,6 +32,10 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         nextPage() {
+            if ( this.get( 'busy' ) ) {
+                return;
+            }
+
             if ( this.get( 'currentPage' ) < this.get( 'totalPages' ) ) {
                 this.incrementProperty( 'currentPage' );
 
@@ -48,6 +52,10 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         previousPage() {
+            if ( this.get( 'busy' ) ) {
+                return;
+            }
+
             if ( this.get( 'currentPage' ) > 1 ) {
                 this.decrementProperty( 'currentPage' );
 
@@ -64,6 +72,14 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether the pagination is in a busy/working state
+     *
+     * @property {Boolean} busy
+     * @default false
+     */
+    busy: false,
 
     /**
      * The current page number

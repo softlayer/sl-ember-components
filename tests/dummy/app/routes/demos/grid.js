@@ -9,6 +9,22 @@ function capitalize( string ) {
     return string[ 0 ].toUpperCase() + string.substr( 1 );
 }
 
+function generateRecords( number ) {
+    var content = Ember.A(); 
+    for ( let i = 0; i < 25; i++ ) {
+        let firstName = generateString( 3, 6 );
+        let lastName  = generateString( 4, 8 );
+
+        content.pushObject({
+            email     : `${firstName}@example.com`,
+            firstName : capitalize( firstName ),
+            lastName  : capitalize( lastName )
+        });
+    }
+
+    return content;
+}
+
 function generateString( minLength, maxLength ) {
     var length = Math.floor(
             minLength + Math.random() * ( maxLength - minLength )
@@ -24,21 +40,16 @@ function generateString( minLength, maxLength ) {
 
 export default Ember.Route.extend({
 
-    model() {
-        var content = Ember.A();
+    actions: {
 
-        for ( let i = 0; i < 25; i++ ) {
-            let firstName = generateString( 3, 6 );
-            let lastName  = generateString( 4, 8 );
-
-            content.pushObject({
-                email     : `${firstName}@example.com`,
-                firstName : capitalize( firstName ),
-                lastName  : capitalize( lastName )
-            });
+        requestData( limit, offset ) {
+            this.set( 'controller.model', generateRecords( 25 ) );
         }
 
-        return content;
+    },
+
+    model() {
+        return generateRecords( 25 );
     }
 
 });

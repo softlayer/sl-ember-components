@@ -70,8 +70,13 @@
                 {{/if}}
             </div>
             <div class="col-xs-6 text-right">
-                {{#if pendingData}}
-                    {{sl-loading-icon}}
+                {{#if showPagination}}
+                    {{sl-pagination
+                        busy=loading
+                        changePage="changePage"
+                        currentPage=currentPage
+                        totalPages=totalPages
+                    }}
                 {{/if}}
             </div>
         </div>
@@ -101,14 +106,5 @@
         {{#if detailFooterPath}}
             {{render-dynamic detailFooterPath activeRecord.model}}
         {{/if}}
-
-        {{#unless continuous}}
-            {{sl-pagination
-                currentPage=currentPage
-                nextPage="nextPage"
-                previousPage="previousPage"
-                totalPages=totalPages
-            }}
-        {{/unless}}
     </footer>
 </div>

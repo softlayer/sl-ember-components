@@ -27,6 +27,10 @@
         The total number of pages.
     {{/property-text}}
 
+    {{#property-text name="busy" type="Boolean" default="false"}}
+        When true, the state of the pagination component will not change.
+    {{/property-text}}
+
     {{#property-text name="changePage" type="String"}}
         An action triggered when the currentPage value is changed. The page number changed to is sent to the action.
     {{/property-text}}

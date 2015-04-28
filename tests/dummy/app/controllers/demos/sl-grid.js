@@ -8,9 +8,9 @@ export default Ember.ArrayController.extend({
             console.log( 'Clicked', row );
         },
 
-        sortColumn( column, direction ) {
+        sortColumn( column, sortAscending ) {
             this.setProperties({
-                'sortAscending'  : direction === 'ascending',
+                sortAscending,
                 'sortProperties' : [ Ember.get( column, 'valuePath' ) ]
             });
         }

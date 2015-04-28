@@ -4,10 +4,6 @@ export default Ember.ArrayController.extend({
 
     actions: {
 
-        requestData( /* page */ ) {
-            console.log( 'Requesting data' );
-        },
-
         sortColumn( column, ascending ) {
             this.setProperties({
                 sortAscending  : ascending,

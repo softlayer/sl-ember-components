@@ -14,11 +14,7 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    classNameBindings: [
-        'detailPaneOpen:details-open',
-        'loading:sl-loading',
-        'pendingData:pending-data'
-    ],
+    classNameBindings: [ 'detailPaneOpen:details-open', 'loading:sl-loading' ],
 
     classNames: [ 'sl-grid' ],
 
@@ -30,6 +26,25 @@ export default Ember.Component.extend({
     // Actions
 
     actions: {
+
+        /**
+         * Handle changing pages
+         *
+         * @function actions.changePage
+         * @param {Number} page - The page number being changed to
+         * @returns {undefined}
+         */
+        changePage( page ) {
+            if ( this.get( 'loading' ) ) {
+                return;
+            }
+
+            var limit  = this.get( 'pageSize' ),
+                offset = limit * ( page - 1 );
+
+            this.set( 'loading', true );
+            this.sendAction( 'requestData', limit, offset );
+        },
 
         /**
          * Close the detail-pane
@@ -97,7 +112,7 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         sortColumn( column ) {
-            if ( this.get( 'loading' ) || this.get( 'pendingData' ) ) {
+            if ( this.get( 'loading' ) ) {
                 return;
             }
 
@@ -169,10 +184,10 @@ export default Ember.Component.extend({
     /**
      * The current page, valid for a non-`continuous` grid
      *
-     * @property {?Number} currentPage
-     * @default null
+     * @property {Number} currentPage
+     * @default 1
      */
-    currentPage: null,
+    currentPage: 1,
 
     /**
      * The path of a template to use for the detail-pane footer
@@ -278,15 +293,6 @@ export default Ember.Component.extend({
     pageSize: 25,
 
     /**
-     * True when a next page of data has been requested, but before it has been
-     * received
-     *
-     * @property {Boolean} pendingData
-     * @default false
-     */
-    pendingData: false,
-
-    /**
      * Bound action to call when a row is clicked
      *
      * When this value is not set, the detail pane will be opened whenever a row
@@ -328,11 +334,11 @@ export default Ember.Component.extend({
      * Does cleanup for internal state when content length has changed
      *
      * @function handleNewContent
-     * @observes content.length
+     * @observes content
      * @returns {undefined}
      */
-    handleNewContent: Ember.observer( 'content.length', function() {
-        this.set( 'pendingData', false );
+    handleNewContent: Ember.observer( 'content', function() {
+        this.set( 'loading', false );
 
         if ( !this.get( 'hasMorePages' ) ) {
             this.disableContinuousPaging();
@@ -372,7 +378,10 @@ export default Ember.Component.extend({
                 filterPath       = root + 'filter',
                 footerPath       = root + 'footer';
             
-            if ( !this.get( 'detailFooterPath' ) && registry.resolve( 'template:' + detailFooterPath ) ) {
+            if (
+                !this.get( 'detailFooterPath' ) &&
+                registry.resolve( 'template:' + detailFooterPath )
+            ) {
                 this.set( 'detailFooterPath', detailFooterPath );
             }
 
@@ -407,6 +416,19 @@ export default Ember.Component.extend({
     }),
 
     /**
+     * Whether to show the pagination in the list-pane footer
+     *
+     * @function showPagination
+     * @observes continuous, totalPages
+     * @returns {Boolean}
+     */
+    showPagination: Ember.computed( 'continuous', 'totalPages', function() {
+        var totalPages = this.get( 'totalPages' );
+
+        return !this.get( 'continuous' ) && totalPages && totalPages > 1;
+    }),
+
+    /**
      * The currently sorted column definition
      *
      * @function sortedColumn
@@ -430,7 +452,7 @@ export default Ember.Component.extend({
      *
      * @function totalPages
      * @observes continuous, pageSize, totalCount
-     * @returns 
+     * @returns {Number}
      */
     totalPages: Ember.computed(
         'continuous', 'pageSize', 'totalCount',
@@ -541,10 +563,12 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     handleListContentScroll( event ) {
-        var listContent  = this.$( event.target ),
-            scrollBottom = listContent.scrollTop() + listContent.height();
+        var listContent         = this.$( event.target ),
+            loading             = this.get( 'loading' ),
+            nextPageScrollPoint = this.get( 'nextPageScrollPoint' ),
+            scrollBottom        = listContent.scrollTop() + listContent.height();
 
-        if ( scrollBottom >= this.get( 'nextPageScrollPoint' ) && !this.get( 'pendingData' ) ) {
+        if ( scrollBottom >= nextPageScrollPoint && !loading ) {
             this.requestMoreData();
         }
     },
@@ -571,7 +595,7 @@ export default Ember.Component.extend({
         if ( this.get( 'hasMorePages' ) ) {
             this.setProperties({
                 nextPageScrollPoint,
-                'pendingData': true
+                'loading': true
             });
 
             this.sendAction( 'requestData' );
