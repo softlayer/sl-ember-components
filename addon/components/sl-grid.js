@@ -346,6 +346,20 @@ export default Ember.Component.extend({
     }),
 
     /**
+     * Setup the viewport-based auto sizing when `height` is "auto"
+     *
+     * @function setupAutoHeight
+     * @returns {undefined}
+     */
+    setupAutoHeight: Ember.on( 'didInsertElement', function() {
+        if ( this.get( 'height' ) === 'auto' ) {
+            Ember.$( window ).bind( 'resize', () => {
+                this.updateHeight();
+            });
+        }
+    }),
+
+    /**
      * Setup the "continuous paging" functionality, if the data set is
      * not complete
      *
@@ -354,7 +368,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     setupContinuousPaging: Ember.on( 'didInsertElement', function() {
-        if ( this.get( 'hasMorePages' ) ) {
+        if ( this.get( 'continuous' ) && this.get( 'hasMorePages' ) ) {
             this.enableContinuousPaging();
         }
     }),
@@ -554,9 +568,9 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Callback to the list content scrolling, which is responsible for
-     * determining when triggering nextPage is necessary by checking the
-     * scroll location of the content
+     * For `continuous` grids; callback to the list content scrolling, which is
+     * responsible for determining when triggering requestData is necessary by
+     * checking the scroll location of the content
      *
      * @function handleListContentScroll
      * @param {jQuery.Event} event - The scroll trigger event
@@ -567,6 +581,8 @@ export default Ember.Component.extend({
             loading             = this.get( 'loading' ),
             nextPageScrollPoint = this.get( 'nextPageScrollPoint' ),
             scrollBottom        = listContent.scrollTop() + listContent.height();
+
+        console.log( 'Scrolling!' );
 
         if ( scrollBottom >= nextPageScrollPoint && !loading ) {
             this.requestMoreData();
