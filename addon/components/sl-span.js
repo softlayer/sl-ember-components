@@ -12,12 +12,6 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag name of the component
-     *
-     * @property {Ember.String} tagname
-     * @default  "span"
-     */
     tagName: 'span',
 
     // -------------------------------------------------------------------------
@@ -30,12 +24,20 @@ export default Ember.Component.extend({
     // Properties
 
     /**
+     * Whether the underlying loading-icon is inverse
+     *
+     * @property {Boolean} inverse
+     * @default false
+     */
+    inverse: false,
+
+    /**
      * Whether to show the loading icon or content
      *
-     * @property {boolean} isLoading
-     * @default  false
+     * @property {Boolean} loading
+     * @default false
      */
-    isLoading: false
+    loading: false
 
     // -------------------------------------------------------------------------
     // Observers

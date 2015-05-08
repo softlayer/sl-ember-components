@@ -1,23 +1,52 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-span', 'Unit - component: sl-span' );
+moduleForComponent( 'sl-span', 'Unit - component: sl-span', {
 
-test( '"value" property is supported', function( assert ) {
-    var component  = this.subject({
-            value: 'Test content'
-        }),
-        $component = this.render();
+    needs: [ 'component:sl-loading-icon' ]
 
-    assert.equal( $.trim( $component.text() ), 'Test content' );
 });
 
-test( 'If "isLoading" is true, sl-loading-icon component is displayed', function( assert ) {
-    var component  = this.subject({
-        isLoading: true
+test( '"value" property is supported', function( assert ) {
+    this.subject({ value: 'Test content' });
+
+    assert.equal( Ember.$.trim( this.$().text() ), 'Test content' );
+});
+
+test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
+    var component = this.subject();
+
+    assert.equal(
+        this.$( '.sl-loading-icon' ).length,
+        0,
+        'Loading icon is not present initially'
+    );
+
+    Ember.run( () => {
+        component.set( 'loading', true );
     });
 
-    this.render();
+    assert.equal(
+        this.$( '.sl-loading-icon' ).length,
+        1,
+        'Loading icon is present while span is loading'
+    );
+});
 
-    assert.equal( component._childViews[0]._childViews[0].path, 'sl-loading-icon' );
+test( 'Inverse property applies to loading-icon', function( assert ) {
+    var component = this.subject({ loading: true });
+
+    assert.ok(
+        this.$( '.sl-loading-icon' ).hasClass( 'sl-loading-icon-dark' ),
+        'Loading icon is dark initially'
+    );
+
+    Ember.run( () => {
+        component.set( 'inverse', true );
+    });
+
+    assert.ok(
+        this.$( '.sl-loading-icon' ).hasClass( 'sl-loading-icon-light' ),
+        'Loading icon is light when inverse'
+    );
 });
