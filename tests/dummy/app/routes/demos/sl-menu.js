@@ -40,8 +40,7 @@ export default Ember.Route.extend({
                 Ember.Object.create({ label: 'California', pages: [
                     Ember.Object.create({ label: 'Los Angeles' }),
                     Ember.Object.create({ label: 'San Francisco' }),
-                    Ember.Object.create({ label: 'Palo Alto' }),
-                    Ember.Object.create({ label: 'Oakland', link: 'http://www.cnn.com' })
+                    Ember.Object.create({ label: 'Palo Alto' })
                 ]})
             ]}),
             Ember.Object.create({ label: 'Routes', pages: [
