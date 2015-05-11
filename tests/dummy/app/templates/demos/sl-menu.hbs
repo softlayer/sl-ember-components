@@ -62,10 +62,9 @@
             <li><strong>label</strong> - The label of the menu itself. This should be <em>null</em> for top level menus and will provide the name of the sub-menu for sub-menu lists</li>
             <li><strong>action</strong> - This can either be a string, which will be received by the <code>actionInitiated</code> binding on the template or can actually be a function that will be executed when the item is selected with either a mouse click or through a keyboard shortcut.</li>
             <li><strong>route</strong> - This can be used to specify a route to which the application will transition if the menu item is selected.
-            <li><strong>link</strong> - This can be used to specify a link to another page.  This should be used to link to pages outside of the Ember app. </li>
         </ul>
         <br>
-        Of the last 3 properties in the list only one will be respected even if multiple are applied.  The order of precedence is <strong>action</strong>, <strong>route</strong>, and then <strong>link</strong>.
+        Of the last 2 properties in the list only one will be respected even if both are applied.  The order of precedence is <strong>action</strong> then <strong>route</strong>.
     {{/property-text}}
 
     {{#property-text name="actionInitiated" type="function"}}
