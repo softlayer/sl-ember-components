@@ -97,12 +97,6 @@
         When this is true, the grid requests data in a continuous paging manner, without the use of pagination options or data. See <code>requestData</code> for information on how content is handled in a <code>continuous</code> grid.
     {{/property-text}}
 
-    {{#property-text name="currentPage" type="number"}}
-        <p><em>Valid only for non-<code>continuous</code> grids</em>.</p>
-
-        <p>The current page of data being viewed.</p>
-    {{/property-text}}
-
     {{#property-text name="detailFooterPath" type="string"}}
         The application path to a template to use for the detail-pane footer. This template's controller is the one corresponding to <code>detailPath</code>. If this property is omitted, the component will look for a file named in the current context <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
     {{/property-text}}

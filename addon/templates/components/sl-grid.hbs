@@ -6,7 +6,12 @@
 
         {{#if filterPath}}
             <div class="col-sm-6 text-right">
-                {{#sl-button action="toggleFilterPane" size="small"}}{{filterButtonLabel}}{{/sl-button}}
+                {{#sl-button
+                    action="toggleFilterPane"
+                    size="small"
+                }}
+                    {{filterButtonLabel}}
+                {{/sl-button}}
             </div>
         {{/if}}
     </div>
@@ -26,11 +31,14 @@
     <table class="table column-headers">
         <thead>
             <tr>
-                {{#each column in columns itemViewClass="sl-grid-column-header"}}
-                    {{column.title}}
-                    {{#if column.sortable}}
-                        <i {{bind-attr class=":fa view.sortIconClass"}}></i>
-                    {{/if}}
+                {{#each column in columns}}
+                    {{#sl-grid-column-header column=column}}
+                        {{log column.sortIconClass}}
+                        {{column.title}}
+                        {{#if column.sortable}}
+                            <i {{bind-attr class=":fa sortIconClass"}}></i>
+                        {{/if}}
+                    {{/sl-grid-column-header}}
                 {{/each}}
 
                 {{#if showActions}}
@@ -43,20 +51,22 @@
     <div class="content">
         <table class="table table-hover table-striped">
             <tbody>
-                {{#each row in content itemController=detailPath itemViewClass="sl-grid-row"}}
-                    {{#each column in columns itemViewClass="sl-grid-cell"}}
-                        {{grid-cell}}
-                    {{/each}}
+                {{#each row in content itemController=detailPath}}
+                    {{#sl-grid-row}}
+                        {{#each column in columns}}
+                            {{sl-grid-cell column=column row=row}}
+                        {{/each}}
 
-                    {{#if showActions}}
-                        <td class="actions-cell">
-                            {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
-                                {{#each rowAction in row.rowActions}}
-                                    {{sl-drop-option action=rowAction.action label=rowAction.label}}
-                                {{/each}}
-                            {{/sl-drop-button}}
-                        </td>
-                    {{/if}}
+                        {{#if showActions}}
+                            <td class="actions-cell">
+                                {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
+                                    {{#each rowAction in row.rowActions}}
+                                        {{sl-drop-option action=rowAction.action label=rowAction.label}}
+                                    {{/each}}
+                                {{/sl-drop-button}}
+                            </td>
+                        {{/if}}
+                    {{/sl-grid-row}}
                 {{/each}}
             </tbody>
         </table>

@@ -1,12 +1,12 @@
 import Ember from 'ember';
-import SlGridCellView from './sl-grid-cell';
+import SlGridCell from './sl-grid-cell';
+import layout from '../templates/components/sl-grid-header-column';
 
 /**
- * @module views
+ * @module components
  * @class sl-grid-column-header
- * @augments views/sl-grid-cell
  */
-export default SlGridCellView.extend({
+export default SlGridCell.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -16,7 +16,9 @@ export default SlGridCellView.extend({
 
     attributeBindings: [ 'style' ],
 
-    classNameBindings: [ 'content.sortable:sortable-column', 'sortedClass' ],
+    classNameBindings: [ 'column.sortable:sortable-column', 'sortedClass' ],
+
+    layout,
 
     tagName: 'th',
 
@@ -27,12 +29,8 @@ export default SlGridCellView.extend({
     // Events
 
     click() {
-        if ( this.get( 'content.sortable' ) === true ) {
-            this.triggerAction({
-                action        : 'sortColumn',
-                actionContext : this.get( 'content' ),
-                target        : this.get( 'parentController' )
-            });
+        if ( this.get( 'column.sortable' ) === true ) {
+            this.sendAction( 'sortColumn', this.get( 'column' ) );
         }
     },
 
@@ -49,11 +47,11 @@ export default SlGridCellView.extend({
      * Class name string based on sorted property
      *
      * @function sortedClass
-     * @observes content.sortAscending
+     * @observes column.sortAscending
      * @returns {?String}
      */
-    sortedClass: Ember.computed( 'content.sortAscending', function() {
-        var sortAscending = this.get( 'content.sortAscending' );
+    sortedClass: Ember.computed( 'column.sortAscending', function() {
+        var sortAscending = this.get( 'column.sortAscending' );
 
         if ( typeof sorted === 'boolean' ) {
             return 'column-' + (
@@ -66,11 +64,11 @@ export default SlGridCellView.extend({
      * Class name string for the icon on a sortable column
      *
      * @function sortIconClass
-     * @observes content.sortAscending
+     * @observes column.sortAscending
      * @returns {String}
      */
-    sortIconClass: Ember.computed( 'content.sortAscending', function() {
-        var sortAscending = this.get( 'content.sortAscending' ),
+    sortIconClass: Ember.computed( 'column.sortAscending', function() {
+        var sortAscending = this.get( 'column.sortAscending' ),
             iconClass;
 
         if ( sortAscending === true ) {

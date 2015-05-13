@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-grid';
 /**
  * @module components
  * @class sl-grid
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 
@@ -44,42 +43,6 @@ export default Ember.Component.extend({
 
             this.set( 'loading', true );
             this.sendAction( 'requestData', limit, offset );
-        },
-
-        /**
-         * Close the detail-pane
-         *
-         * @function actions.closeDetailPane
-         * @returns {undefined}
-         */
-        closeDetailPane() {
-            var activeRecord = this.get( 'activeRecord' );
-
-            if ( activeRecord ) {
-                Ember.set( activeRecord, 'active', false );
-                this.set( 'activeRecord', null );
-            }
-
-            this.set( 'detailPaneOpen', false );
-        },
-
-        /**
-         * Open the detail-pane with a specific row object
-         *
-         * @function actions.openDetailPane
-         * @param {Object} row - An object representing the row to make active
-         * @returns {undefined}
-         */
-        openDetailPane( row ) {
-            var activeRecord = this.get( 'activeRecord' );
-
-            if ( activeRecord ) {
-                Ember.set( activeRecord, 'active', false );
-            }
-
-            Ember.set( row, 'active', true );
-            this.set( 'activeRecord', row );
-            this.set( 'detailPaneOpen', true );
         },
 
         /**
@@ -146,6 +109,7 @@ export default Ember.Component.extend({
          */
         toggleFilterPane() {
             this.toggleProperty( 'filterPaneOpen' );
+            this.updateHeight();
         }
     },
 
@@ -312,20 +276,20 @@ export default Ember.Component.extend({
     showActions: false,
 
     /**
+     * Whether the currently sorted column is ascending or not
+     *
+     * @property {Boolean} sortAscending
+     * @default true
+     */
+    sortAscending: true,
+
+    /**
      * The title of the column that is currently being sorted
      *
      * @property {?Object} sortedColumnTitle
      * @default null
      */
     sortedColumnTitle: null,
-
-    /**
-     * Whether the currently sorted column is ascending or not
-     *
-     * @property {Boolean} sortAscending
-     * @default true
-     */
-    sortDirection: true,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -487,63 +451,76 @@ export default Ember.Component.extend({
      *
      * @function updateHeight
      * @listens didInsertElement
-     * @observes detailsPaneOpen, filterPaneOpen, height
      * @returns {undefined}
      */
-    updateHeight: Ember.observer(
-        'detailsPaneOpen', 'filterPaneOpen', 'height',
-        Ember.on( 'didInsertElement', function() {
-            Ember.run.next( () => {
-                var componentHeight  = this.get( 'height' ),
-                    gridHeaderHeight = parseInt(
-                        this.$( '.grid-header' ).css( 'height' )
-                    ),
-                    detailHeaderHeight = parseInt(
-                        this.$( '.detail-pane header' ).css( 'height' )
-                    ),
-                    detailFooterHeight = parseInt(
-                        this.$( '.detail-pane footer' ).css( 'height' )
-                    ) || 0,
-                    listHeaderHeight = parseInt(
-                        this.$( '.list-pane .column-headers' ).css( 'height' )
-                    ),
-                    listFooterHeight = parseInt(
-                        this.$( '.list-pane footer' ).css( 'height' )
-                    ),
-                    detailContentHeight,
-                    filterPaneHeight,
-                    listContentHeight,
-                    maxHeight;
-                
-                if ( componentHeight === 'auto' ) {
-                    maxHeight = Ember.$( window ).innerHeight() -
-                        this.$().position().top;
-                } else {
-                    maxHeight = componentHeight;
-                }
+    updateHeight: Ember.on( 'didInsertElement', function() {
+        var componentHeight  = this.get( 'height' ),
+            gridHeaderHeight = parseInt(
+                this.$( '.grid-header' ).css( 'height' )
+            ),
+            detailHeaderHeight = parseInt(
+                this.$( '.detail-pane header' ).css( 'height' )
+            ),
+            detailFooterHeight = parseInt(
+                this.$( '.detail-pane footer' ).css( 'height' )
+            ) || 0,
+            listHeaderHeight = parseInt(
+                this.$( '.list-pane .column-headers' ).css( 'height' )
+            ),
+            listFooterHeight = parseInt(
+                this.$( '.list-pane footer' ).css( 'height' )
+            ),
+            detailContentHeight,
+            filterPaneHeight,
+            listContentHeight,
+            maxHeight;
+        
+        if ( componentHeight === 'auto' ) {
+            maxHeight = Ember.$( window ).innerHeight() -
+                this.$().position().top;
+        } else {
+            maxHeight = componentHeight;
+        }
 
-                detailContentHeight = maxHeight - gridHeaderHeight -
-                    detailHeaderHeight - detailFooterHeight;
+        detailContentHeight = maxHeight - gridHeaderHeight -
+            detailHeaderHeight - detailFooterHeight;
 
-                listContentHeight = maxHeight - gridHeaderHeight - 
-                    listHeaderHeight - listFooterHeight;
+        listContentHeight = maxHeight - gridHeaderHeight - 
+            listHeaderHeight - listFooterHeight;
 
-                if ( this.get( 'filterPaneOpen' ) ) {
-                    filterPaneHeight = parseInt(
-                        this.$( '.filter-pane' ).css( 'height' )
-                    );
-                    detailContentHeight -= filterPaneHeight;
-                    listContentHeight -= filterPaneHeight;
-                }
+        if ( this.get( 'filterPaneOpen' ) ) {
+            filterPaneHeight = parseInt(
+                this.$( '.filter-pane' ).css( 'height' )
+            );
+            detailContentHeight -= filterPaneHeight;
+            listContentHeight -= filterPaneHeight;
+        }
 
-                this.$( '.detail-pane .content' ).height( detailContentHeight );
-                this.$( '.list-pane .content' ).height( listContentHeight );
-            });
-        })
-    ),
+        this.$( '.detail-pane .content' ).height( detailContentHeight );
+        this.$( '.list-pane .content' ).height( listContentHeight );
+    }),
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Close the detail-pane
+     *
+     * @function closeDetailPane
+     * @returns {undefined}
+     */
+    closeDetailPane() {
+        var activeRecord = this.get( 'activeRecord' );
+
+        if ( activeRecord ) {
+            Ember.set( activeRecord, 'active', false );
+            this.set( 'activeRecord', null );
+        }
+
+        this.set( 'detailPaneOpen', false );
+        this.updateHeight();
+    },
+
 
     /**
      * Disables the scroll event handling for continuous paging
@@ -582,8 +559,6 @@ export default Ember.Component.extend({
             nextPageScrollPoint = this.get( 'nextPageScrollPoint' ),
             scrollBottom        = listContent.scrollTop() + listContent.height();
 
-        console.log( 'Scrolling!' );
-
         if ( scrollBottom >= nextPageScrollPoint && !loading ) {
             this.requestMoreData();
         }
@@ -598,6 +573,26 @@ export default Ember.Component.extend({
     hasMorePages: Ember.computed( 'content.length', 'totalCount', function() {
         return this.get( 'content.length' ) < this.get( 'totalCount' );
     }),
+
+    /**
+     * Open the detail-pane with a specific row object
+     *
+     * @function openDetailPane
+     * @param {Object} row - An object representing the row to make active
+     * @returns {undefined}
+     */
+    openDetailPane( row ) {
+        var activeRecord = this.get( 'activeRecord' );
+
+        if ( activeRecord ) {
+            Ember.set( activeRecord, 'active', false );
+        }
+
+        Ember.set( row, 'active', true );
+        this.set( 'activeRecord', row );
+        this.set( 'detailPaneOpen', true );
+        this.updateHeight();
+    },
 
     /**
      * Trigger the bound `requestData` action for more content data

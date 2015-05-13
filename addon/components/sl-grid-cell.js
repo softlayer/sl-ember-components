@@ -1,12 +1,11 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-grid-cell';
 
 /**
- * @module views
+ * @module components
  * @class sl-grid-cell
- * @augments Ember.View
- * @mixes Ember.ViewTargetActionSupport
  */
-export default Ember.View.extend( Ember.ViewTargetActionSupport, {
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -17,8 +16,10 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     attributeBindings: [ 'style' ],
 
     classNameBindings: [
-        'alignmentClass', 'content.primary:primary-column', 'sizeClass'
+        'alignmentClass', 'column.primary:primary-column', 'sizeClass'
     ],
+
+    layout,
 
     tagName: 'td',
 
@@ -30,6 +31,10 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    column: null,
+
+    row: null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -44,8 +49,8 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      * @observes content.align
      * @returns {?String}
      */
-    alignmentClass: Ember.computed( 'content.align', function() {
-        var align = this.get( 'content.align' );
+    alignmentClass: Ember.computed( 'column.align', function() {
+        var align = this.get( 'column.align' );
 
         if ( align === 'right' ) {
             return 'text-right';
@@ -53,14 +58,28 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
     }),
 
     /**
+     * The value for the row's content, based on column's `valuePath` setting
+     *
+     * @function contentValue
+     * @observes column, row
+     * @returns {?String}
+     */
+    contentValue: Ember.computed( 'column', 'row', function() {
+        return Ember.get(
+            this.get( 'row.model' ),
+            this.get( 'column.valuePath' )
+        );
+    }),
+
+    /**
      * Class name string based on size string
      *
      * @function sizeClass
-     * @observes content.size
+     * @observes column.size
      * @returns {?String}
      */
-    sizeClass: Ember.computed( 'content.size', function() {
-        var size = this.get( 'content.size' );
+    sizeClass: Ember.computed( 'column.size', function() {
+        var size = this.get( 'column.size' );
 
         if ( typeof size === 'string' ) {
             return 'column-' + size;
@@ -71,11 +90,11 @@ export default Ember.View.extend( Ember.ViewTargetActionSupport, {
      * Calculated style string based on column size
      *
      * @function style
-     * @observes content.size
+     * @observes column.size
      * @returns {Ember.String}
      */
-    style: Ember.computed( 'content.size', function() {
-        var size = this.get( 'content.size' );
+    style: Ember.computed( 'column.size', function() {
+        var size = this.get( 'column.size' );
 
         if ( typeof size === 'number' ) {
             return Ember.String.htmlSafe( `width: ${size}px;` );

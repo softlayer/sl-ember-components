@@ -11,7 +11,8 @@ function capitalize( string ) {
 
 function generateRecords( number ) {
     var content = Ember.A(); 
-    for ( let i = 0; i < 25; i++ ) {
+
+    for ( let i = 0; i < number; i++ ) {
         let firstName = generateString( 3, 6 );
         let lastName  = generateString( 4, 8 );
 
@@ -42,7 +43,7 @@ export default Ember.Route.extend({
 
     actions: {
 
-        requestData( limit, offset ) {
+        requestData( /* limit, offset */ ) {
             this.set( 'controller.model', generateRecords( 25 ) );
         }
 
