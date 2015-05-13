@@ -580,8 +580,6 @@ export default Ember.Component.extend({
                 }
             } else if ( this.get( 'menu.route' ) ) {
                 rootNode.sendAction( 'changeRoute', this.get( 'menu.route' ) );
-            } else if ( this.get( 'menu.link' ) ) {
-                window.location.href = this.get( 'menu.link' );
             }
 
             rootNode.send( 'closeAll' );

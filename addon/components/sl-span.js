@@ -27,6 +27,14 @@ export default Ember.Component.extend({
     // Properties
 
     /**
+     * Whether the underlying loading-icon is inverse
+     *
+     * @property {Boolean} inverse
+     * @default false
+     */
+    inverse: false,
+
+    /**
      * Whether to show the loading icon or content
      *
      * @property {Boolean} loading
