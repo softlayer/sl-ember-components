@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-pagination';
 /**
  * @module components
  * @class sl-pagination
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 
@@ -32,17 +31,7 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         nextPage() {
-            if ( this.get( 'busy' ) ) {
-                return;
-            }
-
-            if ( this.get( 'currentPage' ) < this.get( 'totalPages' ) ) {
-                this.incrementProperty( 'currentPage' );
-
-                if ( this.get( 'nextPage' ) ) {
-                    this.sendAction( 'nextPage', this.get( 'currentPage' ) );
-                }
-            }
+            this.changePageBy( 1 );
         },
 
         /**
@@ -52,17 +41,7 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         previousPage() {
-            if ( this.get( 'busy' ) ) {
-                return;
-            }
-
-            if ( this.get( 'currentPage' ) > 1 ) {
-                this.decrementProperty( 'currentPage' );
-
-                if ( this.get( 'previousPage' ) ) {
-                    this.sendAction( 'previousPage', this.get( 'currentPage' ) );
-                }
-            }
+            this.changePageBy( -1 );
         }
 
     },
@@ -122,18 +101,30 @@ export default Ember.Component.extend({
         return this.get( 'currentPage' ) === this.get( 'totalPages' );
     }),
 
-    /**
-     * Fires bound "pageChange" action when the currentPage is changed
-     *
-     * @function pageChanged
-     * @observes currentPage
-     * @returns {undefined}
-     */
-    pageChanged: Ember.observer( 'currentPage', function() {
-        this.sendAction( 'changePage', this.get( 'currentPage' ) );
-    })
-
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Change the current page number
+     *
+     * @function changePageBy
+     * @param {Number} pageMod - The integer to increment the currentPage by
+     * @returns {undefined}
+     */
+    changePageBy: function( pageMod ) {
+        if ( this.get( 'busy' ) ) {
+            return;
+        }
+
+        var newCurrentPage = this.get( 'currentPage' ) + pageMod;
+
+        if ( newCurrentPage > -1 && newCurrentPage <= this.get( 'totalPages' ) ) {
+            this.set( 'currentPage', newCurrentPage );
+
+            if ( this.get( 'changePage' ) ) {
+                this.sendAction( 'changePage', newCurrentPage );
+            }
+        }
+    }
 
 });

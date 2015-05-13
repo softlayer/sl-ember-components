@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-panel';
 /**
  * @module components
  * @class sl-panel
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

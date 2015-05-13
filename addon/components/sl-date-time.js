@@ -7,8 +7,6 @@ import layout from '../templates/components/sl-date-time';
 /**
  * @module components
  * @class sl-date-time
- * @augments Ember.Component
- * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

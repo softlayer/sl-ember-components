@@ -16,12 +16,12 @@ test( 'Default classes are present', function( assert ) {
 });
 
 test( 'Property "onFirstPage" works correctly', function( assert ) {
-    var component = this.subject();
+    var component = this.subject({ currentPage: 2 });
 
     assert.equal(
         component.get( 'onFirstPage' ),
         false,
-        'Default rendered component is not "onFirstPage"'
+        'Rendered component is not initially "onFirstPage"'
     );
 
     Ember.run( () => {

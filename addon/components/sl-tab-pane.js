@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-tab-pane';
 /**
  * @module components
  * @class sl-tab-pane
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

@@ -3,10 +3,20 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-alert';
 
 /**
+ * Bootstrap theme names for alert components
+ *
+ * @enum {String} THEME
+ */
+export const THEME = {
+    DANGER  : 'danger',
+    INFO    : 'info',
+    SUCCESS : 'success',
+    WARNING : 'warning'
+};
+
+/**
  * @module components
  * @class sl-alert
- * @augments Ember.Component
- * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -58,10 +68,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The Bootstrap "theme" style to apply to the alert
      *
-     * @property {String} theme
-     * @default "info"
+     * @property {THEME} theme
+     * @default THEME.INFO
      */
-    theme: 'info',
+    theme: THEME.INFO,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -77,7 +87,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {String} Defaults to "alert-info"
      */
     themeClassName: Ember.computed( 'theme', function() {
-        return 'alert-' + this.get( 'theme' );
+        var theme = this.get( 'theme' );
+
+        Ember.assert(
+            'Error: Invalid theme string',
+            Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+        );
+
+        return `alert-${theme}`;
     })
 
 });

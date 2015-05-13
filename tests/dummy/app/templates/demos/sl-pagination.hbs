@@ -21,27 +21,27 @@
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="totalPages" required=true type="Number"}}
+    {{#property-text name="totalPages" required=true type="number"}}
         The total number of pages.
     {{/property-text}}
 
-    {{#property-text name="busy" type="Boolean" default="false"}}
+    {{#property-text name="busy" type="boolean" default="false"}}
         When true, the state of the pagination component will not change.
     {{/property-text}}
 
-    {{#property-text name="changePage" type="String"}}
+    {{#property-text name="changePage" type="string"}}
         An action triggered when the currentPage value is changed. The page number changed to is sent to the action.
     {{/property-text}}
 
-    {{#property-text name="currentPage" type="Number" default="1"}}
+    {{#property-text name="currentPage" type="number" default="1"}}
         The current page bound value.
     {{/property-text}}
 
-    {{#property-text name="nextPage" type="String"}}
+    {{#property-text name="nextPage" type="string"}}
         An action triggered when the page is incremented successfully. The action is passed the new page number.
     {{/property-text}}
 
-    {{#property-text name="previousPage" type="String"}}
+    {{#property-text name="previousPage" type="string"}}
         An action triggered when the page is decremented successfully. The action is passed the new page number.
     {{/property-text}}
 </div>

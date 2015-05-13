@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-drop-option';
 /**
  * @module components
  * @class sl-drop-option
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

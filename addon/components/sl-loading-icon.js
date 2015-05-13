@@ -3,7 +3,6 @@ import Ember from 'ember';
 /**
  * @module components
  * @class sl-loading-icon
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

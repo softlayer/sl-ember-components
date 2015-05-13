@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-chart';
 /**
  * @module components
  * @class sl-calendar-chart
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

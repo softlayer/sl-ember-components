@@ -5,8 +5,6 @@ import layout from '../templates/components/sl-date-picker';
 /**
  * @module components
  * @class sl-date-picker
- * @augments Ember.Component
- * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

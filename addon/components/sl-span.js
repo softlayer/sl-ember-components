@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-span';
 /**
  * @module components
  * @class sl-span
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

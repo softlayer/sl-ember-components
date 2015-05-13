@@ -4,7 +4,6 @@ import layout from '../templates/components/sl-date-range-picker';
 /**
  * @module components
  * @class sl-date-range-picker
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

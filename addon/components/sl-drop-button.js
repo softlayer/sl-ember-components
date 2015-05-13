@@ -1,12 +1,24 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-drop-button';
+import {
+    SIZE as BUTTON_SIZE,
+    THEME as BUTTON_THEME
+} from './sl-button';
+
+/**
+ * Values for the sl-drop-button's `align` property
+ *
+ * @enum {String} ALIGN
+ */
+export const ALIGN = {
+    LEFT   : 'left',
+    RIGHT  : 'right'
+};
 
 /**
  * @module components
  * @class sl-drop-button
- * @augments Ember.Component
- * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -51,10 +63,10 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * Possible values are "left" or "right".
      *
-     * @property {String} align
-     * @default "left"
+     * @property {ALIGN} align
+     * @default ALIGN.LEFT
      */
-    align: 'left',
+    align: ALIGN.LEFT,
 
     /**
      * Drop button options array
@@ -81,12 +93,20 @@ export default Ember.Component.extend( TooltipEnabled, {
     label: null,
 
     /**
+     * The size of the button
+     *
+     * @property {sl-button.SIZE} size
+     * @default sl-button.SIZE.MEDIUM
+     */
+    size: BUTTON_SIZE.MEDIUM,
+
+    /**
      * The string name of the style theme for the button
      *
-     * @property {String} theme
-     * @default "default"
+     * @property {sl-button.THEME} theme
+     * @default sl-button.THEME.DEFAULT
      */
-    theme: 'default',
+    theme: BUTTON_THEME.DEFAULT,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -102,7 +122,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {Boolean}
      */
     rightAligned: Ember.computed( 'align', function() {
-        return this.get( 'align' ) === 'right';
+        return this.get( 'align' ) === ALIGN.RIGHT;
     }),
 
     /**
@@ -113,7 +133,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {String}
      */
     themeClass: Ember.computed( 'theme', function() {
-        return 'dropdown-' + this.get( 'theme' );
+        var theme = this.get( 'theme' );
+
+        Ember.assert(
+            `Error: Invalid sl-drop-button theme value "${theme}"`,
+            Object.keys( BUTTON_THEME ).map( ( key ) => BUTTON_THEME[ key ] ).indexOf( theme ) > -1
+        );
+
+        return `dropdown-${theme}`;
     })
 
 });

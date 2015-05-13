@@ -6,7 +6,6 @@ import layout from '../templates/components/sl-calendar';
 /**
  * @module components
  * @class sl-calendar-calendar
- * @augments Ember.Component
  */
 export default Ember.Component.extend({
 

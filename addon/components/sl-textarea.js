@@ -6,9 +6,6 @@ import layout from '../templates/components/sl-textarea';
 /**
  * @module components
  * @class sl-textarea
- * @augments Ember.Component
- * @mixes sl-input-based
- * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 

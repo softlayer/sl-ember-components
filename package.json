@@ -57,8 +57,8 @@
     "ember-cli-less": "^1.0.4",
     "ember-cli-qunit": "0.3.10",
     "ember-cli-uglify": "1.0.1",
-    "ember-export-application-global": "^1.0.2",
     "ember-disable-prototype-extensions": "^1.0.0",
+    "ember-export-application-global": "^1.0.2",
     "ember-try": "0.0.4",
     "sl-ember-test-helpers": "1.4.0"
   }

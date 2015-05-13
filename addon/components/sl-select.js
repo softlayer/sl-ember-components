@@ -6,9 +6,6 @@ import layout from '../templates/components/sl-select';
 /**
  * @module components
  * @class sl-select
- * @augments Ember.Component
- * @mixes sl-input-based
- * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 

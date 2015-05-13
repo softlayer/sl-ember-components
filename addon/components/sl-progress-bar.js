@@ -3,10 +3,21 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-progress-bar';
 
 /**
+ * Valid Bootstrap theme class names for progress bars
+ *
+ * @enum {String} THEME
+ */
+export const THEME = {
+    DANGER  : 'danger',
+    DEFAULT : 'default',
+    INFO    : 'info',
+    SUCCESS : 'success',
+    WARNING : 'warning'
+};
+
+/**
  * @module components
  * @class sl-progress-bar
- * @augments Ember.Component
- * @mixes sl-tooltip-enabled
 */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -58,10 +69,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The Bootstrap "theme" style name
      *
-     * @property {String} theme
-     * @default "default"
+     * @property {THEME} theme
+     * @default THEME.DEFAULT
      */
-    theme: 'default',
+    theme: THEME.DEFAULT,
 
     /**
      * The progress value as an integer (out of 100)
@@ -109,7 +120,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {String}
      */
     themeClassName: Ember.computed( 'theme', function() {
-        return 'progress-bar-' + this.get( 'theme' );
+        var theme = this.get( 'theme' );
+
+        Ember.assert(
+            `Error: Invalid theme property value "${theme}"`,
+            Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+        );
+
+        return `progress-bar-${theme}`;
     })
 
 });

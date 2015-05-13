@@ -3,10 +3,36 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-button';
 
 /**
+ * Valid size values for the sl-button component
+ *
+ * @enum {String} SIZE
+ */
+export const SIZE = {
+    EXTRA_SMALL : 'extra-small',
+    LARGE       : 'large',
+    MEDIUM      : 'medium',
+    SMALL       : 'small'
+};
+
+/**
+ * Valid Bootstrap theme values for buttons
+ *
+ * @enum {String} THEME
+ */
+export const THEME = {
+    DANGER  : 'danger',
+    DEFAULT : 'default',
+    HOVER   : 'hover',
+    INFO    : 'info',
+    LINK    : 'link',
+    PRIMARY : 'primary',
+    SUCCESS : 'success',
+    WARNING : 'warning'
+};
+
+/**
  * @module components
  * @class sl-button
- * @augments Ember.Component
- * @mixes sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -85,18 +111,18 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The size of the button
      *
-     * @property {String} size
-     * @default "medium"
+     * @property {SIZE} size
+     * @default SIZE.MEDIUM
      */
-    size: 'medium',
+    size: SIZE.MEDIUM,
 
     /**
      * The bootstrap "theme" name
      *
-     * @property {String} theme
-     * @default "default"
+     * @property {THEME} theme
+     * @default THEME.DEFAULT
      */
-    theme: 'default',
+    theme: THEME.DEFAULT,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -136,16 +162,21 @@ export default Ember.Component.extend( TooltipEnabled, {
         var size = this.get( 'size' ),
             sizeClass;
 
+        Ember.assert(
+            'Error: Invalid size value',
+            Object.keys( SIZE ).map( ( key ) => SIZE[ key ] ).indexOf( size ) > -1
+        );
+
         switch ( size ) {
-            case 'extra-small':
+            case SIZE.EXTRA_SMALL:
                 sizeClass = 'btn-xs';
                 break;
 
-            case 'small':
+            case SIZE.SMALL:
                 sizeClass = 'btn-sm';
                 break;
 
-            case 'large':
+            case SIZE.LARGE:
                 sizeClass = 'btn-lg';
                 break;
         }
@@ -161,7 +192,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {String} Defaults to "btn-default"
      */
     themeClass: Ember.computed( 'theme', function() {
-        return 'btn-' + this.get( 'theme' );
+        var theme = this.get( 'theme' );
+
+        Ember.assert(
+            'Error: Invalid theme value',
+            Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+        );
+
+        return `btn-${theme}`;
     })
 
 });

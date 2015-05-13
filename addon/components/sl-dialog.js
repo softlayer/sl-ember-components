@@ -5,8 +5,6 @@ import layout from '../templates/components/sl-dialog';
 /**
  * @module components
  * @class sl-dialog
- * @augments Ember.Component
- * @mixes sl-modal
  */
 export default Ember.Component.extend( ModalMixin, {
 
