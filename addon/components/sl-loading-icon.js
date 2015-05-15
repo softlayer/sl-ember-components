@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module components
  * @class sl-loading-icon
+ * @memberof components
  */
 export default Ember.Component.extend({
 

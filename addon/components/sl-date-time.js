@@ -1,5 +1,3 @@
-/* global moment */
-
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-date-time';
@@ -76,18 +74,19 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The date-time's value formatted as a datetime string
      *
-     * @function datetime
+     * @function
      * @observes timezoneString, value
      * @returns {String}
      */
     datetime: Ember.computed( 'timezoneString', 'value', function() {
-        return moment( this.get( 'value' )).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
+        return window.moment( this.get( 'value' ) ).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString'
+        );
     }),
 
     /**
      * Formatted string based on value and supplied format
      *
-     * @function formattedValue
+     * @function
      * @observes format, momentValue
      * @returns {String}
      */
@@ -115,18 +114,18 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The component's current value wrapped in moment
      *
-     * @function momentValue
+     * @function
      * @observes value
      * @returns {Object}
      */
     momentValue: Ember.computed( 'value', function() {
-        return moment( this.get( 'value' ) );
+        return window.moment( this.get( 'value' ) );
     }),
 
     /**
      * Formatted timezone string based on component's timezone value
      *
-     * @function timezoneString
+     * @function
      * @observes timezone, momentValue
      * @returns {String}
      */

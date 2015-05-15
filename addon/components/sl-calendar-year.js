@@ -1,10 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-calendar-year';
 
-/**
- * @module components
- * @class sl-calendar-year
- */
+/** @module */
+
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -13,10 +11,13 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNameBindings: [ 'active', 'new', 'old' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'span',
 
     // -------------------------------------------------------------------------
@@ -25,6 +26,10 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * @function
+     * @returns {undefined}
+     */
     click() {
         this.sendAction( 'action', this.get( 'year' ) );
     },
@@ -36,8 +41,8 @@ export default Ember.Component.extend({
      * Whether the year this component represents is the currently active year
      * of the parent calendar component
      *
-     * @property {Boolean} active
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     active: false,
 
@@ -45,8 +50,8 @@ export default Ember.Component.extend({
      * Whether the year this component represents is in the next decade from the
      * parent calendar's current year
      *
-     * @property {Boolean} new
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     'new': false,
 
@@ -54,16 +59,16 @@ export default Ember.Component.extend({
      * Whether the year this component represents is in the previous decade from
      * the parent calendar's current year
      *
-     * @property {Boolean} old
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     old: false,
 
     /**
      * The year number this component represents
      *
-     * @property {Number} year
-     * @default null
+     * @type {Number}
+     * @default
      */
     year: null
 

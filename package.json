@@ -4,8 +4,9 @@
   "description": "Ember CLI Addon - UI components library",
   "homepage": "http://softlayer.github.io/sl-ember-components",
   "scripts": {
-    "start": "ember server",
     "build": "ember build",
+    "docs": "jsdoc -c jsdoc.json",
+    "start": "ember server",
     "test": "ember test"
   },
   "bugs": "https://github.com/softlayer/sl-ember-components/issues",

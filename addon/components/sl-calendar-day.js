@@ -1,10 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-calendar-day';
 
-/**
- * @module components
- * @class sl-calendar-day
- */
+/** @module */
+
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -13,12 +11,16 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNameBindings: [ 'active', 'new', 'old' ],
 
+    /** @type {String[]} */
     classNames: [ 'day' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'td',
 
     // -------------------------------------------------------------------------
@@ -27,6 +29,10 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * @function
+     * @returns {undefined}
+     */
     click() {
         var content = this.get( 'content' );
 
@@ -41,8 +47,8 @@ export default Ember.Component.extend({
     /**
      * Whether the calendar day this cell represents is actively selected day
      *
-     * @property {Boolean} active
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     active: false,
 
@@ -50,8 +56,8 @@ export default Ember.Component.extend({
      * The various data representing the day (created and passed in through
      * sl-calendar)
      *
-     * @property {Object} content
-     * @default {}
+     * @type {Object}
+     * @default
      */
     content: null,
 
@@ -59,8 +65,8 @@ export default Ember.Component.extend({
      * Whether the calendar day this cell represents is part of the next month
      * in the primary calendar view
      *
-     * @property {Boolean} new
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     'new': false,
 
@@ -68,8 +74,8 @@ export default Ember.Component.extend({
      * Whether the calendar day this cell represents is part of the previous
      * month in the primary calendar view
      *
-     * @property {Boolean} old
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     old: false
 

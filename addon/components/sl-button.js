@@ -2,10 +2,12 @@ import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-button';
 
+/** @module */
+
 /**
  * Valid size values for the sl-button component
  *
- * @enum {String} SIZE
+ * @enum {String}
  */
 export const SIZE = {
     EXTRA_SMALL : 'extra-small',
@@ -17,7 +19,7 @@ export const SIZE = {
 /**
  * Valid Bootstrap theme values for buttons
  *
- * @enum {String} THEME
+ * @enum {String}
  */
 export const THEME = {
     DANGER  : 'danger',
@@ -30,10 +32,6 @@ export const THEME = {
     WARNING : 'warning'
 };
 
-/**
- * @module components
- * @class sl-button
- */
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
@@ -42,14 +40,19 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [ 'data-target', 'data-toggle', 'disabled', 'type' ],
 
+    /** @type {String[]} */
     classNameBindings: [ 'pending', 'sizeClass', 'themeClass' ],
 
+    /** @type {String[]} */
     classNames: [ 'btn', 'sl-button' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'button',
 
     // -------------------------------------------------------------------------
@@ -58,6 +61,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Events
 
+    /** @function */
     click() {
         this.sendAction();
     },
@@ -68,16 +72,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether or not the button should be disabled during AJAX activity
      *
-     * @property {Boolean} disableOnAjax
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     disableOnAjax: false,
 
     /**
      * Whether or not the button should be hidden during AJAX activity
      *
-     * @property {Boolean} hideOnAjax
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     hideOnAjax: false,
 
@@ -87,40 +91,38 @@ export default Ember.Component.extend( TooltipEnabled, {
      * It is preferred you use this to set your "default" text rather than
      * inactiveLabelText, which will take this value as a default.
      *
-     * @property {String} label
-     * @default null
+     * @type {String}
+     * @default
      */
     label: null,
 
     /**
      * Whether the button is in a "pending" state
      *
-     * @property {Boolean} pending
-     * @default false
+     * @type {Boolean}
      */
     pending: false,
 
     /**
      * The text to display during AJAX activity
      *
-     * @property {String} pendingLabel
-     * @default null
+     * @type {String}
      */
     pendingLabel: null,
 
     /**
      * The size of the button
      *
-     * @property {SIZE} size
-     * @default SIZE.MEDIUM
+     * @type {SIZE}
+     * @default
      */
     size: SIZE.MEDIUM,
 
     /**
      * The bootstrap "theme" name
      *
-     * @property {THEME} theme
-     * @default THEME.DEFAULT
+     * @type {THEME}
+     * @default
      */
     theme: THEME.DEFAULT,
 
@@ -133,7 +135,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The current label text for the button
      *
-     * @function currentLabel
+     * @function
      * @observes label, pending, pendingLabel
      * @returns {String}
      */
@@ -154,7 +156,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Converted size string to Bootstrap button class
      *
-     * @function sizeClass
+     * @function
      * @observes size
      * @returns {?String} Defaults to undefined
      */
@@ -187,7 +189,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Converted theme string to Bootstrap button class
      *
-     * @function themeClass
+     * @function
      * @observes theme
      * @returns {String} Defaults to "btn-default"
      */

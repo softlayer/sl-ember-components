@@ -2,10 +2,13 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-grid';
 
 /**
- * @module components
- * @class sl-grid
+ * @module
  */
-export default Ember.Component.extend({
+
+/**
+ * @class
+ */
+var SlGrid = {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -13,23 +16,28 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNameBindings: [ 'detailPaneOpen:details-open', 'loading:sl-loading' ],
 
+    /** @type {String[]} */
     classNames: [ 'sl-grid' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'div',
 
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
         /**
          * Handle changing pages
          *
-         * @function actions.changePage
+         * @function changePage
          * @param {Number} page - The page number being changed to
          * @returns {undefined}
          */
@@ -53,7 +61,7 @@ export default Ember.Component.extend({
          * opened for the triggering row's model record, unless no detailPath is
          * defined.
          *
-         * @function actions.rowClick
+         * @function rowClick
          * @param {Object} row - The object that the clicked row represents
          * @returns {undefined}
          */
@@ -69,7 +77,7 @@ export default Ember.Component.extend({
          * Toggle sorting of the selected column, and send the "sortAction"
          * bound action the column and direction to sort
          *
-         * @function actions.sortColumn
+         * @function sortColumn
          * @param {Object} column - The column definition for the triggered 
          *        header's column
          * @returns {undefined}
@@ -104,7 +112,7 @@ export default Ember.Component.extend({
         /**
          * Opens/closes the filter pane
          *
-         * @function actions.toggleFilterPane
+         * @function toggleFilterPane
          * @returns {undefined}
          */
         toggleFilterPane() {
@@ -122,16 +130,16 @@ export default Ember.Component.extend({
     /**
      * The text label for the rows' actions buttons
      *
-     * @property {String} actionsButtonLabel
-     * @default "Actions"
+     * @type {String}
+     * @default
      */
     actionsButtonLabel: 'Actions',
 
     /**
      * The row record that is currently active in the detail pane
      *
-     * @property {?Object} activeRecord
-     * @default null
+     * @type {?Object}
+     * @default
      */
     activeRecord: null,
 
@@ -140,40 +148,40 @@ export default Ember.Component.extend({
      *
      * When this is false (default), then the grid will have pagination enabled.
      *
-     * @property {Boolean} continuous
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     continuous: false,
 
     /**
      * The current page, valid for a non-`continuous` grid
      *
-     * @property {Number} currentPage
-     * @default 1
+     * @type {Number}
+     * @default
      */
     currentPage: 1,
 
     /**
      * The path of a template to use for the detail-pane footer
      *
-     * @property {?String} detailFooterPath
-     * @default null
+     * @type {?String}
+     * @default
      */
     detailFooterPath: null,
 
     /**
      * The path of a template to use for the detail-pane header
      *
-     * @property {?String} detailHeaderPath
-     * @default null
+     * @type {?String}
+     * @default
      */
     detailHeaderPath: null,
 
     /**
      * Indicates when the detail-pane is open
      *
-     * @property {Boolean} detailPaneOpen
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     detailPaneOpen: false,
 
@@ -183,40 +191,40 @@ export default Ember.Component.extend({
      * The controller matching this name also drives the data for the detail's
      * footer template and header template.
      *
-     * @property {?String} detailPath
-     * @default null
+     * @type {?String}
+     * @default
      */
     detailPath: null,
 
     /**
      * The text to display on the filter panel toggle button
      *
-     * @property {String} filterButtonLabel
-     * @default "Filter"
+     * @type {String}
+     * @default
      */
     filterButtonLabel: 'Filter',
 
     /**
      * Indicates when the filter pane is open
      *
-     * @property {Boolean} filterPaneOpen
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     filterPaneOpen: false,
 
     /**
      * The path of the controller/template/view to use for the filter panel
      *
-     * @property {?String} filterPath
-     * @default null
+     * @type {?String}
+     * @default
      */
     filterPath: null,
 
     /**
      * The path for the template to use for the footer of the list pane
      *
-     * @property {?String} listFooterPath
-     * @default null
+     * @type {?String}
+     * @default
      */
     footerPath: null,
 
@@ -227,32 +235,32 @@ export default Ember.Component.extend({
      * its content to take up the maximum valid vertical space for the
      * current viewport.
      *
-     * @property {Number|String} height
-     * @default "auto"
+     * @type {Number|String}
+     * @default
      */
     height: 'auto',
 
     /**
      * When true, the split-grid is in a loading state
      *
-     * @property {Boolean} loading
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     loading: false,
 
     /**
      * The "top" value for the table scroll to request a new page at
      *
-     * @property {Number} nextPageScrollPoint
-     * @default 0
+     * @type {Number}
+     * @default
      */
     nextPageScrollPoint: 0,
 
     /**
      * The number of records to request for each page
      *
-     * @property {Number} pageSize
-     * @default 25
+     * @type {Number}
+     * @default
      */
     pageSize: 25,
 
@@ -262,32 +270,32 @@ export default Ember.Component.extend({
      * When this value is not set, the detail pane will be opened whenever a row
      * is clicked.
      *
-     * @property {?String} rowClick
-     * @default null
+     * @type {?String}
+     * @default
      */
     rowClick: null,
 
     /**
      * Whether to show the column for the rows' action drop-buttons
      *
-     * @property {Boolean} showActions
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     showActions: false,
 
     /**
      * Whether the currently sorted column is ascending or not
      *
-     * @property {Boolean} sortAscending
-     * @default true
+     * @type {Boolean}
+     * @default
      */
     sortAscending: true,
 
     /**
      * The title of the column that is currently being sorted
      *
-     * @property {?Object} sortedColumnTitle
-     * @default null
+     * @type {?Object}
+     * @default
      */
     sortedColumnTitle: null,
 
@@ -297,7 +305,7 @@ export default Ember.Component.extend({
     /**
      * Does cleanup for internal state when content length has changed
      *
-     * @function handleNewContent
+     * @function
      * @observes content
      * @returns {undefined}
      */
@@ -312,7 +320,7 @@ export default Ember.Component.extend({
     /**
      * Setup the viewport-based auto sizing when `height` is "auto"
      *
-     * @function setupAutoHeight
+     * @function
      * @returns {undefined}
      */
     setupAutoHeight: Ember.on( 'didInsertElement', function() {
@@ -327,7 +335,7 @@ export default Ember.Component.extend({
      * Setup the "continuous paging" functionality, if the data set is
      * not complete
      *
-     * @function setupContinuousPaging
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -340,7 +348,7 @@ export default Ember.Component.extend({
     /**
      * Setup paths for the various sections within the split-grid
      *
-     * @function setupTemplates
+     * @function
      * @listens init
      * @returns {undefined}
      */
@@ -396,7 +404,7 @@ export default Ember.Component.extend({
     /**
      * Whether to show the pagination in the list-pane footer
      *
-     * @function showPagination
+     * @function
      * @observes continuous, totalPages
      * @returns {Boolean}
      */
@@ -409,7 +417,7 @@ export default Ember.Component.extend({
     /**
      * The currently sorted column definition
      *
-     * @function sortedColumn
+     * @function
      * @returns {?Object} The definition for the currently sorted column
      */
     sortedColumn: Ember.computed( 'columns', 'sortedColumnTitle', function() {
@@ -428,7 +436,7 @@ export default Ember.Component.extend({
     /**
      * The total number of pages of bound content, based on pageSize
      *
-     * @function totalPages
+     * @function
      * @observes continuous, pageSize, totalCount
      * @returns {Number}
      */
@@ -449,7 +457,7 @@ export default Ember.Component.extend({
      * The actual sizing calculation code must be done in an Ember.run.next,
      * since some of the elements' heights will return 0 until they are visible.
      *
-     * @function updateHeight
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -506,7 +514,7 @@ export default Ember.Component.extend({
     /**
      * Close the detail-pane
      *
-     * @function closeDetailPane
+     * @function
      * @returns {undefined}
      */
     closeDetailPane() {
@@ -525,7 +533,7 @@ export default Ember.Component.extend({
     /**
      * Disables the scroll event handling for continuous paging
      *
-     * @function disableContinuousPaging
+     * @function
      * @returns {undefined}
      */
     disableContinuousPaging() {
@@ -535,7 +543,7 @@ export default Ember.Component.extend({
     /**
      * Enables the scroll event handling for continuous paging
      *
-     * @function enableContinuousPaging
+     * @function
      * @returns {undefined}
      */
     enableContinuousPaging() {
@@ -549,7 +557,7 @@ export default Ember.Component.extend({
      * responsible for determining when triggering requestData is necessary by
      * checking the scroll location of the content
      *
-     * @function handleListContentScroll
+     * @function
      * @param {jQuery.Event} event - The scroll trigger event
      * @returns {undefined}
      */
@@ -567,7 +575,7 @@ export default Ember.Component.extend({
     /**
      * Whether the content has more available data to page in
      *
-     * @function hasMorePages
+     * @function
      * @returns {Boolean} - True if more content pages are available
      */
     hasMorePages: Ember.computed( 'content.length', 'totalCount', function() {
@@ -577,7 +585,7 @@ export default Ember.Component.extend({
     /**
      * Open the detail-pane with a specific row object
      *
-     * @function openDetailPane
+     * @function
      * @param {Object} row - An object representing the row to make active
      * @returns {undefined}
      */
@@ -597,7 +605,7 @@ export default Ember.Component.extend({
     /**
      * Trigger the bound `requestData` action for more content data
      *
-     * @function requestMoreData
+     * @function
      * @returns {undefined}
      */
     requestMoreData() {
@@ -613,4 +621,6 @@ export default Ember.Component.extend({
         }
     }
 
-});
+};
+
+export default Ember.Component.extend( SlGrid );

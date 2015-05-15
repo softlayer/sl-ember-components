@@ -1,12 +1,8 @@
-/* global moment */
-
 import Ember from 'ember';
 import layout from '../templates/components/sl-calendar-month';
 
-/**
- * @module components
- * @class sl-calendar-month
- */
+/** @module */
+
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -15,12 +11,16 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNameBindings: [ 'active' ],
 
+    /** @type {String[]} */
     classNames: [ 'month' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'span',
 
     // -------------------------------------------------------------------------
@@ -29,6 +29,10 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * @function
+     * @returns {undefined}
+     */
     click() {
         this.sendAction( 'action', this.get( 'month' ) );
     },
@@ -40,16 +44,16 @@ export default Ember.Component.extend({
      * Whether the month that this component represents is selected by the
      * overall calendar component
      *
-     * @property {Boolean} active
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     active: false,
 
     /**
      * The number of the month (1-12)
      *
-     * @property {Number} month
-     * @default null
+     * @type {Number}
+     * @default
      */
     month: null,
 
@@ -62,7 +66,8 @@ export default Ember.Component.extend({
     /**
      * The short string name of the represented month
      *
-     * @function shortName
+     * @function
+     * @observes month
      * @returns {String}
      */
     shortName: Ember.computed( 'month', function() {

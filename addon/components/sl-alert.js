@@ -2,10 +2,12 @@ import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-alert';
 
+/** @module */
+
 /**
  * Bootstrap theme names for alert components
  *
- * @enum {String} THEME
+ * @enum {String}
  */
 export const THEME = {
     DANGER  : 'danger',
@@ -14,10 +16,6 @@ export const THEME = {
     WARNING : 'warning'
 };
 
-/**
- * @module components
- * @class sl-alert
- */
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
@@ -26,23 +24,30 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String} */
     ariaRole: 'alert',
 
+    /** @type {String[]} */
     classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
 
+    /** @type {String[]} */
     classNames: [ 'alert', 'sl-alert' ],
 
+    /** @type {Object} */
     layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
+    /**
+     * @type {Object}
+     */
     actions: {
 
         /**
          * Trigger a bound "dismiss" action when the alert is dismissed
          *
-         * @function actions.dismiss
+         * @function actions:dismiss
          * @returns {undefined}
          */
         dismiss() {
@@ -60,16 +65,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether to make the alert dismissable or not
      *
-     * @property {Boolean} dismissable
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     dismissable: false,
 
     /**
      * The Bootstrap "theme" style to apply to the alert
      *
-     * @property {THEME} theme
-     * @default THEME.INFO
+     * @type {THEME}
+     * @default
      */
     theme: THEME.INFO,
 
@@ -82,8 +87,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The generated Bootstrap "theme" style class for the alert
      *
-     * @function themeClassName
+     * @function
      * @observes theme
+     * @throws {Ember.assert}
      * @returns {String} Defaults to "alert-info"
      */
     themeClassName: Ember.computed( 'theme', function() {

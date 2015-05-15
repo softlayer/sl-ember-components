@@ -1,10 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-chart';
 
-/**
- * @module components
- * @class sl-calendar-chart
- */
+/** @module */
+
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -13,10 +11,13 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNameBindings: [ 'isLoading:sl-loading' ],
 
+    /** @type {String[]} */
     classNames: [ 'panel', 'panel-default', 'sl-chart', 'sl-panel' ],
 
+    /** @type {Object} */
     layout,
 
     // -------------------------------------------------------------------------
@@ -31,40 +32,40 @@ export default Ember.Component.extend({
     /**
      * The highchart instantiation
      *
-     * @property {Object} chart
-     * @default null
+     * @type {Object}
+     * @default
      */
     chart: null,
 
     /**
      * Height value used for inline style
      *
-     * @property {String} height
-     * @default "auto"
+     * @type {String}
+     * @default
      */
     height: 'auto',
 
     /**
      * When true, the chart's panel body will be in a loading state
      *
-     * @property {Boolean} isLoading
-     * @default false
+     * @type {Boolean}
+     * @default
      */
     isLoading: false,
 
     /**
      * The collection of series data for the chart
      *
-     * @property {?Array} series
-     * @default null
+     * @type {?Array}
+     * @default
      */
     series: null,
 
     /**
      * Width value used for inline style
      *
-     * @property {Number|String} width
-     * @default "auto"
+     * @type {Number|String}
+     * @default
      */
     width: 'auto',
 
@@ -74,7 +75,7 @@ export default Ember.Component.extend({
     /**
      * Sets up Highcharts initialization
      *
-     * @function setupChart
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -146,7 +147,7 @@ export default Ember.Component.extend({
     /**
      * Updates the chart's series data
      *
-     * @function updateSeries
+     * @function
      * @observes series
      * @returns {undefined}
      */
@@ -173,7 +174,7 @@ export default Ember.Component.extend({
     /**
      * Inline style containing height and width, required by Highcharts
      *
-     * @function style
+     * @function
      * @observes height, width
      * @returns {String}
      */

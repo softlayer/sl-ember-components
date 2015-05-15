@@ -4,10 +4,10 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-input';
 
 /**
- * @module components
  * @class sl-input
+ * @memberof components
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+var SlInput = {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -204,4 +204,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
         return classes.join( ' ' );
     })
-});
+};
+
+export default Ember.Component.extend( InputBased, TooltipEnabled, SlInput );
