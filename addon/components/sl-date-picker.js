@@ -4,8 +4,8 @@ import layout from '../templates/components/sl-date-picker';
 
 /**
  * @module
- * @augments Ember/Component
- * @mixes sl-ember-components/mixins/sl-tooltip-enabled
+ * @augments ember/Component
+ * @augments MIXES:sl-ember-components/mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

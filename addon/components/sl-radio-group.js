@@ -5,9 +5,9 @@ import layout from '../templates/components/sl-radio-group';
 
 /**
  * @module
- * @augments Ember/Component
- * @mixes sl-ember-components/mixins/sl-input-based
- * @mixes sl-ember-components/mixins/sl-tooltip-enabled
+ * @augments ember/Component
+ * @augments MIXES:sl-ember-components/mixins/sl-input-based
+ * @augments MIXES:sl-ember-components/mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 

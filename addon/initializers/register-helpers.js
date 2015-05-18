@@ -4,7 +4,7 @@ import RenderDynamicHelper from 'sl-ember-components/helpers/render-dynamic';
 
 /**
  * @module
-*/
+ */
 
 /**
  * Register the addon helpers to Handlebars

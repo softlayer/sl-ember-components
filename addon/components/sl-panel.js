@@ -3,10 +3,9 @@ import layout from '../templates/components/sl-panel';
 
 /**
  * @module
- * @augments Ember/Component
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
-
     // -------------------------------------------------------------------------
     // Dependencies
 

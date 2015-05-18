@@ -3,7 +3,7 @@ import layout from '../templates/components/sl-grid';
 
 /**
  * @module
- * @augments Ember/Component
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
@@ -137,6 +137,19 @@ export default Ember.Component.extend({
      * @type {?Object}
      */
     activeRecord: null,
+
+    /**
+     * @typedef ColumnDefinition
+     * @type {Object}
+     * @property {String} [align] - Which direction to align the column's content
+     * @property {Boolean} [primary] - Whether the column is always shown
+     * @property {
+     */
+
+    /**
+     * @type {ColumnDefinition[]}
+     */
+    columns: [],
 
     /**
      * Whether the grid's data should be handled by continuous-scrolling

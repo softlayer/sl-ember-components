@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 /**
  * @module
- * @augments Ember/Object
- * @mixes Ember/Evented
+ * @augments ember/Object
+ * @augments MIXES:Ember/Evented
  */
 export default Ember.Object.extend( Ember.Evented, {
 

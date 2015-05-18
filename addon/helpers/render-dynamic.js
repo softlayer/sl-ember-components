@@ -14,10 +14,10 @@ export default {
 
     /**
      * @function
-     * @param {Object} params
-     * @param {Object} hash
-     * @param {Object} options
-     * @param {Object} env
+     * @param {Object} params - Parameters passed in by a consuming template
+     * @param {Object} hash - Values bound in a consuming template
+     * @param {Object} options - The full options from the consuming template
+     * @param {Object} env - The context this helper is run inside
      * @returns {String}
      */
     helperFunction( params, hash, options, env ) {

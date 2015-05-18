@@ -4,8 +4,8 @@ import layout from '../templates/components/sl-dialog';
 
 /**
  * @module
- * @augments Ember/Component
- * @mixes sl-ember-components/mixins/sl-modal
+ * @augments ember/Component
+ * @augments MIXES:sl-ember-components/mixins/sl-modal
  */
 export default Ember.Component.extend( ModalMixin, {
 
@@ -61,7 +61,7 @@ export default Ember.Component.extend( ModalMixin, {
     /**
      * Custom dialog handler for setting the `show` property to false
      *
-     * @override
+     * @override sl-ember-components/mixins/sl-modal
      * @function
      * @returns {undefined}
      */

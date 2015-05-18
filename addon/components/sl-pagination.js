@@ -3,7 +3,7 @@ import layout from '../templates/components/sl-pagination';
 
 /**
  * @module
- * @augments Ember/Component
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 

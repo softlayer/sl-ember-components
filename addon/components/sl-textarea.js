@@ -40,9 +40,9 @@ export const WRAP = {
 
 /**
  * @module
- * @augments Ember/Component
- * @mixes sl-ember-components/mixins/sl-input-based
- * @mixes sl-ember-components/mixins/sl-tooltip-based
+ * @augments ember/Component
+ * @augments MIXES:sl-ember-components/mixins/sl-input-based
+ * @augments MIXES:sl-ember-components/mixins/sl-tooltip-based
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 

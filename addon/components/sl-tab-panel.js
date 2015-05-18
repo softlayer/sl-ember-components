@@ -14,7 +14,7 @@ export const ALIGNMENT = {
 
 /**
  * @module
- * @augments Ember/Component
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 

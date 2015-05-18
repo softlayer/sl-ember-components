@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /**
  * @module
- * @augments Ember/Mixin
+ * @augments ember/Mixin
  */
 export default Ember.Mixin.create({
 

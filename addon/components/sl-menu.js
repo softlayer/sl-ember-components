@@ -4,7 +4,7 @@ import layout from '../templates/components/sl-menu';
 
 /**
  * @module
- * @augments Ember/Component
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
