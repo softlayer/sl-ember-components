@@ -96,14 +96,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The size of the button
      *
-     * @type {module:components/sl-button.exports.SIZE}
+     * @type {module:components/sl-button.SIZE}
      */
     size: BUTTON_SIZE.MEDIUM,
 
     /**
      * The theme style name
      *
-     * @type {module:components/sl-button.exports.THEME}
+     * @type {module:components/sl-button.THEME}
      */
     theme: BUTTON_THEME.DEFAULT,
 
