@@ -7,10 +7,11 @@ import layout from '../templates/components/sl-tab-panel';
  * @memberof module:components/sl-tab-panel
  * @enum {String}
  */
-export const ALIGNMENT = {
+const ALIGNMENT = {
     LEFT  : 'left',
     RIGHT : 'right'
 };
+export { ALIGNMENT };
 
 /**
  * @module

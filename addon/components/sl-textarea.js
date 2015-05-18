@@ -9,11 +9,12 @@ import layout from '../templates/components/sl-textarea';
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-export const DIRECTION = {
+const DIRECTION = {
     BACKWARD : 'backward',
     FORWARD  : 'forward',
     NONE     : 'none'
 };
+export { DIRECTION };
 
 /**
  * Valid values for `spellcheck` property
@@ -21,11 +22,12 @@ export const DIRECTION = {
  * @memberof module:components/sl-textarea
  * @enum {Boolean|String}
  */
-export const SPELLCHECK = {
+const SPELLCHECK = {
     DEFAULT : 'default',
     FALSE   : false,
     TRUE    : true
 };
+export { SPELLCHECK };
 
 /**
  * Valid values for `wrap` property
@@ -33,10 +35,11 @@ export const SPELLCHECK = {
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-export const WRAP = {
+const WRAP = {
     HARD : 'hard',
     SOFT : 'soft'
 };
+export { WRAP };
 
 /**
  * @module

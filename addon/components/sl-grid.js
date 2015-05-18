@@ -7,10 +7,11 @@ import layout from '../templates/components/sl-grid';
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-export const COLUMN_ALIGN = {
+const COLUMN_ALIGN = {
     LEFT  : 'left',
     RIGHT : 'right'
 };
+export { COLUMN_ALIGN };
 
 /**
  * Valid values for the column definitions' `size` property
@@ -18,11 +19,12 @@ export const COLUMN_ALIGN = {
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-export const COLUMN_SIZE = {
+const COLUMN_SIZE = {
     LARGE  : 'large',
     MEDIUM : 'medium',
     SMALL  : 'small'
 };
+export { COLUMN_SIZE };
 
 /**
  * @module

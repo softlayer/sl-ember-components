@@ -8,12 +8,13 @@ import layout from '../templates/components/sl-alert';
  * @memberof module:components/sl-alert
  * @enum {String}
  */
-export const THEME = {
+const THEME = {
     DANGER  : 'danger',
     INFO    : 'info',
     SUCCESS : 'success',
     WARNING : 'warning'
 };
+export { THEME };
 
 /**
  * @module
@@ -45,13 +46,16 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * @type {Object}
+     * @namespace
+     * @ignore
      */
     actions: {
 
         /**
          * Trigger a bound "dismiss" action when the alert is dismissed
          *
-         * @function actions:dismiss
+         * @function
+         * @member
          * @returns {undefined}
          */
         dismiss() {

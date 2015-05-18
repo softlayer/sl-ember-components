@@ -8,13 +8,14 @@ import layout from '../templates/components/sl-progress-bar';
  * @memberof module:components/sl-progress-bar
  * @enum {String}
  */
-export const THEME = {
+const THEME = {
     DANGER  : 'danger',
     DEFAULT : 'default',
     INFO    : 'info',
     SUCCESS : 'success',
     WARNING : 'warning'
 };
+export { THEME };
 
 /**
  * @module
