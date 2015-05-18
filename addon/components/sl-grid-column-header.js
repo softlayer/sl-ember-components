@@ -4,7 +4,7 @@ import layout from '../templates/components/sl-grid-header-column';
 
 /**
  * @module
- * @augments sl-ember-components/components/sl-grid-cell
+ * @augments module:components/sl-grid-cell
  */
 export default SlGridCell.extend({
 

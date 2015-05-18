@@ -5,7 +5,7 @@ import layout from '../templates/components/sl-button';
 /**
  * Valid size values for the sl-button component
  *
- * @name module:components/sl-button.SIZE
+ * @memberof module:components/sl-button
  * @enum {String}
  */
 export const SIZE = {
@@ -18,7 +18,7 @@ export const SIZE = {
 /**
  * Valid Bootstrap theme values for buttons
  *
- * @name module:components/sl-button.THEME
+ * @memberof module:components/sl-button
  * @enum {String}
  */
 export const THEME = {
@@ -35,7 +35,7 @@ export const THEME = {
 /**
  * @module
  * @augments ember/Component
- * @augments MIXES:sl-ember-components/mixins/sl-tooltip-enabled
+ * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

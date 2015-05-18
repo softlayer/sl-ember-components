@@ -2,6 +2,29 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-grid';
 
 /**
+ * Valid values for the column definitions' `align` property
+ *
+ * @memberof module:components/sl-grid
+ * @enum {String}
+ */
+export const COLUMN_ALIGN = {
+    LEFT  : 'left',
+    RIGHT : 'right'
+};
+
+/**
+ * Valid values for the column definitions' `size` property
+ *
+ * @memberof module:components/sl-grid
+ * @enum {String}
+ */
+export const COLUMN_SIZE = {
+    LARGE  : 'large',
+    MEDIUM : 'medium',
+    SMALL  : 'small'
+};
+
+/**
  * @module
  * @augments ember/Component
  */
@@ -141,9 +164,17 @@ export default Ember.Component.extend({
     /**
      * @typedef ColumnDefinition
      * @type {Object}
-     * @property {String} [align] - Which direction to align the column's content
+     * @property {COLUMN_ALIGN} [align] - Which direction to align the
+     *           column's content
      * @property {Boolean} [primary] - Whether the column is always shown
-     * @property {
+     * @property {Number|COLUMN_SIZE} [size] - The width of the column; either a
+     *           number of pixels, or a COLUMN_SIZE value
+     * @property {Boolean} [sortable] - Whether the column is able to be sorted
+     * @property {String} [template] - Template name to use for the cell value;
+     *           uses the `rowController` as its controller
+     * @property {String} title - The displayed title of the column
+     * @property {String} [valuePath] - Name of a property to lookup on the
+     *           rows to populate the cell with
      */
 
     /**

@@ -4,7 +4,7 @@ import layout from '../templates/components/sl-tab-panel';
 /**
  * Valid `align` property values
  *
- * @name module:components/sl-tab-panel.ALIGNMENT
+ * @memberof module:components/sl-tab-panel
  * @enum {String}
  */
 export const ALIGNMENT = {

@@ -5,7 +5,7 @@ import layout from '../templates/components/sl-alert';
 /**
  * Bootstrap theme names for alert components
  *
- * @name module:components/sl-alert.THEME
+ * @memberof module:components/sl-alert
  * @enum {String}
  */
 export const THEME = {
@@ -18,7 +18,7 @@ export const THEME = {
 /**
  * @module
  * @augments ember/Component
- * @augments MIXES:sl-ember-components/mixins/sl-tooltip-enabled
+ * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 

@@ -5,7 +5,7 @@ import layout from '../templates/components/sl-progress-bar';
 /**
  * Valid Bootstrap theme class names for progress bars
  *
- * @name module:components/sl-progress-bar.THEME
+ * @memberof module:components/sl-progress-bar
  * @enum {String}
  */
 export const THEME = {
@@ -19,7 +19,7 @@ export const THEME = {
 /**
  * @module
  * @augments ember/Component
- * @augments MIXES:sl-ember-components/mixins/sl-tooltip-enabled
+ * @augments module:mixins/sl-tooltip-enabled
 */
 export default Ember.Component.extend( TooltipEnabled, {
 

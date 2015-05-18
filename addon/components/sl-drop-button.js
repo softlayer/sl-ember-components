@@ -9,7 +9,7 @@ import {
 /**
  * Values for the sl-drop-button's `align` property
  *
- * @name module:components/sl-drop-button.ALIGN
+ * @memberof module:components/sl-drop-button
  * @enum {String}
  */
 export const ALIGN = {
@@ -20,7 +20,7 @@ export const ALIGN = {
 /**
  * @module
  * @augments ember/Component
- * @augments MIXES:sl-ember-components/mixins/sl-tooltip-enabled
+ * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -95,14 +95,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The size of the button
      *
-     * @type {sl-button.SIZE}
+     * @type {module:components/sl-button.exports.SIZE}
      */
     size: BUTTON_SIZE.MEDIUM,
 
     /**
      * The theme style name
      *
-     * @type {sl-button.THEME}
+     * @type {module:components/sl-button.exports.THEME}
      */
     theme: BUTTON_THEME.DEFAULT,
 

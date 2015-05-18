@@ -6,7 +6,7 @@ import layout from '../templates/components/sl-textarea';
 /**
  * Valid values for `selectionDirection` property
  *
- * @name module:components/sl-textarea.DIRECTION
+ * @memberof module:components/sl-textarea
  * @enum {String}
  */
 export const DIRECTION = {
@@ -18,7 +18,7 @@ export const DIRECTION = {
 /**
  * Valid values for `spellcheck` property
  *
- * @name module:components/sl-textarea.SPELLCHECK
+ * @memberof module:components/sl-textarea
  * @enum {Boolean|String}
  */
 export const SPELLCHECK = {
@@ -30,7 +30,7 @@ export const SPELLCHECK = {
 /**
  * Valid values for `wrap` property
  *
- * @name module:components/sl-textarea.WRAP
+ * @memberof module:components/sl-textarea
  * @enum {String}
  */
 export const WRAP = {
@@ -41,8 +41,8 @@ export const WRAP = {
 /**
  * @module
  * @augments ember/Component
- * @augments MIXES:sl-ember-components/mixins/sl-input-based
- * @augments MIXES:sl-ember-components/mixins/sl-tooltip-based
+ * @augments module:mixins/sl-input-based
+ * @augments module:mixins/sl-tooltip-based
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 

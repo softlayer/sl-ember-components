@@ -277,7 +277,7 @@ export default Ember.Component.extend({
     /**
      * Embedded Ember View representing the "Show All"
      *
-     * @type {Ember.View}
+     * @type {ember/View}
      */
     AllView: SlMenuShowAllView,
 
