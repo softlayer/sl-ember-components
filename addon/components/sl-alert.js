@@ -2,11 +2,10 @@ import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-alert';
 
-/** @module */
-
 /**
  * Bootstrap theme names for alert components
  *
+ * @name module:components/sl-alert.THEME
  * @enum {String}
  */
 export const THEME = {
@@ -16,6 +15,11 @@ export const THEME = {
     WARNING : 'warning'
 };
 
+/**
+ * @module
+ * @augments Ember/Component
+ * @mixes sl-ember-components/mixins/sl-tooltip-enabled
+ */
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------

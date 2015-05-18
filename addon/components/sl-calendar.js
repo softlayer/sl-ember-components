@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-calendar';
 
-/** @module */
-
+/**
+ * @module
+ * @augments Ember/Component
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -102,7 +104,7 @@ export default Ember.Component.extend({
          * values with dates occurring on the clicked date
          *
          * @function actions:sendDateContent
-         * @param {array} dateContent - Collection of content objects with
+         * @param {Array} dateContent - Collection of content objects with
          *        date values of the clicked date
          * @returns {undefined}
          */
@@ -174,8 +176,7 @@ export default Ember.Component.extend({
     /**
      * Array of date value objects
      *
-     * @type {array}
-     * @default
+     * @type {Array}
      */
     content: [],
 
@@ -183,7 +184,6 @@ export default Ember.Component.extend({
      * The currently selected/viewed month (1-12)
      *
      * @type {Number}
-     * @default
      */
     currentMonth: null,
 
@@ -191,7 +191,6 @@ export default Ember.Component.extend({
      * The currently selected/viewed year
      *
      * @type {Number}
-     * @default
      */
     currentYear: null,
 
@@ -199,7 +198,6 @@ export default Ember.Component.extend({
      * String lookup for the date value on the content objects
      *
      * @type {String}
-     * @default
      */
     dateValuePath: 'date',
 
@@ -208,7 +206,6 @@ export default Ember.Component.extend({
      * and back
      *
      * @type {Boolean}
-     * @default
      */
     locked: false,
 
@@ -216,7 +213,6 @@ export default Ember.Component.extend({
      * The current view mode for the calendar
      *
      * @type {String}
-     * @default
      */
     viewMode: 'days',
 
@@ -299,7 +295,7 @@ export default Ember.Component.extend({
         'currentMonth',
         'currentYear',
         function() {
-            return moment([
+            return window.moment([
                 this.get( 'currentYear' ),
                 this.get( 'currentMonth' ) - 1
             ]).format( 'MMMM' );
@@ -317,7 +313,7 @@ export default Ember.Component.extend({
         'currentMonth',
         'currentYear',
         function() {
-            return moment([
+            return window.moment([
                 this.get( 'currentYear' ),
                 this.get( 'currentMonth' ) - 1
             ]).daysInMonth();
@@ -388,13 +384,13 @@ export default Ember.Component.extend({
      */
     shortWeekDayNames: Ember.computed( function() {
         return Ember.A([
-            moment().day( 0 ).format( 'dd' ),
-            moment().day( 1 ).format( 'dd' ),
-            moment().day( 2 ).format( 'dd' ),
-            moment().day( 3 ).format( 'dd' ),
-            moment().day( 4 ).format( 'dd' ),
-            moment().day( 5 ).format( 'dd' ),
-            moment().day( 6 ).format( 'dd' )
+            window.moment().day( 0 ).format( 'dd' ),
+            window.moment().day( 1 ).format( 'dd' ),
+            window.moment().day( 2 ).format( 'dd' ),
+            window.moment().day( 3 ).format( 'dd' ),
+            window.moment().day( 4 ).format( 'dd' ),
+            window.moment().day( 5 ).format( 'dd' ),
+            window.moment().day( 6 ).format( 'dd' )
         ]);
     }),
 
@@ -475,7 +471,7 @@ export default Ember.Component.extend({
                 previousMonthYear = currentYear;
             }
 
-            previousMonthDays = moment([ previousMonthYear, previousMonth - 1 ]).daysInMonth();
+            previousMonthDays = window.moment([ previousMonthYear, previousMonth - 1 ]).daysInMonth();
 
             if ( currentMonth === 12 ) {
                 nextMonth = 1;

@@ -3,8 +3,9 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-date-time';
 
 /**
- * @module components
- * @class sl-date-time
+ * @module
+ * @augments Ember/Component
+ * @mixes sl-ember-components/mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -14,12 +15,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [ 'datetime' ],
 
+    /** @type {String[]} */
     classNames: [ 'sl-datetime' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'time',
 
     // -------------------------------------------------------------------------
@@ -35,8 +40,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * String name for the format to render inline; can be "date", "datetime",
      * or "relative"
      *
-     * @property {String} format
-     * @default "datetime"
+     * @type {String}
      */
     format: 'datetime',
 
@@ -44,24 +48,21 @@ export default Ember.Component.extend( TooltipEnabled, {
      * String representing the full timezone name, as used by and interpreted by
      * Moment-timezone: http://momentjs.com/timezone/docs/#/using-timezones/
      *
-     * @property {?String} timezone
-     * @default null
+     * @type {?String}
      */
     timezone: null,
 
     /**
-     * The text to use for the component's tooltip (aliased to "datetime")
+     * Alias to `datetime`; the text to use for the component's tooltip
      *
-     * @property title
-     * @returns  {string}
+     * @type {String}
      */
     title: Ember.computed.alias( 'datetime' ),
 
     /**
      * The bound value of the component's date value
      *
-     * @property {Date} value
-     * @default (new Date)
+     * @type {Date}
      */
     value: new Date(),
 

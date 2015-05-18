@@ -1,9 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class sl-modal
- * @augments Ember.Mixin
+ * @module
+ * @augments Ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -13,6 +12,7 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [
         'aria-describedby',
         'aria-hidden',
@@ -20,12 +20,16 @@ export default Ember.Mixin.create({
         'tabindex'
     ],
 
+    /** @type {String} */
     ariaRole: 'dialog',
 
+    /** @type {String[]} */
     classNameBindings: [ 'animated:fade' ],
 
+    /** @type {String[]} */
     classNames: [ 'modal' ],
 
+    /** @type {String} */
     layoutName: 'sl-modal',
 
     // -------------------------------------------------------------------------
@@ -40,16 +44,14 @@ export default Ember.Mixin.create({
     /**
      * Whether the modal is animated with transition or not
      *
-     * @property {boolean} animated
-     * @default  true
+     * @type {Boolean}
      */
     animated: true,
 
     /**
      * `aria-describedby` attribute value
      *
-     * @property {?String} aria-describedby
-     * @default null
+     * @type {?String}
      */
     'aria-describedby': null,
 
@@ -57,32 +59,28 @@ export default Ember.Mixin.create({
      * `aria-hidden` attribute to inform assistive technologies to skip the
      * modal's DOM elements
      *
-     * @property {String} aria-hidden
-     * @default "true"
+     * @type {String}
      */
     'aria-hidden': 'true',
 
     /**
      * Bootstrap's modal backdrop option
      *
-     * @property {Boolean|String} backdrop
-     * @default true
+     * @type {Boolean|String}
      */
     backdrop: true,
 
     /**
      * Whether the modal is shown initially or not
      *
-     * @property {boolean} show
-     * @default  false
+     * @type {Boolean}
      */
     show: false,
 
     /**
      * `tabindex` attribute value
      *
-     * @property {String} tab index
-     * @default "-1"
+     * @type {String}
      */
     tabindex: '-1',
 
@@ -92,7 +90,7 @@ export default Ember.Mixin.create({
     /**
      * Binds handlers for exposed Twitter Bootstrap 3 modal events
      *
-     * @function modalize
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -118,7 +116,7 @@ export default Ember.Mixin.create({
      *
      * Is a randomly-generated unique string
      *
-     * @function aria-labelledby
+     * @function
      * @returns {String}
      */
     'aria-labelledby': Ember.computed( function() {
@@ -131,7 +129,7 @@ export default Ember.Mixin.create({
      * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
      *
      * @abstract
-     * @function hiddenHandler
+     * @function
      * @returns {undefined}
      */
     hiddenHandler() {},

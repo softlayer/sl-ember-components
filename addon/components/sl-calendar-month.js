@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-calendar-month';
 
-/** @module */
-
+/**
+ * @module
+ * @augments Ember/Component
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -45,7 +47,6 @@ export default Ember.Component.extend({
      * overall calendar component
      *
      * @type {Boolean}
-     * @default
      */
     active: false,
 
@@ -53,7 +54,6 @@ export default Ember.Component.extend({
      * The number of the month (1-12)
      *
      * @type {Number}
-     * @default
      */
     month: null,
 
@@ -71,7 +71,7 @@ export default Ember.Component.extend({
      * @returns {String}
      */
     shortName: Ember.computed( 'month', function() {
-        return moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );
+        return window.moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );
     })
 
 });

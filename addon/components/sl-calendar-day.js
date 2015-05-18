@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-calendar-day';
 
-/** @module */
-
+/**
+ * @module
+ * @augments Ember/Component
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -48,7 +50,6 @@ export default Ember.Component.extend({
      * Whether the calendar day this cell represents is actively selected day
      *
      * @type {Boolean}
-     * @default
      */
     active: false,
 
@@ -57,7 +58,6 @@ export default Ember.Component.extend({
      * sl-calendar)
      *
      * @type {Object}
-     * @default
      */
     content: null,
 
@@ -66,7 +66,6 @@ export default Ember.Component.extend({
      * in the primary calendar view
      *
      * @type {Boolean}
-     * @default
      */
     'new': false,
 
@@ -75,7 +74,6 @@ export default Ember.Component.extend({
      * month in the primary calendar view
      *
      * @type {Boolean}
-     * @default
      */
     old: false
 

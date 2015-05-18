@@ -4,8 +4,45 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-textarea';
 
 /**
- * @module components
- * @class sl-textarea
+ * Valid values for `selectionDirection` property
+ *
+ * @name module:components/sl-textarea.DIRECTION
+ * @enum {String}
+ */
+export const DIRECTION = {
+    BACKWARD : 'backward',
+    FORWARD  : 'forward',
+    NONE     : 'none'
+};
+
+/**
+ * Valid values for `spellcheck` property
+ *
+ * @name module:components/sl-textarea.SPELLCHECK
+ * @enum {Boolean|String}
+ */
+export const SPELLCHECK = {
+    DEFAULT : 'default',
+    FALSE   : false,
+    TRUE    : true
+};
+
+/**
+ * Valid values for `wrap` property
+ *
+ * @name module:components/sl-textarea.WRAP
+ * @enum {String}
+ */
+export const WRAP = {
+    HARD : 'hard',
+    SOFT : 'soft'
+};
+
+/**
+ * @module
+ * @augments Ember/Component
+ * @mixes sl-ember-components/mixins/sl-input-based
+ * @mixes sl-ember-components/mixins/sl-tooltip-based
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
@@ -15,8 +52,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNames: [ 'form-group', 'sl-textarea' ],
 
+    /** @type {Object} */
     layout,
 
     // -------------------------------------------------------------------------
@@ -31,8 +70,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The `autofocus` HTML attribute value
      *
-     * @property {Boolean} autofocus
-     * @default false
+     * @type {Boolean}
      */
     autofocus: false,
 
@@ -41,24 +79,21 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * Accepted values are either "forward" (default), "backward", or "none".
      *
-     * @property {String} selectionDirection
-     * @default "forward"
+     * @type {DIRECTION}
      */
-    selectionDirection: 'forward',
+    selectionDirection: DIRECTION.FORWARD,
 
     /**
      * The `selectionEnd` HTML attribute value
      *
-     * @property {?Number|String} selectionEnd
-     * @default null
+     * @type {?Number|String}
      */
     selectionEnd: null,
 
     /**
      * The `selectionStart` HTML attribute value
      *
-     * @property {?Number|String} selectionStart
-     * @default null
+     * @type {?Number|String}
      */
     selectionStart: null,
 
@@ -67,20 +102,18 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * Accepted values are true, false, "default" (default), "true", or "false".
      *
-     * @property {Boolean|String} spellcheck
-     * @default "default"
+     * @type {SPELLCHECK}
      */
-    spellcheck: 'default',
+    spellcheck: SPELLCHECK.DIRECTION,
 
     /**
      * The `wrap` HTML attribute value
      *
      * Accepted values are "soft" (default), or "hard".
      *
-     * @property {String} wrap
-     * @default "soft"
+     * @type {WRAP}
      */
-    wrap: 'soft'
+    wrap: WRAP.SOFT
 
     // -------------------------------------------------------------------------
     // Observers

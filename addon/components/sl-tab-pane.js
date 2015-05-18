@@ -2,8 +2,8 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-tab-pane';
 
 /**
- * @module components
- * @class sl-tab-pane
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -13,12 +13,16 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [ 'data-tab-label', 'data-tab-name' ],
 
+    /** @type {String[]} */
     classNames: [ 'sl-tab-pane', 'tab-pane' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'div',
 
     // -------------------------------------------------------------------------
@@ -31,32 +35,30 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * The data attribute for the tab label, used by Bootstrap
+     * Alias to `label`; data attribute binding for the `label` property
      *
-     * @alias label
+     * @type {?String}
      */
     'data-tab-label': Ember.computed.alias( 'label' ),
 
     /**
-     * The data attribute for the tab name, used by Bootstrap
+     * Alias to `name`; data attribute binding for the `name` property
      *
-     * @alias name
+     * @type {?String}
      */
     'data-tab-name': Ember.computed.alias( 'name' ),
 
     /**
      * Label text for the displayed tab name
-     * 
-     * @property {?String} label
-     * @default null
+     *
+     * @type {?String}
      */
     label: null,
 
     /**
      * Text for internal tab identification
      *
-     * @property {?String} name
-     * @default null
+     * @type {?String}
      */
     name: null
 

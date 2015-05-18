@@ -4,10 +4,12 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-input';
 
 /**
- * @class sl-input
- * @memberof components
+ * @module
+ * @augments Ember/Component
+ * @mixes sl-ember-components/mixins/sl-input-based
+ * @mixes sl-ember-components/mixins/sl-tooltip-based
  */
-var SlInput = {
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -15,19 +17,22 @@ var SlInput = {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNames: [ 'form-group', 'sl-input' ],
 
+    /** @type {Object} */
     layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
         /**
          * Sends the 'blur' bound action when the input loses focus
          *
-         * @function actions.blur
+         * @function actions:blur
          * @returns {undefined}
          */
         blur() {
@@ -37,7 +42,7 @@ var SlInput = {
         /**
          * Sends the primary bound action when `enter` is pressed
          *
-         * @function actions.enter
+         * @function actions:enter
          * @returns {undefined}
          */
         enter() {
@@ -54,32 +59,28 @@ var SlInput = {
     /**
      * Enable the click to edit styling
      *
-     * @property {Boolean} clickToEdit
-     * @default false
+     * @type {Boolean}
      */
     clickToEdit: false,
 
     /**
      * Whether the typeahead.js functionality has been setup
      *
-     * @property {Boolean} isTypeaheadSetup
-     * @default false
+     * @type {Boolean}
      */
     isTypeaheadSetup: false,
 
     /**
      * Lookup path for the suggestion items' name
      *
-     * @property {String} suggestionLabelPath
-     * @default "name"
+     * @type {String}
      */
     suggestionNamePath: 'name',
 
     /**
      * Type attribute for the containing div
      *
-     * @property {String} type
-     * @default "text"
+     * @type {String}
      */
     type: 'text',
 
@@ -90,7 +91,7 @@ var SlInput = {
      * Sets up the input event listeners exposed to the component's
      * parent controller
      *
-     * @function setupInputEvents
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -105,7 +106,7 @@ var SlInput = {
     /**
      * Sets up the typeahead behavior when `suggestions` are supplied
      *
-     * @function setupTypeahead
+     * @function
      * @listens didInsertElement
      * @observes suggestions
      * @returns {undefined}
@@ -164,7 +165,7 @@ var SlInput = {
     /**
      * Remove events
      *
-     * @function unregisterEvents
+     * @function
      * @listens willClearRender
      * @returns {undefined}
      */
@@ -178,7 +179,7 @@ var SlInput = {
     /**
      * Get a reference to the internal input element
      *
-     * @function getInput
+     * @function
      * @returns {Object}
      */
     getInput() {
@@ -188,7 +189,7 @@ var SlInput = {
     /**
      * Class string for the internal input element
      *
-     * @function inputClass
+     * @function
      * @returns {String}
      */
     inputClass: Ember.computed( function() {
@@ -204,6 +205,5 @@ var SlInput = {
 
         return classes.join( ' ' );
     })
-};
 
-export default Ember.Component.extend( InputBased, TooltipEnabled, SlInput );
+});

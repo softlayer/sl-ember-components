@@ -4,7 +4,8 @@ import layout from '../templates/components/sl-tab-panel';
 /**
  * Valid `align` property values
  *
- * @enum {String} ALIGNMENT
+ * @name module:components/sl-tab-panel.ALIGNMENT
+ * @enum {String}
  */
 export const ALIGNMENT = {
     LEFT  : 'left',
@@ -12,8 +13,8 @@ export const ALIGNMENT = {
 };
 
 /**
- * @module components
- * @class sl-tab-panel
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -23,21 +24,25 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNameBindings: [ 'tabAlignmentClass' ],
 
+    /** @type {String[]} */
     classNames: [ 'sl-tab-panel' ],
 
+    /** @type {Object} */
     layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
         /**
          * Action to trigger when a tab is clicked
          *
-         * @function actions.change
+         * @function actions:change
          * @param {String} tabName - The name of the tab to change into
          * @returns {undefined}
          */
@@ -62,8 +67,7 @@ export default Ember.Component.extend({
     /**
      * The currently active tab name
      *
-     * @property {?String} activeTabName
-     * @default null
+     * @type {?String}
      */
     activeTabName: null,
 
@@ -71,24 +75,21 @@ export default Ember.Component.extend({
      * Determines the alignment of tabs at the top of the panel,
      * "left" or "right"
      *
-     * @property {ALIGNMENT} alignTabs
-     * @default ALIGNMENT.LEFT
+     * @type {ALIGNMENT}
      */
     alignTabs: ALIGNMENT.LEFT,
 
     /**
      * The height of the tab-content in pixels
      *
-     * @property {Number} contentHeight
-     * @default 0
+     * @type {Number}
      */
     contentHeight: 0,
 
     /**
      * The name of the tab to open when the component is first rendered
      *
-     * @property {?String} initialTabName
-     * @default null
+     * @type {?String}
      */
     initialTabName: null,
 
@@ -99,7 +100,7 @@ export default Ember.Component.extend({
      * Sets up the initial tab, and parses the content of the tab panel to
      * determine tab labels and names.
      *
-     * @function setupTabs
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -131,7 +132,7 @@ export default Ember.Component.extend({
     /**
      * Sets the tab-content div height based on current contentHeight value
      *
-     * @function updateContentHeight
+     * @function
      * @observes contentHeight
      * @returns {undefined}
      */
@@ -145,7 +146,7 @@ export default Ember.Component.extend({
     /**
      * Activate a tab pane, animating the transition
      *
-     * @function activatePane
+     * @function
      * @param {String} tabName - The name of the tab to activate
      * @returns {undefined}
      */
@@ -163,7 +164,7 @@ export default Ember.Component.extend({
     /**
      * Deactivate a tab pane, animating the transition
      *
-     * @function deactivatePane
+     * @function
      * @param {Function} callback - Function called when the pane is deactivated
      * @returns {undefined}
      */
@@ -182,7 +183,7 @@ export default Ember.Component.extend({
     /**
      * Get the tab-panel's tab-pane for the specified tabName
      *
-     * @function paneFor
+     * @function
      * @param {String} tabName - The name of the tab to get the pane for
      * @returns {undefined}
      */
@@ -193,7 +194,7 @@ export default Ember.Component.extend({
     /**
      * Update the internal active tab name and handle tabs' statuses
      *
-     * @function setActiveTab
+     * @function
      * @param {String} tabName - The name of the tab to switch state to
      * @returns {undefined}
      */
@@ -207,7 +208,7 @@ export default Ember.Component.extend({
     /**
      * The class determining how to align tabs
      *
-     * @function tabAlignmentClass
+     * @function
      * @observes alignTabs
      * @returns {String}
      */
@@ -225,7 +226,7 @@ export default Ember.Component.extend({
     /**
      * Get the tab with the specified tabName
      *
-     * @function tabFor
+     * @function
      * @param {String} tabName - The name for the tab to get
      * @returns {jQuery.Object} DOM Element
      */

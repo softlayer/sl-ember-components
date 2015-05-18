@@ -4,11 +4,10 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-radio-group';
 
 /**
- * @module components
- * @class sl-radio-group
- * @augments Ember.Component
- * @mixes sl-input-based
- * @mixes sl-tooltip-enabled
+ * @module
+ * @augments Ember/Component
+ * @mixes sl-ember-components/mixins/sl-input-based
+ * @mixes sl-ember-components/mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
@@ -18,12 +17,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [ 'disabled' ],
 
+    /** @type {String[]} */
     classNames: [ 'form-group', 'sl-radio-group' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'fieldset',
 
     // -------------------------------------------------------------------------
@@ -38,8 +41,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Whether the radio buttons should be disabled
      *
-     * @property {Boolean} disabled
-     * @default false
+     * @type {Boolean}
      */
     disabled: false,
 
@@ -51,8 +53,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * buttons will be forced to not inline, and if true, they will be forced to
      * be inline.
      *
-     * @property {?Boolean} inline
-     * @default null
+     * @type {?Boolean}
      */
     inline: null,
 
@@ -63,24 +64,21 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * children buttons will not be overridden. Any string value will overwrite
      * the children buttons' name property.
      *
-     * @property {?String} name
-     * @default null
+     * @type {?String}
      */
     name: null,
 
     /**
      * Whether the radio buttons should be readonly
      *
-     * @property {Boolean} readonly
-     * @default false
+     * @type {Boolean}
      */
     readonly: false,
 
     /**
      * The component's current value property
      *
-     * @property {String} value
-     * @default null
+     * @type {String}
      */
     value: null,
 
@@ -90,7 +88,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Initialize the group-wide options and setup child radio buttons
      *
-     * @function initialize
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -156,7 +154,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Remove events
      *
-     * @function unregisterEvents
+     * @function
      * @listens willClearRender
      * @returns {undefined}
      */

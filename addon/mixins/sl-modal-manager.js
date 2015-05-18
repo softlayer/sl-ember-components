@@ -1,9 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class sl-modal-manager
- * @augments Ember.Mixin
+ * @module
+ * @augments Ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -16,16 +15,17 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
         /**
          * Trigger showing the specified modal
          *
-         * @function actions.showModal
-         * @param {Ember.String} selector - The selector for the modal to show
+         * @function actions:showModal
+         * @param {String} selector - The selector for the modal to show
          * @param {Object|String} controller - The controller to use for context
          *        within the modal
-         * @param {model} model - An instance of a model to pass to the
+         * @param {Object} model - An instance of a model to pass to the
          *        controller as content data
          * @returns {undefined}
          */

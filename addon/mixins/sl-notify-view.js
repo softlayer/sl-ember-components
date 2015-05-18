@@ -1,9 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class sl-notify-view
- * @augments Ember.Mixin
+ * @module
+ * @augments Ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -28,7 +27,7 @@ export default Ember.Mixin.create({
     /**
      * Notify the view's controller by sending "viewDidInsertElement"
      *
-     * @function notifyDidInsertElement
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -39,7 +38,7 @@ export default Ember.Mixin.create({
     /**
      * Notify the view's controller by sending "viewWillClearRender"
      *
-     * @function notifyWillClearRender
+     * @function
      * @listens willClearRender
      * @returns {undefined}
      */
@@ -50,7 +49,7 @@ export default Ember.Mixin.create({
     /**
      * Notify the view's controller by sending "viewWillDestroyElement"
      *
-     * @function notifyWillDestroyElement
+     * @function
      * @listens willDestroyElement
      * @returns {undefined}
      */
@@ -61,7 +60,7 @@ export default Ember.Mixin.create({
     /**
      * Notify the view's controller by sending "viewWillInsertElement"
      *
-     * @function notifyWillInsertElement
+     * @function
      * @listens willInsertElement
      * @returns {undefined}
      */

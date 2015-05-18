@@ -2,8 +2,8 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-pagination';
 
 /**
- * @module components
- * @class sl-pagination
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -13,21 +13,25 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNames: [ 'pagination', 'sl-pagination' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'ul',
 
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
         /**
          * Progress forward one page
          *
-         * @function actions.nextPage
+         * @function actions:nextPage
          * @returns {undefined}
          */
         nextPage() {
@@ -37,7 +41,7 @@ export default Ember.Component.extend({
         /**
          * Progress back one page
          *
-         * @function actions.previousPage
+         * @function actions:previousPage
          * @returns {undefined}
          */
         previousPage() {
@@ -45,7 +49,7 @@ export default Ember.Component.extend({
         }
 
     },
-    
+
     // -------------------------------------------------------------------------
     // Events
 
@@ -55,24 +59,21 @@ export default Ember.Component.extend({
     /**
      * Whether the pagination is in a busy/working state
      *
-     * @property {Boolean} busy
-     * @default false
+     * @type {Boolean}
      */
     busy: false,
 
     /**
      * The current page number
      *
-     * @property {Number} currentPage
-     * @default 1
+     * @type {Number}
      */
     currentPage: 1,
 
     /**
      * The total number of pages
      *
-     * @property {?Number} totalPages
-     * @default null
+     * @type {?Number}
      */
     totalPages: null,
 
@@ -82,7 +83,7 @@ export default Ember.Component.extend({
     /**
      * Whether the current page is the first page
      *
-     * @function onFirstPage
+     * @function
      * @observes currentPage
      * @returns {Boolean}
      */
@@ -93,7 +94,7 @@ export default Ember.Component.extend({
     /**
      * Whether the current page is the last page
      *
-     * @function onLastPage
+     * @function
      * @observes currentPage, totalPages
      * @returns {Boolean}
      */
@@ -107,7 +108,7 @@ export default Ember.Component.extend({
     /**
      * Change the current page number
      *
-     * @function changePageBy
+     * @function
      * @param {Number} pageMod - The integer to increment the currentPage by
      * @returns {undefined}
      */

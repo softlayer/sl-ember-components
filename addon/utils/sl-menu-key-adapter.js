@@ -1,17 +1,16 @@
 import Ember from 'ember';
 
 /**
- * @module utils
- * @class sl-menu-key-adapter
- * @augments Ember.Object
- * @mixes Ember.Evented
+ * @module
+ * @augments Ember/Object
+ * @mixes Ember/Evented
  */
 export default Ember.Object.extend( Ember.Evented, {
 
     /**
      * Trigger the menu's childSelection action
      *
-     * @function childSelection
+     * @function
      * @param {String} key
      * @returns {undefined}
      */
@@ -26,7 +25,7 @@ export default Ember.Object.extend( Ember.Evented, {
     /**
      * Trigger the menu's closeAll action
      *
-     * @function closeAll
+     * @function
      * @returns {undefined}
      */
     closeAll() {
@@ -36,7 +35,7 @@ export default Ember.Object.extend( Ember.Evented, {
     /**
      * Trigger the menu's cycleRootSelectionNext action
      *
-     * @function cycleRootSelectionNext
+     * @function
      * @returns {undefined}
      */
     cycleRootSelectionNext() {
@@ -46,7 +45,7 @@ export default Ember.Object.extend( Ember.Evented, {
     /**
      * Trigger the menu's cycleRootSelectionPrevious action
      *
-     * @function cycleRootSelectionPrevious
+     * @function
      * @returns {undefined}
      */
     cycleRootSelectionPrevious() {
@@ -56,7 +55,7 @@ export default Ember.Object.extend( Ember.Evented, {
     /**
      * Trigger the menu's drillDown action
      *
-     * @function drillDown
+     * @function
      * @param {String} key
      * @returns {undefined}
      */
@@ -67,7 +66,7 @@ export default Ember.Object.extend( Ember.Evented, {
     /**
      * Trigger the menu's showAll action
      *
-     * @function showAll
+     * @function
      * @returns {undefined}
      */
     showAll() {

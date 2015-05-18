@@ -3,8 +3,8 @@ import SlGridCell from './sl-grid-cell';
 import layout from '../templates/components/sl-grid-header-column';
 
 /**
- * @module components
- * @class sl-grid-column-header
+ * @module
+ * @augments sl-ember-components/components/sl-grid-cell
  */
 export default SlGridCell.extend({
 
@@ -14,12 +14,19 @@ export default SlGridCell.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [ 'style' ],
 
-    classNameBindings: [ 'column.sortable:sortable-column', 'sortedClass' ],
+    /** @type {String[]} */
+    classNameBindings: [
+        'column.sortable:sortable-column',
+        'sortedClass'
+    ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'th',
 
     // -------------------------------------------------------------------------
@@ -28,6 +35,10 @@ export default SlGridCell.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * @function
+     * @returns {undefined}
+     */
     click() {
         if ( this.get( 'column.sortable' ) === true ) {
             this.sendAction( 'sortColumn', this.get( 'column' ) );
@@ -46,7 +57,7 @@ export default SlGridCell.extend({
     /**
      * Class name string based on sorted property
      *
-     * @function sortedClass
+     * @function
      * @observes column.sortAscending
      * @returns {?String}
      */
@@ -63,7 +74,7 @@ export default SlGridCell.extend({
     /**
      * Class name string for the icon on a sortable column
      *
-     * @function sortIconClass
+     * @function
      * @observes column.sortAscending
      * @returns {String}
      */

@@ -2,8 +2,8 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-grid-cell';
 
 /**
- * @module components
- * @class sl-grid-cell
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -13,14 +13,20 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [ 'style' ],
 
+    /** @type {String[]} */
     classNameBindings: [
-        'alignmentClass', 'column.primary:primary-column', 'sizeClass'
+        'alignmentClass',
+        'column.primary:primary-column',
+        'sizeClass'
     ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'td',
 
     // -------------------------------------------------------------------------
@@ -32,8 +38,18 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Properties
 
+    /**
+     * The column object, passed in through the sl-grid component
+     *
+     * @type {?Object}
+     */
     column: null,
 
+    /**
+     * The row object, passed in through the sl-grid-component
+     *
+     * @type {?Object}
+     */
     row: null,
 
     // -------------------------------------------------------------------------
@@ -45,7 +61,7 @@ export default Ember.Component.extend({
     /**
      * Class name string based on align property
      *
-     * @function alignmentClass
+     * @function
      * @observes content.align
      * @returns {?String}
      */
@@ -60,7 +76,7 @@ export default Ember.Component.extend({
     /**
      * The value for the row's content, based on column's `valuePath` setting
      *
-     * @function contentValue
+     * @function
      * @observes column, row
      * @returns {?String}
      */
@@ -74,7 +90,7 @@ export default Ember.Component.extend({
     /**
      * Class name string based on size string
      *
-     * @function sizeClass
+     * @function
      * @observes column.size
      * @returns {?String}
      */
@@ -89,7 +105,7 @@ export default Ember.Component.extend({
     /**
      * Calculated style string based on column size
      *
-     * @function style
+     * @function
      * @observes column.size
      * @returns {Ember.String}
      */

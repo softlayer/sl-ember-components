@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import SlMenuShowAllView from '../views/sl-menu-show-all';
 import layout from '../templates/components/sl-menu';
 
 /**
- * @module components
- * @class sl-menu
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -13,21 +14,25 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNames: [ 'sl-menu' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'div',
 
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
         /**
          * Close all of the sub menus
          *
-         * @function actions.closeAll
+         * @function actions:closeAll
          * @returns {undefined}
          */
         closeAll() {
@@ -62,7 +67,7 @@ export default Ember.Component.extend({
          * If "Show All" disabled:
          *     If last rootNode then wraps around to first option.
          *
-         * @function actions.cycleRootSelectionNext
+         * @function actions:cycleRootSelectionNext
          * @returns {undefined}
          */
         cycleRootSelectionNext() {
@@ -119,7 +124,7 @@ export default Ember.Component.extend({
          * If "Show All" disabled:
          *     If first rootNode then wraps around to last option.
          *
-         * @function actions.cycleRootSelectionPrevious
+         * @function actions:cycleRootSelectionPrevious
          * @returns {undefined}
          */
         cycleRootSelectionPrevious() {
@@ -167,7 +172,7 @@ export default Ember.Component.extend({
         /**
          * Recursively open sub menus
          *
-         * @function actions.drillDown
+         * @function actions:drillDown
          * @returns {undefined}
          */
         drillDown() {
@@ -186,7 +191,7 @@ export default Ember.Component.extend({
         /**
          * Send selected action when menu item is selected
          *
-         * @function actions.selected
+         * @function actions:selected
          * @returns {undefined}
          */
         selected() {
@@ -196,7 +201,7 @@ export default Ember.Component.extend({
         /**
          * Show all of the sub menus
          *
-         * @function actions.showAll
+         * @function actions:showAll
          * @returns {undefined}
          */
         showAll() {
@@ -217,12 +222,20 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * @function
+     * @returns {Boolean}
+     */
     click() {
         this.performAction();
 
         return false;
     },
 
+    /**
+     * @function
+     * @returns {undefined}
+     */
     mouseEnter() {
         var currentActiveRootNodeIndex = this.get( 'currentRootNodeIndex' ),
             query;
@@ -239,6 +252,10 @@ export default Ember.Component.extend({
         this.$().addClass( 'active' );
     },
 
+    /**
+     * @function
+     * @returns {undefined}
+     */
     mouseLeave() {
         if ( this.get( 'isRoot' ) ) {
             this.send( 'closeAll' );
@@ -253,86 +270,43 @@ export default Ember.Component.extend({
     /**
      * Currently active child
      *
-     * @property {?Number} activeChild
-     * @default null
+     * @type {?Number}
      */
     activeChild: null,
 
     /**
      * Embedded Ember View representing the "Show All"
      *
-     * @property {Ember.View} AllView
+     * @type {Ember.View}
      */
-    AllView: Ember.View.extend({
-
-        /**
-         * HTML tag name of the root element
-         *
-         * @property {String} AllView.tagName
-         * @default "li"
-         */
-        tagName: 'li',
-
-        /**
-         * Class names for the AllView view
-         *
-         * @property {String[]} AllView.classNames
-         */
-        classNames: [ 'all' ],
-
-        /**
-         * Method called on mouseenter event
-         *
-         * @function AllView.mouseEnter
-         * @returns {undefined}
-         */
-        mouseEnter() {
-            this.send( 'showAll' );
-        },
-
-        /**
-         * Target pointer to the parent view
-         *
-         * @function AllView.target
-         * @observes parentView
-         * @return {Ember.View}
-         */
-        target: Ember.computed( 'parentView', function() {
-            return this.get( 'parentView' );
-        })
-    }),
+    AllView: SlMenuShowAllView,
 
     /**
      * Collection of children items
      *
-     * @property {?Object[]} children
-     * @default null
+     * @type {?Object[]}
      */
     children: null,
 
     /**
-     * @property {Boolean} isRoot
-     * @default true
+     * @type {Boolean}
      */
     isRoot: true,
 
     /**
-     * @property {?Object[]} keyEvents
-     * @default null
+     * @type {?Object[]}
      */
     keyEvents: null,
 
     /**
-     * @property {Boolean} keyHandler
-     * @default false
+     * @type {Boolean}
      */
     keyHandler: false,
 
     /**
      * Is the menu being interacted with via the keyboard?
      *
-     * @property {Boolean} keyboardInUse
-     * @default false
+     * @type {Boolean}
      */
     keyboardInUse: false,
 
@@ -341,16 +315,14 @@ export default Ember.Component.extend({
      *
      * This is a string representaton of a boolean state.
      *
-     * @property {String} showAll
-     * @default "false"
+     * @type {String}
      */
     showAll: 'false',
 
     /**
      * When true, allows key binding to drill down
      *
-     * @property {Boolean} useDrillDownKey
-     * @default true
+     * @type {Boolean}
      */
     useDrillDownKey: true,
 
@@ -360,7 +332,7 @@ export default Ember.Component.extend({
     /**
      * Initialize children array
      *
-     * @function initChildren
+     * @function
      * @listens init
      * @returns {undefined}
      */
@@ -371,7 +343,7 @@ export default Ember.Component.extend({
     /**
      * Initialize menu
      *
-     * @function initMenu
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -431,7 +403,7 @@ export default Ember.Component.extend({
     /**
      * Remove bound events and current menu state
      *
-     * @function destroyMenu
+     * @function
      * @listens willClearRender
      * @returns {undefined}
      */
@@ -459,7 +431,7 @@ export default Ember.Component.extend({
     /**
      * Activate specified child
      *
-     * @function activateChild
+     * @function
      * @param {Number|Object[]} child - Which child(ren) to activate
      * @returns {undefined}
      */
@@ -480,7 +452,7 @@ export default Ember.Component.extend({
     /**
      * Handle child selection event
      *
-     * @function childSelected
+     * @function
      * @param {Number} childIndex - Index of the child that is being selected
      * @returns {undefined}
      */
@@ -505,7 +477,7 @@ export default Ember.Component.extend({
     /**
      * Get index of rootNode currently on
      *
-     * @function currentRootNodeIndex
+     * @function
      * @returns {Number} - The current root node index
      */
     currentRootNodeIndex: Ember.computed( function() {
@@ -524,7 +496,7 @@ export default Ember.Component.extend({
     /**
      * Boolean representation of showAll property
      *
-     * @function showAllBoolean
+     * @function
      * @observes showAll
      * @returns {Boolean}
      */
@@ -535,7 +507,7 @@ export default Ember.Component.extend({
     /**
      * Whether to display the AllView view
      *
-     * @function displayShowAll
+     * @function
      * @observes isRoot, showAllBoolean
      * @returns {Boolean}
      */
@@ -546,7 +518,7 @@ export default Ember.Component.extend({
     /**
      * Send the primary action
      *
-     * @function performAction
+     * @function
      * @returns {undefined}
      */
     performAction() {
@@ -589,7 +561,7 @@ export default Ember.Component.extend({
     /**
      * Append a child to the children array
      *
-     * @function registerChild
+     * @function
      * @param {Object} child
      * @returns {undefined}
      */
@@ -600,7 +572,7 @@ export default Ember.Component.extend({
     /**
      * Show the active child content of this menu
      *
-     * @function showContent
+     * @function
      * @returns {undefined}
      */
     showContent() {
@@ -610,7 +582,7 @@ export default Ember.Component.extend({
     /**
      * Un-register the specified child
      *
-     * @function unregisterChild
+     * @function
      * @param {Object} child - The child to un-register from this menu
      * @returns {undefined}
      */

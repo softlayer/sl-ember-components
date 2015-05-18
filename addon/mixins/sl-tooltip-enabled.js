@@ -1,9 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class sl-tooltip-enabled
- * @augments Ember.Mixin
+ * @module
+ * @augments Ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -13,6 +12,7 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [ 'data-toggle', 'title' ],
 
     // -------------------------------------------------------------------------
@@ -27,8 +27,7 @@ export default Ember.Mixin.create({
     /**
      * 'data-toggle' attribute for use in template binding
      *
-     * @property {?Boolean} data-toggle
-     * @default null
+     * @type {?Boolean}
      */
     'data-toggle': null,
 
@@ -38,8 +37,7 @@ export default Ember.Mixin.create({
      * Used as attribute in template binding by popover
      * Used as "data-original-title" attribute by tooltip
      *
-     * @property {?String} title
-     * @default null
+     * @type {?String}
      */
     title: null,
 
@@ -49,7 +47,7 @@ export default Ember.Mixin.create({
     /**
      * Enable the tooltip functionality, based on component's `popover` attribute
      *
-     * @function enableTooltip
+     * @function
      * @listens didInsertElement
      * @observes popover, title
      * @throws {Ember.assert}
@@ -71,7 +69,7 @@ export default Ember.Mixin.create({
     /**
      * Enable popover
      *
-     * @function enablePopover
+     * @function
      * @returns {undefined}
      */
     enablePopover() {
@@ -96,7 +94,7 @@ export default Ember.Mixin.create({
     /**
      * Enable tooltip
      *
-     * @function enableTooltip
+     * @function
      * @returns {undefined}
      */
     enableTooltip() {
@@ -116,4 +114,5 @@ export default Ember.Mixin.create({
             this.$().attr( 'data-original-title', title );
         }
     }
+
 });

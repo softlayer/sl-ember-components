@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-chart';
 
-/** @module */
-
+/**
+ * @module
+ * @augments Ember/Component
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -33,7 +35,6 @@ export default Ember.Component.extend({
      * The highchart instantiation
      *
      * @type {Object}
-     * @default
      */
     chart: null,
 
@@ -41,7 +42,6 @@ export default Ember.Component.extend({
      * Height value used for inline style
      *
      * @type {String}
-     * @default
      */
     height: 'auto',
 
@@ -49,7 +49,6 @@ export default Ember.Component.extend({
      * When true, the chart's panel body will be in a loading state
      *
      * @type {Boolean}
-     * @default
      */
     isLoading: false,
 
@@ -57,7 +56,6 @@ export default Ember.Component.extend({
      * The collection of series data for the chart
      *
      * @type {?Array}
-     * @default
      */
     series: null,
 
@@ -65,7 +63,6 @@ export default Ember.Component.extend({
      * Width value used for inline style
      *
      * @type {Number|String}
-     * @default
      */
     width: 'auto',
 

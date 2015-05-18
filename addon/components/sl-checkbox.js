@@ -4,10 +4,9 @@ import layout from '../templates/components/sl-checkbox';
 
 /**
  * @module
- * @augments Ember.Component
+ * @augments Ember/Component
  * @mixes sl-ember-components/mixins/sl-tooltip-enabled
  */
-
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
@@ -41,7 +40,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether the input is checked or not
      *
      * @type {Boolean}
-     * @default
      */
     checked: false,
 
@@ -49,7 +47,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether the input is disabled or not
      *
      * @type {Boolean}
-     * @default
      */
     disabled: false,
 
@@ -57,7 +54,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The input's label text
      *
      * @type {String}
-     * @default
      */
     label: null,
 
@@ -65,7 +61,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The input's name property value
      *
      * @type {String}
-     * @default
      */
     name: null
 

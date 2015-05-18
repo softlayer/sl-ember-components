@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
- * @module helpers
+ * @module
  */
 
 /**

@@ -2,8 +2,8 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-drop-option';
 
 /**
- * @module components
- * @class sl-drop-option
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -13,25 +13,31 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String} */
     ariaRole: 'menuitem',
 
+    /** @type {String[]} */
     classNameBindings: [ 'optionType' ],
 
+    /** @type {String[]} */
     classNames: [ 'sl-drop-option' ],
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'li',
 
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
         /**
          * Send the primary action when the click action is triggered
          *
-         * @function actions.click
+         * @function actions:click
          * @returns {undefined}
          */
         click() {
@@ -56,7 +62,7 @@ export default Ember.Component.extend({
      * Represents the type of option; "divider" if the label is undefined, or
      * "presentation" otherwise
      *
-     * @function optionType
+     * @function
      * @observes label
      * @returns {String}
      */

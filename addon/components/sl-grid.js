@@ -3,12 +3,9 @@ import layout from '../templates/components/sl-grid';
 
 /**
  * @module
+ * @augments Ember/Component
  */
-
-/**
- * @class
- */
-var SlGrid = {
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -37,7 +34,7 @@ var SlGrid = {
         /**
          * Handle changing pages
          *
-         * @function changePage
+         * @function actions:changePage
          * @param {Number} page - The page number being changed to
          * @returns {undefined}
          */
@@ -61,7 +58,7 @@ var SlGrid = {
          * opened for the triggering row's model record, unless no detailPath is
          * defined.
          *
-         * @function rowClick
+         * @function actions:rowClick
          * @param {Object} row - The object that the clicked row represents
          * @returns {undefined}
          */
@@ -77,8 +74,8 @@ var SlGrid = {
          * Toggle sorting of the selected column, and send the "sortAction"
          * bound action the column and direction to sort
          *
-         * @function sortColumn
-         * @param {Object} column - The column definition for the triggered 
+         * @function actions:sortColumn
+         * @param {Object} column - The column definition for the triggered
          *        header's column
          * @returns {undefined}
          */
@@ -112,7 +109,7 @@ var SlGrid = {
         /**
          * Opens/closes the filter pane
          *
-         * @function toggleFilterPane
+         * @function actions:toggleFilterPane
          * @returns {undefined}
          */
         toggleFilterPane() {
@@ -131,7 +128,6 @@ var SlGrid = {
      * The text label for the rows' actions buttons
      *
      * @type {String}
-     * @default
      */
     actionsButtonLabel: 'Actions',
 
@@ -139,7 +135,6 @@ var SlGrid = {
      * The row record that is currently active in the detail pane
      *
      * @type {?Object}
-     * @default
      */
     activeRecord: null,
 
@@ -149,7 +144,6 @@ var SlGrid = {
      * When this is false (default), then the grid will have pagination enabled.
      *
      * @type {Boolean}
-     * @default
      */
     continuous: false,
 
@@ -157,7 +151,6 @@ var SlGrid = {
      * The current page, valid for a non-`continuous` grid
      *
      * @type {Number}
-     * @default
      */
     currentPage: 1,
 
@@ -165,7 +158,6 @@ var SlGrid = {
      * The path of a template to use for the detail-pane footer
      *
      * @type {?String}
-     * @default
      */
     detailFooterPath: null,
 
@@ -173,7 +165,6 @@ var SlGrid = {
      * The path of a template to use for the detail-pane header
      *
      * @type {?String}
-     * @default
      */
     detailHeaderPath: null,
 
@@ -181,7 +172,6 @@ var SlGrid = {
      * Indicates when the detail-pane is open
      *
      * @type {Boolean}
-     * @default
      */
     detailPaneOpen: false,
 
@@ -192,7 +182,6 @@ var SlGrid = {
      * footer template and header template.
      *
      * @type {?String}
-     * @default
      */
     detailPath: null,
 
@@ -200,7 +189,6 @@ var SlGrid = {
      * The text to display on the filter panel toggle button
      *
      * @type {String}
-     * @default
      */
     filterButtonLabel: 'Filter',
 
@@ -208,7 +196,6 @@ var SlGrid = {
      * Indicates when the filter pane is open
      *
      * @type {Boolean}
-     * @default
      */
     filterPaneOpen: false,
 
@@ -216,7 +203,6 @@ var SlGrid = {
      * The path of the controller/template/view to use for the filter panel
      *
      * @type {?String}
-     * @default
      */
     filterPath: null,
 
@@ -224,7 +210,6 @@ var SlGrid = {
      * The path for the template to use for the footer of the list pane
      *
      * @type {?String}
-     * @default
      */
     footerPath: null,
 
@@ -236,7 +221,6 @@ var SlGrid = {
      * current viewport.
      *
      * @type {Number|String}
-     * @default
      */
     height: 'auto',
 
@@ -244,7 +228,6 @@ var SlGrid = {
      * When true, the split-grid is in a loading state
      *
      * @type {Boolean}
-     * @default
      */
     loading: false,
 
@@ -252,7 +235,6 @@ var SlGrid = {
      * The "top" value for the table scroll to request a new page at
      *
      * @type {Number}
-     * @default
      */
     nextPageScrollPoint: 0,
 
@@ -260,7 +242,6 @@ var SlGrid = {
      * The number of records to request for each page
      *
      * @type {Number}
-     * @default
      */
     pageSize: 25,
 
@@ -271,7 +252,6 @@ var SlGrid = {
      * is clicked.
      *
      * @type {?String}
-     * @default
      */
     rowClick: null,
 
@@ -279,7 +259,6 @@ var SlGrid = {
      * Whether to show the column for the rows' action drop-buttons
      *
      * @type {Boolean}
-     * @default
      */
     showActions: false,
 
@@ -287,7 +266,6 @@ var SlGrid = {
      * Whether the currently sorted column is ascending or not
      *
      * @type {Boolean}
-     * @default
      */
     sortAscending: true,
 
@@ -295,7 +273,6 @@ var SlGrid = {
      * The title of the column that is currently being sorted
      *
      * @type {?Object}
-     * @default
      */
     sortedColumnTitle: null,
 
@@ -363,7 +340,7 @@ var SlGrid = {
                 detailPath       = root + 'detail',
                 filterPath       = root + 'filter',
                 footerPath       = root + 'footer';
-            
+
             if (
                 !this.get( 'detailFooterPath' ) &&
                 registry.resolve( 'template:' + detailFooterPath )
@@ -482,7 +459,7 @@ var SlGrid = {
             filterPaneHeight,
             listContentHeight,
             maxHeight;
-        
+
         if ( componentHeight === 'auto' ) {
             maxHeight = Ember.$( window ).innerHeight() -
                 this.$().position().top;
@@ -493,7 +470,7 @@ var SlGrid = {
         detailContentHeight = maxHeight - gridHeaderHeight -
             detailHeaderHeight - detailFooterHeight;
 
-        listContentHeight = maxHeight - gridHeaderHeight - 
+        listContentHeight = maxHeight - gridHeaderHeight -
             listHeaderHeight - listFooterHeight;
 
         if ( this.get( 'filterPaneOpen' ) ) {
@@ -621,6 +598,4 @@ var SlGrid = {
         }
     }
 
-};
-
-export default Ember.Component.extend( SlGrid );
+});

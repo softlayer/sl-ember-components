@@ -3,7 +3,7 @@ import layout from '../templates/components/sl-date-range-picker';
 
 /**
  * @module
- * @augments Ember.Component
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -32,7 +32,6 @@ export default Ember.Component.extend({
      * The value for the endDate input
      *
      * @type {?String}
-     * @default
      */
     endDateValue: null,
 
@@ -40,7 +39,6 @@ export default Ember.Component.extend({
      * The string format for date values
      *
      * @type {String}
-     * @default
      */
     format: 'mm/dd/yyyy',
 
@@ -48,7 +46,6 @@ export default Ember.Component.extend({
      * Bound value of Start Date input element's id
      *
      * @type {?String}
-     * @default
      */
     inputElementId: null,
 
@@ -56,7 +53,6 @@ export default Ember.Component.extend({
      * The last valid date for the date range
      *
      * @type {?Date|String}
-     * @default
      */
     maxDate: null,
 
@@ -64,7 +60,6 @@ export default Ember.Component.extend({
      * The earliest date selectable in the range
      *
      * @type {?Date|String}
-     * @default
      */
     minDate: null,
 
@@ -72,7 +67,6 @@ export default Ember.Component.extend({
      * The value for the startDate input
      *
      * @type {?String}
-     * @default
      */
     startDateValue: null,
 

@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-calendar-year';
 
-/** @module */
-
+/**
+ * @module
+ * @augments Ember/Component
+ */
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -42,7 +44,6 @@ export default Ember.Component.extend({
      * of the parent calendar component
      *
      * @type {Boolean}
-     * @default
      */
     active: false,
 
@@ -51,7 +52,6 @@ export default Ember.Component.extend({
      * parent calendar's current year
      *
      * @type {Boolean}
-     * @default
      */
     'new': false,
 
@@ -60,7 +60,6 @@ export default Ember.Component.extend({
      * the parent calendar's current year
      *
      * @type {Boolean}
-     * @default
      */
     old: false,
 
@@ -68,7 +67,6 @@ export default Ember.Component.extend({
      * The year number this component represents
      *
      * @type {Number}
-     * @default
      */
     year: null
 

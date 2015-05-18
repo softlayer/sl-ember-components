@@ -2,11 +2,10 @@ import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-button';
 
-/** @module */
-
 /**
  * Valid size values for the sl-button component
  *
+ * @name module:components/sl-button.SIZE
  * @enum {String}
  */
 export const SIZE = {
@@ -19,6 +18,7 @@ export const SIZE = {
 /**
  * Valid Bootstrap theme values for buttons
  *
+ * @name module:components/sl-button.THEME
  * @enum {String}
  */
 export const THEME = {
@@ -32,6 +32,11 @@ export const THEME = {
     WARNING : 'warning'
 };
 
+/**
+ * @module
+ * @augments Ember/Component
+ * @mixes sl-ember-components/mixins/sl-tooltip-enabled
+ */
 export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
@@ -61,7 +66,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Events
 
-    /** @function */
+    /**
+     * @function
+     * @returns {undefined}
+     */
     click() {
         this.sendAction();
     },
@@ -73,7 +81,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether or not the button should be disabled during AJAX activity
      *
      * @type {Boolean}
-     * @default
      */
     disableOnAjax: false,
 
@@ -81,7 +88,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether or not the button should be hidden during AJAX activity
      *
      * @type {Boolean}
-     * @default
      */
     hideOnAjax: false,
 
@@ -92,7 +98,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * inactiveLabelText, which will take this value as a default.
      *
      * @type {String}
-     * @default
      */
     label: null,
 
@@ -114,7 +119,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The size of the button
      *
      * @type {SIZE}
-     * @default
      */
     size: SIZE.MEDIUM,
 
@@ -122,7 +126,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The bootstrap "theme" name
      *
      * @type {THEME}
-     * @default
      */
     theme: THEME.DEFAULT,
 

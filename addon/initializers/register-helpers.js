@@ -3,13 +3,13 @@ import GetKeyHelper from 'sl-ember-components/helpers/get-key';
 import RenderDynamicHelper from 'sl-ember-components/helpers/render-dynamic';
 
 /**
- * @module initializers
+ * @module
 */
 
 /**
  * Register the addon helpers to Handlebars
  *
- * @function register-helpers
+ * @function
  * @returns {undefined}
 */
 export default function() {

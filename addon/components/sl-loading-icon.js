@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @class sl-loading-icon
- * @memberof components
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,10 +12,15 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    classNameBindings: [ 'inverse:sl-loading-icon-light:sl-loading-icon-dark' ],
+    /** @type {String[]} */
+    classNameBindings: [
+        'inverse:sl-loading-icon-light:sl-loading-icon-dark'
+    ],
 
+    /** @type {String[]} */
     classNames: [ 'sl-loading-icon' ],
 
+    /** @type {String} */
     tagName: 'span',
 
     // -------------------------------------------------------------------------
@@ -30,8 +35,7 @@ export default Ember.Component.extend({
     /**
      * Whether to use the inverse (lighter colored) icon
      *
-     * @property {Boolean} inverse
-     * @default false
+     * @type {Boolean}
      */
     inverse: false
 

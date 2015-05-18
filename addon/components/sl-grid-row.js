@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module components
- * @class sl-grid-row
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,8 +12,10 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNameBindings: [ 'row.active:active' ],
 
+    /** @type {String} */
     tagName: 'tr',
 
     // -------------------------------------------------------------------------
@@ -22,6 +24,11 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * @function
+     * @param {Event} event - The raw click event
+     * @returns {undefined}
+     */
     click( event ) {
         if ( this.$( event.target ).closest( '.sl-drop-button' ).length < 1 ) {
             this.sendAction( 'rowClick', this.get( 'row' ) );
@@ -34,8 +41,7 @@ export default Ember.Component.extend({
     /**
      * The row record model instance
      *
-     * @property {?Object} row
-     * @default null
+     * @type {?Object}
      */
     row: null
 

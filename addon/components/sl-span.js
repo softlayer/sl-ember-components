@@ -2,8 +2,8 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-span';
 
 /**
- * @module components
- * @class sl-span
+ * @module
+ * @augments Ember/Component
  */
 export default Ember.Component.extend({
 
@@ -13,8 +13,10 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {Object} */
     layout,
 
+    /** @type {String} */
     tagName: 'span',
 
     // -------------------------------------------------------------------------
@@ -29,16 +31,14 @@ export default Ember.Component.extend({
     /**
      * Whether the underlying loading-icon is inverse
      *
-     * @property {Boolean} inverse
-     * @default false
+     * @type {Boolean}
      */
     inverse: false,
 
     /**
      * Whether to show the loading icon or content
      *
-     * @property {Boolean} loading
-     * @default false
+     * @type {Boolean}
      */
     loading: false
 

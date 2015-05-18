@@ -4,7 +4,7 @@ import layout from '../templates/components/sl-dialog';
 
 /**
  * @module
- * @augments Ember.Component
+ * @augments Ember/Component
  * @mixes sl-ember-components/mixins/sl-modal
  */
 export default Ember.Component.extend( ModalMixin, {
@@ -31,7 +31,6 @@ export default Ember.Component.extend( ModalMixin, {
      * Text string for the "cancel" button
      *
      * @type {String}
-     * @default
      */
     buttonText: 'Close',
 
@@ -39,7 +38,6 @@ export default Ember.Component.extend( ModalMixin, {
      * Binding for whether the dialog is shown or not
      *
      * @type {Boolean}
-     * @default
      */
     show: false,
 

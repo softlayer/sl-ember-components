@@ -4,8 +4,10 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-select';
 
 /**
- * @module components
- * @class sl-select
+ * @module
+ * @augments Ember/Component
+ * @mixes sl-ember-components/mixins/sl-input-based
+ * @mixes sl-ember-components/mixins/sl-tooltip-based
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
@@ -15,8 +17,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     classNames: [ 'form-group', 'sl-select' ],
 
+    /** @type {Object} */
     layout,
 
     // -------------------------------------------------------------------------
@@ -31,56 +35,49 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Whether to show the search filter input or not
      *
-     * @property {Boolean} disableSearch
-     * @default false
+     * @type {Boolean}
      */
     disableSearch: false,
 
     /**
      * The internal input element, used for Select2's bindings
      *
-     * @property {?Object} input
-     * @default null
+     * @type {?Object}
      */
     input: null,
 
     /**
      * The maximum number of selections allowed when `multiple` is enabled
      *
-     * @property {?Number} maximumSelectionSize
-     * @default null
+     * @type {?Number}
      */
     maximumSelectionSize: null,
 
     /**
      * Whether to allow multiple selections
      *
-     * @property {Boolean} multiple
-     * @default false
+     * @type {Boolean}
      */
     multiple: false,
 
     /**
      * The path key for each option object's description
      *
-     * @property {String} optionDescriptionPath
-     * @default "description"
+     * @type {String}
      */
     optionDescriptionPath: 'description',
 
     /**
      * The path key for each option object's label
      *
-     * @property {String} optionLabelPath
-     * @default "label"
+     * @type {String}
      */
     optionLabelPath: 'label',
 
     /**
      * The path key for each option object's value
      *
-     * @property {String} optionValuePath
-     * @default "value"
+     * @type {String}
      */
     optionValuePath: 'value',
 
@@ -90,7 +87,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Teardown the select2 to prevent memory leaks
      *
-     * @function destroySelect2
+     * @function
      * @listens willClearRender
      * @returns {undefined}
      */
@@ -101,7 +98,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Set up select2 initialization after the element is inserted in the DOM
      *
-     * @function setupSelect2
+     * @function
      * @listens didInsertElement
      * @returns {undefined}
      */
@@ -248,7 +245,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Set data bound value based on changed value
      *
-     * @function valueChanged
+     * @function
      * @observes content.@each, value
      * @returns {undefined}
      */
@@ -268,7 +265,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Update the bound value when the Select2's selection has changed
      *
-     * @function selectionChanged
+     * @function
      * @param {Object|Object[]} data - Select2 data
      * @returns {undefined}
      */
