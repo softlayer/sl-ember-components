@@ -36,7 +36,7 @@ export default Ember.View.extend({
      *
      * @function
      * @observes parentView
-     * @return {Ember.View}
+     * @return {ember/View}
      */
     target: Ember.computed( 'parentView', function() {
         return this.get( 'parentView' );

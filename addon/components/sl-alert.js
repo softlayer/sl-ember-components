@@ -93,7 +93,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @observes theme
-     * @throws {Ember.assert}
+     * @throws {ember.assert}
      * @returns {String} Defaults to "alert-info"
      */
     themeClassName: Ember.computed( 'theme', function() {

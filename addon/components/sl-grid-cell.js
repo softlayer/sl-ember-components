@@ -107,7 +107,7 @@ export default Ember.Component.extend({
      *
      * @function
      * @observes column.size
-     * @returns {Ember.String}
+     * @returns {ember/String}
      */
     style: Ember.computed( 'column.size', function() {
         var size = this.get( 'column.size' );

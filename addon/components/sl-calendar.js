@@ -380,7 +380,7 @@ export default Ember.Component.extend({
      * An array of abbreviated, formatted day names of each week day
      *
      * @function
-     * @returns {Ember.Array}
+     * @returns {ember/Array}
      */
     shortWeekDayNames: Ember.computed( function() {
         return Ember.A([
@@ -439,7 +439,7 @@ export default Ember.Component.extend({
      *
      * @function
      * @observes contentDates, currentMonth, currentYear, daysInMonth
-     * @returns {Ember.Array}
+     * @returns {ember.Array}
      */
     weeksInMonthView: Ember.computed(
         'contentDates', 'currentMonth', 'currentYear', 'daysInMonth',

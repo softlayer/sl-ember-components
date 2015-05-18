@@ -104,7 +104,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @observes value
-     * @returns {Ember.String}
+     * @returns {ember/String}
      */
     styleString: Ember.computed( 'value', function() {
         var value = this.get( 'value' );

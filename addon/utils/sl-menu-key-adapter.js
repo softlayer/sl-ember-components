@@ -3,7 +3,7 @@ import Ember from 'ember';
 /**
  * @module
  * @augments ember/Object
- * @augments MIXES:Ember/Evented
+ * @augments ember/Evented
  */
 export default Ember.Object.extend( Ember.Evented, {
 
