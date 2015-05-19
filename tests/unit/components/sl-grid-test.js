@@ -5,7 +5,7 @@ import startApp from '../../helpers/start-app';
 var App;
 
 moduleForComponent( 'sl-grid', 'Unit - component: sl-grid', {
-    
+
     needs: [
         'component:sl-pagination',
         'view:sl-grid-cell',
@@ -54,14 +54,14 @@ test( 'Loading state adds loading class', function( assert ) {
 test( 'rowClick action binding is supported', function( assert ) {
     this.subject({
         columns: Ember.A([{
-            title     : 'Name',
-            valuePath : 'name'
+            title: 'Name',
+            valuePath: 'name'
         }]),
 
         content: Ember.A([
-            { name : 'Alice' },
-            { name : 'Bob' },
-            { name : 'Charlie' }
+            { name: 'Alice' },
+            { name: 'Bob' },
+            { name: 'Charlie' }
         ]),
 
         rowClick: 'test',
@@ -83,15 +83,15 @@ test( 'rowClick action binding is supported', function( assert ) {
 test( 'Sortable columns and sortColumn actions are supported', function( assert ) {
     this.subject({
         columns: Ember.A([{
-            sortable  : true,
-            title     : 'Name',
-            valuePath : 'name'
+            sortable: true,
+            title: 'Name',
+            valuePath: 'name'
         }]),
 
         content: Ember.A([
-            { name : 'Alice' },
-            { name : 'Bob' },
-            { name : 'Charlie' },
+            { name: 'Alice' },
+            { name: 'Bob' },
+            { name: 'Charlie' },
         ]),
 
         sortColumn: 'test',
@@ -114,25 +114,25 @@ test( 'Only primary columns remain visible when detail-pane is open', function( 
     this.subject({
         columns: Ember.A([
             {
-                primary   : true,
-                title     : 'Name',
-                valuePath : 'name'
+                primary: true,
+                title: 'Name',
+                valuePath: 'name'
             }, {
-                title     : 'ID',
-                valuePath : 'id'
+                title: 'ID',
+                valuePath: 'id'
             }
         ]),
 
         content: Ember.A([
             {
-                id   : 4,
-                name : 'Alice'
+                id: 4,
+                name: 'Alice'
             }, {
-                id   : 8,
-                name : 'Bob'
+                id: 8,
+                name: 'Bob'
             }, {
-                id   : 15,
-                name : 'Charlie'
+                id: 15,
+                name: 'Charlie'
             }
         ]),
 
@@ -155,11 +155,11 @@ test( 'Only primary columns remain visible when detail-pane is open', function( 
 test( 'requestData action is triggered correctly in paginated mode', function( assert ) {
     var expectedOffset = 1,
         component = this.subject({
-            columns     : Ember.A([ { title: 'Name', valuePath: 'name' } ]),
-            content     : Ember.A([ { name: 'Alice' } ]),
-            pageSize    : 1,
-            requestData : 'test',
-            totalCount  : 2,
+            columns: Ember.A([ { title: 'Name', valuePath: 'name' } ]),
+            content: Ember.A([ { name: 'Alice' } ]),
+            pageSize: 1,
+            requestData: 'test',
+            totalCount: 2,
 
             targetObject: {
                 test( limit, offset ) {
@@ -192,10 +192,10 @@ test( 'sortColumn action is triggered correctly', function( assert ) {
     }));
 
     this.subject({
-        columns    : Ember.A([ { title: 'Name', valuePath: 'name' } ]),
-        content    : Ember.A([ { name: 'Alice' }, { name: 'Bob' } ]),
-        detailPath : 'test-detail',
-        sortColumn : 'test',
+        columns: Ember.A([ { title: 'Name', valuePath: 'name' } ]),
+        content: Ember.A([ { name: 'Alice' }, { name: 'Bob' } ]),
+        detailPath: 'test-detail',
+        sortColumn: 'test',
 
         targetObject: {
             test( column, ascending ) {

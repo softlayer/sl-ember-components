@@ -1,5 +1,3 @@
-/* global moment */
-
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
@@ -29,7 +27,7 @@ test( 'Attribute "datetime" is properly set', function( assert ) {
 
 test( 'Format "date" results in correctly formatted value', function( assert ) {
     var formattedValue = '2015-01-01',
-        component      = this.subject({
+        component = this.subject({
             format   : 'date',
             timezone : 'America/Chicago',
             value    : new Date( 2015, 0, 1 )
@@ -50,10 +48,10 @@ test( 'Format "date" results in correctly formatted value', function( assert ) {
 
 test( 'Format "relative" results in correctly formatted value', function( assert ) {
     var formattedValue = 'a year ago',
-        component      = this.subject({
+        component = this.subject({
             format   : 'relative',
             timezone : 'America/Chicago',
-            value    : moment().subtract( 1, 'year' )
+            value    : window.moment().subtract( 1, 'year' )
         });
 
     assert.equal(
@@ -71,7 +69,7 @@ test( 'Format "relative" results in correctly formatted value', function( assert
 
 test( 'Format "datetime" results in correctly formatted value', function( assert ) {
     var formattedValue = 'Thursday, January 1st 2015, 12:00 AM CST',
-        component      = this.subject({
+        component = this.subject({
             format   : 'datetime',
             timezone : 'America/Chicago',
             value    : new Date( 2015, 0, 1 )

@@ -11,7 +11,7 @@ test( 'Has expected initial classes', function( assert ) {
 
 test( 'Disabled state applies class and disables input', function( assert ) {
     var component = this.subject(),
-        $input    = this.$( 'input' );
+        $input = this.$( 'input' );
 
     assert.strictEqual(
         this.$().hasClass( 'disabled' ),
@@ -33,7 +33,7 @@ test( 'Disabled state applies class and disables input', function( assert ) {
 
 test( 'Checked state applies property to input', function( assert ) {
     var component = this.subject(),
-        $input    = this.$( 'input' );
+        $input = this.$( 'input' );
 
     assert.strictEqual(
         $input.prop( 'checked' ),

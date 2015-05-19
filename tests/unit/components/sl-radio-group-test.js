@@ -18,8 +18,8 @@ test( 'The disabled state applies the disabled attribute and class', function( a
 
 test( 'The disabled state applies to sl-radio children', function( assert ) {
     this.subject({
-        disabled : true,
-        name     : 'test',
+        disabled: true,
+        name: 'test',
 
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}' +
@@ -43,8 +43,8 @@ test( 'The disabled state applies to sl-radio children', function( assert ) {
 
 test( 'The readonly state applies to sl-radio children', function( assert ) {
     this.subject({
-        name     : 'test',
-        readonly : true,
+        name: 'test',
+        readonly: true,
 
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}' +
@@ -86,8 +86,8 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
 
 test( "Inline true sets sl-radio children's inline property to true", function( assert ) {
     this.subject({
-        inline : true,
-        name   : 'test',
+        inline: true,
+        name: 'test',
 
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}' +
@@ -111,8 +111,8 @@ test( "Inline true sets sl-radio children's inline property to true", function( 
 
 test( "Inline false sets sl-radio children's inline property to false", function( assert ) {
     this.subject({
-        inline : false,
-        name   : 'test',
+        inline: false,
+        name: 'test',
 
         template: Ember.Handlebars.compile(
             '{{sl-radio inline=true label="One" value="one"}}' +

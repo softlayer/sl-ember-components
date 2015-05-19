@@ -68,7 +68,7 @@ test( 'setupTabs() does so correctly', function( assert ) {
 
 test( 'ARIA roles are implemented', function( assert ) {
     this.subject({
-        template : Ember.Handlebars.compile(
+        template: Ember.Handlebars.compile(
             '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
             '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
             '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
@@ -89,9 +89,9 @@ test( 'ARIA roles are implemented', function( assert ) {
 });
 
 test( '"initialTabName" property is respected', function( assert ) {
-    var component  = this.subject({
-            initialTabName : 'b',
-            template       : Ember.Handlebars.compile(
+    var component = this.subject({
+            initialTabName: 'b',
+            template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
@@ -122,7 +122,7 @@ test( '"initialTabName" property is respected', function( assert ) {
 
 test( '"alignTabs" property is respected', function( assert ) {
     this.subject({
-        alignTabs : 'right'
+        alignTabs: 'right'
     });
 
     assert.ok(
@@ -151,7 +151,7 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
 
 test( 'Clicking tab changes active tab', function( assert ) {
     var component = this.subject({
-            template : Ember.Handlebars.compile(
+            template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
@@ -175,7 +175,7 @@ test( 'Clicking tab changes active tab', function( assert ) {
 
 test( 'Tab content height is adjusted after new tab selection', function( assert ) {
     var component = this.subject({
-            template : Ember.Handlebars.compile(
+            template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content<br><br>Taller content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
@@ -208,7 +208,7 @@ test( '"activatePane" animates as expected', function( assert ) {
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
-        spy  = sinon.spy( Ember.$.prototype, 'fadeIn' ),
+        spy = sinon.spy( Ember.$.prototype, 'fadeIn' ),
         done = assert.async();
 
     this.render();
@@ -223,12 +223,12 @@ test( '"activatePane" animates as expected', function( assert ) {
 
 test( '"deactivatePane" animates as expected', function( assert ) {
     var component = this.subject({
-            template : Ember.Handlebars.compile(
+            template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
-        spy  = sinon.spy( Ember.$.prototype, 'fadeOut' ),
+        spy = sinon.spy( Ember.$.prototype, 'fadeOut' ),
         done = assert.async();
 
     assert.expect( 1 );
@@ -245,13 +245,13 @@ test( '"deactivatePane" animates as expected', function( assert ) {
 
 test( '"deactivatePane" calls specified callback', function( assert ) {
     var component = this.subject({
-            template : Ember.Handlebars.compile(
+            template: Ember.Handlebars.compile(
                 '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
                 '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
             )
         }),
         callback = sinon.spy(),
-        done     = assert.async();
+        done = assert.async();
 
     this.render();
 

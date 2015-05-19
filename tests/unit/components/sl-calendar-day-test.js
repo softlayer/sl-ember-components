@@ -4,7 +4,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 moduleForComponent( 'sl-calendar-day', 'Unit - component: sl-calendar-day' );
 
 test( 'Default state of calendar-day is not active, new or old', function( assert ) {
-    var component  = this.subject();
+    var component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
@@ -62,7 +62,7 @@ test( 'New state is applied correctly', function( assert ) {
 });
 
 test( 'Old state is applied correctly', function( assert ) {
-    var component  = this.subject({ old: true });
+    var component = this.subject({ old: true });
 
     assert.ok( component.get( 'old' ), 'Component is set to old state' );
     assert.ok( this.$().hasClass( 'old' ), 'Component element has class "old"' );

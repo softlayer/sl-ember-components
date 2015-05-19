@@ -10,16 +10,16 @@ function capitalize( string ) {
 }
 
 function generateRecords( number ) {
-    var content = Ember.A(); 
+    var content = Ember.A();
 
     for ( let i = 0; i < number; i++ ) {
         let firstName = generateString( 3, 6 );
-        let lastName  = generateString( 4, 8 );
+        let lastName = generateString( 4, 8 );
 
         content.pushObject({
-            email     : `${firstName}@example.com`,
-            firstName : capitalize( firstName ),
-            lastName  : capitalize( lastName )
+            email: `${firstName}@example.com`,
+            firstName: capitalize( firstName ),
+            lastName: capitalize( lastName )
         });
     }
 
@@ -30,7 +30,7 @@ function generateString( minLength, maxLength ) {
     var length = Math.floor(
             minLength + Math.random() * ( maxLength - minLength )
         ),
-        name   = '';
+        name = '';
 
     while ( name.length < length ) {
         name += LETTERS[ Math.floor( Math.random() * LETTERS.length ) ];
@@ -40,17 +40,13 @@ function generateString( minLength, maxLength ) {
 }
 
 export default Ember.Route.extend({
-
     actions: {
-
         requestData( /* limit, offset */ ) {
             this.set( 'controller.model', generateRecords( 25 ) );
         }
-
     },
 
     model() {
         return generateRecords( 25 );
     }
-
 });

@@ -51,7 +51,7 @@ test( '"show" property defaults to false', function( assert ) {
 });
 
 test( 'Correct DOM structure is in place', function( assert ) {
-    var component  = this.subject({
+    var component = this.subject({
         title: 'Test Title'
     });
 

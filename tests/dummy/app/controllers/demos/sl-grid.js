@@ -11,7 +11,7 @@ export default Ember.ArrayController.extend({
         sortColumn( column, sortAscending ) {
             this.setProperties({
                 sortAscending,
-                'sortProperties' : [ Ember.get( column, 'valuePath' ) ]
+                'sortProperties': [ Ember.get( column, 'valuePath' ) ]
             });
         }
 
@@ -19,20 +19,20 @@ export default Ember.ArrayController.extend({
 
     columns: Ember.A([
         {
-            primary   : true,
-            size      : 'small',
-            title     : 'Color',
-            valuePath : 'name'
+            primary: true,
+            size: 'small',
+            title: 'Color',
+            valuePath: 'name'
         }, {
-            size      : 'small',
-            sortable  : true,
-            title     : 'Fruit',
-            valuePath : 'fruit'
+            size: 'small',
+            sortable: true,
+            title: 'Fruit',
+            valuePath: 'fruit'
         }, {
-            size      : 'small',
-            sortable  : true,
-            title     : 'Hex Code',
-            valuePath : 'hexCode'
+            size: 'small',
+            sortable: true,
+            title: 'Hex Code',
+            valuePath: 'hexCode'
         }
     ]),
 

@@ -33,7 +33,7 @@ test( 'Has class for low percentage value', function( assert ) {
 
 test( 'Width style string is set equal to the percentage value', function( assert ) {
     var randomValue = 100 * Math.random(),
-        component   = this.subject({ value: randomValue });
+        component = this.subject({ value: randomValue });
 
     assert.equal(
         component.get( 'styleString' ),

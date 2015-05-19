@@ -5,10 +5,10 @@ moduleForComponent( 'sl-button', 'Unit - component: sl-button' );
 
 test( 'Label changes for pending state', function( assert ) {
     var pendingText = 'Pending',
-        staticText  = 'Static',
-        component   = this.subject({
-            pendingLabel : pendingText,
-            label        : staticText
+        staticText = 'Static',
+        component = this.subject({
+            pendingLabel: pendingText,
+            label: staticText
         });
 
     assert.equal(
@@ -43,7 +43,7 @@ test( 'The element fires event when clicked', function( assert ) {
 });
 
 test( 'Button supports disabled state', function( assert ) {
-    var component  = this.subject();
+    var component = this.subject();
 
     assert.strictEqual(
         this.$().is( ':disabled' ),
@@ -88,7 +88,7 @@ test( 'Labels are correctly initialized', function( assert ) {
 });
 
 test( 'sizeClass() returns correct values', function( assert ) {
-    var component  = this.subject({ size: 'large' });
+    var component = this.subject({ size: 'large' });
 
     assert.equal(
         component.get( 'sizeClass' ),
@@ -103,7 +103,7 @@ test( 'sizeClass() returns correct values', function( assert ) {
 });
 
 test( 'themeClass() returns correct value', function( assert ) {
-    var component  = this.subject({ theme: 'success' });
+    var component = this.subject({ theme: 'success' });
 
     assert.equal(
         component.get( 'themeClass' ),

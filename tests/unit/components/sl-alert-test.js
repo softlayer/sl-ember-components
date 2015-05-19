@@ -8,7 +8,7 @@ test( 'ARIA role is applied', function( assert ) {
 });
 
 test( 'Dismissable option allows dismissal', function( assert ) {
-    var component  = this.subject({ dismissable: true });
+    var component = this.subject({ dismissable: true });
 
     assert.strictEqual(
         component.get( 'dismissable' ),
@@ -27,8 +27,8 @@ test( 'Dismissable option allows dismissal', function( assert ) {
 
 test( 'Dismiss action is handled', function( assert ) {
     var component = this.subject({
-            dismiss     : 'dismiss',
-            dismissable : true,
+            dismiss: 'dismiss',
+            dismissable: true,
 
             targetObject: {
                 dismiss: function() {
@@ -41,20 +41,20 @@ test( 'Dismiss action is handled', function( assert ) {
 });
 
 test( 'Theme class is applied', function( assert ) {
-    var component  = this.subject({ theme: 'success' });
+    var component = this.subject({ theme: 'success' });
 
     assert.ok( this.$().hasClass( 'alert-success' ), 'Theme class is applied' );
 });
 
 test( 'Default classes are applied', function( assert ) {
-    var component  = this.subject();
+    var component = this.subject();
 
     assert.ok( this.$().hasClass( 'alert' ), 'Has class "alert"' );
     assert.ok( this.$().hasClass( 'sl-alert' ), 'Has class "sl-alert"' );
 });
 
 test( 'Not dismissable by default', function( assert ) {
-    var component  = this.subject();
+    var component = this.subject();
 
     assert.strictEqual(
         component.get( 'dismissable' ),

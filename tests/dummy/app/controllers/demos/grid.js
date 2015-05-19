@@ -6,8 +6,8 @@ export default Ember.ArrayController.extend({
 
         sortColumn( column, ascending ) {
             this.setProperties({
-                sortAscending  : ascending,
-                sortProperties : [ column.valuePath ]
+                sortAscending: ascending,
+                sortProperties: [ column.valuePath ]
             });
         }
 
@@ -15,19 +15,19 @@ export default Ember.ArrayController.extend({
 
     columns: Ember.A([
         {
-            size      : 'small',
-            sortable  : true,
-            title     : 'Last Name',
-            valuePath : 'lastName'
+            size: 'small',
+            sortable: true,
+            title: 'Last Name',
+            valuePath: 'lastName'
         }, {
-            size      : 'small',
-            sortable  : true,
-            title     : 'First Name',
-            valuePath : 'firstName'
+            size: 'small',
+            sortable: true,
+            title: 'First Name',
+            valuePath: 'firstName'
         }, {
-            size      : 'medium',
-            title     : 'Email Address',
-            valuePath : 'email'
+            size: 'medium',
+            title: 'Email Address',
+            valuePath: 'email'
         }
     ])
 

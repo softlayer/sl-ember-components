@@ -17,13 +17,13 @@ export default Ember.Controller.extend({
 
     actions: {
         selectionMadeHandler( path ) {
-            console.log( 'Selection:', path );
+            window.console.log( 'Selection:', path );
         },
 
         actionInitiatedHandler( actionName, data ) {
-            console.log( 'Action [', actionName, ']' );
+            window.console.log( `Action [${actionName}]` );
             if ( data ) {
-                console.log( '   data:', data );
+                window.console.log( '   data:', data );
             }
         },
 

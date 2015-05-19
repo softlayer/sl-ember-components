@@ -65,7 +65,7 @@ test( 'Menu shows child on hover', function( assert ) {
 
 test( 'Menu closes child on mouse exit', function( assert ) {
     var component = this.subject({ menu: modelStub }),
-        child     = this.$( 'li:visible' ).first();
+        child = this.$( 'li:visible' ).first();
 
     assert.equal( this.$( 'li:visible' ).length, 3 );
 
@@ -78,8 +78,8 @@ test( 'Menu closes child on mouse exit', function( assert ) {
 
 test( 'Menu click supports native function', function( assert ) {
     var component = this.subject({ menu: modelStub }),
-        child     = this.$( 'li:visible' ).first(),
-        spy       = sinon.spy();
+        child = this.$( 'li:visible' ).first(),
+        spy = sinon.spy();
 
     Ember.set(
         Ember.get(
@@ -98,9 +98,9 @@ test( 'Menu click supports native function', function( assert ) {
 });
 
 test( 'Menu click supports action names', function( assert ) {
-    var component    = this.subject({ menu: modelStub }),
-        child        = this.$( 'li:visible' ).first(),
-        spy          = sinon.spy(),
+    var component = this.subject({ menu: modelStub }),
+        child = this.$( 'li:visible' ).first(),
+        spy = sinon.spy(),
         targetObject = {
             actionHandler: spy
         };
@@ -117,9 +117,9 @@ test( 'Menu click supports action names', function( assert ) {
 });
 
 test( 'Menu click supports action names with supporting data', function( assert ) {
-    var component    = this.subject({ menu: modelStub }),
-        child        = this.$( 'li:visible' ).first(),
-        spy          = sinon.spy(),
+    var component = this.subject({ menu: modelStub }),
+        child = this.$( 'li:visible' ).first(),
+        spy = sinon.spy(),
         targetObject = {
             actionHandler: spy
         };
@@ -138,9 +138,9 @@ test( 'Menu click supports action names with supporting data', function( assert 
 });
 
 test( 'Menu selection fires proper selection event', function( assert ) {
-    var component        = this.subject({ menu: modelStub }),
+    var component = this.subject({ menu: modelStub }),
         selectionCounter = 0,
-        targetObject     = {
+        targetObject = {
             selectionHandler: function( path ) {
                 selectionCounter++;
             }

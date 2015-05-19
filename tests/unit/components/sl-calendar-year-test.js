@@ -52,7 +52,7 @@ test( 'Click event sends action with year value', function( assert ) {
         action: 'test',
 
         targetObject: {
-            test: year => {
+            test: (year) => {
                 assert.strictEqual( year, exampleYear, 'Received year' );
             }
         },

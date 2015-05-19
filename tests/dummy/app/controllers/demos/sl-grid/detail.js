@@ -1,5 +1,3 @@
-/* globals alert */
-
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
@@ -7,22 +5,22 @@ export default Ember.Controller.extend({
     actions: {
 
         sendAlert() {
-            alert( this.get( 'model.name' ) );
+            window.alert( this.get( 'model.name' ) );
         },
 
         sendLog() {
-            console.log( this.get( 'model.name' ) );
+            window.console.log( this.get( 'model.name' ) );
         }
 
     },
 
     rowActions: Ember.A([
         {
-            action : 'sendAlert',
-            label  : 'Alert'
+            action: 'sendAlert',
+            label: 'Alert'
         }, {
-            action : 'sendLog',
-            label  : 'Log'
+            action: 'sendLog',
+            label: 'Log'
         }
     ])
 
