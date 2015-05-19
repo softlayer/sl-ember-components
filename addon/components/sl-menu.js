@@ -338,6 +338,13 @@ export default Ember.Component.extend({
     children: null,
 
     /**
+     * Additional class names to be added to the classNames attribute
+     *
+     * @type {String[]}
+     */
+    extraClassNames: [],
+
+    /**
      * @property {boolean} isRoot
      * @default  true
      */
@@ -393,6 +400,22 @@ export default Ember.Component.extend({
      */
     initChildren: function() {
         this.set( 'children', [] );
+    }.on( 'init' ),
+
+    /**
+     * Initialize initClassNames array
+     *
+     * @function initClassNames
+     * @observes init
+     * @returns {undefined}
+     */
+    initClassNames: function() {
+        var classNames = this.get( 'classNames' ),
+            extraClassNames = this.get( 'extraClassNames' );
+
+        if ( !Ember.isNone( extraClassNames ) ) {
+            classNames.push.apply(classNames, extraClassNames);
+        }
     }.on( 'init' ),
 
     /**

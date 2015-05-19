@@ -7,7 +7,7 @@ var clickCounter = 0,
     modelStub = {
         label: null,
         pages: [
-            { label: 'Top Level A', pages: [
+            { label: 'Top Level A', classNames: [ 'class1', 'class2' ], pages: [
                 { label: 'Option A1', action: 'MyAction' },
                 { label: 'Option A2', action: function() { clickCounter = 0; clickCounter++; }},
                 { label: 'Option A3', action: { actionName: 'MyAction', data: { name: 'Joe' }}},
@@ -41,6 +41,22 @@ test( '"children" property is an empty array on initialization', function( asser
 
     assert.equal( Ember.typeOf( component.get( 'children' ) ), 'array', 'Is array' );
     assert.equal( component.get( 'children' ).length, 0, 'Array is empty' );
+});
+
+test( 'Class attributes are properly initialized', function( assert ) {
+    var component  = this.subject({ menu: modelStub }),
+        $component = this.render(),
+        menus = $component.find( 'li' ),
+        firstMenuClasses,
+        secondMenuClasses;
+
+    firstMenuClasses = $( menus[0] ).attr( 'class' ).split( ' ' );
+    assert.ok( firstMenuClasses.indexOf( 'class1' ), '"class1" is added to the first menu element class' );
+    assert.ok( firstMenuClasses.indexOf( 'class2' ), '"class2" is added to the first menu element class' );
+    assert.ok( firstMenuClasses.indexOf( 'sl-menu' ), '"sl-menu" is added to the first menu element class' );
+
+    secondMenuClasses = $( menus[1] ).attr( 'class' ).split( ' ' );
+    assert.ok( secondMenuClasses.indexOf( 'sl-menu' ), '"sl-menu" is added to a menu when no classNames property is present' );
 });
 
 test( 'Menu creates correct DOM structure', function( assert ) {
