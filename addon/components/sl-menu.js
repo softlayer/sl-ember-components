@@ -406,14 +406,14 @@ export default Ember.Component.extend({
      * Initialize initClassNames array
      *
      * @function initClassNames
-     * @observes "init" event
-     * @returns  {undefined}
+     * @observes init
+     * @returns {undefined}
      */
     initClassNames: function() {
         var classNames = this.get( 'classNames' ),
             extraClassNames = this.get( 'extraClassNames' );
 
-        if ( extraClassNames && extraClassNames.length > 0 ) {
+        if ( !Ember.isNone( extraClassNames ) ) {
             classNames.push.apply(classNames, extraClassNames);
         }
     }.on( 'init' ),
