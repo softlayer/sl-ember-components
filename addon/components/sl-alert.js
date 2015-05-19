@@ -9,10 +9,10 @@ import layout from '../templates/components/sl-alert';
  * @enum {String}
  */
 const THEME = {
-    DANGER  : 'danger',
-    INFO    : 'info',
-    SUCCESS : 'success',
-    WARNING : 'warning'
+    DANGER: 'danger',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
 };
 export { THEME };
 

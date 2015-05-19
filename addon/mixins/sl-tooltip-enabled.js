@@ -80,8 +80,8 @@ export default Ember.Mixin.create({
             this.set( 'data-toggle', 'popover' );
 
             this.$().popover({
-                content   : popover,
-                placement : 'top'
+                content: popover,
+                placement: 'top'
             });
 
         // Reset title value
@@ -105,8 +105,8 @@ export default Ember.Mixin.create({
             this.set( 'data-toggle', 'tooltip' );
 
             this.$().tooltip({
-                container : 'body',
-                title     : title
+                container: 'body',
+                title: title
             });
 
         // Reset title value

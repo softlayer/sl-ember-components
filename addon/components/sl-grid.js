@@ -8,8 +8,8 @@ import layout from '../templates/components/sl-grid';
  * @enum {String}
  */
 const COLUMN_ALIGN = {
-    LEFT  : 'left',
-    RIGHT : 'right'
+    LEFT: 'left',
+    RIGHT: 'right'
 };
 export { COLUMN_ALIGN };
 
@@ -20,9 +20,9 @@ export { COLUMN_ALIGN };
  * @enum {String}
  */
 const COLUMN_SIZE = {
-    LARGE  : 'large',
-    MEDIUM : 'medium',
-    SMALL  : 'small'
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
 };
 export { COLUMN_SIZE };
 
@@ -68,7 +68,7 @@ export default Ember.Component.extend({
                 return;
             }
 
-            var limit  = this.get( 'pageSize' ),
+            var limit = this.get( 'pageSize' ),
                 offset = limit * ( page - 1 );
 
             this.set( 'loading', true );
@@ -109,10 +109,10 @@ export default Ember.Component.extend({
                 return;
             }
 
-            var columnTitle       = Ember.get( column, 'title' ),
-                sortedColumn      = this.get( 'sortedColumn' ),
+            var columnTitle = Ember.get( column, 'title' ),
+                sortedColumn = this.get( 'sortedColumn' ),
                 sortedColumnTitle = this.get( 'sortedColumnTitle' ),
-                sortDirection     = this.get( 'sortDirection' );
+                sortDirection = this.get( 'sortDirection' );
 
             if ( sortedColumnTitle === columnTitle ) {
                 sortDirection = !sortDirection;
@@ -379,13 +379,13 @@ export default Ember.Component.extend({
         var renderedName = this.get( '_parentView.renderedName' );
 
         if ( renderedName ) {
-            var registry         = this.get( 'container._registry' ),
-                root             = renderedName.replace( '.', '/' ) + '/',
+            var registry = this.get( 'container._registry' ),
+                root = renderedName.replace( '.', '/' ) + '/',
                 detailFooterPath = root + 'detail-footer',
                 detailHeaderPath = root + 'detail-header',
-                detailPath       = root + 'detail',
-                filterPath       = root + 'filter',
-                footerPath       = root + 'footer';
+                detailPath = root + 'detail',
+                filterPath = root + 'filter',
+                footerPath = root + 'footer';
 
             if (
                 !this.get( 'detailFooterPath' ) &&
@@ -444,11 +444,11 @@ export default Ember.Component.extend({
      * @returns {?Object} The definition for the currently sorted column
      */
     sortedColumn: Ember.computed( 'columns', 'sortedColumnTitle', function() {
-        var columns           = this.get( 'columns' ),
+        var columns = this.get( 'columns' ),
             sortedColumnTitle = this.get( 'sortedColumnTitle' );
 
         if ( sortedColumnTitle ) {
-            for ( var i = 0; i < columns.length; i++ ) {
+            for ( let i = 0; i < columns.length; i++ ) {
                 if ( Ember.get( columns[ i ], 'title' ) === sortedColumnTitle ) {
                     return columns[ i ];
                 }
@@ -485,7 +485,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     updateHeight: Ember.on( 'didInsertElement', function() {
-        var componentHeight  = this.get( 'height' ),
+        var componentHeight = this.get( 'height' ),
             gridHeaderHeight = parseInt(
                 this.$( '.grid-header' ).css( 'height' )
             ),
@@ -585,10 +585,10 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     handleListContentScroll( event ) {
-        var listContent         = this.$( event.target ),
-            loading             = this.get( 'loading' ),
+        var listContent = this.$( event.target ),
+            loading = this.get( 'loading' ),
             nextPageScrollPoint = this.get( 'nextPageScrollPoint' ),
-            scrollBottom        = listContent.scrollTop() + listContent.height();
+            scrollBottom = listContent.scrollTop() + listContent.height();
 
         if ( scrollBottom >= nextPageScrollPoint && !loading ) {
             this.requestMoreData();

@@ -279,23 +279,23 @@ export default Ember.Component.extend( TooltipEnabled, {
      */
     options: Ember.computed( function() {
         return {
-            autoclose          : this.get( 'autoclose' ),
-            calendarWeeks      : this.get( 'calendarWeeks' ),
-            clearBtn           : this.get( 'clearBtn' ),
-            daysOfWeekDisabled : this.get( 'daysOfWeekDisabled' ),
-            endDate            : this.get( 'endDate' ),
-            forceParse         : this.get( 'forceParse' ),
-            format             : this.get( 'format' ),
-            inputs             : this.get( 'inputs' ),
-            keyboardNavigation : this.get( 'keyboardNavigation' ),
-            language           : this.get( 'language' ),
-            multidate          : this.get( 'multidate' ),
-            orientation        : this.get( 'orientation' ),
-            startDate          : this.get( 'startDate' ),
-            startView          : this.get( 'startView' ),
-            todayBtn           : this.get( 'todayBtn' ),
-            todayHighlight     : this.get( 'todayHighlight' ),
-            weekStart          : this.get( 'weekStart' )
+            autoclose: this.get( 'autoclose' ),
+            calendarWeeks: this.get( 'calendarWeeks' ),
+            clearBtn: this.get( 'clearBtn' ),
+            daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
+            endDate: this.get( 'endDate' ),
+            forceParse: this.get( 'forceParse' ),
+            format: this.get( 'format' ),
+            inputs: this.get( 'inputs' ),
+            keyboardNavigation: this.get( 'keyboardNavigation' ),
+            language: this.get( 'language' ),
+            multidate: this.get( 'multidate' ),
+            orientation: this.get( 'orientation' ),
+            startDate: this.get( 'startDate' ),
+            startView: this.get( 'startView' ),
+            todayBtn: this.get( 'todayBtn' ),
+            todayHighlight: this.get( 'todayHighlight' ),
+            weekStart: this.get( 'weekStart' )
         };
     })
 

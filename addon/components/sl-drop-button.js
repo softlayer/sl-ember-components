@@ -13,8 +13,8 @@ import {
  * @enum {String}
  */
 const ALIGN = {
-    LEFT   : 'left',
-    RIGHT  : 'right'
+    LEFT: 'left',
+    RIGHT: 'right'
 };
 export { ALIGN };
 

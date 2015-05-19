@@ -82,8 +82,8 @@ export default Ember.Component.extend({
             options;
 
         chartStyle = {
-            fontFamily : '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
-            fontSize   : '13px'
+            fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            fontSize: '13px'
         };
 
         options = Ember.$.extend( true, {
@@ -149,7 +149,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     updateData: Ember.observer( 'series', function() {
-        var chart  = this.get( 'chart' ),
+        var chart = this.get( 'chart' ),
             series = this.get( 'series' );
 
         if ( !chart.hasOwnProperty( 'series' ) ) {
@@ -177,7 +177,7 @@ export default Ember.Component.extend({
      */
     style: Ember.computed( 'height', 'width', function() {
         var height = this.get( 'height' ),
-            width  = this.get( 'width' );
+            width = this.get( 'width' );
 
         return Ember.String.htmlSafe( `height: ${height}; width: ${width};` );
     })

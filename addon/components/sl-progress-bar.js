@@ -9,11 +9,11 @@ import layout from '../templates/components/sl-progress-bar';
  * @enum {String}
  */
 const THEME = {
-    DANGER  : 'danger',
-    DEFAULT : 'default',
-    INFO    : 'info',
-    SUCCESS : 'success',
-    WARNING : 'warning'
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
 };
 export { THEME };
 

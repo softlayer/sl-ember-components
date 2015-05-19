@@ -9,10 +9,10 @@ import layout from '../templates/components/sl-button';
  * @enum {String}
  */
 const SIZE = {
-    EXTRA_SMALL : 'extra-small',
-    LARGE       : 'large',
-    MEDIUM      : 'medium',
-    SMALL       : 'small'
+    EXTRA_SMALL: 'extra-small',
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
 };
 export { SIZE };
 
@@ -23,14 +23,14 @@ export { SIZE };
  * @enum {String}
  */
 const THEME = {
-    DANGER  : 'danger',
-    DEFAULT : 'default',
-    HOVER   : 'hover',
-    INFO    : 'info',
-    LINK    : 'link',
-    PRIMARY : 'primary',
-    SUCCESS : 'success',
-    WARNING : 'warning'
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    HOVER: 'hover',
+    INFO: 'info',
+    LINK: 'link',
+    PRIMARY: 'primary',
+    SUCCESS: 'success',
+    WARNING: 'warning'
 };
 export { THEME };
 
@@ -145,8 +145,8 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {String}
      */
     currentLabel: Ember.computed( 'label', 'pending', 'pendingLabel', function() {
-        var label        = this.get( 'label' ),
-            pending      = this.get( 'pending' ),
+        var label = this.get( 'label' ),
+            pending = this.get( 'pending' ),
             pendingLabel = this.get( 'pendingLabel' );
 
         if ( pending && pendingLabel ) {

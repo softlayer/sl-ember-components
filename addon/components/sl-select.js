@@ -103,14 +103,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @returns {undefined}
      */
     setupSelect2: Ember.on( 'didInsertElement', function() {
-        var get  = Ember.get,
+        var get = Ember.get,
             self = this,
             input;
 
         input = this.$( 'input' ).select2({
-            maximumSelectionSize : this.get( 'maximumSelectionSize' ),
-            multiple             : this.get( 'multiple' ),
-            placeholder          : this.get( 'placeholder' ),
+            maximumSelectionSize: this.get( 'maximumSelectionSize' ),
+            multiple: this.get( 'multiple' ),
+            placeholder: this.get( 'placeholder' ),
 
             formatResult: ( item ) => {
                 if ( !item ) { return; }
@@ -120,7 +120,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 }
 
                 var description = get( item, this.get( 'optionDescriptionPath' ) ),
-                    output      = get( item, this.get( 'optionLabelPath' ) );
+                    output = get( item, this.get( 'optionLabelPath' ) );
 
                 if ( description ) {
                     output +=  ' <span class="text-muted">' + description + '</span>';
@@ -154,12 +154,12 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     return callback( [] );
                 }
 
-                var content         = this.get( 'content' ),
-                    contentLength   = content.length,
+                var content = this.get( 'content' ),
+                    contentLength = content.length,
                     filteredContent = [],
-                    multiple        = this.get( 'multiple' ),
+                    multiple = this.get( 'multiple' ),
                     optionValuePath = this.get( 'optionValuePath' ),
-                    values          = value.split( ',' ),
+                    values = value.split( ',' ),
                     unmatchedValues = values.length,
                     item,
                     matchIndex,
@@ -167,7 +167,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
                 for ( let i = 0; i < contentLength; i++ ) {
                     item = content[i];
-                    text = item instanceof Object ? get( item, optionValuePath ) : item;
+                    text = item instanceof Object ? get( item, optionValuePath ): item;
                     matchIndex = values.indexOf( text.toString() );
 
                     if ( matchIndex !== -1 ) {
@@ -193,19 +193,19 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     Ember.warn( warning, !values.length );
                 }
 
-                return callback( multiple ? filteredContent : Ember.get( filteredContent, 'firstObject' ) );
+                return callback( multiple ? filteredContent: Ember.get( filteredContent, 'firstObject' ) );
             },
 
-            minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
+            minimumResultsForSearch: this.get( 'disableSearch' ) ? -1: 0,
 
             query: function( query ) {
-                var content         = self.get( 'content' ) || [],
+                var content = self.get( 'content' ) || [],
                     optionLabelPath = self.get( 'optionLabelPath' ),
-                    select2         = this;
+                    select2 = this;
 
                 query.callback({
                     results: content.reduce( function( results, item ) {
-                        var text = item instanceof Object ? get( item, optionLabelPath ) : item;
+                        var text = item instanceof Object ? get( item, optionLabelPath ): item;
 
                         if ( text && select2.matcher( query.term, text.toString() ) ) {
                             results.push( item );
@@ -270,7 +270,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @returns {undefined}
      */
     selectionChanged( data ) {
-        var multiple        = this.get( 'multiple' ),
+        var multiple = this.get( 'multiple' ),
             optionValuePath = this.get( 'optionValuePath' ),
             value;
 

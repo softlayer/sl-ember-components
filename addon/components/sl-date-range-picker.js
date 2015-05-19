@@ -112,7 +112,7 @@ export default Ember.Component.extend({
      * @returns {?Date|String} Defaults to null
      */
     earliestEndDate: Ember.computed( 'minDate', 'startDateValue', function() {
-        var minDate        = this.get( 'minDate' ),
+        var minDate = this.get( 'minDate' ),
             startDateValue = this.get( 'startDateValue' );
 
         if ( startDateValue ) {

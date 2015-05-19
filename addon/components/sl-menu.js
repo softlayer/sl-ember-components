@@ -349,9 +349,9 @@ export default Ember.Component.extend({
      */
     initMenu: Ember.on( 'didInsertElement', function() {
         var keyEvents = this.get( 'keyEvents' ),
-            parent    = this.get( 'parentView' ),
-            path      = Ember.A(),
-            rootNode  = this;
+            parent = this.get( 'parentView' ),
+            path = Ember.A(),
+            rootNode = this;
 
         this.set( 'pages', Ember.A( this.get( 'menu.pages' ) ) );
 
@@ -409,7 +409,7 @@ export default Ember.Component.extend({
      */
     destroyMenu: Ember.on( 'willClearRender', function() {
         var keyEvents = this.get( 'keyEvents' ),
-            parent    = this.get( 'parentView' );
+            parent = this.get( 'parentView' );
 
         if ( typeof parent.unregisterChild === 'function' ) {
             parent.unregisterChild( this );
@@ -525,7 +525,7 @@ export default Ember.Component.extend({
         this.$().addClass( 'active' );
 
         var rootNode = this.get( 'rootNode' ),
-            path     = this.get( 'path' ),
+            path = this.get( 'path' ),
             action;
 
         rootNode.sendAction( 'selectionMade', path );

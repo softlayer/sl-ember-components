@@ -66,7 +66,7 @@ export default SlGridCell.extend({
 
         if ( typeof sorted === 'boolean' ) {
             return 'column-' + (
-                sortAscending === true ? 'ascending' : 'descending'
+                sortAscending === true ? 'ascending': 'descending'
             );
         }
     }),

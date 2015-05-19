@@ -52,7 +52,7 @@ export default Ember.Component.extend( ModalMixin, {
      * @returns {undefined}
      */
     toggle: Ember.observer( 'show', function() {
-        this.$().modal( this.get( 'show' ) ? 'show' : 'hide' );
+        this.$().modal( this.get( 'show' ) ? 'show': 'hide' );
     }),
 
     // -------------------------------------------------------------------------

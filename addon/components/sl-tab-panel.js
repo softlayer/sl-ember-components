@@ -8,8 +8,8 @@ import layout from '../templates/components/sl-tab-panel';
  * @enum {String}
  */
 const ALIGNMENT = {
-    LEFT  : 'left',
-    RIGHT : 'right'
+    LEFT: 'left',
+    RIGHT: 'right'
 };
 export { ALIGNMENT };
 
@@ -107,7 +107,7 @@ export default Ember.Component.extend({
      */
     setupTabs: Ember.on( 'didInsertElement', function() {
         var initialTabName = this.get( 'initialTabName' ),
-            tabs           = Ember.A(),
+            tabs = Ember.A(),
             tabName;
 
         if ( !initialTabName ) {
@@ -121,9 +121,9 @@ export default Ember.Component.extend({
             tabName = this.getAttribute( 'data-tab-name' );
 
             tabs.push({
-                active : tabName === initialTabName,
-                label  : this.getAttribute( 'data-tab-label' ),
-                name   : tabName
+                active: tabName === initialTabName,
+                label: this.getAttribute( 'data-tab-label' ),
+                name: tabName
             });
         });
 

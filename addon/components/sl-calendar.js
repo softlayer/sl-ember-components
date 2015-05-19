@@ -64,7 +64,7 @@ export default Ember.Component.extend({
             }
 
             month = this.get( 'currentMonth' ) + monthMod;
-            year  = this.get( 'currentYear' );
+            year = this.get( 'currentYear' );
 
             while ( month < 1 ) {
                 month += 12;
@@ -77,8 +77,8 @@ export default Ember.Component.extend({
             }
 
             this.setProperties({
-                currentYear  : year,
-                currentMonth : month
+                currentYear: year,
+                currentMonth: month
             });
         },
 
@@ -127,8 +127,8 @@ export default Ember.Component.extend({
             }
 
             this.setProperties({
-                currentMonth : month,
-                viewMode     : 'days'
+                currentMonth: month,
+                viewMode: 'days'
             });
         },
 
@@ -161,8 +161,8 @@ export default Ember.Component.extend({
             }
 
             this.setProperties({
-                viewMode    : 'months',
-                currentYear : year
+                viewMode: 'months',
+                currentYear: year
             });
         }
     },
@@ -250,8 +250,8 @@ export default Ember.Component.extend({
      * @returns {Object}
      */
     contentDates: Ember.computed( 'content', 'dateValuePath', function() {
-        var content       = this.get( 'content' ),
-            dates         = {},
+        var content = this.get( 'content' ),
+            dates = {},
             dateValuePath = this.get( 'dateValuePath' ),
             date,
             year,
@@ -358,8 +358,8 @@ export default Ember.Component.extend({
         'contentDates', 'currentYear',
         function() {
             var contentDates = this.get( 'contentDates' ),
-                currentYear  = this.get( 'currentYear' ),
-                months       = [];
+                currentYear = this.get( 'currentYear' ),
+                months = [];
 
             for ( let month = 1; month <= 12; month++ ) {
                 months.push({
@@ -444,13 +444,13 @@ export default Ember.Component.extend({
     weeksInMonthView: Ember.computed(
         'contentDates', 'currentMonth', 'currentYear', 'daysInMonth',
         function() {
-            var contentDates               = this.get( 'contentDates' ),
-                currentMonth               = this.get( 'currentMonth' ),
-                currentYear                = this.get( 'currentYear' ),
-                daysInCurrentMonth         = this.get( 'daysInMonth' ),
+            var contentDates = this.get( 'contentDates' ),
+                currentMonth = this.get( 'currentMonth' ),
+                currentYear = this.get( 'currentYear' ),
+                daysInCurrentMonth = this.get( 'daysInMonth' ),
                 firstWeekdayOfCurrentMonth = ( new Date( currentYear, currentMonth - 1, 1 ) ).getDay(),
-                weeks                      = Ember.A(),
-                inNextMonth                = false,
+                weeks = Ember.A(),
+                inNextMonth = false,
                 previousMonth,
                 previousMonthYear,
                 previousMonthDays,
@@ -503,11 +503,11 @@ export default Ember.Component.extend({
                         contentDates[ year ][ month ].hasOwnProperty( day );
 
                     days.push({
-                        active  : isActive,
-                        content : isActive ? contentDates[ year ][ month ][ day ] : null,
-                        day     : day++,
-                        'new'   : inNextMonth,
-                        old     : inPreviousMonth
+                        active: isActive,
+                        content: isActive ? contentDates[ year ][ month ][ day ]: null,
+                        day: day++,
+                        'new': inNextMonth,
+                        old: inPreviousMonth
                     });
 
                     if ( inPreviousMonth ) {
@@ -549,15 +549,15 @@ export default Ember.Component.extend({
         'contentDates', 'decadeEnd', 'decadeStart',
         function() {
             var contentDates = this.get( 'contentDates' ),
-                decadeStart  = this.get( 'decadeStart' ),
-                decadeEnd    = this.get( 'decadeEnd' ),
-                years        = [];
+                decadeStart = this.get( 'decadeStart' ),
+                decadeEnd = this.get( 'decadeEnd' ),
+                years = [];
 
             for ( let year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
                 years.push({
-                    active : contentDates.hasOwnProperty( year ),
-                    'new'  : year > decadeEnd,
-                    old    : year < decadeStart,
+                    active: contentDates.hasOwnProperty( year ),
+                    'new': year > decadeEnd,
+                    old: year < decadeStart,
                     year
                 });
             }

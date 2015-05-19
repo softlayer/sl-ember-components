@@ -10,9 +10,9 @@ import layout from '../templates/components/sl-textarea';
  * @enum {String}
  */
 const DIRECTION = {
-    BACKWARD : 'backward',
-    FORWARD  : 'forward',
-    NONE     : 'none'
+    BACKWARD: 'backward',
+    FORWARD: 'forward',
+    NONE: 'none'
 };
 export { DIRECTION };
 
@@ -23,9 +23,9 @@ export { DIRECTION };
  * @enum {Boolean|String}
  */
 const SPELLCHECK = {
-    DEFAULT : 'default',
-    FALSE   : false,
-    TRUE    : true
+    DEFAULT: 'default',
+    FALSE: false,
+    TRUE: true
 };
 export { SPELLCHECK };
 
@@ -36,8 +36,8 @@ export { SPELLCHECK };
  * @enum {String}
  */
 const WRAP = {
-    HARD : 'hard',
-    SOFT : 'soft'
+    HARD: 'hard',
+    SOFT: 'soft'
 };
 export { WRAP };
 

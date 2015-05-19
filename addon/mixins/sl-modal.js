@@ -96,9 +96,9 @@ export default Ember.Mixin.create({
      */
     modalize: Ember.on( 'didInsertElement', function() {
         var modal = this.$().modal({
-            keyboard : true,
-            show     : this.get( 'show' ),
-            backdrop : this.get( 'backdrop' )
+            keyboard: true,
+            show: this.get( 'show' ),
+            backdrop: this.get( 'backdrop' )
         });
 
         modal.on( 'show.bs.modal', Ember.run.bind( this, this.showHandler ) );

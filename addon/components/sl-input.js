@@ -118,8 +118,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     typeahead;
 
                 typeahead = this.getInput().typeahead({
-                    highlight : true,
-                    hint      : true
+                    highlight: true,
+                    hint: true
                 }, {
                     displayKey: item => {
                         if ( item instanceof Object ) {
@@ -141,14 +141,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                                 searchCandidate = suggestion;
                             }
 
-                            return searchCandidate ? searchCandidate.match( pattern ) : false;
+                            return searchCandidate ? searchCandidate.match( pattern ): false;
                         }));
                     }
                 });
 
                 /* jshint ignore:start */
                 var selectItem = ( event, item ) => {
-                    var value = item instanceof Object ? Ember.get( item, namePath ) : item;
+                    var value = item instanceof Object ? Ember.get( item, namePath ): item;
 
                     this.set( 'value', value );
                 };
