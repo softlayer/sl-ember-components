@@ -20,6 +20,9 @@ export default Ember.Component.extend({
      */
     tagName: 'div',
 
+    /** @type {Array} */
+    classNameBindings: [ 'className' ],
+
     /**
      * Class names for the root element
      *
@@ -338,11 +341,11 @@ export default Ember.Component.extend({
     children: null,
 
     /**
-     * Additional class names to be added to the classNames attribute
+     * Additional class string to be added to the element's class attribute
      *
-     * @type {String[]}
+     * @type {String}
      */
-    extraClassNames: [],
+    className: '',
 
     /**
      * @property {boolean} isRoot
@@ -400,22 +403,6 @@ export default Ember.Component.extend({
      */
     initChildren: function() {
         this.set( 'children', [] );
-    }.on( 'init' ),
-
-    /**
-     * Initialize initClassNames array
-     *
-     * @function initClassNames
-     * @observes init
-     * @returns {undefined}
-     */
-    initClassNames: function() {
-        var classNames = this.get( 'classNames' ),
-            extraClassNames = this.get( 'extraClassNames' );
-
-        if ( !Ember.isNone( extraClassNames ) ) {
-            classNames.push.apply(classNames, extraClassNames);
-        }
     }.on( 'init' ),
 
     /**

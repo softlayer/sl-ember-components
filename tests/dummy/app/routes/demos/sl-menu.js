@@ -5,7 +5,7 @@ export default Ember.Route.extend({
 
     model: function() {
         return  Ember.Object.create({ label: null, pages: [
-            Ember.Object.create({ label: 'Colors', classNames: [ 'current' ], pages: [
+            Ember.Object.create({ label: 'Colors', className: 'current', pages: [
                 Ember.Object.create({ label: 'Red', action: function() { alert( 'The color RED' ); }}),
                 Ember.Object.create({ label: 'Green', action: function() { alert( 'The color GREEN' ); }}),
                 Ember.Object.create({ label: 'Blue', action: function() { alert( 'The color BLUE' ); }})
