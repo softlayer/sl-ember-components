@@ -7,7 +7,7 @@ var clickCounter = 0,
     modelStub = {
         label: null,
         pages: [
-            { label: 'Top Level A', className: 'class1 class2', pages: [
+            { label: 'Top Level A', extraClassNames: [ 'class1', 'class2' ], pages: [
                 { label: 'Option A1', action: 'MyAction' },
                 { label: 'Option A2', action: function() { clickCounter = 0; clickCounter++; }},
                 { label: 'Option A3', action: { actionName: 'MyAction', data: { name: 'Joe' }}},
