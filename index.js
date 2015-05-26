@@ -39,8 +39,8 @@ module.exports = {
         });
 
         app.import({
-            development : 'bower_components/select2/select2.js',
-            production  : 'bower_components/select2/select2.min.js'
+            development : 'bower_components/select2/dist/js/select2.js',
+            production  : 'bower_components/select2/dist/js/select2.min.js'
         });
 
         app.import({
