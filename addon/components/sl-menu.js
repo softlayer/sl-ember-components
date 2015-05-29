@@ -358,7 +358,7 @@ export default Ember.Component.extend({
         if ( !Ember.isNone( extraClassNames ) ) {
             return extraClassNames.join( ' ' );
         } else {
-            return [];
+            return '';
         }
     }.property( 'extraClassNames' ),
 
