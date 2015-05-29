@@ -353,13 +353,14 @@ export default Ember.Component.extend({
      * @type {String}
      */
     extraClassNamesString: function() {
-        var extraClassNames = this.get( 'extraClassNames' );
+        var extraClassNames = this.get( 'extraClassNames' ),
+            extraClassNamesString = '';
 
         if ( !Ember.isNone( extraClassNames ) ) {
-            return extraClassNames.join( ' ' );
-        } else {
-            return '';
+            extraClassNamesString = extraClassNames.join( ' ' );
         }
+
+        return extraClassNamesString;
     }.property( 'extraClassNames' ),
 
     /**
