@@ -20,6 +20,9 @@ export default Ember.Component.extend({
      */
     tagName: 'div',
 
+    /** @type {String[]} */
+    classNameBindings: [ 'extraClassNamesString' ],
+
     /**
      * Class names for the root element
      *
@@ -338,7 +341,7 @@ export default Ember.Component.extend({
     children: null,
 
     /**
-     * Additional class names to be added to the classNames attribute
+     * Array of classes to be added to the element's class attribute
      *
      * @type {String[]}
      */
@@ -400,22 +403,6 @@ export default Ember.Component.extend({
      */
     initChildren: function() {
         this.set( 'children', [] );
-    }.on( 'init' ),
-
-    /**
-     * Initialize initClassNames array
-     *
-     * @function initClassNames
-     * @observes init
-     * @returns {undefined}
-     */
-    initClassNames: function() {
-        var classNames = this.get( 'classNames' ),
-            extraClassNames = this.get( 'extraClassNames' );
-
-        if ( !Ember.isNone( extraClassNames ) ) {
-            classNames.push.apply(classNames, extraClassNames);
-        }
     }.on( 'init' ),
 
     /**
@@ -569,6 +556,23 @@ export default Ember.Component.extend({
 
         return currentIndex;
     }.property().volatile(),
+
+    /**
+     * Additional class string to be added to the element's class attribute
+     *
+     * @function
+     * @returns {String}
+     */
+    extraClassNamesString: function() {
+        var extraClassNames = this.get( 'extraClassNames' ),
+            extraClassNamesString = '';
+
+        if ( !Ember.isNone( extraClassNames ) ) {
+            extraClassNamesString = extraClassNames.join( ' ' );
+        }
+
+        return extraClassNamesString;
+    }.property( 'extraClassNames' ),
 
     /**
      * Boolean representation of showAll property
