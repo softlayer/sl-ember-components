@@ -348,22 +348,6 @@ export default Ember.Component.extend({
     extraClassNames: [],
 
     /**
-     * Additional class string to be added to the element's class attribute
-     *
-     * @type {String}
-     */
-    extraClassNamesString: function() {
-        var extraClassNames = this.get( 'extraClassNames' ),
-            extraClassNamesString = '';
-
-        if ( !Ember.isNone( extraClassNames ) ) {
-            extraClassNamesString = extraClassNames.join( ' ' );
-        }
-
-        return extraClassNamesString;
-    }.property( 'extraClassNames' ),
-
-    /**
      * @property {boolean} isRoot
      * @default  true
      */
@@ -572,6 +556,23 @@ export default Ember.Component.extend({
 
         return currentIndex;
     }.property().volatile(),
+
+    /**
+     * Additional class string to be added to the element's class attribute
+     *
+     * @function
+     * @returns {String}
+     */
+    extraClassNamesString: function() {
+        var extraClassNames = this.get( 'extraClassNames' ),
+            extraClassNamesString = '';
+
+        if ( !Ember.isNone( extraClassNames ) ) {
+            extraClassNamesString = extraClassNames.join( ' ' );
+        }
+
+        return extraClassNamesString;
+    }.property( 'extraClassNames' ),
 
     /**
      * Boolean representation of showAll property
