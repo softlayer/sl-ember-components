@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-drop-option', 'Unit - component: sl-drop-option' );
+moduleForComponent( 'sl-drop-option', 'Unit | Component | sl-drop-option', {
+    unit: true
+});
 
 test( 'Has expected initial class name', function( assert ) {
     assert.ok(

@@ -2,7 +2,7 @@
 'use strict';
 
 var mergeTrees = require( 'broccoli-merge-trees' ),
-    pickFiles  = require( 'broccoli-static-compiler' );
+    pickFiles = require( 'broccoli-static-compiler' );
 
 module.exports = {
     name: 'sl-ember-components',
@@ -59,7 +59,7 @@ module.exports = {
 
             pickFiles( 'bower_components/fontawesome/fonts', {
                 srcDir  : '/',
-                files   : [ 'fontawesome-webfont.woff' ],
+                files   : [ 'fontawesome-webfont.woff2' ],
                 destDir : '/fonts'
             })
         ],

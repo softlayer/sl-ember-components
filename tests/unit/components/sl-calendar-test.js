@@ -1,12 +1,14 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-calendar', 'Unit - component: sl-calendar', {
+moduleForComponent( 'sl-calendar', 'Unit | Component | sl-calendar', {
     needs: [
         'component:sl-calendar-day',
         'component:sl-calendar-month',
         'component:sl-calendar-year'
-    ]
+    ],
+
+    unit: true
 });
 
 test( 'Default class name is present', function( assert ) {

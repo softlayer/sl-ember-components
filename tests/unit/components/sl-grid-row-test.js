@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-grid-row', 'Unit - component: sl-grid-row' );
+moduleForComponent( 'sl-grid-row', 'Unit | Component | sl-grid-row', {
+    unit: true
+});
 
 test( 'Active row class is supported', function( assert ) {
     var row = {};

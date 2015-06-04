@@ -2,12 +2,8 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
-moduleForComponent( 'sl-dialog', 'Unit - component: sl-dialog', {
-    afterEach() {
-        // These are done to make the test results page usable
-        //Ember.$( '.modal-backdrop' ).css( 'display', 'none' );
-        //Ember.$( '.modal-open' ).removeClass( 'modal-open' );
-    }
+moduleForComponent( 'sl-dialog', 'Unit | Component | sl-dialog', {
+    unit: true
 });
 
 test( 'Expected Mixins are present', function( assert ) {

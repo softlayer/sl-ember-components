@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-panel', 'Unit - component: sl-panel' );
+moduleForComponent( 'sl-panel', 'Unit | Component | sl-panel', {
+    unit: true
+});
 
 test( 'Default classes are present', function( assert ) {
     assert.ok(

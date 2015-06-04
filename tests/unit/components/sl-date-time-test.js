@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-date-time', 'Unit - component: sl-date-time' );
+moduleForComponent( 'sl-date-time', 'Unit | Component | sl-date-time', {
+    unit: true
+});
 
 test( 'Default class names are present', function( assert ) {
     this.subject({ timezone: 'America/Chicago' });

@@ -77,6 +77,10 @@
         The string format to show the datetime text in. Can be "date", "datetime", or "relative".
     {{/property-text}}
 
+    {{#property-text name="locale" type="string" default="\"en\""}}
+        The locale string to use for <em>moment</em> date formats.
+    {{/property-text}}
+
     {{#property-text name="value" type="mixed" default="now"}}
         The bound date value, parseable by moment.js. If not supplied, the current date and time is used.
     {{/property-text}}

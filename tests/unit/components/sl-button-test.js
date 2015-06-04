@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-button', 'Unit - component: sl-button' );
+moduleForComponent( 'sl-button', 'Unit | Component | sl-button', {
+    unit: true
+});
 
 test( 'Label changes for pending state', function( assert ) {
     var pendingText = 'Pending',

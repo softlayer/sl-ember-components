@@ -3,6 +3,19 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-date-time';
 
 /**
+ * Valid date format strings
+ *
+ * @memberof module:components/sl-date-time
+ * @enum {String}
+ */
+const FORMAT = {
+    DATE: 'date',
+    DATETIME: 'datetime',
+    RELATIVE: 'relative'
+};
+export { FORMAT };
+
+/**
  * @module
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
@@ -42,7 +55,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @type {String}
      */
-    format: 'datetime',
+    format: FORMAT.DATETIME,
+
+    /**
+     * @type {String}
+     */
+    locale: 'en',
 
     /**
      * String representing the full timezone name, as used by and interpreted by
@@ -80,8 +98,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {String}
      */
     datetime: Ember.computed( 'timezoneString', 'value', function() {
-        return window.moment( this.get( 'value' ) ).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString'
-        );
+        return window.moment( this.get( 'value' ) ).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
     }),
 
     /**
@@ -96,20 +113,20 @@ export default Ember.Component.extend( TooltipEnabled, {
             formattedString = '';
 
         switch ( this.get( 'format' ) ) {
-            case 'date':
+            case FORMAT.DATE:
                 formattedString = momentValue.format( 'YYYY-MM-DD' );
                 break;
 
-            case 'relative':
+            case FORMAT.RELATIVE:
                 formattedString = momentValue.fromNow();
                 break;
 
             default:
-            case 'datetime':
+            case FORMAT.DATETIME:
                 formattedString =
                     momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) +
                     ' ' +
-                    this.get( 'timezoneString' );
+                    this.get( 'timezoneString', 'en' );
         }
 
         return formattedString;
@@ -123,7 +140,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {Object}
      */
     momentValue: Ember.computed( 'value', function() {
-        return window.moment( this.get( 'value' ) );
+        return window.moment( this.get( 'value' ) ).locale( this.get( 'locale' ) );
     }),
 
     /**

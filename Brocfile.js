@@ -1,17 +1,17 @@
 /* jshint node: true */
 /* global require, module, process */
 
-var EmberAddon   = require( 'ember-cli/lib/broccoli/ember-addon' ),
-    replace      = require( 'broccoli-string-replace' ),
-    env          = require( './config/environment' ),
+var EmberAddon = require( 'ember-cli/lib/broccoli/ember-addon' ),
+    replace = require( 'broccoli-string-replace' ),
+    env = require( './config/environment' ),
     isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production',
-    app          = new EmberAddon({
+    app = new EmberAddon({
         fingerprint: {
-            enabled           : true,
-            exclude           : [],
-            extensions        : [ 'png', 'jpg', 'gif' ],
-            prepend           : env().baseAssetsURL,
-            replaceExtensions : [ 'html', 'css', 'js' ]
+            enabled: true,
+            exclude: [],
+            extensions: [ 'png', 'jpg', 'gif' ],
+            prepend: env().baseAssetsURL,
+            replaceExtensions: [ 'html', 'css', 'js' ]
         }
     }),
     tree;

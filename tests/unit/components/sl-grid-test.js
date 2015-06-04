@@ -12,7 +12,7 @@ var columns = Ember.A([
         { id: 15, name: 'Charlie' }
     ]);
 
-moduleForComponent( 'sl-grid', 'Unit - component: sl-grid', {
+moduleForComponent( 'sl-grid', 'Unit | Component | sl-grid', {
     needs: [
         'component:sl-button',
         'component:sl-drop-button',
@@ -20,7 +20,9 @@ moduleForComponent( 'sl-grid', 'Unit - component: sl-grid', {
         'component:sl-grid-column-header',
         'component:sl-grid-row',
         'component:sl-pagination'
-    ]
+    ],
+
+    unit: true
 });
 
 test( 'Default classes are present', function( assert ) {

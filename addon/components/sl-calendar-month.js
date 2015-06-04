@@ -51,6 +51,13 @@ export default Ember.Component.extend({
     active: false,
 
     /**
+     * The locale string to use for moment dates
+     *
+     * @type {String}
+     */
+    locale: 'en',
+
+    /**
      * The number of the month (1-12)
      *
      * @type {Number}
@@ -71,7 +78,9 @@ export default Ember.Component.extend({
      * @returns {String}
      */
     shortName: Ember.computed( 'month', function() {
-        return window.moment([ 1, this.get( 'month' ) - 1 ]).format( 'MMM' );
+        return window.moment([ 1, this.get( 'month' ) - 1 ])
+            .locale( this.get( 'locale' ) )
+            .format( 'MMM' );
     })
 
 });

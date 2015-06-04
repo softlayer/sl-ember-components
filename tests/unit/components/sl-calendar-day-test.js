@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-calendar-day', 'Unit - component: sl-calendar-day' );
+moduleForComponent( 'sl-calendar-day', 'Unit | Component | sl-calendar-day', {
+    unit: true
+});
 
 test( 'Default state of calendar-day is not active, new or old', function( assert ) {
     var component = this.subject();

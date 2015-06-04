@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-progress-bar', 'Unit - component: sl-progress-bar' );
+moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl-progress-bar', {
+    unit: true
+});
 
 test( 'isLowPercentage is only true when value < 50', function( assert ) {
     var component = this.subject({ value: 49 });

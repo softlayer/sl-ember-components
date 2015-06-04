@@ -3,7 +3,9 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
-moduleForComponent( 'sl-textarea', 'Unit - component: sl-textarea' );
+moduleForComponent( 'sl-textarea', 'Unit | Component | sl-textarea', {
+    unit: true
+});
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(

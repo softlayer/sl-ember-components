@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-pagination', 'Unit - component: sl-pagination' );
+moduleForComponent( 'sl-pagination', 'Unit | Component | sl-pagination', {
+    unit: true
+});
 
 test( 'Default classes are present', function( assert ) {
     assert.ok(

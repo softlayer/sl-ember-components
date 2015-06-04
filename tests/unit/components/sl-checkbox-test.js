@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-checkbox', 'Unit - component: sl-checkbox' );
+moduleForComponent( 'sl-checkbox', 'Unit | Component | sl-checkbox', {
+    unit: true
+});
 
 test( 'Has expected initial classes', function( assert ) {
     assert.ok( this.$().hasClass( 'checkbox' ), 'Has class "checkbox"' );

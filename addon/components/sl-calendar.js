@@ -202,6 +202,13 @@ export default Ember.Component.extend({
     dateValuePath: 'date',
 
     /**
+     * The locale string to use for moment date values
+     *
+     * @type {String}
+     */
+    locale: 'en',
+
+    /**
      * When true, the view mode is locked and users cannot navigate forward
      * and back
      *
@@ -289,16 +296,19 @@ export default Ember.Component.extend({
      *
      * @function
      * @observes currentMonth
+     * @observes currentYear
+     * @observes locale
      * @returns {String}
      */
     currentMonthString: Ember.computed(
         'currentMonth',
         'currentYear',
+        'locale',
         function() {
             return window.moment([
                 this.get( 'currentYear' ),
                 this.get( 'currentMonth' ) - 1
-            ]).format( 'MMMM' );
+            ]).locale( this.get( 'locale' ) ).format( 'MMMM' );
         }
     ),
 
@@ -306,7 +316,8 @@ export default Ember.Component.extend({
      * The number of days in the current month
      *
      * @function
-     * @observes currentMonth, currentYear
+     * @observes currentMonth
+     * @observes currentYear
      * @returns {Number}
      */
     daysInMonth: Ember.computed(
@@ -359,7 +370,7 @@ export default Ember.Component.extend({
         function() {
             var contentDates = this.get( 'contentDates' ),
                 currentYear = this.get( 'currentYear' ),
-                months = [];
+                months = Ember.A();
 
             for ( let month = 1; month <= 12; month++ ) {
                 months.push({
@@ -380,17 +391,20 @@ export default Ember.Component.extend({
      * An array of abbreviated, formatted day names of each week day
      *
      * @function
+     * @observes locale
      * @returns {ember/Array}
      */
-    shortWeekDayNames: Ember.computed( function() {
+    shortWeekDayNames: Ember.computed( 'locale', function() {
+        var m = window.moment().locale( this.get( 'locale' ) );
+
         return Ember.A([
-            window.moment().day( 0 ).format( 'dd' ),
-            window.moment().day( 1 ).format( 'dd' ),
-            window.moment().day( 2 ).format( 'dd' ),
-            window.moment().day( 3 ).format( 'dd' ),
-            window.moment().day( 4 ).format( 'dd' ),
-            window.moment().day( 5 ).format( 'dd' ),
-            window.moment().day( 6 ).format( 'dd' )
+            m.day( 0 ).format( 'dd' ),
+            m.day( 1 ).format( 'dd' ),
+            m.day( 2 ).format( 'dd' ),
+            m.day( 3 ).format( 'dd' ),
+            m.day( 4 ).format( 'dd' ),
+            m.day( 5 ).format( 'dd' ),
+            m.day( 6 ).format( 'dd' )
         ]);
     }),
 
@@ -471,7 +485,10 @@ export default Ember.Component.extend({
                 previousMonthYear = currentYear;
             }
 
-            previousMonthDays = window.moment([ previousMonthYear, previousMonth - 1 ]).daysInMonth();
+            previousMonthDays = window.moment([
+                previousMonthYear,
+                previousMonth - 1
+            ]).daysInMonth();
 
             if ( currentMonth === 12 ) {
                 nextMonth = 1;
@@ -551,7 +568,7 @@ export default Ember.Component.extend({
             var contentDates = this.get( 'contentDates' ),
                 decadeStart = this.get( 'decadeStart' ),
                 decadeEnd = this.get( 'decadeEnd' ),
-                years = [];
+                years = Ember.A();
 
             for ( let year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
                 years.push({

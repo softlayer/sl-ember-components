@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-grid-column-header', 'Unit - component: sl-grid-column-header' );
+moduleForComponent( 'sl-grid-column-header', 'Unit | Component | sl-grid-column-header', {
+    unit: true
+});
 
 test( 'Sortable column class is present when column is sortable', function( assert ) {
     var column = {};

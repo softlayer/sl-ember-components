@@ -23,14 +23,16 @@ var clickCounter = 0,
     },
     App;
 
-moduleForComponent( 'sl-menu', 'Unit - component: sl-menu', {
+moduleForComponent( 'sl-menu', 'Unit | Component | sl-menu', {
     beforeEach() {
         App = startApp();
     },
 
     afterEach() {
         Ember.run( App, App.destroy );
-    }
+    },
+
+    unit: true
 });
 
 test( '"children" property is an empty array on initialization', function( assert ) {

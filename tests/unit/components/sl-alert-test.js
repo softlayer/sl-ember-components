@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-alert', 'Unit - component: sl-alert' );
+moduleForComponent( 'sl-alert', 'Unit | Component | sl-alert', {
+    unit: true
+});
 
 test( 'ARIA role is applied', function( assert ) {
     assert.equal( this.$().attr( 'role' ), 'alert' );

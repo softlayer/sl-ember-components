@@ -41,7 +41,12 @@
                     <tr>
                         <td colspan="7">
                             {{#each month in monthsInYearView}}
-                                {{sl-calendar-month action="setMonth" active=month.active month=month.month}}
+                                {{sl-calendar-month
+                                    action="setMonth"
+                                    active=month.active
+                                    locale=locale
+                                    month=month.month
+                                }}
                             {{/each}}
                         </td>
                     </tr>
@@ -64,7 +69,13 @@
                     <tr>
                         <td colspan="7">
                             {{#each year in yearsInDecadeView}}
-                                {{sl-calendar-year action="setYear" active=year.active old=year.old new=year.new year=year.year}}
+                                {{sl-calendar-year
+                                    action="setYear"
+                                    active=year.active
+                                    old=year.old
+                                    new=year.new
+                                    year=year.year
+                                }}
                             {{/each}}
                         </td>
                     </tr>

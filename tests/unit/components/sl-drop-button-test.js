@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-drop-button', 'Unit - component: sl-drop-button', {
-    needs: [ 'component:sl-button' ]
+moduleForComponent( 'sl-drop-button', 'Unit | Component | sl-drop-button', {
+    needs: [ 'component:sl-button' ],
+
+    unit: true
 });
 
 test( 'Default classes are present', function( assert ) {

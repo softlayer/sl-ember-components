@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-radio', 'Unit - component: sl-radio' );
+moduleForComponent( 'sl-radio', 'Unit | Component | sl-radio', {
+    unit: true
+});
 
 test( 'Disabled state applies disabled class, and attribute to input', function( assert ) {
     this.subject({ disabled: true });

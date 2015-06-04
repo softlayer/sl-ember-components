@@ -4,7 +4,7 @@ import startApp from '../../helpers/start-app';
 
 var App;
 
-moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
+moduleForComponent( 'sl-tab-pane', 'Unit | Component | sl-tab-pane', {
     needs: [ 'component:sl-tab-panel' ],
 
     beforeEach() {
@@ -13,7 +13,9 @@ moduleForComponent( 'sl-tab-pane', 'Unit - component: sl-tab-pane', {
 
     afterEach() {
         Ember.run( App, App.destroy );
-    }
+    },
+
+    unit: true
 });
 
 test( 'Expected default classes are applied', function( assert ) {
