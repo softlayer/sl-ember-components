@@ -308,8 +308,7 @@ test( 'Pagination data is handled correctly', function( assert ) {
     );
 });
 
-// FIXME: This test acts very strangely...
-QUnit.skip( 'Window resize triggers updateHeight() with "auto" width', function( assert ) {
+test( 'Window resize triggers updateHeight() with "auto" width', function( assert ) {
     var component = this.subject({ columns, content, height: 'auto' }),
         spy;
 

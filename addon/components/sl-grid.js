@@ -485,6 +485,10 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     updateHeight: Ember.on( 'didInsertElement', function() {
+        if ( !this.$() ) {
+            return;
+        }
+
         var componentHeight = this.get( 'height' ),
             gridHeader = this.$( '.grid-header' ),
             detailHeader = this.$( '.detail-pane header' ),
