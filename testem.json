@@ -8,7 +8,7 @@
     "launch_in_dev": [
         "PhantomJS",
         "Chrome",
-        "IE8"
+        "IE8",
         "IE9",
         "IE10",
         "IE11",
