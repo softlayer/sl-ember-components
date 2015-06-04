@@ -15,6 +15,9 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
+    classNameBindings: [ 'extraClassNamesString' ],
+
+    /** @type {String[]} */
     classNames: [ 'sl-menu' ],
 
     /** @type {Object} */
@@ -289,6 +292,13 @@ export default Ember.Component.extend({
     children: null,
 
     /**
+     * Array of classes to be added to the element's class attribute
+     *
+     * @type {String[]}
+     */
+    extraClassNames: [],
+
+    /**
      * @type {Boolean}
      */
     isRoot: true,
@@ -328,6 +338,31 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Remove bound events and current menu state
+     *
+     * @function
+     * @listens willClearRender
+     * @returns {undefined}
+     */
+    destroyMenu: Ember.on( 'willClearRender', function() {
+        var keyEvents = this.get( 'keyEvents' ),
+            parent = this.get( 'parentView' );
+
+        if ( typeof parent.unregisterChild === 'function' ) {
+            parent.unregisterChild( this );
+        }
+
+        if ( keyEvents ) {
+            keyEvents.off( 'childSelected' )
+                .off( 'drillDown' )
+                .off( 'closeAll' )
+                .off( 'showAll' )
+                .off( 'cycleRootSelectionNext' )
+                .off( 'cycleRootSelectionPrevious' );
+        }
+    }),
 
     /**
      * Initialize children array
@@ -400,31 +435,6 @@ export default Ember.Component.extend({
         });
     }),
 
-    /**
-     * Remove bound events and current menu state
-     *
-     * @function
-     * @listens willClearRender
-     * @returns {undefined}
-     */
-    destroyMenu: Ember.on( 'willClearRender', function() {
-        var keyEvents = this.get( 'keyEvents' ),
-            parent = this.get( 'parentView' );
-
-        if ( typeof parent.unregisterChild === 'function' ) {
-            parent.unregisterChild( this );
-        }
-
-        if ( keyEvents ) {
-            keyEvents.off( 'childSelected' )
-                .off( 'drillDown' )
-                .off( 'closeAll' )
-                .off( 'showAll' )
-                .off( 'cycleRootSelectionNext' )
-                .off( 'cycleRootSelectionPrevious' );
-        }
-    }),
-
     // -------------------------------------------------------------------------
     // Methods
 
@@ -492,6 +502,23 @@ export default Ember.Component.extend({
 
         return currentIndex;
     }).volatile(),
+
+    /**
+     * Additional class string to be added to the element's class attribute
+     *
+     * @function
+     * @returns {String}
+     */
+    extraClassNamesString: Ember.computed( 'extraClassNames', function() {
+        var extraClassNames = this.get( 'extraClassNames' ),
+            extraClassNamesString = '';
+
+        if ( !Ember.isNone( extraClassNames ) ) {
+            extraClassNamesString = extraClassNames.join( ' ' );
+        }
+
+        return extraClassNamesString;
+    }),
 
     /**
      * Boolean representation of showAll property

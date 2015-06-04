@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-tab-panel', 'Unit - component: sl-tab-panel', {
-    needs: [ 'component:sl-tab-pane', 'template:components/sl-tab-pane' ]
+    needs: [ 'component:sl-tab-pane' ]
 });
 
 test( 'Expected default classes are applied', function( assert ) {

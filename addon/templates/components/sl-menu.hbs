@@ -5,7 +5,12 @@
 {{#if menu.pages}}
     <ul {{bind-attr class="view.isRoot:list-inline"}}>
         {{#each page in pages}}
-            {{sl-menu tagName="li" menu=page isRoot=false}}
+            {{sl-menu
+                extraClassNames=page.extraClassNames
+                isRoot=false
+                menu=page
+                tagName="li"
+            }}
         {{/each}}
 
         {{#if view.displayShowAll}}

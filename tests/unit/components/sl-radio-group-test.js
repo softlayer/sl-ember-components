@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-radio-group', 'Unit - component: sl-radio-group', {
-    needs: [ 'component:sl-radio', 'template:components/sl-radio' ]
+    needs: [ 'component:sl-radio' ]
 });
 
 test( 'The disabled state applies the disabled attribute and class', function( assert ) {

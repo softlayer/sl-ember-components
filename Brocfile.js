@@ -31,8 +31,17 @@ var EmberAddon   = require( 'ember-cli/lib/broccoli/ember-addon' ),
 
 // Development dependencies
 if ( !isProduction ) {
-    app.import( app.bowerDirectory + '/sinonjs/sinon.js', { type: 'test' } );
-    app.import( app.bowerDirectory + '/sinon-qunit/lib/sinon-qunit.js', { type: 'test' } );
+    app.import( app.bowerDirectory + '/sinonjs/sinon.js', {
+        type: 'test'
+    });
+
+    app.import( app.bowerDirectory + '/sinon-qunit/lib/sinon-qunit.js', {
+        type: 'test'
+    });
+
+    app.import( app.bowerDirectory + '/ember/ember-template-compiler.js', {
+        type: 'test'
+    });
 }
 
 tree = replace( app.toTree(), {
