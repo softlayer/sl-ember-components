@@ -1,16 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-
     actions: {
-
         sortColumn( column, ascending ) {
             this.setProperties({
                 sortAscending: ascending,
                 sortProperties: [ column.valuePath ]
             });
         }
-
     },
 
     columns: Ember.A([
@@ -30,5 +27,4 @@ export default Ember.ArrayController.extend({
             valuePath: 'email'
         }
     ])
-
 });

@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
         },
 
         sendLog() {
-            window.console.log( this.get( 'model.name' ) );
+            window.console.log( 'Model name:', this.get( 'model.name' ) );
         }
 
     },

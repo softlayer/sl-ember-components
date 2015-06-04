@@ -2,29 +2,29 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 
-var App;
+var columns = Ember.A([
+        { title: 'Name', valuePath: 'name' },
+        { title: 'ID', valuePath: 'id' }
+    ]),
+    content = Ember.A([
+        { id: 4, name: 'Alice' },
+        { id: 8, name: 'Bob' },
+        { id: 15, name: 'Charlie' }
+    ]);
 
 moduleForComponent( 'sl-grid', 'Unit - component: sl-grid', {
-
     needs: [
-        'component:sl-pagination',
-        'view:sl-grid-cell',
-        'view:sl-grid-column-header',
-        'view:sl-grid-row'
-    ],
-
-    beforeEach() {
-        App = startApp();
-    },
-
-    afterEach() {
-        Ember.run( App, App.destroy );
-    }
-
+        'component:sl-button',
+        'component:sl-drop-button',
+        'component:sl-grid-cell',
+        'component:sl-grid-column-header',
+        'component:sl-grid-row',
+        'component:sl-pagination'
+    ]
 });
 
 test( 'Default classes are present', function( assert ) {
-    this.subject({ columns: Ember.A(), content: Ember.A() });
+    this.subject({ columns, content });
 
     assert.ok(
         this.$().hasClass( 'sl-grid' ),
@@ -33,7 +33,7 @@ test( 'Default classes are present', function( assert ) {
 });
 
 test( 'Loading state adds loading class', function( assert ) {
-    var component = this.subject({ columns: Ember.A(), content: Ember.A() });
+    var component = this.subject({ columns, content });
 
     assert.strictEqual(
         this.$().hasClass( 'sl-loading' ),
@@ -53,17 +53,8 @@ test( 'Loading state adds loading class', function( assert ) {
 
 test( 'rowClick action binding is supported', function( assert ) {
     this.subject({
-        columns: Ember.A([{
-            title: 'Name',
-            valuePath: 'name'
-        }]),
-
-        content: Ember.A([
-            { name: 'Alice' },
-            { name: 'Bob' },
-            { name: 'Charlie' }
-        ]),
-
+        columns,
+        content,
         rowClick: 'test',
 
         targetObject: {
@@ -82,19 +73,14 @@ test( 'rowClick action binding is supported', function( assert ) {
 
 test( 'Sortable columns and sortColumn actions are supported', function( assert ) {
     this.subject({
+        content,
+        sortColumn: 'test',
+
         columns: Ember.A([{
             sortable: true,
             title: 'Name',
             valuePath: 'name'
         }]),
-
-        content: Ember.A([
-            { name: 'Alice' },
-            { name: 'Bob' },
-            { name: 'Charlie' },
-        ]),
-
-        sortColumn: 'test',
 
         targetObject: {
             test( column ) {
@@ -123,18 +109,7 @@ test( 'Only primary columns remain visible when detail-pane is open', function( 
             }
         ]),
 
-        content: Ember.A([
-            {
-                id: 4,
-                name: 'Alice'
-            }, {
-                id: 8,
-                name: 'Bob'
-            }, {
-                id: 15,
-                name: 'Charlie'
-            }
-        ]),
+        content,
 
         detailPaneOpen: true
     });
@@ -153,24 +128,24 @@ test( 'Only primary columns remain visible when detail-pane is open', function( 
 });
 
 test( 'requestData action is triggered correctly in paginated mode', function( assert ) {
-    var expectedOffset = 1,
-        component = this.subject({
-            columns: Ember.A([ { title: 'Name', valuePath: 'name' } ]),
-            content: Ember.A([ { name: 'Alice' } ]),
-            pageSize: 1,
-            requestData: 'test',
-            totalCount: 2,
+    var expectedOffset = 1;
+    var component = this.subject({
+        columns,
+        content,
+        pageSize: 1,
+        requestData: 'test',
+        totalCount: 2,
 
-            targetObject: {
-                test( limit, offset ) {
-                    assert.equal(
-                        offset,
-                        expectedOffset,
-                        `Triggered page change with expected offset ${expectedOffset}`
-                    );
-                }
+        targetObject: {
+            test( limit, offset ) {
+                assert.equal(
+                    offset,
+                    expectedOffset,
+                    `Triggered page change with expected offset ${expectedOffset}`
+                );
             }
-        });
+        }
+    });
 
     assert.expect( 2 );
 
@@ -185,43 +160,178 @@ test( 'requestData action is triggered correctly in paginated mode', function( a
     this.$( '.previous-page-button' ).trigger( 'click' );
 });
 
-test( 'sortColumn action is triggered correctly', function( assert ) {
-    // register( fullName, factory, options )
-    App.registry.register( 'controller:test-detail', Ember.Controller.extend({
-        layout: '<p>Test content</p>'
-    }));
-
+test( 'Actions button label text is settable', function( assert ) {
     this.subject({
-        columns: Ember.A([ { title: 'Name', valuePath: 'name' } ]),
-        content: Ember.A([ { name: 'Alice' }, { name: 'Bob' } ]),
-        detailPath: 'test-detail',
-        sortColumn: 'test',
+        actionsButtonLabel: 'Test',
+        columns,
+        content,
+        showActions: true
+    });
+
+
+    assert.equal(
+        Ember.$.trim( this.$( 'td.actions-cell button' ).first().text() ),
+        'Test',
+        'Actions column header has expected title'
+    );
+});
+
+test( 'Auto height is enabled by default', function( assert ) {
+    var component = this.subject({ columns, content });
+
+    assert.equal(
+        component.get( 'height' ),
+        'auto',
+        'Default component height is "auto"'
+    );
+});
+
+test( 'Fixed height values are supported', function( assert ) {
+    var totalHeight;
+
+    this.subject({ columns, content, height: 1000 });
+    totalHeight = (
+        parseInt( this.$( '.grid-header' ).css( 'height' ) ) +
+        parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) ) +
+        parseInt( this.$( '.list-pane .content' ).css( 'height' ) ) +
+        parseInt( this.$( '.list-pane footer' ).css( 'height' ) )
+    );
+
+    assert.equal(
+        totalHeight,
+        1000,
+        'Total calculated height is expected value'
+    );
+});
+
+QUnit.skip( 'Paginated requestData is supported', function( assert ) {
+    this.subject({ columns, content });
+
+    // TODO
+});
+
+test( 'Continuous mode and requestData are supported', function( assert ) {
+    this.subject({
+        columns,
+        content,
+        continuous: true,
+        hasMoreData: true,
+        requestData: 'test',
 
         targetObject: {
-            test( column, ascending ) {
-                console.log( 'Sorting', column, ascending );
+            test() {
+                assert.strictEqual(
+                    arguments.length,
+                    0,
+                    'Continuous-enabled requestData fired as expected'
+                );
             }
         }
     });
 
-    console.log( this.$( 'th' ) );
+    Ember.run( () => {
+        this.$( '.list-pane .content' ).trigger( 'scroll' );
+    });
 });
 
-/* Things to test:
- * open/close detail pane action(s)
- * toggleFilterPane
- * actionsButtonLabel
- * continuous mode
- * pagination data
- * sub-template paths (detail-footer, detail-header, detail, filter, footer, header)
- * filterButtonLabel
- * height: "auto" vs. fixed
- * Continuous grid nextPageScrollPoint and action
- * showActions and detail controller actions bindings
- * handleNewContent unsets loading state when content data changes
- * window resize causes updateHeight() to fire when width is "auto"
- * totalPages is computed correctly
- * disable and enable continuous paging
- * handleListContentScroll() on list-pane scroll
- * requestMoreData binding
-*/
+test( 'handleNewContent unsets loading state when content data changes', function( assert ) {
+    var myContent = Ember.A(),
+        component = this.subject({ columns, content: myContent, loading: true });
+
+    this.render();
+
+    assert.ok(
+        component.get( 'loading' ),
+        'Initial loading can be set to true'
+    );
+
+    Ember.run( () => {
+        myContent.pushObject({ id: 1, name: 'Danielle' });
+    });
+
+    assert.equal(
+        component.get( 'loading' ),
+        false,
+        'Component is not in loading state after content update'
+    );
+});
+
+test( 'Total pages count is computed correctly', function( assert ) {
+    var component = this.subject({
+        columns,
+        content,
+        pageSize: 10,
+        totalCount: 999
+    });
+
+    assert.equal(
+        component.get( 'totalPages' ),
+        100,
+        'Total calculated pages is expected value'
+    );
+});
+
+test( 'Pagination data is handled correctly', function( assert ) {
+    var component = this.subject({
+        columns,
+        content,
+        pageSize: 1,
+        totalCount: content.length
+    });
+
+    assert.equal(
+        component.get( 'currentPage' ),
+        1,
+        'Initial currentPage is 1'
+    );
+
+    this.$( '.next-page-button' ).trigger( 'click' );
+
+    assert.equal(
+        component.get( 'currentPage' ),
+        2,
+        'Current page incremented correctly'
+    );
+
+    Ember.run( () => {
+        component.set( 'loading', false );
+    });
+
+    this.$( '.previous-page-button' ).trigger( 'click' );
+
+    assert.equal(
+        component.get( 'currentPage' ),
+        1,
+        'Current page decremented correctly'
+    );
+});
+
+// FIXME: This test acts very strangely...
+QUnit.skip( 'Window resize triggers updateHeight() with "auto" width', function( assert ) {
+    var component = this.subject({ columns, content, height: 'auto' }),
+        spy;
+
+    this.render();
+    spy = sinon.spy( component, 'updateHeight' );
+
+    assert.equal(
+        spy.calledOnce,
+        false,
+        'updateHeight() has not been called initially'
+    );
+
+    Ember.$( window ).trigger( 'resize' );
+
+    assert.equal(
+        spy.calledOnce,
+        true,
+        'updateHeight() is called after window resize'
+    );
+});
+
+// These tests require valid registered template paths for proper testing.
+QUnit.skip( 'Sub-template paths are determined correctly' );
+QUnit.skip( 'Toggling detail pane is supported' );
+QUnit.skip( 'Toggling filter pane is supported' );
+QUnit.skip( 'Bindings run for showActions and detail controller actions' );
+QUnit.skip( 'Filter button label text is settable' );

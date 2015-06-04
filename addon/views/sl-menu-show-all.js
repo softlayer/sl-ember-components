@@ -1,11 +1,16 @@
 import Ember from 'ember';
-import layout from '../templates/components/sl-menu';
 
 /**
  * @module
  * @augments ember/View
  */
 export default Ember.View.extend({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
 
     /**
      * HTML tag name of the root element
@@ -21,6 +26,12 @@ export default Ember.View.extend({
      */
     classNames: [ 'all' ],
 
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Actions
+
     /**
      * Method called on mouseenter event
      *
@@ -30,6 +41,12 @@ export default Ember.View.extend({
     mouseEnter() {
         this.send( 'showAll' );
     },
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    // -------------------------------------------------------------------------
+    // Observers
 
     /**
      * Target pointer to the parent view
@@ -41,5 +58,8 @@ export default Ember.View.extend({
     target: Ember.computed( 'parentView', function() {
         return this.get( 'parentView' );
     })
+
+    // -------------------------------------------------------------------------
+    // Methods
 
 });

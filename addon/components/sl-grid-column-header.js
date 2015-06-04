@@ -41,7 +41,7 @@ export default SlGridCell.extend({
      */
     click() {
         if ( this.get( 'column.sortable' ) === true ) {
-            this.sendAction( 'sortColumn', this.get( 'column' ) );
+            this.sendAction( 'onClick', this.get( 'column' ) );
         }
     },
 
@@ -59,38 +59,56 @@ export default SlGridCell.extend({
      *
      * @function
      * @observes column.sortAscending
+     * @observes column.sortable
      * @returns {?String}
      */
-    sortedClass: Ember.computed( 'column.sortAscending', function() {
-        var sortAscending = this.get( 'column.sortAscending' );
+    sortedClass: Ember.computed(
+        'column.sortAscending',
+        'column.sortable',
+        function() {
+            if ( !this.get( 'column.sortable' ) ) {
+                return;
+            }
 
-        if ( typeof sorted === 'boolean' ) {
-            return 'column-' + (
-                sortAscending === true ? 'ascending': 'descending'
-            );
+            var sortAscending = this.get( 'column.sortAscending' );
+
+            if ( Ember.typeOf( sortAscending ) === 'boolean' ) {
+                return 'column-' + (
+                    sortAscending ? 'ascending': 'descending'
+                );
+            }
         }
-    }),
+    ),
 
     /**
      * Class name string for the icon on a sortable column
      *
      * @function
      * @observes column.sortAscending
+     * @observes column.sortable
      * @returns {String}
      */
-    sortIconClass: Ember.computed( 'column.sortAscending', function() {
-        var sortAscending = this.get( 'column.sortAscending' ),
-            iconClass;
+    sortIconClass: Ember.computed(
+        'column.sortAscending',
+        'column.sortable',
+        function() {
+            if ( !this.get( 'column.sortable' ) ) {
+                return;
+            }
 
-        if ( sortAscending === true ) {
-            iconClass = 'fa-sort-asc';
-        } else if ( sortAscending === false ) {
-            iconClass = 'fa-sort-desc';
-        } else {
-            iconClass = 'fa-sort';
+            var sortAscending = this.get( 'column.sortAscending' ),
+                iconClass;
+
+            if ( sortAscending === true ) {
+                iconClass = 'fa-sort-asc';
+            } else if ( sortAscending === false ) {
+                iconClass = 'fa-sort-desc';
+            } else {
+                iconClass = 'fa-sort';
+            }
+
+            return iconClass;
         }
-
-        return iconClass;
-    })
+    )
 
 });

@@ -2,6 +2,28 @@ import Ember from 'ember';
 import layout from '../templates/components/sl-grid-cell';
 
 /**
+ * Valid alignment values for columns
+ */
+const COLUMN_ALIGN = {
+    LEFT: 'left',
+    RIGHT: 'right'
+};
+export { COLUMN_ALIGN };
+
+/**
+ * Valid size values for columns
+ *
+ * @memberof module:components/sl-grid-cell
+ * @enum {String}
+ */
+const COLUMN_SIZE = {
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
+};
+export { COLUMN_SIZE };
+
+/**
  * @module
  * @augments ember/Component
  */
@@ -34,6 +56,10 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Events
+
+    click() {
+        this.sendAction( 'onClick', this.get( 'row' ) );
+    },
 
     // -------------------------------------------------------------------------
     // Properties
@@ -68,6 +94,15 @@ export default Ember.Component.extend({
     alignmentClass: Ember.computed( 'column.align', function() {
         var align = this.get( 'column.align' );
 
+        if ( !align ) {
+            return;
+        }
+
+        Ember.assert(
+            `Error: Invalid column align value "${align}"`,
+            Object.keys( COLUMN_ALIGN ).map( ( key ) => COLUMN_ALIGN[ key ] ).indexOf( align ) > -1
+        );
+
         if ( align === 'right' ) {
             return 'text-right';
         }
@@ -82,7 +117,7 @@ export default Ember.Component.extend({
      */
     contentValue: Ember.computed( 'column', 'row', function() {
         return Ember.get(
-            this.get( 'row.model' ),
+            this.get( 'row.model' ) || this.get( 'row' ),
             this.get( 'column.valuePath' )
         );
     }),
@@ -98,6 +133,11 @@ export default Ember.Component.extend({
         var size = this.get( 'column.size' );
 
         if ( typeof size === 'string' ) {
+            Ember.assert(
+                `Error: Invalid column size value "${size}"`,
+                Object.keys( COLUMN_SIZE ).map( ( key ) => COLUMN_SIZE[ key ] ).indexOf( size ) > -1
+            );
+
             return 'column-' + size;
         }
     }),
@@ -112,7 +152,7 @@ export default Ember.Component.extend({
     style: Ember.computed( 'column.size', function() {
         var size = this.get( 'column.size' );
 
-        if ( typeof size === 'number' ) {
+        if ( Ember.typeOf( size ) === 'number' ) {
             return Ember.String.htmlSafe( `width: ${size}px;` );
         }
     })

@@ -119,7 +119,7 @@ export default Ember.Component.extend({
 
         var newCurrentPage = this.get( 'currentPage' ) + pageMod;
 
-        if ( newCurrentPage > -1 && newCurrentPage <= this.get( 'totalPages' ) ) {
+        if ( newCurrentPage > 0 && newCurrentPage <= this.get( 'totalPages' ) ) {
             this.set( 'currentPage', newCurrentPage );
 
             if ( this.get( 'changePage' ) ) {

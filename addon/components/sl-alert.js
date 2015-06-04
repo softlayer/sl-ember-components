@@ -33,7 +33,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     ariaRole: 'alert',
 
     /** @type {String[]} */
-    classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
+    classNameBindings: [
+        'themeClassName',
+        'dismissable:alert-dismissable'
+    ],
 
     /** @type {String[]} */
     classNames: [ 'alert', 'sl-alert' ],

@@ -32,13 +32,7 @@
         <thead>
             <tr>
                 {{#each column in columns}}
-                    {{#sl-grid-column-header column=column}}
-                        {{log column.sortIconClass}}
-                        {{column.title}}
-                        {{#if column.sortable}}
-                            <i {{bind-attr class=":fa sortIconClass"}}></i>
-                        {{/if}}
-                    {{/sl-grid-column-header}}
+                    {{sl-grid-column-header column=column onClick="sortColumn"}}
                 {{/each}}
 
                 {{#if showActions}}
@@ -54,14 +48,26 @@
                 {{#each row in content itemController=detailPath}}
                     {{#sl-grid-row}}
                         {{#each column in columns}}
-                            {{sl-grid-cell column=column row=row}}
+                            {{sl-grid-cell
+                                column=column
+                                onClick="rowClick"
+                                row=row
+                            }}
                         {{/each}}
 
                         {{#if showActions}}
                             <td class="actions-cell">
-                                {{#sl-drop-button align="right" label=actionsButtonLabel size="small" theme="hover"}}
+                                {{#sl-drop-button
+                                    align="right"
+                                    label=actionsButtonLabel
+                                    size="small"
+                                    theme="hover"
+                                }}
                                     {{#each rowAction in row.rowActions}}
-                                        {{sl-drop-option action=rowAction.action label=rowAction.label}}
+                                        {{sl-drop-option
+                                            action=rowAction.action
+                                            label=rowAction.label
+                                        }}
                                     {{/each}}
                                 {{/sl-drop-button}}
                             </td>

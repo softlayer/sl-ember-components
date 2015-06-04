@@ -332,10 +332,10 @@ export default Ember.Component.extend({
      * @observes content
      * @returns {undefined}
      */
-    handleNewContent: Ember.observer( 'content', function() {
+    handleNewContent: Ember.observer( 'content.@each', function() {
         this.set( 'loading', false );
 
-        if ( !this.get( 'hasMorePages' ) ) {
+        if ( !this.get( 'hasMoreData' ) ) {
             this.disableContinuousPaging();
         }
     }),
@@ -363,7 +363,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     setupContinuousPaging: Ember.on( 'didInsertElement', function() {
-        if ( this.get( 'continuous' ) && this.get( 'hasMorePages' ) ) {
+        if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
             this.enableContinuousPaging();
         }
     }),
@@ -486,25 +486,35 @@ export default Ember.Component.extend({
      */
     updateHeight: Ember.on( 'didInsertElement', function() {
         var componentHeight = this.get( 'height' ),
-            gridHeaderHeight = parseInt(
-                this.$( '.grid-header' ).css( 'height' )
-            ),
-            detailHeaderHeight = parseInt(
-                this.$( '.detail-pane header' ).css( 'height' )
-            ),
-            detailFooterHeight = parseInt(
-                this.$( '.detail-pane footer' ).css( 'height' )
-            ) || 0,
-            listHeaderHeight = parseInt(
-                this.$( '.list-pane .column-headers' ).css( 'height' )
-            ),
-            listFooterHeight = parseInt(
-                this.$( '.list-pane footer' ).css( 'height' )
-            ),
+            gridHeader = this.$( '.grid-header' ),
+            detailHeader = this.$( '.detail-pane header' ),
+            detailFooter = this.$( '.detail-pane footer' ),
+            listHeader = this.$( '.list-pane .column-headers' ),
+            listFooter = this.$( '.list-pane footer' ),
             detailContentHeight,
+            detailFooterHeight,
+            detailHeaderHeight,
             filterPaneHeight,
+            gridHeaderHeight,
             listContentHeight,
+            listFooterHeight,
+            listHeaderHeight,
             maxHeight;
+
+        detailHeaderHeight = detailHeader ?
+            parseInt( detailHeader.css( 'height' ) ) : 0;
+
+        detailFooterHeight = detailFooter ?
+            parseInt( detailFooter.css( 'height' ) ) : 0;
+
+        gridHeaderHeight = gridHeader ?
+            parseInt( gridHeader.css( 'height' ) ) : 0;
+
+        listHeaderHeight = listHeader ?
+            parseInt( listHeader.css( 'height' ) ) : 0;
+
+        listFooterHeight = listFooter ?
+            parseInt( listFooter.css( 'height' ) ) : 0;
 
         if ( componentHeight === 'auto' ) {
             maxHeight = Ember.$( window ).innerHeight() -
@@ -570,9 +580,9 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     enableContinuousPaging() {
-        this.$( '.list-pane .content' ).bind( 'scroll',
-            this.handleListContentScroll.bind( this )
-        );
+        this.$( '.list-pane .content' ).bind( 'scroll', ( event ) => {
+            this.handleListContentScroll( event );
+        });
     },
 
     /**
@@ -601,7 +611,7 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean} - True if more content pages are available
      */
-    hasMorePages: Ember.computed( 'content.length', 'totalCount', function() {
+    hasMoreData: Ember.computed( 'content.length', 'totalCount', function() {
         return this.get( 'content.length' ) < this.get( 'totalCount' );
     }),
 
@@ -620,8 +630,10 @@ export default Ember.Component.extend({
         }
 
         Ember.set( row, 'active', true );
-        this.set( 'activeRecord', row );
-        this.set( 'detailPaneOpen', true );
+        this.setProperties({
+            activeRecord: row,
+            detailPaneOpen: true
+        });
         this.updateHeight();
     },
 
@@ -634,7 +646,7 @@ export default Ember.Component.extend({
     requestMoreData() {
         var nextPageScrollPoint = this.$( '.list-pane .content' )[ 0 ].scrollHeight;
 
-        if ( this.get( 'hasMorePages' ) ) {
+        if ( this.get( 'hasMoreData' ) ) {
             this.setProperties({
                 nextPageScrollPoint,
                 'loading': true
