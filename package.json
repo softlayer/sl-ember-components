@@ -7,7 +7,7 @@
         "build": "ember build",
         "jsdoc": "jsdoc -c jsdoc.json",
         "start": "ember server",
-        "test": "ember try:testall"
+        "test": "ember test"
     },
     "bugs": "https://github.com/softlayer/sl-ember-components/issues",
     "repository": {
