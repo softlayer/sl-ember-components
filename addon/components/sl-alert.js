@@ -49,16 +49,13 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * @type {Object}
-     * @namespace
-     * @ignore
      */
     actions: {
 
         /**
          * Trigger a bound "dismiss" action when the alert is dismissed
          *
-         * @function
-         * @member
+         * @function actions:dismiss
          * @returns {undefined}
          */
         dismiss() {
