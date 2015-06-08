@@ -84,7 +84,6 @@ export default Ember.Component.extend({
      * Whether the current page is the first page
      *
      * @function
-     * @observes currentPage
      * @returns {Boolean}
      */
     onFirstPage: Ember.computed( 'currentPage', function() {
@@ -95,7 +94,6 @@ export default Ember.Component.extend({
      * Whether the current page is the last page
      *
      * @function
-     * @observes currentPage, totalPages
      * @returns {Boolean}
      */
     onLastPage: Ember.computed( 'currentPage', 'totalPages', function() {

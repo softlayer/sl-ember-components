@@ -54,7 +54,6 @@ export default Ember.Component.extend({
      * Type of radio button; "radio-inline" when inline, "radio" default
      *
      * @function
-     * @observes inline
      * @returns {String}
      */
     radioType: Ember.computed( 'inline', function() {

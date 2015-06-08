@@ -88,7 +88,6 @@ export default Ember.Component.extend({
      * Class name string based on align property
      *
      * @function
-     * @observes content.align
      * @returns {?String}
      */
     alignmentClass: Ember.computed( 'column.align', function() {
@@ -112,7 +111,6 @@ export default Ember.Component.extend({
      * The value for the row's content, based on column's `valuePath` setting
      *
      * @function
-     * @observes column, row
      * @returns {?String}
      */
     contentValue: Ember.computed( 'column', 'row', function() {
@@ -126,7 +124,6 @@ export default Ember.Component.extend({
      * Class name string based on size string
      *
      * @function
-     * @observes column.size
      * @returns {?String}
      */
     sizeClass: Ember.computed( 'column.size', function() {
@@ -146,7 +143,6 @@ export default Ember.Component.extend({
      * Calculated style string based on column size
      *
      * @function
-     * @observes column.size
      * @returns {ember/String}
      */
     style: Ember.computed( 'column.size', function() {

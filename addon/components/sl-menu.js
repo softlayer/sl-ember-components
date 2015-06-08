@@ -524,7 +524,6 @@ export default Ember.Component.extend({
      * Boolean representation of showAll property
      *
      * @function
-     * @observes showAll
      * @returns {Boolean}
      */
     showAllBoolean: Ember.computed( 'showAll', function() {
@@ -535,7 +534,6 @@ export default Ember.Component.extend({
      * Whether to display the AllView view
      *
      * @function
-     * @observes isRoot, showAllBoolean
      * @returns {Boolean}
      */
     displayShowAll: Ember.computed( 'isRoot', 'showAllBoolean', function() {

@@ -49,7 +49,6 @@ export default Ember.Mixin.create({
      *
      * @function
      * @listens didInsertElement
-     * @observes popover, title
      * @throws {ember.assert}
      * @returns {undefined}
      */

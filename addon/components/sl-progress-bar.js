@@ -93,7 +93,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether the progress value is below a certain level
      *
      * @function
-     * @observes value
      * @returns {Boolean}
      */
     isLowPercentage: Ember.computed( 'value', function() {
@@ -104,7 +103,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Inline style string for progress bar element
      *
      * @function
-     * @observes value
      * @returns {ember/String}
      */
     styleString: Ember.computed( 'value', function() {
@@ -117,7 +115,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Element-specific class name for the Bootstrap "theme" style
      *
      * @function
-     * @observes theme
      * @returns {String}
      */
     themeClassName: Ember.computed( 'theme', function() {

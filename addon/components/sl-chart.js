@@ -145,7 +145,6 @@ export default Ember.Component.extend({
      * Updates the chart's series data
      *
      * @function
-     * @observes series
      * @returns {undefined}
      */
     updateData: Ember.observer( 'series', function() {
@@ -172,7 +171,6 @@ export default Ember.Component.extend({
      * Inline style containing height and width, required by Highcharts
      *
      * @function
-     * @observes height, width
      * @returns {String}
      */
     style: Ember.computed( 'height', 'width', function() {

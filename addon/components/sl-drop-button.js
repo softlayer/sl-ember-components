@@ -117,7 +117,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether the current "align" property is "right"
      *
      * @function
-     * @observes align
      * @returns {Boolean}
      */
     rightAligned: Ember.computed( 'align', function() {
@@ -128,7 +127,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The class value for the drop-button based on the current "theme"
      *
      * @function
-     * @observes theme
      * @returns {String}
      */
     themeClass: Ember.computed( 'theme', function() {

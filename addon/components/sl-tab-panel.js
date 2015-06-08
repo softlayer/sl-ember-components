@@ -134,7 +134,6 @@ export default Ember.Component.extend({
      * Sets the tab-content div height based on current contentHeight value
      *
      * @function
-     * @observes contentHeight
      * @returns {undefined}
      */
     updateContentHeight: Ember.observer( 'contentHeight', function() {
@@ -210,7 +209,6 @@ export default Ember.Component.extend({
      * The class determining how to align tabs
      *
      * @function
-     * @observes alignTabs
      * @returns {String}
      */
     tabAlignmentClass: Ember.computed( 'alignTabs', function() {

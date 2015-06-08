@@ -94,7 +94,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The date-time's value formatted as a datetime string
      *
      * @function
-     * @observes timezoneString, value
      * @returns {String}
      */
     datetime: Ember.computed( 'timezoneString', 'value', function() {
@@ -105,7 +104,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Formatted string based on value and supplied format
      *
      * @function
-     * @observes format, momentValue
      * @returns {String}
      */
     formattedValue: Ember.computed( 'format', 'momentValue', function() {
@@ -136,7 +134,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The component's current value wrapped in moment
      *
      * @function
-     * @observes value
      * @returns {Object}
      */
     momentValue: Ember.computed( 'value', function() {
@@ -147,7 +144,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Formatted timezone string based on component's timezone value
      *
      * @function
-     * @observes timezone, momentValue
      * @returns {String}
      */
     timezoneString: Ember.computed( 'timezone', 'momentValue', function() {

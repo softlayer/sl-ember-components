@@ -329,7 +329,6 @@ export default Ember.Component.extend({
      * Does cleanup for internal state when content length has changed
      *
      * @function
-     * @observes content
      * @returns {undefined}
      */
     handleNewContent: Ember.observer( 'content.@each', function() {
@@ -428,7 +427,6 @@ export default Ember.Component.extend({
      * Whether to show the pagination in the list-pane footer
      *
      * @function
-     * @observes continuous, totalPages
      * @returns {Boolean}
      */
     showPagination: Ember.computed( 'continuous', 'totalPages', function() {
@@ -460,7 +458,6 @@ export default Ember.Component.extend({
      * The total number of pages of bound content, based on pageSize
      *
      * @function
-     * @observes continuous, pageSize, totalCount
      * @returns {Number}
      */
     totalPages: Ember.computed(

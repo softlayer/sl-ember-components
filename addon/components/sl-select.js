@@ -246,7 +246,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Set data bound value based on changed value
      *
      * @function
-     * @observes content.@each, value
      * @returns {undefined}
      */
     valueChanged: Ember.observer( 'content.@each', 'value', function() {

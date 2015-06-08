@@ -48,7 +48,6 @@ export default Ember.Component.extend( ModalMixin, {
      * Observes the `show` value and appropriately shows or hides the dialog
      *
      * @function
-     * @observes show
      * @returns {undefined}
      */
     toggle: Ember.observer( 'show', function() {

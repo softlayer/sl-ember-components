@@ -58,8 +58,6 @@ export default SlGridCell.extend({
      * Class name string based on sorted property
      *
      * @function
-     * @observes column.sortAscending
-     * @observes column.sortable
      * @returns {?String}
      */
     sortedClass: Ember.computed(
@@ -84,9 +82,6 @@ export default SlGridCell.extend({
      * Class name string for the icon on a sortable column
      *
      * @function
-     * @observes column.sortAscending
-     * @observes column.sortable
-     * @returns {String}
      */
     sortIconClass: Ember.computed(
         'column.sortAscending',

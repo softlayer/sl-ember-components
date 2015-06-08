@@ -108,7 +108,6 @@ export default Ember.Component.extend({
      * current startDateValue
      *
      * @function
-     * @observes minDate, startDateValue
      * @returns {?Date|String} Defaults to null
      */
     earliestEndDate: Ember.computed( 'minDate', 'startDateValue', function() {
@@ -131,7 +130,6 @@ export default Ember.Component.extend({
      * current endDateValue
      *
      * @function
-     * @observes endDateValue, maxDate
      * @returns {Date|String} Defaults to null
      */
     latestStartDate: Ember.computed( 'endDateValue', 'maxDate', function() {

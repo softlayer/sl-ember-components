@@ -63,7 +63,6 @@ export default Ember.Component.extend({
      * "presentation" otherwise
      *
      * @function
-     * @observes label
      * @returns {String}
      */
     optionType: Ember.computed( 'label', function() {

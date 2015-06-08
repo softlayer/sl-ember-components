@@ -52,7 +52,6 @@ export default Ember.View.extend({
      * Target pointer to the parent view
      *
      * @function
-     * @observes parentView
      * @return {ember/View}
      */
     target: Ember.computed( 'parentView', function() {

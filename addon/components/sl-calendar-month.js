@@ -74,7 +74,6 @@ export default Ember.Component.extend({
      * The short string name of the represented month
      *
      * @function
-     * @observes month
      * @returns {String}
      */
     shortName: Ember.computed( 'month', function() {

@@ -250,7 +250,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Dynamically update the endDate value for the datepicker
      *
      * @function
-     * @observes endDate
      * @returns {undefined}
      */
     setEndDate: Ember.computed( 'endDate', function() {
@@ -261,7 +260,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Dynamically update the startDate value for the datepicker
      *
      * @function
-     * @observes startDate
      * @returns {undefined}
      */
     setStartDate: Ember.computed( 'startDate', function() {
