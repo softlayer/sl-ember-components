@@ -99,7 +99,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * It is preferred you use this to set your "default" text rather than
      * inactiveLabelText, which will take this value as a default.
      *
-     * @type {String}
+     * @type {?String}
      */
     label: null,
 
@@ -113,7 +113,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The text to display during AJAX activity
      *
-     * @type {String}
+     * @type {?String}
      */
     pendingLabel: null,
 

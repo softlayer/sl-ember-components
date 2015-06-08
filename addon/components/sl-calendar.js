@@ -176,7 +176,7 @@ export default Ember.Component.extend({
     /**
      * Array of date value objects
      *
-     * @type {Array}
+     * @type {Object[]}
      */
     content: [],
 

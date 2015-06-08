@@ -53,14 +53,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The input's label text
      *
-     * @type {String}
+     * @type {?String}
      */
     label: null,
 
     /**
      * The input's name property value
      *
-     * @type {String}
+     * @type {?String}
      */
     name: null
 

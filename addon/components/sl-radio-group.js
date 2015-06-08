@@ -78,7 +78,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The component's current value property
      *
-     * @type {String}
+     * @type {?String}
      */
     value: null,
 

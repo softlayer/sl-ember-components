@@ -67,7 +67,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The latest date that may be selected; all later dates will be disabled
      *
-     * @type {Date}
+     * @type {?Date}
      */
     endDate: null,
 
@@ -166,7 +166,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The earliest date that may be selected; all earlier dates will
      * be disabled
      *
-     * @type {Date}
+     * @type {?Date}
      */
     startDate: null,
 

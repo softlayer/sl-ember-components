@@ -57,7 +57,7 @@ export default Ember.Component.extend({
      * The various data representing the day (created and passed in through
      * sl-calendar)
      *
-     * @type {Object}
+     * @type {?Object}
      */
     content: null,
 

@@ -34,7 +34,7 @@ export default Ember.Component.extend({
     /**
      * The highchart instantiation
      *
-     * @type {Object}
+     * @type {?Object}
      */
     chart: null,
 
@@ -55,7 +55,7 @@ export default Ember.Component.extend({
     /**
      * The collection of series data for the chart
      *
-     * @type {?Array}
+     * @type {?Object[]}
      */
     series: null,
 
