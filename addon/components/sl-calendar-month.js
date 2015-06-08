@@ -60,7 +60,7 @@ export default Ember.Component.extend({
     /**
      * The number of the month (1-12)
      *
-     * @type {Number}
+     * @type {?Number}
      */
     month: null,
 
