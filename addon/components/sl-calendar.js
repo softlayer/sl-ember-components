@@ -183,14 +183,14 @@ export default Ember.Component.extend({
     /**
      * The currently selected/viewed month (1-12)
      *
-     * @type {Number}
+     * @type {?Number}
      */
     currentMonth: null,
 
     /**
      * The currently selected/viewed year
      *
-     * @type {Number}
+     * @type {?Number}
      */
     currentYear: null,
 
