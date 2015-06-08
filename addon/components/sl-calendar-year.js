@@ -66,7 +66,7 @@ export default Ember.Component.extend({
     /**
      * The year number this component represents
      *
-     * @type {Number}
+     * @type {?Number}
      */
     year: null
 
