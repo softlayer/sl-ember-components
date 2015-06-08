@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-date-time', 'Unit | Component | sl-date-time', {
+moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
     unit: true
 });
 

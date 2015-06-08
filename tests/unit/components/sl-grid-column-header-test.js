@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-grid-column-header', 'Unit | Component | sl-grid-column-header', {
+moduleForComponent( 'sl-grid-column-header', 'Unit | Component | sl grid column header', {
     unit: true
 });
 

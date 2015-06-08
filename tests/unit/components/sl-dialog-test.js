@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
-moduleForComponent( 'sl-dialog', 'Unit | Component | sl-dialog', {
+moduleForComponent( 'sl-dialog', 'Unit | Component | sl dialog', {
     unit: true
 });
 

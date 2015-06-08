@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-button', 'Unit | Component | sl-button', {
+moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
     unit: true
 });
 

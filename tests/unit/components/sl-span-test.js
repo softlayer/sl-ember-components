@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-span', 'Unit | Component | sl-span', {
+moduleForComponent( 'sl-span', 'Unit | Component | sl span', {
     needs: [ 'component:sl-loading-icon' ],
 
     unit: true

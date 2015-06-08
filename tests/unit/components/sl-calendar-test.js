@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-calendar', 'Unit | Component | sl-calendar', {
+moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     needs: [
         'component:sl-calendar-day',
         'component:sl-calendar-month',

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl-tab-panel', {
+moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
     needs: [ 'component:sl-tab-pane' ],
 
     unit: true

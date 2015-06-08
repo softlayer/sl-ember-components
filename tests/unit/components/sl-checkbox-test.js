@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-checkbox', 'Unit | Component | sl-checkbox', {
+moduleForComponent( 'sl-checkbox', 'Unit | Component | sl checkbox', {
     unit: true
 });
 

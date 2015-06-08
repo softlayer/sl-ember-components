@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-alert', 'Unit | Component | sl-alert', {
+moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
 });
 

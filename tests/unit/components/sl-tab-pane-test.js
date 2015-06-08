@@ -4,7 +4,7 @@ import startApp from '../../helpers/start-app';
 
 var App;
 
-moduleForComponent( 'sl-tab-pane', 'Unit | Component | sl-tab-pane', {
+moduleForComponent( 'sl-tab-pane', 'Unit | Component | sl tab pane', {
     needs: [ 'component:sl-tab-panel' ],
 
     beforeEach() {

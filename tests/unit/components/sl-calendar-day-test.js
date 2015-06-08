@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-calendar-day', 'Unit | Component | sl-calendar-day', {
+moduleForComponent( 'sl-calendar-day', 'Unit | Component | sl calendar day', {
     unit: true
 });
 

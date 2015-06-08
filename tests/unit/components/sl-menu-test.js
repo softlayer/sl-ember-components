@@ -23,7 +23,7 @@ var clickCounter = 0,
     },
     App;
 
-moduleForComponent( 'sl-menu', 'Unit | Component | sl-menu', {
+moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
     beforeEach() {
         App = startApp();
     },

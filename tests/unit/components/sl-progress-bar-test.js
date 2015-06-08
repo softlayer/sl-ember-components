@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl-progress-bar', {
+moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl progress bar', {
     unit: true
 });
 

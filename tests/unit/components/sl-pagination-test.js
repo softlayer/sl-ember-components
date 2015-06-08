@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-pagination', 'Unit | Component | sl-pagination', {
+moduleForComponent( 'sl-pagination', 'Unit | Component | sl pagination', {
     unit: true
 });
 

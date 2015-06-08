@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-radio-group', 'Unit | Component | sl-radio-group', {
+moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
     needs: [ 'component:sl-radio' ],
 
     unit: true
