@@ -141,7 +141,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The current label text for the button
      *
      * @function
-     * @observes label, pending, pendingLabel
      * @returns {String}
      */
     currentLabel: Ember.computed( 'label', 'pending', 'pendingLabel', function() {
@@ -162,7 +161,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Converted size string to Bootstrap button class
      *
      * @function
-     * @observes size
+     * @throws {Ember.assert}
      * @returns {?String} Defaults to undefined
      */
     sizeClass: Ember.computed( 'size', function() {
@@ -195,7 +194,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Converted theme string to Bootstrap button class
      *
      * @function
-     * @observes theme
+     * @throws {Ember.assert}
      * @returns {String} Defaults to "btn-default"
      */
     themeClass: Ember.computed( 'theme', function() {

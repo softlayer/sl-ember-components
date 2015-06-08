@@ -77,7 +77,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Whether to make the alert dismissable or not
      *
      * @type {Boolean}
-     * @default
      */
     dismissable: false,
 
@@ -85,7 +84,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The Bootstrap "theme" style to apply to the alert
      *
      * @type {THEME}
-     * @default
      */
     theme: THEME.INFO,
 
@@ -99,7 +97,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The generated Bootstrap "theme" style class for the alert
      *
      * @function
-     * @observes theme
      * @throws {ember.assert}
      * @returns {String} Defaults to "alert-info"
      */
