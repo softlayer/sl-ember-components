@@ -190,6 +190,11 @@ export default Ember.Component.extend({
     columns: [],
 
     /**
+     * @type {?Object[]}
+     */
+    content: null,
+
+    /**
      * Whether the grid's data should be handled by continuous-scrolling
      *
      * When this is false (default), then the grid will have pagination enabled.

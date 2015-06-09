@@ -4,21 +4,38 @@
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeMonth" -1}} class="prev"><span class="fa fa-angle-left"></span></th>
-                        <th {{action "setView" "months"}} colspan="5" class="datepicker-switch">{{currentMonthString}} {{currentYear}}</th>
-                        <th {{action "changeMonth" 1}}class="next"><span class="fa fa-angle-right"></span></th>
+                        <th {{action "changeMonth" -1}} class="prev">
+                            <span class="fa fa-angle-left"></span>
+                        </th>
+                        <th
+                            {{action "setView" "months"}}
+                            colspan="5"
+                            class="datepicker-switch"
+                        >
+                            {{currentMonthString}} {{currentYear}}
+                        </th>
+                        <th {{action "changeMonth" 1}} class="next">
+                            <span class="fa fa-angle-right"></span>
+                        </th>
                     </tr>
                     <tr>
-                        {{#each day in shortWeekDayNames}}
-                            <th class="dow">{{day}}</th>
+                        {{#each shortWeekDayNames as |dayName|}}
+                            <th class="dow">{{dayName}}</th>
                         {{/each}}
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each week in weeksInMonthView}}
+                    {{#each weeksInMonthView as |weekDays|}}
                         <tr>
-                            {{#each day in week}}
-                                {{sl-calendar-day action="sendDateContent" active=day.active content=day.content day=day.day new=day.new old=day.old}}
+                            {{#each weekDays as |day|}}
+                                {{sl-calendar-day
+                                    action="sendDateContent"
+                                    active=day.active
+                                    content=day.content
+                                    day=day.day
+                                    new=day.new
+                                    old=day.old
+                                }}
                             {{/each}}
                         </tr>
                     {{/each}}
@@ -32,15 +49,33 @@
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeYear" -1}} class="prev" style="visibility: visible;"><span class="fa fa-angle-left"></span></th>
-                        <th {{action "setView" "years"}} colspan="5" class="datepicker-switch">{{currentYear}}</th>
-                        <th {{action "changeYear" 1}} class="next" style="visibility: visible;"><span class="fa fa-angle-right"></span></th>
+                        <th
+                            {{action "changeYear" -1}}
+                            class="prev"
+                            style="visibility: visible;"
+                        >
+                            <span class="fa fa-angle-left"></span>
+                        </th>
+                        <th
+                            {{action "setView" "years"}}
+                            class="datepicker-switch"
+                            colspan="5"
+                        >
+                            {{currentYear}}
+                        </th>
+                        <th
+                            {{action "changeYear" 1}}
+                            class="next"
+                            style="visibility: visible;"
+                        >
+                            <span class="fa fa-angle-right"></span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td colspan="7">
-                            {{#each month in monthsInYearView}}
+                            {{#each monthsInYearView as |month|}}
                                 {{sl-calendar-month
                                     action="setMonth"
                                     active=month.active
@@ -60,15 +95,29 @@
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeDecade" -1}} class="prev" style="visibility: visible;"><span class="fa fa-angle-left"></span></th>
-                        <th colspan="5" class="datepicker-switch">{{decadeStart}}-{{decadeEnd}}</th>
-                        <th {{action "changeDecade" 1}} class="next" style="visibility: visible;"><span class="fa fa-angle-right"></span></th>
+                        <th
+                            {{action "changeDecade" -1}} class="prev" style="visibility: visible;">
+                            <span class="fa fa-angle-left"></span>
+                        </th>
+                        <th
+                            class="datepicker-switch"
+                            colspan="5"
+                        >
+                            {{decadeStart}}-{{decadeEnd}}
+                        </th>
+                        <th
+                            {{action "changeDecade" 1}}
+                            class="next"
+                            style="visibility: visible;"
+                        >
+                            <span class="fa fa-angle-right"></span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td colspan="7">
-                            {{#each year in yearsInDecadeView}}
+                            {{#each yearsInDecadeView as |year|}}
                                 {{sl-calendar-year
                                     action="setYear"
                                     active=year.active

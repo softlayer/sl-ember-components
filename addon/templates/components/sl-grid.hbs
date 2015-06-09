@@ -31,7 +31,7 @@
     <table class="table column-headers">
         <thead>
             <tr>
-                {{#each column in columns}}
+                {{#each columns as |column|}}
                     {{sl-grid-column-header column=column onClick="sortColumn"}}
                 {{/each}}
 
@@ -45,9 +45,9 @@
     <div class="content">
         <table class="table table-hover table-striped">
             <tbody>
-                {{#each row in content itemController=detailPath}}
+                {{#each content itemController=detailPath as |row|}}
                     {{#sl-grid-row}}
-                        {{#each column in columns}}
+                        {{#each columns as |column|}}
                             {{sl-grid-cell
                                 column=column
                                 onClick="rowClick"
@@ -63,7 +63,7 @@
                                     size="small"
                                     theme="hover"
                                 }}
-                                    {{#each rowAction in row.rowActions}}
+                                    {{#each row.rowActions as |rowAction|}}
                                         {{sl-drop-option
                                             action=rowAction.action
                                             label=rowAction.label

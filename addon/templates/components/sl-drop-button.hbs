@@ -16,7 +16,7 @@
 
 <ul {{bind-attr class=":dropdown-menu rightAligned:dropdown-menu-right"}} role="menu">
     {{#if content}}
-        {{#each option in content}}
+        {{#each content as |option|}}
             {{sl-drop-option
                 action=option.action
                 icon=option.icon

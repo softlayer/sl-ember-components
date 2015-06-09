@@ -1,9 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
-
     actions: {
-
         rowClick( row ) {
             console.log( 'Clicked', row );
         },
@@ -14,7 +12,6 @@ export default Ember.ArrayController.extend({
                 'sortProperties': [ Ember.get( column, 'valuePath' ) ]
             });
         }
-
     },
 
     columns: Ember.A([
@@ -45,5 +42,4 @@ export default Ember.ArrayController.extend({
     },
 
     totalCount: 6
-
 });

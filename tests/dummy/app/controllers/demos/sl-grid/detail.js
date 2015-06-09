@@ -1,9 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-
     actions: {
-
         sendAlert() {
             window.alert( this.get( 'model.name' ) );
         },
@@ -11,7 +9,6 @@ export default Ember.Controller.extend({
         sendLog() {
             window.console.log( 'Model name:', this.get( 'model.name' ) );
         }
-
     },
 
     rowActions: Ember.A([
@@ -23,5 +20,4 @@ export default Ember.Controller.extend({
             label: 'Log'
         }
     ])
-
 });
