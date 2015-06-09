@@ -26,10 +26,14 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'tabAlignmentClass' ],
+    classNameBindings: [
+        'tabAlignmentClass'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'sl-tab-panel' ],
+    classNames: [
+        'sl-tab-panel'
+    ],
 
     /** @type {Object} */
     layout,
@@ -105,30 +109,32 @@ export default Ember.Component.extend({
      * @listens didInsertElement
      * @returns {undefined}
      */
-    setupTabs: Ember.on( 'didInsertElement', function() {
-        var initialTabName = this.get( 'initialTabName' ),
-            tabs = Ember.A(),
-            tabName;
+    setupTabs: Ember.on(
+        'didInsertElement',
+        function() {
+            var initialTabName = this.get( 'initialTabName' );
+            var tabs = Ember.A();
 
-        if ( !initialTabName ) {
-            initialTabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
-        }
+            if ( !initialTabName ) {
+                initialTabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
+            }
 
-        this.setActiveTab( initialTabName );
-        this.activatePane( initialTabName );
+            this.setActiveTab( initialTabName );
+            this.activatePane( initialTabName );
 
-        this.$( '.tab-pane' ).each( function() {
-            tabName = this.getAttribute( 'data-tab-name' );
+            this.$( '.tab-pane' ).each( function() {
+                var tabName = this.getAttribute( 'data-tab-name' );
 
-            tabs.push({
-                active: tabName === initialTabName,
-                label: this.getAttribute( 'data-tab-label' ),
-                name: tabName
+                tabs.push({
+                    active: tabName === initialTabName,
+                    label: this.getAttribute( 'data-tab-label' ),
+                    name: tabName
+                });
             });
-        });
 
-        this.set( 'tabs', tabs );
-    }),
+            this.set( 'tabs', tabs );
+        }
+    ),
 
     /**
      * Sets the tab-content div height based on current contentHeight value
@@ -136,9 +142,12 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-    updateContentHeight: Ember.observer( 'contentHeight', function() {
-        this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
-    }),
+    updateContentHeight: Ember.observer(
+        'contentHeight',
+        function() {
+            this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -209,18 +218,23 @@ export default Ember.Component.extend({
      * The class determining how to align tabs
      *
      * @function
+     * @throws {ember.assert} Thrown if supplied `alignTabs` is a value not
+     *         defined in enum ALIGNMENT
      * @returns {String}
      */
-    tabAlignmentClass: Ember.computed( 'alignTabs', function() {
-        var alignTabs = this.get( 'alignTabs' );
+    tabAlignmentClass: Ember.computed(
+        'alignTabs',
+        function() {
+            var alignTabs = this.get( 'alignTabs' );
 
-        Ember.assert(
-            `Error: Invalid alignTabs property value "${alignTabs}"`,
-            Object.keys( ALIGNMENT ).map( ( key ) => ALIGNMENT[ key ] ).indexOf( alignTabs ) > -1
-        );
+            Ember.assert(
+                `Error: Invalid alignTabs property value "${alignTabs}"`,
+                Object.keys( ALIGNMENT ).map( ( key ) => ALIGNMENT[ key ] ).indexOf( alignTabs ) > -1
+            );
 
-        return `sl-align-tabs-${alignTabs}`;
-    }),
+            return `sl-align-tabs-${alignTabs}`;
+        }
+    ),
 
     /**
      * Get the tab with the specified tabName

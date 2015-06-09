@@ -17,10 +17,14 @@ export default Ember.Component.extend({
     ariaRole: 'menuitem',
 
     /** @type {String[]} */
-    classNameBindings: [ 'optionType' ],
+    classNameBindings: [
+        'optionType'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'sl-drop-option' ],
+    classNames: [
+        'sl-drop-option'
+    ],
 
     /** @type {Object} */
     layout,
@@ -65,8 +69,11 @@ export default Ember.Component.extend({
      * @function
      * @returns {String}
      */
-    optionType: Ember.computed( 'label', function() {
-        return this.get( 'label' ) ? 'presentation': 'divider';
-    })
+    optionType: Ember.computed(
+        'label',
+        function() {
+            return this.get( 'label' ) ? 'presentation': 'divider';
+        }
+    )
 
 });

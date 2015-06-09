@@ -13,7 +13,10 @@ export default Ember.Mixin.create({
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [ 'data-toggle', 'title' ],
+    attributeBindings: [
+        'data-toggle',
+        'title'
+    ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -49,17 +52,21 @@ export default Ember.Mixin.create({
      *
      * @function
      * @listens didInsertElement
-     * @throws {ember.assert}
      * @returns {undefined}
      */
-    enable: Ember.observer( 'popover', 'title',
-        Ember.on( 'didInsertElement', function() {
-            if ( this.get( 'popover' ) ) {
-                this.enablePopover();
-            } else if ( this.get( 'title' ) ) {
-                this.enableTooltip();
+    enable: Ember.observer(
+        'popover',
+        'title',
+        Ember.on(
+            'didInsertElement',
+            function() {
+                if ( this.get( 'popover' ) ) {
+                    this.enablePopover();
+                } else if ( this.get( 'title' ) ) {
+                    this.enableTooltip();
+                }
             }
-        })
+        )
     ),
 
     // -------------------------------------------------------------------------
@@ -75,7 +82,7 @@ export default Ember.Mixin.create({
         var popover = this.get( 'popover' );
 
         // First-time rendering
-        if ( 'undefined' === typeof this.$().attr( 'data-original-title' ) ) {
+        if ( 'undefined' === Ember.typeOf( this.$().attr( 'data-original-title' ) ) ) {
             this.set( 'data-toggle', 'popover' );
 
             this.$().popover({

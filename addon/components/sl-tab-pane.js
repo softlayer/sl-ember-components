@@ -14,10 +14,16 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [ 'data-tab-label', 'data-tab-name' ],
+    attributeBindings: [
+        'data-tab-label',
+        'data-tab-name'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'sl-tab-pane', 'tab-pane' ],
+    classNames: [
+        'sl-tab-pane',
+        'tab-pane'
+    ],
 
     /** @type {Object} */
     layout,
@@ -37,14 +43,14 @@ export default Ember.Component.extend({
     /**
      * Alias to `label`; data attribute binding for the `label` property
      *
-     * @type {?String}
+     * @type {module:components/sl-tab-pane~label}
      */
     'data-tab-label': Ember.computed.alias( 'label' ),
 
     /**
      * Alias to `name`; data attribute binding for the `name` property
      *
-     * @type {?String}
+     * @type {module:components/sl-tab-pane~name}
      */
     'data-tab-name': Ember.computed.alias( 'name' ),
 

@@ -13,7 +13,12 @@ export default Ember.Mixin.create({
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'disabled', 'optional', 'readonly', 'required' ],
+    classNameBindings: [
+        'disabled',
+        'optional',
+        'readonly',
+        'required'
+    ],
 
     // -------------------------------------------------------------------------
     // Actions

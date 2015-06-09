@@ -56,7 +56,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    classNames: [ 'form-group', 'sl-textarea' ],
+    classNames: [
+        'form-group',
+        'sl-textarea'
+    ],
 
     /** @type {Object} */
     layout,

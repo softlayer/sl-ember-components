@@ -14,10 +14,14 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'active' ],
+    classNameBindings: [
+        'active'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'month' ],
+    classNames: [
+        'month'
+    ],
 
     /** @type {Object} */
     layout,
@@ -76,10 +80,13 @@ export default Ember.Component.extend({
      * @function
      * @returns {String}
      */
-    shortName: Ember.computed( 'month', function() {
-        return window.moment([ 1, this.get( 'month' ) - 1 ])
-            .locale( this.get( 'locale' ) )
-            .format( 'MMM' );
-    })
+    shortName: Ember.computed(
+        'month',
+        function() {
+            return window.moment([ 1, this.get( 'month' ) - 1 ])
+                .locale( this.get( 'locale' ) )
+                .format( 'MMM' );
+        }
+    )
 
 });

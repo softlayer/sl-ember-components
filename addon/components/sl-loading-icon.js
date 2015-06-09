@@ -18,7 +18,9 @@ export default Ember.Component.extend({
     ],
 
     /** @type {String[]} */
-    classNames: [ 'sl-loading-icon' ],
+    classNames: [
+        'sl-loading-icon'
+    ],
 
     /** @type {String} */
     tagName: 'span',

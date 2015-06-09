@@ -39,10 +39,15 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'detailPaneOpen:details-open', 'loading:sl-loading' ],
+    classNameBindings: [
+        'detailPaneOpen:details-open',
+        'loading:sl-loading'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'sl-grid' ],
+    classNames: [
+        'sl-grid'
+    ],
 
     /** @type {Object} */
     layout,
@@ -68,8 +73,8 @@ export default Ember.Component.extend({
                 return;
             }
 
-            var limit = this.get( 'pageSize' ),
-                offset = limit * ( page - 1 );
+            let limit = this.get( 'pageSize' );
+            let offset = limit * ( page - 1 );
 
             this.set( 'loading', true );
             this.sendAction( 'requestData', limit, offset );
@@ -109,10 +114,10 @@ export default Ember.Component.extend({
                 return;
             }
 
-            var columnTitle = Ember.get( column, 'title' ),
-                sortedColumn = this.get( 'sortedColumn' ),
-                sortedColumnTitle = this.get( 'sortedColumnTitle' ),
-                sortDirection = this.get( 'sortDirection' );
+            let columnTitle = Ember.get( column, 'title' );
+            let sortedColumn = this.get( 'sortedColumn' );
+            let sortedColumnTitle = this.get( 'sortedColumnTitle' );
+            let sortDirection = this.get( 'sortDirection' );
 
             if ( sortedColumnTitle === columnTitle ) {
                 sortDirection = !sortDirection;
@@ -331,13 +336,16 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-    handleNewContent: Ember.observer( 'content.@each', function() {
-        this.set( 'loading', false );
+    handleNewContent: Ember.observer(
+        'content.@each',
+        function() {
+            this.set( 'loading', false );
 
-        if ( !this.get( 'hasMoreData' ) ) {
-            this.disableContinuousPaging();
+            if ( !this.get( 'hasMoreData' ) ) {
+                this.disableContinuousPaging();
+            }
         }
-    }),
+    ),
 
     /**
      * Setup the viewport-based auto sizing when `height` is "auto"
@@ -345,13 +353,16 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-    setupAutoHeight: Ember.on( 'didInsertElement', function() {
-        if ( this.get( 'height' ) === 'auto' ) {
-            Ember.$( window ).bind( 'resize', () => {
-                this.updateHeight();
-            });
+    setupAutoHeight: Ember.on(
+        'didInsertElement',
+        function() {
+            if ( this.get( 'height' ) === 'auto' ) {
+                Ember.$( window ).bind( 'resize', () => {
+                    this.updateHeight();
+                });
+            }
         }
-    }),
+    ),
 
     /**
      * Setup the "continuous paging" functionality, if the data set is
@@ -361,11 +372,14 @@ export default Ember.Component.extend({
      * @listens didInsertElement
      * @returns {undefined}
      */
-    setupContinuousPaging: Ember.on( 'didInsertElement', function() {
-        if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
-            this.enableContinuousPaging();
+    setupContinuousPaging: Ember.on(
+        'didInsertElement',
+        function() {
+            if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
+                this.enableContinuousPaging();
+            }
         }
-    }),
+    ),
 
     /**
      * Setup paths for the various sections within the split-grid
@@ -374,54 +388,57 @@ export default Ember.Component.extend({
      * @listens init
      * @returns {undefined}
      */
-    setupTemplates: Ember.on( 'init', function() {
-        var renderedName = this.get( '_parentView.renderedName' );
+    setupTemplates: Ember.on(
+        'init',
+        function() {
+            var renderedName = this.get( '_parentView.renderedName' );
 
-        if ( renderedName ) {
-            var registry = this.get( 'container._registry' ),
-                root = renderedName.replace( '.', '/' ) + '/',
-                detailFooterPath = root + 'detail-footer',
-                detailHeaderPath = root + 'detail-header',
-                detailPath = root + 'detail',
-                filterPath = root + 'filter',
-                footerPath = root + 'footer';
+            if ( renderedName ) {
+                let registry = this.get( 'container._registry' );
+                let root = renderedName.replace( '.', '/' ) + '/';
+                let detailFooterPath = root + 'detail-footer';
+                let detailHeaderPath = root + 'detail-header';
+                let detailPath = root + 'detail';
+                let filterPath = root + 'filter';
+                let footerPath = root + 'footer';
 
-            if (
-                !this.get( 'detailFooterPath' ) &&
-                registry.resolve( 'template:' + detailFooterPath )
-            ) {
-                this.set( 'detailFooterPath', detailFooterPath );
-            }
+                if (
+                    !this.get( 'detailFooterPath' ) &&
+                    registry.resolve( 'template:' + detailFooterPath )
+                ) {
+                    this.set( 'detailFooterPath', detailFooterPath );
+                }
 
-            if (
-                !this.get( 'detailHeaderPath' ) &&
-                registry.resolve( 'template:' + detailHeaderPath )
-            ) {
-                this.set( 'detailHeaderPath', detailHeaderPath );
-            }
+                if (
+                    !this.get( 'detailHeaderPath' ) &&
+                    registry.resolve( 'template:' + detailHeaderPath )
+                ) {
+                    this.set( 'detailHeaderPath', detailHeaderPath );
+                }
 
-            if (
-                !this.get( 'detailPath' ) &&
-                registry.resolve( 'template:' + detailPath )
-            ) {
-                this.set( 'detailPath', detailPath );
-            }
+                if (
+                    !this.get( 'detailPath' ) &&
+                    registry.resolve( 'template:' + detailPath )
+                ) {
+                    this.set( 'detailPath', detailPath );
+                }
 
-            if (
-                !this.get( 'filterPath' ) &&
-                registry.resolve( 'template:' + filterPath )
-            ) {
-                this.set( 'filterPath', filterPath );
-            }
+                if (
+                    !this.get( 'filterPath' ) &&
+                    registry.resolve( 'template:' + filterPath )
+                ) {
+                    this.set( 'filterPath', filterPath );
+                }
 
-            if (
-                !this.get( 'footerPath' ) &&
-                registry.resolve( 'template:' + footerPath )
-            ) {
-                this.set( 'footerPath', footerPath );
+                if (
+                    !this.get( 'footerPath' ) &&
+                    registry.resolve( 'template:' + footerPath )
+                ) {
+                    this.set( 'footerPath', footerPath );
+                }
             }
         }
-    }),
+    ),
 
     /**
      * Whether to show the pagination in the list-pane footer
@@ -429,11 +446,15 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean}
      */
-    showPagination: Ember.computed( 'continuous', 'totalPages', function() {
-        var totalPages = this.get( 'totalPages' );
+    showPagination: Ember.computed(
+        'continuous',
+        'totalPages',
+        function() {
+            var totalPages = this.get( 'totalPages' );
 
-        return !this.get( 'continuous' ) && totalPages && totalPages > 1;
-    }),
+            return !this.get( 'continuous' ) && totalPages && totalPages > 1;
+        }
+    ),
 
     /**
      * The currently sorted column definition
@@ -441,18 +462,22 @@ export default Ember.Component.extend({
      * @function
      * @returns {?Object} The definition for the currently sorted column
      */
-    sortedColumn: Ember.computed( 'columns', 'sortedColumnTitle', function() {
-        var columns = this.get( 'columns' ),
-            sortedColumnTitle = this.get( 'sortedColumnTitle' );
+    sortedColumn: Ember.computed(
+        'columns',
+        'sortedColumnTitle',
+        function() {
+            var sortedColumnTitle = this.get( 'sortedColumnTitle' );
 
-        if ( sortedColumnTitle ) {
-            for ( let i = 0; i < columns.length; i++ ) {
-                if ( Ember.get( columns[ i ], 'title' ) === sortedColumnTitle ) {
-                    return columns[ i ];
+            if ( sortedColumnTitle ) {
+                let columns = this.get( 'columns' );
+                for ( let i = 0; i < columns.length; i++ ) {
+                    if ( Ember.get( columns[ i ], 'title' ) === sortedColumnTitle ) {
+                        return columns[ i ];
+                    }
                 }
             }
         }
-    }),
+    ),
 
     /**
      * The total number of pages of bound content, based on pageSize
@@ -461,9 +486,15 @@ export default Ember.Component.extend({
      * @returns {Number|undefined}
      */
     totalPages: Ember.computed(
-        'continuous', 'pageSize', 'totalCount',
+        'continuous',
+        'pageSize',
+        'totalCount',
         function() {
-            if ( !this.get( 'continuous' ) ) {
+            if (
+                !this.get( 'continuous' ) &&
+                this.get( 'totalCount' ) &&
+                this.get( 'pageSize' )
+            ) {
                 return Math.ceil(
                     this.get( 'totalCount' ) / this.get( 'pageSize' )
                 );
@@ -481,66 +512,60 @@ export default Ember.Component.extend({
      * @listens didInsertElement
      * @returns {undefined}
      */
-    updateHeight: Ember.on( 'didInsertElement', function() {
-        if ( !this.$() ) {
-            return;
+    updateHeight: Ember.on(
+        'didInsertElement',
+        function() {
+            if ( !this.$() ) {
+                return;
+            }
+
+            let componentHeight = this.get( 'height' );
+            let gridHeader = this.$( '.grid-header' );
+            let detailHeader = this.$( '.detail-pane header' );
+            let detailFooter = this.$( '.detail-pane footer' );
+            let listHeader = this.$( '.list-pane .column-headers' );
+            let listFooter = this.$( '.list-pane footer' );
+
+            let detailHeaderHeight = detailHeader ?
+                parseInt( detailHeader.css( 'height' ) ) : 0;
+
+            let detailFooterHeight = detailFooter ?
+                parseInt( detailFooter.css( 'height' ) ) : 0;
+
+            let gridHeaderHeight = gridHeader ?
+                parseInt( gridHeader.css( 'height' ) ) : 0;
+
+            let listHeaderHeight = listHeader ?
+                parseInt( listHeader.css( 'height' ) ) : 0;
+
+            let listFooterHeight = listFooter ?
+                parseInt( listFooter.css( 'height' ) ) : 0;
+
+            let maxHeight = componentHeight;
+            if ( componentHeight === 'auto' ) {
+                maxHeight = Ember.$( window ).innerHeight() -
+                    this.$().position().top;
+            }
+
+            let detailContentHeight = maxHeight - gridHeaderHeight -
+                detailHeaderHeight - detailFooterHeight;
+
+            let listContentHeight = maxHeight - gridHeaderHeight -
+                listHeaderHeight - listFooterHeight;
+
+            if ( this.get( 'filterPaneOpen' ) ) {
+                let filterPaneHeight = parseInt(
+                    this.$( '.filter-pane' ).css( 'height' )
+                );
+
+                detailContentHeight -= filterPaneHeight;
+                listContentHeight -= filterPaneHeight;
+            }
+
+            this.$( '.detail-pane .content' ).height( detailContentHeight );
+            this.$( '.list-pane .content' ).height( listContentHeight );
         }
-
-        var componentHeight = this.get( 'height' ),
-            gridHeader = this.$( '.grid-header' ),
-            detailHeader = this.$( '.detail-pane header' ),
-            detailFooter = this.$( '.detail-pane footer' ),
-            listHeader = this.$( '.list-pane .column-headers' ),
-            listFooter = this.$( '.list-pane footer' ),
-            detailContentHeight,
-            detailFooterHeight,
-            detailHeaderHeight,
-            filterPaneHeight,
-            gridHeaderHeight,
-            listContentHeight,
-            listFooterHeight,
-            listHeaderHeight,
-            maxHeight;
-
-        detailHeaderHeight = detailHeader ?
-            parseInt( detailHeader.css( 'height' ) ) : 0;
-
-        detailFooterHeight = detailFooter ?
-            parseInt( detailFooter.css( 'height' ) ) : 0;
-
-        gridHeaderHeight = gridHeader ?
-            parseInt( gridHeader.css( 'height' ) ) : 0;
-
-        listHeaderHeight = listHeader ?
-            parseInt( listHeader.css( 'height' ) ) : 0;
-
-        listFooterHeight = listFooter ?
-            parseInt( listFooter.css( 'height' ) ) : 0;
-
-        if ( componentHeight === 'auto' ) {
-            maxHeight = Ember.$( window ).innerHeight() -
-                this.$().position().top;
-        } else {
-            maxHeight = componentHeight;
-        }
-
-        detailContentHeight = maxHeight - gridHeaderHeight -
-            detailHeaderHeight - detailFooterHeight;
-
-        listContentHeight = maxHeight - gridHeaderHeight -
-            listHeaderHeight - listFooterHeight;
-
-        if ( this.get( 'filterPaneOpen' ) ) {
-            filterPaneHeight = parseInt(
-                this.$( '.filter-pane' ).css( 'height' )
-            );
-            detailContentHeight -= filterPaneHeight;
-            listContentHeight -= filterPaneHeight;
-        }
-
-        this.$( '.detail-pane .content' ).height( detailContentHeight );
-        this.$( '.list-pane .content' ).height( listContentHeight );
-    }),
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -612,9 +637,13 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean} - True if more content pages are available
      */
-    hasMoreData: Ember.computed( 'content.length', 'totalCount', function() {
-        return this.get( 'content.length' ) < this.get( 'totalCount' );
-    }),
+    hasMoreData: Ember.computed(
+        'content.length',
+        'totalCount',
+        function() {
+            return this.get( 'content.length' ) < this.get( 'totalCount' );
+        }
+    ),
 
     /**
      * Open the detail-pane with a specific row object
@@ -645,12 +674,13 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     requestMoreData() {
-        var nextPageScrollPoint = this.$( '.list-pane .content' )[ 0 ].scrollHeight;
-
         if ( this.get( 'hasMoreData' ) ) {
+            let nextPageScrollPoint = this.$( '.list-pane .content' )[ 0 ]
+                .scrollHeight;
+
             this.setProperties({
-                nextPageScrollPoint,
-                'loading': true
+                'loading': true,
+                nextPageScrollPoint
             });
 
             this.sendAction( 'requestData' );

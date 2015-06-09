@@ -14,7 +14,9 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNames: [ 'sl-date-range-picker' ],
+    classNames: [
+        'sl-date-range-picker'
+    ],
 
     /** @type {Object} */
     layout,
@@ -81,13 +83,15 @@ export default Ember.Component.extend({
      * @listens didInsertElement
      * @returns {undefined}
      */
-    setupFocusTransition: Ember.on( 'didInsertElement', function() {
-        var endDateInput = this.$( '.sl-daterange-end-date input' );
+    setupFocusTransition: Ember.on(
+        'didInsertElement',
+        function() {
+            var endDateInput = this.$( '.sl-daterange-end-date input' );
 
-        this.$( '.sl-daterange-start-date input' ).on( 'change', function() {
-            endDateInput.focus();
-        });
-    }),
+            this.$( '.sl-daterange-start-date input' ).on( 'change', () => {
+                endDateInput.focus();
+            });
+        }),
 
     /**
      * Remove events
@@ -96,9 +100,12 @@ export default Ember.Component.extend({
      * @listens willClearRender
      * @returns {undefined}
      */
-    unregisterEvents: Ember.on( 'willClearRender', function() {
-        this.$( '.sl-daterange-start-date input' ).off();
-    }),
+    unregisterEvents: Ember.on(
+        'willClearRender',
+        function() {
+            this.$( '.sl-daterange-start-date input' ).off();
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -110,20 +117,24 @@ export default Ember.Component.extend({
      * @function
      * @returns {?Date|String} Defaults to null
      */
-    earliestEndDate: Ember.computed( 'minDate', 'startDateValue', function() {
-        var minDate = this.get( 'minDate' ),
-            startDateValue = this.get( 'startDateValue' );
+    earliestEndDate: Ember.computed(
+        'minDate',
+        'startDateValue',
+        function() {
+            var minDate = this.get( 'minDate' );
+            var startDateValue = this.get( 'startDateValue' );
 
-        if ( startDateValue ) {
-            return startDateValue;
+            if ( startDateValue ) {
+                return startDateValue;
+            }
+
+            if ( minDate ) {
+                return minDate;
+            }
+
+            return null;
         }
-
-        if ( minDate ) {
-            return minDate;
-        }
-
-        return null;
-    }),
+    ),
 
     /**
      * The latest selectable startDate, based on maxDate and
@@ -132,19 +143,23 @@ export default Ember.Component.extend({
      * @function
      * @returns {Date|String} Defaults to null
      */
-    latestStartDate: Ember.computed( 'endDateValue', 'maxDate', function() {
-        var endDateValue = this.get( 'endDateValue' ),
-            maxDate = this.get( 'maxDate' );
+    latestStartDate: Ember.computed(
+        'endDateValue',
+        'maxDate',
+        function() {
+            var endDateValue = this.get( 'endDateValue' );
+            var maxDate = this.get( 'maxDate' );
 
-        if ( endDateValue ) {
-            return endDateValue;
+            if ( endDateValue ) {
+                return endDateValue;
+            }
+
+            if ( maxDate ) {
+                return maxDate;
+            }
+
+            return null;
         }
-
-        if ( maxDate ) {
-            return maxDate;
-        }
-
-        return null;
-    })
+    )
 
 });

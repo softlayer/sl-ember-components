@@ -13,10 +13,14 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'loading:sl-loading' ],
+    classNameBindings: [
+        'loading:sl-loading'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'panel', 'panel-default', 'sl-panel' ],
+    classNames: [
+        'panel', 'panel-default', 'sl-panel'
+    ],
 
     /** @type {Object} */
     layout,

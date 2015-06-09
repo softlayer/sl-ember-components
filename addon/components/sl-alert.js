@@ -39,7 +39,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     ],
 
     /** @type {String[]} */
-    classNames: [ 'alert', 'sl-alert' ],
+    classNames: [
+        'alert',
+        'sl-alert'
+    ],
 
     /** @type {Object} */
     layout,
@@ -94,18 +97,22 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The generated Bootstrap "theme" style class for the alert
      *
      * @function
-     * @throws {ember.assert}
+     * @throws {ember.assert} Thrown if the supplied `theme` value is not one
+     *         defined in the enum THEME
      * @returns {String} Defaults to "alert-info"
      */
-    themeClassName: Ember.computed( 'theme', function() {
-        var theme = this.get( 'theme' );
+    themeClassName: Ember.computed(
+        'theme',
+        function() {
+            var theme = this.get( 'theme' );
 
-        Ember.assert(
-            'Error: Invalid theme string',
-            Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
-        );
+            Ember.assert(
+                'Error: Invalid theme string',
+                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+            );
 
-        return `alert-${theme}`;
-    })
+            return `alert-${theme}`;
+        }
+    )
 
 });

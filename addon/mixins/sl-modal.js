@@ -24,10 +24,14 @@ export default Ember.Mixin.create({
     ariaRole: 'dialog',
 
     /** @type {String[]} */
-    classNameBindings: [ 'animated:fade' ],
+    classNameBindings: [
+        'animated:fade'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'modal' ],
+    classNames: [
+        'modal'
+    ],
 
     /** @type {String} */
     layoutName: 'sl-modal',
@@ -94,19 +98,32 @@ export default Ember.Mixin.create({
      * @listens didInsertElement
      * @returns {undefined}
      */
-    modalize: Ember.on( 'didInsertElement', function() {
-        var modal = this.$().modal({
-            keyboard: true,
-            show: this.get( 'show' ),
-            backdrop: this.get( 'backdrop' )
-        });
+    modalize: Ember.on(
+        'didInsertElement',
+        function() {
+            var modal = this.$().modal({
+                keyboard: true,
+                show: this.get( 'show' ),
+                backdrop: this.get( 'backdrop' )
+            });
 
-        modal.on( 'show.bs.modal', Ember.run.bind( this, this.showHandler ) );
-        modal.on( 'shown.bs.modal', Ember.run.bind( this, this.shownHandler ) );
-        modal.on( 'hide.bs.modal', Ember.run.bind( this, this.hideHandler ) );
-        modal.on( 'hidden.bs.modal', Ember.run.bind( this, this.hiddenHandler ) );
-        modal.on( 'loaded.bs.modal', Ember.run.bind( this, this.loadedHandler ) );
-    }),
+            modal.on( 'show.bs.modal', () => {
+                this.showHandler();
+            });
+
+            modal.on( 'shown.bs.modal', () => {
+                this.shownHandler();
+            });
+
+            modal.on( 'hide.bs.modal', () => {
+                this.hideHandler();
+            });
+
+            modal.on( 'hidden.bs.modal', () => {
+                this.hiddenHandler();
+            });
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -119,9 +136,11 @@ export default Ember.Mixin.create({
      * @function
      * @returns {String}
      */
-    'aria-labelledby': Ember.computed( function() {
-        return 'modalTitle-' + Math.random();
-    }),
+    'aria-labelledby': Ember.computed(
+        function() {
+            return 'modalTitle-' + Math.random();
+        }
+    ),
 
     /**
      * Overridable method stub

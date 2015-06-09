@@ -14,7 +14,10 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNames: [ 'pagination', 'sl-pagination' ],
+    classNames: [
+        'pagination',
+        'sl-pagination'
+    ],
 
     /** @type {Object} */
     layout,
@@ -86,9 +89,12 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean}
      */
-    onFirstPage: Ember.computed( 'currentPage', function() {
-        return this.get( 'currentPage' ) === 1;
-    }),
+    onFirstPage: Ember.computed(
+        'currentPage',
+        function() {
+            return this.get( 'currentPage' ) === 1;
+        }
+    ),
 
     /**
      * Whether the current page is the last page
@@ -96,9 +102,13 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean}
      */
-    onLastPage: Ember.computed( 'currentPage', 'totalPages', function() {
-        return this.get( 'currentPage' ) === this.get( 'totalPages' );
-    }),
+    onLastPage: Ember.computed(
+        'currentPage',
+        'totalPages',
+        function() {
+            return this.get( 'currentPage' ) === this.get( 'totalPages' );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -110,12 +120,12 @@ export default Ember.Component.extend({
      * @param {Number} pageMod - The integer to increment the currentPage by
      * @returns {undefined}
      */
-    changePageBy: function( pageMod ) {
+    changePageBy( pageMod ) {
         if ( this.get( 'busy' ) ) {
             return;
         }
 
-        var newCurrentPage = this.get( 'currentPage' ) + pageMod;
+        let newCurrentPage = this.get( 'currentPage' ) + pageMod;
 
         if ( newCurrentPage > 0 && newCurrentPage <= this.get( 'totalPages' ) ) {
             this.set( 'currentPage', newCurrentPage );

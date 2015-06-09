@@ -50,9 +50,12 @@ export default Ember.Component.extend( ModalMixin, {
      * @function
      * @returns {undefined}
      */
-    toggle: Ember.observer( 'show', function() {
-        this.$().modal( this.get( 'show' ) ? 'show': 'hide' );
-    }),
+    toggle: Ember.observer(
+        'show',
+        function() {
+            this.$().modal( this.get( 'show' ) ? 'show': 'hide' );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods

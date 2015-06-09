@@ -29,10 +29,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [ 'datetime' ],
+    attributeBindings: [
+        'datetime'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'sl-datetime' ],
+    classNames: [
+        'sl-datetime'
+    ],
 
     /** @type {Object} */
     layout,
@@ -73,7 +77,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Alias to `datetime`; the text to use for the component's tooltip
      *
-     * @type {String}
+     * @type {}
      */
     title: Ember.computed.alias( 'datetime' ),
 
@@ -96,9 +100,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {String}
      */
-    datetime: Ember.computed( 'timezoneString', 'value', function() {
-        return window.moment( this.get( 'value' ) ).format( 'YYYY-MM-DD HH:mm ' ) + this.get( 'timezoneString' );
-    }),
+    datetime: Ember.computed(
+        'timezoneString',
+        'value',
+        function() {
+            return window.moment( this.get( 'value' ) ).format( 'YYYY-MM-DD HH:mm ' ) +
+                this.get( 'timezoneString' );
+        }
+    ),
 
     /**
      * Formatted string based on value and supplied format
@@ -106,29 +115,33 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {String}
      */
-    formattedValue: Ember.computed( 'format', 'momentValue', function() {
-        var momentValue = this.get( 'momentValue' ),
-            formattedString = '';
+    formattedValue: Ember.computed(
+        'format',
+        'momentValue',
+        function() {
+            var momentValue = this.get( 'momentValue' );
+            var formattedString = '';
 
-        switch ( this.get( 'format' ) ) {
-            case FORMAT.DATE:
-                formattedString = momentValue.format( 'YYYY-MM-DD' );
-                break;
+            switch ( this.get( 'format' ) ) {
+                case FORMAT.DATE:
+                    formattedString = momentValue.format( 'YYYY-MM-DD' );
+                    break;
 
-            case FORMAT.RELATIVE:
-                formattedString = momentValue.fromNow();
-                break;
+                case FORMAT.RELATIVE:
+                    formattedString = momentValue.fromNow();
+                    break;
 
-            default:
-            case FORMAT.DATETIME:
-                formattedString =
-                    momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) +
-                    ' ' +
-                    this.get( 'timezoneString', 'en' );
+                default:
+                case FORMAT.DATETIME:
+                    formattedString =
+                        momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) +
+                        ' ' +
+                        this.get( 'timezoneString', 'en' );
+            }
+
+            return formattedString;
         }
-
-        return formattedString;
-    }),
+    ),
 
     /**
      * The component's current value wrapped in moment
@@ -136,9 +149,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {Object}
      */
-    momentValue: Ember.computed( 'value', function() {
-        return window.moment( this.get( 'value' ) ).locale( this.get( 'locale' ) );
-    }),
+    momentValue: Ember.computed(
+        'value',
+        function() {
+            return window.moment( this.get( 'value' ) ).locale( this.get( 'locale' ) );
+        }
+    ),
 
     /**
      * Formatted timezone string based on component's timezone value
@@ -146,8 +162,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {String}
      */
-    timezoneString: Ember.computed( 'timezone', 'momentValue', function() {
-        return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
-    })
+    timezoneString: Ember.computed(
+        'timezone',
+        'momentValue',
+        function() {
+            return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
+        }
+    )
 
 });

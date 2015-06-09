@@ -48,13 +48,25 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [ 'data-target', 'data-toggle', 'disabled', 'type' ],
+    attributeBindings: [
+        'data-target',
+        'data-toggle',
+        'disabled',
+        'type'
+    ],
 
     /** @type {String[]} */
-    classNameBindings: [ 'pending', 'sizeClass', 'themeClass' ],
+    classNameBindings: [
+        'pending',
+        'sizeClass',
+        'themeClass'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'btn', 'sl-button' ],
+    classNames: [
+        'btn',
+        'sl-button'
+    ],
 
     /** @type {Object} */
     layout,
@@ -143,69 +155,82 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {String}
      */
-    currentLabel: Ember.computed( 'label', 'pending', 'pendingLabel', function() {
-        var label = this.get( 'label' ),
-            pending = this.get( 'pending' ),
-            pendingLabel = this.get( 'pendingLabel' );
+    currentLabel: Ember.computed(
+        'label',
+        'pending',
+        'pendingLabel',
+        function() {
+            var label = this.get( 'label' ),
+                pending = this.get( 'pending' ),
+                pendingLabel = this.get( 'pendingLabel' );
 
-        if ( pending && pendingLabel ) {
-            return pendingLabel;
-        }
+            if ( pending && pendingLabel ) {
+                return pendingLabel;
+            }
 
-        if ( label ) {
-            return label;
+            if ( label ) {
+                return label;
+            }
         }
-    }),
+    ),
 
     /**
      * Converted size string to Bootstrap button class
      *
      * @function
-     * @throws {Ember.assert}
+     * @throws {ember.assert} Thrown if the supplied `size` value is not one
+     *         defined in the enum SIZE
      * @returns {?String} Defaults to undefined
      */
-    sizeClass: Ember.computed( 'size', function() {
-        var size = this.get( 'size' ),
-            sizeClass;
+    sizeClass: Ember.computed(
+        'size',
+        function() {
+            var size = this.get( 'size' ),
+                sizeClass;
 
-        Ember.assert(
-            'Error: Invalid size value',
-            Object.keys( SIZE ).map( ( key ) => SIZE[ key ] ).indexOf( size ) > -1
-        );
+            Ember.assert(
+                'Error: Invalid size value',
+                Object.keys( SIZE ).map( ( key ) => SIZE[ key ] ).indexOf( size ) > -1
+            );
 
-        switch ( size ) {
-            case SIZE.EXTRA_SMALL:
-                sizeClass = 'btn-xs';
-                break;
+            switch ( size ) {
+                case SIZE.EXTRA_SMALL:
+                    sizeClass = 'btn-xs';
+                    break;
 
-            case SIZE.SMALL:
-                sizeClass = 'btn-sm';
-                break;
+                case SIZE.SMALL:
+                    sizeClass = 'btn-sm';
+                    break;
 
-            case SIZE.LARGE:
-                sizeClass = 'btn-lg';
-                break;
+                case SIZE.LARGE:
+                    sizeClass = 'btn-lg';
+                    break;
+            }
+
+            return sizeClass;
         }
-
-        return sizeClass;
-    }),
+    ),
 
     /**
      * Converted theme string to Bootstrap button class
      *
      * @function
-     * @throws {Ember.assert}
+     * @throws {ember.assert} Thrown if the supplied `theme` value is one not
+     *         defined in the enum THEME
      * @returns {String} Defaults to "btn-default"
      */
-    themeClass: Ember.computed( 'theme', function() {
-        var theme = this.get( 'theme' );
+    themeClass: Ember.computed(
+        'theme',
+        function() {
+            var theme = this.get( 'theme' );
 
-        Ember.assert(
-            'Error: Invalid theme value',
-            Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
-        );
+            Ember.assert(
+                'Error: Invalid theme value',
+                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+            );
 
-        return `btn-${theme}`;
-    })
+            return `btn-${theme}`;
+        }
+    )
 
 });

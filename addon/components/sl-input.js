@@ -18,7 +18,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    classNames: [ 'form-group', 'sl-input' ],
+    classNames: [
+        'form-group',
+        'sl-input'
+    ],
 
     /** @type {Object} */
     layout,
@@ -95,13 +98,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @listens didInsertElement
      * @returns {undefined}
      */
-    setupInputEvents: Ember.on( 'didInsertElement', function() {
-        if ( this.get( 'blur' ) ) {
-            this.getInput().on( 'blur', () => {
-                this.sendAction( 'blur' );
-            });
+    setupInputEvents: Ember.on(
+        'didInsertElement',
+        function() {
+            if ( this.get( 'blur' ) ) {
+                this.getInput().on( 'blur', () => {
+                    this.sendAction( 'blur' );
+                });
+            }
         }
-    }),
+    ),
 
     /**
      * Sets up the typeahead behavior when `suggestions` are supplied
@@ -110,55 +116,56 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @listens didInsertElement
      * @returns {undefined}
      */
-    setupTypeahead: Ember.computed( 'suggestions',
-        Ember.on( 'didInsertElement', function() {
-            if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' ) ) {
-                var namePath = this.get( 'suggestionNamePath' ),
-                    typeahead;
+    setupTypeahead: Ember.computed(
+        'suggestions',
+        Ember.on(
+            'didInsertElement',
+            function() {
+                if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' ) ) {
+                    let namePath = this.get( 'suggestionNamePath' );
 
-                typeahead = this.getInput().typeahead({
-                    highlight: true,
-                    hint: true
-                }, {
-                    displayKey: item => {
-                        if ( item instanceof Object ) {
-                            return Ember.get( item, namePath );
-                        }
-
-                        return item;
-                    },
-
-                    source: ( query, callback ) => {
-                        var pattern = new RegExp( query, 'i' );
-
-                        callback( this.get( 'suggestions' ).filter( suggestion => {
-                            var searchCandidate;
-
-                            if ( suggestion instanceof Object ) {
-                                searchCandidate = Ember.get( suggestion, namePath );
-                            } else {
-                                searchCandidate = suggestion;
+                    let typeahead = this.getInput().typeahead({
+                        highlight: true,
+                        hint: true
+                    }, {
+                        displayKey: item => {
+                            if ( item instanceof Object ) {
+                                return Ember.get( item, namePath );
                             }
 
-                            return searchCandidate ? searchCandidate.match( pattern ): false;
-                        }));
-                    }
-                });
+                            return item;
+                        },
 
-                /* jshint ignore:start */
-                var selectItem = ( event, item ) => {
-                    var value = item instanceof Object ? Ember.get( item, namePath ): item;
+                        source: ( query, callback ) => {
+                            var pattern = new RegExp( query, 'i' );
 
-                    this.set( 'value', value );
-                };
+                            callback( this.get( 'suggestions' ).filter( suggestion => {
+                                var searchCandidate;
 
-                typeahead.on( 'typeahead:autocompleted', selectItem );
-                typeahead.on( 'typeahead:selected', selectItem );
-                /* jshint ignore:end */
+                                if ( suggestion instanceof Object ) {
+                                    searchCandidate = Ember.get( suggestion, namePath );
+                                } else {
+                                    searchCandidate = suggestion;
+                                }
 
-                this.set( 'isTypeaheadSetup', true );
+                                return searchCandidate ? searchCandidate.match( pattern ): false;
+                            }));
+                        }
+                    });
+
+                    let selectItem = ( event, item ) => {
+                        var value = item instanceof Object ? Ember.get( item, namePath ): item;
+
+                        this.set( 'value', value );
+                    };
+
+                    typeahead.on( 'typeahead:autocompleted', selectItem );
+                    typeahead.on( 'typeahead:selected', selectItem );
+
+                    this.set( 'isTypeaheadSetup', true );
+                }
             }
-        })
+        )
     ),
 
     /**
@@ -168,9 +175,12 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @listens willClearRender
      * @returns {undefined}
      */
-    unregisterEvents: Ember.on( 'willClearRender', function() {
-        this.getInput().off();
-    }),
+    unregisterEvents: Ember.on(
+        'willClearRender',
+        function() {
+            this.getInput().off();
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -191,18 +201,20 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @function
      * @returns {String}
      */
-    inputClass: Ember.computed( function() {
-        var classes = [ 'form-control' ];
+    inputClass: Ember.computed(
+        function() {
+            var classes = [ 'form-control' ];
 
-        if ( this.get( 'clickToEdit' ) ) {
-            classes.push( 'click-to-edit' );
+            if ( this.get( 'clickToEdit' ) ) {
+                classes.push( 'click-to-edit' );
+            }
+
+            if ( this.get( 'suggestions' ) ) {
+                classes.push( 'typeahead' );
+            }
+
+            return classes.join( ' ' );
         }
-
-        if ( this.get( 'suggestions' ) ) {
-            classes.push( 'typeahead' );
-        }
-
-        return classes.join( ' ' );
-    })
+    )
 
 });

@@ -13,7 +13,9 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'row.active:active' ],
+    classNameBindings: [
+        'row.active:active'
+    ],
 
     /** @type {String} */
     tagName: 'tr',

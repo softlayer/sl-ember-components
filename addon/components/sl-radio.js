@@ -14,13 +14,20 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [ 'disabled' ],
+    attributeBindings: [
+        'disabled'
+    ],
 
     /** @type {String[]} */
-    classNameBindings: [ 'disabled', 'radioType' ],
+    classNameBindings: [
+        'disabled',
+        'radioType'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'sl-radio' ],
+    classNames: [
+        'sl-radio'
+    ],
 
     /** @type {Object} */
     layout,
@@ -56,8 +63,11 @@ export default Ember.Component.extend({
      * @function
      * @returns {String}
      */
-    radioType: Ember.computed( 'inline', function() {
-        return this.get( 'inline' ) ? 'radio-inline': 'radio';
-    })
+    radioType: Ember.computed(
+        'inline',
+        function() {
+            return this.get( 'inline' ) ? 'radio-inline': 'radio';
+        }
+    )
 
 });

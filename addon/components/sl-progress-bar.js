@@ -31,10 +31,15 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
+    classNameBindings: [
+        'isLowPercentage:sl-progress-bar-low-percentage'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'progress', 'sl-progress-bar' ],
+    classNames: [
+        'progress',
+        'sl-progress-bar'
+    ],
 
     /** @type {Object} */
     layout,
@@ -95,9 +100,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {Boolean}
      */
-    isLowPercentage: Ember.computed( 'value', function() {
-        return this.get( 'value' ) < 50;
-    }),
+    isLowPercentage: Ember.computed(
+        'value',
+        function() {
+            return this.get( 'value' ) < 50;
+        }
+    ),
 
     /**
      * Inline style string for progress bar element
@@ -105,27 +113,33 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {ember/String}
      */
-    styleString: Ember.computed( 'value', function() {
-        var value = this.get( 'value' );
-
-        return Ember.String.htmlSafe( `width: ${value}%;` );
-    }),
+    styleString: Ember.computed(
+        'value',
+        function() {
+            return Ember.String.htmlSafe( `width: ${this.get( 'value' )}%;` );
+        }
+    ),
 
     /**
      * Element-specific class name for the Bootstrap "theme" style
      *
      * @function
+     * @throws {ember.assert} Thrown if the supplied `theme` property value is
+     *         not included in the enum THEME
      * @returns {String}
      */
-    themeClassName: Ember.computed( 'theme', function() {
-        var theme = this.get( 'theme' );
+    themeClassName: Ember.computed(
+        'theme',
+        function() {
+            var theme = this.get( 'theme' );
 
-        Ember.assert(
-            `Error: Invalid theme property value "${theme}"`,
-            Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
-        );
+            Ember.assert(
+                `Error: Invalid theme property value "${theme}"`,
+                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+            );
 
-        return `progress-bar-${theme}`;
-    })
+            return `progress-bar-${theme}`;
+        }
+    )
 
 });

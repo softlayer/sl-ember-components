@@ -24,7 +24,9 @@ export default Ember.View.extend({
      *
      * @type {String[]}
      */
-    classNames: [ 'all' ],
+    classNames: [
+        'all'
+    ],
 
     // -------------------------------------------------------------------------
     // Events
@@ -54,9 +56,12 @@ export default Ember.View.extend({
      * @function
      * @return {ember/View}
      */
-    target: Ember.computed( 'parentView', function() {
-        return this.get( 'parentView' );
-    })
+    target: Ember.computed(
+        'parentView',
+        function() {
+            return this.get( 'parentView' );
+        }
+    )
 
     // -------------------------------------------------------------------------
     // Methods

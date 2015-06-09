@@ -31,9 +31,12 @@ export default Ember.Mixin.create({
      * @listens didInsertElement
      * @returns {undefined}
      */
-    notifyDidInsertElement: Ember.on( 'didInsertElement', function() {
-        this.get( 'controller' ).send( 'viewDidInsertElement' );
-    }),
+    notifyDidInsertElement: Ember.on(
+        'didInsertElement',
+        function() {
+            this.get( 'controller' ).send( 'viewDidInsertElement' );
+        }
+    ),
 
     /**
      * Notify the view's controller by sending "viewWillClearRender"
@@ -42,9 +45,12 @@ export default Ember.Mixin.create({
      * @listens willClearRender
      * @returns {undefined}
      */
-    notifyWillClearRender: Ember.on( 'willClearRender', function() {
-        this.get( 'controller' ).send( 'viewWillClearRender' );
-    }),
+    notifyWillClearRender: Ember.on(
+        'willClearRender',
+        function() {
+            this.get( 'controller' ).send( 'viewWillClearRender' );
+        }
+    ),
 
     /**
      * Notify the view's controller by sending "viewWillDestroyElement"
@@ -53,9 +59,12 @@ export default Ember.Mixin.create({
      * @listens willDestroyElement
      * @returns {undefined}
      */
-    notifyWillDestroyElement: Ember.on( 'willDestroyElement', function() {
-        this.get( 'controller' ).send( 'viewWillDestroyElement' );
-    }),
+    notifyWillDestroyElement: Ember.on(
+        'willDestroyElement',
+        function() {
+            this.get( 'controller' ).send( 'viewWillDestroyElement' );
+        }
+    ),
 
     /**
      * Notify the view's controller by sending "viewWillInsertElement"
@@ -64,9 +73,12 @@ export default Ember.Mixin.create({
      * @listens willInsertElement
      * @returns {undefined}
      */
-    notifyWillInsertElement: Ember.on( 'willInsertElement', function() {
-        this.get( 'controller' ).send( 'viewWillInsertElement' );
-    })
+    notifyWillInsertElement: Ember.on(
+        'willInsertElement',
+        function() {
+            this.get( 'controller' ).send( 'viewWillInsertElement' );
+        }
+    )
 
     // -------------------------------------------------------------------------
     // Methods

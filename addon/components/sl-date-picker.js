@@ -16,7 +16,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    classNames: [ 'form-group', 'sl-date-picker' ],
+    classNames: [
+        'form-group',
+        'sl-date-picker'
+    ],
 
     /** @type {Object} */
     layout,
@@ -216,9 +219,15 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @listens didInsertElement
      * @returns {undefined}
      */
-    setInputElementId: Ember.on( 'didInsertElement', function() {
-        this.set( 'inputElementId', this.$( 'input.date-picker' ).prop( 'id' ) );
-    }),
+    setInputElementId: Ember.on(
+        'didInsertElement',
+        function() {
+            this.set(
+                'inputElementId',
+                this.$( 'input.date-picker' ).prop( 'id' )
+            );
+        }
+    ),
 
     /**
      * Setup the bootstrap-datepicker plugin and events
@@ -227,13 +236,17 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @listens didInsertElement
      * @returns {undefined}
      */
-    setupDatepicker: Ember.on( 'didInsertElement', function() {
-        var datepicker = this.$( 'input.date-picker' ).datepicker( this.get( 'options' ) );
+    setupDatepicker: Ember.on(
+        'didInsertElement',
+        function() {
+            var datepicker = this.$( 'input.date-picker' )
+                .datepicker( this.get( 'options' ) );
 
-        datepicker.on( 'changeDate', () => {
-            this.sendAction( 'change' );
-        });
-    }),
+            datepicker.on( 'changeDate', () => {
+                this.sendAction( 'change' );
+            });
+        }
+    ),
 
     /**
      * Remove events
@@ -242,9 +255,12 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @listens willClearRender
      * @returns {undefined}
      */
-    unregisterEvents: Ember.on( 'willClearRender', function() {
-        this.$( 'input.date-picker' ).off();
-    }),
+    unregisterEvents: Ember.on(
+        'willClearRender',
+        function() {
+            this.$( 'input.date-picker' ).off();
+        }
+    ),
 
     /**
      * Dynamically update the endDate value for the datepicker
@@ -252,9 +268,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {undefined}
      */
-    setEndDate: Ember.computed( 'endDate', function() {
-        this.$( 'input.date-picker' ).datepicker( 'setEndDate', this.get( 'endDate' ) );
-    }),
+    setEndDate: Ember.computed(
+        'endDate',
+        function() {
+            this.$( 'input.date-picker' )
+                .datepicker( 'setEndDate', this.get( 'endDate' ) );
+        }
+    ),
 
     /**
      * Dynamically update the startDate value for the datepicker
@@ -262,9 +282,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {undefined}
      */
-    setStartDate: Ember.computed( 'startDate', function() {
-        this.$( 'input.date-picker' ).datepicker( 'setStartDate', this.get( 'startDate' ) );
-    }),
+    setStartDate: Ember.computed(
+        'startDate',
+        function() {
+            this.$( 'input.date-picker' )
+                .datepicker( 'setStartDate', this.get( 'startDate' ) );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -275,26 +299,28 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {Object}
      */
-    options: Ember.computed( function() {
-        return {
-            autoclose: this.get( 'autoclose' ),
-            calendarWeeks: this.get( 'calendarWeeks' ),
-            clearBtn: this.get( 'clearBtn' ),
-            daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
-            endDate: this.get( 'endDate' ),
-            forceParse: this.get( 'forceParse' ),
-            format: this.get( 'format' ),
-            inputs: this.get( 'inputs' ),
-            keyboardNavigation: this.get( 'keyboardNavigation' ),
-            language: this.get( 'language' ),
-            multidate: this.get( 'multidate' ),
-            orientation: this.get( 'orientation' ),
-            startDate: this.get( 'startDate' ),
-            startView: this.get( 'startView' ),
-            todayBtn: this.get( 'todayBtn' ),
-            todayHighlight: this.get( 'todayHighlight' ),
-            weekStart: this.get( 'weekStart' )
-        };
-    })
+    options: Ember.computed(
+        function() {
+            return {
+                autoclose: this.get( 'autoclose' ),
+                calendarWeeks: this.get( 'calendarWeeks' ),
+                clearBtn: this.get( 'clearBtn' ),
+                daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
+                endDate: this.get( 'endDate' ),
+                forceParse: this.get( 'forceParse' ),
+                format: this.get( 'format' ),
+                inputs: this.get( 'inputs' ),
+                keyboardNavigation: this.get( 'keyboardNavigation' ),
+                language: this.get( 'language' ),
+                multidate: this.get( 'multidate' ),
+                orientation: this.get( 'orientation' ),
+                startDate: this.get( 'startDate' ),
+                startView: this.get( 'startView' ),
+                todayBtn: this.get( 'todayBtn' ),
+                todayHighlight: this.get( 'todayHighlight' ),
+                weekStart: this.get( 'weekStart' )
+            };
+        }
+    )
 
 });

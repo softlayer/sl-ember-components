@@ -32,10 +32,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [ 'themeClass' ],
+    classNameBindings: [
+        'themeClass'
+    ],
 
     /** @type {String[]} */
-    classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
+    classNames: [
+        'btn-group',
+        'dropdown',
+        'sl-drop-button'
+    ],
 
     /** @type {Object} */
     layout,
@@ -119,25 +125,33 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {Boolean}
      */
-    rightAligned: Ember.computed( 'align', function() {
-        return this.get( 'align' ) === ALIGN.RIGHT;
-    }),
+    rightAligned: Ember.computed(
+        'align',
+        function() {
+            return this.get( 'align' ) === ALIGN.RIGHT;
+        }
+    ),
 
     /**
      * The class value for the drop-button based on the current "theme"
      *
      * @function
+     * @throws {ember.assert} Thrown when supplied `theme` is not a value
+     *         defined in enum BUTTON_THEME
      * @returns {String}
      */
-    themeClass: Ember.computed( 'theme', function() {
-        var theme = this.get( 'theme' );
+    themeClass: Ember.computed(
+        'theme',
+        function() {
+            var theme = this.get( 'theme' );
 
-        Ember.assert(
-            `Error: Invalid sl-drop-button theme value "${theme}"`,
-            Object.keys( BUTTON_THEME ).map( ( key ) => BUTTON_THEME[ key ] ).indexOf( theme ) > -1
-        );
+            Ember.assert(
+                `Error: Invalid sl-drop-button theme value "${theme}"`,
+                Object.keys( BUTTON_THEME ).map( ( key ) => BUTTON_THEME[ key ] ).indexOf( theme ) > -1
+            );
 
-        return `dropdown-${theme}`;
-    })
+            return `dropdown-${theme}`;
+        }
+    )
 
 });
