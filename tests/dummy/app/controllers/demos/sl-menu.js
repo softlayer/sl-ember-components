@@ -2,17 +2,8 @@ import Ember from 'ember';
 import KeyManager from 'sl-ember-components/utils/sl-menu-key-adapter';
 
 export default Ember.Controller.extend({
-
     keyHandler: KeyManager.create(),
 
-    /**
-     * Is the menu being interacted with via the keyboard?
-     *
-     * This value gets set by the inner workings of the component and is exposed
-     * for use by view logic
-     *
-     * @param {boolean} keyboardInUse
-     */
     keyboardInUse: null,
 
     actions: {
@@ -31,5 +22,4 @@ export default Ember.Controller.extend({
             this.transitionToRoute( route );
         }
     }
-
 });

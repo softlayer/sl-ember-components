@@ -5,10 +5,6 @@ const LETTERS = [
     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'y', 'z'
 ];
 
-function capitalize( string ) {
-    return string[ 0 ].toUpperCase() + string.substr( 1 );
-}
-
 function generateRecords( number ) {
     var content = Ember.A();
 
@@ -18,8 +14,8 @@ function generateRecords( number ) {
 
         content.pushObject({
             email: `${firstName}@example.com`,
-            firstName: capitalize( firstName ),
-            lastName: capitalize( lastName )
+            firstName: Ember.String.capitalize( firstName ),
+            lastName: Ember.String.capitalize( lastName )
         });
     }
 
