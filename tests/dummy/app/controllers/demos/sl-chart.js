@@ -3,11 +3,11 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
     actions: {
         logOptions: function () {
-            console.log( 'Chart options:', this.get( 'chartOptions' ));
+            window.console.log( 'Chart options:', this.get( 'chartOptions' ));
         },
 
         logSeries: function () {
-            console.log( 'Content:', this.get( 'content' ));
+            window.console.log( 'Content:', this.get( 'content' ));
         }
     },
 

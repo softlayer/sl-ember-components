@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
     actions: {
         rowClick( row ) {
-            console.log( 'Clicked', row );
+            window.console.log( 'Clicked', row );
         },
 
         sortColumn( column, sortAscending ) {
@@ -34,11 +34,11 @@ export default Ember.ArrayController.extend({
     ]),
 
     sayGoodbye() {
-        console.log( 'Goodbye! from page' );
+        window.console.log( 'Goodbye! from page' );
     },
 
     sayHello() {
-        console.log( 'Hello! from page' );
+        window.console.log( 'Hello! from page' );
     },
 
     totalCount: 6
