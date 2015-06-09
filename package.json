@@ -5,7 +5,6 @@
     "homepage": "http://softlayer.github.io/sl-ember-components",
     "scripts": {
         "build": "ember build",
-        "jsdoc": "jsdoc -c jsdoc.json",
         "start": "ember server",
         "test": "ember test"
     },
