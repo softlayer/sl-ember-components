@@ -1,10 +1,16 @@
 {{#if menu.label}}
-    <a href="#" {{bind-attr class="menu.pages:submenu"}} {{action "selected" target="view" bubbles=false}}>{{view.menu.label}}</a>
+    <a
+        {{action "selected" target="view" bubbles=false}}
+        class="{{if menu.pages 'submenu'}}"
+        href="#"
+    >
+        {{view.menu.label}}
+    </a>
 {{/if}}
 
 {{#if menu.pages}}
-    <ul {{bind-attr class="view.isRoot:list-inline"}}>
-        {{#each page in pages}}
+    <ul class="{{if view.isRoot 'list-inline'}}">
+        {{#each pages as |page|}}
             {{sl-menu
                 extraClassNames=page.extraClassNames
                 isRoot=false

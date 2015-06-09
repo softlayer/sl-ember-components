@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs" role="tablist">
-    {{#each tab in tabs}}
-        <li {{bind-attr class=":tab tab.active" data-tab-name=tab.name}}>
+    {{#each tabs as |tab|}}
+        <li class="tab {{if tab.active 'active'}}" data-tab-name={{tab.name}}>
             <a {{action "change" tab.name}} role="tab">{{tab.label}}</a>
         </li>
     {{/each}}

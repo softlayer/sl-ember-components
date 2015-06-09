@@ -626,10 +626,10 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     handleListContentScroll( event ) {
-        var listContent = this.$( event.target ),
-            loading = this.get( 'loading' ),
-            nextPageScrollPoint = this.get( 'nextPageScrollPoint' ),
-            scrollBottom = listContent.scrollTop() + listContent.height();
+        var listContent = this.$( event.target );
+        var loading = this.get( 'loading' );
+        var nextPageScrollPoint = this.get( 'nextPageScrollPoint' );
+        var scrollBottom = listContent.scrollTop() + listContent.height();
 
         if ( scrollBottom >= nextPageScrollPoint && !loading ) {
             this.requestMoreData();

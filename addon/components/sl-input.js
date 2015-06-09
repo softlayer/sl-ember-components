@@ -189,7 +189,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Get a reference to the internal input element
      *
      * @function
-     * @returns {Object}
+     * @returns {jQuery.Object}
      */
     getInput() {
         return this.$( 'input' );

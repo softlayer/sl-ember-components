@@ -6,7 +6,7 @@
 }}
     {{#if view.label}}
         {{view.label}}
-        <span {{bind-attr class=iconClass}}></span>
+        <span class={{iconClass}}></span>
     {{else}}
         {{#if content}}
             {{yield}}
@@ -14,7 +14,7 @@
     {{/if}}
 {{/sl-button}}
 
-<ul {{bind-attr class=":dropdown-menu rightAligned:dropdown-menu-right"}} role="menu">
+<ul class="dropdown-menu {{if rightAligned 'dropdown-menu-right'}}" role="menu">
     {{#if content}}
         {{#each content as |option|}}
             {{sl-drop-option

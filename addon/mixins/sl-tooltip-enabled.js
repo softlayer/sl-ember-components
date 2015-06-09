@@ -75,6 +75,7 @@ export default Ember.Mixin.create({
     /**
      * Enable popover
      *
+     * @private
      * @function
      * @returns {undefined}
      */
@@ -100,6 +101,7 @@ export default Ember.Mixin.create({
     /**
      * Enable tooltip
      *
+     * @private
      * @function
      * @returns {undefined}
      */

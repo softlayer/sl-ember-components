@@ -194,7 +194,7 @@ export default Ember.Component.extend({
      *
      * @function
      * @param {String} tabName - The name of the tab to get the pane for
-     * @returns {undefined}
+     * @returns {jQuery.Object}
      */
     paneFor( tabName ) {
         return this.$( `.tab-pane[data-tab-name="${tabName}"]` );

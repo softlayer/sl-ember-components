@@ -159,7 +159,7 @@ export default Ember.Mixin.create({
      * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
      *
      * @abstract
-     * @function hideHandler
+     * @function
      * @returns {undefined}
      */
     hideHandler() {},
@@ -170,7 +170,7 @@ export default Ember.Mixin.create({
      * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
      *
      * @abstract
-     * @function loadedHandler
+     * @function
      * @returns {undefined}
      */
     loadedHandler() {},
@@ -181,7 +181,7 @@ export default Ember.Mixin.create({
      * Triggered by Twitter Bootstrap 3 modal's `show.bs.modal` event.
      *
      * @abstract
-     * @function showHandler
+     * @function
      * @returns {undefined}
      */
     showHandler() {},
@@ -192,7 +192,7 @@ export default Ember.Mixin.create({
      * Triggered by Twitter Bootstrap 3 modal's `shown.bs.modal` event.
      *
      * @abstract
-     * @function shownHandler
+     * @function
      * @returns {undefined}
      */
     shownHandler() {}
