@@ -18,7 +18,10 @@ test( 'Dismissable option allows dismissal', function( assert ) {
         'Component is dismissable'
     );
 
-    assert.ok( this.$( 'button.close' ), 'Close button is rendered' );
+    assert.ok(
+        this.$( 'button.close' ),
+        'Close button is rendered'
+    );
 
     assert.strictEqual(
         this.$().hasClass( 'alert-dismissable' ),
@@ -45,14 +48,24 @@ test( 'Dismiss action is handled', function( assert ) {
 test( 'Theme class is applied', function( assert ) {
     var component = this.subject({ theme: 'success' });
 
-    assert.ok( this.$().hasClass( 'alert-success' ), 'Theme class is applied' );
+    assert.ok(
+        this.$().hasClass( 'alert-success' ),
+        'Theme class is applied'
+    );
 });
 
 test( 'Default classes are applied', function( assert ) {
     var component = this.subject();
 
-    assert.ok( this.$().hasClass( 'alert' ), 'Has class "alert"' );
-    assert.ok( this.$().hasClass( 'sl-alert' ), 'Has class "sl-alert"' );
+    assert.ok(
+        this.$().hasClass( 'alert' ),
+        'Has class "alert"'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'sl-alert' ),
+        'Has class "sl-alert"'
+    );
 });
 
 test( 'Not dismissable by default', function( assert ) {

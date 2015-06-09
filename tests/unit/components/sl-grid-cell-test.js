@@ -5,8 +5,8 @@ moduleForComponent( 'sl-grid-cell', 'Unit | Component | sl grid cell', {
     unit: true
 });
 
-var defaultColumn = { valuePath: 'value' },
-    defaultRow = { value: 'Test' };
+var defaultColumn = { valuePath: 'value' };
+var defaultRow = { value: 'Test' };
 
 test( 'Column alignment class is applied', function( assert ) {
     var column = Object.create( defaultColumn );
@@ -51,8 +51,8 @@ test( 'Primary column class is applied', function( assert ) {
 });
 
 test( 'Column size values are supported', function( assert ) {
-    var column = Object.create( defaultColumn ),
-        component = this.subject({ column, row: defaultRow });
+    var column = Object.create( defaultColumn );
+    var component = this.subject({ column, row: defaultRow });
 
     assert.equal(
         Ember.typeOf( component.get( 'sizeClass' ) ),

@@ -13,11 +13,17 @@ test( 'Disabled state applies disabled class, and attribute to input', function(
         'has attribute "disabled"'
     );
 
-    assert.ok( this.$().hasClass( 'disabled' ), 'has class "disabled"' );
+    assert.ok(
+        this.$().hasClass( 'disabled' ),
+        'has class "disabled"'
+    );
 });
 
 test( 'Inline property sets relevant class', function( assert ) {
     this.subject({ inline: true });
 
-    assert.ok( this.$().hasClass( 'radio-inline' ), 'has class "radio-inline"' );
+    assert.ok(
+        this.$().hasClass( 'radio-inline' ),
+        'has class "radio-inline"'
+    );
 });

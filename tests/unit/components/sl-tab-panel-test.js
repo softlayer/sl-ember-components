@@ -21,13 +21,14 @@ test( 'Expected default classes are applied', function( assert ) {
 
 test( 'setupTabs() does so correctly', function( assert ) {
     var component = this.subject({
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        done = assert.async();
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
+        )
+    });
+
+    var done = assert.async();
 
     assert.expect( 5 );
 
@@ -92,14 +93,15 @@ test( 'ARIA roles are implemented', function( assert ) {
 
 test( '"initialTabName" property is respected', function( assert ) {
     var component = this.subject({
-            initialTabName: 'b',
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        done = assert.async();
+        initialTabName: 'b',
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
+        )
+    });
+
+    var done = assert.async();
 
     assert.expect( 2 );
 
@@ -148,18 +150,22 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
         labels.push( $( this ).attr( 'data-tab-name' ) );
     });
 
-    assert.deepEqual( labels, [ 'a', 'b', 'c' ] );
+    assert.deepEqual(
+        labels,
+        [ 'a', 'b', 'c' ]
+    );
 });
 
 test( 'Clicking tab changes active tab', function( assert ) {
     var component = this.subject({
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        done = assert.async();
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
+        )
+    });
+
+    var done = assert.async();
 
     assert.expect( 2 );
 
@@ -167,8 +173,15 @@ test( 'Clicking tab changes active tab', function( assert ) {
 
     component.paneFor( 'a' ).queue( () => {
         component.paneFor( 'b' ).queue( () => {
-            assert.equal( this.$( '.tab.active[data-tab-name="b"]' ).length, 1 );
-            assert.equal( this.$( '.sl-tab-pane.active[data-tab-name="b"]' ).length, 1 );
+            assert.equal(
+                this.$( '.tab.active[data-tab-name="b"]' ).length,
+                1
+            );
+
+            assert.equal(
+                this.$( '.sl-tab-pane.active[data-tab-name="b"]' ).length,
+                1
+            );
 
             done();
         });
@@ -177,14 +190,15 @@ test( 'Clicking tab changes active tab', function( assert ) {
 
 test( 'Tab content height is adjusted after new tab selection', function( assert ) {
     var component = this.subject({
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content<br><br>Taller content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-            )
-        }),
-        done = assert.async(),
-        initialHeight;
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content<br><br>Taller content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
+        )
+    });
+
+    var done = assert.async();
+    var initialHeight;
 
     assert.expect( 1 );
 
@@ -195,7 +209,10 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
     });
 
     component.paneFor( 'b' ).queue( () => {
-        assert.notEqual( initialHeight, this.$( '.tab-content' ).height() );
+        assert.notEqual(
+            initialHeight,
+            this.$( '.tab-content' ).height()
+        );
 
         done();
     });
@@ -205,33 +222,37 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
 
 test( '"activatePane" animates as expected', function( assert ) {
     var component = this.subject({
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
-            )
-        }),
-        spy = sinon.spy( Ember.$.prototype, 'fadeIn' ),
-        done = assert.async();
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+        )
+    });
+
+    var spy = sinon.spy( Ember.$.prototype, 'fadeIn' );
+    var done = assert.async();
 
     this.render();
 
     assert.expect( 1 );
 
     component.paneFor( 'a' ).queue( () => {
-        assert.equal( spy.calledOnce, true );
+        assert.equal(
+            spy.calledOnce,
+            true
+        );
         done();
     });
 });
 
 test( '"deactivatePane" animates as expected', function( assert ) {
     var component = this.subject({
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
-            )
-        }),
-        spy = sinon.spy( Ember.$.prototype, 'fadeOut' ),
-        done = assert.async();
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+        )
+    });
+    var spy = sinon.spy( Ember.$.prototype, 'fadeOut' );
+    var done = assert.async();
 
     assert.expect( 1 );
 
@@ -239,7 +260,10 @@ test( '"deactivatePane" animates as expected', function( assert ) {
 
     component.paneFor( 'a' ).queue( () => {
         component.paneFor( 'b' ).queue( () => {
-            assert.equal( spy.calledOnce, true );
+            assert.equal(
+                spy.calledOnce,
+                true
+            );
             done();
         });
     });
@@ -247,13 +271,14 @@ test( '"deactivatePane" animates as expected', function( assert ) {
 
 test( '"deactivatePane" calls specified callback', function( assert ) {
     var component = this.subject({
-            template: Ember.Handlebars.compile(
-                '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-                '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
-            )
-        }),
-        callback = sinon.spy(),
-        done = assert.async();
+        template: Ember.Handlebars.compile(
+            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
+            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
+        )
+    });
+
+    var callback = sinon.spy();
+    var done = assert.async();
 
     this.render();
 
@@ -262,7 +287,10 @@ test( '"deactivatePane" calls specified callback', function( assert ) {
     component.deactivatePane( callback );
 
     component.paneFor( 'a' ).queue( () => {
-        assert.equal( callback.calledOnce, true );
+        assert.equal(
+            callback.calledOnce,
+            true
+        );
         done();
     });
 });

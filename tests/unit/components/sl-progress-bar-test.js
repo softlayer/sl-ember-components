@@ -62,7 +62,10 @@ test( 'themeClass is set correctly by theme property', function( assert ) {
 test( 'Has class "active" when animated set to true', function( assert ) {
     this.subject({ animated: true });
 
-    assert.ok( this.$( '.progress-bar' ).hasClass( 'active' ), 'Is active' );
+    assert.ok(
+        this.$( '.progress-bar' ).hasClass( 'active' ),
+        'Is active'
+    );
 });
 
 test( 'Has class "progress-bar-striped" when striped set to true', function( assert ) {

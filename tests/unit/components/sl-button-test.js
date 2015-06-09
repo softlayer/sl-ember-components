@@ -71,12 +71,22 @@ test( 'Button supports disabled state', function( assert ) {
  */
 
 test( 'Renders as a button tag', function( assert ) {
-    assert.ok( this.$().is( 'button' ), 'Is a <button>' );
+    assert.ok(
+        this.$().is( 'button' ),
+        'Is a <button>'
+    );
 });
 
 test( 'Expected default classes are applied', function( assert ) {
-    assert.ok( this.$().hasClass( 'btn' ), 'Has class "btn"' );
-    assert.ok( this.$().hasClass( 'sl-button' ), 'Has class "sl-button"' );
+    assert.ok(
+        this.$().hasClass( 'btn' ),
+        'Has class "btn"'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'sl-button' ),
+        'Has class "sl-button"'
+    );
 });
 
 test( 'Labels are correctly initialized', function( assert ) {

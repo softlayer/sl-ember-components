@@ -3,14 +3,15 @@ import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 
 var columns = Ember.A([
-        { title: 'Name', valuePath: 'name' },
-        { title: 'ID', valuePath: 'id' }
-    ]),
-    content = Ember.A([
-        { id: 4, name: 'Alice' },
-        { id: 8, name: 'Bob' },
-        { id: 15, name: 'Charlie' }
-    ]);
+    { title: 'Name', valuePath: 'name' },
+    { title: 'ID', valuePath: 'id' }
+]);
+
+var content = Ember.A([
+    { id: 4, name: 'Alice' },
+    { id: 8, name: 'Bob' },
+    { id: 15, name: 'Charlie' }
+]);
 
 moduleForComponent( 'sl-grid', 'Unit | Component | sl grid', {
     needs: [
@@ -131,6 +132,7 @@ test( 'Only primary columns remain visible when detail-pane is open', function( 
 
 test( 'requestData action is triggered correctly in paginated mode', function( assert ) {
     var expectedOffset = 1;
+
     var component = this.subject({
         columns,
         content,
@@ -170,7 +172,6 @@ test( 'Actions button label text is settable', function( assert ) {
         showActions: true
     });
 
-
     assert.equal(
         Ember.$.trim( this.$( 'td.actions-cell button' ).first().text() ),
         'Test',
@@ -206,12 +207,6 @@ test( 'Fixed height values are supported', function( assert ) {
     );
 });
 
-QUnit.skip( 'Paginated requestData is supported', function( assert ) {
-    this.subject({ columns, content });
-
-    // TODO
-});
-
 test( 'Continuous mode and requestData are supported', function( assert ) {
     this.subject({
         columns,
@@ -237,8 +232,12 @@ test( 'Continuous mode and requestData are supported', function( assert ) {
 });
 
 test( 'handleNewContent unsets loading state when content data changes', function( assert ) {
-    var myContent = Ember.A(),
-        component = this.subject({ columns, content: myContent, loading: true });
+    var myContent = Ember.A();
+    var component = this.subject({
+        columns,
+        content: myContent,
+        loading: true
+    });
 
     this.render();
 
@@ -309,11 +308,11 @@ test( 'Pagination data is handled correctly', function( assert ) {
 });
 
 test( 'Window resize triggers updateHeight() with "auto" width', function( assert ) {
-    var component = this.subject({ columns, content, height: 'auto' }),
-        spy;
+    var component = this.subject({ columns, content, height: 'auto' });
 
     this.render();
-    spy = sinon.spy( component, 'updateHeight' );
+
+    let spy = sinon.spy( component, 'updateHeight' );
 
     assert.equal(
         spy.calledOnce,

@@ -110,12 +110,15 @@ test( 'Sort icon is set correctly for sortable columns', function( assert ) {
 });
 
 test( 'Click event returns column with sortable column', function( assert ) {
-    var column = {},
-        targetObject = {
-            test() {
-                assert.ok( false, 'Bound click action was fired without a valid sortable column' );
-            }
-        };
+    var column = {};
+    var targetObject = {
+        test() {
+            assert.ok(
+                false,
+                'Bound click action was fired without a valid sortable column'
+            );
+        }
+    };
 
     this.subject({
         column,

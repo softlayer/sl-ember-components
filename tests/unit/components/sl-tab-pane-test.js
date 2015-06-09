@@ -72,11 +72,11 @@ test( 'Can provide content in block form', function( assert ) {
 });
 
 test( 'Can provide content via "templateName" property', function( assert ) {
-    var templateContent = 'Template content',
-        component       = this.subject({
-            container    : App.__container__,
-            templateName : 'tabtest'
-        });
+    var templateContent = 'Template content';
+    var component = this.subject({
+        container: App.__container__,
+        templateName: 'tabtest'
+    });
 
     App.registry.register(
         'template:tabtest', Ember.HTMLBars.compile( templateContent )

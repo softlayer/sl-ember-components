@@ -15,7 +15,11 @@ test( 'The disabled state applies the disabled attribute and class', function( a
         'disabled',
         'has "disabled" attribute'
     );
-    assert.ok( this.$().hasClass( 'disabled' ), 'has "disabled" class' );
+
+    assert.ok(
+        this.$().hasClass( 'disabled' ),
+        'has "disabled" class'
+    );
 });
 
 test( 'The disabled state applies to sl-radio children', function( assert ) {
@@ -70,16 +74,20 @@ test( 'The readonly state applies to sl-radio children', function( assert ) {
 
 test( 'Value changes when sl-radio child selected', function( assert ) {
     var component = this.subject({
-            name: 'test',
-            template: Ember.Handlebars.compile(
-                '{{sl-radio label="One" value="one"}}' +
-                '{{sl-radio label="Two" value="two"}}' +
-                '{{sl-radio label="Three" value="three"}}'
-            ),
-            value: 'one'
-        });
+        name: 'test',
+        template: Ember.Handlebars.compile(
+            '{{sl-radio label="One" value="one"}}' +
+            '{{sl-radio label="Two" value="two"}}' +
+            '{{sl-radio label="Three" value="three"}}'
+        ),
+        value: 'one'
+    });
 
-    assert.equal( component.get( 'value' ), 'one', '"one" value is selected' );
+    assert.equal(
+        component.get( 'value' ),
+        'one',
+        '"one" value is selected'
+    );
 
     this.$().find( 'input[value="two"]' ).trigger( 'click' );
 

@@ -48,7 +48,10 @@ test( 'Default state of calendar-day is not active, new or old', function( asser
 test( 'Active state is applied correctly', function( assert ) {
     var component = this.subject({ active: true });
 
-    assert.ok( component.get( 'active' ), 'Component is set to active state' );
+    assert.ok(
+        component.get( 'active' ),
+        'Component is set to active state'
+    );
 
     assert.ok(
         this.$().hasClass( 'active' ),
@@ -59,15 +62,29 @@ test( 'Active state is applied correctly', function( assert ) {
 test( 'New state is applied correctly', function( assert ) {
     var component = this.subject({ 'new': true });
 
-    assert.ok( component.get( 'new' ), 'Component is set to new state' );
-    assert.ok( this.$().hasClass( 'new' ), 'Component element has class "new"' );
+    assert.ok(
+        component.get( 'new' ),
+        'Component is set to new state'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'new' ),
+        'Component element has class "new"'
+    );
 });
 
 test( 'Old state is applied correctly', function( assert ) {
     var component = this.subject({ old: true });
 
-    assert.ok( component.get( 'old' ), 'Component is set to old state' );
-    assert.ok( this.$().hasClass( 'old' ), 'Component element has class "old"' );
+    assert.ok(
+        component.get( 'old' ),
+        'Component is set to old state'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'old' ),
+        'Component element has class "old"'
+    );
 });
 
 test( 'Property "day" populates component content', function( assert ) {

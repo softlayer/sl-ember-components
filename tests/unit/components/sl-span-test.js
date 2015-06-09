@@ -10,7 +10,10 @@ moduleForComponent( 'sl-span', 'Unit | Component | sl span', {
 test( '"value" property is supported', function( assert ) {
     this.subject({ value: 'Test content' });
 
-    assert.equal( Ember.$.trim( this.$().text() ), 'Test content' );
+    assert.equal(
+        Ember.$.trim( this.$().text() ),
+        'Test content'
+    );
 });
 
 test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {

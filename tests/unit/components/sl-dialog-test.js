@@ -155,6 +155,7 @@ test( 'The "show" property toggles the Bootstrap classes', function( assert ) {
     Ember.run( () => {
         component.set( 'show', true );
     });
+
     assert.ok(
         this.$().is( ':visible' ),
         'Element is visible after first toggle'
@@ -163,6 +164,7 @@ test( 'The "show" property toggles the Bootstrap classes', function( assert ) {
     Ember.run( () => {
         component.set( 'show', false );
     });
+
     assert.strictEqual(
         this.$().is( ':visible' ),
         false,
@@ -179,6 +181,7 @@ test( 'hideHandler properly handles hiding', function( assert ) {
     );
 
     this.$().trigger( 'hide.bs.modal' );
+
     assert.strictEqual(
         component.get( 'show' ),
         false,

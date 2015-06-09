@@ -127,6 +127,7 @@ test( 'Computed timezoneString is set and updated correctly', function( assert )
     Ember.run( () => {
         component.set( 'timezone', 'America/Los_Angeles' );
     });
+
     assert.equal(
         component.get( 'timezoneString' ),
         'PST',

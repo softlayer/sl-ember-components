@@ -29,6 +29,7 @@ test( 'Property "onFirstPage" works correctly', function( assert ) {
     Ember.run( () => {
         component.set( 'currentPage', 1 );
     });
+
     assert.ok(
         component.get( 'onFirstPage' ),
         'Rendered component is "onFirstPage" when currentPage = 1'
@@ -62,6 +63,7 @@ test( 'Changing to previous page behaves correctly', function( assert ) {
             }
         });
     });
+
     this.$( '.previous-page-button' ).trigger( 'click' );
 });
 
@@ -92,5 +94,6 @@ test( 'Changing to next page behaves correctly', function( assert ) {
             }
         });
     });
+
     this.$( '.next-page-button' ).trigger( 'click' );
 });

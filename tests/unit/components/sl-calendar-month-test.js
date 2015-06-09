@@ -22,14 +22,24 @@ test( 'Default state is inactive', function( assert ) {
 });
 
 test( 'Component has "month" class by default', function( assert ) {
-    assert.ok( this.$().hasClass( 'month' ), '"month" class is present' );
+    assert.ok(
+        this.$().hasClass( 'month' ),
+        '"month" class is present'
+    );
 });
 
 test( 'Active state is set correctly', function( assert ) {
     var component = this.subject({ active: true });
 
-    assert.ok( component.get( 'active' ), 'Component is active' );
-    assert.ok( this.$().hasClass( 'active' ), '"active" class is present' );
+    assert.ok(
+        component.get( 'active' ),
+        'Component is active'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'active' ),
+        '"active" class is present'
+    );
 });
 
 test( 'Action binding sends action with month', function( assert ) {
