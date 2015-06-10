@@ -81,6 +81,46 @@ export default Ember.Component.extend({
         },
 
         /**
+         * Close the detail-pane
+         *
+         * @function
+         * @returns {undefined}
+         */
+        closeDetailPane() {
+            let activeRecord = this.get( 'activeRecord' );
+
+            if ( activeRecord ) {
+                Ember.set( activeRecord, 'active', false );
+                this.set( 'activeRecord', null );
+            }
+
+            this.set( 'detailPaneOpen', false );
+            this.updateHeight();
+        },
+
+        /**
+         * Open the detail-pane with a specific row object
+         *
+         * @function
+         * @param {Object} row - An object representing the row to make active
+         * @returns {undefined}
+         */
+        openDetailPane( row ) {
+            let activeRecord = this.get( 'activeRecord' );
+
+            if ( activeRecord ) {
+                Ember.set( activeRecord, 'active', false );
+            }
+
+            Ember.set( row, 'active', true );
+            this.setProperties({
+                activeRecord: row,
+                detailPaneOpen: true
+            });
+            this.updateHeight();
+        },
+
+        /**
          * Handle a list item's row click
          *
          * If an action is bound to the `rowClick` property, then it will be
@@ -95,7 +135,7 @@ export default Ember.Component.extend({
         rowClick( row ) {
             if ( this.get( 'rowClick' ) ) {
                 this.sendAction( 'rowClick', row );
-            } else if ( this.get( 'detailPath' ) ) {
+            } else if ( this.get( 'detailComponent' ) ) {
                 this.send( 'openDetailPane', row );
             }
         },
@@ -211,6 +251,13 @@ export default Ember.Component.extend({
     currentPage: 1,
 
     /**
+     * The name of the component to render for the detail pane
+     *
+     * @type {?String}
+     */
+    detailComponent: null,
+
+    /**
      * The path of a template to use for the detail-pane footer
      *
      * @type {?String}
@@ -232,16 +279,6 @@ export default Ember.Component.extend({
     detailPaneOpen: false,
 
     /**
-     * The full path of the detail controller/template/view to render
-     *
-     * The controller matching this name also drives the data for the detail's
-     * footer template and header template.
-     *
-     * @type {?String}
-     */
-    detailPath: null,
-
-    /**
      * The text to display on the filter panel toggle button
      *
      * @type {String}
@@ -256,11 +293,11 @@ export default Ember.Component.extend({
     filterPaneOpen: false,
 
     /**
-     * The path of the controller/template/view to use for the filter panel
+     * The name of a component to use for the filter panel
      *
      * @type {?String}
      */
-    filterPath: null,
+    filterComponent: null,
 
     /**
      * The path for the template to use for the footer of the list pane
@@ -302,6 +339,25 @@ export default Ember.Component.extend({
     pageSize: 25,
 
     /**
+     * The aliased grid's parent controller, used to trigger row actions
+     *
+     * @type {module:components/sl-grid~_parentView._controller}
+     */
+    rowActionContext: Ember.computed.alias( '_parentView._controller' ),
+
+    /**
+     * An array of action definitions to use for individual row actions
+     *
+     * Each item in this array should have the following properties:
+     * - {String} action - The name of the action to trigger when this option
+     *   is called
+     * - {String} label - The displayed text for the option
+     *
+     * @type {?Object[]}
+     */
+    rowActions: null,
+
+    /**
      * Bound action to call when a row is clicked
      *
      * When this value is not set, the detail pane will be opened whenever a row
@@ -310,13 +366,6 @@ export default Ember.Component.extend({
      * @type {?String}
      */
     rowClick: null,
-
-    /**
-     * Whether to show the column for the rows' action drop-buttons
-     *
-     * @type {Boolean}
-     */
-    showActions: false,
 
     /**
      * Whether the currently sorted column is ascending or not
@@ -396,14 +445,13 @@ export default Ember.Component.extend({
     setupTemplates: Ember.on(
         'init',
         function() {
-            var renderedName = this.get( '_parentView.renderedName' );
+            let renderedName = this.get( '_parentView.renderedName' );
 
             if ( renderedName ) {
                 let registry = this.get( 'container._registry' );
                 let root = renderedName.replace( '.', '/' ) + '/';
                 let detailFooterPath = root + 'detail-footer';
                 let detailHeaderPath = root + 'detail-header';
-                let detailPath = root + 'detail';
                 let filterPath = root + 'filter';
                 let footerPath = root + 'footer';
 
@@ -419,13 +467,6 @@ export default Ember.Component.extend({
                     registry.resolve( 'template:' + detailHeaderPath )
                 ) {
                     this.set( 'detailHeaderPath', detailHeaderPath );
-                }
-
-                if (
-                    !this.get( 'detailPath' ) &&
-                    registry.resolve( 'template:' + detailPath )
-                ) {
-                    this.set( 'detailPath', detailPath );
                 }
 
                 if (
@@ -455,7 +496,7 @@ export default Ember.Component.extend({
         'continuous',
         'totalPages',
         function() {
-            var totalPages = this.get( 'totalPages' );
+            let totalPages = this.get( 'totalPages' );
 
             return !this.get( 'continuous' ) && totalPages && totalPages > 1;
         }
@@ -471,7 +512,7 @@ export default Ember.Component.extend({
         'columns',
         'sortedColumnTitle',
         function() {
-            var sortedColumnTitle = this.get( 'sortedColumnTitle' );
+            let sortedColumnTitle = this.get( 'sortedColumnTitle' );
 
             if ( sortedColumnTitle ) {
                 let columns = this.get( 'columns' );
@@ -524,75 +565,58 @@ export default Ember.Component.extend({
                 return;
             }
 
-            let componentHeight = this.get( 'height' );
-            let gridHeader = this.$( '.grid-header' );
-            let detailHeader = this.$( '.detail-pane header' );
-            let detailFooter = this.$( '.detail-pane footer' );
-            let listHeader = this.$( '.list-pane .column-headers' );
-            let listFooter = this.$( '.list-pane footer' );
+            Ember.run.next( () => {
+                let componentHeight = this.get( 'height' );
+                let gridHeader = this.$( '.grid-header' );
+                let detailHeader = this.$( '.detail-pane header' );
+                let detailFooter = this.$( '.detail-pane footer' );
+                let listHeader = this.$( '.list-pane .column-headers' );
+                let listFooter = this.$( '.list-pane footer' );
 
-            let detailHeaderHeight = detailHeader ?
-                parseInt( detailHeader.css( 'height' ) ) : 0;
+                let detailHeaderHeight = detailHeader ?
+                    parseInt( detailHeader.css( 'height' ) ) : 0;
 
-            let detailFooterHeight = detailFooter ?
-                parseInt( detailFooter.css( 'height' ) ) : 0;
+                let detailFooterHeight = detailFooter ?
+                    parseInt( detailFooter.css( 'height' ) ) : 0;
 
-            let gridHeaderHeight = gridHeader ?
-                parseInt( gridHeader.css( 'height' ) ) : 0;
+                let gridHeaderHeight = gridHeader ?
+                    parseInt( gridHeader.css( 'height' ) ) : 0;
 
-            let listHeaderHeight = listHeader ?
-                parseInt( listHeader.css( 'height' ) ) : 0;
+                let listHeaderHeight = listHeader ?
+                    parseInt( listHeader.css( 'height' ) ) : 0;
 
-            let listFooterHeight = listFooter ?
-                parseInt( listFooter.css( 'height' ) ) : 0;
+                let listFooterHeight = listFooter ?
+                    parseInt( listFooter.css( 'height' ) ) : 0;
 
-            let maxHeight = componentHeight;
-            if ( componentHeight === 'auto' ) {
-                maxHeight = Ember.$( window ).innerHeight() -
-                    this.$().position().top;
-            }
+                let maxHeight = componentHeight;
+                if ( componentHeight === 'auto' ) {
+                    maxHeight = Ember.$( window ).innerHeight() -
+                        this.$().position().top;
+                }
 
-            let detailContentHeight = maxHeight - gridHeaderHeight -
-                detailHeaderHeight - detailFooterHeight;
+                let detailContentHeight = maxHeight - gridHeaderHeight -
+                    detailHeaderHeight - detailFooterHeight;
 
-            let listContentHeight = maxHeight - gridHeaderHeight -
-                listHeaderHeight - listFooterHeight;
+                let listContentHeight = maxHeight - gridHeaderHeight -
+                    listHeaderHeight - listFooterHeight;
 
-            if ( this.get( 'filterPaneOpen' ) ) {
-                let filterPaneHeight = parseInt(
-                    this.$( '.filter-pane' ).css( 'height' )
-                );
+                if ( this.get( 'filterPaneOpen' ) ) {
+                    let filterPaneHeight = parseInt(
+                        this.$( '.filter-pane' ).css( 'height' )
+                    );
 
-                detailContentHeight -= filterPaneHeight;
-                listContentHeight -= filterPaneHeight;
-            }
+                    detailContentHeight -= filterPaneHeight;
+                    listContentHeight -= filterPaneHeight;
+                }
 
-            this.$( '.detail-pane .content' ).height( detailContentHeight );
-            this.$( '.list-pane .content' ).height( listContentHeight );
+                this.$( '.detail-pane .content' ).height( detailContentHeight );
+                this.$( '.list-pane .content' ).height( listContentHeight );
+            });
         }
     ),
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * Close the detail-pane
-     *
-     * @function
-     * @returns {undefined}
-     */
-    closeDetailPane() {
-        var activeRecord = this.get( 'activeRecord' );
-
-        if ( activeRecord ) {
-            Ember.set( activeRecord, 'active', false );
-            this.set( 'activeRecord', null );
-        }
-
-        this.set( 'detailPaneOpen', false );
-        this.updateHeight();
-    },
-
 
     /**
      * Disables the scroll event handling for continuous paging
@@ -626,10 +650,10 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     handleListContentScroll( event ) {
-        var listContent = this.$( event.target );
-        var loading = this.get( 'loading' );
-        var nextPageScrollPoint = this.get( 'nextPageScrollPoint' );
-        var scrollBottom = listContent.scrollTop() + listContent.height();
+        let listContent = this.$( event.target );
+        let loading = this.get( 'loading' );
+        let nextPageScrollPoint = this.get( 'nextPageScrollPoint' );
+        let scrollBottom = listContent.scrollTop() + listContent.height();
 
         if ( scrollBottom >= nextPageScrollPoint && !loading ) {
             this.requestMoreData();
@@ -649,28 +673,6 @@ export default Ember.Component.extend({
             return this.get( 'content.length' ) < this.get( 'totalCount' );
         }
     ),
-
-    /**
-     * Open the detail-pane with a specific row object
-     *
-     * @function
-     * @param {Object} row - An object representing the row to make active
-     * @returns {undefined}
-     */
-    openDetailPane( row ) {
-        var activeRecord = this.get( 'activeRecord' );
-
-        if ( activeRecord ) {
-            Ember.set( activeRecord, 'active', false );
-        }
-
-        Ember.set( row, 'active', true );
-        this.setProperties({
-            activeRecord: row,
-            detailPaneOpen: true
-        });
-        this.updateHeight();
-    },
 
     /**
      * Trigger the bound `requestData` action for more content data

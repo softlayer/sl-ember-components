@@ -239,7 +239,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     setupDatepicker: Ember.on(
         'didInsertElement',
         function() {
-            var datepicker = this.$( 'input.date-picker' )
+            let datepicker = this.$( 'input.date-picker' )
                 .datepicker( this.get( 'options' ) );
 
             datepicker.on( 'changeDate', () => {

@@ -9,47 +9,61 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <h6>Template: grid.hbs</h6>
+        <h6>Template: demos/sl-grid.hbs</h6>
         <pre>\{{#sl-grid
     columns=columns
     content=arrangedContent
     height=400
-    showActions=true
+    rowActions=rowActions
     sortColumn="sortColumn"
     totalCount=totalCount
 }}
     &lt;h3&gt;Colors&lt;/h3&gt;
 \{{/sl-grid}}</pre>
 
-        <h6>Template: grid/detail-footer.hbs</h6>
+        <h6>Template: demos/sl-grid/detail-footer.hbs</h6>
         <pre>\{{model.hexCode}}</pre>
 
-        <h6>Template: grid/detail-header.hbs</h6>
+        <h6>Template: demos/sl-grid/detail-header.hbs</h6>
         <pre>Color: \{{model.name}}</pre>
 
-        <h6>Template: grid/detail.hbs</h6>
+        <h6>Template: components/demos/sl-grid-detail.hbs</h6>
         <pre>&lt;h3&gt;\{{model.name}} fruit: \{{model.fruit}}&lt;/h3&gt;</pre>
 
-        <h6>Template: grid/footer.hbs</h6>
+        <h6>Template: demos/sl-grid/footer.hbs</h6>
         <pre>Viewing \{{content.length}} of \{{totalCount}} Colors</pre>
 
         <h6>Controller</h6>
         <pre>columns: [
     {
-        primary   : true,
-        title     : 'Color',
-        valuePath : 'name'
+        primary: true,
+        title: 'Color',
+        valuePath: 'name'
     }, {
-        size      : 'small',
-        sortable  : true,
-        title     : 'Fruit',
-        valuePath : 'fruit'
+        size: 'small',
+        sortable: true,
+        title: 'Fruit',
+        valuePath: 'fruit'
     }, {
-        size      : 'small',
-        title     : 'Hex Code',
-        valuePath : 'hexCode'
+        size: 'small',
+        title: 'Hex Code',
+        valuePath: 'hexCode'
     }
-]</pre>
+],
+
+rowActions: Ember.A([
+    {
+        label: 'Alert',
+        action( row ) {
+            window.alert( 'Record: ' + Ember.get( row, 'name' ) );
+        }
+    }, {
+        label: 'Log',
+        action( row ) {
+            window.console.log( 'Record:', Ember.get( row, 'name' ) );
+        }
+    }
+])</pre>
     </div>
 
     <div class="col-lg-6">
@@ -57,8 +71,9 @@
         {{#sl-grid
             columns=columns
             content=arrangedContent
+            detailComponent="demos/sl-grid-detail"
             height=400
-            showActions=true
+            rowActions=rowActions
             sortColumn="sortColumn"
             totalCount=totalCount
         }}
@@ -97,28 +112,28 @@
         When this is true, the grid requests data in a continuous paging manner, without the use of pagination options or data. See <code>requestData</code> for information on how content is handled in a <code>continuous</code> grid.
     {{/property-text}}
 
+    {{#property-text name="detailComponent" type="string"}}
+        The name of a component to render in the detail pane. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If `detailComponent` is omitted, the detail pane will not be opened when a row in the list pane is clicked.
+    {{/property-text}}
+
     {{#property-text name="detailFooterPath" type="string"}}
-        The application path to a template to use for the detail-pane footer. This template's controller is the one corresponding to <code>detailPath</code>. If this property is omitted, the component will look for a file named in the current context <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
+        The application path to a template to use for the detail-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
     {{/property-text}}
 
     {{#property-text name="detailHeaderPath" type="string"}}
-        The application path to a template to use for the detail-pane header. This template's controller is the one corresponding to <code>detailPath</code>. If this property is omitted, the component will look for a file named in the current context <code>./detail-header.hbs</code>, and if not found, will not render anything for the detail header.
-    {{/property-text}}
-
-    {{#property-text name="detailPath" type="string"}}
-        The application path to a controller and template to use for the detail-pane and all of its content. The controller this path points to will be used for the detailFooter and detailHeader content areas. If this property is omitted, the component will assume a path named in the current context <code>./detail</code>.
+        The application path to a template to use for the detail-pane header. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-header.hbs</code>, and if not found, will not render anything for the detail header.
     {{/property-text}}
 
     {{#property-text name="filterButtonLabel" type="string" default="Filter"}}
         The string to use for the filter button label text.
     {{/property-text}}
 
-    {{#property-text name="filterPath" type="string"}}
-        The application path to a controller and template to use for the filter-pane content. If this property is omitted, the component will assume a path named in the current context <code>./filter</code>.
+    {{#property-text name="filterComponent" type="string"}}
+        The name of a component to render in the filter pane. If this property is omitted, the filter button and pane will be disabled.
     {{/property-text}}
 
     {{#property-text name="footerPath" type="string"}}
-        The application path to a template to use for list-pane footer. This template's controller will be the current controller. If this property is omitted, the component will look for a file named in the current context <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
+        The application path to a template to use for list-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
     {{/property-text}}
 
     {{#property-text name="height" type="number/string" default="\"auto\""}}
@@ -139,12 +154,16 @@
         <p>For a non-<code>continuous</code> grid&mdash;the default&mdash;the action function should accept a page number to load data into <code>content</code> for.</p>
     {{/property-text}}
 
-    {{#property-text name="rowClick" type="string"}}
-        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record. If no valid detailPath is defined, then nothing will happen when a list-pane row is clicked.
+    {{#property-text name="rowActions" type="array"}}
+        <p>An array of objects defining what actions display in the right-most column for each row in the list pane. Each object in this array should contain the following values:</p>
+        <ul>
+            <li><strong>action</strong> - A <em>string</em> name of an action to trigger when this action option is selected</li>
+            <li><strong>label</strong> - A <em>string</em> to use for the label of the action option as a dropdown item</li>
+        </ul>
     {{/property-text}}
 
-    {{#property-text name="showActions" type="boolean" default="false"}}
-        Whether to show a column for the actions dropdown on the right side of the table. The drop-button options are populated by the detail controller's <code>rowActions</code> array property.
+    {{#property-text name="rowClick" type="string"}}
+        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record. If no valid detailPath is defined, then nothing will happen when a list-pane row is clicked.
     {{/property-text}}
 
     {{#property-text name="sortColumn" type="string"}}

@@ -15,8 +15,8 @@ import Ember from 'ember';
  * @returns {mixed} The value returned from looking up the path on the object
  */
 export default function( objectKey, pathKey, context ) {
-    var object = Ember.get( context, `data.view._keywords.${objectKey}` );
-    var path = Ember.get( context, `data.view._keywords.${pathKey}` );
+    let object = Ember.get( context, `data.view._keywords.${objectKey}` );
+    let path = Ember.get( context, `data.view._keywords.${pathKey}` );
 
     return Ember.get( object, path );
 }

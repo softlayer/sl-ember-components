@@ -143,7 +143,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     themeClass: Ember.computed(
         'theme',
         function() {
-            var theme = this.get( 'theme' );
+            let theme = this.get( 'theme' );
 
             Ember.assert(
                 `Error: Invalid sl-drop-button theme value "${theme}"`,

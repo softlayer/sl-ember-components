@@ -104,7 +104,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     themeClassName: Ember.computed(
         'theme',
         function() {
-            var theme = this.get( 'theme' );
+            let theme = this.get( 'theme' );
 
             Ember.assert(
                 'Error: Invalid theme string',

@@ -39,13 +39,14 @@ export default Ember.Component.extend({
     actions: {
 
         /**
-         * Send the primary action when the click action is triggered
+         * Send the primary action, with `data` property if defined, when the
+         * click action is triggered
          *
          * @function actions:click
          * @returns {undefined}
          */
         click() {
-            this.sendAction();
+            this.sendAction( 'action', this.get( 'data' ) );
         }
 
     },
@@ -55,6 +56,13 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Any data to be passed along with the action
+     *
+     * @type {?Object}
+     */
+    data: null,
 
     // -------------------------------------------------------------------------
     // Observers

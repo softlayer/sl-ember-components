@@ -119,8 +119,8 @@ export default Ember.Component.extend( TooltipEnabled, {
         'format',
         'momentValue',
         function() {
-            var momentValue = this.get( 'momentValue' );
-            var formattedString = '';
+            let momentValue = this.get( 'momentValue' );
+            let formattedString = '';
 
             switch ( this.get( 'format' ) ) {
                 case FORMAT.DATE:

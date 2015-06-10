@@ -101,16 +101,17 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     initialize: Ember.on(
         'didInsertElement',
         function() {
-            var name = this.get( 'name' );
-            var value = this.get( 'value' );
-            var isDisabled = this.get( 'disabled' );
-            var isInline = this.get( 'inline' );
-            var isReadonly = this.get( 'readonly' );
+            let name = this.get( 'name' );
 
             Ember.assert(
                 'The name property must be set on the sl-radio-group component',
                 name
             );
+
+            let value = this.get( 'value' );
+            let isDisabled = this.get( 'disabled' );
+            let isInline = this.get( 'inline' );
+            let isReadonly = this.get( 'readonly' );
 
             /**
              * To each sl-radio component apply...
@@ -119,8 +120,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
              * - Classes: radio, radio-inline
              */
             this.$( '.sl-radio' ).each( function () {
-                var radio = Ember.$( this );
-                var input = Ember.$( 'input', this );
+                let radio = Ember.$( this );
+                let input = Ember.$( 'input', this );
 
                 input.attr( 'name', name );
 

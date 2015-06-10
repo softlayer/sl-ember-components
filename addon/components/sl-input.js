@@ -137,10 +137,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         },
 
                         source: ( query, callback ) => {
-                            var pattern = new RegExp( query, 'i' );
+                            let pattern = new RegExp( query, 'i' );
 
                             callback( this.get( 'suggestions' ).filter( suggestion => {
-                                var searchCandidate;
+                                let searchCandidate;
 
                                 if ( suggestion instanceof Object ) {
                                     searchCandidate = Ember.get( suggestion, namePath );
@@ -154,7 +154,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     });
 
                     let selectItem = ( event, item ) => {
-                        var value = item instanceof Object ? Ember.get( item, namePath ): item;
+                        let value = item instanceof Object ? Ember.get( item, namePath ): item;
 
                         this.set( 'value', value );
                     };
@@ -203,7 +203,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     inputClass: Ember.computed(
         function() {
-            var classes = [ 'form-control' ];
+            let classes = [ 'form-control' ];
 
             if ( this.get( 'clickToEdit' ) ) {
                 classes.push( 'click-to-edit' );

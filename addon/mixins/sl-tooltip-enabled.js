@@ -80,7 +80,7 @@ export default Ember.Mixin.create({
      * @returns {undefined}
      */
     enablePopover() {
-        var popover = this.get( 'popover' );
+        let popover = this.get( 'popover' );
 
         // First-time rendering
         if ( 'undefined' === Ember.typeOf( this.$().attr( 'data-original-title' ) ) ) {
@@ -106,7 +106,7 @@ export default Ember.Mixin.create({
      * @returns {undefined}
      */
     enableTooltip() {
-        var title = this.get( 'title' );
+        let title = this.get( 'title' );
 
         // First-time rendering
         if ( 'undefined' === typeof this.$().attr( 'data-original-title' ) ) {

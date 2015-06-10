@@ -52,7 +52,7 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         change( tabName ) {
-            var activeTabName = this.get( 'activeTabName' );
+            let activeTabName = this.get( 'activeTabName' );
 
             if ( activeTabName !== tabName ) {
                 this.setActiveTab( tabName );
@@ -112,8 +112,8 @@ export default Ember.Component.extend({
     setupTabs: Ember.on(
         'didInsertElement',
         function() {
-            var initialTabName = this.get( 'initialTabName' );
-            var tabs = Ember.A();
+            let initialTabName = this.get( 'initialTabName' );
+            let tabs = Ember.A();
 
             if ( !initialTabName ) {
                 initialTabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
@@ -123,7 +123,7 @@ export default Ember.Component.extend({
             this.activatePane( initialTabName );
 
             this.$( '.tab-pane' ).each( function() {
-                var tabName = this.getAttribute( 'data-tab-name' );
+                let tabName = this.getAttribute( 'data-tab-name' );
 
                 tabs.push({
                     active: tabName === initialTabName,
@@ -160,7 +160,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     activatePane( tabName ) {
-        var pane = this.paneFor( tabName );
+        let pane = this.paneFor( tabName );
 
         pane.fadeIn( 'fast', function() {
             pane.addClass( 'active' );
@@ -178,7 +178,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     deactivatePane( callback ) {
-        var pane = this.paneFor( this.get( 'activeTabName' ) );
+        let pane = this.paneFor( this.get( 'activeTabName' ) );
 
         pane.fadeOut( 'fast', function() {
             pane.removeClass( 'active' );
@@ -208,7 +208,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     setActiveTab( tabName ) {
-        var activeTabName = this.get( 'activeTabName' );
+        let activeTabName = this.get( 'activeTabName' );
 
         this.tabFor( activeTabName ).removeClass( 'active' );
         this.tabFor( tabName ).addClass( 'active' );
@@ -225,7 +225,7 @@ export default Ember.Component.extend({
     tabAlignmentClass: Ember.computed(
         'alignTabs',
         function() {
-            var alignTabs = this.get( 'alignTabs' );
+            let alignTabs = this.get( 'alignTabs' );
 
             Ember.assert(
                 `Error: Invalid alignTabs property value "${alignTabs}"`,

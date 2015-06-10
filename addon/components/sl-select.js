@@ -118,10 +118,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     setupSelect2: Ember.on(
         'didInsertElement',
         function() {
-            var get = Ember.get;
-            var self = this;
+            let get = Ember.get;
+            let self = this;
 
-            var input = this.$( 'input' ).select2({
+            let input = this.$( 'input' ).select2({
                 maximumSelectionSize: this.get( 'maximumSelectionSize' ),
                 multiple: this.get( 'multiple' ),
                 placeholder: this.get( 'placeholder' ),
@@ -166,7 +166,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 },
 
                 id: ( item ) => {
-                    var value = item;
+                    let value = item;
 
                     if ( item instanceof Object ) {
                         value = get( item, this.get( 'optionValuePath' ) );
@@ -176,7 +176,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 },
 
                 initSelection: ( element, callback ) => {
-                    var value = element.val();
+                    let value = element.val();
 
                     if ( !value || !value.length ) {
                         return callback( [] );
@@ -230,13 +230,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
 
                 query: function( query ) {
-                    var content = self.get( 'content' ) || [];
-                    var optionLabelPath = self.get( 'optionLabelPath' );
-                    var select2 = this;
+                    let content = self.get( 'content' ) || [];
+                    let optionLabelPath = self.get( 'optionLabelPath' );
+                    let select2 = this;
 
                     query.callback({
                         results: content.reduce( ( results, item ) => {
-                            var text = item instanceof Object ?
+                            let text = item instanceof Object ?
                                 get( item, optionLabelPath ) : item;
 
                             if (

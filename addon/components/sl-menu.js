@@ -183,7 +183,7 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         drillDown() {
-            var child = this.get( 'activeChild' );
+            let child = this.get( 'activeChild' );
 
             if ( this.get( 'keyHandler' )) {
                 if ( child ) {
@@ -355,7 +355,7 @@ export default Ember.Component.extend({
     destroyMenu: Ember.on(
         'willClearRender',
         function() {
-            var parent = this.get( 'parentView' );
+            let parent = this.get( 'parentView' );
 
             if ( Ember.typeOf( parent.unregisterChild ) === 'function' ) {
                 parent.unregisterChild( this );
@@ -397,10 +397,10 @@ export default Ember.Component.extend({
     initMenu: Ember.on(
         'didInsertElement',
         function() {
-            var keyEvents = this.get( 'keyEvents' );
-            var parent = this.get( 'parentView' );
-            var path = Ember.A();
-            var rootNode = this;
+            let keyEvents = this.get( 'keyEvents' );
+            let parent = this.get( 'parentView' );
+            let path = Ember.A();
+            let rootNode = this;
 
             this.set( 'pages', Ember.A( this.get( 'menu.pages' ) ) );
 
@@ -505,7 +505,7 @@ export default Ember.Component.extend({
      */
     currentRootNodeIndex: Ember.computed(
         function() {
-            var currentIndex = null;
+            let currentIndex = null;
 
             // Determine index of rootNode currently on
             this.get( 'rootNode.menu.pages' ).forEach( ( item, index ) => {
@@ -527,8 +527,8 @@ export default Ember.Component.extend({
     extraClassNamesString: Ember.computed(
         'extraClassNames',
         function() {
-            var extraClassNames = this.get( 'extraClassNames' );
-            var extraClassNamesString = '';
+            let extraClassNames = this.get( 'extraClassNames' );
+            let extraClassNamesString = '';
 
             if ( !Ember.isNone( extraClassNames ) ) {
                 extraClassNamesString = extraClassNames.join( ' ' );

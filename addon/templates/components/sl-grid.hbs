@@ -4,7 +4,7 @@
             {{yield}}
         </div>
 
-        {{#if filterPath}}
+        {{#if filterComponent}}
             <div class="col-sm-6 text-right">
                 {{#sl-button
                     action="toggleFilterPane"
@@ -20,8 +20,8 @@
 <div class="filter-pane">
     {{#if filterPaneOpen}}
         <div class="filter-content">
-            {{#if filterPath}}
-                {{render-dynamic filterPath}}
+            {{#if filterComponent}}
+                {{component filterComponent}}
             {{/if}}
         </div>
     {{/if}}
@@ -35,7 +35,7 @@
                     {{sl-grid-column-header column=column onClick="sortColumn"}}
                 {{/each}}
 
-                {{#if showActions}}
+                {{#if rowActions}}
                     <th class="actions-cell"></th>
                 {{/if}}
             </tr>
@@ -45,7 +45,7 @@
     <div class="content">
         <table class="table table-hover table-striped">
             <tbody>
-                {{#each content itemController=detailPath as |row|}}
+                {{#each content as |row|}}
                     {{#sl-grid-row}}
                         {{#each columns as |column|}}
                             {{sl-grid-cell
@@ -55,7 +55,7 @@
                             }}
                         {{/each}}
 
-                        {{#if showActions}}
+                        {{#if rowActions}}
                             <td class="actions-cell">
                                 {{#sl-drop-button
                                     align="right"
@@ -63,10 +63,12 @@
                                     size="small"
                                     theme="hover"
                                 }}
-                                    {{#each row.rowActions as |rowAction|}}
+                                    {{#each rowActions as |rowAction|}}
                                         {{sl-drop-option
                                             action=rowAction.action
+                                            data=row
                                             label=rowAction.label
+                                            targetObject=rowActionContext
                                         }}
                                     {{/each}}
                                 {{/sl-drop-button}}
@@ -103,7 +105,7 @@
     <header>
         <span class="title">
             {{#if detailHeaderPath}}
-                {{render-dynamic detailHeaderPath activeRecord.model}}
+                {{render-dynamic detailHeaderPath activeRecord}}
             {{/if}}
         </span>
 
@@ -112,15 +114,15 @@
 
     <div class="content">
         <div class="detail-content">
-            {{#if detailPath}}
-                {{render-dynamic detailPath activeRecord.model}}
+            {{#if detailComponent}}
+                {{component detailComponent model=activeRecord}}
             {{/if}}
         </div>
     </div>
 
     <footer>
         {{#if detailFooterPath}}
-            {{render-dynamic detailFooterPath activeRecord.model}}
+            {{render-dynamic detailFooterPath activeRecord}}
         {{/if}}
     </footer>
 </div>

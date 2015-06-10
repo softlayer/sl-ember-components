@@ -100,11 +100,11 @@ export default Ember.Component.extend({
     alignmentClass: Ember.computed(
         'column.align',
         function() {
-            var align = this.get( 'column.align' );
-
             if ( !align ) {
                 return;
             }
+
+            let align = this.get( 'column.align' );
 
             Ember.assert(
                 `Error: Invalid column align value "${align}"`,
@@ -145,7 +145,7 @@ export default Ember.Component.extend({
     sizeClass: Ember.computed(
         'column.size',
         function() {
-            var size = this.get( 'column.size' );
+            let size = this.get( 'column.size' );
 
             if ( Ember.typeOf( size ) === 'string' ) {
                 Ember.assert(
@@ -167,7 +167,7 @@ export default Ember.Component.extend({
     style: Ember.computed(
         'column.size',
         function() {
-            var size = this.get( 'column.size' );
+            let size = this.get( 'column.size' );
 
             if ( Ember.typeOf( size ) === 'number' ) {
                 return Ember.String.htmlSafe( `width: ${size}px;` );

@@ -70,7 +70,7 @@ export default SlGridCell.extend({
                 return;
             }
 
-            var sortAscending = this.get( 'column.sortAscending' );
+            let sortAscending = this.get( 'column.sortAscending' );
 
             if ( Ember.typeOf( sortAscending ) === 'boolean' ) {
                 return 'column-' + (
@@ -94,8 +94,8 @@ export default SlGridCell.extend({
                 return;
             }
 
-            var sortAscending = this.get( 'column.sortAscending' ),
-                iconClass;
+            let sortAscending = this.get( 'column.sortAscending' );
+            let iconClass;
 
             if ( sortAscending === true ) {
                 iconClass = 'fa-sort-asc';
