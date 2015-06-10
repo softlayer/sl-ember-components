@@ -1,20 +1,22 @@
 /* jshint node: true */
 /* global require, module, process */
 
-var EmberAddon = require( 'ember-cli/lib/broccoli/ember-addon' ),
-    replace = require( 'broccoli-string-replace' ),
-    env = require( './config/environment' ),
-    isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production',
-    app = new EmberAddon({
-        fingerprint: {
-            enabled: true,
-            exclude: [],
-            extensions: [ 'png', 'jpg', 'gif' ],
-            prepend: env().baseAssetsURL,
-            replaceExtensions: [ 'html', 'css', 'js' ]
-        }
-    }),
-    tree;
+var EmberAddon = require( 'ember-cli/lib/broccoli/ember-addon' );
+var replace = require( 'broccoli-string-replace' );
+var env = require( './config/environment' );
+var isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production';
+var package = require( './package.json' );
+var tree;
+
+var app = new EmberAddon({
+    fingerprint: {
+        enabled: true,
+        exclude: [],
+        extensions: [ 'png', 'jpg', 'gif' ],
+        prepend: env().baseAssetsURL,
+        replaceExtensions: [ 'html', 'css', 'js' ]
+    }
+});
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
@@ -49,18 +51,17 @@ tree = replace( app.toTree(), {
         'index.html',
         'assets/dummy.js'
     ],
+
     patterns: [
         {
             match: /REPLACE_META_DESCRIPTION/g,
-            replacement: require('./package.json')['description']
-        },
-        {
+            replacement: package[ 'description' ]
+        }, {
             match: /REPLACE_META_KEYWORDS/g,
-            replacement: require('./package.json')['keywords'].join( ', ' ) + ', ember, ember cli'
-        },
-        {
+            replacement: package[ 'keywords' ].join( ', ' ) + ', ember, ember cli'
+        }, {
             match: /REPLACE_APPLICATION_VERSION/g,
-            replacement: require('./package.json')['version']
+            replacement: package[ 'version' ]
         }
     ]
 });
