@@ -17,6 +17,7 @@ moduleForComponent( 'sl-grid', 'Unit | Component | sl grid', {
     needs: [
         'component:sl-button',
         'component:sl-drop-button',
+        'component:sl-drop-option',
         'component:sl-grid-cell',
         'component:sl-grid-column-header',
         'component:sl-grid-row',
@@ -169,7 +170,7 @@ test( 'Actions button label text is settable', function( assert ) {
         actionsButtonLabel: 'Test',
         columns,
         content,
-        showActions: true
+        rowActions: Ember.A( [ { action: 'test', label: 'Test' } ] )
     });
 
     assert.equal(
@@ -193,6 +194,8 @@ test( 'Fixed height values are supported', function( assert ) {
     var totalHeight;
 
     this.subject({ columns, content, height: 1000 });
+    this.render();
+
     totalHeight = (
         parseInt( this.$( '.grid-header' ).css( 'height' ) ) +
         parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) ) +

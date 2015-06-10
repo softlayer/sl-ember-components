@@ -100,11 +100,11 @@ export default Ember.Component.extend({
     alignmentClass: Ember.computed(
         'column.align',
         function() {
+            let align = this.get( 'column.align' );
+
             if ( !align ) {
                 return;
             }
-
-            let align = this.get( 'column.align' );
 
             Ember.assert(
                 `Error: Invalid column align value "${align}"`,

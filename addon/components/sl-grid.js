@@ -565,53 +565,51 @@ export default Ember.Component.extend({
                 return;
             }
 
-            Ember.run.next( () => {
-                let componentHeight = this.get( 'height' );
-                let gridHeader = this.$( '.grid-header' );
-                let detailHeader = this.$( '.detail-pane header' );
-                let detailFooter = this.$( '.detail-pane footer' );
-                let listHeader = this.$( '.list-pane .column-headers' );
-                let listFooter = this.$( '.list-pane footer' );
+            let componentHeight = this.get( 'height' );
+            let gridHeader = this.$( '.grid-header' );
+            let detailHeader = this.$( '.detail-pane header' );
+            let detailFooter = this.$( '.detail-pane footer' );
+            let listHeader = this.$( '.list-pane .column-headers' );
+            let listFooter = this.$( '.list-pane footer' );
 
-                let detailHeaderHeight = detailHeader ?
-                    parseInt( detailHeader.css( 'height' ) ) : 0;
+            let detailHeaderHeight = detailHeader ?
+                parseInt( detailHeader.css( 'height' ) ) : 0;
 
-                let detailFooterHeight = detailFooter ?
-                    parseInt( detailFooter.css( 'height' ) ) : 0;
+            let detailFooterHeight = detailFooter ?
+                parseInt( detailFooter.css( 'height' ) ) : 0;
 
-                let gridHeaderHeight = gridHeader ?
-                    parseInt( gridHeader.css( 'height' ) ) : 0;
+            let gridHeaderHeight = gridHeader ?
+                parseInt( gridHeader.css( 'height' ) ) : 0;
 
-                let listHeaderHeight = listHeader ?
-                    parseInt( listHeader.css( 'height' ) ) : 0;
+            let listHeaderHeight = listHeader ?
+                parseInt( listHeader.css( 'height' ) ) : 0;
 
-                let listFooterHeight = listFooter ?
-                    parseInt( listFooter.css( 'height' ) ) : 0;
+            let listFooterHeight = listFooter ?
+                parseInt( listFooter.css( 'height' ) ) : 0;
 
-                let maxHeight = componentHeight;
-                if ( componentHeight === 'auto' ) {
-                    maxHeight = Ember.$( window ).innerHeight() -
-                        this.$().position().top;
-                }
+            let maxHeight = componentHeight;
+            if ( componentHeight === 'auto' ) {
+                maxHeight = Ember.$( window ).innerHeight() -
+                    this.$().position().top;
+            }
 
-                let detailContentHeight = maxHeight - gridHeaderHeight -
-                    detailHeaderHeight - detailFooterHeight;
+            let detailContentHeight = maxHeight - gridHeaderHeight -
+                detailHeaderHeight - detailFooterHeight;
 
-                let listContentHeight = maxHeight - gridHeaderHeight -
-                    listHeaderHeight - listFooterHeight;
+            let listContentHeight = maxHeight - gridHeaderHeight -
+                listHeaderHeight - listFooterHeight;
 
-                if ( this.get( 'filterPaneOpen' ) ) {
-                    let filterPaneHeight = parseInt(
-                        this.$( '.filter-pane' ).css( 'height' )
-                    );
+            if ( this.get( 'filterPaneOpen' ) ) {
+                let filterPaneHeight = parseInt(
+                    this.$( '.filter-pane' ).css( 'height' )
+                );
 
-                    detailContentHeight -= filterPaneHeight;
-                    listContentHeight -= filterPaneHeight;
-                }
+                detailContentHeight -= filterPaneHeight;
+                listContentHeight -= filterPaneHeight;
+            }
 
-                this.$( '.detail-pane .content' ).height( detailContentHeight );
-                this.$( '.list-pane .content' ).height( listContentHeight );
-            });
+            this.$( '.detail-pane .content' ).height( detailContentHeight );
+            this.$( '.list-pane .content' ).height( listContentHeight );
         }
     ),
 
