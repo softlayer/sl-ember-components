@@ -551,9 +551,6 @@ export default Ember.Component.extend({
     /**
      * Update the panes' heights according to `height` property value
      *
-     * The actual sizing calculation code must be done in an Ember.run.next,
-     * since some of the elements' heights will return 0 until they are visible.
-     *
      * @function
      * @listens didInsertElement
      * @returns {undefined}
