@@ -269,17 +269,13 @@ export default Ember.Component.extend({
             let content = this.get( 'content' );
             let dates = {};
             let dateValuePath = this.get( 'dateValuePath' );
-            let date;
-            let year;
-            let month;
-            let day;
 
             if ( content ) {
                 content.forEach( ( item ) => {
-                    date = new Date( Ember.get( item, dateValuePath ) );
-                    year = date.getFullYear();
-                    month = date.getMonth() + 1;
-                    day = date.getDate();
+                    let date = new Date( Ember.get( item, dateValuePath ) );
+                    let year = date.getFullYear();
+                    let month = date.getMonth() + 1;
+                    let day = date.getDate();
 
                     if ( !dates.hasOwnProperty( year ) ) {
                         dates[ year ] = {};
