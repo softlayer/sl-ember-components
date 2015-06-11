@@ -53,15 +53,11 @@
 
 rowActions: Ember.A([
     {
-        label: 'Alert',
-        action( row ) {
-            window.alert( 'Record: ' + Ember.get( row, 'name' ) );
-        }
+        action: 'sendAlert',
+        label: 'Alert'
     }, {
-        label: 'Log',
-        action( row ) {
-            window.console.log( 'Record:', Ember.get( row, 'name' ) );
-        }
+        action: 'sendLog',
+        label: 'Log'
     }
 ])</pre>
     </div>
