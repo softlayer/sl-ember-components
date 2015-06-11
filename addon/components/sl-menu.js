@@ -461,7 +461,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     activateChild( child ) {
-        if ( typeof child === 'number' ) {
+        if ( Ember.typeOf( child ) === 'number' ) {
             child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
         }
 

@@ -183,7 +183,7 @@ export default Ember.Component.extend({
         pane.fadeOut( 'fast', function() {
             pane.removeClass( 'active' );
 
-            if ( typeof callback === 'function' ) {
+            if ( Ember.typeOf( callback ) === 'function' ) {
                 callback();
             }
         });

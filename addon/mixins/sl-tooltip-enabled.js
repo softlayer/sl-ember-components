@@ -109,7 +109,7 @@ export default Ember.Mixin.create({
         let title = this.get( 'title' );
 
         // First-time rendering
-        if ( 'undefined' === typeof this.$().attr( 'data-original-title' ) ) {
+        if ( 'undefined' === Ember.typeOf( this.$().attr( 'data-original-title' ) ) ) {
             this.set( 'data-toggle', 'tooltip' );
 
             this.$().tooltip({
