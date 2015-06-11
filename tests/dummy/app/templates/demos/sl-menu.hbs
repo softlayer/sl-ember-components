@@ -162,7 +162,7 @@ export default Ember.View.extend({
     registerKeyListeners: Ember.on(
         'didInsertElement',
         function() {
-            Ember.$( document ).on( 'keypress.menu', ( e ) => {
+            Ember.$( document ).on( 'keypress.menu', ( e ) =&gt; {
                 if ( e.charCode &gt;= 49 &amp;&amp; e.charCode &lt;= 57 ) {
                     var keypressed = e.charCode - 48;
                     this.get( 'controller.keyHandler' ).childSelection( keypressed );
@@ -174,14 +174,14 @@ export default Ember.View.extend({
             });
 
             // keypress doesn't appear to catch ESC
-            Ember.$( document ).on( 'keyup.menu', ( e ) => {
+            Ember.$( document ).on( 'keyup.menu', ( e ) =&gt; {
                 if ( e.keyCode === 27 ) {
                     this.get( 'controller.keyHandler' ).closeAll();
                 }
             });
 
             // need to capture TAB key with keydown event
-            Ember.$( document ).on( 'keydown.menu', ( e ) => {
+            Ember.$( document ).on( 'keydown.menu', ( e ) =&gt; {
                 if ( 9 === e.keyCode &amp;&amp; this.get( 'controller.keyboardInUse' ) ) {
                     e.preventDefault();
 
