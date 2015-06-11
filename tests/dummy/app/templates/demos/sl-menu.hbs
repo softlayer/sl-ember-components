@@ -142,67 +142,68 @@
         <p>The keyboard shortcuts for this demo are configured in <a href="https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/views/sl-menu.js">https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/views/sl-menu.js</a> and <a href="https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/controllers/sl-menu.js">https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/controllers/sl-menu.js</a>, relevant excerpts of which are presented below:</p>
 
         <p><strong>tests/dummy/app/controllers/sl-menu.js</strong></p>
-<pre>
-import Ember from 'ember';
+<pre>import Ember from 'ember';
 import KeyManager from 'sl-ember-components/utils/sl-menu-key-adapter';
 
 export default Ember.ObjectController.extend({
 
     keyHandler: KeyManager.create(),
 
-    /**
-     * Is the menu being interacted with via the keyboard?
-     *
-     * This value gets set by the inner workings of the component and is exposed for use by view logic
-     *
-     * @param {boolean}
-     */
     keyboardInUse: null
+
 });
 </pre>
 
         <p><strong>tests/dummy/app/views/sl-menu.js</strong></p>
-<pre>
-import Ember from 'ember';
+<pre>import Ember from 'ember';
 
 export default Ember.View.extend({
 
-    registerKeyListeners: function() {
-        Ember.$( document ).on( 'keypress.menu', function( e ) {
-            if ( e.charCode &gt;= 49 &amp;&amp; e.charCode &lt;= 57 ) {
-                var keypressed = e.charCode - 48;
-                this.get( 'controller.keyHandler' ).childSelection( keypressed );
-            } else if ( e.charCode === 45 ) {
-                this.get( 'controller.keyHandler' ).drillDown( '-' );
-            } else if ( e.charCode === 48 ) {
-                this.get( 'controller.keyHandler' ).showAll();
-            }
-        }.bind( this ));
-
-        // keypress doesn't appear to catch ESC
-        Ember.$( document ).on( 'keyup.menu', function( e ) {
-            if ( e.keyCode === 27 ) {
-                this.get( 'controller.keyHandler' ).closeAll();
-            }
-        }.bind( this ));
-
-        // need to capture TAB key with keydown event
-        Ember.$( document ).on( 'keydown.menu', function( e ) {
-            if ( 9 === e.keyCode &amp;&amp; this.get( 'controller.keyboardInUse' ) ) {
-                e.preventDefault();
-
-                if ( e.shiftKey ) {
-                    this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
-                } else {
-                    this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
+    registerKeyListeners: Ember.on(
+        'didInsertElement',
+        function() {
+            Ember.$( document ).on( 'keypress.menu', ( e ) => {
+                if ( e.charCode &gt;= 49 &amp;&amp; e.charCode &lt;= 57 ) {
+                    var keypressed = e.charCode - 48;
+                    this.get( 'controller.keyHandler' ).childSelection( keypressed );
+                } else if ( e.charCode === 45 ) {
+                    this.get( 'controller.keyHandler' ).drillDown( '-' );
+                } else if ( e.charCode === 48 ) {
+                    this.get( 'controller.keyHandler' ).showAll();
                 }
-            }
-        }.bind( this ));
-    }.on( 'didInsertElement' ),
+            });
 
-    unregisterKeyListeners: function() {
-        Ember.$( document ).off( 'keypress.menu' ).off( 'keyup.menu' ).off( 'keydown.menu' );
-    }.on( 'willClearRender' )
+            // keypress doesn't appear to catch ESC
+            Ember.$( document ).on( 'keyup.menu', ( e ) => {
+                if ( e.keyCode === 27 ) {
+                    this.get( 'controller.keyHandler' ).closeAll();
+                }
+            });
+
+            // need to capture TAB key with keydown event
+            Ember.$( document ).on( 'keydown.menu', ( e ) => {
+                if ( 9 === e.keyCode &amp;&amp; this.get( 'controller.keyboardInUse' ) ) {
+                    e.preventDefault();
+
+                    if ( e.shiftKey ) {
+                        this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
+                    } else {
+                        this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
+                    }
+                }
+            });
+        }
+    },
+
+    unregisterKeyListeners: Ember.on(
+        'willClearRender',
+        function() {
+            Ember.$( document )
+                .off( 'keypress.menu' )
+                .off( 'keyup.menu' )
+                .off( 'keydown.menu' );
+        }
+    )
 
 });
 </pre>
