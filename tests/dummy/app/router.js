@@ -14,7 +14,6 @@ Router.map( function() {
     this.route( 'browsers' );
 
     this.resource( 'demos', function() {
-        this.route( 'grid' );
         this.route( 'sl-alert' );
         this.route( 'sl-button' );
         this.route( 'sl-calendar' );
