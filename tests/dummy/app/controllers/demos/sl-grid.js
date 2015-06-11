@@ -7,7 +7,6 @@ export default Ember.ArrayController.extend({
         },
 
         sendAlert( row ) {
-            this.sayGoodbye();
             window.alert( 'Record: ' + Ember.get( row, 'name' ) );
         },
 
@@ -51,14 +50,6 @@ export default Ember.ArrayController.extend({
             action: 'sendLog'
         }
     ]),
-
-    sayGoodbye() {
-        window.console.log( 'Goodbye! from page' );
-    },
-
-    sayHello() {
-        window.console.log( 'Hello! from page' );
-    },
 
     totalCount: 6
 });
