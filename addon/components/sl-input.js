@@ -129,7 +129,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         hint: true
                     }, {
                         displayKey: item => {
-                            if ( item instanceof Object ) {
+                            if ( Ember.typeof( item ) === 'object' ) {
                                 return Ember.get( item, namePath );
                             }
 
@@ -142,7 +142,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                             callback( this.get( 'suggestions' ).filter( suggestion => {
                                 let searchCandidate;
 
-                                if ( suggestion instanceof Object ) {
+                                if ( Ember.typeOf( suggestion ) === 'object' ) {
                                     searchCandidate = Ember.get( suggestion, namePath );
                                 } else {
                                     searchCandidate = suggestion;
@@ -154,7 +154,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     });
 
                     let selectItem = ( event, item ) => {
-                        let value = item instanceof Object ? Ember.get( item, namePath ): item;
+                        let value = Ember.typeOf( item ) === 'object' ?
+                            Ember.get( item, namePath ) : item;
 
                         this.set( 'value', value );
                     };

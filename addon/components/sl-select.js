@@ -131,7 +131,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         return;
                     }
 
-                    if ( !( item instanceof Object ) ) {
+                    if ( Ember.typeOf( item ) !== 'object' ) {
                         return item;
                     }
 
@@ -158,7 +158,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         return;
                     }
 
-                    if ( item instanceof Object ) {
+                    if ( Ember.typeOf( item ) === 'object' ) {
                         return get( item, this.get( 'optionLabelPath' ) );
                     }
 
@@ -168,7 +168,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 id: ( item ) => {
                     let value = item;
 
-                    if ( item instanceof Object ) {
+                    if ( Ember.typeOf( item ) === 'object' ) {
                         value = get( item, this.get( 'optionValuePath' ) );
                     }
 
@@ -192,7 +192,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
                     for ( let i = 0; i < contentLength; i++ ) {
                         let item = content[i];
-                        let text = item instanceof Object ?
+                        let text = Ember.typeOf( item ) === 'object' ?
                             get( item, optionValuePath ) : item;
 
                         let matchIndex = values.indexOf( text.toString() );
@@ -236,7 +236,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
                     query.callback({
                         results: content.reduce( ( results, item ) => {
-                            let text = item instanceof Object ?
+                            let text = Ember.typeOf( item ) === 'object' ?
                                 get( item, optionLabelPath ) : item;
 
                             if (
