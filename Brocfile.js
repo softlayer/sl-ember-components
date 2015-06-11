@@ -5,7 +5,7 @@ var EmberAddon = require( 'ember-cli/lib/broccoli/ember-addon' );
 var replace = require( 'broccoli-string-replace' );
 var env = require( './config/environment' );
 var isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production';
-var package = require( './package.json' );
+var packageConfig = require( './package.json' );
 var tree;
 
 var app = new EmberAddon({
@@ -55,13 +55,13 @@ tree = replace( app.toTree(), {
     patterns: [
         {
             match: /REPLACE_META_DESCRIPTION/g,
-            replacement: package[ 'description' ]
+            replacement: packageConfig[ 'description' ]
         }, {
             match: /REPLACE_META_KEYWORDS/g,
-            replacement: package[ 'keywords' ].join( ', ' ) + ', ember, ember cli'
+            replacement: packageConfig[ 'keywords' ].join( ', ' ) + ', ember, ember cli'
         }, {
             match: /REPLACE_APPLICATION_VERSION/g,
-            replacement: package[ 'version' ]
+            replacement: packageConfig[ 'version' ]
         }
     ]
 });
