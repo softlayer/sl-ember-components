@@ -1,14 +1,17 @@
 import Ember from 'ember';
-/* global moment */
 
 export default Ember.Controller.extend({
-    firstDayDate: function () {
-        return moment().dayOfYear( 1 );
-    }.property(),
+    firstDayDate: Ember.computed(
+        function () {
+            return window.moment().dayOfYear( 1 );
+        }
+    ),
 
-    threeMonthsAgoDate: function () {
-        var now = moment();
+    threeMonthsAgoDate: Ember.computed(
+        function () {
+            let now = window.moment();
 
-        return moment().month( now.month() - 3 );
-    }.property()
+            return window.moment().month( now.month() - 3 );
+        }
+    )
 });

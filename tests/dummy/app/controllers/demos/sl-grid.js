@@ -1,119 +1,55 @@
-/* global alert */
 import Ember from 'ember';
-import SlGridMixin from 'sl-ember-components/mixins/sl-grid-controller';
 
-export default Ember.ArrayController.extend( SlGridMixin, {
-
+export default Ember.ArrayController.extend({
     actions: {
-        /**
-         * Trigger reload of the model
-         *
-         * @function actions.reload
-         * @returns  {void}
-         */
-        reload: function() {
-            this.reloadModel( true );
+        rowClick( row ) {
+            window.console.log( 'Clicked', row );
         },
 
-        /**
-         * testAction - simple test action
-         * @return {void}
-         */
-        testAction: function(){
-            alert( 'This is a test from the sl-grid controller!' );
+        sendAlert( row ) {
+            window.alert( 'Record: ' + Ember.get( row, 'name' ) );
+        },
+
+        sendLog( row ) {
+            window.console.log( 'Record:', Ember.get( row, 'name' ) );
+        },
+
+        sortColumn( column, sortAscending ) {
+            this.setProperties({
+                sortAscending,
+                'sortProperties': [ Ember.get( column, 'valuePath' ) ]
+            });
         }
     },
 
-    itemController: 'demos.sl-grid-item',
+    columns: Ember.A([
+        {
+            primary: true,
+            size: 'small',
+            title: 'Color',
+            valuePath: 'name'
+        }, {
+            size: 'small',
+            sortable: true,
+            title: 'Fruit',
+            valuePath: 'fruit'
+        }, {
+            size: 'small',
+            sortable: true,
+            title: 'Hex Code',
+            valuePath: 'hexCode'
+        }
+    ]),
 
-    gridDefinition: {
-        options: {
-            rowExpander      : true,
-            settingsMenu     : {
-                translationKeys: {
-                    actions: 'ACTIONS',
-                    columns: 'COLUMNS',
-                    resetColumnsToDefaults: 'RESETCOLUMNS'
-                },
-                actions: [
-                    {
-                        label: 'TESTACTION',
-                        action: 'testAction'
-                    }
-                ],
-                hideableColumns: true
-            }
-        },
-        columns: [
-            {
-                component: 'sl-grid-table-cell-row-expander',
-                cssClass: 'sl-grid-table-cell-row-expander',
-                cssThClass: 'sl-grid-table-cell-row-expander',
-                movable: false,
-                fixedWidth: 30
-            },
-            {
-                component: 'sl-grid-table-cell',
-                key: 'name',
-                title: 'HOSTNAME',
-                defaultText: 'translate.UNKNOWNDEVICE',
-                sortable: true,
-                resizable: true,
-                widthHint: 2
-            },
-            {
-                component: 'sl-grid-table-cell',
-                key: 'ip',
-                title: 'IPADDRESS',
-                sortable: true,
-                hideable: true,
-                resizable: true,
-                widthHint: 1
-            },
-            {
-                component: 'sl-grid-table-cell',
-                key: 'type',
-                title: 'DEVICETYPE',
-                sortable: true,
-                hideable: true,
-                resizable: true,
-                widthHint: 1
-            },
-            {
-                component: 'sl-grid-table-cell',
-                key: 'notes',
-                title: 'NOTES',
-                hideable: true,
-                resizable: true,
-                widthHint: 2
-            },
-            {
-                component: 'sl-grid-table-cell',
-                key: 'fmtProvisionDate',
-                title: 'PROVISIONDATE',
-                hideable: true,
-                resizable: true,
-                widthHint: 1
-            },
-            {
-                cssClass: 'sl-grid-table-cell-actions',
-                cssThClass: 'sl-grid-table-cell-actions',
-                component: 'sl-grid-table-cell-actions',
-                movable: false,
-                fixedWidth: 120
-            }
-        ]
-    },
+    rowActions: Ember.A([
+        {
+            label: 'Alert',
+            action: 'sendAlert'
+        }, {
+            label: 'Log',
+            action: 'sendLog'
+        }
+    ]),
 
-    /**
-     * Reload the model for this controller
-     *
-     * @function reloadModel
-     * @return {void}
-     */
-    reloadModel: function() {
-        var model = this.store.find( 'device' );
-
-        this.set( 'model', model );
-    }
+    totalCount: 6
 });

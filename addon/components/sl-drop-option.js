@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-drop-option';
 
 /**
- * @module components
- * @class  sl-drop-option
+ * @module
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,55 +13,42 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name for the root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "li"
-     */
-    tagName: 'li',
-
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'sl-drop-option' ],
-
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'optionType' ],
-
-    /**
-     * The ARIA role name for the drop button option
-     *
-     * @property {string} ariaRole
-     * @default  "menuItem"
-     */
+    /** @type {String} */
     ariaRole: 'menuitem',
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'optionType'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'sl-drop-option'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    /** @type {String} */
+    tagName: 'li',
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
+    /** @type {Object} */
     actions: {
 
         /**
-         * Send the primary action when the click action is triggered
+         * Send the primary action, with `data` property if defined, when the
+         * click action is triggered
          *
-         * @function actions.click
-         * @returns  {void}
+         * @function actions:click
+         * @returns {undefined}
          */
-        click: function() {
-            this.sendAction();
+        click() {
+            this.sendAction( 'action', this.get( 'data' ) );
         }
+
     },
 
     // -------------------------------------------------------------------------
@@ -68,6 +56,13 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Any data to be passed along with the action
+     *
+     * @type {?Object}
+     */
+    data: null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -79,12 +74,14 @@ export default Ember.Component.extend({
      * Represents the type of option; "divider" if the label is undefined, or
      * "presentation" otherwise
      *
-     * @function optionType
-     * @observes label
-     * @returns  {Ember.String}
+     * @function
+     * @returns {String}
      */
-    optionType: function() {
-        return this.get( 'label' ) ? 'presentation' : 'divider';
-    }.property( 'label' )
+    optionType: Ember.computed(
+        'label',
+        function() {
+            return this.get( 'label' ) ? 'presentation': 'divider';
+        }
+    )
 
 });

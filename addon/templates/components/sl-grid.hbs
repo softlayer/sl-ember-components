@@ -1,0 +1,128 @@
+<header class="grid-header">
+    <div class="row">
+        <div class="col-sm-6">
+            {{yield}}
+        </div>
+
+        {{#if filterComponent}}
+            <div class="col-sm-6 text-right">
+                {{#sl-button
+                    action="toggleFilterPane"
+                    size="small"
+                }}
+                    {{filterButtonLabel}}
+                {{/sl-button}}
+            </div>
+        {{/if}}
+    </div>
+</header>
+
+<div class="filter-pane">
+    {{#if filterPaneOpen}}
+        <div class="filter-content">
+            {{#if filterComponent}}
+                {{component filterComponent}}
+            {{/if}}
+        </div>
+    {{/if}}
+</div>
+
+<div class="list-pane">
+    <table class="table column-headers">
+        <thead>
+            <tr>
+                {{#each columns as |column|}}
+                    {{sl-grid-column-header column=column onClick="sortColumn"}}
+                {{/each}}
+
+                {{#if rowActions}}
+                    <th class="actions-cell"></th>
+                {{/if}}
+            </tr>
+        </thead>
+    </table>
+
+    <div class="content">
+        <table class="table table-hover table-striped">
+            <tbody>
+                {{#each content as |row|}}
+                    {{#sl-grid-row}}
+                        {{#each columns as |column|}}
+                            {{sl-grid-cell
+                                column=column
+                                onClick="rowClick"
+                                row=row
+                            }}
+                        {{/each}}
+
+                        {{#if rowActions}}
+                            <td class="actions-cell">
+                                {{#sl-drop-button
+                                    align="right"
+                                    label=actionsButtonLabel
+                                    size="small"
+                                    theme="hover"
+                                }}
+                                    {{#each rowActions as |rowAction|}}
+                                        {{sl-drop-option
+                                            action=rowAction.action
+                                            data=row
+                                            label=rowAction.label
+                                            targetObject=rowActionContext
+                                        }}
+                                    {{/each}}
+                                {{/sl-drop-button}}
+                            </td>
+                        {{/if}}
+                    {{/sl-grid-row}}
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-xs-6">
+                {{#if footerPath}}
+                    {{partial footerPath}}
+                {{/if}}
+            </div>
+            <div class="col-xs-6 text-right">
+                {{#if showPagination}}
+                    {{sl-pagination
+                        busy=loading
+                        changePage="changePage"
+                        currentPage=currentPage
+                        totalPages=totalPages
+                    }}
+                {{/if}}
+            </div>
+        </div>
+    </footer>
+</div>
+
+<div class="detail-pane">
+    <header>
+        <span class="title">
+            {{#if detailHeaderPath}}
+                {{render-dynamic detailHeaderPath activeRecord}}
+            {{/if}}
+        </span>
+
+        <button {{action "closeDetailPane"}} class="close">&times;</button>
+    </header>
+
+    <div class="content">
+        <div class="detail-content">
+            {{#if detailComponent}}
+                {{component detailComponent model=activeRecord}}
+            {{/if}}
+        </div>
+    </div>
+
+    <footer>
+        {{#if detailFooterPath}}
+            {{render-dynamic detailFooterPath activeRecord}}
+        {{/if}}
+    </footer>
+</div>

@@ -1,0 +1,135 @@
+<div class="datepicker datepicker-inline">
+    {{#if viewingDays}}
+        <div class="datepicker-days" style="display: block;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th {{action "changeMonth" -1}} class="prev">
+                            <span class="fa fa-angle-left"></span>
+                        </th>
+                        <th
+                            {{action "setView" "months"}}
+                            colspan="5"
+                            class="datepicker-switch"
+                        >
+                            {{currentMonthString}} {{currentYear}}
+                        </th>
+                        <th {{action "changeMonth" 1}} class="next">
+                            <span class="fa fa-angle-right"></span>
+                        </th>
+                    </tr>
+                    <tr>
+                        {{#each shortWeekDayNames as |dayName|}}
+                            <th class="dow">{{dayName}}</th>
+                        {{/each}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each weeksInMonthView as |weekDays|}}
+                        <tr>
+                            {{#each weekDays as |day|}}
+                                {{sl-calendar-day
+                                    action="sendDateContent"
+                                    active=day.active
+                                    content=day.content
+                                    day=day.day
+                                    new=day.new
+                                    old=day.old
+                                }}
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    {{/if}}
+
+    {{#if viewingMonths}}
+        <div class="datepicker-months" style="display: block;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th
+                            {{action "changeYear" -1}}
+                            class="prev"
+                            style="visibility: visible;"
+                        >
+                            <span class="fa fa-angle-left"></span>
+                        </th>
+                        <th
+                            {{action "setView" "years"}}
+                            class="datepicker-switch"
+                            colspan="5"
+                        >
+                            {{currentYear}}
+                        </th>
+                        <th
+                            {{action "changeYear" 1}}
+                            class="next"
+                            style="visibility: visible;"
+                        >
+                            <span class="fa fa-angle-right"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7">
+                            {{#each monthsInYearView as |month|}}
+                                {{sl-calendar-month
+                                    action="setMonth"
+                                    active=month.active
+                                    locale=locale
+                                    month=month.month
+                                }}
+                            {{/each}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {{/if}}
+
+    {{#if viewingYears}}
+        <div class="datepicker-years" style="display: block;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th
+                            {{action "changeDecade" -1}} class="prev" style="visibility: visible;">
+                            <span class="fa fa-angle-left"></span>
+                        </th>
+                        <th
+                            class="datepicker-switch"
+                            colspan="5"
+                        >
+                            {{decadeStart}}-{{decadeEnd}}
+                        </th>
+                        <th
+                            {{action "changeDecade" 1}}
+                            class="next"
+                            style="visibility: visible;"
+                        >
+                            <span class="fa fa-angle-right"></span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7">
+                            {{#each yearsInDecadeView as |year|}}
+                                {{sl-calendar-year
+                                    action="setYear"
+                                    active=year.active
+                                    old=year.old
+                                    new=year.new
+                                    year=year.year
+                                }}
+                            {{/each}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {{/if}}
+</div>

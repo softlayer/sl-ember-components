@@ -1,8 +1,21 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-tab-panel';
 
 /**
- * @module components
- * @class  sl-tab-panel
+ * Valid `align` property values
+ *
+ * @memberof module:components/sl-tab-panel
+ * @enum {String}
+ */
+const ALIGNMENT = {
+    LEFT: 'left',
+    RIGHT: 'right'
+};
+export { ALIGNMENT };
+
+/**
+ * @module
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,45 +25,39 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'sl-tab-panel' ],
+    /** @type {String[]} */
+    classNameBindings: [
+        'tabAlignmentClass'
+    ],
 
-    /**
-     * Class name bindings for the containing element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'tabAlignmentClass' ],
+    /** @type {String[]} */
+    classNames: [
+        'sl-tab-panel'
+    ],
+
+    /** @type {Object} */
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Object of action functions
-     *
-     * @property {Ember.Object} actions
-     */
+    /** @type {Object} */
     actions: {
 
         /**
          * Action to trigger when a tab is clicked
          *
-         * @function actions.change
-         * @param    {string} tabName - The name of the tab to change into
-         * @returns  {void}
+         * @function actions:change
+         * @param {String} tabName - The name of the tab to change into
+         * @returns {undefined}
          */
-        change: function( tabName ) {
-            var activeTabName = this.get( 'activeTabName' ),
-                self          = this;
+        change( tabName ) {
+            let activeTabName = this.get( 'activeTabName' );
 
             if ( activeTabName !== tabName ) {
                 this.setActiveTab( tabName );
-                this.deactivatePane( function() {
-                    self.activatePane( tabName );
+                this.deactivatePane( () => {
+                    this.activatePane( tabName );
                 });
             }
         }
@@ -65,9 +72,7 @@ export default Ember.Component.extend({
     /**
      * The currently active tab name
      *
-     * @private
-     * @property {Ember.String} activeTabName
-     * @default  null
+     * @type {?String}
      */
     activeTabName: null,
 
@@ -75,24 +80,21 @@ export default Ember.Component.extend({
      * Determines the alignment of tabs at the top of the panel,
      * "left" or "right"
      *
-     * @property {Ember.String} alignTabs
-     * @default  "left"
+     * @type {ALIGNMENT}
      */
-    alignTabs: 'left',
+    alignTabs: ALIGNMENT.LEFT,
 
     /**
      * The height of the tab-content in pixels
      *
-     * @property {number} contentHeight
-     * @default  0
+     * @type {Number}
      */
     contentHeight: 0,
 
     /**
      * The name of the tab to open when the component is first rendered
      *
-     * @property {Ember.String} initialTabName
-     * @default  null
+     * @type {?String}
      */
     initialTabName: null,
 
@@ -103,45 +105,49 @@ export default Ember.Component.extend({
      * Sets up the initial tab, and parses the content of the tab panel to
      * determine tab labels and names.
      *
-     * @function setupTabs
-     * @observes "didInsertElement" event
-     * @returns  {void}
+     * @function
+     * @listens didInsertElement
+     * @returns {undefined}
      */
-    setupTabs: function() {
-        var initialTabName = this.get( 'initialTabName' ),
-            tabs           = [],
-            tabName;
+    setupTabs: Ember.on(
+        'didInsertElement',
+        function() {
+            let initialTabName = this.get( 'initialTabName' );
+            let tabs = Ember.A();
 
-        if ( !initialTabName ) {
-            initialTabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
-        }
+            if ( !initialTabName ) {
+                initialTabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
+            }
 
-        this.setActiveTab( initialTabName );
-        this.activatePane( initialTabName );
+            this.setActiveTab( initialTabName );
+            this.activatePane( initialTabName );
 
-        this.$( '.tab-pane' ).each( function() {
-            tabName = this.getAttribute( 'data-tab-name' );
+            this.$( '.tab-pane' ).each( function() {
+                let tabName = this.getAttribute( 'data-tab-name' );
 
-            tabs.push({
-                active : tabName === initialTabName,
-                label  : this.getAttribute( 'data-tab-label' ),
-                name   : tabName
+                tabs.push({
+                    active: tabName === initialTabName,
+                    label: this.getAttribute( 'data-tab-label' ),
+                    name: tabName
+                });
             });
-        });
 
-        this.set( 'tabs', tabs );
-    }.on( 'didInsertElement' ),
+            this.set( 'tabs', tabs );
+        }
+    ),
 
     /**
      * Sets the tab-content div height based on current contentHeight value
      *
-     * @function updateContentHeight
-     * @observes contentHeight
-     * @returns  {void}
+     * @function
+     * @returns {undefined}
      */
-    updateContentHeight: function() {
-        this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
-    }.observes( 'contentHeight' ),
+    updateContentHeight: Ember.observer(
+        'contentHeight',
+        function() {
+            this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -149,12 +155,12 @@ export default Ember.Component.extend({
     /**
      * Activate a tab pane, animating the transition
      *
-     * @function activatePane
-     * @param    {string} tabName - The name of the tab to activate
-     * @returns  {void}
+     * @function
+     * @param {String} tabName - The name of the tab to activate
+     * @returns {undefined}
      */
-    activatePane: function( tabName ) {
-        var pane = this.paneFor( tabName );
+    activatePane( tabName ) {
+        let pane = this.paneFor( tabName );
 
         pane.fadeIn( 'fast', function() {
             pane.addClass( 'active' );
@@ -167,17 +173,17 @@ export default Ember.Component.extend({
     /**
      * Deactivate a tab pane, animating the transition
      *
-     * @function deactivatePane
-     * @param    {function} callback - Function called when the pane is deactivated
-     * @returns  {void}
+     * @function
+     * @param {Function} callback - Function called when the pane is deactivated
+     * @returns {undefined}
      */
-    deactivatePane: function( callback ) {
-        var pane = this.paneFor( this.get( 'activeTabName' ) );
+    deactivatePane( callback ) {
+        let pane = this.paneFor( this.get( 'activeTabName' ) );
 
         pane.fadeOut( 'fast', function() {
             pane.removeClass( 'active' );
 
-            if ( typeof callback === 'function' ) {
+            if ( Ember.typeOf( callback ) === 'function' ) {
                 callback();
             }
         });
@@ -186,23 +192,23 @@ export default Ember.Component.extend({
     /**
      * Get the tab-panel's tab-pane for the specified tabName
      *
-     * @function paneFor
-     * @param    {string} tabName - The name of the tab to get the pane for
-     * @returns  {void}
+     * @function
+     * @param {String} tabName - The name of the tab to get the pane for
+     * @returns {jQuery.Object}
      */
-    paneFor: function( tabName ) {
-        return this.$( '.tab-pane[data-tab-name="' + tabName + '"]' );
+    paneFor( tabName ) {
+        return this.$( `.tab-pane[data-tab-name="${tabName}"]` );
     },
 
     /**
      * Update the internal active tab name and handle tabs' statuses
      *
-     * @function setActiveTab
-     * @param    {string} tabName - The name of the tab to switch state to
-     * @returns  {void}
+     * @function
+     * @param {String} tabName - The name of the tab to switch state to
+     * @returns {undefined}
      */
-    setActiveTab: function( tabName ) {
-        var activeTabName = this.get( 'activeTabName' );
+    setActiveTab( tabName ) {
+        let activeTabName = this.get( 'activeTabName' );
 
         this.tabFor( activeTabName ).removeClass( 'active' );
         this.tabFor( tabName ).addClass( 'active' );
@@ -211,21 +217,33 @@ export default Ember.Component.extend({
     /**
      * The class determining how to align tabs
      *
-     * @function tabAlignmentClass
-     * @returns  {Ember.String}
+     * @function
+     * @throws {ember.assert} Thrown if supplied `alignTabs` is a value not
+     *         defined in enum ALIGNMENT
+     * @returns {String}
      */
-    tabAlignmentClass: function() {
-        return 'sl-align-tabs-' + this.get( 'alignTabs' );
-    }.property( 'alignTabs' ),
+    tabAlignmentClass: Ember.computed(
+        'alignTabs',
+        function() {
+            let alignTabs = this.get( 'alignTabs' );
+
+            Ember.assert(
+                `Error: Invalid alignTabs property value "${alignTabs}"`,
+                Object.keys( ALIGNMENT ).map( ( key ) => ALIGNMENT[ key ] ).indexOf( alignTabs ) > -1
+            );
+
+            return `sl-align-tabs-${alignTabs}`;
+        }
+    ),
 
     /**
      * Get the tab with the specified tabName
      *
-     * @method  tabFor
-     * @param   {string} tabName - The name for the tab to get
-     * @returns {object} DOM Element
+     * @function
+     * @param {String} tabName - The name for the tab to get
+     * @returns {jQuery.Object} DOM Element
      */
-    tabFor: function( tabName ) {
+    tabFor( tabName ) {
         return this.$( '.tab[data-tab-name="' + tabName + '"]' );
     }
 

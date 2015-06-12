@@ -1,0 +1,36 @@
+{{#if label}}
+    <label for={{sl-textarea-view.elementId}} class="control-label">
+        {{label}}
+
+        {{#if optional}}
+            <small class="text-info">Optional</small>
+        {{/if}}
+
+        {{#if required}}
+            <small class="text-danger">Required</small>
+        {{/if}}
+    </label>
+{{/if}}
+
+{{textarea
+    autofocus=autofocus
+    class="form-control"
+    cols=cols
+    disabled=disabled
+    maxlength=maxlength
+    placeholder=placeholder
+    readonly=readonly
+    rows=rows
+    selectionDirection=selectionDirection
+    selectionEnd=selectionEnd
+    selectionStart=selectionStart
+    spellcheck=spellcheck
+    tabindex=tabindex
+    value=value
+    viewName="sl-textarea-view"
+    wrap=wrap
+}}
+
+{{#if helpText}}
+    <p class="help-block">{{helpText}}</p>
+{{/if}}

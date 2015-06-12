@@ -1,9 +1,27 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-drop-button';
+import {
+    SIZE as BUTTON_SIZE,
+    THEME as BUTTON_THEME
+} from './sl-button';
 
 /**
- * @module components
- * @class  sl-drop-button
+ * Values for the sl-drop-button's `align` property
+ *
+ * @memberof module:components/sl-drop-button
+ * @enum {String}
+ */
+const ALIGN = {
+    LEFT: 'left',
+    RIGHT: 'right'
+};
+export { ALIGN };
+
+/**
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -13,40 +31,38 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the div element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'btn-group', 'dropdown', 'sl-drop-button' ],
+    /** @type {String[]} */
+    classNameBindings: [
+        'themeClass'
+    ],
 
-    /**
-     * Class attribute bindings for the button
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'themeClass' ],
+    /** @type {String[]} */
+    classNames: [
+        'btn-group',
+        'dropdown',
+        'sl-drop-button'
+    ],
+
+    /** @type {Object} */
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
+    /** @type {Object} */
     actions: {
 
         /**
          * Used to trigger specific option-bound action
          *
-         * @function click
-         * @param    {string} action to trigger
-         * @returns  {void}
+         * @function actions:click
+         * @param {String} action - Action to trigger
+         * @returns {undefined}
          */
-        click: function( action ) {
-            this.triggerAction({ action: action });
+        click( action ) {
+            this.triggerAction({ action });
         }
+
     },
 
     // -------------------------------------------------------------------------
@@ -56,46 +72,46 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Properties
 
     /**
-     * Dropdown menu alignment
+     * Dropdown menu alignment; either "left" or "right"
      *
-     * Possible values are "left" or "right".
-     *
-     * @property {string} align
-     * @default  "left"
+     * @type {ALIGN}
      */
-    align: 'left',
+    align: ALIGN.LEFT,
 
     /**
-     * Drop button options array
+     * Array of dropdown options
      *
-     * @property {array} content
-     * @default  null
+     * @type {?Object[]}
      */
     content: null,
 
     /**
      * Class string for the button's icon
      *
-     * @property {Ember.String} iconClass
-     * @default  "caret"
+     * @type {String}
      */
     iconClass: 'caret',
 
     /**
      * Text string used for labeling the drop-button
      *
-     * @property {Ember.String} label
-     * @default  null
+     * @type {?String}
      */
     label: null,
 
     /**
-     * The string name of the style theme for the button
+     * The size of the button
      *
-     * @property {Ember.String} theme
-     * @default  "default"
+     * @type {module:components/sl-button.SIZE}
      */
-    theme: 'default',
+    size: BUTTON_SIZE.MEDIUM,
+
+    /**
+     * The theme style name
+     *
+     * @type {module:components/sl-button.THEME}
+     */
+    theme: BUTTON_THEME.DEFAULT,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -106,23 +122,36 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether the current "align" property is "right"
      *
-     * @function rightAligned
-     * @observes align
-     * @returns  {boolean}
+     * @function
+     * @returns {Boolean}
      */
-    rightAligned: function() {
-        return this.get( 'align' ) === 'right';
-    }.property( 'align' ),
+    rightAligned: Ember.computed(
+        'align',
+        function() {
+            return this.get( 'align' ) === ALIGN.RIGHT;
+        }
+    ),
 
     /**
      * The class value for the drop-button based on the current "theme"
      *
-     * @function themeClass
-     * @observes theme
-     * @returns  {string}
+     * @function
+     * @throws {ember.assert} Thrown when supplied `theme` is not a value
+     *         defined in enum BUTTON_THEME
+     * @returns {String}
      */
-    themeClass: function() {
-        return 'dropdown-' + this.get( 'theme' );
-    }.property( 'theme' )
+    themeClass: Ember.computed(
+        'theme',
+        function() {
+            let theme = this.get( 'theme' );
+
+            Ember.assert(
+                `Error: Invalid sl-drop-button theme value "${theme}"`,
+                Object.keys( BUTTON_THEME ).map( ( key ) => BUTTON_THEME[ key ] ).indexOf( theme ) > -1
+            );
+
+            return `dropdown-${theme}`;
+        }
+    )
 
 });

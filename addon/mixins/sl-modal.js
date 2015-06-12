@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class  sl-modal
+ * @module
+ * @augments ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -12,19 +12,7 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The name of the layout/template to render for this mixin
-     *
-     * @property {Ember.String} layoutName
-     * @default  "sl-modal"
-     */
-    layoutName: 'sl-modal',
-
-    /**
-     * Attribute value bindings for the containing element
-     *
-     * @property {Ember.Array} attributeBindings
-     */
+    /** @type {String[]} */
     attributeBindings: [
         'aria-describedby',
         'aria-hidden',
@@ -32,27 +20,21 @@ export default Ember.Mixin.create({
         'tabindex'
     ],
 
-    /**
-     * Class names for the containing element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'modal' ],
-
-    /**
-     * Bindings for the component's element's class names
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'animated:fade' ],
-
-    /**
-     * `role` attribute value
-     *
-     * @property {Ember.String} role
-     * @default  "dialog"
-     */
+    /** @type {String} */
     ariaRole: 'dialog',
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'animated:fade'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'modal'
+    ],
+
+    /** @type {String} */
+    layoutName: 'sl-modal',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -66,16 +48,14 @@ export default Ember.Mixin.create({
     /**
      * Whether the modal is animated with transition or not
      *
-     * @property {boolean} animated
-     * @default  true
+     * @type {Boolean}
      */
     animated: true,
 
     /**
      * `aria-describedby` attribute value
      *
-     * @property {Ember.String} aria-describedby
-     * @default  null
+     * @type {?String}
      */
     'aria-describedby': null,
 
@@ -83,32 +63,28 @@ export default Ember.Mixin.create({
      * `aria-hidden` attribute to inform assistive technologies to skip the
      * modal's DOM elements
      *
-     * @property {Ember.String} aria-hidden
-     * @default  "true"
+     * @type {String}
      */
     'aria-hidden': 'true',
 
     /**
      * Bootstrap's modal backdrop option
      *
-     * @property {boolean|Ember.String} backdrop
-     * @default  true
+     * @type {Boolean|String}
      */
     backdrop: true,
 
     /**
      * Whether the modal is shown initially or not
      *
-     * @property {boolean} show
-     * @default  false
+     * @type {Boolean}
      */
     show: false,
 
     /**
      * `tabindex` attribute value
      *
-     * @property {Ember.String} tab index
-     * @default  '-1'
+     * @type {String}
      */
     tabindex: '-1',
 
@@ -118,23 +94,36 @@ export default Ember.Mixin.create({
     /**
      * Binds handlers for exposed Twitter Bootstrap 3 modal events
      *
-     * @function modalize
-     * @observes "didInsertElement" event
-     * @returns  {void}
+     * @function
+     * @listens didInsertElement
+     * @returns {undefined}
      */
-    modalize: function() {
-        var modal = this.$().modal({
-            keyboard : true,
-            show     : this.get( 'show' ),
-            backdrop : this.get( 'backdrop' )
-        });
+    modalize: Ember.on(
+        'didInsertElement',
+        function() {
+            let modal = this.$().modal({
+                keyboard: true,
+                show: this.get( 'show' ),
+                backdrop: this.get( 'backdrop' )
+            });
 
-        modal.on( 'show.bs.modal', Ember.run.bind( this, this.showHandler ) );
-        modal.on( 'shown.bs.modal', Ember.run.bind( this, this.shownHandler ) );
-        modal.on( 'hide.bs.modal', Ember.run.bind( this, this.hideHandler ) );
-        modal.on( 'hidden.bs.modal', Ember.run.bind( this, this.hiddenHandler ) );
-        modal.on( 'loaded.bs.modal', Ember.run.bind( this, this.loadedHandler ) );
-    }.on( 'didInsertElement' ),
+            modal.on( 'show.bs.modal', () => {
+                this.showHandler();
+            });
+
+            modal.on( 'shown.bs.modal', () => {
+                this.shownHandler();
+            });
+
+            modal.on( 'hide.bs.modal', () => {
+                this.hideHandler();
+            });
+
+            modal.on( 'hidden.bs.modal', () => {
+                this.hiddenHandler();
+            });
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -144,61 +133,68 @@ export default Ember.Mixin.create({
      *
      * Is a randomly-generated unique string
      *
-     * @function aria-labelledby
-     * @returns  {Ember.String}
+     * @function
+     * @returns {String}
      */
-    'aria-labelledby': function() {
-        return 'modalTitle-' + Math.random();
-    }.property(),
+    'aria-labelledby': Ember.computed(
+        function() {
+            return 'modalTitle-' + Math.random();
+        }
+    ),
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `hidden.bs.modal` event.
      *
-     * @function hiddenHandler
-     * @returns  {void}
+     * @abstract
+     * @function
+     * @returns {undefined}
      */
-    hiddenHandler: function() {},
+    hiddenHandler() {},
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `hide.bs.modal` event.
      *
-     * @function hideHandler
-     * @returns  {void}
+     * @abstract
+     * @function
+     * @returns {undefined}
      */
-    hideHandler: function() {},
+    hideHandler() {},
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `loaded.bs.modal` event.
      *
-     * @function loadedHandler
-     * @returns  {void}
+     * @abstract
+     * @function
+     * @returns {undefined}
      */
-    loadedHandler: function() {},
+    loadedHandler() {},
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `show.bs.modal` event.
      *
-     * @function showHandler
-     * @returns  {void}
+     * @abstract
+     * @function
+     * @returns {undefined}
      */
-    showHandler: function() {},
+    showHandler() {},
 
     /**
      * Overridable method stub
      *
      * Triggered by Twitter Bootstrap 3 modal's `shown.bs.modal` event.
      *
-     * @function shownHandler
-     * @returns  {void}
+     * @abstract
+     * @function
+     * @returns {undefined}
      */
-    shownHandler: function() {}
+    shownHandler() {}
 
 });

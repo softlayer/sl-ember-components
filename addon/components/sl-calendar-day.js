@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-calendar-day';
 
 /**
- * @module components
- * @class  sl-calendar-day
+ * @module
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,27 +13,23 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The HTML tag name of the component's root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "td"
-     */
+    /** @type {String[]} */
+    classNameBindings: [
+        'active',
+        'new',
+        'old'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'day'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    /** @type {String} */
     tagName: 'td',
-
-    /**
-     * Class names for the component's root element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'day' ],
-
-    /**
-     * Class name bindings for the component
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'active', 'new', 'old' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -41,13 +38,11 @@ export default Ember.Component.extend({
     // Events
 
     /**
-     * Function triggered by clicking a calendar day
-     *
-     * @function click
-     * @returns  {void}
+     * @function
+     * @returns {undefined}
      */
-    click: function() {
-        var content = this.get( 'content' );
+    click() {
+        let content = this.get( 'content' );
 
         if ( content ) {
             this.sendAction( 'action', content );
@@ -60,17 +55,15 @@ export default Ember.Component.extend({
     /**
      * Whether the calendar day this cell represents is actively selected day
      *
-     * @property {boolean} active
-     * @default  false
+     * @type {Boolean}
      */
     active: false,
 
     /**
-     * The various data representing the day (created and passed in
-     * through sl-calendar)
+     * The various data representing the day (created and passed in through
+     * sl-calendar)
      *
-     * @property {object} content
-     * @default  null
+     * @type {?Object}
      */
     content: null,
 
@@ -78,8 +71,7 @@ export default Ember.Component.extend({
      * Whether the calendar day this cell represents is part of the next month
      * in the primary calendar view
      *
-     * @property {boolean} new
-     * @default  false
+     * @type {Boolean}
      */
     'new': false,
 
@@ -87,8 +79,7 @@ export default Ember.Component.extend({
      * Whether the calendar day this cell represents is part of the previous
      * month in the primary calendar view
      *
-     * @property {boolean} old
-     * @default  false
+     * @type {Boolean}
      */
     old: false
 

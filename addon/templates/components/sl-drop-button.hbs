@@ -1,0 +1,29 @@
+{{#sl-button
+    class="dropdown-toggle"
+    data-toggle="dropdown"
+    size=size
+    type="button"
+}}
+    {{#if view.label}}
+        {{view.label}}
+        <span class={{iconClass}}></span>
+    {{else}}
+        {{#if content}}
+            {{yield}}
+        {{/if}}
+    {{/if}}
+{{/sl-button}}
+
+<ul class="dropdown-menu {{if rightAligned 'dropdown-menu-right'}}" role="menu">
+    {{#if content}}
+        {{#each content as |option|}}
+            {{sl-drop-option
+                action=option.action
+                icon=option.icon
+                label=option.label
+            }}
+        {{/each}}
+    {{else}}
+        {{yield}}
+    {{/if}}
+</ul>

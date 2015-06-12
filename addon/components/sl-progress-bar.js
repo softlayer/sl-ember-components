@@ -1,9 +1,26 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-progress-bar';
 
 /**
- * @module components
- * @class  sl-progress-bar
+ * Valid Bootstrap theme class names for progress bars
+ *
+ * @memberof module:components/sl-progress-bar
+ * @enum {String}
+ */
+const THEME = {
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
+export { THEME };
+
+/**
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/sl-tooltip-enabled
 */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -13,19 +30,19 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'progress', 'sl-progress-bar' ],
+    /** @type {String[]} */
+    classNameBindings: [
+        'isLowPercentage:sl-progress-bar-low-percentage'
+    ],
 
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'isLowPercentage:sl-progress-bar-low-percentage' ],
+    /** @type {String[]} */
+    classNames: [
+        'progress',
+        'sl-progress-bar'
+    ],
+
+    /** @type {Object} */
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -39,40 +56,35 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether to animate the progress bar or not
      *
-     * @property {boolean} animated
-     * @default  false
+     * @type {Boolean}
      */
     animated: false,
 
     /**
      * Whether to display a text value over the progress
      *
-     * @property {boolean} label
-     * @default  false
+     * @type {Boolean}
      */
     label: false,
 
     /**
      * Whether to style the progress bar with stripes
      *
-     * @property {boolean} striped
-     * @default  false
+     * @type {Boolean}
      */
     striped: false,
 
     /**
      * The Bootstrap "theme" style name
      *
-     * @property {Ember.String} theme
-     * @default  "default"
+     * @type {THEME}
      */
-    theme: 'default',
+    theme: THEME.DEFAULT,
 
     /**
      * The progress value as an integer (out of 100)
      *
-     * @property {number} value
-     * @default  0
+     * @type {Number}
     */
     value: 0,
 
@@ -85,34 +97,49 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether the progress value is below a certain level
      *
-     * @function isLowPercentage
-     * @observes value
-     * @returns  {boolean}
+     * @function
+     * @returns {Boolean}
      */
-    isLowPercentage: function() {
-        return this.get( 'value' ) < 50;
-    }.property( 'value' ),
+    isLowPercentage: Ember.computed(
+        'value',
+        function() {
+            return this.get( 'value' ) < 50;
+        }
+    ),
 
     /**
      * Inline style string for progress bar element
      *
-     * @function styleString
-     * @observes value
-     * @returns  {Ember.String}
+     * @function
+     * @returns {ember/String}
      */
-    styleString: function() {
-        return 'width: ' + this.get( 'value' ) + '%;';
-    }.property( 'value' ),
+    styleString: Ember.computed(
+        'value',
+        function() {
+            return Ember.String.htmlSafe( `width: ${this.get( 'value' )}%;` );
+        }
+    ),
 
     /**
      * Element-specific class name for the Bootstrap "theme" style
      *
-     * @function themeClassName
-     * @observes theme
-     * @returns  {Ember.String}
+     * @function
+     * @throws {ember.assert} Thrown if the supplied `theme` property value is
+     *         not included in the enum THEME
+     * @returns {String}
      */
-    themeClassName: function() {
-        return 'progress-bar-' + this.get( 'theme' );
-    }.property( 'theme' ),
+    themeClassName: Ember.computed(
+        'theme',
+        function() {
+            let theme = this.get( 'theme' );
+
+            Ember.assert(
+                `Error: Invalid theme property value "${theme}"`,
+                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+            );
+
+            return `progress-bar-${theme}`;
+        }
+    )
 
 });

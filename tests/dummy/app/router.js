@@ -4,9 +4,9 @@ import config from './config/environment';
 var Router = Ember.Router.extend({
     location: config.locationType,
 
-    scrollToTopAfterRouteTransition: function() {
+    scrollToTopAfterRouteTransition: Ember.observer( 'url', function() {
         window.scrollTo( 0, 0 );
-    }.observes( 'url' )
+    })
 });
 
 Router.map( function() {
@@ -28,9 +28,7 @@ Router.map( function() {
         this.route( 'sl-grid' );
         this.route( 'sl-loading-icon' );
         this.route( 'sl-menu' );
-        this.route( 'sl-pagination-controls' );
-        this.route( 'sl-pagination-info' );
-        this.route( 'sl-pagination-per-page-select' );
+        this.route( 'sl-pagination' );
         this.route( 'sl-panel' );
         this.route( 'sl-progress-bar' );
         this.route( 'sl-radio' );

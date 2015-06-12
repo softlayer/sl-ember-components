@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
-import SlMenu from 'sl-ember-components/components/sl-menu';
 
 var clickCounter = 0,
     modelStub = {
@@ -24,163 +23,214 @@ var clickCounter = 0,
     },
     App;
 
-moduleForComponent( 'sl-menu', 'Unit - component: sl-menu', {
-    beforeEach: function() {
+moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
+    beforeEach() {
         App = startApp();
     },
 
-    afterEach: function() {
+    afterEach() {
         Ember.run( App, App.destroy );
-    }
+    },
+
+    unit: true
 });
 
 test( '"children" property is an empty array on initialization', function( assert ) {
-    var component  = this.subject();
+    var component = this.subject();
 
     this.render();
 
-    assert.equal( Ember.typeOf( component.get( 'children' ) ), 'array', 'Is array' );
-    assert.equal( component.get( 'children' ).length, 0, 'Array is empty' );
+    assert.equal(
+        Ember.typeOf( component.get( 'children' ) ),
+        'array',
+        'Is array'
+    );
+
+    assert.equal(
+        component.get( 'children' ).length,
+        0,
+        'Array is empty'
+    );
 });
 
 test( 'Class attributes are properly bound', function( assert ) {
-    var component  = this.subject({ menu: modelStub }),
-        $component = this.render(),
-        menus = $component.find( 'li' ),
-        firstMenuClasses,
-        secondMenuClasses;
+    var component  = this.subject({ menu: modelStub });
+    var menus = this.$( 'li' );
+    var firstMenuClasses = Ember.$( menus[0] ).attr( 'class' ).split( ' ' );
+    var secondMenuClasses = Ember.$( menus[1] ).attr( 'class' ).split( ' ' );
 
-    firstMenuClasses = $( menus[0] ).attr( 'class' ).split( ' ' );
-    assert.ok( firstMenuClasses.contains( 'class1' ), '"class1" is added to the first menu element class' );
-    assert.ok( firstMenuClasses.contains( 'class2' ), '"class2" is added to the first menu element class' );
-    assert.ok( firstMenuClasses.contains( 'sl-menu' ), '"sl-menu" is added to the first menu element class' );
+    assert.ok(
+        firstMenuClasses.indexOf( 'class1' ) > -1,
+        '"class1" is added to the first menu element class'
+    );
 
-    secondMenuClasses = $( menus[1] ).attr( 'class' ).split( ' ' );
-    assert.ok( secondMenuClasses.contains( 'sl-menu' ), '"sl-menu" is added to a menu when no classNames property is present' );
+    assert.ok(
+        firstMenuClasses.indexOf( 'class2' ) > -1,
+        '"class2" is added to the first menu element class'
+    );
+
+    assert.ok(
+        firstMenuClasses.indexOf( 'sl-menu' ) > -1,
+        '"sl-menu" is added to the first menu element class'
+    );
+
+    assert.ok(
+        secondMenuClasses.indexOf( 'sl-menu' ) > -1,
+        '"sl-menu" is added to a menu when no classNames property is present'
+    );
 });
 
 test( 'Menu creates correct DOM structure', function( assert ) {
-    var component  = this.subject({ menu: modelStub }),
-        $component = this.render();
+    var component = this.subject({ menu: modelStub });
 
-    assert.equal( $component.find( 'li' ).length, 11 );
+    assert.equal(
+        this.$( 'li' ).length,
+        11
+    );
 });
 
 test( 'Menu properly hides all but root list', function( assert ) {
-    var component  = this.subject({ menu: modelStub }),
-        $component = this.render();
+    var component = this.subject({ menu: modelStub });
 
-    assert.equal( $component.find( 'li:visible' ).length, 3 );
+    assert.equal(
+        this.$( 'li:visible' ).length,
+        3
+    );
 });
 
 test( 'Menu shows child on hover', function( assert ) {
-    var component  = this.subject({ menu: modelStub }),
-        $component = this.render();
+    var component = this.subject({ menu: modelStub });
 
-    assert.equal( $component.find( 'li:visible' ).length, 3 );
+    assert.equal(
+        this.$( 'li:visible' ).length,
+        3
+    );
 
-    $component.find( 'li:visible' ).first().mouseenter();
-    assert.equal( $component.find( 'li:visible' ).length, 7 );
+    this.$( 'li:visible' ).first().mouseenter();
+
+    assert.equal(
+        this.$( 'li:visible' ).length,
+        7
+    );
 });
 
 test( 'Menu closes child on mouse exit', function( assert ) {
-    var component  = this.subject({ menu: modelStub }),
-        $component = this.render(),
-        child      = $component.find( 'li:visible' ).first();
+    var component = this.subject({ menu: modelStub });
+    var child = this.$( 'li:visible' ).first();
 
-    assert.equal( $component.find( 'li:visible' ).length, 3 );
+    assert.equal(
+        this.$( 'li:visible' ).length,
+        3
+    );
 
-    child.mouseenter();
-    assert.equal( $component.find( 'li:visible' ).length, 7 );
+    child.trigger( 'mouseenter' );
+    assert.equal(
+        this.$( 'li:visible' ).length,
+        7
+    );
 
-    child.mouseleave();
-    assert.equal( $component.find( 'li:visible' ).length, 3 );
+    child.trigger( 'mouseleave' );
+    assert.equal(
+        this.$( 'li:visible' ).length,
+        3
+    );
 });
 
 test( 'Menu click supports native function', function( assert ) {
-    var component  = this.subject({ menu: modelStub }),
-        $component = this.render(),
-        child      = $component.find( 'li:visible' ).first(),
-        spy        = sinon.spy();
+    var component = this.subject({ menu: modelStub });
+    var child = this.$( 'li:visible' ).first();
+    var spy = sinon.spy();
 
-    modelStub.pages[ 0 ].pages[ 1 ][ 'action' ] = spy;
+    Ember.set(
+        Ember.get(
+            Ember.get( component, 'pages' )[ 0 ], 'pages'
+        )[ 1 ],
+        'action',
+        spy
+    );
 
-    triggerEvent( child, 'mouseenter' );
-    click( child.find( 'li:visible' )[ 1 ] );
+    child.trigger( 'mouseenter' );
+    child.find( 'li:visible' ).eq( 1 ).trigger( 'click' );
 
-    andThen( function() {
-        assert.equal( spy.calledOnce, true );
+    andThen( () => {
+        assert.equal(
+            spy.calledOnce,
+            true
+        );
     });
 });
 
 test( 'Menu click supports action names', function( assert ) {
-    var component    = this.subject({ menu: modelStub }),
-        $component   = this.render(),
-        child        = $component.find( 'li:visible' ).first(),
-        spy          = sinon.spy(),
-        targetObject = {
-            actionHandler: spy
-        };
+    var component = this.subject({ menu: modelStub });
+    var child = this.$( 'li:visible' ).first();
+    var spy = sinon.spy();
+    var targetObject = {
+        actionHandler: spy
+    };
 
     component.set( 'actionInitiated', 'actionHandler' );
     component.set( 'targetObject', targetObject );
 
-    triggerEvent( child, 'mouseenter' );
+    child.trigger( 'mouseenter' );
+    child.find( 'li:visible' ).first().trigger( 'click' );
 
-    click( child.find( 'li:visible' )[ 0 ] );
-
-    andThen( function() {
-        assert.equal( spy.args[0][0], 'MyAction' );
+    andThen( () => {
+        assert.equal(
+            spy.args[ 0 ][ 0 ],
+            'MyAction'
+        );
     });
 });
 
 test( 'Menu click supports action names with supporting data', function( assert ) {
-    var component    = this.subject({ menu: modelStub }),
-        $component   = this.render(),
-        child        = $component.find( 'li:visible' ).first(),
-        spy          = sinon.spy(),
-        targetObject = {
-            actionHandler: spy
-        };
+    var component = this.subject({ menu: modelStub });
+    var child = this.$( 'li:visible' ).first();
+    var spy = sinon.spy();
+    var targetObject = {
+        actionHandler: spy
+    };
 
     component.set( 'actionInitiated', 'actionHandler' );
     component.set( 'targetObject', targetObject );
 
-    triggerEvent( child, 'mouseenter' );
+    child.trigger( 'mouseenter' );
 
-    click( child.find( 'li:visible' )[ 2 ] );
+    child.find( 'li:visible' ).eq( 2 ).trigger( 'click' );
 
-    andThen( function() {
-        assert.equal( spy.args[0][0], 'MyAction' );
-        assert.equal( spy.args[0][1]['name'], 'Joe' );
+    andThen( () => {
+        assert.equal(
+            spy.args[ 0 ][ 0 ],
+            'MyAction'
+        );
+
+        assert.equal(
+            spy.args[ 0 ][ 1 ][ 'name' ],
+            'Joe'
+        );
     });
 });
 
 test( 'Menu selection fires proper selection event', function( assert ) {
-    var component        = this.subject({ menu: modelStub }),
-        $component       = this.render(),
-        selectionCounter = 0,
-        targetObject = {
-            selectionHandler: function( path ) {
-                selectionCounter++;
-            }
-        },
-        child1,
-        child2,
-        child3;
+    var component = this.subject({ menu: modelStub });
+    var selectionCounter = 0;
+    var targetObject = {
+        selectionHandler( path ) {
+            selectionCounter++;
+        }
+    };
 
     component.set( 'selectionMade', 'selectionHandler' );
     component.set( 'targetObject', targetObject );
 
-    child1 = $component.find( 'li:visible' ).first();
+    let child1 = this.$( 'li:visible' ).first();
     child1.trigger( 'mouseenter' );
     child1.trigger( 'click' );
 
-    child2 = child1.find( 'li:visible' ).last();
+    let child2 = child1.find( 'li:visible' ).last();
     child2.trigger( 'mouseenter' );
     child2.trigger( 'click' );
 
-    child3 = child2.find( 'li:visible' ).first();
+    let child3 = child2.find( 'li:visible' ).first();
     child3.trigger( 'mouseenter' );
     child3.trigger( 'click' );
 

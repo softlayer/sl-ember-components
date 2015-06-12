@@ -1,15 +1,14 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-calendar', 'Unit - component: sl-calendar', {
+moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     needs: [
         'component:sl-calendar-day',
         'component:sl-calendar-month',
-        'component:sl-calendar-year',
-        'template:components/sl-calendar-day',
-        'template:components/sl-calendar-month',
-        'template:components/sl-calendar-year'
-    ]
+        'component:sl-calendar-year'
+    ],
+
+    unit: true
 });
 
 test( 'Default class name is present', function( assert ) {
@@ -39,11 +38,11 @@ test( 'Locked property applies class', function( assert ) {
 });
 
 test( 'Lock mode prevents changing state', function( assert ) {
-    var component          = this.subject({ locked: true }),
+    var component = this.subject({ locked: true }),
         initialDecadeStart = component.get( 'decadeStart' ),
-        initialMonth       = component.get( 'currentMonth' ),
-        initialViewMode    = component.get( 'viewMode' ),
-        initialYear        = component.get( 'currentYear' );
+        initialMonth = component.get( 'currentMonth' ),
+        initialViewMode = component.get( 'viewMode' ),
+        initialYear = component.get( 'currentYear' );
 
     component.send( 'changeDecade', 1 );
     assert.equal(
@@ -89,16 +88,16 @@ test( 'Lock mode prevents changing state', function( assert ) {
 });
 
 test( 'Clicking a day with a valid content value sends data', function( assert ) {
-    var testDay   = 1,
+    var testDay = 1,
         testMonth = 1,
-        testYear  = 2015,
-        testDate  = new Date( testYear, testMonth - 1, testDay );
+        testYear = 2015,
+        testDate = new Date( testYear, testMonth - 1, testDay );
 
     this.subject({
-        action       : 'test',
-        content      : [ { date: testDate } ],
-        currentMonth : testMonth,
-        currentYear  : testYear,
+        action: 'test',
+        content: [ { date: testDate } ],
+        currentMonth: testMonth,
+        currentYear: testYear,
 
         targetObject: {
             test: dateContent => {
@@ -183,8 +182,8 @@ test( 'changeYear action works', function ( assert ) {
 
 test( 'Decrementing month from January causes year to decrement', function( assert ) {
     var component = this.subject({
-            currentMonth : 1,
-            currentYear  : 2015
+            currentMonth: 1,
+            currentYear: 2015
         });
 
     Ember.run( () => { component.send( 'changeMonth', -1 ); } );
@@ -198,8 +197,8 @@ test( 'Decrementing month from January causes year to decrement', function( asse
 
 test( 'Incrementing month from December causes year to increment', function( assert ) {
     var component = this.subject({
-            currentMonth : 12,
-            currentYear  : 2015
+            currentMonth: 12,
+            currentYear: 2015
         });
 
     Ember.run( () => { component.send( 'changeMonth', 1 ); } );
@@ -213,10 +212,10 @@ test( 'Incrementing month from December causes year to increment', function( ass
 
 test( 'Setting dateValuePath works', function( assert ) {
     this.subject({
-        content       : [ { test: new Date(2015, 0, 1) } ],
-        currentMonth  : 1,
-        currentYear   : 2015,
-        dateValuePath : 'test'
+        content: [ { test: new Date(2015, 0, 1) } ],
+        currentMonth: 1,
+        currentYear: 2015,
+        dateValuePath: 'test'
     });
 
     assert.equal(
@@ -258,16 +257,6 @@ test( 'Months for year view are generated validly', function( assert ) {
         component.get( 'monthsInYearView' ).length,
         12,
         'Twelve months are created'
-    );
-});
-
-test( 'Short weekday name is formatted correctly', function( assert ) {
-    var component = this.subject();
-
-    assert.equal(
-        component.shortWeekDayName( 1 ),
-        'Mo',
-        'Monday weekday name is "Mo"'
     );
 });
 

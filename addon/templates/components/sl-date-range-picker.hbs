@@ -1,0 +1,26 @@
+{{#if label}}
+    <label for={{inputElementId}}>{{label}}</label>
+{{/if}}
+
+<div class="row">
+    {{sl-date-picker
+        class="sl-daterange-start-date col-md-6"
+        endDate=latestStartDate
+        placeholder=startDatePlaceholder
+        startDate=minDate
+        value=startDateValue
+        inputElementId=inputElementId
+    }}
+
+    {{sl-date-picker
+        class="sl-daterange-end-date col-md-6"
+        endDate=maxDate
+        placeholder=endDatePlaceholder
+        startDate=earliestEndDate
+        value=endDateValue
+    }}
+</div>
+
+{{#if helpText}}
+    <p class="help-block">{{helpText}}</p>
+{{/if}}

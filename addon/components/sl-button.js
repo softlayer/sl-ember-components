@@ -1,9 +1,43 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-button';
 
 /**
- * @module components
- * @class  sl-button
+ * Valid size values for the sl-button component
+ *
+ * @memberof module:components/sl-button
+ * @enum {String}
+ */
+const SIZE = {
+    EXTRA_SMALL: 'extra-small',
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
+};
+export { SIZE };
+
+/**
+ * Valid Bootstrap theme values for buttons
+ *
+ * @memberof module:components/sl-button
+ * @enum {String}
+ */
+const THEME = {
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    HOVER: 'hover',
+    INFO: 'info',
+    LINK: 'link',
+    PRIMARY: 'primary',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
+export { THEME };
+
+/**
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -13,34 +47,32 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * The root component element
-     *
-     * @property {Ember.String} tagName
-     * @default  "button"
-     */
+    /** @type {String[]} */
+    attributeBindings: [
+        'data-target',
+        'data-toggle',
+        'disabled',
+        'type'
+    ],
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'pending',
+        'sizeClass',
+        'themeClass'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'btn',
+        'sl-button'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    /** @type {String} */
     tagName: 'button',
-
-    /**
-     * Attribute bindings for the button component
-     *
-     * @property {Ember.Array} attributeBindings
-     */
-    attributeBindings: [ 'data-target', 'data-toggle', 'disabled', 'type' ],
-
-    /**
-     * Class names to apply to the button
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'btn', 'sl-button' ],
-
-    /**
-     * Class bindings for the button component
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'pending', 'sizeClass', 'themeClass' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -49,12 +81,10 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Events
 
     /**
-     * Alert external code about the click
-     *
-     * @function click
-     * @returns  {void}
+     * @function
+     * @returns {undefined}
      */
-    click: function() {
+    click() {
         this.sendAction();
     },
 
@@ -64,16 +94,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether or not the button should be disabled during AJAX activity
      *
-     * @property {boolean} disableOnAjax
-     * @default  false
+     * @type {Boolean}
      */
     disableOnAjax: false,
 
     /**
      * Whether or not the button should be hidden during AJAX activity
      *
-     * @property {boolean} hideOnAjax
-     * @default  false
+     * @type {Boolean}
      */
     hideOnAjax: false,
 
@@ -83,42 +111,37 @@ export default Ember.Component.extend( TooltipEnabled, {
      * It is preferred you use this to set your "default" text rather than
      * inactiveLabelText, which will take this value as a default.
      *
-     * @property {Ember.String} label
-     * @default  null
+     * @type {?String}
      */
     label: null,
 
     /**
      * Whether the button is in a "pending" state
      *
-     * @property {boolean} pending
-     * @default  false
+     * @type {Boolean}
      */
     pending: false,
 
     /**
      * The text to display during AJAX activity
      *
-     * @property {Ember.String} pendingLabel
-     * @default  null
+     * @type {?String}
      */
     pendingLabel: null,
 
     /**
      * The size of the button
      *
-     * @property {string} size
-     * @default  "medium"
+     * @type {SIZE}
      */
-    size: 'medium',
+    size: SIZE.MEDIUM,
 
     /**
      * The bootstrap "theme" name
      *
-     * @property {Ember.String} theme
-     * @default  "default"
+     * @type {THEME}
      */
-    theme: 'default',
+    theme: THEME.DEFAULT,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -129,61 +152,83 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The current label text for the button
      *
-     * @function currentLabel
-     * @observes label, pending, pendingLabel
-     * @returns  {Ember.String}
+     * @function
+     * @returns {String}
      */
-    currentLabel: function() {
-        var label        = this.get( 'label' ),
-            pending      = this.get( 'pending' ),
-            pendingLabel = this.get( 'pendingLabel' );
+    currentLabel: Ember.computed(
+        'label',
+        'pending',
+        'pendingLabel',
+        function() {
+            let pendingLabel = this.get( 'pendingLabel' );
+            if ( this.get( 'pending' ) && pendingLabel ) {
+                return pendingLabel;
+            }
 
-        if ( pending && pendingLabel ) {
-            return pendingLabel;
+            let label = this.get( 'label' );
+            if ( label ) {
+                return label;
+            }
         }
-
-        if ( label ) {
-            return label;
-        }
-    }.property( 'label', 'pending', 'pendingLabel' ),
+    ),
 
     /**
      * Converted size string to Bootstrap button class
      *
-     * @function sizeClass
-     * @observes size
-     * @returns  {Ember.String} Defaults to undefined
+     * @function
+     * @throws {ember.assert} Thrown if the supplied `size` value is not one
+     *         defined in the enum SIZE
+     * @returns {?String} Defaults to undefined
      */
-    sizeClass: function() {
-        var size = this.get( 'size' ),
-            sizeClass;
+    sizeClass: Ember.computed(
+        'size',
+        function() {
+            let size = this.get( 'size' );
 
-        switch ( size ) {
-            case 'extra-small':
-                sizeClass = 'btn-xs';
-                break;
+            Ember.assert(
+                'Error: Invalid size value',
+                Object.keys( SIZE ).map( ( key ) => SIZE[ key ] ).indexOf( size ) > -1
+            );
 
-            case 'small':
-                sizeClass = 'btn-sm';
-                break;
+            let sizeClass;
+            switch ( size ) {
+                case SIZE.EXTRA_SMALL:
+                    sizeClass = 'btn-xs';
+                    break;
 
-            case 'large':
-                sizeClass = 'btn-lg';
-                break;
+                case SIZE.SMALL:
+                    sizeClass = 'btn-sm';
+                    break;
+
+                case SIZE.LARGE:
+                    sizeClass = 'btn-lg';
+                    break;
+            }
+
+            return sizeClass;
         }
-
-        return sizeClass;
-    }.property( 'size' ),
+    ),
 
     /**
      * Converted theme string to Bootstrap button class
      *
-     * @function themeClass
-     * @observes theme
-     * @returns  {Ember.String} Defaults to "btn-default"
+     * @function
+     * @throws {ember.assert} Thrown if the supplied `theme` value is one not
+     *         defined in the enum THEME
+     * @returns {String} Defaults to "btn-default"
      */
-    themeClass: function() {
-        return 'btn-' + this.get( 'theme' );
-    }.property( 'theme' )
+    themeClass: Ember.computed(
+        'theme',
+        function() {
+            let theme = this.get( 'theme' );
+
+            Ember.assert(
+                'Error: Invalid theme value',
+                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+            );
+
+            return `btn-${theme}`;
+        }
+    )
 
 });

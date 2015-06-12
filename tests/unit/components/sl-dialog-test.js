@@ -2,16 +2,15 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import ModalMixin from 'sl-ember-components/mixins/sl-modal';
 
-moduleForComponent( 'sl-dialog', 'Unit - component: sl-dialog', {
-    afterEach() {
-        // These are done to make the test results page usable
-        Ember.$( '.modal-backdrop' ).css( 'display', 'none' );
-        Ember.$( '.modal-open' ).removeClass( 'modal-open' );
-    }
+moduleForComponent( 'sl-dialog', 'Unit | Component | sl dialog', {
+    unit: true
 });
 
 test( 'Expected Mixins are present', function( assert ) {
-    assert.ok( ModalMixin.detect( this.subject() ), 'Modal Mixin is present' );
+    assert.ok(
+        ModalMixin.detect( this.subject() ),
+        'Modal Mixin is present'
+    );
 });
 
 test( '"buttonText" property defaults to a non-empty string', function( assert ) {
@@ -41,11 +40,14 @@ test( '"buttonText" property displays correctly', function( assert ) {
 test( '"show" property defaults to false', function( assert ) {
     var component = this.subject();
 
-    assert.ok( component.show === false, '"show" should default to false'  );
+    assert.ok(
+        component.get( 'show' ) === false,
+        '"show" should default to false'
+    );
 });
 
 test( 'Correct DOM structure is in place', function( assert ) {
-    var component  = this.subject({
+    var component = this.subject({
         title: 'Test Title'
     });
 
@@ -153,6 +155,7 @@ test( 'The "show" property toggles the Bootstrap classes', function( assert ) {
     Ember.run( () => {
         component.set( 'show', true );
     });
+
     assert.ok(
         this.$().is( ':visible' ),
         'Element is visible after first toggle'
@@ -161,6 +164,7 @@ test( 'The "show" property toggles the Bootstrap classes', function( assert ) {
     Ember.run( () => {
         component.set( 'show', false );
     });
+
     assert.strictEqual(
         this.$().is( ':visible' ),
         false,
@@ -177,6 +181,7 @@ test( 'hideHandler properly handles hiding', function( assert ) {
     );
 
     this.$().trigger( 'hide.bs.modal' );
+
     assert.strictEqual(
         component.get( 'show' ),
         false,

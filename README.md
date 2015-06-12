@@ -1,5 +1,5 @@
 
-[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-0.1.15-orange.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
+[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-0.2.7-orange.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
 
 [![Dependencies](https://img.shields.io/david/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components) [![Dev Dependencies](https://img.shields.io/david/dev/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components#info=devDependencies)
 
@@ -32,7 +32,7 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-time
 * sl-dialog
 * sl-drop-button
-* sl-grid system
+* sl-grid
 * sl-input
 * sl-loading-icon
 * sl-menu
@@ -48,8 +48,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-tab-panel
 * sl-textarea
 * sl-tooltip
-
-The *sl-grid system* isn't an Ember Component in the sense that you can use it with the traditional Ember Component syntax in your template, but rather is an offering of components, controllers and partials to provide a fully-featured Grid.  The documentation for this "component" is viewable by launching the demo application bundled with this addon and visiting the */sl-grid* route.
 
 
 **Mixins**
@@ -88,14 +86,6 @@ Requires either the use of [sl-ember-store](https://github.com/softlayer/sl-embe
 
 **Helpers**
 
-*get-key*
-
-arguments: an object, a key, a default key
-
-The key is resolved on the object, to be returned.  If it is falsy, and a default key is supplied, the default key is
-resolved on the object and that result is returned.
-
-
 *render-component*
 
 arguments: component name, optional bound properties
@@ -106,20 +96,14 @@ Render the component referenced by name. Bound properties can be passed to the c
 
 **Utility Classes**
 
-*sl-grid-key-adapter*
-
-Provides an abstraction between the events the *sl-grid* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
-
 *sl-menu-key-adapter*
 
 Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
 
 
-
-
 ---
 
-All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings as well as our own implementations when the existing offerings were deficient.  Existing offerings that were leveraged include:
+All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings as well as our own implementations when the existing offerings were deficient. Existing offerings that were leveraged include:
 
 * [Twitter Bootstrap](http://getbootstrap.com/)
 * [Bootstrap-Datepicker](http://bootstrap-datepicker.readthedocs.org/en/release/#)
@@ -129,7 +113,7 @@ All of this functionality is provided through a combination of leveraging the be
 
 ## LICENSE WARNING
 
-While this library is MIT licensed not all of the third-party component libraries are.  Specifically, Highcharts is only free for non-commercial use and requires a license for any other use. See
+While this library is MIT licensed not all of the third-party component libraries are. Specifically, Highcharts is only free for non-commercial use and requires a license for any other use. See
 [this FAQ page](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) for more information.
 
 Other libraries that are not MIT licensed, though it should not pose a problem, are:
@@ -174,13 +158,8 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
 # How to use this addon in your application
 
-```
-ember install:addon sl-ember-components
-```
-
-```
-npm install --save-dev ember-cli-less
-```
+    ember install sl-ember-components
+    npm install --save-dev ember-cli-less
 
 Modify `Brocfile.js` file to add:
 
@@ -191,7 +170,7 @@ app.import({
 });
 ```
 
-Create `app/styles/app.less` file.  Then add to it:
+Create `app/styles/app.less` file. Then add to it:
 
 ```
 @import 'sl-ember-components';
@@ -222,7 +201,7 @@ Employs [Semantic Versioning 2.0.0](http://semver.org/)
 sl-ember-components and its source files are Copyright © 2014-2015 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
 The software is [MIT Licensed](LICENSE.md)
 
-sl-ember-components leverages several third-party libraries which are not all MIT licensed.  Specifically, Highcharts is only
+sl-ember-components leverages several third-party libraries which are not all MIT licensed. Specifically, Highcharts is only
 free for non-commercial use and requires a license for any other use. See
 [this FAQ page](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) for more information.
 

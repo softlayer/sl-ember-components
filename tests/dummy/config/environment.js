@@ -2,11 +2,11 @@
 
 module.exports = function( environment ) {
     var ENV = {
-        modulePrefix  : 'dummy',
-        environment   : environment,
-        baseURL       : '/',
-        baseAssetsURL : '/sl-ember-components/',
-        locationType  : 'auto',
+        modulePrefix: 'dummy',
+        environment: environment,
+        baseURL: '/',
+        baseAssetsURL: '/sl-ember-components/',
+        locationType: 'auto',
 
         EmberENV: {
             FEATURES: {

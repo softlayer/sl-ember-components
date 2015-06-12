@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class  sl-modal-manager
+ * @module
+ * @augments ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -15,27 +15,25 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Controller actions hash
-     *
-     * @property {Ember.Object} actions
-     */
+    /** @type {Object} */
     actions: {
 
         /**
          * Trigger showing the specified modal
          *
-         * @function actions.showModal
-         * @param   {Ember.String} selector - The selector for the modal to show
-         * @param   {Ember.ObjectController|Ember.ArrayController|Ember.String} controller - The controller to use for context within the modal
-         * @param   {model} model - An instance of a model to pass to the controller as content data
-         * @returns {void}
+         * @function actions:showModal
+         * @param {String} selector - The selector for the modal to show
+         * @param {Object|String} controller - The controller to use for context
+         *        within the modal
+         * @param {Object} model - An instance of a model to pass to the
+         *        controller as content data
+         * @returns {undefined}
          */
-        showModal: function( selector, controller, model ) {
+        showModal( selector, controller, model ) {
             Ember.$( selector ).modal( 'show' );
 
             if ( !Ember.isBlank( controller ) && !Ember.isBlank( model ) ) {
-                if ( typeof controller === 'string' ) {
+                if ( Ember.typeOf( controller ) === 'string' ) {
                     controller = this.controllerFor( controller );
                 }
 

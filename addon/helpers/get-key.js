@@ -1,29 +1,22 @@
 import Ember from 'ember';
 
 /**
- * @module helpers
+ * @module
  */
 
 /**
- * A lookup on an object with supplied key
- *
- * Takes an object, a key and a default key. The key is resolved on the object
- * and the result is returned. If the result is falsy and a defaultKey is
- * supplied then the defaultKey is resolved on the object and that result
- * is returned.
+ * Lookup a value on an object in the current context with passed-in objectKey
+ * and pathKey strings
  *
  * @function get-key
- * @param    {object} object - Context object to lookup value for
- * @param    {string} key - The key string used for lookup on the object
- * @param    {string} defaultKey - A fallback key value
- * @returns  {mixed}
+ * @param {String} objectKey - The string path to lookup the object in context
+ * @param {String} pathKey - The string path to lookup the value on the object
+ * @param {Object} context - The current context of execution
+ * @returns {mixed} The value returned from looking up the path on the object
  */
-export default Ember.Handlebars.makeBoundHelper( function( object, key, defaultKey ) {
-    var value = object.get ? object.get( key ) : object[ key ];
+export default function( objectKey, pathKey, context ) {
+    let object = Ember.get( context, `data.view._keywords.${objectKey}` );
+    let path = Ember.get( context, `data.view._keywords.${pathKey}` );
 
-    if ( Ember.isNone( value ) && Ember.typeOf( defaultKey ) === 'string' ) {
-        value = object.get ? object.get( defaultKey ) : object[ defaultKey ];
-    }
-
-    return value;
-});
+    return Ember.get( object, path );
+}

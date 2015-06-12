@@ -1,26 +1,31 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-radio-group', 'Unit - component: sl-radio-group', {
-    needs: [ 'component:sl-radio', 'template:components/sl-radio' ]
+moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
+    needs: [ 'component:sl-radio' ],
+
+    unit: true
 });
 
 test( 'The disabled state applies the disabled attribute and class', function( assert ) {
-    var $component;
-
     this.subject({ disabled: true, name: 'test' });
-    $component = this.render();
 
-    assert.ok( $component.prop( 'disabled' ), 'has "disabled" attribute' );
-    assert.ok( $component.hasClass( 'disabled' ), 'has "disabled" class' );
+    assert.equal(
+        this.$().attr( 'disabled' ),
+        'disabled',
+        'has "disabled" attribute'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'disabled' ),
+        'has "disabled" class'
+    );
 });
 
 test( 'The disabled state applies to sl-radio children', function( assert ) {
-    var $component;
-
     this.subject({
-        disabled : true,
-        name     : 'test',
+        disabled: true,
+        name: 'test',
 
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}' +
@@ -28,18 +33,24 @@ test( 'The disabled state applies to sl-radio children', function( assert ) {
             '{{sl-radio label="Three" value="three"}}'
         )
     });
-    $component = this.render();
 
-    assert.equal( $component.find( '.sl-radio.disabled' ).length, 3 );
-    assert.equal( $component.find( '.sl-radio input[disabled]' ).length, 3 );
+    assert.equal(
+        this.$( '.sl-radio.disabled' ).length,
+        3,
+        'Rendered component has three disabled radio buttons'
+    );
+
+    assert.equal(
+        this.$( '.sl-radio input[disabled]' ).length,
+        3,
+        'Rendered component has three disabled inputs'
+    );
 });
 
 test( 'The readonly state applies to sl-radio children', function( assert ) {
-    var $component;
-
     this.subject({
-        name     : 'test',
-        readonly : true,
+        name: 'test',
+        readonly: true,
 
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}' +
@@ -47,35 +58,46 @@ test( 'The readonly state applies to sl-radio children', function( assert ) {
             '{{sl-radio label="Three" value="three"}}'
         )
     });
-    $component = this.render();
 
-    assert.equal( $component.find( '.sl-radio.readonly' ).length, 3 );
-    assert.equal( $component.find( '.sl-radio input[readonly]' ).length, 3 );
+    assert.equal(
+        this.$( '.sl-radio.readonly' ).length,
+        3,
+        'Rendered component has three readonly radio buttons'
+    );
+
+    assert.equal(
+        this.$( '.sl-radio input[readonly]' ).length,
+        3,
+        'Rendered component has three readonly inputs'
+    );
 });
 
 test( 'Value changes when sl-radio child selected', function( assert ) {
     var component = this.subject({
-            name: 'test',
-            template: Ember.Handlebars.compile(
-                '{{sl-radio label="One" value="one"}}' +
-                '{{sl-radio label="Two" value="two"}}' +
-                '{{sl-radio label="Three" value="three"}}'
-            ),
-            value: 'one'
-        }),
-        $component = this.render();
+        name: 'test',
+        template: Ember.Handlebars.compile(
+            '{{sl-radio label="One" value="one"}}' +
+            '{{sl-radio label="Two" value="two"}}' +
+            '{{sl-radio label="Three" value="three"}}'
+        ),
+        value: 'one'
+    });
 
-    assert.equal( component.get( 'value' ), 'one' );
-    $component.find( 'input[value="two"]' ).trigger( 'click' );
-    assert.equal( component.get( 'value' ), 'two' );
+    assert.equal(
+        component.get( 'value' ),
+        'one',
+        '"one" value is selected'
+    );
+
+    this.$().find( 'input[value="two"]' ).trigger( 'click' );
+
+    assert.equal( component.get( 'value' ), 'two', '"two" value is selected' );
 });
 
 test( "Inline true sets sl-radio children's inline property to true", function( assert ) {
-    var $component;
-
     this.subject({
-        inline : true,
-        name   : 'test',
+        inline: true,
+        name: 'test',
 
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}' +
@@ -83,18 +105,24 @@ test( "Inline true sets sl-radio children's inline property to true", function( 
             '{{sl-radio label="Three" value="three"}}'
         )
     });
-    $component = this.render();
 
-    assert.equal( $component.find( '.sl-radio.radio' ).length, 0 );
-    assert.equal( $component.find( '.sl-radio.radio-inline' ).length, 3 );
+    assert.equal(
+        this.$( '.sl-radio.radio' ).length,
+        0,
+        'Rendered component has zero default radio buttons'
+    );
+
+    assert.equal(
+        this.$( '.sl-radio.radio-inline' ).length,
+        3,
+        'Rendered component has three inline radio buttons'
+    );
 });
 
 test( "Inline false sets sl-radio children's inline property to false", function( assert ) {
-    var $component;
-
     this.subject({
-        inline : false,
-        name   : 'test',
+        inline: false,
+        name: 'test',
 
         template: Ember.Handlebars.compile(
             '{{sl-radio inline=true label="One" value="one"}}' +
@@ -102,8 +130,16 @@ test( "Inline false sets sl-radio children's inline property to false", function
             '{{sl-radio inline=true label="Three" value="three"}}'
         )
     });
-    $component = this.render();
 
-    assert.equal( $component.find( '.sl-radio.radio-inline' ).length, 0 );
-    assert.equal( $component.find( '.sl-radio.radio' ).length, 3 );
+    assert.equal(
+        this.$( '.sl-radio.radio-inline' ).length,
+        0,
+        'Rendered component has zero inline radio buttons'
+    );
+
+    assert.equal(
+        this.$( '.sl-radio.radio' ).length,
+        3,
+        'Rendered component has three default (non-inline) radio buttons'
+    );
 });

@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-radio';
 
 /**
- * @module components
- * @class  sl-radio
+ * @module
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,34 +13,27 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name for the root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "div"
-     */
+    /** @type {String[]} */
+    attributeBindings: [
+        'disabled'
+    ],
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'disabled',
+        'radioType'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'sl-radio'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    /** @type {String} */
     tagName: 'div',
-
-    /**
-     * Attribute bindings for the root element
-     *
-     * @property {Ember.Array} attributeBindings
-     */
-    attributeBindings: [ 'disabled' ],
-
-    /**
-     * Class names for the root element
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'sl-radio' ],
-
-    /**
-     * Class name bindings for the root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'disabled', 'radioType' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -53,8 +47,7 @@ export default Ember.Component.extend({
     /**
      * Whether the component is in the disabled state or not
      *
-     * @property {boolean} disabled
-     * @default  false
+     * @type {Boolean}
      */
     disabled: false,
 
@@ -67,11 +60,14 @@ export default Ember.Component.extend({
     /**
      * Type of radio button; "radio-inline" when inline, "radio" default
      *
-     * @function radioType
-     * @observes inline
-     * @returns  {Ember.String}
+     * @function
+     * @returns {String}
      */
-    radioType: function() {
-        return this.get( 'inline' ) ? 'radio-inline' : 'radio';
-    }.property( 'inline' )
+    radioType: Ember.computed(
+        'inline',
+        function() {
+            return this.get( 'inline' ) ? 'radio-inline': 'radio';
+        }
+    )
+
 });

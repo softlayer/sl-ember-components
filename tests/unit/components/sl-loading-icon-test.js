@@ -1,20 +1,27 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-loading-icon', 'Unit - component: sl-loading-icon' );
+moduleForComponent( 'sl-loading-icon', 'Unit | Component | sl loading icon', {
+    unit: true
+});
 
 test( 'Default classes are set', function( assert ) {
-    var $component = this.render();
+    assert.ok(
+        this.$().hasClass( 'sl-loading-icon' ),
+        'Has class "sl-loading-icon"'
+    );
 
-    assert.ok( $component.hasClass( 'sl-loading-icon' ), 'Has class "sl-loading-icon"' );
-    assert.ok( $component.hasClass( 'sl-loading-icon-dark' ), 'Has class "sl-loading-icon-dark"' );
+    assert.ok(
+        this.$().hasClass( 'sl-loading-icon-dark' ),
+        'Has class "sl-loading-icon-dark"'
+    );
 });
 
 test( 'Inverse property uses light icon scheme', function( assert ) {
-    var $component;
-
     this.subject({ inverse: true });
-    $component = this.render();
 
-    assert.ok( $component.hasClass( 'sl-loading-icon-light' ), 'Has class "sl-loading-icon-light"' );
+    assert.ok(
+        this.$().hasClass( 'sl-loading-icon-light' ),
+        'Has class "sl-loading-icon-light"'
+    );
 });

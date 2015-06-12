@@ -1,0 +1,9 @@
+{{#if label}}
+    <a {{action "click" action}} role="menuitem" tab-index="-1">
+        {{#if icon}}
+            <img src={{icon}} />
+        {{/if}}
+
+        {{label}}
+    </a>
+{{/if}}

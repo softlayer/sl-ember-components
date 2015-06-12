@@ -1,14 +1,27 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-drop-button', 'Unit - component: sl-drop-button', {
-    needs: [ 'component:sl-button' ]
+moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
+    needs: [ 'component:sl-button' ],
+
+    unit: true
 });
 
 test( 'Default classes are present', function( assert ) {
-    assert.ok( this.$().hasClass( 'btn-group' ), 'Has class "btn-group"' );
-    assert.ok( this.$().hasClass( 'dropdown' ), 'Has class "dropdown"' );
-    assert.ok( this.$().hasClass( 'sl-drop-button' ), 'Has class "sl-drop-button"' );
+    assert.ok(
+        this.$().hasClass( 'btn-group' ),
+        'Has class "btn-group"'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'dropdown' ),
+        'Has class "dropdown"'
+    );
+
+    assert.ok(
+        this.$().hasClass( 'sl-drop-button' ),
+        'Has class "sl-drop-button"'
+    );
 });
 
 test( 'Theme property applies theme class', function( assert ) {
@@ -22,6 +35,7 @@ test( 'Theme property applies theme class', function( assert ) {
     Ember.run( () => {
         component.set( 'theme', 'danger' );
     });
+
     assert.ok(
         this.$().hasClass( 'dropdown-danger' ),
         'Rendered drop-button has new theme class'
@@ -92,6 +106,7 @@ test( 'Icon class property is supported', function( assert ) {
     Ember.run( () => {
         component.set( 'iconClass', 'test' );
     });
+
     assert.equal(
         this.$( 'span.test' ).length,
         1,

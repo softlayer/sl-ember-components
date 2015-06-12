@@ -1,20 +1,21 @@
 import Ember from 'ember';
 
 /**
- * @module utils
- * @class  sl-menu-key-adapter
+ * @module
+ * @augments ember/Object
+ * @augments ember/Evented
  */
 export default Ember.Object.extend( Ember.Evented, {
 
     /**
      * Trigger the menu's childSelection action
      *
-     * @function childSelection
-     * @param   {Ember.String} key
-     * @returns {void}
+     * @function
+     * @param {String} key
+     * @returns {undefined}
      */
-    childSelection: function( key ) {
-        if ( typeof key === 'string' ) {
+    childSelection( key ) {
+        if ( Ember.typeOf( key ) === 'string' ) {
             key = parseInt( key, 10 );
         }
 
@@ -22,53 +23,53 @@ export default Ember.Object.extend( Ember.Evented, {
     },
 
     /**
-     * Trigger the menu's drillDown action
+     * Trigger the menu's closeAll action
      *
-     * @function drillDown
-     * @param   {Ember.String} key
-     * @returns {void}
+     * @function
+     * @returns {undefined}
      */
-    drillDown: function( key ) {
-        this.trigger( 'drillDown', key );
+    closeAll() {
+        this.trigger( 'closeAll' );
     },
 
     /**
      * Trigger the menu's cycleRootSelectionNext action
      *
-     * @function cycleRootSelectionNext
-     * @returns {void}
+     * @function
+     * @returns {undefined}
      */
-    cycleRootSelectionNext: function() {
+    cycleRootSelectionNext() {
         this.trigger( 'cycleRootSelectionNext' );
     },
 
     /**
      * Trigger the menu's cycleRootSelectionPrevious action
      *
-     * @function cycleRootSelectionPrevious
-     * @returns {void}
+     * @function
+     * @returns {undefined}
      */
-    cycleRootSelectionPrevious: function() {
+    cycleRootSelectionPrevious() {
         this.trigger( 'cycleRootSelectionPrevious' );
     },
 
     /**
-     * Trigger the menu's closeAll action
+     * Trigger the menu's drillDown action
      *
-     * @function closeAll
-     * @returns {void}
+     * @function
+     * @param {String} key
+     * @returns {undefined}
      */
-    closeAll: function() {
-        this.trigger( 'closeAll' );
+    drillDown( key ) {
+        this.trigger( 'drillDown', key );
     },
 
     /**
      * Trigger the menu's showAll action
      *
-     * @function showAll
-     * @returns {void}
+     * @function
+     * @returns {undefined}
      */
-    showAll: function() {
+    showAll() {
         this.trigger( 'showAll' );
     }
 

@@ -1,114 +1,175 @@
-@import 'sl-grid-header-settings';
-@import 'sl-grid-table-column-resize';
-@import 'sl-grid-table-row-expander';
-
 .sl-grid {
-    position: relative;
-}
+    &.details-open {
+        .list-pane {
+            width: 20%;
 
-.form-inline {
-    display: inline-block;
-}
+            tr {
+                th.primary-column,
+                td.primary-column {
+                    width: auto;
+                }
 
-table.sl-grid.table {
-    background-color: white;
-    margin-top: 0;
-    table-layout: fixed;
-
-    th {
-        color: white;
-        background-color: @gray-dark;
-        font-weight: normal;
-
-        &:first-of-type {
-            border-top-left-radius: @border-radius-base;
+                th:not(.primary-column),
+                td:not(.primary-column) {
+                    display: none;
+                }
+            }
         }
 
-        &:last-of-type {
-            border-top-right-radius: @border-radius-base;
-        }
-
-        span {
-            color: white;
+        .detail-pane {
+            display: inline-block;
+            width: 80%;
         }
     }
 
-    th, th span, th a span, td {
-        min-width: 3em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    header {
+        background-color: @gray-lighter;
+        border-bottom: 1px solid @gray-light;
+
+        h3 {
+            margin: 0;
+            padding-bottom: @padding-base-vertical - 1;
+            padding-top: @padding-base-vertical;
+        }
+
+        .row {
+            margin: 0;
+
+            >div {
+                padding: @padding-base-vertical @padding-base-horizontal;
+            }
+        }
     }
 
-    th.sl-grid-table-cell-row-expander {
-        width: 30px;
-        max-width: 30px;
-        min-width: 30px;
+    .column-headers {
+        background-color: @gray-lightest;
+        margin-bottom: 0;
+
+        th {
+            border-bottom: 1px solid @gray-light;
+
+            &.sortable-column {
+                cursor: pointer;
+
+                &:hover {
+                    background-color: @gray-lighter;
+                }
+            }
+        }
     }
 
-    .sl-grid-table-cell-actions {
-        width: 120px;
-        max-width: 120px;
-        min-width: 120px;
-        overflow: visible;
-        padding-top: @padding-base-vertical / 2;
-        padding-bottom: @padding-base-vertical / 2;
+    .list-pane {
+        float: left;
+        padding-bottom: 33px;
+        position: relative;
+        width: 100%;
+
+        .content {
+            background: white;
+            overflow-y: scroll;
+            table-layout: fixed;
+
+            table {
+                margin-bottom: 0;
+
+                tr {
+                    cursor: pointer;
+
+                    td {
+                        border-top: 0;
+                        border-bottom: 1px solid @gray-lightest;
+                    }
+
+                    &.active td {
+                        background-color: @brand-primary;
+                        color: white;
+                    }
+                }
+            }
+        }
+
+        footer {
+            border-top: 1px solid @gray-light;
+            bottom: 0;
+            height: 33px;
+            line-height: 33px;
+            overflow: hidden;
+            padding: 0 1em;
+            position: absolute;
+            text-overflow: ellipsis;
+            width: 100%;
+
+            p {
+                margin-bottom: 0;
+            }
+
+            .sl-pagination {
+                margin: 0;
+            }
+        }
     }
 
-    td.loadingIndicator{
-        background-color:rgba(0,0,0,0.1);
-        text-align:center;
+    .detail-pane {
+        background-color: @gray-white;
+        border-left: 1px solid @gray-light;
+        display: none;
+        position: relative;
+
+        header {
+            background-color: @gray-lightest;
+            padding: @padding-base-vertical @padding-base-horizontal;
+
+            .close {
+                color: @gray-light;
+                float: right;
+                font-weight: lighter;
+                line-height: 0.95em;
+
+                &:hover {
+                    color: @brand-danger;
+                }
+            }
+        }
+
+        footer {
+            border-left: 1px solid @gray-light;
+            border-top: 1px solid @gray-light;
+            top: 100%;
+            height: 33px;
+            line-height: 33px;
+            margin-left: -1px;
+            padding: 0 1em;
+            position: absolute;
+            width: 100%;
+        }
+
+        .detail-content {
+            padding: 0.5em;
+        }
     }
 
-    .btn {
-        padding-top: @padding-base-vertical / 2;
-        padding-bottom: @padding-base-vertical / 2 - 1;
+    .column-small {
+        width: 150px;
     }
-}
 
-.sl-grid .shadow-mask {
-    width: 100%;
-    height: 200px;
-    cursor: wait;
-    background-color: @gray-light;
-    opacity: 0.75;
-    z-index: 1000;
-
-    &::after {
-        -webkit-animation: fa-spin 1s infinite linear;
-        -moz-animation: fa-spin 1s infinite linear;
-        -o-animation: fa-spin 1s infinite linear;
-        animation: fa-spin 1s infinite linear;
-        background-image: url(/sl-ember-components/assets/images/spinner-dark.png);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 32px 32px;
-        content: "";
-        display: block;
-        height: 32px;
-        left: 50%;
-        margin-top: -16px;
-        margin-left: -16px;
-        position: absolute;
-        top: 50%;
-        width: 32px;
+    .column-medium {
+        width: 300px;
     }
-}
 
-body > div.reordering {
-    background-color: @gray-light;
-    display: inline-block;
-    opacity: 0.75;
-    position: absolute;
-    z-index: 1000;
-}
+    .column-large {
+        width: 450px;
+    }
 
-body.reordering {
-    cursor: col-resize;
-    position: relative;
-    user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    -webkit-user-select: none;
+    .actions-cell {
+        padding: 3px;
+        text-align: right;
+
+        .btn {
+            padding: 3px 9px;
+        }
+    }
+
+    footer .sl-pagination a {
+        border-top-width: 0;
+    }
 }

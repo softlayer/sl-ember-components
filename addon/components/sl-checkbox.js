@@ -1,9 +1,11 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-checkbox';
 
 /**
- * @module components
- * @class  sl-checkbox
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -13,19 +15,26 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for containing div
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'checkbox', 'form-group', 'sl-checkbox' ],
+    /** @type {String[]} */
+    attributeBindings: [
+        'checked',
+        'disabled'
+    ],
 
-    /**
-     * Bindings for the base component class
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'disabled' ],
+    /** @type {String[]} */
+    classNameBindings: [
+        'disabled'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'checkbox',
+        'form-group',
+        'sl-checkbox'
+    ],
+
+    /** @type {Object} */
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -39,32 +48,28 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether the input is checked or not
      *
-     * @property {boolean} checked
-     * @default  false
+     * @type {Boolean}
      */
     checked: false,
 
     /**
      * Whether the input is disabled or not
      *
-     * @property {boolean} disabled
-     * @default  false
+     * @type {Boolean}
      */
     disabled: false,
 
     /**
      * The input's label text
      *
-     * @property {Ember.String} label
-     * @default  null
+     * @type {?String}
      */
     label: null,
 
     /**
      * The input's name property value
      *
-     * @property {Ember.String} name
-     * @default  null
+     * @type {?String}
      */
     name: null
 

@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class  sl-tooltip-enabled
+ * @module
+ * @augments ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -12,12 +12,11 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Attribute bindings for the tooltip-based component
-     *
-     * @property {Ember.Array} attributeBindings
-     */
-    attributeBindings: [ 'data-toggle', 'title' ],
+    /** @type {String[]} */
+    attributeBindings: [
+        'data-toggle',
+        'title'
+    ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -31,8 +30,7 @@ export default Ember.Mixin.create({
     /**
      * 'data-toggle' attribute for use in template binding
      *
-     * @property {boolean} data-toggle
-     * @default  null
+     * @type {?Boolean}
      */
     'data-toggle': null,
 
@@ -42,8 +40,7 @@ export default Ember.Mixin.create({
      * Used as attribute in template binding by popover
      * Used as "data-original-title" attribute by tooltip
      *
-     * @property {Ember.String} title
-     * @default  null
+     * @type {?String}
      */
     title: null,
 
@@ -53,18 +50,24 @@ export default Ember.Mixin.create({
     /**
      * Enable the tooltip functionality, based on component's `popover` attribute
      *
-     * @function enableTooltip
-     * @observes "didInsertElement" event, popover, title
-     * @throws   {Ember.assert}
-     * @returns  {void}
+     * @function
+     * @listens didInsertElement
+     * @returns {undefined}
      */
-    enable: function() {
-        if ( this.get( 'popover' ) ) {
-            this.enablePopover();
-        } else if ( this.get( 'title' ) ) {
-             this.enableTooltip();
-        }
-    }.observes( 'popover', 'title' ).on( 'didInsertElement' ),
+    enable: Ember.observer(
+        'popover',
+        'title',
+        Ember.on(
+            'didInsertElement',
+            function() {
+                if ( this.get( 'popover' ) ) {
+                    this.enablePopover();
+                } else if ( this.get( 'title' ) ) {
+                    this.enableTooltip();
+                }
+            }
+        )
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -73,19 +76,19 @@ export default Ember.Mixin.create({
      * Enable popover
      *
      * @private
-     * @function enablePopover
-     * @returns  {void}
+     * @function
+     * @returns {undefined}
      */
-    enablePopover: function() {
-        var popover = this.get( 'popover' );
+    enablePopover() {
+        let popover = this.get( 'popover' );
 
         // First-time rendering
-        if ( 'undefined' === typeof this.$().attr( 'data-original-title' ) ) {
+        if ( 'undefined' === Ember.typeOf( this.$().attr( 'data-original-title' ) ) ) {
             this.set( 'data-toggle', 'popover' );
 
             this.$().popover({
-                content   : popover,
-                placement : 'top'
+                content: popover,
+                placement: 'top'
             });
 
         // Reset title value
@@ -99,19 +102,19 @@ export default Ember.Mixin.create({
      * Enable tooltip
      *
      * @private
-     * @function enableTooltip
-     * @returns  {void}
+     * @function
+     * @returns {undefined}
      */
-    enableTooltip: function() {
-        var title = this.get( 'title' );
+    enableTooltip() {
+        let title = this.get( 'title' );
 
         // First-time rendering
-        if ( 'undefined' === typeof this.$().attr( 'data-original-title' ) ) {
+        if ( 'undefined' === Ember.typeOf( this.$().attr( 'data-original-title' ) ) ) {
             this.set( 'data-toggle', 'tooltip' );
 
             this.$().tooltip({
-                container : 'body',
-                title     : title
+                container: 'body',
+                title: title
             });
 
         // Reset title value
@@ -119,4 +122,5 @@ export default Ember.Mixin.create({
             this.$().attr( 'data-original-title', title );
         }
     }
+
 });

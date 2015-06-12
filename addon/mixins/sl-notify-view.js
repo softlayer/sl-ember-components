@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 /**
- * @module mixins
- * @class  sl-notify-view
+ * @module
+ * @augments ember/Mixin
  */
 export default Ember.Mixin.create({
 
@@ -27,46 +27,58 @@ export default Ember.Mixin.create({
     /**
      * Notify the view's controller by sending "viewDidInsertElement"
      *
-     * @function notifyDidInsertElement
-     * @observes "didInsertElement" event
-     * @returns  {void}
+     * @function
+     * @listens didInsertElement
+     * @returns {undefined}
      */
-    notifyDidInsertElement: function() {
-        this.get( 'controller' ).send( 'viewDidInsertElement' );
-    }.on( 'didInsertElement' ),
+    notifyDidInsertElement: Ember.on(
+        'didInsertElement',
+        function() {
+            this.get( 'controller' ).send( 'viewDidInsertElement' );
+        }
+    ),
 
     /**
      * Notify the view's controller by sending "viewWillClearRender"
      *
-     * @function notifyWillClearRender
-     * @observes "willClearRender" event
-     * @returns  {void}
+     * @function
+     * @listens willClearRender
+     * @returns {undefined}
      */
-    notifyWillClearRender: function() {
-        this.get( 'controller' ).send( 'viewWillClearRender' );
-    }.on( 'willClearRender' ),
+    notifyWillClearRender: Ember.on(
+        'willClearRender',
+        function() {
+            this.get( 'controller' ).send( 'viewWillClearRender' );
+        }
+    ),
 
     /**
      * Notify the view's controller by sending "viewWillDestroyElement"
      *
-     * @function notifyWillDestroyElement
-     * @observes "willDestroyElement" event
-     * @returns  {void}
+     * @function
+     * @listens willDestroyElement
+     * @returns {undefined}
      */
-    notifyWillDestroyElement: function() {
-        this.get( 'controller' ).send( 'viewWillDestroyElement' );
-    }.on( 'willDestroyElement' ),
+    notifyWillDestroyElement: Ember.on(
+        'willDestroyElement',
+        function() {
+            this.get( 'controller' ).send( 'viewWillDestroyElement' );
+        }
+    ),
 
     /**
      * Notify the view's controller by sending "viewWillInsertElement"
      *
-     * @function notifyWillInsertElement
-     * @observes "willInsertElement" event
-     * @returns  {void}
+     * @function
+     * @listens willInsertElement
+     * @returns {undefined}
      */
-    notifyWillInsertElement: function() {
-        this.get( 'controller' ).send( 'viewWillInsertElement' );
-    }.on( 'willInsertElement' )
+    notifyWillInsertElement: Ember.on(
+        'willInsertElement',
+        function() {
+            this.get( 'controller' ).send( 'viewWillInsertElement' );
+        }
+    )
 
     // -------------------------------------------------------------------------
     // Methods

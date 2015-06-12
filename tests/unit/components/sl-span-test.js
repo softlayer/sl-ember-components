@@ -1,16 +1,19 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-span', 'Unit - component: sl-span', {
+moduleForComponent( 'sl-span', 'Unit | Component | sl span', {
+    needs: [ 'component:sl-loading-icon' ],
 
-    needs: [ 'component:sl-loading-icon' ]
-
+    unit: true
 });
 
 test( '"value" property is supported', function( assert ) {
     this.subject({ value: 'Test content' });
 
-    assert.equal( Ember.$.trim( this.$().text() ), 'Test content' );
+    assert.equal(
+        Ember.$.trim( this.$().text() ),
+        'Test content'
+    );
 });
 
 test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {

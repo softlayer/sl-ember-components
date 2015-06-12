@@ -1,9 +1,25 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-alert';
 
 /**
- * @module components
- * @class  sl-alert
+ * Bootstrap theme names for alert components
+ *
+ * @memberof module:components/sl-alert
+ * @enum {String}
+ */
+const THEME = {
+    DANGER: 'danger',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
+export { THEME };
+
+/**
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( TooltipEnabled, {
 
@@ -13,47 +29,42 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Array of class names for the alert's div
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'alert', 'sl-alert' ],
-
-    /**
-     * Array of class name bindings for the alert's div
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'themeClassName', 'dismissable:alert-dismissable' ],
-
-    /**
-     * The ARIA role attribute for the alert's div
-     *
-     * @property {Ember.String} ariaRole
-     * @default  "alert"
-     */
+    /** @type {String} */
     ariaRole: 'alert',
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'themeClassName',
+        'dismissable:alert-dismissable'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'alert',
+        'sl-alert'
+    ],
+
+    /** @type {Object} */
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
     /**
-     * Actions for the alert component
-     *
-     * @property {Ember.Object} actions
+     * @type {Object}
      */
     actions: {
 
         /**
          * Trigger a bound "dismiss" action when the alert is dismissed
          *
-         * @function actions.dismiss
-         * @returns  {void}
+         * @function actions:dismiss
+         * @returns {undefined}
          */
-        dismiss: function() {
+        dismiss() {
             this.sendAction( 'dismiss' );
         }
+
     },
 
     // -------------------------------------------------------------------------
@@ -65,18 +76,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Whether to make the alert dismissable or not
      *
-     * @property {boolean} dismissable
-     * @default  false
+     * @type {Boolean}
      */
     dismissable: false,
 
     /**
      * The Bootstrap "theme" style to apply to the alert
      *
-     * @property {Ember.String} theme
-     * @default  "info"
+     * @type {THEME}
      */
-    theme: 'info',
+    theme: THEME.INFO,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -87,12 +96,23 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The generated Bootstrap "theme" style class for the alert
      *
-     * @function themeClassName
-     * @observes theme
-     * @returns  {Ember.String}  Defaults to "alert-info"
+     * @function
+     * @throws {ember.assert} Thrown if the supplied `theme` value is not one
+     *         defined in the enum THEME
+     * @returns {String} Defaults to "alert-info"
      */
-    themeClassName: function() {
-        return 'alert-' + this.get( 'theme' );
-    }.property( 'theme' )
+    themeClassName: Ember.computed(
+        'theme',
+        function() {
+            let theme = this.get( 'theme' );
+
+            Ember.assert(
+                'Error: Invalid theme string',
+                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+            );
+
+            return `alert-${theme}`;
+        }
+    )
 
 });

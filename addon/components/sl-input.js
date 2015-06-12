@@ -1,10 +1,13 @@
 import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-input';
 
 /**
- * @module components
- * @class  sl-input
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/sl-input-based
+ * @augments module:mixins/sl-tooltip-based
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
@@ -14,40 +17,38 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * Class names for the containing div
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'form-group', 'sl-input' ],
+    /** @type {String[]} */
+    classNames: [
+        'form-group',
+        'sl-input'
+    ],
+
+    /** @type {Object} */
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
-    /**
-     * Component actions hash
-     *
-     * @property {Ember.Object} actions
-     */
+    /** @type {Object} */
     actions: {
 
         /**
          * Sends the 'blur' bound action when the input loses focus
          *
-         * @function actions.blurred
-         * @returns  {void}
+         * @function actions:blur
+         * @returns {undefined}
          */
-        blur: function() {
+        blur() {
             this.sendAction( 'blur' );
         },
 
         /**
          * Sends the primary bound action when `enter` is pressed
          *
-         * @function actions.enter
-         * @returns  {void}
+         * @function actions:enter
+         * @returns {undefined}
          */
-        enter: function() {
+        enter() {
             this.sendAction();
         }
     },
@@ -61,32 +62,28 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Enable the click to edit styling
      *
-     * @property {boolean} clickToEdit
-     * @default  false
+     * @type {Boolean}
      */
     clickToEdit: false,
 
     /**
      * Whether the typeahead.js functionality has been setup
      *
-     * @property {boolean} isTypeaheadSetup
-     * @default  false
+     * @type {Boolean}
      */
     isTypeaheadSetup: false,
 
     /**
      * Lookup path for the suggestion items' name
      *
-     * @property {Ember.String} suggestionLabelPath
-     * @default  "name"
+     * @type {String}
      */
     suggestionNamePath: 'name',
 
     /**
      * Type attribute for the containing div
      *
-     * @property {Ember.String} type
-     * @default  "text"
+     * @type {String}
      */
     type: 'text',
 
@@ -97,90 +94,94 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Sets up the input event listeners exposed to the component's
      * parent controller
      *
-     * @function setupInputEvents
-     * @observes didInsertElement event
-     * @returns  {void}
+     * @function
+     * @listens didInsertElement
+     * @returns {undefined}
      */
-    setupInputEvents: function() {
-        var self = this;
-
-        if ( this.get( 'blur' ) ) {
-            this.getInput().on( 'blur', function() {
-                self.sendAction( 'blur' );
-            });
+    setupInputEvents: Ember.on(
+        'didInsertElement',
+        function() {
+            if ( this.get( 'blur' ) ) {
+                this.getInput().on( 'blur', () => {
+                    this.sendAction( 'blur' );
+                });
+            }
         }
-    }.on( 'didInsertElement' ),
+    ),
 
     /**
      * Sets up the typeahead behavior when `suggestions` are supplied
      *
-     * @function setupTypeahead
-     * @observes didInsertElement event, suggestions
-     * @returns  {void}
+     * @function
+     * @listens didInsertElement
+     * @returns {undefined}
      */
-    setupTypeahead: function() {
-        var self = this;
+    setupTypeahead: Ember.computed(
+        'suggestions',
+        Ember.on(
+            'didInsertElement',
+            function() {
+                if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' ) ) {
+                    let namePath = this.get( 'suggestionNamePath' );
 
-        if ( this.get( 'suggestions' ) && !this.get( 'isTypeaheadSetup' ) ) {
-            var namePath = this.get( 'suggestionNamePath' ),
-                typeahead;
+                    let typeahead = this.getInput().typeahead({
+                        highlight: true,
+                        hint: true
+                    }, {
+                        displayKey: item => {
+                            if ( Ember.typeof( item ) === 'object' ) {
+                                return Ember.get( item, namePath );
+                            }
 
-            typeahead = this.getInput().typeahead({
-                highlight : true,
-                hint      : true
-            }, {
-                displayKey: function( item ) {
-                    if ( item instanceof Object ) {
-                        return Ember.get( item, namePath );
-                    }
+                            return item;
+                        },
 
-                    return item;
-                },
+                        source: ( query, callback ) => {
+                            let pattern = new RegExp( query, 'i' );
 
-                source: function( query, callback ) {
-                    var pattern = new RegExp( query, 'i' );
+                            callback( this.get( 'suggestions' ).filter( suggestion => {
+                                let searchCandidate;
 
-                    callback( self.get( 'suggestions' ).filter( function( suggestion ) {
-                        var searchCandidate;
+                                if ( Ember.typeOf( suggestion ) === 'object' ) {
+                                    searchCandidate = Ember.get( suggestion, namePath );
+                                } else {
+                                    searchCandidate = suggestion;
+                                }
 
-                        if ( suggestion instanceof Object ) {
-                            searchCandidate = Ember.get( suggestion, namePath );
-                        } else {
-                            searchCandidate = suggestion;
+                                return searchCandidate ? searchCandidate.match( pattern ): false;
+                            }));
                         }
+                    });
 
-                        return searchCandidate ? searchCandidate.match( pattern ) : false;
-                    }));
+                    let selectItem = ( event, item ) => {
+                        let value = Ember.typeOf( item ) === 'object' ?
+                            Ember.get( item, namePath ) : item;
+
+                        this.set( 'value', value );
+                    };
+
+                    typeahead.on( 'typeahead:autocompleted', selectItem );
+                    typeahead.on( 'typeahead:selected', selectItem );
+
+                    this.set( 'isTypeaheadSetup', true );
                 }
-            });
-
-            /* jshint ignore:start */
-            var selectItem = function( event, item ) {
-                Ember.run( function() {
-                    var value = item instanceof Object ? Ember.get( item, namePath ) : item;
-
-                    self.set( 'value', value );
-                });
-            };
-
-            typeahead.on( 'typeahead:autocompleted', selectItem );
-            typeahead.on( 'typeahead:selected', selectItem );
-            /* jshint ignore:end */
-
-            this.set( 'isTypeaheadSetup', true );
-        }
-    }.on( 'didInsertElement' ).observes( 'suggestions' ),
+            }
+        )
+    ),
 
     /**
      * Remove events
      *
-     * @function unregisterEvents
-     * @observes "willClearRender" event
-     * @returns  {void}
+     * @function
+     * @listens willClearRender
+     * @returns {undefined}
      */
-    unregisterEvents: function() {
-        this.getInput().off();
-    }.on( 'willClearRender' ),
+    unregisterEvents: Ember.on(
+        'willClearRender',
+        function() {
+            this.getInput().off();
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -188,30 +189,33 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Get a reference to the internal input element
      *
-     * @function getInput
-     * @returns  {object}
+     * @function
+     * @returns {jQuery.Object}
      */
-    getInput: function() {
+    getInput() {
         return this.$( 'input' );
     },
 
     /**
      * Class string for the internal input element
      *
-     * @function inputClass
-     * @returns  {string}
+     * @function
+     * @returns {String}
      */
-    inputClass: function() {
-        var classes = [ 'form-control' ];
+    inputClass: Ember.computed(
+        function() {
+            let classes = [ 'form-control' ];
 
-        if ( this.get( 'clickToEdit' ) ) {
-            classes.push( 'click-to-edit' );
+            if ( this.get( 'clickToEdit' ) ) {
+                classes.push( 'click-to-edit' );
+            }
+
+            if ( this.get( 'suggestions' ) ) {
+                classes.push( 'typeahead' );
+            }
+
+            return classes.join( ' ' );
         }
+    )
 
-        if ( this.get( 'suggestions' ) ) {
-            classes.push( 'typeahead' );
-        }
-
-        return classes.join( ' ' );
-    }.property()
 });

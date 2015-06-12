@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-calendar-year';
 
 /**
- * @module components
- * @class  sl-calendar-year
+ * @module
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,20 +13,18 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name for the component's root element
-     *
-     * @property {Ember.String} tagName
-     * @default  "span"
-     */
-    tagName: 'span',
+    /** @type {String[]} */
+    classNameBindings: [
+        'active',
+        'new',
+        'old'
+    ],
 
-    /**
-     * Class name bindings for the component's root element
-     *
-     * @property {Ember.Array} classNameBindings
-     */
-    classNameBindings: [ 'active', 'new', 'old' ],
+    /** @type {Object} */
+    layout,
+
+    /** @type {String} */
+    tagName: 'span',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -34,12 +33,10 @@ export default Ember.Component.extend({
     // Events
 
     /**
-     * Send back primary action with this year value
-     *
-     * @function click
-     * @returns  {void}
+     * @function
+     * @returns {undefined}
      */
-    click: function() {
+    click() {
         this.sendAction( 'action', this.get( 'year' ) );
     },
 
@@ -50,8 +47,7 @@ export default Ember.Component.extend({
      * Whether the year this component represents is the currently active year
      * of the parent calendar component
      *
-     * @property {boolean} active
-     * @default  false
+     * @type {Boolean}
      */
     active: false,
 
@@ -59,8 +55,7 @@ export default Ember.Component.extend({
      * Whether the year this component represents is in the next decade from the
      * parent calendar's current year
      *
-     * @property {boolean} new
-     * @default  false
+     * @type {Boolean}
      */
     'new': false,
 
@@ -68,16 +63,14 @@ export default Ember.Component.extend({
      * Whether the year this component represents is in the previous decade from
      * the parent calendar's current year
      *
-     * @property {boolean} old
-     * @default  false
+     * @type {Boolean}
      */
     old: false,
 
     /**
      * The year number this component represents
      *
-     * @property {number} year
-     * @default  null
+     * @type {?Number}
      */
     year: null
 

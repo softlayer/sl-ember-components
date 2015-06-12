@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import layout from '../templates/components/sl-tab-pane';
 
 /**
- * @module components
- * @class  sl-tab-pane
+ * @module
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
 
@@ -12,27 +13,23 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag for tab-pane component
-     *
-     * @property {Ember.String} tagName
-     * @default "div"
-     */
+    /** @type {String[]} */
+    attributeBindings: [
+        'data-tab-label',
+        'data-tab-name'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'sl-tab-pane',
+        'tab-pane'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    /** @type {String} */
     tagName: 'div',
-
-    /**
-     * Bindings for HTML attributes on the tab pane
-     *
-     * @property {Ember.Array} attributeBindings
-     */
-    attributeBindings: [ 'data-tab-label', 'data-tab-name' ],
-
-    /**
-     * Class name values for the tab pane component
-     *
-     * @property {Ember.Array} classNames
-     */
-    classNames: [ 'sl-tab-pane', 'tab-pane' ],
 
     // -------------------------------------------------------------------------
     // Actions
@@ -44,18 +41,32 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * Label text for the displayed tab name
+     * Alias to `label`; data attribute binding for the `label` property
      *
-     * @property {Ember.String} data-tab-label
+     * @type {module:components/sl-tab-pane~label}
      */
     'data-tab-label': Ember.computed.alias( 'label' ),
 
     /**
-     * Text for internal tab identification
+     * Alias to `name`; data attribute binding for the `name` property
      *
-     * @property {Ember.String} data-tab-name
+     * @type {module:components/sl-tab-pane~name}
      */
     'data-tab-name': Ember.computed.alias( 'name' ),
+
+    /**
+     * Label text for the displayed tab name
+     *
+     * @type {?String}
+     */
+    label: null,
+
+    /**
+     * Text for internal tab identification
+     *
+     * @type {?String}
+     */
+    name: null
 
     // -------------------------------------------------------------------------
     // Observers
