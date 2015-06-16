@@ -177,7 +177,7 @@ export default Ember.Component.extend({
         },
 
         /**
-         * Recursively open sub menus
+         * Changes event handler context
          *
          * @function actions:drillDown
          * @returns {undefined}
@@ -190,8 +190,6 @@ export default Ember.Component.extend({
                     child.set( 'keyHandler', true );
                     this.set( 'keyHandler', false );
                 }
-            } else if ( child ) {
-                child.drillDown();
             }
         },
 
