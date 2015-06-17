@@ -95,7 +95,6 @@ export default Ember.Mixin.create({
      * Binds handlers for exposed Twitter Bootstrap 3 modal events
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     modalize: Ember.on(

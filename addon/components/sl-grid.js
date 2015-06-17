@@ -423,7 +423,6 @@ export default Ember.Component.extend({
      * not complete
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupContinuousPaging: Ember.on(
@@ -439,7 +438,6 @@ export default Ember.Component.extend({
      * Setup paths for the various sections within the split-grid
      *
      * @function
-     * @listens init
      * @returns {undefined}
      */
     setupTemplates: Ember.on(
@@ -552,7 +550,6 @@ export default Ember.Component.extend({
      * Update the panes' heights according to `height` property value
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     updateHeight: Ember.on(

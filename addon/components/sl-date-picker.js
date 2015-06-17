@@ -216,7 +216,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * component into others.
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setInputElementId: Ember.on(
@@ -233,7 +232,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Setup the bootstrap-datepicker plugin and events
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupDatepicker: Ember.on(
@@ -252,7 +250,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Remove events
      *
      * @function
-     * @listens willClearRender
      * @returns {undefined}
      */
     unregisterEvents: Ember.on(

@@ -51,7 +51,6 @@ export default Ember.Mixin.create({
      * Enable the tooltip functionality, based on component's `popover` attribute
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     enable: Ember.observer(
