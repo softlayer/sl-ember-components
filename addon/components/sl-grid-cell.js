@@ -168,10 +168,13 @@ export default Ember.Component.extend({
         'column.size',
         function() {
             let size = this.get( 'column.size' );
+            let value = '';
 
             if ( Ember.typeOf( size ) === 'number' ) {
-                return Ember.String.htmlSafe( `width: ${size}px;` );
+                value = `width: ${size}px;`;
             }
+
+            return Ember.String.htmlSafe( value );
         }
     )
 
