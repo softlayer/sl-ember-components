@@ -80,7 +80,6 @@ export default Ember.Component.extend({
      * startDate input is changed
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupFocusTransition: Ember.on(
@@ -97,7 +96,6 @@ export default Ember.Component.extend({
      * Remove events
      *
      * @function
-     * @listens willClearRender
      * @returns {undefined}
      */
     unregisterEvents: Ember.on(

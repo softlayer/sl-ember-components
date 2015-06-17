@@ -349,7 +349,6 @@ export default Ember.Component.extend({
      * Remove bound events and current menu state
      *
      * @function
-     * @listens willClearRender
      * @returns {undefined}
      */
     destroyMenu: Ember.on(
@@ -377,7 +376,6 @@ export default Ember.Component.extend({
      * Initialize children array
      *
      * @function
-     * @listens init
      * @returns {undefined}
      */
     initChildren: Ember.on(
@@ -391,7 +389,6 @@ export default Ember.Component.extend({
      * Initialize menu
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     initMenu: Ember.on(

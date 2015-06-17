@@ -98,7 +98,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Teardown the select2 to prevent memory leaks
      *
      * @function
-     * @listens willClearRender
      * @returns {undefined}
      */
     destroySelect2: Ember.on(
@@ -112,7 +111,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Set up select2 initialization after the element is inserted in the DOM
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupSelect2: Ember.on(
