@@ -33,19 +33,6 @@
                 width: 35px;
             }
 
-            &.has-sub-menu a::after {
-                -moz-osx-font-smoothing: grayscale;
-                -webkit-font-smoothing: antialiased;
-                content: "\f105";
-                display: inline-block;
-                float: right;
-                font-family: FontAwesome;
-                font-size: 150%;
-                font-style: normal;
-                font-weight: normal;
-                line-height: 0.9em;
-            }
-
             a {
                 color: #fff;
                 display: block;
@@ -74,6 +61,18 @@
                     background-color: fade(@gray-dark, 90%);
                 }
 
+                &.has-sub-menu > a::after {
+                    -moz-osx-font-smoothing: grayscale;
+                    -webkit-font-smoothing: antialiased;
+                    content: "\f105";
+                    display: inline-block;
+                    float: right;
+                    font-family: FontAwesome;
+                    font-size: 150%;
+                    font-style: normal;
+                    font-weight: normal;
+                    line-height: 0.9em;
+                }
             }
 
             .sub-menu {

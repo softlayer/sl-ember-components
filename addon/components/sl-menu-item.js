@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNameBindings: [
         'active',
-        'items:has-sub-menu'
+        'item.items:has-sub-menu'
     ],
 
     /** @type {String[]} */
