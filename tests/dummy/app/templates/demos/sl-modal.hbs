@@ -1,0 +1,27 @@
+<h2>sl-modal</h2>
+<p class="lead">A modal component used to wrap content in. Based on <a href="http://getbootstrap.com/javascript/#modals">Bootstrap - Modals</a>.</p>
+
+<hr>
+
+<h3>Example</h3>
+
+<!--
+    {{sl-modal name="demo" buttonText="Close" title="Modal Demo"}}
+-->
+
+{{#sl-modal show=showModal}}
+    {{#sl-modal-header}}
+
+    {{/sl-modal-header}}
+    
+    {{#sl-modal-body}}
+        Body
+    {{/sl-modal-body}}
+
+    {{sl-modal-footer}}
+{{/sl-modal}}
+
+<div class="col-lg-6">
+    <h6>Click to Show Component</h6>
+    {{sl-button action="openModal" label="Open Modal"}}
+</div>
