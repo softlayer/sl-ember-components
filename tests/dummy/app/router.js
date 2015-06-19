@@ -13,7 +13,7 @@ Router.map( function() {
     this.route( 'index', { path: '/' });
     this.route( 'browsers' );
 
-    this.resource( 'demos', function() {
+    this.route( 'demos', function() {
         this.route( 'sl-alert' );
         this.route( 'sl-button' );
         this.route( 'sl-calendar' );

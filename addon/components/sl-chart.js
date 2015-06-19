@@ -80,7 +80,6 @@ export default Ember.Component.extend({
      * Sets up Highcharts initialization
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupChart: Ember.on(

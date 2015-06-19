@@ -95,7 +95,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * parent controller
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupInputEvents: Ember.on(
@@ -113,7 +112,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Sets up the typeahead behavior when `suggestions` are supplied
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupTypeahead: Ember.computed(
@@ -173,7 +171,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Remove events
      *
      * @function
-     * @listens willClearRender
      * @returns {undefined}
      */
     unregisterEvents: Ember.on(

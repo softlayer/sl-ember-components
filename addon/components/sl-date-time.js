@@ -77,7 +77,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Alias to `datetime`; the text to use for the component's tooltip
      *
-     * @type {}
+     * @type {module:addon/components/sl-date-time~datetime}
      */
     title: Ember.computed.alias( 'datetime' ),
 
