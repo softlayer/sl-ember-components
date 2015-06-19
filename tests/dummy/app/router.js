@@ -15,6 +15,7 @@ Router.map( function() {
 
     this.resource( 'demos', function() {
         this.route( 'sl-alert' );
+        this.route( 'sl-modal' );
         this.route( 'sl-button' );
         this.route( 'sl-calendar' );
         this.route( 'sl-chart' );
