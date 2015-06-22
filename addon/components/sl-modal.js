@@ -53,8 +53,14 @@ export default Ember.Component.extend({
         hide() {
             this.hide();
         },
-        
-        show() {
+
+         /**
+         * Trigger showing the model
+         *
+         * @function actions:show
+         * @returns {undefined}
+         */
+        show() { 
             this.show();
         }
     },
@@ -164,7 +170,7 @@ export default Ember.Component.extend({
     ),
     
     /**
-     * Set up the component as a Bootstrap Modal
+     * Set up the component as a Bootstrap Modal and listen for events
      *
      * @function
      * @returns {function}
@@ -172,13 +178,27 @@ export default Ember.Component.extend({
      setupModal: Ember.on(
          'didInsertElement',
          function() {
-            this.$().modal({
+            let modal = this.$().modal({
                 keyboard: true,
-                show: this.get( 'show '),
+                show: false,
                 backdrop: this.get( 'backdrop' )
             });
 
+            modal.on( 'show.bs.modal', () => {
+               this.sendAction( 'beforeShow' ); 
+            });
 
+            modal.on( 'shown.bs.modal', () => {
+               this.sendAction( 'afterShow' ); 
+            });
+
+            modal.on( 'hide.bs.modal', () => {
+               this.sendAction( 'beforeHide' ); 
+            });
+
+            modal.on( 'hidden.bs.modal', () => {
+               this.sendAction( 'afterHide' ); 
+            });
          }
      ),
 
@@ -186,17 +206,18 @@ export default Ember.Component.extend({
     // Methods
     
     show() {
-        this.sendAction( 'beforeShow' );
         this.$().modal( 'show' );
-        this.sendAction( 'afterShow' );
     },
 
     hide() {
-        this.sendAction( 'beforeHide' );
-        this.$().modal( 'show' );
-        this.sendAction( 'afterHide' );
+        this.$().modal( 'hide' );
     },
-
+    
+    /**
+     * Unregister model from modelService
+     * @function unregister 
+     * @returns {undefined}
+     */
     unregister() {
         this.get( 'modalService' ).unregister( this.get( 'name' ) );
     }

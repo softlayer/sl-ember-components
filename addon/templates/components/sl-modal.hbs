@@ -1,14 +1,5 @@
 <div class="modal-dialog">
     <div class="modal-content">
-    {{#if template}}        
         {{yield}}
-    {{else}}
-        {{sl-modal-header title=title}}
-        {{#sl-modal-body}}
-            {{yield}}
-        {{/sl-modal-body}}
-
-        {{sl-modal-footer buttonText=buttonText}}
-    {{/if}}
     </div>
 </div>
