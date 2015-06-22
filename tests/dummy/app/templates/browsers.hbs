@@ -83,29 +83,29 @@
             </tr>
         </thead>
         <tbody>
-            {{#each components}}
+            {{#each components as |component|}}
                 <tr>
-                    <td>{{name}}</td>
+                    <td>{{component.name}}</td>
                     <td class="text-center">
-                        {{#if lib.twb}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                        {{#if component.lib.twb}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
                     </td>
                     <td class="text-center">
-                        {{#if lib.sec}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                        {{#if component.lib.sec}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
                     </td>
                     <td class="text-center">
-                        {{#if lib.hc}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                        {{#if component.lib.hc}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
                     </td>
                     <td class="text-center">
-                        {{#if lib.bd}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                        {{#if component.lib.bd}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
                     </td>
                     <td class="text-center">
-                        {{#if lib.ta}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                        {{#if component.lib.ta}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
                     </td>
                     <td class="text-center">
-                        {{#if lib.s2}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                        {{#if component.lib.s2}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
                     </td>
                     <td class="text-center">
-                        {{#if lib.ses}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
+                        {{#if component.lib.ses}}<i class="fa fa-check text-success"></i>{{else}}<span class="text-muted">&mdash;</span>{{/if}}
                     </td>
                 </tr>
             {{/each}}
