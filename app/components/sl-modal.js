@@ -1,1 +1,3 @@
-export { default } from 'sl-ember-components/components/sl-modal';
+import SLModal from 'sl-ember-components/components/sl-modal';
+
+export default SLModal;
