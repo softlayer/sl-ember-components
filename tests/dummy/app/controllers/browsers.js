@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    components: [
+    components: Ember.A([
         {
             name: 'alert',
             lib: { 'twb': true }
@@ -72,5 +72,5 @@ export default Ember.Controller.extend({
             name: 'tooltip',
             lib: { 'twb': true }
         }
-    ]
+    ])
 });
