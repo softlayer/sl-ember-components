@@ -2,12 +2,15 @@
     {{#if template}}
         {{yield}}
     {{else}}
-        <button class="close" data-dismiss="modal" type="button">
+        {{#unless hideCloseButton}}
+            <button class="close" data-dismiss="modal" type="button">
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
-        </button>
-        {{#if title}}
-            <span class="modal-title">{{title}}</span>
-        {{/if}}
+            </button>
+        {{/unless}}
+    {{/if}}
+
+    {{#if title}}
+        <span class="modal-title">{{title}}</span>
     {{/if}}
 </div>

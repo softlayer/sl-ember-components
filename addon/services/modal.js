@@ -27,6 +27,11 @@ export default Ember.Service.extend({
      */
     register( modal, name ) {
         let indexName = `modals.${name}`;
+        
+        Ember.assert( 
+            `Error: Component with name "${name}" has already been registered`,
+            !this.find( name )
+        );
 
         if ( !this.get( indexName ) ) {
             this.set( `modals.${name}`, modal );

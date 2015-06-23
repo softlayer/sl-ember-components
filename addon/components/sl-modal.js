@@ -31,7 +31,7 @@ export default Ember.Component.extend({
         'modal fade in'
     ],
 
-    /** @type {String[]} */
+    /** @type {String} */
     tagName: 'div',
 
     /** @type {Object} */
@@ -103,13 +103,6 @@ export default Ember.Component.extend({
      */
     backdrop: true,
 
-    /**
-     * The close button text
-     *
-     * @type {String}
-     */
-    closeText: 'Close',
-    
     /**
      * The modal service used to register and unregister this modal component
      *

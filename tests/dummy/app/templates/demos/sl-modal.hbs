@@ -1,26 +1,153 @@
 <h2>sl-modal</h2>
 <p class="lead">A modal component used to wrap content in. Based on <a href="http://getbootstrap.com/javascript/#modals">Bootstrap - Modals</a>.</p>
-
 <hr>
 
-<h3>Example</h3>
+<h3>Examples</h3>
 
-{{sl-modal name="demo" buttonText="Close" title="Modal Demo" }}
-<!--
-{{#sl-modal}}
+<section id="simple">
+    <div class="row">
+        <div class="col-lg-6">
+            <h6>Simple usage</h6>
+            <pre>\{{#sl-modal name="simpleDemo}}
+    \{{sl-modal-header title="Simple Example"}}
+
+    \{{#sl-modal-body}}
+         &lt;p&gt;A simple modal example&lt;/p&gt;
+    \{{/sl-modal-body}}
+
+    \{{sl-modal-footer}}
+\{{/sl-modal}} </pre>
+        {{#sl-modal name="simpleDemo"}}
+                {{sl-modal-header title="Simple Example"}}
+
+                {{#sl-modal-body}}
+                    <p>A simple modal example</p>
+                {{/sl-modal-body}}
+
+                {{sl-modal-footer}}
+            {{/sl-modal}}
+        </div>
+        <div class="col-lg-6">
+            <h6>Click to Show Component</h6>
+            {{sl-button openModal="simpleDemo" label="Open Modal"}}
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="row">
+        <div class="col-lg-6">
+            <h6>Custom header</h6>
+            <pre>\{{#sl-modal name="customHeader"}}
+    \{{sl-modal-header}}
+        &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
+            &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
+            &lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;span class=&quot;modal-title&quot;&gt;Custom Header&lt;/span&gt;
+    \{{/sl-modal-header}}
+
+    \{{#sl-modal-body}}
+         &lt;p&gt;A custom header and close button&lt;/p&gt;
+    \{{/sl-modal-body}}
+
+    \{{sl-modal-footer}}
+\{{/sl-modal}}</pre>
+
+{{#sl-modal name="customHeader"}}
     {{#sl-modal-header}}
-
+        <button class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true" class="fa fa-close"></span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span class="modal-title">Custom Header</span>
     {{/sl-modal-header}}
-    
+
     {{#sl-modal-body}}
-        Body
+        <p>Modal with a custom header close button</p>
     {{/sl-modal-body}}
 
     {{sl-modal-footer}}
 {{/sl-modal}}
--->
+        </div>
+        <div class="col-lg-6">
+            <h6>Click to Show Component</h6>
+            {{sl-button openModal="customHeader" label="Open Modal"}}
+        </div>
+    </div>
+</section>
 
-<div class="col-lg-6">
-    <h6>Click to Show Component</h6>
-    {{sl-button action="openModal" label="Open Modal"}}
-</div>
+<section>
+    <div class="row">
+        <div class="col-lg-6">
+            <h6>Custom footer with multiple buttons</h6>
+            <pre>\{{#sl-modal name="customFooter"}}
+    \{{sl-modal-header title="Custom Footer"}}
+
+    \{{#sl-modal-body}}
+         &lt;p&gt;Custom footer with multiple buttons&lt;/p&gt;
+    \{{/sl-modal-body}}
+
+    \{{#sl-modal-footer}}
+        &lt;p&gt;Modal with multiple buttons in the footer&lt;/p&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Save changes&lt;/button&gt;
+   \{{/sl-modal-footer}}
+\{{/sl-modal}}</pre>
+
+            {{#sl-modal name="customFooter"}}
+                {{sl-modal-header title="Custom Footer"}}
+
+                {{#sl-modal-body}}
+                    <p>Modal with multiple buttons in the footer</p>
+                {{/sl-modal-body}}
+
+                {{#sl-modal-footer}}
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                {{/sl-modal-footer}}
+            {{/sl-modal}}
+        </div>
+        <div class="col-lg-6">
+            <h6>Click to Show Component</h6>
+            {{sl-button openModal="customFooter" label="Open Modal"}}
+        </div>
+    </div>
+</section>
+
+<hr>
+<h3>sl-modal Properties</h3>
+{{#property-text name="afterHide" type="function"}}
+    Action to call after modal is shown.
+{{/property-text}}
+
+{{#property-text name="afterShow" type="function"}}
+    Action to call after modal is shown.
+{{/property-text}}
+
+{{#property-text name="beforeHide" type="function"}}
+    Action to call after modal is shown.
+{{/property-text}}
+
+{{#property-text name="beforeShow" type="function"}}
+    Action to call after modal is shown.
+{{/property-text}}
+
+{{#property-text name="name" type="string"}}
+    Unique name used to identify modal.
+{{/property-text}}
+
+<hr>
+<h3>sl-modal-header Properties</h3>
+{{#property-text name="hideCloseButton" type="boolean" default="false"}}
+   Hides the close button on the header.
+{{/property-text}}
+
+{{#property-text name="title" type="string"}}
+    Title of the modal.
+{{/property-text}}
+
+<hr>
+<h3>sl-modal-footer Properties</h3>
+{{#property-text name="buttonText" type="string" default="Close"}}
+    Close button text.
+{{/property-text}}
