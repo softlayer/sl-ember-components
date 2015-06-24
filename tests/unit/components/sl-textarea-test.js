@@ -29,7 +29,7 @@ test( 'Expected classes are only ones applied', function( assert ) {
 
 test( 'If "label" property is not populated, label element is not rendered', function( assert ) {
     assert.equal(
-        typeof this.$( 'label' ).prop( 'for' ),
+        Ember.typeOf( this.$( 'label' ).prop( 'for' ) ),
         'undefined',
         'Label element is not rendered'
     );
