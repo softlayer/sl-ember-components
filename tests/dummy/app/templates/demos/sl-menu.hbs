@@ -1,5 +1,5 @@
 <h2>sl-menu</h2>
-<p class="lead">A component that can be nested to build complex menu hierarchies.</p>
+<p class="lead">A component to build complex menu hierarchies.</p>
 
 <hr>
 
@@ -11,6 +11,7 @@
         <pre>\{{sl-menu
     action="doSomething"
     allowShowAll=true
+    events=menuEvents
     items=menuItems
 }}</pre>
     </div>
@@ -20,6 +21,7 @@
         {{sl-menu
             action="doSomething"
             allowShowAll=true
+            events=menuEvents
             items=menuItems
         }}
     </div>
@@ -46,5 +48,18 @@
 
     {{#property-text name="allowShowAll" type="boolean" default="false"}}
         When true, the menu includes a show-all menu item.
+    {{/property-text}}
+
+    {{#property-text name="events" type="object"}}
+        <p>An object containing event binding strings, with the keys mapping to the following internal event names, and the values to the event service's event names.</p>
+        <ul>
+            <li><strong>hideAll</strong> - Triggers hiding all of the sub-menus</li>
+            <li><strong>select( id )</strong> - </li>
+            <li><strong>selectDown</strong> - </li>
+            <li><strong>selectLeft</strong> - </li>
+            <li><strong>selectRight</strong> - </li>
+            <li><strong>selectUp</strong> - </li>
+            <li><strong>showAll</strong> - </li>
+        </ul>
     {{/property-text}}
 </ul>

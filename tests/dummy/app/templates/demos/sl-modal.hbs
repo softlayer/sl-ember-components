@@ -1,0 +1,33 @@
+<h2>sl-modal</h2>
+<p class="lead">A unified modal component</p>
+
+<hr>
+
+<h3>Examples</h3>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{#sl-modal name="demo" title="Demo Modal"}}
+    &lt;p&gt;Content goes here&lt;/p&gt;
+\{{/sl-modal}}
+        </pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Click to View Component</h6>
+        {{#sl-button action="openModal"}}Open Modal{{/sl-button}}
+
+        {{#sl-modal name="demo"}}
+            {{sl-modal-header closeButton=true title="Demo Modal"}}
+
+            {{#sl-modal-body}}
+                <p>Body</p>
+            {{/sl-modal-body}}
+
+            {{#sl-modal-footer}}
+                <p>Footer</p>
+            {{/sl-modal-footer}}
+        {{/sl-modal}}
+    </div>
+</div>
