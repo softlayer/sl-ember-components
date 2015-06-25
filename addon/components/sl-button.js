@@ -76,7 +76,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @type {ember/Service}
      */
-    modalService: Ember.inject.service( 'modal' ),
+    modalService: Ember.inject.service( 'sl-modal' ),
 
     /** @type {String} */
     tagName: 'button',

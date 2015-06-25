@@ -22,13 +22,8 @@ export default Ember.Component.extend({
     ],
 
     /** @type {String[]} */
-    classNameBindings:[
-        'animated:fade'
-    ],
-
-    /** @type {String[]} */
     classNames: [
-        'modal fade in'
+        'modal fade'
     ],
 
     /** @type {String} */
@@ -41,7 +36,7 @@ export default Ember.Component.extend({
     // -----------------------------------------------------
     // Actions
 
-    
+
     /** @type {Object} */
     actions: {
         /**
@@ -60,22 +55,22 @@ export default Ember.Component.extend({
          * @function actions:show
          * @returns {undefined}
          */
-        show() { 
+        show() {
             this.show();
         }
     },
-    
-    
+
+
     // -----------------------------------------------------
     // Events
 
 
     // -----------------------------------------------------
     // Properties
-  
+
 
     /**
-     * aria-describedby attribute 
+     * aria-describedby attribute
      *
      * @type {?String}
      * */
@@ -103,13 +98,20 @@ export default Ember.Component.extend({
      */
     backdrop: true,
 
+    /*
+     * Whether to modal is open or not
+     *
+     * @type {Boolean}
+     */
+    isOpen: false,
+
     /**
      * The modal service used to register and unregister this modal component
      *
      * @type {ember/Service}
      */
-    modalService: Ember.inject.service( 'modal' ), 
-    
+    modalService: Ember.inject.service( 'sl-modal' ),
+
    /**
     * The unique name use to register this modal with the modal service
     *
@@ -157,11 +159,11 @@ export default Ember.Component.extend({
            let name = this.get( 'name' );
 
            if ( name ) {
-              this.get( 'modalService' ).register( this, name ); 
+              this.get( 'modalService' ).register( this, name );
            }
        }
     ),
-    
+
     /**
      * Set up the component as a Bootstrap Modal and listen for events
      *
@@ -178,26 +180,28 @@ export default Ember.Component.extend({
             });
 
             modal.on( 'show.bs.modal', () => {
-               this.sendAction( 'beforeShow' ); 
+               this.sendAction( 'beforeShow' );
             });
 
             modal.on( 'shown.bs.modal', () => {
-               this.sendAction( 'afterShow' ); 
+               this.set( 'isOpen', true );
+               this.sendAction( 'afterShow' );
             });
 
             modal.on( 'hide.bs.modal', () => {
-               this.sendAction( 'beforeHide' ); 
+               this.sendAction( 'beforeHide' );
             });
 
             modal.on( 'hidden.bs.modal', () => {
-               this.sendAction( 'afterHide' ); 
+               this.set( 'isOpen', false );
+               this.sendAction( 'afterHide' );
             });
          }
      ),
 
     // -----------------------------------------------------
     // Methods
-    
+
     show() {
         this.$().modal( 'show' );
     },
@@ -205,10 +209,10 @@ export default Ember.Component.extend({
     hide() {
         this.$().modal( 'hide' );
     },
-    
+
     /**
      * Unregister model from modelService
-     * @function unregister 
+     * @function unregister
      * @returns {undefined}
      */
     unregister() {

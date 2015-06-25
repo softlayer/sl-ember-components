@@ -1,19 +1,65 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import Ember from 'ember';
 
-moduleForComponent('sl-modal', 'Unit | Component | sl modal', {
-  // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar'],
-  unit: true
+let template = ['{{#sl-modal name="simpleDemo"}}',
+                   '{{sl-modal-header title="Simple Example"}}',
+                   '{{#sl-modal-body}}',
+                        '<p>A simple modal example</p>',
+                    '{{/sl-modal-body}}',
+                    '{{sl-modal-footer}}',
+                    '{{/sl-modal}}'].join(' ');
+
+
+moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
+    needs: [
+        'component:sl-modal-header',
+        'component:sl-modal-body',
+        'component:sl-modal-footer',
+        'service:sl-modal'
+    ],
+    unit: true
 });
 
-test('it renders', function(assert) {
-  assert.expect(2);
+//test( 'It renders', function( assert ) {
+//    assert.expect(2);
+//
+//    let component = this.subject();
+//    assert.equal( component._state, 'preRender' );
+//
+//    this.render();
+//    assert.equal( component._state, 'inDOM' );
+//});
 
-  // Creates the component instance
-  var component = this.subject();
-  assert.equal(component._state, 'preRender');
+//test( 'Default classes are present', function( assert ) {
+//    assert.ok(
+//        this.$().hasClass( 'modal' ),
+//        'Has class "modal"'
+//    );
+//
+//    assert.ok(
+//        this.$().hasClass( 'fade' ),
+//        'Has class "fade"'
+//    );
+//});
 
-  // Renders the component to the page
-  this.render();
-  assert.equal(component._state, 'inDOM');
+test( 'Property isOpen is true when modal is shown', function( assert ) {
+    let done = assert.async();
+
+    assert.expect( 1 );
+
+    let component = this.subject({
+        template: Ember.Handlebars.compile( template ),
+        afterShow: 'testModalIsOpen',
+        targetObject: {
+            testModalIsOpen() {
+                assert.equal( component.get( 'isOpen' ), true );
+                done();
+            }
+        }
+    });
+
+    this.render();
+    component.show();
 });
+
+

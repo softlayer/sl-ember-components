@@ -28,7 +28,6 @@ test( 'setupTabs() does so correctly', function( assert ) {
         )
     });
 
-    var done = assert.async();
 
     assert.expect( 5 );
 
