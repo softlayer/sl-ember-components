@@ -59,10 +59,6 @@ export default Ember.Mixin.create({
         Ember.on(
             'didInsertElement',
             function() {
-                Ember.assert(
-                    'observer/tooltip.enable() expects the parameter "title" to be provided',
-                    this.get( 'title' )
-                );
                 if ( this.get( 'popover' ) ) {
                     this.enablePopover();
                 } else if ( this.get( 'title' ) ) {
@@ -84,8 +80,12 @@ export default Ember.Mixin.create({
      */
     enablePopover() {
         Ember.assert(
-            'method/enablePopover() expects the parameter "popover" to be a string',
+            'method/enablePopover() expects the parameter "popover" and for it to be a string',
             'string' === Ember.typeOf ( this.get( 'popover' ) )
+        );
+        Ember.assert(
+            'method/enablePopover() expects the parameter "title" and for it to be a string',
+            'string' === Ember.typeOf ( this.get( 'title' ) )
         );
 
         let popover = this.get( 'popover' );
@@ -115,7 +115,7 @@ export default Ember.Mixin.create({
      */
     enableTooltip() {
         Ember.assert(
-            'method/enableTooltip() expects the parameter "title" to be a string',
+            'method/enableTooltip() expects the parameter "title" and for it to be a string',
             'string' === Ember.typeOf ( this.get( 'title' ) )
         );
 
