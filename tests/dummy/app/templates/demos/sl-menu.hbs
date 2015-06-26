@@ -55,14 +55,39 @@
         <ul>
             <li><strong>hideAll</strong> - Trigger hiding all of the sub-menus</li>
             <li><strong>select( index )</strong> - Select an item by its index in the current selected context</li>
-            <li><strong>selectDown</strong></li>
-            <li><strong>selectLeft</strong></li>
-            <li><strong>selectNext</strong></li>
-            <li><strong>selectParent</strong></li>
-            <li><strong>selectPrevious</strong></li>
-            <li><strong>selectRight</strong></li>
-            <li><strong>selectSubMenu</strong></li>
-            <li><strong>selectUp</strong></li>
+            <li>
+                <strong>selectDown</strong> - Select an item "down":
+                <ul>
+                    <li>In the top-level menu, "down" selects the first item in the current selection's sub-menu</li>
+                    <li>In a sub-menu, "down" selects the next sibling item, wrapping around to the top when necessary</li>
+                </ul>
+            </li>
+            <li>
+                <strong>selectLeft</strong> - Select an item "left":
+                <ul>
+                    <li>In the top-level menu, "left" selects the previous sibling item</li>
+                    <li>In a sub-menu, "left" selects the parent menu</li>
+                </ul>
+            </li>
+            <li><strong>selectNext</strong> - Select the next sibling menu item, wrapping around the list when necessary</li>
+            <li><strong>selectParent</strong> - Select the parent menu item</li>
+            <li><strong>selectPrevious</strong> - Select the previous sibling menu item, wrapping around the list when necessary</li>
+            <li>
+                <strong>selectRight</strong> - Select an item "right":
+                <ul>
+                    <li>In the top-level menu, "right" selects the next sibling item</li>
+                    <li>An a sub-menu, "right" selects the first item in the current item's sub-menu</li>
+                </ul>
+            </li>
+            <li><strong>selectSubMenu</strong> - Select the first item in the current item's sub-menu</li>
+            <li>
+                <strong>selectUp</strong> - Select an item "up":
+                <ul>
+                    <li>In the top-level menu, "up" does not select anything different</li>
+                    <li>On the first item of the first level of sub-menu, "up" selects the parent item</li>
+                    <li>On any other sub-menu item, "up" selects the previous sibling, wrapping around the list when necessary</li>
+                </ul>
+            </li>
             <li><strong>showAll</strong> - Trigger showing all of the menu items</li>
         </ul>
     {{/property-text}}
