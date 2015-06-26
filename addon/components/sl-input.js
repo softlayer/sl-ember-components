@@ -127,7 +127,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         hint: true
                     }, {
                         displayKey: item => {
-                            if ( Ember.typeof( item ) === 'object' ) {
+                            if ( Ember.typeOf( item ) === 'object' ) {
                                 return Ember.get( item, namePath );
                             }
 

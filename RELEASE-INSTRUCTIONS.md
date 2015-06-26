@@ -6,8 +6,6 @@ This document captures the steps a project maintainer should follow when releasi
 * Merge `develop` branch into `master` branch
 * If change is due to upgrading Ember CLI version
     * Update Ember CLI version text in README.md file
-* Update the */tests/dummy/app/templates/browsers.hbs* file
-    * Update reference to the version number in the "sl-ember-components" section
 * Update CHANGELOG.md
     * Prefix the entries with one of the following tags inside brackets:
         * BUGFIX
@@ -26,22 +24,15 @@ This document captures the steps a project maintainer should follow when releasi
     * `npm publish --registry http://registry.npmjs.org/`
         * Note: `--registry` flag is workaround for occasional issues with default SSL url
 * Merge `master` branch into `develop`
-
-If any of these conditions are true:
-
-* There have been modifications to the *tests/dummy/app* demo application
-* There have been changes to the *bower.json*, *package.json*, or *Brocfile.js* files
-* Ember CLI has been upgraded
-
-Then follow these steps:
-
 * Run `ember build`
-* Copy the following files from */dist* folder outside of the working directory so they can be retained between switching branches:
-    * *index.html*
-    * *assets/dummy/* *
-    * *assets/vendor/* *
-    * *fonts* folder
-    * *sl-ember-components* folder
+* Run `npm run docs`
+* Copy the following resources outside of the working directory so they can be retained between switching branches:
+    * */docs*
+    * */dist/index.html*
+    * */dist/assets/dummy/* *
+    * */dist/assets/vendor/* *
+    * */dist/fonts* folder
+    * */dist/sl-ember-components* folder
 * Switch to the `gh-pages` branch
-* Replace the same files listed above with their copies
+* Replace the same resources listed above with their copies
 * Commit and push the changes

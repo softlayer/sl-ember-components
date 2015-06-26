@@ -17,7 +17,7 @@ test( '"buttonText" property defaults to a non-empty string', function( assert )
     var component = this.subject();
 
     assert.ok(
-        typeof component.get( 'buttonText' ) === 'string',
+        Ember.typeOf( component.get( 'buttonText' ) ) === 'string',
         '"buttonText" must default to a non-empty string'
     );
 
