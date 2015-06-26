@@ -159,6 +159,7 @@ export default Ember.Component.extend({
            let name = this.get( 'name' );
 
            if ( name ) {
+              console.log( this.get( 'modalService' ));
               this.get( 'modalService' ).register( this, name );
            }
        }
