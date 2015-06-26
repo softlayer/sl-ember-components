@@ -16,7 +16,8 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNameBindings: [
         'active',
-        'item.items:has-sub-menu'
+        'item.items:has-sub-menu',
+        'item.selected:active'
     ],
 
     /** @type {String[]} */
@@ -113,12 +114,12 @@ export default Ember.Component.extend({
      * @returns {?ember/Array}
      */
     subItems: Ember.computed(
-        'item.items',
+        'item',
         function() {
-            let itemItems = this.get( 'item.items' );
+            let subItems = this.get( 'item.items' );
 
-            if ( itemItems ) {
-                return Ember.A( itemItems );
+            if ( subItems ) {
+                return Ember.A( subItems );
             }
         }
     )

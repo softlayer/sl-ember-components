@@ -53,13 +53,17 @@
     {{#property-text name="events" type="object"}}
         <p>An object containing event binding strings, with the keys mapping to the following internal event names, and the values to the event service's event names.</p>
         <ul>
-            <li><strong>hideAll</strong> - Triggers hiding all of the sub-menus</li>
-            <li><strong>select( id )</strong> - </li>
-            <li><strong>selectDown</strong> - </li>
-            <li><strong>selectLeft</strong> - </li>
-            <li><strong>selectRight</strong> - </li>
-            <li><strong>selectUp</strong> - </li>
-            <li><strong>showAll</strong> - </li>
+            <li><strong>hideAll</strong> - Trigger hiding all of the sub-menus</li>
+            <li><strong>select( index )</strong> - Select an item by its index in the current selected context</li>
+            <li><strong>selectDown</strong></li>
+            <li><strong>selectLeft</strong></li>
+            <li><strong>selectNext</strong></li>
+            <li><strong>selectParent</strong></li>
+            <li><strong>selectPrevious</strong></li>
+            <li><strong>selectRight</strong></li>
+            <li><strong>selectSubMenu</strong></li>
+            <li><strong>selectUp</strong></li>
+            <li><strong>showAll</strong> - Trigger showing all of the menu items</li>
         </ul>
     {{/property-text}}
 </ul>
