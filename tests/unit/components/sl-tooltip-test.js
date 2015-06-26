@@ -8,7 +8,7 @@ moduleForComponent( 'sl-tooltip', 'Unit | Component | sl tooltip', {
 
 test( 'Expected Mixin is present', function( assert ) {
     assert.ok(
-        TooltipEnabledMixin.detect( this.subject() ),
+        TooltipEnabledMixin.detect( this.subject( { title: 'Tooltip Text' } ) ),
         'Expected Mixin is present'
     );
 });

@@ -79,15 +79,6 @@ export default Ember.Mixin.create({
      * @returns {undefined}
      */
     enablePopover() {
-        Ember.assert(
-            'method/enablePopover() expects the parameter "popover" and for it to be a string',
-            'string' === Ember.typeOf ( this.get( 'popover' ) )
-        );
-        Ember.assert(
-            'method/enablePopover() expects the parameter "title" and for it to be a string',
-            'string' === Ember.typeOf ( this.get( 'title' ) )
-        );
-
         let popover = this.get( 'popover' );
 
         // First-time rendering
@@ -114,11 +105,6 @@ export default Ember.Mixin.create({
      * @returns {undefined}
      */
     enableTooltip() {
-        Ember.assert(
-            'method/enableTooltip() expects the parameter "title" and for it to be a string',
-            'string' === Ember.typeOf ( this.get( 'title' ) )
-        );
-
         let title = this.get( 'title' );
 
         // First-time rendering

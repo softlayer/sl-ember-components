@@ -15,7 +15,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String} */
-    tagName: 'span'
+    tagName: 'span',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -28,6 +28,26 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Check passed parameters on initialization
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on (
+        'init',
+        function() {
+            Ember.assert(
+                'method/enablePopover() expects the parameter "title" and for it to be a string',
+                'string' === Ember.typeOf ( this.get( 'title' ) )
+            );
+            Ember.assert(
+                'method/enablePopover() expects the parameter "popover" and for it to be a string',
+                'string' === Ember.typeOf ( this.get( 'popover' ) ) || 'undefined' === Ember.typeOf ( this.get( 'popover' ) )
+            );
+        }
+    )
 
     // -------------------------------------------------------------------------
     // Methods
