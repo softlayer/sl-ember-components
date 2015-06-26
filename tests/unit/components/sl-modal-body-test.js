@@ -1,19 +1,29 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import Ember from 'ember';
 
 moduleForComponent('sl-modal-body', 'Unit | Component | sl modal body', {
-  // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar'],
   unit: true
 });
 
-test('it renders', function(assert) {
-  assert.expect(2);
+test( 'It renders', function( assert ) {
+  assert.expect( 2 );
 
-  // Creates the component instance
-  var component = this.subject();
-  assert.equal(component._state, 'preRender');
+  let component = this.subject();
+  assert.equal( component._state, 'preRender' );
 
-  // Renders the component to the page
   this.render();
-  assert.equal(component._state, 'inDOM');
+  assert.equal( component._state, 'inDOM' );
+});
+
+test( 'Modal body exists', function( assert ) {
+    let component = this.subject();
+    assert.equal( this.$('.modal-body').length, 1 );
+});
+
+test( 'Content is yielded', function( assert ) {
+    let content = '<div class="test"></div>';
+    let component = this.subject({
+        template: Ember.Handlebars.compile( content )
+    });
+    assert.equal( this.$('.test').length, 1 );
 });

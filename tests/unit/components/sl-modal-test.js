@@ -1,65 +1,96 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 
-let template = ['{{#sl-modal name="simpleDemo"}}',
-                   '{{sl-modal-header title="Simple Example"}}',
-                   '{{#sl-modal-body}}',
-                        '<p>A simple modal example</p>',
-                    '{{/sl-modal-body}}',
-                    '{{sl-modal-footer}}',
-                    '{{/sl-modal}}'].join(' ');
+let template = Ember.Handlebars.compile(
+    '{{sl-modal-header title="Simple Example"}}' +
+    '{{#sl-modal-body}}' +
+    '<p>A simple modal example</p>' +
+    '{{/sl-modal-body}}' +
+    '{{sl-modal-footer}}'
+);
 
+let mockModalService = Ember.Object.extend({
+    register() {}
+});
 
 moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
     needs: [
         'component:sl-modal-header',
         'component:sl-modal-body',
         'component:sl-modal-footer',
-        'service:sl-modal'
     ],
+
     unit: true
 });
 
-//test( 'It renders', function( assert ) {
-//    assert.expect(2);
-//
-//    let component = this.subject();
-//    assert.equal( component._state, 'preRender' );
-//
-//    this.render();
-//    assert.equal( component._state, 'inDOM' );
-//});
+test( 'It renders', function( assert ) {
+  assert.expect(2);
 
-//test( 'Default classes are present', function( assert ) {
-//    assert.ok(
-//        this.$().hasClass( 'modal' ),
-//        'Has class "modal"'
-//    );
-//
-//    assert.ok(
-//        this.$().hasClass( 'fade' ),
-//        'Has class "fade"'
-//    );
-//});
+  let component = this.subject();
+  assert.equal( component._state, 'preRender' );
 
-test( 'Property isOpen is true when modal is shown', function( assert ) {
-    let done = assert.async();
+  this.render();
+  assert.equal( component._state, 'inDOM' );
+});
 
-    assert.expect( 1 );
+test( 'Property isOpen is set appropriately', function( assert ) {
+    let openDone = assert.async();
+    let closeDone = assert.async();
+
+    assert.expect( 2 );
 
     let component = this.subject({
-        template: Ember.Handlebars.compile( template ),
-        afterShow: 'testModalIsOpen',
+        afterShow: 'modalOpen',
+        afterHide: 'modalClosed',
+        template: template,
         targetObject: {
-            testModalIsOpen() {
+            modalOpen() {
                 assert.equal( component.get( 'isOpen' ), true );
-                done();
+                openDone();
+            },
+
+            modalClosed() {
+                assert.equal( component.get( 'isOpen' ), false );
+                closeDone();
             }
         }
     });
 
     this.render();
     component.show();
+    component.hide();
 });
 
+test( 'Closing of modal using close button works', function ( assert ) {
+    let closeDone = assert.async();
 
+    let component = this.subject({
+        template: template,
+        afterHide: 'modalClosed',
+        targetObject: {
+            modalClosed() {
+                assert.ok( 'Modal was closed' );
+                closeDone();
+            }
+        }
+    });
+
+    this.render();
+    component.show();
+    this.$( '.close' ).click();
+});
+
+test( 'Modal registered on modal service', function( assert ) {
+    let registerSpy = sinon.spy();
+
+    let mockModalService = Ember.Object.extend({
+        register: registerSpy
+    });
+
+    let component = this.subject({
+        name: 'demo',
+        modalService: mockModalService.create()
+    });
+
+    assert.ok( registerSpy.calledOnce, 'Register called on modal service' );
+});
