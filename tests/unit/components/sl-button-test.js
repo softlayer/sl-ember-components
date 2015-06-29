@@ -128,3 +128,27 @@ test( 'themeClass() returns correct value', function( assert ) {
         'Has expected class "btn-success"'
     );
 });
+
+test( 'openModal property triggers modal to open', function( assert ) {
+    let registerSpy = sinon.spy();
+    let show = sinon.spy();
+
+    let mockModal = {
+        show: show
+    };
+
+    let mockService = {
+        find() {
+            return mockModal;
+        }
+    };
+
+    let component = this.subject({
+        modalService: mockService,
+        openModal: 'test'
+    });
+
+    this.$().click();
+
+    assert.ok( show.calledOnce );
+});
