@@ -234,7 +234,6 @@ export default Ember.Component.extend({
      * Initialize default property values
      *
      * @function
-     * @listens init
      * @returns {undefined}
      */
     initialize: Ember.on(

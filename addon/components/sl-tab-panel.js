@@ -106,7 +106,6 @@ export default Ember.Component.extend({
      * determine tab labels and names.
      *
      * @function
-     * @listens didInsertElement
      * @returns {undefined}
      */
     setupTabs: Ember.on(
