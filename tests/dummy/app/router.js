@@ -42,6 +42,7 @@ Router.map( function() {
 
         this.route( 'services', function() {
             this.route( 'sl-event' );
+            this.route( 'sl-modal' );
         });
     });
 });

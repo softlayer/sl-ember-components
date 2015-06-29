@@ -1,0 +1,65 @@
+<h2>Service: sl-event</h2>
+<p class="lead">
+    This service handles custom app-level event listening and triggering.
+</p>
+
+<p>The sl-event service is used to communicate basic events with data between Ember objects. Any object can listen for a custom event, and any other objects can trigger that event, which will in turn trigger code for each object listening for the event.</p>
+
+<section>
+    <h3>Listening for Events</h3>
+
+    <p>The <code>listen()</code> method on the service is used to setup the event binding to the listening object only, and it still requires the object to respond to the event directly.</p>
+
+    <p>In the example below, the component sets up a reference to the sl-event service, calls <code>listen()</code> with the name of the custom event it's listening for and a reference to itself, then binds a response to trigger <code>sayHello()</code> when it receives the custom event.</p>
+
+    <pre>Ember.Component.extend({
+    eventService: Ember.inject.service( 'sl-event' ),
+
+    initialize: Ember.on(
+        'init',
+        function() {
+            this.get( 'eventService' ).listen( 'demo.sayHello', this );
+            this.on( 'demo.sayHello', this.sayHello );
+        }
+    ),
+
+    sayHello( name ) {
+        window.alert( `Hello ${name}!` );
+    }
+});</pre>
+</section>
+
+<section>
+    <h3>Triggering Events</h3>
+
+    <p>To trigger an event through the service, an object can call <code>trigger()</code> with the name of the custom event, along with an optional data parameter to be passed along with the event. All objects listening for the custom event will be triggered and passed the data.</p>
+
+    <p>In the example below, a controller first injects a reference to the sl-event service, then calls <code>trigger()</code> with the custom event name and a piece of data it handles.</p>
+
+    <pre>Ember.Controller.extend({
+    eventService: Ember.inject.service( 'sl-event' ),
+
+    greet( name ) {
+        this.get( 'eventService' ).trigger( 'demo.sayHello', name );
+    }
+});</pre>
+</section>
+
+<section>
+    <h3>Unlistening for Events</h3>
+
+    <p>When an object should no longer be listening for a custom event, it can call the <code>unlisten()</code> method on the sl-event service, passing in the name of the custom event and a reference to itself.</p>
+
+    <p>The below example continues the component example from <strong>Listening for Events</strong> to unbind the listening action made in that section, when the component is being destroyed.</p>
+
+    <pre>Ember.Component.extend({
+    // ...
+
+    teardown: Ember.on(
+        'willDestroyElement',
+        function() {
+            this.get( 'eventService' ).unlisten( 'demo.sayHello', this );
+        }
+    )
+});</pre>
+</section>

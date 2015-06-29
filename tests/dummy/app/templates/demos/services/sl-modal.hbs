@@ -1,0 +1,68 @@
+<h2>Service: sl-modal</h2>
+<p class="lead">
+The service provides a way to manage modals across the app.
+</p>
+<section>
+    <h3>Registering a Modal</h3>
+    <p>To register a modal with the sl-modal service use <code>register()</code>. The <code>register()</code> function takes two arguments, <code>modal</code> and <code>name</code>. The <code>modal</code> argument is an instance of the modal while the <code>name</code> argument is a unique string value used to identify the modal.</p>
+
+    <p>The example below illustrates how the {{#link-to 'demos.sl-modal'}}sl-modal{{/link-to}} component uses the service to register a modal during the <code>init</code> event  .</p>
+    <pre>Ember.Component.extend({
+    modalService: Ember.inject.service( 'sl-modal' ),
+
+    register: Ember.on(
+       'init',
+       function() {
+           let name = this.get( 'name' );
+
+           if ( name ) {
+              this.get( 'modalService' ).register( this, name );
+           }
+       }
+    )</pre>
+</section>
+
+<section>
+    <h3>Finding a Modal</h3>
+    <p>To find a modal that was previously registered with the modal service, use <code>find()</code>. <code>find()</code> accepts a <code>name</code> parameter which is the same string value that was used to register the modal.</p>
+    <p>In the example below the sl-modal service is injected into a controller, the controller can then use the service to lookup a modal by name and perform actions on the modal instance.</p>
+    <pre>Ember.Controller.extend({
+    modalService: Ember.inject.service( 'sl-modal' ),
+
+    actions: {
+        openModal( name ) {
+            let service = this.get( 'modalService' );
+            let modal = service.find( name );
+            modal.open();
+        }
+    }</pre>
+</section>
+
+<section>
+    <h3>Get open modals</h3>
+    <p>To get all open modals registered with the modal service, use <code>getOpenModals()</code>.This function loops over the registered modals and checks the <code>isOpen</code> property on the modal. If<code>isOpen</code> is <code>true</code> then the modal is considered to be open. The return value of <code>getOpenModals()</code> is an array of modal instances.</p>
+    <pre>Ember.Controller.extend({
+    modalService: Ember.inject.service( 'sl-modal' ),
+
+    actions: {
+        getOpenModals() {
+            let service = this.get( 'modalService' );
+            let openModals = service.getOpenModals();
+        }
+    }</pre>
+</section>
+
+<section>
+    <h3>Hide all modals</h3>
+    <p>To hide all modals, use <code>hideAll()</code>. When <code>hideAll()</code> is called, the <code>hide()</code> function is invoked on all modals instances registered with the sl-modal service.</p>
+    <pre>Ember.Controller.extend({
+    modalService: Ember.inject.service( 'sl-modal' ),
+
+    actions: {
+        hideAllModals() {
+            let service = this.get( 'modalService' );
+            service.hideAll();
+        }
+    }</pre>
+
+</section>
