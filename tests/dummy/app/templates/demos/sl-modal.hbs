@@ -115,6 +115,14 @@
 </section>
 
 <hr>
+<section>
+    <h2>Using sl-button to trigger a modal to open</h2>
+    <p>The code below shows how to use a {{#link-to 'demos.sl-button'}}sl-button{{/link-to}} to trigger a modal with a name of "demo" to open, when clicked.</p>
+    <p>Pass in the name of the modal as the value to the <code>openModal</code> property.</p>
+    <pre> \{{sl-button openModal="demo" label="Open Modal"}}</pre>
+</section>
+
+<hr>
 <h3>sl-modal Properties</h3>
 {{#property-text name="afterHide" type="function"}}
     Action to call after modal is shown.
@@ -136,13 +144,14 @@
     Hide modal.
 {{/property-text}}
 
+{{#property-text name="name" type="string"}}
+Unique name used to identify modal. This name can be used to lookup the modal using the {{#link-to 'demos.services.sl-modal'}}modal service{{/link-to}}.
+{{/property-text}}
+
 {{#property-text name="show" type="function"}}
     Show modal.
 {{/property-text}}
 
-{{#property-text name="name" type="string"}}
-    Unique name used to identify modal.
-{{/property-text}}
 
 <hr>
 <h3>sl-modal-header Properties</h3>
