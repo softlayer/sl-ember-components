@@ -76,7 +76,7 @@ export default Ember.Service.extend( Ember.Evented, {
         let events = this.get( 'events' );
 
         if ( !events.hasOwnProperty( eventName ) ) {
-            window.console.error( `No bound listeners for "${eventName}"` );
+            Ember.Logger.error( `No bound listeners for "${eventName}"` );
             return false;
         }
 

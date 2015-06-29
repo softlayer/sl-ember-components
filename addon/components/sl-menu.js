@@ -1,17 +1,23 @@
 import Ember from 'ember';
+import SlEvented from '../mixins/sl-evented';
 import layout from '../templates/components/sl-menu';
 
+function warn( message ) {
+    Ember.Logger.warn( message );
+    return true;
+}
+
 function error( message ) {
-    window.console.error( message );
+    Ember.Logger.error( message );
     return false;
 }
 
 /**
  * @module
  * @augments ember/Component
- * @augments ember/Evented
+ * @augments sl-ember-components/mixins/sl-evented
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( SlEvented, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -99,14 +105,6 @@ export default Ember.Component.extend({
     allowShowAll: false,
 
     /**
-     * The service used to setup listening for events
-     *
-     * @private
-     * @type {ember/Service}
-     */
-    eventService: Ember.inject.service( 'sl-event' ),
-
-    /**
      * A definition object outlining the event bindings this component should be
      * listening for
      *
@@ -114,8 +112,12 @@ export default Ember.Component.extend({
      * - hideAll
      * - select (accepts an id argument)
      * - selectDown
+     * - selectLeft
      * - selectNext
+     * - selectParent
      * - selectPrevious
+     * - selectRight
+     * - selectSubMenu
      * - selectUp
      * - showAll
      *
@@ -161,46 +163,53 @@ export default Ember.Component.extend({
             let events = this.get( 'events' );
 
             if ( events.hasOwnProperty( 'hideAll' ) ) {
-                this.listenOnService( events.hideAll, this.hideAll );
+                this.listenFor( events.hideAll );
+                this.on( events.hideAll, this.hideAll );
             }
 
             if ( events.hasOwnProperty( 'select' ) ) {
-                this.listenOnService( events.select, this.select );
+                this.listenFor( events.select );
+                this.on( events.select, this.select );
             }
 
             if ( events.hasOwnProperty( 'selectDown' ) ) {
-                this.listenOnService( events.selectDown, this.selectDown );
+                this.listenFor( events.selectDown );
+                this.on( events.selectDown, this.selectDown );
             }
 
             if ( events.hasOwnProperty( 'selectLeft' ) ) {
-                this.listenOnService( events.selectLeft, this.selectLeft );
+                this.listenFor( events.selectLeft );
+                this.on( events.selectLeft, this.selectLeft );
             }
 
             if ( events.hasOwnProperty( 'selectNext' ) ) {
-                this.listenOnService( events.selectNext, this.selectNext );
+                this.listenFor( events.selectNext );
+                this.on( events.selectNext, this.selectNext );
             }
 
             if ( events.hasOwnProperty( 'selectPrevious' ) ) {
-                this.listenOnService(
-                    events.selectPrevious,
-                    this.selectPrevious
-                );
+                this.listenFor( events.selectPrevious );
+                this.on( events.selectPrevious, this.selectPrevious );
             }
 
             if ( events.hasOwnProperty( 'selectRight' ) ) {
-                this.listenOnService( events.selectRight, this.selectRight );
+                this.listenFor( events.selectRight );
+                this.on( events.selectRight, this.selectRight );
             }
 
             if ( events.hasOwnProperty( 'selectSubMenu' ) ) {
-                this.listenOnService( events.selectSubMenu, this.selectSubMenu );
+                this.listenFor( events.selectSubMenu );
+                this.on( events.selectSubMenu, this.selectSubMenu );
             }
 
             if ( events.hasOwnProperty( 'selectUp' ) ) {
-                this.listenOnService( events.selectUp, this.selectUp );
+                this.listenFor( events.selectUp );
+                this.on( events.selectUp, this.selectUp );
             }
 
             if ( events.hasOwnProperty( 'showAll' ) ) {
-                this.listenOnService( events.showAll, this.showAll );
+                this.listenFor( events.showAll );
+                this.on( events.showAll, this.showAll );
             }
         }
     ),
@@ -234,21 +243,10 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     hideAll() {
-        this.clearSelection();
-        this.set( 'showingAll', false );
-    },
-
-    /**
-     * Attach listener on eventService and setup event-triggered binding
-     *
-     * @function
-     * @param {String} eventName - The name of the event to listen for
-     * @param {Function} handler - A function to call when the event is triggered
-     * @returns {undefined}
-     */
-    listenOnService( eventName, handler ) {
-        this.get( 'eventService' ).listen( eventName, this );
-        this.on( eventName, handler );
+        return (
+            this.set( 'showingAll', false ) &&
+            this.clearSelection()
+        );
     },
 
     /**
@@ -256,7 +254,6 @@ export default Ember.Component.extend({
      *
      * @function
      * @param {Number} index - The index of the item to select
-     * @returns {Boolean} - Whether any valid action was taken successfully
      * @returns {Boolean} - True unless an error state is detected
      */
     select( index ) {
