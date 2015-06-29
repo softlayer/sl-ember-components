@@ -2,26 +2,28 @@ import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 
 moduleForComponent('sl-modal-header', 'Unit | Component | sl modal header', {
-  unit: true
+    unit: true
 });
 
 test( 'It renders', function( assert ) {
-  assert.expect(2);
+    assert.expect(2);
 
-  let component = this.subject();
-  assert.equal( component._state, 'preRender' );
+    let component = this.subject();
+    assert.equal( component._state, 'preRender' );
 
-  this.render();
-  assert.equal( component._state, 'inDOM' );
+    this.render();
+    assert.equal( component._state, 'inDOM' );
 });
 
 test( 'Modal header class exists on child element', function( assert ) {
     let component = this.subject();
+
     assert.equal( this.$().find( '.modal-header' ).length, 1 );
 });
 
 test( 'Close button exists', function( assert ) {
     let component = this.subject();
+
     assert.equal( this.$().find( '.close' ).length, 1 );
 });
 
@@ -45,6 +47,7 @@ test( 'Setting title on header works', function( assert ) {
 
 test( 'Content is yielded', function( assert ) {
     let content = '<div class="test"></div>';
+
     let component = this.subject({
         template: Ember.Handlebars.compile( content )
     });
