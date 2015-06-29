@@ -57,14 +57,14 @@ is served from the *gh-pages* branch of this repository.
 
 Provides an advanced implemention of the modal component.
 
-The documentation is viewable at [addon/mixins/docs/modal.md](addon/mixins/docs/modal.md)
+The documentation is viewable at [addon/mixins/docs/modal.md](https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md)
 
 
 *sl-modal*
 
 Provides an advanced implemention of the modal component.
 
-The documentation is viewable at [addon/mixins/docs/modal.md](addon/mixins/docs/modal.md)
+The documentation is viewable at [addon/mixins/docs/modal.md](https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md)
 
 
 *sl-notify-view*
@@ -193,13 +193,13 @@ Employs [Semantic Versioning 2.0.0](http://semver.org/)
 ---
 
 # Contribution
-[See CONTRIBUTING.md](CONTRIBUTING.md)
+[See CONTRIBUTING.md](https://github.com/softlayer/sl-ember-components/blob/master/CONTRIBUTING.md)
 
 ---
 
 # Copyright and License
 sl-ember-components and its source files are Copyright © 2014-2015 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
-The software is [MIT Licensed](LICENSE.md)
+The software is [MIT Licensed](https://github.com/softlayer/sl-ember-components/blob/master/LICENSE.md)
 
 sl-ember-components leverages several third-party libraries which are not all MIT licensed. Specifically, Highcharts is only
 free for non-commercial use and requires a license for any other use. See
