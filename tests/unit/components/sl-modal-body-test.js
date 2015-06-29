@@ -22,8 +22,10 @@ test( 'Modal body exists', function( assert ) {
 
 test( 'Content is yielded', function( assert ) {
     let content = '<div class="test"></div>';
+
     let component = this.subject({
         template: Ember.Handlebars.compile( content )
     });
+
     assert.equal( this.$('.test').length, 1 );
 });
