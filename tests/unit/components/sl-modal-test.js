@@ -57,9 +57,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
     });
 
     this.render();
-
     component.show();
-
     component.hide();
 });
 
@@ -78,9 +76,7 @@ test( 'Closing of modal using close button works', function ( assert ) {
     });
 
     this.render();
-
     component.show();
-
     this.$( '.close' ).click();
 });
 
