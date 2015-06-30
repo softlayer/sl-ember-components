@@ -1,6 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 
+let component;
 let template = Ember.Handlebars.compile(
     '{{sl-modal-header title="Simple Example"}}' +
     '{{#sl-modal-body}}' +
@@ -20,13 +21,17 @@ moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
         'component:sl-modal-footer',
     ],
 
+    afterEach() {
+        component.hide();
+    },
+
     unit: true
 });
 
 test( 'It renders', function( assert ) {
     assert.expect(2);
 
-    let component = this.subject();
+    component = this.subject();
     assert.equal( component._state, 'preRender' );
 
     this.render();
@@ -39,7 +44,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
 
     assert.expect( 2 );
 
-    let component = this.subject({
+    component = this.subject({
         afterShow: 'modalOpen',
         afterHide: 'modalClosed',
         template: template,
@@ -64,7 +69,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
 test( 'Closing of modal using close button works', function ( assert ) {
     let closeDone = assert.async();
 
-    let component = this.subject({
+    component = this.subject({
         template: template,
         afterHide: 'modalClosed',
         targetObject: {
@@ -87,10 +92,31 @@ test( 'Modal registered on modal service', function( assert ) {
         register: registerSpy
     });
 
-    let component = this.subject({
+    component = this.subject({
         name: 'demo',
         modalService: mockModalService.create()
     });
 
+    this.render();
     assert.ok( registerSpy.calledOnce, 'Register called on modal service' );
+});
+
+test( 'Backdrop is hidden when property is set to false', function ( assert ) {
+    component = this.subject({
+        backdrop: false
+    });
+
+    this.render();
+    component.show();
+
+    assert.equal( $('.modal-backdrop').length, 0 );
+});
+
+test( 'Backdrop is shown by default', function( assert ) {
+    component = this.subject();
+
+    this.render();
+    component.show();
+
+    assert.equal( $('.modal-backdrop').length, 1 );
 });

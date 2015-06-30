@@ -116,12 +116,17 @@
 
 <hr>
 <section>
-    <h2>Using sl-button to trigger a modal to open</h2>
+    <h2>Triggering a modal to open using a sl-button</h2>
     <p>The code below shows how to use a {{#link-to 'demos.sl-button'}}sl-button{{/link-to}} to trigger a modal with a name of "demo" to open, when clicked.</p>
     <p>Pass in the name of the modal as the value to the <code>openModal</code> property.</p>
     <pre> \{{sl-button openModal="demo" label="Open Modal"}}</pre>
 </section>
 
+<hr>
+<section>
+    <h2>Using sl-modal service to manage multiple modals</h2>
+    <p>Every modal with a unique name is registered on the sl-modal service, refer to the {{#link-to 'demos.services.sl-modal'}}sl-modal service page{{/link-to}} for documentation and sample code on how to use the service to lookup and manage modals across the app.</p>
+</section>
 <hr>
 <h3>sl-modal Properties</h3>
 {{#property-text name="afterHide" type="function"}}
@@ -130,6 +135,10 @@
 
 {{#property-text name="afterShow" type="function"}}
     Action to call after modal is shown.
+{{/property-text}}
+
+{{#property-text name="backdrop" type="boolean" default="true"}}
+    Whether to show Bootstrap's backdrop.
 {{/property-text}}
 
 {{#property-text name="beforeHide" type="function"}}
@@ -145,7 +154,7 @@
 {{/property-text}}
 
 {{#property-text name="name" type="string"}}
-Unique name used to identify modal. This name can be used to lookup the modal using the {{#link-to 'demos.services.sl-modal'}}modal service{{/link-to}}.
+    Unique name used to identify modal. This name can be used to lookup the modal using the {{#link-to 'demos.services.sl-modal'}}modal service{{/link-to}}.
 {{/property-text}}
 
 {{#property-text name="show" type="function"}}
