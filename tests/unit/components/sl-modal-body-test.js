@@ -6,13 +6,13 @@ moduleForComponent('sl-modal-body', 'Unit | Component | sl modal body', {
 });
 
 test( 'It renders', function( assert ) {
-  assert.expect( 2 );
+    assert.expect( 2 );
 
-  let component = this.subject();
-  assert.equal( component._state, 'preRender' );
+    let component = this.subject();
+    assert.equal( component._state, 'preRender' );
 
-  this.render();
-  assert.equal( component._state, 'inDOM' );
+    this.render();
+    assert.equal( component._state, 'inDOM' );
 });
 
 test( 'Modal body exists', function( assert ) {

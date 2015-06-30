@@ -6,13 +6,13 @@ moduleForComponent( 'sl-modal-footer', 'Unit | Component | sl modal footer', {
 });
 
 test( 'It renders', function( assert ) {
-  assert.expect( 2 );
+    assert.expect( 2 );
 
-  var component = this.subject();
-  assert.equal( component._state, 'preRender' );
+    let component = this.subject();
+    assert.equal( component._state, 'preRender' );
 
-  this.render();
-  assert.equal( component._state, 'inDOM' );
+    this.render();
+    assert.equal( component._state, 'inDOM' );
 });
 
 test( 'Footer class exists', function ( assert ) {
