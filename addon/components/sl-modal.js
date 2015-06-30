@@ -211,11 +211,27 @@ export default Ember.Component.extend({
     },
 
     /**
+     * Unbind bootstrap event handlers
+     * @function unbindHandlers
+     * @returns {undefined}
+     */
+    unbindHandlers: Ember.on(
+        'willDestroyElement',
+        () => {
+            this.$().off( 'show.bs.modal' );
+            this.$().off( 'shown.bs.modal' );
+            this.$().off( 'hide.bs.modal' );
+            this.$().off( 'hidden.bs.modal' );
+        }
+    ),
+
+    /**
      * Unregister model from modelService
      * @function unregister
      * @returns {undefined}
      */
     unregister() {
         this.get( 'modalService' ).unregister( this.get( 'name' ) );
-    }
+    },
+
 });

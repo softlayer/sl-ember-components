@@ -2,6 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 
 let component;
+
 let template = Ember.Handlebars.compile(
     '{{sl-modal-header title="Simple Example"}}' +
     '{{#sl-modal-body}}' +
@@ -22,7 +23,9 @@ moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
     ],
 
     afterEach() {
-        component.hide();
+        Ember.run( () => {
+            component.hide();
+        });
     },
 
     unit: true
@@ -62,8 +65,12 @@ test( 'Property isOpen is set appropriately', function( assert ) {
     });
 
     this.render();
-    component.show();
-    component.hide();
+
+    Ember.run( () => {
+        component.show();
+        component.hide();
+    });
+
 });
 
 test( 'Closing of modal using close button works', function ( assert ) {
@@ -81,7 +88,11 @@ test( 'Closing of modal using close button works', function ( assert ) {
     });
 
     this.render();
-    component.show();
+
+    Ember.run( () => {
+        component.show();
+    });
+
     this.$( '.close' ).click();
 });
 
@@ -98,25 +109,39 @@ test( 'Modal registered on modal service', function( assert ) {
     });
 
     this.render();
+
     assert.ok( registerSpy.calledOnce, 'Register called on modal service' );
 });
 
 test( 'Backdrop is hidden when property is set to false', function ( assert ) {
+    let openDone = assert.async();
+
     component = this.subject({
-        backdrop: false
+        backdrop: false,
+        afterShow: 'modalOpen',
+        targetObject: {
+            modalOpen() {
+                assert.equal( $( '.modal-backdrop' ).length, 0 );
+                openDone();
+            }
+        }
     });
 
     this.render();
-    component.show();
 
-    assert.equal( $('.modal-backdrop').length, 0 );
+    Ember.run( () => {
+        component.show();
+    });
 });
 
 test( 'Backdrop is shown by default', function( assert ) {
     component = this.subject();
 
     this.render();
-    component.show();
 
-    assert.equal( $('.modal-backdrop').length, 1 );
+    Ember.run( () => {
+        component.show();
+    });
+
+    assert.equal( $( '.modal-backdrop' ).length, 1 );
 });
