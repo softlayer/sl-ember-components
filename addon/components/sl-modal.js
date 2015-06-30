@@ -217,7 +217,7 @@ export default Ember.Component.extend({
      */
     unbindHandlers: Ember.on(
         'willDestroyElement',
-        () => {
+        function() {
             this.$().off( 'show.bs.modal' );
             this.$().off( 'shown.bs.modal' );
             this.$().off( 'hide.bs.modal' );
@@ -232,6 +232,5 @@ export default Ember.Component.extend({
      */
     unregister() {
         this.get( 'modalService' ).unregister( this.get( 'name' ) );
-    },
-
+    }
 });
