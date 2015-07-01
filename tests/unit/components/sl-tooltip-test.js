@@ -143,15 +143,14 @@ test( '"title" property needs to be a string', function( assert ) {
 
     try {
         this.subject({
-            popover: undefined,
-            title: "Tooltip Text"
+            title: undefined
         });
     } catch( error ) {
         assertionThrown = true;
     }
 
     assert.ok(
-        !assertionThrown,
+        assertionThrown,
         'Property was Undefined'
     );
 
