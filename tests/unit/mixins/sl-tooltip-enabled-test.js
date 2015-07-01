@@ -26,12 +26,11 @@ module( 'Unit | Mixin | sl tooltip enabled', {
     }
 });
 
-// Replace this with your real tests.
 test( 'Successfully mixed', function( assert ) {
-  let testObject = Ember.Object.extend( mixinUnderTest) ;
-  let subject = testObject.create();
+    let testObject = Ember.Object.extend( mixinUnderTest) ;
+    let subject = testObject.create();
 
-  assert.ok( subject );
+    assert.ok( subject );
 });
 
 QUnit.skip( 'enable() - observes correct properties', function( assert ) {
