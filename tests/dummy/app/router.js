@@ -23,7 +23,6 @@ Router.map( function() {
         this.route( 'sl-date-picker' );
         this.route( 'sl-date-range-picker' );
         this.route( 'sl-date-time' );
-        this.route( 'sl-dialog' );
         this.route( 'sl-drop-button' );
         this.route( 'sl-input' );
         this.route( 'sl-grid' );
