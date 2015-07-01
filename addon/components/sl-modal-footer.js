@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-modal-footer';
 
+/**
+ * @module
+ */
 export default Ember.Component.extend({
 
    /**
@@ -9,7 +12,7 @@ export default Ember.Component.extend({
      * @type {String}
      */
     buttonText: 'Close',
-  
+
     /** @type {Object} */
     layout: layout
 });
