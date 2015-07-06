@@ -32,7 +32,8 @@
     "bootstrap"
   ],
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "http://softlayer.github.io/sl-ember-components/"
   },
   "contributors": [
     "Joshua Forisha <josh@forisha.com> (http://joshforisha.com)",
