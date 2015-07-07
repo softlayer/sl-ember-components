@@ -31,22 +31,22 @@ test( 'Default classNames are present', function( assert ) {
     this.subject({ object, series });
 
     assert.ok(
-        this.$().hasClass('panel'),
+        this.$().hasClass( 'panel' ),
         'Default rendered component has class "panel"'
     );
 
     assert.ok(
-        this.$().hasClass('panel-default'),
+        this.$().hasClass( 'panel-default' ),
         'Default rendered component has class "panel-default"'
     );
     
     assert.ok(
-        this.$().hasClass('sl-chart'),
+        this.$().hasClass( 'sl-chart' ),
         'Default rendered component has class "sl-chart"'
     );
     
     assert.ok(
-        this.$().hasClass('sl-panel'),
+        this.$().hasClass( 'sl-panel' ),
         'Default rendered component has class "sl-panel"'
     );
 });
