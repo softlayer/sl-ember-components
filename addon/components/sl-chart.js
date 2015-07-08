@@ -77,6 +77,29 @@ export default Ember.Component.extend({
     // Observers
 
     /**
+     * Check passed parameters on initialization
+     *
+     * @function
+     * @throws {ember.assert} Series property must be an array'
+     * @throws {ember.assert} Options property must be an Object'
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            Ember.assert(
+                'Series property must be an array',
+                'array' === Ember.typeOf( this.get('series') )
+            );
+            Ember.assert(
+                'Options property must be an Object',
+                'instance' === Ember.typeOf( this.get('options') ) ||
+                'object' === Ember.typeOf ( this.get('options') )
+            );
+        }
+    ),
+
+    /**
      * Sets up Highcharts initialization
      *
      * @function
@@ -93,7 +116,6 @@ export default Ember.Component.extend({
             };
 
             let options = Ember.$.extend( true, {
-                title: '',
                 chart: {
                     animation: false,
                     backgroundColor: 'rgba(255, 255, 255, 0)',
