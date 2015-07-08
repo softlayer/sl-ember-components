@@ -116,29 +116,26 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     setupSelect2: Ember.on(
         'didInsertElement',
         function() {
-            let get = Ember.get;
-            let self = this;
-
-            let input = this.$( 'input' ).select2({
+            const input = this.$( 'input' ).select2({
                 maximumSelectionSize: this.get( 'maximumSelectionSize' ),
                 multiple: this.get( 'multiple' ),
                 placeholder: this.get( 'placeholder' ),
 
                 formatResult: ( item ) => {
                     if ( !item ) {
-                        return;
+                        return null;
                     }
 
                     if ( Ember.typeOf( item ) !== 'object' ) {
                         return item;
                     }
 
-                    let description = get(
+                    const description = Ember.get(
                         item,
                         this.get( 'optionDescriptionPath' )
                     );
 
-                    let output = get(
+                    let output = Ember.get(
                         item,
                         this.get( 'optionLabelPath' )
                     );
@@ -153,11 +150,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
                 formatSelection: ( item ) => {
                     if ( !item ) {
-                        return;
+                        return null;
                     }
 
-                    if ( Ember.typeOf( item ) === 'object' ) {
-                        return get( item, this.get( 'optionLabelPath' ) );
+                    if ( 'object' === Ember.typeOf( item ) ) {
+                        return Ember.get( item, this.get( 'optionLabelPath' ) );
                     }
 
                     return item;
@@ -166,50 +163,51 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 id: ( item ) => {
                     let value = item;
 
-                    if ( Ember.typeOf( item ) === 'object' ) {
-                        value = get( item, this.get( 'optionValuePath' ) );
+                    if ( 'object' === Ember.typeOf( item ) ) {
+                        const optionValuePath = this.get( 'optionValuePath' );
+                        value = Ember.get( item, optionValuePath );
                     }
 
                     return value;
                 },
 
                 initSelection: ( element, callback ) => {
-                    let value = element.val();
+                    const value = element.val();
 
                     if ( !value || !value.length ) {
                         return callback( [] );
                     }
 
-                    let content = this.get( 'content' );
-                    let contentLength = content.length;
-                    let filteredContent = [];
-                    let multiple = this.get( 'multiple' );
-                    let optionValuePath = this.get( 'optionValuePath' );
-                    let values = value.split( ',' );
+                    const content = this.get( 'content' );
+                    const contentLength = content.length;
+                    const filteredContent = [];
+                    const multiple = this.get( 'multiple' );
+                    const optionValuePath = this.get( 'optionValuePath' );
+                    const values = value.split( ',' );
                     let unmatchedValues = values.length;
 
                     for ( let i = 0; i < contentLength; i++ ) {
-                        let item = content[i];
-                        let text = Ember.typeOf( item ) === 'object' ?
-                            get( item, optionValuePath ) : item;
+                        const item = content[i];
+                        const text = 'object' === Ember.typeOf( item ) ?
+                            Ember.get( item, optionValuePath ) : item;
 
-                        let matchIndex = values.indexOf( text.toString() );
+                        const matchIndex = values.indexOf( text.toString() );
 
                         if ( matchIndex !== -1 ) {
                             filteredContent[ matchIndex ] = item;
-                            if ( --unmatchedValues === 0 ) {
+                            if ( 0 === --unmatchedValues ) {
                                 break;
                             }
                         }
                     }
 
-                    if ( unmatchedValues === 0 ) {
+                    if ( 0 === unmatchedValues ) {
                         this.input.select2( 'readonly', false );
                     } else {
                         this.input.select2( 'readonly', true );
 
-                        let warning = 'sl-select:select2#initSelection was not' +
-                            ' able to map each "' + optionValuePath + '"' +
+                        const warning = 'sl-select:select2#initSelection was' +
+                            ' not able to map each "' + optionValuePath + '"' +
                             ' to an object from "content". The remaining keys' +
                             ' are: ' + values + '. The input will be disabled' +
                             ' until a) the desired objects are added to the' +
@@ -227,15 +225,15 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
                 minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
 
-                query: function( query ) {
-                    let content = self.get( 'content' ) || [];
-                    let optionLabelPath = self.get( 'optionLabelPath' );
-                    let select2 = this;
+                query: ( query ) => {
+                    const content = this.get( 'content' ) || [];
+                    const optionLabelPath = this.get( 'optionLabelPath' );
+                    const select2 = this;
 
                     query.callback({
                         results: content.reduce( ( results, item ) => {
-                            let text = Ember.typeOf( item ) === 'object' ?
-                                get( item, optionLabelPath ) : item;
+                            const text = 'object' === Ember.typeOf( item ) ?
+                                Ember.get( item, optionLabelPath ) : item;
 
                             if (
                                 text &&
@@ -254,7 +252,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 this.set( 'value', input.select2( 'val' ) );
             });
 
-            let originalBodyOverflow = document.body.style.overflow || 'auto';
+            const originalBodyOverflow = document.body.style.overflow || 'auto';
 
             input.on( 'select2-open', () => {
                 document.body.style.overflow = 'hidden';

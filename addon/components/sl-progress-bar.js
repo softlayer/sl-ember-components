@@ -131,11 +131,13 @@ export default Ember.Component.extend( TooltipEnabled, {
     themeClassName: Ember.computed(
         'theme',
         function() {
-            let theme = this.get( 'theme' );
+            const theme = this.get( 'theme' );
 
             Ember.assert(
                 `Error: Invalid theme property value "${theme}"`,
-                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+                Object.keys( THEME )
+                    .map( ( key ) => THEME[ key ] )
+                    .indexOf( theme ) > -1
             );
 
             return `progress-bar-${theme}`;

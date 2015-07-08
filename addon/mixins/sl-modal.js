@@ -100,7 +100,7 @@ export default Ember.Mixin.create({
     modalize: Ember.on(
         'didInsertElement',
         function() {
-            let modal = this.$().modal({
+            const modal = this.$().modal({
                 keyboard: true,
                 show: this.get( 'show' ),
                 backdrop: this.get( 'backdrop' )

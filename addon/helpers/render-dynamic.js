@@ -21,7 +21,10 @@ export default {
      * @returns {String}
      */
     helperFunction( params, hash, options, env ) {
-        params[ 0 ] = env.data.view._parentView[ params[ 0 ]._label ];
+        const label = Ember.get( params[ 0 ], '_label' );
+        const parentView = Ember.get( env.data.view, '_parentView' );
+
+        params[ 0 ] = parentView[ label ];
 
         return Ember.Handlebars.helpers.render.helperFunction(
             params, hash, options, env
