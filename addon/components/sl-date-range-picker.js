@@ -90,7 +90,8 @@ export default Ember.Component.extend({
             this.$( '.sl-daterange-start-date input' ).on( 'change', () => {
                 endDateInput.focus();
             });
-        }),
+        }
+    ),
 
     /**
      * Remove events
