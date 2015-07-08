@@ -52,11 +52,3 @@ test( "Listen, unlisten, and trigger methods' bindings work", function( assert )
     // This test should not cause any other assertions
     service.trigger( 'test', message );
 });
-
-test( 'Unlisten method returns false when nothing is listening for it', function( assert ) {
-    assert.strictEqual(
-        service.unlisten( 'test', this ),
-        false,
-        'Unlisten returns false as expected'
-    );
-});

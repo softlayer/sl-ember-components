@@ -51,12 +51,9 @@
     <pre>Ember.Component.extend({
     // ...
 
-    teardown: Ember.on(
-        'willDestroyElement',
-        function() {
-            this.get( 'eventService' ).unlisten( 'demo.sayHello', this );
-        }
-    )
+    teardown: Ember.on( 'willDestroyElement', function() {
+        this.get( 'eventService' ).unlisten( 'demo.sayHello', this );
+    })
 });</pre>
 </section>
 

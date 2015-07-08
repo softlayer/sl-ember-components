@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { error, warn } from '../utils/logger';
 
 /**
  * @module
@@ -23,11 +24,10 @@ export default Ember.Service.extend( Ember.Evented, {
      * @returns {Boolean} - True unless an error state is encountered
      */
     listen( eventName, object ) {
-        let events = this.get( 'events' );
+        const events = this.get( 'events' );
 
         if ( !events ) {
-            window.console.error( '`events` is undefined' );
-            return false;
+            return error( '`events` is undefined' );
         }
 
         if ( events.hasOwnProperty( eventName ) ) {
@@ -43,22 +43,24 @@ export default Ember.Service.extend( Ember.Evented, {
      * Trigger the named event with the supplied data
      *
      * @function
-     * @param {String} eventName - The name of the event to send to its listeners
+     * @param {String} eventName - The name of the event to send to
+     *        its listeners
      * @param {*} data - Any data to pass onto the listener
      * @returns {Boolean} - True unless an error state is encountered
      */
     trigger( eventName, data ) {
-        let events = this.get( 'events' );
+        const events = this.get( 'events' );
 
         if ( !events ) {
-            window.console.error( '`events` is undefined' );
-            return false;
+            return error( '`events` is undefined' );
         }
 
-        if ( events.hasOwnProperty( eventName ) ) {
-            for ( let object of events[ eventName ] ) {
-                object.trigger( eventName, data );
-            }
+        if ( !events.hasOwnProperty( eventName ) ) {
+            return warn( `No bound listeners for "${eventName}"` );
+        }
+
+        for ( const object of events[ eventName ] ) {
+            object.trigger( eventName, data );
         }
 
         return true;
@@ -73,26 +75,26 @@ export default Ember.Service.extend( Ember.Evented, {
      * @returns {Boolean} - True unless an error state is encountered
      */
     unlisten( eventName, object ) {
-        let events = this.get( 'events' );
+        const events = this.get( 'events' );
 
         if ( !events.hasOwnProperty( eventName ) ) {
-            Ember.Logger.error( `No bound listeners for "${eventName}"` );
-            return false;
+            return warn( `No bound listeners for "${eventName}"` );
         }
 
-        let objects = events[ eventName ];
+        const objects = events[ eventName ];
 
-        while ( true ) {
-            let index = objects.indexOf( object );
+        let index;
+        do {
+            index = objects.indexOf( object );
 
             if ( index > -1 ) {
                 objects.splice( index, 1 );
             } else {
                 break;
             }
-        }
+        } while ( 0 > index )
 
-        if ( objects.length === 0 ) {
+        if ( 0 === objects.length ) {
             delete events[ eventName ];
         }
 

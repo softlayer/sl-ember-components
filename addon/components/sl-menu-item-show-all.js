@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import SlMenuItem from './sl-menu-item';
 import layout from '../templates/components/sl-menu-item-show-all';
 
@@ -29,10 +30,12 @@ export default SlMenuItem.extend({
      * @function
      * @returns {undefined}
      */
-    mouseEnter() {
-        this._super();
-        this.sendAction( 'onMouseEnter' );
-    }
+    handleMouseEnter: Ember.on(
+        'mouseEnter',
+        function() {
+            this.sendAction( 'onMouseEnter' );
+        }
+    )
 
     // -------------------------------------------------------------------------
     // Properties

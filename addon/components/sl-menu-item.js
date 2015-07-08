@@ -44,7 +44,7 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         clickLink() {
-            let action = this.get( 'item.action' );
+            const action = this.get( 'item.action' );
 
             if ( action ) {
                 this.sendAction( 'action', action, this.get( 'item.data' ) );
@@ -116,10 +116,10 @@ export default Ember.Component.extend({
     subItems: Ember.computed(
         'item',
         function() {
-            let subItems = this.get( 'item.items' );
+            const subItems = this.get( 'item.items' );
 
             if ( subItems ) {
-                return Ember.A( subItems );
+                return new Ember.A( subItems );
             }
         }
     )
