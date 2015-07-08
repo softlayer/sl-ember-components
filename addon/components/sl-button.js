@@ -160,12 +160,14 @@ export default Ember.Component.extend( TooltipEnabled, {
         'pending',
         'pendingLabel',
         function() {
-            let pendingLabel = this.get( 'pendingLabel' );
+            const pendingLabel = this.get( 'pendingLabel' );
+
             if ( this.get( 'pending' ) && pendingLabel ) {
                 return pendingLabel;
             }
 
-            let label = this.get( 'label' );
+            const label = this.get( 'label' );
+
             if ( label ) {
                 return label;
             }
@@ -183,11 +185,13 @@ export default Ember.Component.extend( TooltipEnabled, {
     sizeClass: Ember.computed(
         'size',
         function() {
-            let size = this.get( 'size' );
+            const size = this.get( 'size' );
 
             Ember.assert(
                 'Error: Invalid size value',
-                Object.keys( SIZE ).map( ( key ) => SIZE[ key ] ).indexOf( size ) > -1
+                Object.keys( SIZE )
+                    .map( ( key ) => SIZE[ key ] )
+                    .indexOf( size ) > -1
             );
 
             let sizeClass;
@@ -220,11 +224,13 @@ export default Ember.Component.extend( TooltipEnabled, {
     themeClass: Ember.computed(
         'theme',
         function() {
-            let theme = this.get( 'theme' );
+            const theme = this.get( 'theme' );
 
             Ember.assert(
                 'Error: Invalid theme value',
-                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+                Object.keys( THEME )
+                    .map( ( key ) => THEME[ key ] )
+                    .indexOf( theme ) > -1
             );
 
             return `btn-${theme}`;

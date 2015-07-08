@@ -585,7 +585,7 @@ export default Ember.Component.extend({
                 parseInt( listFooter.css( 'height' ) ) : 0;
 
             let maxHeight = componentHeight;
-            if ( componentHeight === 'auto' ) {
+            if ( 'auto' === componentHeight ) {
                 maxHeight = Ember.$( window ).innerHeight() -
                     this.$().position().top;
             }

@@ -140,21 +140,26 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         source: ( query, callback ) => {
                             const pattern = new RegExp( query, 'i' );
 
-                            callback( this.get( 'suggestions' ).filter( suggestion => {
-                                let searchCandidate;
+                            callback( this.get( 'suggestions' )
+                                .filter( ( suggestion ) => {
+                                    let searchCandidate;
 
-                                if ( 'object' === Ember.typeOf( suggestion ) ) {
-                                    searchCandidate = Ember.get(
-                                        suggestion,
-                                        namePath
-                                    );
-                                } else {
-                                    searchCandidate = suggestion;
-                                }
+                                    if (
+                                        'object' === Ember.typeOf( suggestion )
+                                    ) {
+                                        searchCandidate = Ember.get(
+                                            suggestion,
+                                            namePath
+                                        );
+                                    } else {
+                                        searchCandidate = suggestion;
+                                    }
 
-                                return searchCandidate ?
-                                    searchCandidate.match( pattern ) : false;
-                            }));
+                                    return searchCandidate ?
+                                        searchCandidate.match( pattern ) :
+                                        false;
+                                })
+                            );
                         }
                     });
 

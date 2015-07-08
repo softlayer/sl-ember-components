@@ -34,7 +34,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Properties
 
     /**
-     * Whether or not to close the datepicker immediately when a date is selected
+     * Whether or not to close the datepicker immediately when a date
+     * is selected
      *
      * @type {Boolean}
      */
@@ -237,7 +238,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     setupDatepicker: Ember.on(
         'didInsertElement',
         function() {
-            let datepicker = this.$( 'input.date-picker' )
+            const datepicker = this.$( 'input.date-picker' )
                 .datepicker( this.get( 'options' ) );
 
             datepicker.on( 'changeDate', () => {

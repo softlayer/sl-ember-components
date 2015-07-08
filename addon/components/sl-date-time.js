@@ -104,7 +104,8 @@ export default Ember.Component.extend( TooltipEnabled, {
         'timezoneString',
         'value',
         function() {
-            return window.moment( this.get( 'value' ) ).format( 'YYYY-MM-DD HH:mm ' ) +
+            return window.moment( this.get( 'value' ) )
+                .format( 'YYYY-MM-DD HH:mm ' ) +
                 this.get( 'timezoneString' );
         }
     ),
@@ -119,7 +120,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         'format',
         'momentValue',
         function() {
-            let momentValue = this.get( 'momentValue' );
+            const momentValue = this.get( 'momentValue' );
             let formattedString = '';
 
             switch ( this.get( 'format' ) ) {
@@ -152,7 +153,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     momentValue: Ember.computed(
         'value',
         function() {
-            return window.moment( this.get( 'value' ) ).locale( this.get( 'locale' ) );
+            return window.moment( this.get( 'value' ) )
+                .locale( this.get( 'locale' ) );
         }
     ),
 
@@ -166,7 +168,8 @@ export default Ember.Component.extend( TooltipEnabled, {
         'timezone',
         'momentValue',
         function() {
-            return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
+            return this.get( 'momentValue' )
+                .tz( this.get( 'timezone' ) ).format( 'z' );
         }
     )
 

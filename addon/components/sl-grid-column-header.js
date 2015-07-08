@@ -42,7 +42,7 @@ export default SlGridCell.extend({
      * @returns {undefined}
      */
     click() {
-        if ( this.get( 'column.sortable' ) === true ) {
+        if ( true === this.get( 'column.sortable' ) ) {
             this.sendAction( 'onClick', this.get( 'column' ) );
         }
     },
@@ -60,21 +60,21 @@ export default SlGridCell.extend({
      * Class name string based on sorted property
      *
      * @function
-     * @returns {String|undefined}
+     * @returns {?String}
      */
     sortedClass: Ember.computed(
         'column.sortAscending',
         'column.sortable',
         function() {
             if ( !this.get( 'column.sortable' ) ) {
-                return;
+                return null;
             }
 
-            let sortAscending = this.get( 'column.sortAscending' );
+            const sortAscending = this.get( 'column.sortAscending' );
 
-            if ( Ember.typeOf( sortAscending ) === 'boolean' ) {
+            if ( 'boolean' === Ember.typeOf( sortAscending ) ) {
                 return 'column-' + (
-                    sortAscending ? 'ascending': 'descending'
+                    sortAscending ? 'ascending' : 'descending'
                 );
             }
         }
@@ -84,22 +84,22 @@ export default SlGridCell.extend({
      * Class name string for the icon on a sortable column
      *
      * @function
-     * @returns {String}
+     * @returns {?String}
      */
     sortIconClass: Ember.computed(
         'column.sortAscending',
         'column.sortable',
         function() {
             if ( !this.get( 'column.sortable' ) ) {
-                return;
+                return null;
             }
 
-            let sortAscending = this.get( 'column.sortAscending' );
+            const sortAscending = this.get( 'column.sortAscending' );
             let iconClass;
 
-            if ( sortAscending === true ) {
+            if ( true === sortAscending ) {
                 iconClass = 'fa-sort-asc';
-            } else if ( sortAscending === false ) {
+            } else if ( false === sortAscending ) {
                 iconClass = 'fa-sort-desc';
             } else {
                 iconClass = 'fa-sort';
