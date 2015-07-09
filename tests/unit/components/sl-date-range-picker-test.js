@@ -134,7 +134,7 @@ test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by defa
         '',
         'End date input placeholder is empty when endDatePlaceholder is undefined'
     );
-})
+});
 
 test( 'label is accepted as a parameter', function( assert ) {
     let labelText = 'lorem ipsum';
