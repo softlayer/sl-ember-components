@@ -214,7 +214,7 @@ test( 'Modal registered on modal service', function( assert ) {
     );
 });
 
-test( 'Backdrop is hidden when property is set to false', function ( assert ) {
+test( 'Backdrop is hidden when backdrop property is set to false', function ( assert ) {
     let openDone = assert.async();
 
     assert.expect( 1 );

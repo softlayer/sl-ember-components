@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 
-moduleForComponent('sl-modal-header', 'Unit | Component | sl modal header', {
+moduleForComponent( 'sl-modal-header', 'Unit | Component | sl modal header', {
     unit: true
 });
 
