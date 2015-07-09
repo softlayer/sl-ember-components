@@ -1,13 +1,12 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import startApp from '../../helpers/start-app';
 
-var columns = Ember.A([
+const columns = new Ember.A([
     { title: 'Name', valuePath: 'name' },
     { title: 'ID', valuePath: 'id' }
 ]);
 
-var content = Ember.A([
+const content = new Ember.A([
     { id: 4, name: 'Alice' },
     { id: 8, name: 'Bob' },
     { id: 15, name: 'Charlie' }
@@ -37,7 +36,7 @@ test( 'Default classes are present', function( assert ) {
 });
 
 test( 'Loading state adds loading class', function( assert ) {
-    var component = this.subject({ columns, content });
+    const component = this.subject({ columns, content });
 
     assert.strictEqual(
         this.$().hasClass( 'sl-loading' ),
@@ -80,7 +79,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
         content,
         sortColumn: 'test',
 
-        columns: Ember.A([{
+        columns: new Ember.A([{
             sortable: true,
             title: 'Name',
             valuePath: 'name'
@@ -102,7 +101,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
 
 test( 'Only primary columns remain visible when detail-pane is open', function( assert ) {
     this.subject({
-        columns: Ember.A([
+        columns: new Ember.A([
             {
                 primary: true,
                 title: 'Name',
@@ -132,9 +131,9 @@ test( 'Only primary columns remain visible when detail-pane is open', function( 
 });
 
 test( 'requestData action is triggered correctly in paginated mode', function( assert ) {
-    var expectedOffset = 1;
+    let expectedOffset = 1;
 
-    var component = this.subject({
+    const component = this.subject({
         columns,
         content,
         pageSize: 1,
@@ -170,7 +169,7 @@ test( 'Actions button label text is settable', function( assert ) {
         actionsButtonLabel: 'Test',
         columns,
         content,
-        rowActions: Ember.A( [ { action: 'test', label: 'Test' } ] )
+        rowActions: new Ember.A( [ { action: 'test', label: 'Test' } ] )
     });
 
     assert.equal(
@@ -181,7 +180,7 @@ test( 'Actions button label text is settable', function( assert ) {
 });
 
 test( 'Auto height is enabled by default', function( assert ) {
-    var component = this.subject({ columns, content });
+    const component = this.subject({ columns, content });
 
     assert.equal(
         component.get( 'height' ),
@@ -191,7 +190,7 @@ test( 'Auto height is enabled by default', function( assert ) {
 });
 
 test( 'Fixed height values are supported', function( assert ) {
-    var totalHeight;
+    let totalHeight;
 
     this.subject({ columns, content, height: 1000 });
     this.render();
@@ -235,8 +234,9 @@ test( 'Continuous mode and requestData are supported', function( assert ) {
 });
 
 test( 'handleNewContent unsets loading state when content data changes', function( assert ) {
-    var myContent = Ember.A();
-    var component = this.subject({
+    const myContent = new Ember.A();
+
+    const component = this.subject({
         columns,
         content: myContent,
         loading: true
@@ -261,7 +261,7 @@ test( 'handleNewContent unsets loading state when content data changes', functio
 });
 
 test( 'Total pages count is computed correctly', function( assert ) {
-    var component = this.subject({
+    const component = this.subject({
         columns,
         content,
         pageSize: 10,
@@ -276,7 +276,7 @@ test( 'Total pages count is computed correctly', function( assert ) {
 });
 
 test( 'Pagination data is handled correctly', function( assert ) {
-    var component = this.subject({
+    const component = this.subject({
         columns,
         content,
         pageSize: 1,
@@ -311,11 +311,11 @@ test( 'Pagination data is handled correctly', function( assert ) {
 });
 
 test( 'Window resize triggers updateHeight() with "auto" width', function( assert ) {
-    var component = this.subject({ columns, content, height: 'auto' });
+    const component = this.subject({ columns, content, height: 'auto' });
 
     this.render();
 
-    let spy = sinon.spy( component, 'updateHeight' );
+    const spy = window.sinon.spy( component, 'updateHeight' );
 
     assert.equal(
         spy.calledOnce,
@@ -333,8 +333,10 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
 });
 
 // These tests require valid registered template paths for proper testing.
-QUnit.skip( 'Sub-template paths are determined correctly' );
-QUnit.skip( 'Toggling detail pane is supported' );
-QUnit.skip( 'Toggling filter pane is supported' );
-QUnit.skip( 'Bindings run for showActions and detail controller actions' );
-QUnit.skip( 'Filter button label text is settable' );
+window.QUnit.skip( 'Sub-template paths are determined correctly' );
+window.QUnit.skip( 'Toggling detail pane is supported' );
+window.QUnit.skip( 'Toggling filter pane is supported' );
+window.QUnit.skip(
+    'Bindings run for showActions and detail controller actions'
+);
+window.QUnit.skip( 'Filter button label text is settable' );

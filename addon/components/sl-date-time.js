@@ -8,11 +8,11 @@ import layout from '../templates/components/sl-date-time';
  * @memberof module:components/sl-date-time
  * @enum {String}
  */
-const FORMAT = {
+const FORMAT = Object.freeze({
     DATE: 'date',
     DATETIME: 'datetime',
     RELATIVE: 'relative'
-};
+});
 export { FORMAT };
 
 /**

@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
@@ -109,7 +108,7 @@ test( '"title" property needs to be a string', function( assert ) {
 
     try {
         this.subject({
-            title: function(){}
+            title: function() {}
         });
     } catch( error ) {
         assertionThrown = true;
@@ -160,7 +159,7 @@ test( '"title" property needs to be a string', function( assert ) {
 
     try {
         this.subject({
-            title: "Tooltip Text"
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -196,7 +195,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
     try {
         this.subject({
             popover: 3,
-            title: "Tooltip Text"
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -215,7 +214,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
     try {
         this.subject({
             popover: true,
-            title: "Tooltip Text"
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -233,7 +232,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
     try {
         this.subject({
             popover: [],
-            title: "Tooltip Text"
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -250,8 +249,8 @@ test( '"popover" property needs to be a string or undefined', function( assert )
 
     try {
         this.subject({
-            popover: function(){},
-            title: "Tooltip Text"
+            popover() {},
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -269,7 +268,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
     try {
         this.subject({
             popover: {},
-            title: "Tooltip Text"
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -286,8 +285,8 @@ test( '"popover" property needs to be a string or undefined', function( assert )
 
     try {
         this.subject({
-            popover: "Popover Text",
-            title: "Tooltip Text"
+            popover: 'Popover Text',
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -304,8 +303,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
 
     try {
         this.subject({
-            popover: undefined,
-            title: "Tooltip Text"
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -313,6 +311,6 @@ test( '"popover" property needs to be a string or undefined', function( assert )
 
     assert.ok(
         !assertionThrown,
-        'Property was Undefined'
+        'Property was undefined'
     );
 });

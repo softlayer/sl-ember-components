@@ -8,12 +8,12 @@ import layout from '../templates/components/sl-alert';
  * @memberof module:components/sl-alert
  * @enum {String}
  */
-const THEME = {
+const THEME = Object.freeze({
     DANGER: 'danger',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
-};
+});
 export { THEME };
 
 /**

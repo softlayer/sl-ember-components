@@ -22,7 +22,7 @@ export default Ember.ArrayController.extend({
         }
     },
 
-    columns: Ember.A([
+    columns: new Ember.A([
         {
             primary: true,
             size: 'small',
@@ -41,7 +41,7 @@ export default Ember.ArrayController.extend({
         }
     ]),
 
-    rowActions: Ember.A([
+    rowActions: new Ember.A([
         {
             label: 'Alert',
             action: 'sendAlert'

@@ -1,23 +1,21 @@
-/* globals alert */
-
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
     actions: {
-        alertRed: function() {
-            alert( 'Red!' );
+        alertRed() {
+            window.alert( 'Red!' );
         },
 
-        alertGreen: function() {
-            alert( 'Green!' );
+        alertGreen() {
+            window.alert( 'Green!' );
         },
 
-        alertBlue: function() {
-            alert( 'Blue!' );
+        alertBlue() {
+            window.alert( 'Blue!' );
         },
 
-        alertWhite: function() {
-            alert( 'White!' );
+        alertWhite() {
+            window.alert( 'White!' );
         }
     }
 });

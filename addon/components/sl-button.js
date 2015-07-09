@@ -8,12 +8,12 @@ import layout from '../templates/components/sl-button';
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const SIZE = {
+const SIZE = Object.freeze({
     EXTRA_SMALL: 'extra-small',
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
-};
+});
 export { SIZE };
 
 /**
@@ -22,7 +22,7 @@ export { SIZE };
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const THEME = {
+const THEME = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     HOVER: 'hover',
@@ -31,7 +31,7 @@ const THEME = {
     PRIMARY: 'primary',
     SUCCESS: 'success',
     WARNING: 'warning'
-};
+});
 export { THEME };
 
 /**

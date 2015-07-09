@@ -36,11 +36,13 @@ test( 'If "label" property is not populated, label element is not rendered', fun
 });
 
 test( 'If "label" property is populated, label element is rendered', function( assert ) {
-    var labelText = 'Test Label',
-        component = this.subject({ label: labelText }),
-        label;
+    const labelText = 'Test Label';
 
-    label = this.$( 'label[for="' + this.$( 'textarea' ).prop( 'id' ) + '"]' );
+    this.subject({ label: labelText });
+
+    const label = this.$(
+        'label[for="' + this.$( 'textarea' ).prop( 'id' ) + '"]'
+    );
 
     assert.equal( label.length, 1, 'Label is present' );
     assert.equal(
@@ -51,10 +53,11 @@ test( 'If "label" property is populated, label element is rendered', function( a
 });
 
 test( 'If "label" property is populated, "for" attribute is expected value', function( assert ) {
-    var labelText = 'Test Label',
-        component = this.subject({
-            label: labelText
-        });
+    const labelText = 'Test Label';
+
+    this.subject({
+        label: labelText
+    });
 
     assert.equal(
         this.$( 'label' ).prop( 'for' ),
@@ -64,7 +67,7 @@ test( 'If "label" property is populated, "for" attribute is expected value', fun
 });
 
 test( 'If "label" property is not populated, "optional" and "required" elements are not rendered even if populated', function( assert ) {
-    var component = this.subject({
+    this.subject({
         optional: true,
         required: true
     });
@@ -83,7 +86,7 @@ test( 'If "label" property is not populated, "optional" and "required" elements 
 });
 
 test( '"optional" and "required" elements are rendered if populated along with "label" property', function( assert ) {
-    var component = this.subject({
+    this.subject({
         label: 'Test Label',
         optional: true,
         required: true
@@ -103,8 +106,9 @@ test( '"optional" and "required" elements are rendered if populated along with "
 });
 
 test( '"helpText" is rendered if populated', function( assert ) {
-    var helpText = 'Help Text',
-        component = this.subject({ helpText });
+    const helpText = 'Help Text';
+
+    this.subject({ helpText });
 
     assert.equal(
         this.$( '.help-block' ).prop( 'tagName' ),
@@ -120,7 +124,7 @@ test( '"helpText" is rendered if populated', function( assert ) {
 });
 
 test( '"autofocus" property is supported', function( assert ) {
-    var component = this.subject({ autofocus: true });
+    this.subject({ autofocus: true });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'autofocus' ),
@@ -130,8 +134,9 @@ test( '"autofocus" property is supported', function( assert ) {
 });
 
 test( '"cols" property is supported', function( assert ) {
-    var cols = '8',
-        component = this.subject({ cols });
+    const cols = '8';
+
+    this.subject({ cols });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'cols' ),
@@ -141,7 +146,7 @@ test( '"cols" property is supported', function( assert ) {
 });
 
 test( '"disabled" property is supported', function( assert ) {
-    var component = this.subject({ disabled: true });
+    this.subject({ disabled: true });
 
     assert.ok(
         this.$( 'textarea' ).is( ':disabled' ),
@@ -150,8 +155,9 @@ test( '"disabled" property is supported', function( assert ) {
 });
 
 test( '"maxlength" property is supported', function( assert ) {
-    var maxlength = '12',
-        component = this.subject({ maxlength });
+    const maxlength = '12';
+
+    this.subject({ maxlength });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'maxlength' ),
@@ -161,8 +167,9 @@ test( '"maxlength" property is supported', function( assert ) {
 });
 
 test( '"placeholder" property is supported', function( assert ) {
-    var placeholder = 'Placeholder text',
-        component = this.subject({ placeholder });
+    const placeholder = 'Placeholder text';
+
+    this.subject({ placeholder });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'placeholder' ),
@@ -172,7 +179,7 @@ test( '"placeholder" property is supported', function( assert ) {
 });
 
 test( '"readonly" property is supported', function( assert ) {
-    var component = this.subject({ readonly: true });
+    this.subject({ readonly: true });
 
     assert.ok(
         this.$( 'textarea' ).prop( 'readonly' ),
@@ -181,8 +188,9 @@ test( '"readonly" property is supported', function( assert ) {
 });
 
 test( '"rows" property is supported', function( assert ) {
-    var rows = '4',
-        component = this.subject({ rows });
+    const rows = '4';
+
+    this.subject({ rows });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'rows' ),
@@ -192,7 +200,7 @@ test( '"rows" property is supported', function( assert ) {
 });
 
 test( '"selectionDirection" is supported', function( assert ) {
-    var component = this.subject({
+    this.subject({
         selectionDirection: 'backward'
     });
 
@@ -204,8 +212,9 @@ test( '"selectionDirection" is supported', function( assert ) {
 });
 
 test( '"selectionEnd" is supported', function( assert ) {
-    var selectionEnd = '10',
-        component = this.subject({ selectionEnd });
+    const selectionEnd = '10';
+
+    this.subject({ selectionEnd });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'selectionEnd' ),
@@ -215,8 +224,9 @@ test( '"selectionEnd" is supported', function( assert ) {
 });
 
 test( '"selectionStart" is supported', function( assert ) {
-    var selectionStart = '10',
-        component = this.subject({ selectionStart });
+    const selectionStart = '10';
+
+    this.subject({ selectionStart });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'selectionStart' ),
@@ -226,8 +236,9 @@ test( '"selectionStart" is supported', function( assert ) {
 });
 
 test( '"spellcheck" property is supported', function( assert ) {
-    var spellcheck = 'true',
-        component = this.subject({ spellcheck });
+    const spellcheck = 'true';
+
+    this.subject({ spellcheck });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'spellcheck' ),
@@ -237,8 +248,9 @@ test( '"spellcheck" property is supported', function( assert ) {
 });
 
 test( '"tabindex" property is supported', function( assert ) {
-    var tabindex = '2',
-        component = this.subject({ tabindex });
+    const tabindex = '2';
+
+    this.subject({ tabindex });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'tabindex' ),
@@ -248,8 +260,9 @@ test( '"tabindex" property is supported', function( assert ) {
 });
 
 test( '"wrap" property is supported', function( assert ) {
-    var wrap = 'hard',
-        component = this.subject({ wrap });
+    const wrap = 'hard';
+
+    this.subject({ wrap });
 
     assert.equal(
         this.$( 'textarea' ).attr( 'wrap' ),
@@ -259,8 +272,9 @@ test( '"wrap" property is supported', function( assert ) {
 });
 
 test( '"value" property is supported', function( assert ) {
-    var value = 'Bound Value',
-        component = this.subject({ value });
+    const value = 'Bound Value';
+
+    this.subject({ value });
 
     assert.equal(
         this.$( 'textarea' ).val(),

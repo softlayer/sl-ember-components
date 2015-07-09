@@ -14,10 +14,10 @@ test( 'Expected Mixins are present', function( assert ) {
 });
 
 test( '"buttonText" property defaults to a non-empty string', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.ok(
-        Ember.typeOf( component.get( 'buttonText' ) ) === 'string',
+        'string' === Ember.typeOf( component.get( 'buttonText' ) ),
         '"buttonText" must default to a non-empty string'
     );
 
@@ -38,18 +38,16 @@ test( '"buttonText" property displays correctly', function( assert ) {
 });
 
 test( '"show" property defaults to false', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.ok(
-        component.get( 'show' ) === false,
+        false === component.get( 'show' ),
         '"show" should default to false'
     );
 });
 
 test( 'Correct DOM structure is in place', function( assert ) {
-    var component = this.subject({
-        title: 'Test Title'
-    });
+    this.subject({ title: 'Test Title' });
 
     assert.equal(
         this.$().prop( 'firstChild' ).nodeName,
@@ -114,15 +112,16 @@ test( 'Correct DOM structure is in place', function( assert ) {
 
 test( 'If "title" property is not populated, span with "modal-title" class is not rendered', function( assert ) {
     assert.equal(
-        this.$( '.modal-title').length,
+        this.$( '.modal-title' ).length,
         0,
         'Rendered component does not contain modal-title'
     );
 });
 
 test( '"title" is rendered as span with "modal-title" class if populated', function( assert ) {
-    var testTitle = 'Test Title',
-        component = this.subject({ title: testTitle });
+    const testTitle = 'Test Title';
+
+    this.subject({ title: testTitle });
 
     assert.equal(
         this.$( 'span.modal-title' ).length,
@@ -131,14 +130,14 @@ test( '"title" is rendered as span with "modal-title" class if populated', funct
     );
 
     assert.equal(
-        Ember.$.trim( $('.modal-title').text() ),
+        Ember.$.trim( this.$( '.modal-title' ).text() ),
         testTitle,
         'Rendered modal-title contains expected text'
     );
 });
 
 test( 'The "show" property toggles the Bootstrap classes', function( assert ) {
-    var component = this.subject({ animated: false });
+    const component = this.subject({ animated: false });
 
     assert.strictEqual(
         component.get( 'show' ),
@@ -173,7 +172,7 @@ test( 'The "show" property toggles the Bootstrap classes', function( assert ) {
 });
 
 test( 'hideHandler properly handles hiding', function( assert ) {
-    var component = this.subject({ show: true });
+    const component = this.subject({ show: true });
 
     assert.ok(
         component.get( 'show' ),

@@ -6,7 +6,7 @@ moduleForComponent( 'sl-grid-column-header', 'Unit | Component | sl grid column 
 });
 
 test( 'Sortable column class is present when column is sortable', function( assert ) {
-    var column = {};
+    const column = {};
 
     this.subject({ column });
 
@@ -28,7 +28,7 @@ test( 'Sortable column class is present when column is sortable', function( asse
 });
 
 test( 'Sorted class is present when column is in sorted state', function( assert ) {
-    var column = {};
+    const column = {};
 
     this.subject({ column });
 
@@ -79,8 +79,8 @@ test( 'Sorted class is present when column is in sorted state', function( assert
 });
 
 test( 'Sort icon is set correctly for sortable columns', function( assert ) {
-    var column = { sortable: true },
-        component = this.subject({ column });
+    const column = { sortable: true };
+    const component = this.subject({ column });
 
     assert.equal(
         component.get( 'sortIconClass' ),
@@ -110,8 +110,9 @@ test( 'Sort icon is set correctly for sortable columns', function( assert ) {
 });
 
 test( 'Click event returns column with sortable column', function( assert ) {
-    var column = {};
-    var targetObject = {
+    const column = {};
+
+    const targetObject = {
         test() {
             assert.ok(
                 false,

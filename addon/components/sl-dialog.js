@@ -68,7 +68,7 @@ export default Ember.Component.extend( ModalMixin, {
      * @returns {undefined}
      */
     hideHandler() {
-        this._super();
+        this.get( '_super' )();
         this.set( 'show', false );
     }
 

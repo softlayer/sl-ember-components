@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
-    model: function() {
+    model() {
         return {
             label: null,
             pages: [
@@ -11,13 +11,19 @@ export default Ember.Route.extend({
                     pages: [
                         {
                             label: 'Red',
-                            action() { alert( 'The color RED' ); }
+                            action() {
+                                window.alert( 'The color RED' );
+                            }
                         }, {
                             label: 'Green',
-                            action() { alert( 'The color GREEN' ); }
+                            action() {
+                                window.alert( 'The color GREEN' );
+                            }
                         }, {
                             label: 'Blue',
-                            action() { alert( 'The color BLUE' ); }
+                            action() {
+                                window.alert( 'The color BLUE' );
+                            }
                         }
                     ]
                 }, {
@@ -56,7 +62,7 @@ export default Ember.Route.extend({
                                         actionName: 'number clicked',
                                         data: '5'
                                     }
-                                },
+                                }
                             ]
                         }, {
                             label: '6-10',

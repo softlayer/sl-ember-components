@@ -5,11 +5,11 @@ moduleForComponent( 'sl-grid-cell', 'Unit | Component | sl grid cell', {
     unit: true
 });
 
-var defaultColumn = { valuePath: 'value' };
-var defaultRow = { value: 'Test' };
+const defaultColumn = { valuePath: 'value' };
+const defaultRow = { value: 'Test' };
 
 test( 'Column alignment class is applied', function( assert ) {
-    var column = Object.create( defaultColumn );
+    const column = Object.create( defaultColumn );
 
     this.subject({ column, row: defaultRow });
 
@@ -30,7 +30,7 @@ test( 'Column alignment class is applied', function( assert ) {
 });
 
 test( 'Primary column class is applied', function( assert ) {
-    var column = Object.create( defaultColumn );
+    const column = Object.create( defaultColumn );
 
     this.subject({ column, row: defaultRow });
 
@@ -46,13 +46,14 @@ test( 'Primary column class is applied', function( assert ) {
 
     assert.ok(
         this.$().hasClass( 'primary-column' ),
-        'Component has expected class "primary-column" with primary column definition'
+        'Component has expected class "primary-column" with primary' +
+        ' column definition'
     );
 });
 
 test( 'Column size values are supported', function( assert ) {
-    var column = Object.create( defaultColumn );
-    var component = this.subject({ column, row: defaultRow });
+    const column = Object.create( defaultColumn );
+    const component = this.subject({ column, row: defaultRow });
 
     assert.equal(
         Ember.typeOf( component.get( 'sizeClass' ) ),
@@ -94,7 +95,11 @@ test( 'Click event action is supported', function( assert ) {
 
         targetObject: {
             test( row ) {
-                assert.equal( row, defaultRow, 'Click event sent expected value' );
+                assert.equal(
+                    row,
+                    defaultRow,
+                    'Click event sent expected value'
+                );
             }
         }
     });

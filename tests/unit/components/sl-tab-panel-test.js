@@ -2,7 +2,9 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
-    needs: [ 'component:sl-tab-pane' ],
+    needs: [
+        'component:sl-tab-pane'
+    ],
 
     unit: true
 });
@@ -20,15 +22,15 @@ test( 'Expected default classes are applied', function( assert ) {
 });
 
 test( 'setupTabs() does so correctly', function( assert ) {
-    var component = this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-        )
+    const component = this.subject({
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
+        ` )
     });
 
-    var done = assert.async();
+    const done = assert.async();
 
     assert.expect( 5 );
 
@@ -71,11 +73,11 @@ test( 'setupTabs() does so correctly', function( assert ) {
 
 test( 'ARIA roles are implemented', function( assert ) {
     this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-        )
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
+        ` )
     });
 
     assert.equal(
@@ -85,23 +87,23 @@ test( 'ARIA roles are implemented', function( assert ) {
     );
 
     assert.equal(
-        this.$('.tab a[role="tab"]' ).length,
+        this.$( '.tab a[role="tab"]' ).length,
         3,
         'Rendered component has three <a> with "tab" ARIA role'
     );
 });
 
 test( '"initialTabName" property is respected', function( assert ) {
-    var component = this.subject({
+    const component = this.subject({
         initialTabName: 'b',
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-        )
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
+        ` )
     });
 
-    var done = assert.async();
+    const done = assert.async();
 
     assert.expect( 2 );
 
@@ -136,18 +138,18 @@ test( '"alignTabs" property is respected', function( assert ) {
 });
 
 test( 'Tabs display in expected order when "alignTabs" property is not specified', function( assert ) {
-    var labels = [];
+    const labels = [];
 
     this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-        )
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
+        ` )
     });
 
     this.$( '.tab[data-tab-name]' ).each( function() {
-        labels.push( $( this ).attr( 'data-tab-name' ) );
+        labels.push( Ember.$( this ).attr( 'data-tab-name' ) );
     });
 
     assert.deepEqual(
@@ -157,15 +159,15 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
 });
 
 test( 'Clicking tab changes active tab', function( assert ) {
-    var component = this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-        )
+    const component = this.subject({
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
+        ` )
     });
 
-    var done = assert.async();
+    const done = assert.async();
 
     assert.expect( 2 );
 
@@ -189,16 +191,18 @@ test( 'Clicking tab changes active tab', function( assert ) {
 });
 
 test( 'Tab content height is adjusted after new tab selection', function( assert ) {
-    var component = this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content<br><br>Taller content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}'
-        )
+    const component = this.subject({
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}
+                B content<br><br>Taller content
+            {{/sl-tab-pane}}
+            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
+        ` )
     });
 
-    var done = assert.async();
-    var initialHeight;
+    const done = assert.async();
+    let initialHeight;
 
     assert.expect( 1 );
 
@@ -221,15 +225,15 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
 });
 
 test( '"activatePane" animates as expected', function( assert ) {
-    var component = this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
-        )
+    const component = this.subject({
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+        ` )
     });
 
-    var spy = sinon.spy( Ember.$.prototype, 'fadeIn' );
-    var done = assert.async();
+    const spy = window.sinon.spy( Ember.$.prototype, 'fadeIn' );
+    const done = assert.async();
 
     this.render();
 
@@ -245,14 +249,14 @@ test( '"activatePane" animates as expected', function( assert ) {
 });
 
 test( '"deactivatePane" animates as expected', function( assert ) {
-    var component = this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
-        )
+    const component = this.subject({
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+        ` )
     });
-    var spy = sinon.spy( Ember.$.prototype, 'fadeOut' );
-    var done = assert.async();
+    const spy = window.sinon.spy( Ember.$.prototype, 'fadeOut' );
+    const done = assert.async();
 
     assert.expect( 1 );
 
@@ -270,15 +274,15 @@ test( '"deactivatePane" animates as expected', function( assert ) {
 });
 
 test( '"deactivatePane" calls specified callback', function( assert ) {
-    var component = this.subject({
-        template: Ember.Handlebars.compile(
-            '{{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '{{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}'
-        )
+    const component = this.subject({
+        template: Ember.Handlebars.compile( `
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
+        ` )
     });
 
-    var callback = sinon.spy();
-    var done = assert.async();
+    const callback = window.sinon.spy();
+    const done = assert.async();
 
     this.render();
 

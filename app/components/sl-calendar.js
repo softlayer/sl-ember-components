@@ -1,3 +1,1 @@
-import SlCalendar from 'sl-ember-components/components/sl-calendar';
-
-export default SlCalendar;
+export { default } from 'sl-ember-components/components/sl-calendar';

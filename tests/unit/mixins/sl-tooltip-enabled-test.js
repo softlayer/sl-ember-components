@@ -1,54 +1,57 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import { test } from 'ember-qunit';
 
 let temporaryData;
-let jQueryMock = function() {
+const jQueryMock = function() {
     return {
         attr( property, value ) {
             if ( !value ) {
                 return temporaryData[ property ];
-            } else {
-                temporaryData[ property ] = value;
             }
+
+            temporaryData[ property ] = value;
         },
+
         tooltip( value ) {
             temporaryData.tooltip = value;
         },
+
         popover( value ) {
             temporaryData.popover = value;
         }
     };
 };
 
-module( 'Unit | Mixin | sl tooltip enabled', {
+window.module( 'Unit | Mixin | sl tooltip enabled', {
     beforeEach() {
         temporaryData = {};
     }
 });
 
 test( 'Successfully mixed', function( assert ) {
-    let testObject = Ember.Object.extend( mixinUnderTest) ;
-    let subject = testObject.create();
+    const testObject = Ember.Object.extend( mixinUnderTest );
+    const subject = testObject.create();
 
     assert.ok( subject );
 });
 
-QUnit.skip( 'enable() - observes correct properties', function( assert ) {
+window.QUnit.skip( 'enable() - observes correct properties', function() {
     // Can use ._dependentKeys in 2.0
 });
 
-QUnit.skip( 'enable() - listens to correct event', function( assert ) {
+window.QUnit.skip( 'enable() - listens to correct event', function() {
     // Waiting to see if an easier way in 2.0
 });
 
 test( 'enable() - popover defined calls enablePopover()', function( assert ) {
-    let testObject = Ember.Object.extend( mixinUnderTest, {
+    const testObject = Ember.Object.extend( mixinUnderTest, {
         popover: 'Popover Text'
     });
-    let subject = testObject.create();
+    const subject = testObject.create();
 
-    subject.enablePopover = sinon.spy();
-    subject.enableTooltip = sinon.spy();
+    subject.enablePopover = window.sinon.spy();
+    subject.enableTooltip = window.sinon.spy();
 
     subject.enable();
 
@@ -68,13 +71,13 @@ test( 'enable() - popover defined calls enablePopover()', function( assert ) {
 
 
 test( 'enable() - title defined calls enableTooltip()', function( assert ) {
-    let testObject = Ember.Object.extend( mixinUnderTest, {
+    const testObject = Ember.Object.extend( mixinUnderTest, {
         title: 'Tooltip Text'
     });
-    let subject = testObject.create();
+    const subject = testObject.create();
 
-    subject.enablePopover = sinon.spy();
-    subject.enableTooltip = sinon.spy();
+    subject.enablePopover = window.sinon.spy();
+    subject.enableTooltip = window.sinon.spy();
 
     subject.enable();
 
@@ -94,12 +97,12 @@ test( 'enable() - title defined calls enableTooltip()', function( assert ) {
 
 
 test( 'enabledTooltip() - Renders tooltip', function( assert ) {
-    let testTitle = 'Tooltip Text';
-    let testObject = Ember.Object.extend( mixinUnderTest, {
+    const testTitle = 'Tooltip Text';
+    const testObject = Ember.Object.extend( mixinUnderTest, {
         title: testTitle,
         $: jQueryMock
     });
-    let subject = testObject.create();
+    const subject = testObject.create();
 
     subject.enableTooltip();
 
@@ -123,12 +126,12 @@ test( 'enabledTooltip() - Renders tooltip', function( assert ) {
 });
 
 test( 'enabledTooltip() - Title is reset', function( assert ) {
-    let testTitle = 'Tooltip Text';
-    let testObject = Ember.Object.extend( mixinUnderTest, {
+    const testTitle = 'Tooltip Text';
+    const testObject = Ember.Object.extend( mixinUnderTest, {
         title: testTitle,
         $: jQueryMock
     });
-    let subject = testObject.create();
+    const subject = testObject.create();
 
     subject.$().attr(
         'data-original-title',
@@ -143,12 +146,12 @@ test( 'enabledTooltip() - Title is reset', function( assert ) {
 });
 
 test( 'enablePopover() - Renders popover', function( assert ) {
-    let testContent = 'Popover Text';
-    let testObject = Ember.Object.extend( mixinUnderTest, {
+    const testContent = 'Popover Text';
+    const testObject = Ember.Object.extend( mixinUnderTest, {
         popover: testContent,
         $: jQueryMock
     });
-    let subject = testObject.create();
+    const subject = testObject.create();
 
     subject.enablePopover();
 
@@ -172,14 +175,14 @@ test( 'enablePopover() - Renders popover', function( assert ) {
 });
 
 test( 'enablePopover() - Title is reset', function( assert ) {
-    let testTitle = 'Popover Text';
-    let testContent = 'Popover Content';
-    let testObject = Ember.Object.extend( mixinUnderTest, {
+    const testTitle = 'Popover Text';
+    const testContent = 'Popover Content';
+    const testObject = Ember.Object.extend( mixinUnderTest, {
         title: testTitle,
         popover: testContent,
         $: jQueryMock
     });
-    let subject = testObject.create();
+    const subject = testObject.create();
 
     subject.$().attr(
         'data-original-title',
