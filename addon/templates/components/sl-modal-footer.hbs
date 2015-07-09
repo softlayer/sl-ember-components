@@ -1,12 +1,9 @@
 <div class="modal-footer">
   {{#if template}}
     {{yield}}
-  {{else}}      
-        <button
-        class="btn btn-primary"
-        data-dismiss="modal"
-    >
-        {{buttonText}}
-        </button>
+  {{else}}
+       <button class="btn btn-primary" data-dismiss="modal">
+           {{buttonText}}
+       </button>
   {{/if}}
 </div>

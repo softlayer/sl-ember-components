@@ -2,19 +2,24 @@ import Ember from 'ember';
 
 /**
  * @module
+ * @augments ember/Service
  */
 export default Ember.Service.extend({
 
     /**
-    * @type {Object}
-    */
+     * Object used to store modal references
+     *
+     * @type {Object}
+     */
     modals: {},
 
     /**
-    * @function
-    * @param {String} name - The unique name of the component to find
-    * @returns {?ember/Component}
-    */
+     * Find modal by name
+     *
+     * @function
+     * @param {String} name - The unique name of the component to find
+     * @returns {?ember/Component}
+     */
     find( name ) {
        return this.get( `modals.${name}` );
     },
@@ -23,10 +28,10 @@ export default Ember.Service.extend({
      * Get all open modals
      *
      * @function
-     * @returns {array ember/Component}
+     * @returns {Array}
      */
     getOpenModals() {
-        let modals = this.modals;
+        let modals = this.get( 'modals' );
         let openModals = [];
 
         for( let key in modals ) {
@@ -47,7 +52,7 @@ export default Ember.Service.extend({
      * @returns {undefined}
      */
     hideAll() {
-        let modals = this.modals;
+        let modals = this.get( 'modals' );
 
         for ( let key in modals ) {
             let modal = modals[ key ];
@@ -56,29 +61,36 @@ export default Ember.Service.extend({
     },
 
     /**
-     * Register a modal component by name
+     * Register a modal component
      *
+     * @param {ember/Component} modal
      * @function
      * @returns {undefined}
      */
-    register( modal, name ) {
-        let registeredModal = this.find( name );
+    register( modal ) {
+        let name = modal.get( 'name' );
 
         Ember.assert(
             `Error: Component with name "${name}" has already been registered`,
-            !registeredModal
+            !this.find( name )
         );
 
         this.set( `modals.${name}`, modal );
     },
 
     /**
-     * Unregister a modal component, by name
+     * Unregister a modal component
      *
+     * @param {ember/Component} modal
      * @function
      * @returns {undefined}
-     * */
-    unregister( name ) {
-        this.set( `modals.${name}` );
+     */
+    unregister( modal ) {
+        let modals = this.get( 'modals' );
+        let name = modal.get( 'name' );
+
+        if ( name in modals ) {
+            delete modals[ name ];
+        }
     }
 });

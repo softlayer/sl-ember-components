@@ -4,10 +4,18 @@ import ModalService from 'sl-ember-components/services/sl-modal';
 
 let service = ModalService.create();
 
-let MockModal = Ember.Object.extend({
-    name: 'mock',
-    isOpen: true
-});
+let MockModal = function( name, isOpen ) {
+    this.name = name;
+    this.isOpen = isOpen;
+
+    this.get = function( prop ) {
+        return this[prop];
+    };
+
+    this.hide = function() {};
+};
+
+let mockModal = new MockModal( 'mock', true );
 
 moduleFor( 'service:sl-modal', 'Unit | Service | sl modal', {
     unit: true,
@@ -18,40 +26,63 @@ moduleFor( 'service:sl-modal', 'Unit | Service | sl modal', {
     }
 });
 
-test( 'Register a modal and find it', function( assert ) {
-    let mockModal = MockModal.create();
+test( 'Register modal', function( assert ) {
+    service.register( mockModal );
 
-    service.register( mockModal, mockModal.name );
+    let modals = service.modals;
+
+    assert.ok(
+        mockModal.name in modals
+    );
+});
+
+test( 'Find modal', function( assert ) {
+    service.set( `modals.${mockModal.name}`, mockModal );
 
     let modal = service.find( mockModal.name );
 
-    assert.equal( modal.name, mockModal.name );
+    assert.equal(
+        modal.name,
+        mockModal.name
+    );
 });
 
 test( 'Registering the same modal twice throws an error', function( assert ) {
-    let mockModal = MockModal.create();
+    let errorThrown = false;
 
     try {
         service.register( mockModal, mockModal.name );
         service.register( mockModal, mockModal.name );
     } catch( error ) {
-        assert.ok( true, 'Error thrown' );
+        errorThrown = true;
     }
+
+    assert.ok( errorThrown );
+});
+
+test( 'Unregister a modal', function( assert ) {
+    service.register( mockModal, mockModal.name );
+    service.unregister( mockModal );
+
+    let modalUnregistered = !( mockModal.name in service.modals );
+
+    assert.ok(
+        modalUnregistered
+    );
 });
 
 test( 'Get all open modals', function( assert ) {
-    let mockModal = MockModal.create();
-
     service.register( mockModal, mockModal.name );
 
-    assert.equal( service.getOpenModals().length, 1 );
+    assert.equal(
+        service.getOpenModals().length,
+        1
+    );
 });
 
 test( 'Hide all modals', function( assert ) {
-    let mockModal1 = MockModal.create();
-    let mockModal2 = MockModal.create();
-
-    mockModal2.name = 'mock2';
+    let mockModal1 = new MockModal( 'mock1', true );
+    let mockModal2 = new MockModal( 'mock2', true );
 
     mockModal1.hide = sinon.spy();
     mockModal2.hide = sinon.spy();
@@ -61,6 +92,13 @@ test( 'Hide all modals', function( assert ) {
 
     service.hideAll();
 
-    assert.ok( mockModal1.hide.calledOnce );
-    assert.ok( mockModal2.hide.calledOnce );
+    assert.ok(
+        mockModal1.hide.calledOnce,
+        'Modal one was hidden'
+    );
+
+    assert.ok(
+        mockModal2.hide.calledOnce,
+        'Modal two was hidden'
+    );
 });

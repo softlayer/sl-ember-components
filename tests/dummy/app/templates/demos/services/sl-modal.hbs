@@ -2,25 +2,6 @@
 <p class="lead">
 The service provides a way to manage modals across the app.
 </p>
-<section>
-    <h3>Registering a Modal</h3>
-    <p>To register a modal with the sl-modal service use <code>register()</code>. The <code>register()</code> function takes two arguments, <code>modal</code> and <code>name</code>. The <code>modal</code> argument is an instance of the modal while the <code>name</code> argument is a unique string value used to identify the modal.</p>
-
-    <p>The example below illustrates how the {{#link-to 'demos.sl-modal'}}sl-modal{{/link-to}} component uses the service to register a modal during the <code>init</code> event  .</p>
-    <pre>Ember.Component.extend({
-    modalService: Ember.inject.service( 'sl-modal' ),
-
-    register: Ember.on(
-       'init',
-       function() {
-           let name = this.get( 'name' );
-
-           if ( name ) {
-              this.get( 'modalService' ).register( this, name );
-           }
-       }
-    )</pre>
-</section>
 
 <section>
     <h3>Finding a Modal</h3>
@@ -54,7 +35,7 @@ The service provides a way to manage modals across the app.
 
 <section>
     <h3>Hide all modals</h3>
-    <p>To hide all modals, use <code>hideAll()</code>. When <code>hideAll()</code> is called, the <code>hide()</code> function is invoked on all modals instances registered with the sl-modal service.</p>
+    <p>To hide all modals, use <code>hideAll()</code>. When <code>hideAll()</code> is called, <code>hide()</code> function is invoked on all modals instances registered with the sl-modal service.</p>
     <pre>Ember.Controller.extend({
     modalService: Ember.inject.service( 'sl-modal' ),
 
@@ -64,5 +45,4 @@ The service provides a way to manage modals across the app.
             service.hideAll();
         }
     }</pre>
-
 </section>

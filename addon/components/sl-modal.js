@@ -3,6 +3,7 @@ import layout from '../templates/components/sl-modal';
 
 /**
  * @module
+ * @augments ember/Component
  */
 export default Ember.Component.extend({
     // -----------------------------------------------------
@@ -23,7 +24,12 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'modal fade'
+        'modal'
+    ],
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'animated:fade'
     ],
 
     /** @type {String} */
@@ -68,12 +74,18 @@ export default Ember.Component.extend({
     // -----------------------------------------------------
     // Properties
 
+    /**
+     * Whether the modal is animated with transition or not
+     *
+     * @type {Boolean}
+     */
+    animated: true,
 
     /**
      * aria-describedby attribute
      *
      * @type {?String}
-     * */
+     */
     'aria-describedby': null,
 
     /**
@@ -81,20 +93,28 @@ export default Ember.Component.extend({
      *  modal's DOM elements
      *
      * @type {String}
-     *                          */
+     */
     'aria-hidden': 'true',
+
+     /**
+      * aria-labelledby attribute value
+      *
+      * @function
+      * @returns {String}
+      */
+    'aria-labelledby': null,
 
     /**
      * The aria-role value
      *
      * @type {String}
-     *                     */
+     */
     ariaRole: 'dialog',
 
     /*
      * Whether to show Bootstrap's backdrop
      *
-     * @type {Boolean|String}
+     * @type {Boolean}
      */
     backdrop: true,
 
@@ -112,14 +132,14 @@ export default Ember.Component.extend({
      */
     modalService: Ember.inject.service( 'sl-modal' ),
 
-   /**
-    * The unique name use to register this modal with the modal service
-    *
-    * If this value is left null(default), then the component will not
-    * be registered on the modal service.
-    *
-    * @type {?String}
-    */
+    /**
+     * The unique name use to register this modal with the modal service
+     *
+     * If this value is left null(default), then the component will not
+     * be registered on the modal service.
+     *
+     * @type {?String}
+     */
     name: null,
 
     /**
@@ -133,17 +153,16 @@ export default Ember.Component.extend({
     // -----------------------------------------------------
     // Observers
 
-
     /**
-     * aria-labelledby attribute value
+     * Get aria-labelledby target element id
      *
      * @function
-     * @returns {String}
+     * @returns {undefined}
      */
-    'aria-labelledby': Ember.computed(
-        'elementId',
+    getLabelledBy: Ember.on(
+        'willInsertElement',
         function() {
-            return 'modalTitle' + this.get( 'elementId' );
+            this.set( 'aria-labelledby', this.$('[id^="modalTitle"]').attr( 'id' ) );
         }
     ),
 
@@ -151,7 +170,7 @@ export default Ember.Component.extend({
      * Register component on the modal service
      *
      * @function
-     * @returns {function}
+     * @returns {undefined}
      */
     register: Ember.on(
        'init',
@@ -159,7 +178,7 @@ export default Ember.Component.extend({
            let name = this.get( 'name' );
 
            if ( name ) {
-              this.get( 'modalService' ).register( this, name );
+              this.get( 'modalService' ).register( this );
            }
        }
     ),
@@ -168,7 +187,7 @@ export default Ember.Component.extend({
      * Set up the component as a Bootstrap Modal and listen for events
      *
      * @function
-     * @returns {function}
+     * @returns {undefined}
      */
      setupModal: Ember.on(
          'didInsertElement',
@@ -199,24 +218,14 @@ export default Ember.Component.extend({
          }
      ),
 
-    // -----------------------------------------------------
-    // Methods
-
-    show() {
-        this.$().modal( 'show' );
-    },
-
-    hide() {
-        this.$().modal( 'hide' );
-    },
-
     /**
      * Unbind bootstrap event handlers
+     *
      * @function unbindHandlers
      * @returns {undefined}
      */
     unbindHandlers: Ember.on(
-        'willDestroyElement',
+        'willClearRender',
         function() {
             this.$().off( 'show.bs.modal' );
             this.$().off( 'shown.bs.modal' );
@@ -226,11 +235,29 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Unregister model from modelService
+     * Unregister modal from modal service
+     *
      * @function unregister
      * @returns {undefined}
      */
-    unregister() {
-        this.get( 'modalService' ).unregister( this.get( 'name' ) );
+    unregister: Ember.on(
+        'willDestroyElement',
+        function() {
+            let modalService = this.get( 'modalService' );
+            if ( modalService.find( this ) ) {
+                modalService.unregister( this );
+            }
+        }
+    ),
+
+    // -----------------------------------------------------
+    // Methods
+
+    hide() {
+        this.$().modal( 'hide' );
+    },
+
+    show() {
+        this.$().modal( 'show' );
     }
 });

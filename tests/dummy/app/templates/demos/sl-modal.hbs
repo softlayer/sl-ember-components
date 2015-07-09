@@ -6,7 +6,7 @@
 
 <section id="simple">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <h6>Simple usage</h6>
             <pre>\{{#sl-modal name="simpleDemo}}
     \{{sl-modal-header title="Simple Example"}}
@@ -18,16 +18,16 @@
     \{{sl-modal-footer}}
 \{{/sl-modal}} </pre>
         {{#sl-modal name="simpleDemo"}}
-                {{sl-modal-header title="Simple Example"}}
+            {{sl-modal-header title="Simple Example"}}
 
-                {{#sl-modal-body}}
-                    <p>A simple modal example</p>
-                {{/sl-modal-body}}
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
-                {{sl-modal-footer}}
-            {{/sl-modal}}
+            {{sl-modal-footer}}
+        {{/sl-modal}}
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <h6>Click to Show Component</h6>
             {{sl-button openModal="simpleDemo" label="Open Modal"}}
         </div>
@@ -36,15 +36,15 @@
 
 <section>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <h6>Custom header</h6>
             <pre>\{{#sl-modal name="customHeader"}}
-    \{{sl-modal-header}}
+    \{{#sl-modal-header as |aria-labelledby|}}
         &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
             &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
             &lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;
         &lt;/button&gt;
-        &lt;span class=&quot;modal-title&quot;&gt;Custom Header&lt;/span&gt;
+        &lt;span class=&quot;modal-title&quot; \{{bind-attr id=aria-labelledby}}&gt;Custom Header&lt;/span&gt;
     \{{/sl-modal-header}}
 
     \{{#sl-modal-body}}
@@ -55,22 +55,22 @@
 \{{/sl-modal}}</pre>
 
 {{#sl-modal name="customHeader"}}
-    {{#sl-modal-header}}
+    {{#sl-modal-header as |aria-labelledby| }}
         <button class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true" class="fa fa-close"></span>
-            <span class="sr-only">Close</span>
+            <span class="sr-only">close</span>
         </button>
-        <span class="modal-title">Custom Header</span>
+        <span class="modal-title" {{bind-attr id=aria-labelledby}}>custom header</span>
     {{/sl-modal-header}}
 
     {{#sl-modal-body}}
-        <p>Modal with a custom header close button</p>
+        <p>modal with a custom header close button</p>
     {{/sl-modal-body}}
 
     {{sl-modal-footer}}
 {{/sl-modal}}
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <h6>Click to Show Component</h6>
             {{sl-button openModal="customHeader" label="Open Modal"}}
         </div>
@@ -79,7 +79,7 @@
 
 <section>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <h6>Custom footer with multiple buttons</h6>
             <pre>\{{#sl-modal name="customFooter"}}
     \{{sl-modal-header title="Custom Footer"}}
@@ -89,8 +89,8 @@
     \{{/sl-modal-body}}
 
     \{{#sl-modal-footer}}
-        &lt;p&gt;Modal with multiple buttons in the footer&lt;/p&gt;
-        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Save changes&lt;/button&gt;
+         &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-dismiss=&quot;modal&quot;&gt;Close&lt;/button&gt;
+         &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Save changes&lt;/button&gt;
    \{{/sl-modal-footer}}
 \{{/sl-modal}}</pre>
 
@@ -107,7 +107,7 @@
                 {{/sl-modal-footer}}
             {{/sl-modal}}
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <h6>Click to Show Component</h6>
             {{sl-button openModal="customFooter" label="Open Modal"}}
         </div>
@@ -137,8 +137,12 @@
     Action to call after modal is shown.
 {{/property-text}}
 
+{{#property-text name="animated" type="boolean" default="true"}}
+    Whether to animate opening and closing of modal.
+{{/property-text}}
+
 {{#property-text name="backdrop" type="boolean" default="true"}}
-    Whether to show Bootstrap's backdrop.
+    Whether to show backdrop.
 {{/property-text}}
 
 {{#property-text name="beforeHide" type="function"}}
@@ -149,24 +153,12 @@
     Action to call after modal is shown.
 {{/property-text}}
 
-{{#property-text name="hide" type="function"}}
-    Hide modal.
-{{/property-text}}
-
 {{#property-text name="name" type="string"}}
     Unique name used to identify modal. This name can be used to lookup the modal using the {{#link-to 'demos.services.sl-modal'}}modal service{{/link-to}}.
 {{/property-text}}
 
-{{#property-text name="show" type="function"}}
-    Show modal.
-{{/property-text}}
-
-
 <hr>
 <h3>sl-modal-header Properties</h3>
-{{#property-text name="hideCloseButton" type="boolean" default="false"}}
-   Hides the close button on the header.
-{{/property-text}}
 
 {{#property-text name="title" type="string"}}
     Title of the modal.
@@ -176,4 +168,57 @@
 <h3>sl-modal-footer Properties</h3>
 {{#property-text name="buttonText" type="string" default="Close"}}
     Close button text.
+{{/property-text}}
+
+<hr>
+<h3>ARIA Support</h3>
+{{#property-text name="role"}}
+    This attribute is automatically rendered as <code>role="dialog"</code>
+{{/property-text}}
+
+{{#property-text name="aria-hidden"}}
+    This attribute is automatically rendered as <code>aria-hidden="true"</code>
+{{/property-text}}
+
+{{#property-text name="aria-labelledby"}}
+<p> This attribute is automatically rendered as <code>aria-labelledby="X"</code>, where X is a string composed of the value modalTitle- followed by a random number.
+If you pass in a title to the <code>sl-modal-header</code> component, no action is needed on your part, the <code>aria-labelledby</code> attribute will automatically point to the id of the title element. If you do not pass in a title and are <em>not</em> using a custom header, the <code>aria-labelledby</code> attribute will not be present.</p>
+
+<p>If you would like to use a custom header you will need to identify a section of text that servers as the label for this dialog and give it the same id value assigned to the <code>aria-labelledby</code> attribute.</p>
+
+<p>The example below illustrates how to bind the value of the <code>aria-labelledby</code> property to the id of a target element using <code>\{{bind-attr id=aria-labelledby}}</code>.</p>
+
+<pre>\{{#sl-modal name="labelledByDemo"}}
+    \{{#sl-modal-header as |aria-labelledby|}}
+        &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
+            &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
+            &lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;span class=&quot;modal-title&quot; \{{bind-attr id=aria-labelledby}}&gt;Custom Header&lt;/span&gt;
+    \{{/sl-modal-header}}
+
+    \{{#sl-modal-body}}
+       &lt;p&gt;Modal with a custom header&lt;/p&gt;
+    \{{/sl-modal-body}}
+
+    \{{sl-modal-footer}}
+\{{/sl-modal}}
+</pre>
+{{/property-text}}
+
+{{#property-text name="aria-describedby"}}
+<p>The <code>aria-describedy</code> property can be set on the <code>sl-modal</code> component. Once this property is set, you will need to provide an element with a section of text whose <code>id</code> attribute corresponds to the <code>aria-describedby</code> property set on the <code>sl-modal</code> component, as shown in the code below.</p>
+
+<pre>\{{#sl-modal name="describedByDemo" aria-describedby="describesModal"}}
+    \{{#sl-modal-header}}
+       &#x3C;span id=&#x22;describesModal&#x22;&#x3E;A description of the modal&#x3C;/span&#x3E;
+    \{{/sl-modal-header}}
+
+    \{{#sl-modal-body}}
+       &lt;p&gt;Modal showing describedby usage&lt;/p&gt;
+    \{{/sl-modal-body}}
+
+    \{{sl-modal-footer}}
+\{{/sl-modal}}
+</pre>
 {{/property-text}}
