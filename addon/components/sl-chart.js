@@ -89,12 +89,12 @@ export default Ember.Component.extend({
         function() {
             Ember.assert(
                 'Series property must be an array',
-                'array' === Ember.typeOf( this.get('series') )
+                'array' === Ember.typeOf( this.get( 'series' ) )
             );
             Ember.assert(
                 'Options property must be an Object',
-                'instance' === Ember.typeOf( this.get('options') ) ||
-                'object' === Ember.typeOf ( this.get('options') )
+                'instance' === Ember.typeOf( this.get( 'options' ) ) ||
+                'object' === Ember.typeOf ( this.get( 'options' ) )
             );
         }
     ),
