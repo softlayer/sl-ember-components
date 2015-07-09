@@ -6,7 +6,7 @@ moduleForComponent('sl-modal-header', 'Unit | Component | sl modal header', {
 });
 
 test( 'It renders', function( assert ) {
-    this.subject();
+   let component = this.subject();
 
     assert.equal(
         component._state,
