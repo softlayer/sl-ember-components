@@ -38,11 +38,11 @@ test( 'Locked property applies class', function( assert ) {
 });
 
 test( 'Lock mode prevents changing state', function( assert ) {
-    let component = this.subject({ locked: true }),
-        initialDecadeStart = component.get( 'decadeStart' ),
-        initialMonth = component.get( 'currentMonth' ),
-        initialViewMode = component.get( 'viewMode' ),
-        initialYear = component.get( 'currentYear' );
+    let component = this.subject({ locked: true });
+    let initialDecadeStart = component.get( 'decadeStart' );
+    let initialMonth = component.get( 'currentMonth' );
+    let initialViewMode = component.get( 'viewMode' );
+    let initialYear = component.get( 'currentYear' );
 
     component.send( 'changeDecade', 1 );
     assert.equal(
@@ -88,10 +88,10 @@ test( 'Lock mode prevents changing state', function( assert ) {
 });
 
 test( 'Clicking a day with a valid content value sends data', function( assert ) {
-    let testDay = 1,
-        testMonth = 1,
-        testYear = 2015,
-        testDate = new Date( testYear, testMonth - 1, testDay );
+    let testDay = 1;
+    let testMonth = 1;
+    let testYear = 2015;
+    let testDate = new Date( testYear, testMonth - 1, testDay );
 
     this.subject({
         action: 'test',
