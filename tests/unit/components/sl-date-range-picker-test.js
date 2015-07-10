@@ -8,6 +8,17 @@ moduleForComponent( 'sl-date-range-picker', 'Unit | Component | sl date range pi
     unit: true
 });
 
+var convertDateToUTC = function( date ) {
+    return new Date(
+        date.getUTCFullYear(),
+        date.getUTCMonth(),
+        date.getUTCDate(),
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds()
+    );
+};
+
 test( 'Default classNames are present', function( assert ) {
     this.subject();
 
@@ -141,12 +152,6 @@ test( 'label is accepted as a parameter', function( assert ) {
     let component = this.subject({ label: labelText });
 
     assert.equal(
-        component.get( 'label' ),
-        labelText,
-        'label was accepted as a parameter'
-    );
-
-    assert.equal(
         this.$( 'label' ).html(),
         labelText,
         'label element was created with label parameter text'
@@ -158,28 +163,10 @@ test( 'label is accepted as a parameter', function( assert ) {
         'label element has the correct for property'
     );
 
-    assert.strictEqual(
-        component.get( 'startDatePlaceholder' ),
-        undefined,
-        'startDatePlaceholder is undefined by default'
-    );
-
-    assert.strictEqual(
-        this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
-        '',
-        'Start date input placeholder is empty when startDatePlaceholder is undefined'
-    );
-
-    assert.strictEqual(
-        component.get( 'endDatePlaceholder' ),
-        undefined,
-        'endDatePlaceholder is undefined by default'
-    );
-
-    assert.strictEqual(
-        this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
-        '',
-        'End date input placeholder is empty when endDatePlaceholder is undefined'
+    assert.equal(
+        this.$( 'label' ).prop( 'for' ),
+        this.$( '.sl-daterange-start-date input' ).prop( 'id' ),
+        'label is used for start date input'
     );
 });
 
@@ -188,39 +175,9 @@ test( 'startDatePlaceholder is accepted as a parameter', function( assert ) {
     let component = this.subject({ startDatePlaceholder: placeholderText });
 
     assert.equal(
-        component.get( 'startDatePlaceholder' ),
-        placeholderText,
-        'startDatePlaceholder was accepted as a parameter'
-    );
-
-    assert.equal(
         this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
         placeholderText,
         'Start date input placeholder was passed through correctly'
-    );
-
-    assert.strictEqual(
-        component.get( 'label' ),
-        undefined,
-        'label is undefined by default'
-    );
-
-    assert.strictEqual(
-        this.$( 'label' )[0],
-        undefined,
-        'No label is created when label is undefined'
-    );
-
-    assert.strictEqual(
-        this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
-        '',
-        'End date input placeholder is empty when endDatePlaceholder is undefined'
-    );
-
-    assert.strictEqual(
-        component.get( 'endDatePlaceholder' ),
-        undefined,
-        'endDatePlaceholder is undefined by default'
     );
 });
 
@@ -229,91 +186,8 @@ test( 'endDatePlaceholder is accepted as a parameter', function( assert ) {
     let component = this.subject({ endDatePlaceholder: placeholderText });
 
     assert.equal(
-        component.get( 'endDatePlaceholder' ),
-        placeholderText,
-        'endDatePlaceholder was accepted as a parameter'
-    );
-
-    assert.equal(
         this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
         placeholderText,
-        'End date input placeholder was passed through correctly'
-    );
-
-    assert.strictEqual(
-        component.get( 'label' ),
-        undefined,
-        'label is undefined by default'
-    );
-
-    assert.strictEqual(
-        this.$( 'label' )[0],
-        undefined,
-        'No label is created when label is undefined'
-    );
-
-    assert.strictEqual(
-        component.get( 'startDatePlaceholder' ),
-        undefined,
-        'startDatePlaceholder is undefined by default'
-    );
-
-    assert.strictEqual(
-        this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
-        '',
-        'Start date input placeholder is empty when startDatePlaceholder is undefined'
-    );
-});
-
-test( 'label, startDatePlaceholder, and endDatePlaceholder can be accepted as parameters together', function( assert ) {
-    let labelText = 'text 1';
-    let startDatePlaceholderText = 'text 2';
-    let endDatePlaceholderText = 'text 3';
-    let component = this.subject({
-        label: labelText,
-        startDatePlaceholder: startDatePlaceholderText,
-        endDatePlaceholder: endDatePlaceholderText
-    });
-
-    assert.equal(
-        component.get( 'label' ),
-        labelText,
-        'label was accepted as a parameter'
-    );
-
-    assert.equal(
-        this.$( 'label' ).html(),
-        labelText,
-        'label element was created with label parameter text'
-    );
-
-    assert.equal(
-        this.$( 'label' ).prop( 'for' ),
-        component.get( 'inputElementId' ),
-        'label element has the correct for property'
-    );
-
-    assert.equal(
-        component.get( 'startDatePlaceholder' ),
-        startDatePlaceholderText,
-        'startDatePlaceholder was accepted as a parameter'
-    );
-
-    assert.equal(
-        this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
-        startDatePlaceholderText,
-        'Start date input placeholder was passed through correctly'
-    );
-
-    assert.equal(
-        component.get( 'endDatePlaceholder' ),
-        endDatePlaceholderText,
-        'endDatePlaceholder was accepted as a parameter'
-    );
-
-    assert.equal(
-        this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
-        endDatePlaceholderText,
         'End date input placeholder was passed through correctly'
     );
 });
@@ -348,5 +222,101 @@ test( 'Format parameter gets passed to child date pickers', function( assert ) {
         this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.format,
         format,
         'Format parameter gets passed to end date picker'
+    );
+});
+
+test( 'Date pickers have unbound start and end dates by default', function( assert ) {
+    let component = this.subject();
+
+    assert.equal(
+        this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.startDate,
+        -Infinity,
+        'Start date picker start date is unboundt'
+    );
+
+    assert.equal(
+        this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.endDate,
+        Infinity,
+        'Start date picker end date is unbound'
+    );
+
+    assert.equal(
+        this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.startDate,
+        -Infinity,
+        'End date picker start date is unbound'
+    );
+
+    assert.equal(
+        this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.endDate,
+        Infinity,
+        'End date picker end date is unbound'
+    );
+});
+
+test( 'Date pickers respects minDate', function( assert ) {
+    let minDate = new Date( '01/01/2009' );
+    let component = this.subject({
+        minDate: minDate
+    });
+
+    assert.equal(
+        convertDateToUTC( this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.startDate ).getTime(),
+        minDate.getTime(),
+        'Start date picker respects minDate'
+    );
+
+    assert.equal(
+        convertDateToUTC( this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.startDate ).getTime(),
+        minDate.getTime(),
+        'End date picker respects minDate'
+    );
+});
+
+test( 'Date pickers respects maxDate', function( assert ) {
+    let maxDate = new Date( '01/01/2009' );
+    let component = this.subject({
+        maxDate: maxDate
+    });
+
+    assert.equal(
+        convertDateToUTC( this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.endDate ).getTime(),
+        maxDate.getTime(),
+        'Start date picker respects maxDate'
+    );
+
+    assert.equal(
+        convertDateToUTC( this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.endDate ).getTime(),
+        maxDate.getTime(),
+        'End date picker respects maxDate'
+    );
+});
+
+test( 'End date picker respects startDateValue over minDate due to earliestEndDate', function( assert ) {
+    let minDate = new Date( '01/01/2009' );
+    let startDateValue = new Date( '05/05/2015' );
+    let component = this.subject({
+        minDate: minDate,
+        startDateValue: startDateValue
+    });
+
+    assert.equal(
+        convertDateToUTC( this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.startDate ).getTime(),
+        startDateValue.getTime(),
+        'End date picker respects startDateValue'
+    );
+});
+
+test( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function( assert ) {
+    let maxDate = new Date( '01/01/2009' );
+    let endDateValue = new Date( '05/05/2005' );
+    let component = this.subject({
+        maxDate: maxDate,
+        endDateValue: endDateValue
+    });
+
+    assert.equal(
+        convertDateToUTC( this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.endDate ).getTime(),
+        endDateValue.getTime(),
+        'Start date picker respects endDateValue'
     );
 });
