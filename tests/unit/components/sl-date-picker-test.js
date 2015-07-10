@@ -205,7 +205,9 @@ test( 'setupDatepicker() - listens to correct event', function( assert ) {
 test( 'setEndDate() - listens to correct event', function( assert ) {
     assert.expect( 1 );
 
-    let component = this.subject( { endDate: window.moment().toDate() } );
+    let component = this.subject({
+        endDate: window.moment().toDate()
+    });
     let inputElement = this.$( 'input.date-picker' );
     let spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'datepicker' );
     let testDate = window.moment( '2013-02-08' ).toDate();
@@ -224,7 +226,9 @@ test( 'setEndDate() - listens to correct event', function( assert ) {
 test( 'setStartDate() - listens to correct event', function( assert ) {
     assert.expect( 1 );
 
-    let component = this.subject( { startDate: window.moment().toDate() } );
+    let component = this.subject({
+        startDate: window.moment().toDate()
+    });
     let inputElement = this.$( 'input.date-picker' );
     let spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'datepicker' );
     let testDate = window.moment( '2013-02-08' ).toDate();
@@ -257,5 +261,4 @@ test( 'unregisterEvents() - listens to correct event', function( assert ) {
         undefined,
         'Datepicker does not have event listeners after willClearRender'
     );
-
 });
