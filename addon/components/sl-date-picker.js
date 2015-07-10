@@ -68,6 +68,13 @@ export default Ember.Component.extend( TooltipEnabled, {
     daysOfWeekDisabled: [],
 
     /**
+     * When true, the datepicker will not be displayed
+     *
+     * @type {Boolean}
+     */
+    disabled: false,
+
+    /**
      * The latest date that may be selected; all later dates will be disabled
      *
      * @type {?Date}
@@ -103,8 +110,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The input field's id attribute
      *
-     * Used to expose this value externally for use when composing this
-     * component into others.
+     * Used to expose this value externally for use in this component and when
+     * composing this component into others.
      *
      * @type {?String}
      */
@@ -166,6 +173,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     orientation: 'auto',
 
     /**
+     * The placeholder text that the datepicker should show
+     * be disabled
+     *
+     * @type {?String}
+     */
+    placeholder: null,
+
+    /**
      * The earliest date that may be selected; all earlier dates will
      * be disabled
      *
@@ -198,6 +213,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @type {Boolean}
      */
     todayHighlight: false,
+
+    /**
+     * The date either selected by the datepicker or entered by the user
+     *
+     * @type {?Date}
+     */
+    value: null,
 
     /**
      * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
@@ -241,7 +263,7 @@ export default Ember.Component.extend( TooltipEnabled, {
                 .datepicker( this.get( 'options' ) );
 
             datepicker.on( 'changeDate', () => {
-                this.sendAction( 'change' );
+                this.sendAction();
             });
         }
     ),
@@ -265,7 +287,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {undefined}
      */
-    setEndDate: Ember.computed(
+    setEndDate: Ember.observer(
         'endDate',
         function() {
             this.$( 'input.date-picker' )
@@ -279,7 +301,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @returns {undefined}
      */
-    setStartDate: Ember.computed(
+    setStartDate: Ember.observer(
         'startDate',
         function() {
             this.$( 'input.date-picker' )
