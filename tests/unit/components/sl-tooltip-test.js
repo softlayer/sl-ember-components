@@ -13,72 +13,306 @@ test( 'Expected Mixin is present', function( assert ) {
     );
 });
 
-test( 'enabledTooltip() - Verify classes are set correctly: data-toggle and data-original-title', function( assert ) {
-    this.subject( { title: 'Tooltip Text' } );
-
-    assert.equal(
-        this.$().attr( 'data-toggle' ),
-        'tooltip',
-        'Has class "data-toggle"'
-    );
-
-    assert.equal(
-        this.$().attr( 'data-original-title' ),
-        'Tooltip Text',
-        'Has class "data-original-title"'
-    );
-});
-
-test( 'enabledTooltip() - Verify only correct title is set', function( assert ) {
-    this.subject( { title: 'Tooltip Text' } );
-
-    assert.equal(
-        this.$().attr( 'data-toggle' ),
-        'tooltip',
-        'Has class "data-toggle"'
-    );
-
-    assert.notEqual(
-        this.$().attr( 'data-original-title' ),
-        'Wrong Title',
-        'Has class "data-original-title"'
-    );
-});
-
-test( 'enablePopover() - Verify classes are set correctly: data-toggle and data-original-title', function( assert ) {
+/**
+ * Ensures that the template is wrapping the content in a span tag and not in
+ * any block-level tags. While it appears that core Ember functionality is being
+ * tested this test is ensuring that the implied contract about how this UI
+ * component is rendered into the DOM is adhered to.
+ */
+test( 'Renders as a span tag with no classes', function( assert ) {
     this.subject({
         popover: 'Popover content',
         title: 'Popover Text'
     });
 
     assert.equal(
-        this.$().attr( 'data-toggle' ),
-        'popover',
-        'Has class "data-toggle"'
+        this.$().prop( 'tagName' ),
+        'SPAN'
     );
-
     assert.equal(
-        this.$().attr( 'data-original-title' ),
-        'Popover Text',
-        'Has class "data-original-title"'
+        this.$().prop( 'class' ),
+        'ember-view'
     );
 });
 
-test( 'enablePopover() - Verify only correct title is set', function( assert ) {
-    this.subject({
-        popover: 'Popover content',
-        title: 'Popover Text'
-    });
+test( '"title" property needs to be a string', function( assert ) {
 
-    assert.equal(
-        this.$().attr( 'data-toggle' ),
-        'popover',
-        'Has class "data-toggle"'
+    // Empty Property
+
+    let assertionThrown = false;
+
+    try {
+        this.subject( {} );
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was empty'
     );
 
-    assert.notEqual(
-        this.$().attr( 'data-original-title' ),
-        'Wrong Text',
-        'Has class "data-original-title"'
+    // Number Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            title: 3
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was Number'
+    );
+
+
+    // Boolean Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            title: true
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        'Property was a Boolean'
+    );
+
+    // Array as a Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            title: []
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was an Array'
+    );
+
+    // Function as a Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            title: function(){}
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was a Function'
+    );
+
+    // Object as a Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            title: {}
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was an Object'
+    );
+
+    // Undefined Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            title: undefined
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was Undefined'
+    );
+
+    // String Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        !assertionThrown,
+        'Property was a String'
+    );
+});
+
+test( '"popover" property needs to be a string or undefined', function( assert ) {
+
+    // Empty Property
+
+    let assertionThrown = false;
+
+    try {
+        this.subject( {} );
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was empty'
+    );
+
+    // Number Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            popover: 3,
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was Number'
+    );
+
+
+    // Boolean Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            popover: true,
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was a Boolean'
+    );
+
+    // Array as a Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            popover: [],
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was an Array'
+    );
+
+    // Function as a Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            popover: function(){},
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was a Function'
+    );
+
+    // Object as a Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            popover: {},
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'Property was an Object'
+    );
+
+    // String Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            popover: "Popover Text",
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        !assertionThrown,
+        'Property was a String'
+    );
+
+    // Undefined Property
+
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            popover: undefined,
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        !assertionThrown,
+        'Property was Undefined'
     );
 });
