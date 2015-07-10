@@ -19,7 +19,7 @@ test( 'Default class name is present', function( assert ) {
 });
 
 test( 'Locked property applies class', function( assert ) {
-    var component = this.subject();
+    let component = this.subject();
 
     assert.strictEqual(
         this.$().hasClass( 'sl-calendar-locked' ),
@@ -38,7 +38,7 @@ test( 'Locked property applies class', function( assert ) {
 });
 
 test( 'Lock mode prevents changing state', function( assert ) {
-    var component = this.subject({ locked: true }),
+    let component = this.subject({ locked: true }),
         initialDecadeStart = component.get( 'decadeStart' ),
         initialMonth = component.get( 'currentMonth' ),
         initialViewMode = component.get( 'viewMode' ),
@@ -88,7 +88,7 @@ test( 'Lock mode prevents changing state', function( assert ) {
 });
 
 test( 'Clicking a day with a valid content value sends data', function( assert ) {
-    var testDay = 1,
+    let testDay = 1,
         testMonth = 1,
         testYear = 2015,
         testDate = new Date( testYear, testMonth - 1, testDay );
@@ -114,7 +114,7 @@ test( 'Clicking a day with a valid content value sends data', function( assert )
 });
 
 test( 'changeDecade action works', function( assert ) {
-    var component = this.subject({ currentYear: 2015 });
+    let component = this.subject({ currentYear: 2015 });
 
     assert.equal(
         component.get( 'decadeStart' ),
@@ -144,7 +144,7 @@ test( 'changeDecade action works', function( assert ) {
 });
 
 test( 'changeMonth action works', function( assert ) {
-    var component = this.subject({ currentMonth: 1 });
+    let component = this.subject({ currentMonth: 1 });
 
     assert.equal(
         component.get( 'currentMonth' ),
@@ -162,7 +162,7 @@ test( 'changeMonth action works', function( assert ) {
 });
 
 test( 'changeYear action works', function ( assert ) {
-    var component = this.subject({ currentYear: 2015 });
+    let component = this.subject({ currentYear: 2015 });
 
     assert.equal(
         component.get( 'currentYear' ),
@@ -181,10 +181,10 @@ test( 'changeYear action works', function ( assert ) {
 
 
 test( 'Decrementing month from January causes year to decrement', function( assert ) {
-    var component = this.subject({
-            currentMonth: 1,
-            currentYear: 2015
-        });
+    let component = this.subject({
+        currentMonth: 1,
+        currentYear: 2015
+    });
 
     Ember.run( () => { component.send( 'changeMonth', -1 ); } );
 
@@ -196,10 +196,10 @@ test( 'Decrementing month from January causes year to decrement', function( asse
 });
 
 test( 'Incrementing month from December causes year to increment', function( assert ) {
-    var component = this.subject({
-            currentMonth: 12,
-            currentYear: 2015
-        });
+    let component = this.subject({
+        currentMonth: 12,
+        currentYear: 2015
+    });
 
     Ember.run( () => { component.send( 'changeMonth', 1 ); } );
 
@@ -226,7 +226,7 @@ test( 'Setting dateValuePath works', function( assert ) {
 });
 
 test( 'Number of days in month is valid', function( assert ) {
-    var component = this.subject();
+    let component = this.subject();
 
     assert.ok(
         component.get( 'daysInMonth' ) > 0,
@@ -235,7 +235,7 @@ test( 'Number of days in month is valid', function( assert ) {
 });
 
 test( 'Decade range is correctly based on currentYear', function( assert ) {
-    var component = this.subject({ currentYear: 2023 });
+    let component = this.subject({ currentYear: 2023 });
 
     assert.equal(
         component.get( 'decadeStart' ),
@@ -251,7 +251,7 @@ test( 'Decade range is correctly based on currentYear', function( assert ) {
 });
 
 test( 'Months for year view are generated validly', function( assert ) {
-    var component = this.subject();
+    let component = this.subject();
 
     assert.equal(
         component.get( 'monthsInYearView' ).length,
@@ -261,7 +261,7 @@ test( 'Months for year view are generated validly', function( assert ) {
 });
 
 test( 'View mode is settable to "days"', function( assert ) {
-    var component = this.subject({ viewMode: 'days' });
+    let component = this.subject({ viewMode: 'days' });
 
     assert.ok(
         component.get( 'viewingDays' ),
@@ -270,7 +270,7 @@ test( 'View mode is settable to "days"', function( assert ) {
 });
 
 test( 'View mode is settable to "months"', function( assert ) {
-    var component = this.subject({ viewMode: 'months' });
+    let component = this.subject({ viewMode: 'months' });
 
     assert.ok(
         component.get( 'viewingMonths' ),
@@ -279,7 +279,7 @@ test( 'View mode is settable to "months"', function( assert ) {
 });
 
 test( 'View mode is settable to "years"', function( assert ) {
-    var component = this.subject({ viewMode: 'years' });
+    let component = this.subject({ viewMode: 'years' });
 
     assert.ok(
         component.get( 'viewingYears' ),
@@ -288,7 +288,7 @@ test( 'View mode is settable to "years"', function( assert ) {
 });
 
 test( 'Weeks for month view are assembled correctly', function( assert ) {
-    var component = this.subject();
+    let component = this.subject();
 
     assert.ok(
         component.get( 'weeksInMonthView' ).length > 0,
@@ -297,7 +297,7 @@ test( 'Weeks for month view are assembled correctly', function( assert ) {
 });
 
 test( 'Years for decade view are assembled correctly', function( assert ) {
-    var component = this.subject();
+    let component = this.subject();
 
     assert.equal(
         component.get( 'yearsInDecadeView' ).length,
