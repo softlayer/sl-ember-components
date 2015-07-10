@@ -9,11 +9,11 @@ import layout from '../templates/components/sl-textarea';
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-const DIRECTION = {
+const DIRECTION = Object.freeze({
     BACKWARD: 'backward',
     FORWARD: 'forward',
     NONE: 'none'
-};
+});
 export { DIRECTION };
 
 /**

@@ -12,10 +12,10 @@ import {
  * @memberof module:components/sl-drop-button
  * @enum {String}
  */
-const ALIGN = {
+const ALIGN = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
-};
+});
 export { ALIGN };
 
 /**

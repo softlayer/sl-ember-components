@@ -8,13 +8,13 @@ import layout from '../templates/components/sl-progress-bar';
  * @memberof module:components/sl-progress-bar
  * @enum {String}
  */
-const THEME = {
+const THEME = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
-};
+});
 export { THEME };
 
 /**

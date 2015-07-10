@@ -7,10 +7,10 @@ import layout from '../templates/components/sl-grid-cell';
  * @memberof module:components/sl-grid-cell
  * @enum {String}
  */
-const COLUMN_ALIGN = {
+const COLUMN_ALIGN = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
-};
+});
 export { COLUMN_ALIGN };
 
 /**
@@ -19,11 +19,11 @@ export { COLUMN_ALIGN };
  * @memberof module:components/sl-grid-cell
  * @enum {String}
  */
-const COLUMN_SIZE = {
+const COLUMN_SIZE = Object.freeze({
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
-};
+});
 export { COLUMN_SIZE };
 
 /**
