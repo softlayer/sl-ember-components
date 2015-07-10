@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import mixinUnderTest from 'sl-ember-components/mixins/sl-input-based';;
+import mixinUnderTest from 'sl-ember-components/mixins/sl-input-based';
 
 module( 'Unit | Mixin | sl input based' );
 
