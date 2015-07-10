@@ -23,7 +23,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
     this.subject();
 
     this.$( '.sl-daterange-end-date input' ).on( 'focus', () => {
-        assert.ok( true, 'End date input receives focus upon start date change');
+        assert.ok( true, 'End date input receives focus upon start date change' );
     });
 
     Ember.run( () => {
