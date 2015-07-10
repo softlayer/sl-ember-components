@@ -116,7 +116,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     try {
         this.subject({
             options: "string",
-            series: testOptions
+            series: testSeries
         });
     }  catch( error ) {
         assertionThrown = true;
