@@ -129,7 +129,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         return;
                     }
 
-                    if ( Ember.typeOf( item ) !== 'object' ) {
+                    if ( Ember.typeOf( item ) !== 'object' && Ember.typeOf( item ) !== 'instance' ) {
                         return item;
                     }
 
@@ -156,7 +156,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                         return;
                     }
 
-                    if ( Ember.typeOf( item ) === 'object' ) {
+                    if ( Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'instance' ) {
                         return get( item, this.get( 'optionLabelPath' ) );
                     }
 
@@ -166,7 +166,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 id: ( item ) => {
                     let value = item;
 
-                    if ( Ember.typeOf( item ) === 'object' ) {
+                    if ( Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'instance' ) {
                         value = get( item, this.get( 'optionValuePath' ) );
                     }
 
@@ -189,8 +189,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     let unmatchedValues = values.length;
 
                     for ( let i = 0; i < contentLength; i++ ) {
-                        let item = content[i];
-                        let text = Ember.typeOf( item ) === 'object' ?
+                        let item = content[ i ];
+                        let text = Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'instance' ?
                             get( item, optionValuePath ) : item;
 
                         let matchIndex = values.indexOf( text.toString() );
@@ -234,7 +234,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
                     query.callback({
                         results: content.reduce( ( results, item ) => {
-                            let text = Ember.typeOf( item ) === 'object' ?
+                            let text = Ember.typeOf( item ) === 'object' || Ember.typeOf( item ) === 'instance' ?
                                 get( item, optionLabelPath ) : item;
 
                             if (
