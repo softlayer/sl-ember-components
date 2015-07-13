@@ -7,11 +7,11 @@
 
 To see which issues are currently being worked on or are scheduled to be worked on next, visit [https://huboard.com/softlayer/sl-ember-components/#/](https://huboard.com/softlayer/sl-ember-components/#/)
 
----
+
 
 ### Is currently in BETA
 
----
+
 
 # What sl-ember-components is
 
@@ -85,7 +85,7 @@ Render the component referenced by name. Bound properties can be passed to the c
 Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
 
 
----
+
 
 All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings as well as our own implementations when the existing offerings were deficient. Existing offerings that were leveraged include:
 
@@ -106,14 +106,14 @@ Other libraries that are not MIT licensed, though it should not pose a problem, 
 * [Bootstrap-Datepicker](https://github.com/eternicode/bootstrap-datepicker/blob/release/LICENSE)
 
 
----
+
 
 # Supported browsers
 
 See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softlayer.github.io/sl-ember-components/browsers.html)
 
 
----
+
 
 
 # Demo
@@ -133,12 +133,17 @@ See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softla
 ### Running
 
 * `ember server`
-* View the demo at http://localhost:4200
+* View the demo at *http://localhost:4200*
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
 
+### Documentation
 
----
+* `ember ember-cli-jsoc` or `npm run docs` (shortcut setup in this repo)
+* Visit *http://localhost:4200/docs*
+
+
+
 
 # How to use this addon in your application
 
@@ -169,17 +174,17 @@ Examples and documentation on how to use each component can be viewed at http://
 
 
 
----
+
 
 # Versioning
 Employs [Semantic Versioning 2.0.0](http://semver.org/)
 
----
+
 
 # Contribution
 [See CONTRIBUTING.md](https://github.com/softlayer/sl-ember-components/blob/master/CONTRIBUTING.md)
 
----
+
 
 # Copyright and License
 sl-ember-components and its source files are Copyright © 2014-2015 [SoftLayer Technologies, Inc.](http://www.softlayer.com/)
@@ -195,7 +200,7 @@ Other libraries that are not MIT licensed, though it should not pose a problem, 
 * [Bootstrap-Datepicker](https://github.com/eternicode/bootstrap-datepicker/blob/release/LICENSE)
 
 
----
+
 
 # Warranty
 This software is provided “as is” and without any express or implied warranties, including, without limitation, the
