@@ -42,8 +42,6 @@ test( 'Standard values are false by default', function( assert ) {
 });
 
 test( 'Class name bindings contain expected bindings', function( assert ) {
-    assert.expect( 5 );
-
     let expectedClassNameBindings = [
         'disabled',
         'optional',
@@ -54,18 +52,9 @@ test( 'Class name bindings contain expected bindings', function( assert ) {
     let subject = testObject.create();
     let classNameBindings = subject.get( 'classNameBindings' );
 
-    assert.equal(
-        classNameBindings.length,
-        expectedClassNameBindings.length,
-        'classNameBindings contains the correct number of elements'
+    assert.deepEqual(
+        subject.get( 'classNameBindings' ),
+        expectedClassNameBindings,
+        'classNameBindings contains the expected class names'
     );
-
-    classNameBindings.every( ( element, index ) => {
-        assert.strictEqual(
-            element,
-            expectedClassNameBindings[index],
-            `${element} was correctly contained within classNameBindings`
-        );
-        return true;
-    });
 });
