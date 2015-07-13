@@ -50,7 +50,6 @@ test( 'Class name bindings contain expected bindings', function( assert ) {
     ];
     let testObject = Ember.Object.extend( mixinUnderTest );
     let subject = testObject.create();
-    let classNameBindings = subject.get( 'classNameBindings' );
 
     assert.deepEqual(
         subject.get( 'classNameBindings' ),
