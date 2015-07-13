@@ -128,3 +128,21 @@ test( 'themeClass() returns correct value', function( assert ) {
         'Has expected class "btn-success"'
     );
 });
+
+test( 'Button supports click event bubbling', function( assert ) {
+    let component = this.subject();
+
+    assert.strictEqual(
+        component.click(),
+        true,
+        'Button bubbles click events by default'
+    );
+
+    component.set( 'bubbles', false );
+
+    assert.strictEqual(
+        component.click(),
+        false,
+        'Button click event will not propagate when bubbles is false'
+    );
+});
