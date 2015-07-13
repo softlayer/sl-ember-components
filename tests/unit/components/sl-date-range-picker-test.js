@@ -214,9 +214,9 @@ test( 'Format parameter gets passed to child date pickers', function( assert ) {
     );
 });
 
+// @todo This needs to be updated when upgrading to 1.13 to spy on the child
+// sl-date-pickers rather than directly accessing bootstrap-datepicker values
 test( 'Date pickers have unbound start and end dates by default', function( assert ) {
-    // This test needs to be updated when upgrading to 1.13 to spy on the child
-    // sl-date-pickers rather than directly accessing bootstrap-datepicker values
     let component = this.subject();
 
     assert.equal(
