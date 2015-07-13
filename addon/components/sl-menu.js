@@ -217,7 +217,7 @@ export default Ember.Component.extend( SlEvented, {
     clearSelection() {
         const selections = this.get( 'selections' );
 
-        for ( const selection of selections ) {
+        for ( let selection of selections ) {
             Ember.set( selection.item, 'selected', false );
         }
 
@@ -249,25 +249,25 @@ export default Ember.Component.extend( SlEvented, {
         const selectionsLength = selections.length;
 
         if ( selectionsLength > 0 ) {
-            const currentSelection = selections.objectAt( selectionsLength - 1 );
+            const selection = selections.objectAt( selectionsLength - 1 );
 
-            if ( !currentSelection ) {
+            if ( !selection ) {
                 return error( 'Current selection is undefined' );
             }
 
-            const currentItems = Ember.get( currentSelection, 'items' );
+            const currentItems = Ember.get( selection, 'items' );
 
             if ( !currentItems ) {
                 return error( 'Current items array is undefined' );
             }
 
-            const currentItem = Ember.get( currentSelection, 'item' );
+            const currentItem = Ember.get( selection, 'item' );
 
             if ( !currentItem ) {
                 return error( 'Current item is undefined' );
             }
 
-            const item = currentItems.objectAt( index );
+            let item = currentItems.objectAt( index );
 
             if ( !item ) {
                 return error( `Item at index ${index} is undefined` );
@@ -275,7 +275,7 @@ export default Ember.Component.extend( SlEvented, {
 
             Ember.set( currentItem, 'selected', false );
             Ember.set( item, 'selected', true );
-            Ember.setProperties( currentSelection, {
+            Ember.setProperties( selection, {
                 index,
                 item
             });
@@ -287,7 +287,7 @@ export default Ember.Component.extend( SlEvented, {
             }
 
             if ( items.length > 0 ) {
-                const item = items.get( 0 );
+                let item = items.get( 0 );
 
                 Ember.set( item, 'selected', true );
 
@@ -361,7 +361,9 @@ export default Ember.Component.extend( SlEvented, {
         const selections = this.get( 'selections' );
 
         if ( selections.length < 1 ) {
-            return warn( '`selectNext` triggered without any selection context' );
+            return warn(
+                '`selectNext` triggered without any selection context'
+            );
         }
 
         const selection = selections.objectAt( selections.length - 1 );
@@ -372,7 +374,9 @@ export default Ember.Component.extend( SlEvented, {
         }
 
         if ( currentItems.length < 2 ) {
-            return warn( '`selectNext` triggered with fewer than two siblings in context' );
+            return warn(
+                '`selectNext` triggered with fewer than two siblings in context'
+            );
         }
 
         const currentIndex = Ember.get( selection, 'index' );
@@ -509,7 +513,7 @@ export default Ember.Component.extend( SlEvented, {
     selectRight() {
         const selections = this.get( 'selections' );
 
-        if ( selections.length === 1 ) {
+        if ( 1 === selections.length ) {
             return this.selectNext();
         }
 

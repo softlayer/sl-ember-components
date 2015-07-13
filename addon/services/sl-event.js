@@ -59,7 +59,7 @@ export default Ember.Service.extend( Ember.Evented, {
             return warn( `No bound listeners for "${eventName}"` );
         }
 
-        for ( const object of events[ eventName ] ) {
+        for ( let object of events[ eventName ] ) {
             object.trigger( eventName, data );
         }
 
@@ -92,7 +92,7 @@ export default Ember.Service.extend( Ember.Evented, {
             } else {
                 break;
             }
-        } while ( 0 > index )
+        } while ( 0 > index );
 
         if ( 0 === objects.length ) {
             delete events[ eventName ];
