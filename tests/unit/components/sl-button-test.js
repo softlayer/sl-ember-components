@@ -145,4 +145,4 @@ test( 'Button supports click event bubbling', function( assert ) {
         false,
         'Button click event will not propagate when bubbles is false'
     );
-})
+});
