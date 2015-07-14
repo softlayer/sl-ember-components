@@ -8,13 +8,13 @@ import layout from '../templates/components/sl-alert';
  * @memberof module:components/sl-alert
  * @enum {String}
  */
-const THEME = Object.freeze({
+const Theme = Object.freeze({
     DANGER: 'danger',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { THEME };
+export { Theme };
 
 /**
  * @module
@@ -83,9 +83,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The Bootstrap "theme" style to apply to the alert
      *
-     * @type {THEME}
+     * @type {Theme}
      */
-    theme: THEME.INFO,
+    theme: Theme.INFO,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -98,7 +98,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember.assert} Thrown if the supplied `theme` value is not one
-     *         defined in the enum THEME
+     *         defined in the enum Theme
      * @returns {String} Defaults to "alert-info"
      */
     themeClassName: Ember.computed(
@@ -108,8 +108,8 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             Ember.assert(
                 'Error: Invalid theme string',
-                Object.keys( THEME )
-                    .map( ( key ) => THEME[ key ] )
+                Object.keys( Theme )
+                    .map( ( key ) => Theme[ key ] )
                     .indexOf( theme ) > -1
             );
 

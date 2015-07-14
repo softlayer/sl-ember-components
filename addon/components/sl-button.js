@@ -8,13 +8,13 @@ import layout from '../templates/components/sl-button';
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const SIZE = Object.freeze({
+const Size = Object.freeze({
     EXTRA_SMALL: 'extra-small',
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
 });
-export { SIZE };
+export { Size };
 
 /**
  * Valid Bootstrap theme values for buttons
@@ -22,7 +22,7 @@ export { SIZE };
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const THEME = Object.freeze({
+const Theme = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     HOVER: 'hover',
@@ -32,7 +32,7 @@ const THEME = Object.freeze({
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { THEME };
+export { Theme };
 
 /**
  * @module
@@ -141,16 +141,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The size of the button
      *
-     * @type {SIZE}
+     * @type {Size}
      */
-    size: SIZE.MEDIUM,
+    size: Size.MEDIUM,
 
     /**
      * The bootstrap "theme" name
      *
-     * @type {THEME}
+     * @type {Theme}
      */
-    theme: THEME.DEFAULT,
+    theme: Theme.DEFAULT,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -188,7 +188,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember.assert} Thrown if the supplied `size` value is not one
-     *         defined in the enum SIZE
+     *         defined in the enum Size
      * @returns {?String} Defaults to undefined
      */
     sizeClass: Ember.computed(
@@ -198,8 +198,8 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             Ember.assert(
                 'Error: Invalid size value',
-                Object.keys( SIZE )
-                    .map( ( key ) => SIZE[ key ] )
+                Object.keys( Size )
+                    .map( ( key ) => Size[ key ] )
                     .indexOf( size ) > -1
             );
 
@@ -227,7 +227,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember.assert} Thrown if the supplied `theme` value is one not
-     *         defined in the enum THEME
+     *         defined in the enum Theme
      * @returns {String} Defaults to "btn-default"
      */
     themeClass: Ember.computed(
@@ -237,8 +237,8 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             Ember.assert(
                 'Error: Invalid theme value',
-                Object.keys( THEME )
-                    .map( ( key ) => THEME[ key ] )
+                Object.keys( Theme )
+                    .map( ( key ) => Theme[ key ] )
                     .indexOf( theme ) > -1
             );
 

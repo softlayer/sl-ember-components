@@ -7,11 +7,11 @@ import layout from '../templates/components/sl-tab-panel';
  * @memberof module:components/sl-tab-panel
  * @enum {String}
  */
-const ALIGNMENT = Object.freeze({
+const Alignment = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { ALIGNMENT };
+export { Alignment };
 
 /**
  * @module
@@ -80,9 +80,9 @@ export default Ember.Component.extend({
      * Determines the alignment of tabs at the top of the panel,
      * "left" or "right"
      *
-     * @type {ALIGNMENT}
+     * @type {Alignment}
      */
-    alignTabs: ALIGNMENT.LEFT,
+    alignTabs: Alignment.LEFT,
 
     /**
      * The height of the tab-content in pixels
@@ -220,7 +220,7 @@ export default Ember.Component.extend({
      *
      * @function
      * @throws {ember.assert} Thrown if supplied `alignTabs` is a value not
-     *         defined in enum ALIGNMENT
+     *         defined in enum Alignment
      * @returns {String}
      */
     tabAlignmentClass: Ember.computed(
@@ -230,8 +230,8 @@ export default Ember.Component.extend({
 
             Ember.assert(
                 `Error: Invalid alignTabs property value "${alignTabs}"`,
-                Object.keys( ALIGNMENT )
-                    .map( ( key ) => ALIGNMENT[ key ] )
+                Object.keys( Alignment )
+                    .map( ( key ) => Alignment[ key ] )
                     .indexOf( alignTabs ) > -1
             );
 

@@ -8,12 +8,12 @@ import layout from '../templates/components/sl-date-time';
  * @memberof module:components/sl-date-time
  * @enum {String}
  */
-const FORMAT = Object.freeze({
+const Format = Object.freeze({
     DATE: 'date',
     DATETIME: 'datetime',
     RELATIVE: 'relative'
 });
-export { FORMAT };
+export { Format };
 
 /**
  * @module
@@ -59,7 +59,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @type {String}
      */
-    format: FORMAT.DATETIME,
+    format: Format.DATETIME,
 
     /**
      * @type {String}
@@ -124,16 +124,16 @@ export default Ember.Component.extend( TooltipEnabled, {
             let formattedString = '';
 
             switch ( this.get( 'format' ) ) {
-                case FORMAT.DATE:
+                case Format.DATE:
                     formattedString = momentValue.format( 'YYYY-MM-DD' );
                     break;
 
-                case FORMAT.RELATIVE:
+                case Format.RELATIVE:
                     formattedString = momentValue.fromNow();
                     break;
 
                 default:
-                case FORMAT.DATETIME:
+                case Format.DATETIME:
                     formattedString =
                         momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) +
                         ' ' +

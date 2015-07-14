@@ -7,11 +7,11 @@ import layout from '../templates/components/sl-grid';
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-const COLUMN_ALIGN = Object.freeze({
+const ColumnAlign = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { COLUMN_ALIGN };
+export { ColumnAlign };
 
 /**
  * Valid values for the column definitions' `size` property
@@ -19,12 +19,12 @@ export { COLUMN_ALIGN };
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-const COLUMN_SIZE = Object.freeze({
+const ColumnSize = Object.freeze({
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
 });
-export { COLUMN_SIZE };
+export { ColumnSize };
 
 /**
  * @module
@@ -211,11 +211,11 @@ export default Ember.Component.extend({
     /**
      * @typedef ColumnDefinition
      * @type {Object}
-     * @property {COLUMN_ALIGN} [align] - Which direction to align the
+     * @property {ColumnAlign} [align] - Which direction to align the
      *           column's content
      * @property {Boolean} [primary] - Whether the column is always shown
-     * @property {Number|COLUMN_SIZE} [size] - The width of the column; either a
-     *           number of pixels, or a COLUMN_SIZE value
+     * @property {Number|ColumnSize} [size] - The width of the column; either a
+     *           number of pixels, or a ColumnSize value
      * @property {Boolean} [sortable] - Whether the column is able to be sorted
      * @property {String} [template] - Template name to use for the cell value;
      *           uses the `rowController` as its controller
