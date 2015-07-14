@@ -200,7 +200,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     for ( let i = 0; i < contentLength; i++ ) {
                         const item = content[i];
                         const text = 'object' === typeOfItem ||
-                            'instance' === typefOfItem ?
+                            'instance' === typeOfItem ?
                             Ember.get( item, optionValuePath ) :
                             item;
 
