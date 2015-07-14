@@ -80,8 +80,8 @@ export default Ember.Component.extend({
      * Check passed parameters on initialization
      *
      * @function
-     * @throws {ember.assert} Series property must be an array'
-     * @throws {ember.assert} Options property must be an Object'
+     * @throws {ember.assert} 'Series property must be an array'
+     * @throws {ember.assert} 'Options property must be an Object'
      * @returns {undefined}
      */
     initialize: Ember.on(
@@ -110,17 +110,62 @@ export default Ember.Component.extend({
         function() {
             let chartDiv = this.$( 'div.chart' );
 
+            chartDiv.highcharts( this.get( 'highchartsOptions' ) );
+            this.set( 'chart', chartDiv.highcharts() );
+            this.updateData();
+        }
+    ),
+
+    /**
+     * Updates the chart's series data
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateData: Ember.observer(
+        'series',
+        function() {
+            let chart = this.get( 'chart' );
+            let series = this.get( 'series' );
+
+            if ( !chart.hasOwnProperty( 'series' ) ) {
+                chart.series = [];
+            }
+
+            for ( let i = 0; i < series.length; i++ ) {
+                if ( chart.series.length <= i ) {
+                    chart.addSeries( series[ i ] );
+                } else {
+                    chart.series[ i ].setData( series[ i ].data );
+                }
+            }
+        }
+    ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Options for Highcharts
+     *
+     * @function
+     * @returns {Object}
+     */
+     highchartsOptions: Ember.computed(
+        'options',
+        function() {
             let chartStyle = {
                 fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
                 fontSize: '13px'
             };
 
-            let options = Ember.$.extend( true, {
+            return Ember.$.extend( true, {
                 chart: {
                     animation: false,
                     backgroundColor: 'rgba(255, 255, 255, 0)',
                     style: chartStyle
                 },
+                title: null,
                 colors: [
                     '#298fce',
                     '#94302e',
@@ -163,41 +208,8 @@ export default Ember.Component.extend({
                     }
                 }
             }, this.get( 'options' ) || {} );
-
-            chartDiv.highcharts( options );
-            this.set( 'chart', chartDiv.highcharts() );
-            this.updateData();
         }
     ),
-
-    /**
-     * Updates the chart's series data
-     *
-     * @function
-     * @returns {undefined}
-     */
-    updateData: Ember.observer(
-        'series',
-        function() {
-            let chart = this.get( 'chart' );
-            let series = this.get( 'series' );
-
-            if ( !chart.hasOwnProperty( 'series' ) ) {
-                chart.series = [];
-            }
-
-            for ( let i = 0; i < series.length; i++ ) {
-                if ( chart.series.length <= i ) {
-                    chart.addSeries( series[ i ] );
-                } else {
-                    chart.series[ i ].setData( series[ i ].data );
-                }
-            }
-        }
-    ),
-
-    // -------------------------------------------------------------------------
-    // Methods
 
     /**
      * Inline style containing height and width, required by Highcharts

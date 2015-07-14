@@ -19,19 +19,19 @@ let testOptions = {
     }
 };
 
-let testSeries = [{ 
-    name: 'Alice', 
+let testSeries = [{
+    name: 'Alice',
     data: [ 1, 0, 4 ]
 }];
 
 moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
-	unit: true
+    unit: true
 });
 
 test( 'Default classNames are present', function( assert ) {
-    this.subject({ 
-        options: testOptions, 
-        series: testSeries 
+    this.subject({
+        options: testOptions,
+        series: testSeries
     });
 
     assert.ok(
@@ -57,8 +57,8 @@ test( 'Default classNames are present', function( assert ) {
 
 test( 'Loading state adds loading class', function( assert ) {
     let component = this.subject({
-        options: testOptions, 
-        series: testSeries 
+        options: testOptions,
+        series: testSeries
     });
 
     assert.strictEqual(
@@ -77,24 +77,28 @@ test( 'Loading state adds loading class', function( assert ) {
     );
 });
 
-test( 'updateData() is called once', function( assert ) {
+test( 'updateData() is called after series property is modified', function( assert ) {
     let component = this.subject({
-        options: testOptions, 
-        series: testSeries 
+        options: testOptions,
+        series: testSeries
     });
-
-    let spy = sinon.spy( component, 'updateData');
 
     this.render();
 
-    assert.equal(
+    let spy = sinon.spy( component, 'updateData' );
+    let changedTestSeries = [];
+
+    component.set( 'series' , changedTestSeries );
+
+    assert.ok(
         spy.calledOnce,
-        true,
-        'updateData() is called once'
+        'updateData() is called once after series modified'
     );
 });
 
 test( '"Options" property needs to be an object', function( assert ) {
+
+    // Null
     let assertionThrown = false;
 
     try {
@@ -102,15 +106,33 @@ test( '"Options" property needs to be an object', function( assert ) {
             options: null,
             series: testSeries
         });
-    }  catch( error ) {
+    } catch( error ) {
         assertionThrown = true;
     }
 
     assert.ok(
         assertionThrown,
-        'testOptions was empty'
+        'property was null'
     );
 
+    // Array
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: [],
+            series: testSeries
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was an array'
+    );
+
+    // String
     assertionThrown = false;
 
     try {
@@ -118,15 +140,16 @@ test( '"Options" property needs to be an object', function( assert ) {
             options: "string",
             series: testSeries
         });
-    }  catch( error ) {
+    } catch( error ) {
         assertionThrown = true;
     }
 
     assert.ok(
         assertionThrown,
-        'testOptions was string'
+        'property was string'
     );
 
+    // Undefined
     assertionThrown = false;
 
     try {
@@ -134,15 +157,16 @@ test( '"Options" property needs to be an object', function( assert ) {
             options: undefined,
             series: testSeries
         });
-    }  catch( error ) {
+    } catch( error ) {
         assertionThrown = true;
     }
 
     assert.ok(
         assertionThrown,
-        'testOptions was undefined'
+        'property was undefined'
     );
 
+    // Boolean
     assertionThrown = false;
 
     try {
@@ -150,31 +174,33 @@ test( '"Options" property needs to be an object', function( assert ) {
             options: true,
             series: testSeries
         });
-    }  catch( error ) {
+    } catch( error ) {
         assertionThrown = true;
     }
 
     assert.ok(
         assertionThrown,
-        'testOptions was a boolean'
+        'property was a boolean'
     );
 
+    // Number
     assertionThrown = false;
 
     try {
         this.subject({
-            options: 666,
+            options: 123,
             series: testSeries
         });
-    }  catch( error ) {
+    } catch( error ) {
         assertionThrown = true;
     }
 
     assert.ok(
         assertionThrown,
-        'testOptions was number'
+        'property was number'
     );
 
+    // Function
     assertionThrown = false;
 
     try {
@@ -182,130 +208,16 @@ test( '"Options" property needs to be an object', function( assert ) {
             options: function(){},
             series: testSeries
         });
-    }  catch( error ) {
+    } catch( error ) {
         assertionThrown = true;
     }
 
     assert.ok(
         assertionThrown,
-        'testOptions was a function'
+        'property was a function'
     );
 
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: testSeries
-        });
-    }  catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        !assertionThrown,
-        'testOptions was an Object'
-    );
-});
-
-test( '"Series" property needs to be an array', function( assert ) {
-
-    let assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: null
-        });
-    }  catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'testSeries was empty'
-    );
-
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: "string"
-        });
-    }  catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'testSeries was string'
-    );
-
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: undefined
-        });
-    }  catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'testSeries was undefined'
-    );
-
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: true
-        });
-    }  catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'testSeries was a boolean'
-    );
-
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: 666
-        });
-    }  catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'testSeries was number'
-    );
-
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: function(){}
-        });
-    }  catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'testSeries was a function'
-    );
-
+    // Object
     assertionThrown = false;
 
     try {
@@ -319,45 +231,376 @@ test( '"Series" property needs to be an array', function( assert ) {
 
     assert.ok(
         !assertionThrown,
-        'testSeries was an Array'
+        'property was an Object'
+    );
+
+    // Symbol
+    assertionThrown = false;
+
+    let testSymbol = Symbol( 'foo' );
+
+    try {
+        this.subject({
+            options: testSymbol,
+            series: testSeries
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        !assertionThrown,
+        'property was a symbol'
     );
 });
 
-test( "Style method returns correct string", function( assert ) {
+test( '"Series" property needs to be an array', function( assert ) {
+
+    // Null
+    let assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: null
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was null'
+    );
+
+    // Object
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: {}
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was an object'
+    );
+
+    // Symbol
+    assertionThrown = false;
+
+    let testSymbol = Symbol( 'foo' );
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: testSymbol
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was a symbol'
+    );
+
+    // String
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: "string"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was string'
+    );
+
+    // Undefined
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: undefined
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was undefined'
+    );
+
+    // Boolean
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: true
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was a boolean'
+    );
+
+    // Number
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: 123
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was number'
+    );
+
+    // Function
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: function(){}
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        'property was a function'
+    );
+
+    // Array
+    assertionThrown = false;
+
+    try {
+        this.subject({
+            options: testOptions,
+            series: testSeries
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        !assertionThrown,
+        'property was an Array'
+    );
+});
+
+test( "Chart div uses the correct style", function( assert ) {
     let component = this.subject({
-        options: testOptions, 
+        options: testOptions,
         series: testSeries
     });
 
-    assert.equal( component.get( 'style' ).string, 'height: auto; width: auto;' );
+    assert.equal(
+        component.get( 'style' ).string,
+        'height: auto; width: auto;'
+    );
 
-    component.set( 'height', 10 );
+    assert.equal(
+        this.$( 'div.chart' ).attr( 'style' ),
+        component.get( 'style' ).string,
+        'Chart div has automatic height and width'
+    );
 
-    assert.equal( component.get( 'style' ).string, 'height: 10; width: auto;' );
+    Ember.run( () => {
+        component.set( 'height', 10 );
+        component.set( 'width', 20 );
+    });
+
+    assert.equal(
+        component.get( 'style' ).string,
+        'height: 10; width: 20;'
+    );
+
+    assert.equal(
+        this.$( 'div.chart' ).attr( 'style' ),
+        component.get( 'style' ).string,
+        'Chart div has height 10 and width 20'
+    );
 });
 
 test( "Title property is set", function( assert ) {
     let component = this.subject({
-        options: testOptions, 
+        options: testOptions,
         series: testSeries
     });
 
-    assert.equal( component.get( 'title' ), null );
+    assert.strictEqual(
+        this.$( '.panel-heading' )[0],
+        undefined,
+        'No chart title is rendered when title is not set'
+    );
 
-    component.set( 'title', 'Peak server hours' );
+    let testTitle = "Peak server hours";
 
-    assert.equal( component.get( 'title' ), 'Peak server hours' );
+    Ember.run( () => {
+        component.set( 'title', testTitle );
+    });
+
+    assert.equal(
+        this.$( '.panel-heading' ).html(),
+        testTitle,
+        'Chart title is created with title value'
+    );
 });
 
-test( "Chart property is set after setupChart() is ran", function( assert ) {
+
+test( "setupChart initializes chart and updates data upon render", function( assert ) {
+    let chartTest = "a test chart";
+    let chartDivMock = {
+        highcharts( options ) {
+            if ( Ember.typeOf( options ) === "undefined" ) {
+                return chartTest;
+            } else {
+                return null;
+            }
+        }
+    };
+
     let component = this.subject({
-        options: testOptions, 
-        series: testSeries
+        options: testOptions,
+        series: testSeries,
+        $: function() {
+            return chartDivMock;
+        },
+        updateData: function() {
+            return;
+        }
     });
 
-    assert.equal( component.get( 'chart' ), null);
+    let setupSpy = sinon.spy( component, 'setupChart' );
+    let updateSpy = sinon.spy( component, 'updateData' );
+    let highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
+
+    assert.equal(
+        component.get( 'chart' ),
+        null,
+        'Chart is null upon initilization'
+    );
 
     this.render();
 
-    assert.ok( component.get( 'chart' ), 'chart is rendered' );
+    assert.ok(
+        setupSpy.calledOnce,
+        'setupChart was called once upon render'
+    );
+
+    assert.ok(
+        updateSpy.calledOnce,
+        'updateData was called once upon render'
+    );
+
+    assert.ok(
+        highchartsSpy.calledTwice,
+        'highcharts was called twice upon render'
+    );
+
+    assert.ok(
+        highchartsSpy.calledWithExactly( component.get( 'highchartsOptions' ) ),
+        'highcharts was called once with options'
+    );
+
+    assert.ok(
+        highchartsSpy.calledWithExactly(),
+        'highcharts was called once with no parameters'
+    );
+
+    assert.equal(
+        component.get( 'chart' ),
+        chartTest,
+        'chart is initialized'
+    );
+});
+
+test( 'highchartsOptions returns expected options', function( assert ) {
+    let component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+    let chartStyle = {
+        fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+        fontSize: '13px'
+    };
+    let options = Ember.$.extend( true, {
+        chart: {
+            animation: false,
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            style: chartStyle
+        },
+        title: null,
+        colors: [
+            '#298fce',
+            '#94302e',
+            '#00a14b',
+            '#f29c1e',
+            '#fadb00',
+            '#34495d'
+        ],
+        credits: {
+            enabled: false
+        },
+        legend: {
+            itemStyle: chartStyle
+        },
+        plotOptions: {
+            bar: {
+                borderColor: 'transparent'
+            },
+            series: {
+                animation: false
+            }
+        },
+        tooltip: {
+            animation: false,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            borderWidth: 0,
+            shadow: false,
+            style: {
+                color: '#fff'
+            }
+        },
+        xAxis: {
+            labels: {
+                style: chartStyle
+            }
+        },
+        yAxis: {
+            labels: {
+                style: chartStyle
+            }
+        }
+    }, component.get( 'options' ) || {} );
+
+    assert.deepEqual(
+        options,
+        component.get( 'highchartsOptions' ),
+        'highchartsOptions returns expected options'
+    );
 });
