@@ -82,14 +82,23 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * @function
-     * @returns {undefined}
+     * @returns {Boolean}
      */
     click() {
         this.sendAction();
+
+        return this.get( 'bubbles' );
     },
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether or not the button should bubble actions to its parent
+     *
+     * @type {Boolean}
+     */
+    bubbles: true,
 
     /**
      * Whether or not the button should be disabled during AJAX activity
