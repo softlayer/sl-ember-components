@@ -537,7 +537,8 @@ export default Ember.Component.extend({
                     days.push({
                         active,
                         content: active ?
-                            contentDates[ year ][ month ][ day ] : null,
+                            contentDates[ year ][ month ][ day ] :
+                            null,
                         day: day++,
                         'new': inNextMonth,
                         old: inPreviousMonth
