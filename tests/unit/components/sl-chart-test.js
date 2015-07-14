@@ -233,25 +233,6 @@ test( '"Options" property needs to be an object', function( assert ) {
         !assertionThrown,
         'property was an Object'
     );
-
-    // Symbol
-    assertionThrown = false;
-
-    let testSymbol = Symbol( 'foo' );
-
-    try {
-        this.subject({
-            options: testSymbol,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        !assertionThrown,
-        'property was a symbol'
-    );
 });
 
 test( '"Series" property needs to be an array', function( assert ) {
@@ -288,25 +269,6 @@ test( '"Series" property needs to be an array', function( assert ) {
     assert.ok(
         assertionThrown,
         'property was an object'
-    );
-
-    // Symbol
-    assertionThrown = false;
-
-    let testSymbol = Symbol( 'foo' );
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: testSymbol
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was a symbol'
     );
 
     // String
