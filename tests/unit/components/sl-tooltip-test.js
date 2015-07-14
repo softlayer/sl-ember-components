@@ -57,7 +57,7 @@ test( '"title" property needs to be a string', function( assert ) {
     assertionThrown = false;
 
     try {
-        let sym = Symbol("foo");
+        let sym = Symbol( 'foo' );
         this.subject({
             title: sym
         });
@@ -212,7 +212,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
     assertionThrown = false;
 
     try {
-        let sym = Symbol("foo");
+        let sym = Symbol( 'foo' );
         this.subject({
             popover: sym,
             title: "Tooltip Text"
