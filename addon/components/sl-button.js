@@ -205,15 +205,15 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             let sizeClass;
             switch ( size ) {
-                case SIZE.EXTRA_SMALL:
+                case Size.EXTRA_SMALL:
                     sizeClass = 'btn-xs';
                     break;
 
-                case SIZE.SMALL:
+                case Size.SMALL:
                     sizeClass = 'btn-sm';
                     break;
 
-                case SIZE.LARGE:
+                case Size.LARGE:
                     sizeClass = 'btn-lg';
                     break;
             }
