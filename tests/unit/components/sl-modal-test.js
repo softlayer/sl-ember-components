@@ -327,8 +327,7 @@ test( 'aria-hidden is true', function( assert ) {
 test( 'aria-labelledby is set', function( assert ) {
     component = this.subject({
         modalService: mockModalService,
-        template: template,
-        title: 'testTitle'
+        template: template
     });
 
     this.render();

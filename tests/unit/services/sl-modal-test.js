@@ -70,35 +70,3 @@ test( 'Unregister a modal', function( assert ) {
         modalUnregistered
     );
 });
-
-test( 'Get all open modals', function( assert ) {
-    service.register( mockModal, mockModal.name );
-
-    assert.equal(
-        service.getOpenModals().length,
-        1
-    );
-});
-
-test( 'Hide all modals', function( assert ) {
-    let mockModal1 = new MockModal( 'mock1', true );
-    let mockModal2 = new MockModal( 'mock2', true );
-
-    mockModal1.hide = sinon.spy();
-    mockModal2.hide = sinon.spy();
-
-    service.register( mockModal1, mockModal1.name );
-    service.register( mockModal2, mockModal2.name );
-
-    service.hideAll();
-
-    assert.ok(
-        mockModal1.hide.calledOnce,
-        'Modal one was hidden'
-    );
-
-    assert.ok(
-        mockModal2.hide.calledOnce,
-        'Modal two was hidden'
-    );
-});

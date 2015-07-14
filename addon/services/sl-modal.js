@@ -24,41 +24,6 @@ export default Ember.Service.extend({
        return this.get( `modals.${name}` );
     },
 
-    /**
-     * Get all open modals
-     *
-     * @function
-     * @returns {Array}
-     */
-    getOpenModals() {
-        let modals = this.get( 'modals' );
-        let openModals = [];
-
-        for( let key in modals ) {
-            let modal = modals[ key ];
-
-            if ( modal.isOpen ) {
-                openModals.push( modal );
-            }
-        }
-
-        return openModals;
-    },
-
-    /**
-     * Hide all registered modals
-     *
-     * @function
-     * @returns {undefined}
-     */
-    hideAll() {
-        let modals = this.get( 'modals' );
-
-        for ( let key in modals ) {
-            let modal = modals[ key ];
-            modal.hide();
-        }
-    },
 
     /**
      * Register a modal component
