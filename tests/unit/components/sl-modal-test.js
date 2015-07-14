@@ -79,12 +79,12 @@ test( 'Classes are present', function( assert ) {
 });
 
 test( 'Listeners are setup and firing appropriately', function( assert ) {
+    assert.expect( 4 );
+
     let beforeShowDone = assert.async();
     let afterShowDone = assert.async();
     let beforeHideDone = assert.async();
     let afterHideDone = assert.async();
-
-    assert.expect( 4 );
 
     component = this.subject({
         beforeShow: 'beforeShow',
@@ -168,9 +168,9 @@ test( 'Property isOpen is set appropriately', function( assert ) {
 });
 
 test( 'Closing of modal using close button works', function ( assert ) {
-    let closeDone = assert.async();
-
     assert.expect( 1 );
+
+    let closeDone = assert.async();
 
     component = this.subject({
         afterHide: 'modalClosed',
@@ -215,9 +215,9 @@ test( 'Modal registered on modal service', function( assert ) {
 });
 
 test( 'Backdrop is hidden when backdrop property is set to false', function ( assert ) {
-    let openDone = assert.async();
-
     assert.expect( 1 );
+
+    let openDone = assert.async();
 
     component = this.subject({
         afterShow: 'modalOpen',
