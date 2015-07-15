@@ -152,7 +152,6 @@ export default Ember.Component.extend({
      * @returns {Object}
      */
      highchartsOptions: Ember.computed(
-        'options',
         function() {
             let chartStyle = {
                 fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',

@@ -603,7 +603,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
     );
 });
 
-test('title property is not missing in highchartsOptions and set to null', function( assert ) {
+test( 'title property is not missing in highchartsOptions and set to null', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
