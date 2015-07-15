@@ -56,7 +56,8 @@ test( '"title" property needs to be a string', function( assert ) {
     assertionThrown = false;
 
     try {
-        let sym = Symbol( 'foo' );
+        const sym = Symbol( 'foo' );
+
         this.subject({
             title: sym
         });
@@ -66,7 +67,7 @@ test( '"title" property needs to be a string', function( assert ) {
 
     assert.ok(
         assertionThrown,
-        "Property was a symbol"
+        'Property was a symbol'
     );
 
     // Number Property
@@ -211,10 +212,11 @@ test( '"popover" property needs to be a string or undefined', function( assert )
     assertionThrown = false;
 
     try {
-        let sym = Symbol( 'foo' );
+        const sym = Symbol( 'foo' );
+
         this.subject({
             popover: sym,
-            title: "Tooltip Text"
+            title: 'Tooltip Text'
         });
     } catch( error ) {
         assertionThrown = true;
@@ -222,7 +224,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
 
     assert.ok(
         assertionThrown,
-        "Property was a symbol"
+        'Property was a symbol'
     );
 
     // Number Property

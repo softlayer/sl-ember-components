@@ -195,10 +195,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     const values = value.split( ',' );
                     let unmatchedValues = values.length;
 
-                    const typeOfItem = Ember.typeOf( item );
-
                     for ( let i = 0; i < contentLength; i++ ) {
                         const item = content[i];
+                        const typeOfItem = Ember.typeOf( item );
                         const text = 'object' === typeOfItem ||
                             'instance' === typeOfItem ?
                             Ember.get( item, optionValuePath ) :

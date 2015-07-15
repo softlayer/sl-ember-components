@@ -133,7 +133,7 @@ test( 'themeClass() returns correct value', function( assert ) {
 });
 
 test( 'Button supports click event bubbling', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.click(),
