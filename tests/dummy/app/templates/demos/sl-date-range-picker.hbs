@@ -38,6 +38,17 @@
         The binding value for the endDate input.
     {{/property-text}}
 
+    {{#property-text name="format" type="string" default="\"mm/dd/yyyy\""}}
+        The date format used for both inpus; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy
+        <ul>
+            <li>d, dd : Numeric date, no leading zero and leading zero, respectively</li>
+            <li>D, DD : Abbreviated and full weekday names, respectively</li>
+            <li>m, mm : Numeric month, no leading zero and leading zero, respectively</li>
+            <li>M, MM : Abbreviated and full month names, respectively</li>
+            <li>yy, yyyy : 2- and 4-digit years, respectively</li>
+        </ul>
+    {{/property-text}}
+
     {{#property-text name="maxDate" type="date/string" default="null"}}
         The latest possible date for the range.
     {{/property-text}}
