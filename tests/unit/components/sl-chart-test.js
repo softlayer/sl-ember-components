@@ -610,9 +610,8 @@ test('title property is not missing in highchartsOptions and set to null', funct
     });
 
     assert.strictEqual(
-        null,
         component.get( 'highchartsOptions' ).title,
+        null,
         'title property in highchartsOptions is set to null in order to supress default behavior for our usage'
     );
-
 });
