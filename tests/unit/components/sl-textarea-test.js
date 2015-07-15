@@ -66,24 +66,27 @@ test( 'If "label" property is populated, "for" attribute is expected value', fun
     );
 });
 
-test( 'If "label" property is not populated, "optional" and "required" elements are not rendered even if populated', function( assert ) {
-    this.subject({
-        optional: true,
-        required: true
-    });
+test(
+    'If "label" property is not populated, "optional" and "required" elements are not rendered even if populated',
+    function( assert ) {
+        this.subject({
+            optional: true,
+            required: true
+        });
 
-    assert.strictEqual(
-        this.$( 'label > .text-info' ).length,
-        0,
-        "Label's text-info is not rendered"
-    );
+        assert.strictEqual(
+            this.$( 'label > .text-info' ).length,
+            0,
+            "Label's text-info is not rendered"
+        );
 
-    assert.strictEqual(
-        this.$( 'label > .text-danger' ).length,
-        0,
-        "Label's text-danger is not rendered"
-    );
-});
+        assert.strictEqual(
+            this.$( 'label > .text-danger' ).length,
+            0,
+            "Label's text-danger is not rendered"
+        );
+    }
+);
 
 test( '"optional" and "required" elements are rendered if populated along with "label" property', function( assert ) {
     this.subject({

@@ -79,11 +79,13 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
         content,
         sortColumn: 'test',
 
-        columns: new Ember.A([{
-            sortable: true,
-            title: 'Name',
-            valuePath: 'name'
-        }]),
+        columns: new Ember.A([
+            {
+                sortable: true,
+                title: 'Name',
+                valuePath: 'name'
+            }
+        ]),
 
         targetObject: {
             test( column ) {

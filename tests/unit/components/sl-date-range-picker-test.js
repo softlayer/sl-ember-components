@@ -1,12 +1,17 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-date-range-picker', 'Unit | Component | sl date range picker', {
-    needs: [
-        'component:sl-date-picker'
-    ],
-    unit: true
-});
+moduleForComponent(
+    'sl-date-range-picker',
+    'Unit | Component | sl date range picker',
+    {
+        needs: [
+            'component:sl-date-picker'
+        ],
+
+        unit: true
+    }
+);
 
 test( 'Default classNames are present', function( assert ) {
     this.subject();
@@ -26,9 +31,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
         assert.ok( true, 'End date input receives focus upon start date change' );
     });
 
-    Ember.run( () => {
-        this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
-    });
+    this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
@@ -39,14 +42,18 @@ test( 'Earliest end date is the based on min date and start date', function( ass
         null
     );
 
-    component.set( 'minDate', '01/01/2001' );
+    Ember.run( () => {
+        component.set( 'minDate', '01/01/2001' );
+    });
 
     assert.equal(
         component.get( 'earliestEndDate' ),
         '01/01/2001'
     );
 
-    component.set( 'startDateValue', '01/01/2015' );
+    Ember.run( () => {
+        component.set( 'startDateValue', '01/01/2015' );
+    });
 
     assert.equal(
         component.get( 'earliestEndDate' ),
@@ -62,14 +69,18 @@ test( 'Latest start date is the based on max date and end date', function( asser
         null
     );
 
-    component.set( 'maxDate', '01/01/2029' );
+    Ember.run( () => {
+        component.set( 'maxDate', '01/01/2029' );
+    });
 
     assert.equal(
         component.get( 'latestStartDate' ),
         '01/01/2029'
     );
 
-    component.set( 'endDateValue', '01/01/2015' );
+    Ember.run( () => {
+        component.set( 'endDateValue', '01/01/2015' );
+    });
 
     assert.equal(
         component.get( 'latestStartDate' ),
@@ -87,7 +98,9 @@ test( 'Events from start date input are removed upon willClearRender', function(
         'Start date input has change event listener after render'
     );
 
-    component.trigger( 'willClearRender' );
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+    });
 
     assert.strictEqual(
         Ember.$.data( startDateInput, 'events' ),
@@ -106,7 +119,7 @@ test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by defa
     );
 
     assert.strictEqual(
-        this.$( 'label' )[0],
+        this.$( 'label' )[ 0 ],
         undefined,
         'No label is created when label is undefined'
     );

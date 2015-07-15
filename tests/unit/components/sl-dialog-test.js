@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
 import ModalMixin from 'sl-ember-components/mixins/sl-modal';
+import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-dialog', 'Unit | Component | sl dialog', {
     unit: true
@@ -80,13 +80,24 @@ test( 'Correct DOM structure is in place', function( assert ) {
     );
 
     assert.equal(
-        this.$( 'div.modal-dialog > div.modal-content > div.modal-header > button[data-dismiss="modal"] > span[aria-hidden="true"]' ).text(),
+        this.$( `
+            div.modal-dialog >
+            div.modal-content >
+            div.modal-header >
+            button[data-dismiss="modal"] >
+            span[aria-hidden="true"]
+        ` ).text(),
         '×',
         'Rendered close button contains expected text character'
     );
 
     assert.equal(
-        this.$( 'div.modal-dialog > div.modal-content > div.modal-header > span.modal-title' ).length,
+        this.$( `
+            div.modal-dialog >
+            div.modal-content >
+            div.modal-header >
+            span.modal-title
+        ` ).length,
         1,
         'Rendered component contains modal-title'
     );
@@ -104,7 +115,12 @@ test( 'Correct DOM structure is in place', function( assert ) {
     );
 
     assert.equal(
-        this.$( 'div.modal-dialog > div.modal-content > div.modal-footer > button.btn-primary[data-dismiss="modal"]' ).length,
+        this.$( `
+            div.modal-dialog >
+            div.modal-content >
+            div.modal-footer >
+            button.btn-primary[data-dismiss="modal"]
+        ` ).length,
         1,
         'Rendered component contains modal dismiss button'
     );
