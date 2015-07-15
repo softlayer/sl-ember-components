@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-let testOptions = {
+const testOptions = {
     chartOptions: {
         chart: {
             type: 'bar'
@@ -19,7 +19,7 @@ let testOptions = {
     }
 };
 
-let testSeries = [{
+const testSeries = [{
     name: 'Alice',
     data: [ 1, 0, 4 ]
 }];
@@ -56,7 +56,7 @@ test( 'Default classNames are present', function( assert ) {
 });
 
 test( 'Loading state adds loading class', function( assert ) {
-    let component = this.subject({
+    const component = this.subject({
         options: testOptions,
         series: testSeries
     });
@@ -78,15 +78,15 @@ test( 'Loading state adds loading class', function( assert ) {
 });
 
 test( 'updateData() is called after series property is modified', function( assert ) {
-    let component = this.subject({
+    const component = this.subject({
         options: testOptions,
         series: testSeries
     });
 
     this.render();
 
-    let spy = sinon.spy( component, 'updateData' );
-    let changedTestSeries = [];
+    const spy = sinon.spy( component, 'updateData' );
+    const changedTestSeries = [];
 
     component.set( 'series' , changedTestSeries );
 
@@ -238,7 +238,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     assertionThrown = false;
 
     try {
-        let sym = Symbol( 'foo' );
+        const sym = Symbol( 'foo' );
         this.subject({
             options: sym,
             series: testSeries
@@ -293,7 +293,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     assertionThrown = false;
 
     try {
-        let sym = Symbol( 'foo' );
+        const sym = Symbol( 'foo' );
         this.subject({
             options: testOptions,
             series: sym
@@ -411,19 +411,19 @@ test( '"Series" property needs to be an array', function( assert ) {
 });
 
 test( "Chart div uses the correct style", function( assert ) {
-    let component = this.subject({
+    const component = this.subject({
         options: testOptions,
         series: testSeries
     });
 
     assert.equal(
-        component.get( 'style' ).string,
+        component.get( 'style' ),
         'height: auto; width: auto;'
     );
 
     assert.equal(
         this.$( 'div.chart' ).attr( 'style' ),
-        component.get( 'style' ).string,
+        component.get( 'style' ),
         'Chart div has automatic height and width'
     );
 
@@ -433,19 +433,19 @@ test( "Chart div uses the correct style", function( assert ) {
     });
 
     assert.equal(
-        component.get( 'style' ).string,
+        component.get( 'style' ),
         'height: 10; width: 20;'
     );
 
     assert.equal(
         this.$( 'div.chart' ).attr( 'style' ),
-        component.get( 'style' ).string,
+        component.get( 'style' ),
         'Chart div has height 10 and width 20'
     );
 });
 
 test( "Title property is set", function( assert ) {
-    let component = this.subject({
+    const component = this.subject({
         options: testOptions,
         series: testSeries
     });
@@ -456,7 +456,7 @@ test( "Title property is set", function( assert ) {
         'No chart title is rendered when title is not set'
     );
 
-    let testTitle = "Peak server hours";
+    const testTitle = "Peak server hours";
 
     Ember.run( () => {
         component.set( 'title', testTitle );
@@ -471,8 +471,8 @@ test( "Title property is set", function( assert ) {
 
 
 test( "setupChart initializes chart and updates data upon render", function( assert ) {
-    let chartTest = "a test chart";
-    let chartDivMock = {
+    const chartTest = "a test chart";
+    const chartDivMock = {
         highcharts( options ) {
             if ( Ember.typeOf( options ) === "undefined" ) {
                 return chartTest;
@@ -482,7 +482,7 @@ test( "setupChart initializes chart and updates data upon render", function( ass
         }
     };
 
-    let component = this.subject({
+    const component = this.subject({
         options: testOptions,
         series: testSeries,
         $: function() {
@@ -493,9 +493,9 @@ test( "setupChart initializes chart and updates data upon render", function( ass
         }
     });
 
-    let setupSpy = sinon.spy( component, 'setupChart' );
-    let updateSpy = sinon.spy( component, 'updateData' );
-    let highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
+    const setupSpy = sinon.spy( component, 'setupChart' );
+    const updateSpy = sinon.spy( component, 'updateData' );
+    const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
 
     assert.equal(
         component.get( 'chart' ),
@@ -538,15 +538,15 @@ test( "setupChart initializes chart and updates data upon render", function( ass
 });
 
 test( 'highchartsOptions returns expected options', function( assert ) {
-    let component = this.subject({
+    const component = this.subject({
         options: testOptions,
         series: testSeries
     });
-    let chartStyle = {
+    const chartStyle = {
         fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
         fontSize: '13px'
     };
-    let options = Ember.$.extend( true, {
+    const options = Ember.$.extend( true, {
         chart: {
             animation: false,
             backgroundColor: 'rgba(255, 255, 255, 0)',
@@ -601,4 +601,18 @@ test( 'highchartsOptions returns expected options', function( assert ) {
         component.get( 'highchartsOptions' ),
         'highchartsOptions returns expected options'
     );
+});
+
+test('title property is not missing in highchartsOptions and set to null', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    assert.strictEqual(
+        null,
+        component.get( 'highchartsOptions' ).title,
+        'title property in highchartsOptions is set to null in order to supress default behavior for our usage'
+    );
+
 });

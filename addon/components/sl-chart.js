@@ -159,13 +159,12 @@ export default Ember.Component.extend({
                 fontSize: '13px'
             };
 
-            return Ember.$.extend( true, {
+            let options = Ember.$.extend( true, {
                 chart: {
                     animation: false,
                     backgroundColor: 'rgba(255, 255, 255, 0)',
                     style: chartStyle
                 },
-                title: null,
                 colors: [
                     '#298fce',
                     '#94302e',
@@ -208,6 +207,11 @@ export default Ember.Component.extend({
                     }
                 }
             }, this.get( 'options' ) || {} );
+
+            // Title property in options must be kept null in order to suppress its default behavior for our specific usage.
+            options.title = null;
+
+            return options;
         }
     ),
 
