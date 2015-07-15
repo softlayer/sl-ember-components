@@ -82,22 +82,24 @@ export default Ember.Component.extend({
     animated: true,
 
     /**
-     * aria-describedby value
+     * ariaDescribedby property, the value of this will be set as
+     * the value to the aria-describedby attribute
      *
      * @type {?String}
      */
     ariaDescribedby: null,
 
     /**
-     *  The aria-hidden value to inform assistive technologies to skip the
-     *  modal's DOM elements
+     * ariaHidden property, the value of this will be set as
+     * the value to the aria-hidden attribute
      *
      * @type {String}
      */
     ariaHidden: 'true',
 
      /**
-      * aria-labelledby value
+      * ariaLabelledby property, the value of this will be set as
+      * the value to the aria-labelledby attribute
       *
       * @function
       * @returns {String}
@@ -105,7 +107,8 @@ export default Ember.Component.extend({
     ariaLabelledby: null,
 
     /**
-     * The aria-role value
+     * The ariaRole property, the value of this will be set as
+     * the value to the aria-role attribute
      *
      * @type {String}
      */
@@ -159,7 +162,7 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-    getLabelledBy: Ember.on(
+    getLabelledby: Ember.on(
         'willInsertElement',
         function() {
             this.set( 'ariaLabelledby', this.$('[id^="modalTitle"]').attr( 'id' ) );
