@@ -11,8 +11,8 @@ The service provides a way to manage modals across the app.
 
     actions: {
         openModal( name ) {
-            let service = this.get( 'modalService' );
-            let modal = service.find( name );
+            const service = this.get( 'modalService' );
+            const modal = service.find( name );
             modal.show();
         }
     }</pre>

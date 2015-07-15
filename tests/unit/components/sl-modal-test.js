@@ -3,12 +3,12 @@ import Ember from 'ember';
 
 let component;
 
-let mockModalService = {
+const mockModalService = {
     register() {},
     find() {}
 };
 
-let template = Ember.Handlebars.compile(
+const template = Ember.Handlebars.compile(
     '{{sl-modal-header title="Simple Example"}}' +
     '{{#sl-modal-body}}' +
     '<p>A simple modal example</p>' +
@@ -81,10 +81,10 @@ test( 'Classes are present', function( assert ) {
 test( 'Listeners are setup and firing appropriately', function( assert ) {
     assert.expect( 4 );
 
-    let beforeShowDone = assert.async();
-    let afterShowDone = assert.async();
-    let beforeHideDone = assert.async();
-    let afterHideDone = assert.async();
+    const beforeShowDone = assert.async();
+    const afterShowDone = assert.async();
+    const beforeHideDone = assert.async();
+    const afterHideDone = assert.async();
 
     component = this.subject({
         beforeShow: 'beforeShow',
@@ -170,7 +170,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
 test( 'Closing of modal using close button works', function ( assert ) {
     assert.expect( 1 );
 
-    let closeDone = assert.async();
+    const closeDone = assert.async();
 
     component = this.subject({
         afterHide: 'modalClosed',
@@ -194,9 +194,9 @@ test( 'Closing of modal using close button works', function ( assert ) {
 });
 
 test( 'Modal registered on modal service', function( assert ) {
-    let registerSpy = sinon.spy();
+    const registerSpy = sinon.spy();
 
-    let mockModalService = {
+    const mockModalService = {
         register: registerSpy,
         find: function(){ }
     };
@@ -217,7 +217,7 @@ test( 'Modal registered on modal service', function( assert ) {
 test( 'Backdrop is hidden when backdrop property is set to false', function ( assert ) {
     assert.expect( 1 );
 
-    let openDone = assert.async();
+    const openDone = assert.async();
 
     component = this.subject({
         afterShow: 'modalOpen',
@@ -259,7 +259,7 @@ test( 'Backdrop is shown by default', function( assert ) {
 });
 
 test( 'Modal is unregistered after destroy', function( assert ) {
-    let spyUnregister = sinon.spy();
+    const spyUnregister = sinon.spy();
 
     component = this.subject({
         modalService: mockModalService,
@@ -297,12 +297,12 @@ test( 'Fade class is absent when animated is set to false', function( assert ) {
 
 });
 
-test( 'aria-describedby attribute binding', function( assert ) {
-    let describedBy = 'targetId';
+test( 'ariaDescribedby attribute binding', function( assert ) {
+    const describedBy = 'targetId';
 
     component = this.subject({
         modalService: mockModalService,
-        'aria-describedby': describedBy
+        ariaDescribedby: describedBy
     });
 
     assert.equal(

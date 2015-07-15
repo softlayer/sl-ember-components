@@ -18,7 +18,7 @@ export default Ember.Service.extend({
      *
      * @function
      * @param {String} name - The unique name of the component to find
-     * @returns {?ember/Component}
+     * @returns {ember/Component|undefined}
      */
     find( name ) {
        return this.get( `modals.${name}` );
@@ -28,12 +28,13 @@ export default Ember.Service.extend({
     /**
      * Register a modal component
      *
-     * @param {ember/Component} modal
      * @function
+     * @param {ember/Component} modal
+     * @throws {ember.assert} Thrown if a modal with the same name has already been registered.
      * @returns {undefined}
      */
     register( modal ) {
-        let name = modal.get( 'name' );
+        const name = modal.get( 'name' );
 
         Ember.assert(
             `Error: Component with name "${name}" has already been registered`,
@@ -46,16 +47,14 @@ export default Ember.Service.extend({
     /**
      * Unregister a modal component
      *
-     * @param {ember/Component} modal
      * @function
+     * @param {ember/Component} modal
      * @returns {undefined}
      */
     unregister( modal ) {
-        let modals = this.get( 'modals' );
-        let name = modal.get( 'name' );
+        const modals = this.get( 'modals' );
+        const name = modal.get( 'name' );
 
-        if ( name in modals ) {
-            delete modals[ name ];
-        }
+        delete modals[ name ];
     }
 });

@@ -16,9 +16,9 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     attributeBindings: [
-        'aria-describedby',
-        'aria-hidden',
-        'aria-labelledby',
+        'ariaDescribedby:aria-describedby',
+        'ariaHidden:aria-hidden',
+        'ariaLabelledby:aria-labelledby',
         'tabindex'
     ],
 
@@ -82,27 +82,27 @@ export default Ember.Component.extend({
     animated: true,
 
     /**
-     * aria-describedby attribute
+     * aria-describedby value
      *
      * @type {?String}
      */
-    'aria-describedby': null,
+    ariaDescribedby: null,
 
     /**
-     *  aria-hidden attribute to inform assistive technologies to skip the
+     *  The aria-hidden value to inform assistive technologies to skip the
      *  modal's DOM elements
      *
      * @type {String}
      */
-    'aria-hidden': 'true',
+    ariaHidden: 'true',
 
      /**
-      * aria-labelledby attribute value
+      * aria-labelledby value
       *
       * @function
       * @returns {String}
       */
-    'aria-labelledby': null,
+    ariaLabelledby: null,
 
     /**
      * The aria-role value
@@ -154,7 +154,7 @@ export default Ember.Component.extend({
     // Observers
 
     /**
-     * Get aria-labelledby target element id
+     * Get ariaLabelledby target element id
      *
      * @function
      * @returns {undefined}
@@ -162,7 +162,7 @@ export default Ember.Component.extend({
     getLabelledBy: Ember.on(
         'willInsertElement',
         function() {
-            this.set( 'aria-labelledby', this.$('[id^="modalTitle"]').attr( 'id' ) );
+            this.set( 'ariaLabelledby', this.$('[id^="modalTitle"]').attr( 'id' ) );
         }
     ),
 
@@ -175,7 +175,7 @@ export default Ember.Component.extend({
     register: Ember.on(
        'init',
        function() {
-           let name = this.get( 'name' );
+           const name = this.get( 'name' );
 
            if ( name ) {
               this.get( 'modalService' ).register( this );
@@ -192,7 +192,7 @@ export default Ember.Component.extend({
      setupModal: Ember.on(
          'didInsertElement',
          function() {
-            let modal = this.$().modal({
+            const modal = this.$().modal({
                 keyboard: true,
                 show: false,
                 backdrop: this.get( 'backdrop' )
@@ -243,7 +243,7 @@ export default Ember.Component.extend({
     unregister: Ember.on(
         'willDestroyElement',
         function() {
-            let modalService = this.get( 'modalService' );
+            const modalService = this.get( 'modalService' );
             if ( modalService.find( this ) ) {
                 modalService.unregister( this );
             }

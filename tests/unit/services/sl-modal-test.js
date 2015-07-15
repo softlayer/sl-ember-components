@@ -2,9 +2,8 @@ import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import ModalService from 'sl-ember-components/services/sl-modal';
 
-let service = ModalService.create();
-
-let MockModal = function( name, isOpen ) {
+const service = ModalService.create();
+const MockModal = function( name, isOpen ) {
     this.name = name;
     this.isOpen = isOpen;
 
@@ -15,7 +14,7 @@ let MockModal = function( name, isOpen ) {
     this.hide = function() {};
 };
 
-let mockModal = new MockModal( 'mock', true );
+const mockModal = new MockModal( 'mock', true );
 
 moduleFor( 'service:sl-modal', 'Unit | Service | sl modal', {
     unit: true,
@@ -29,7 +28,7 @@ moduleFor( 'service:sl-modal', 'Unit | Service | sl modal', {
 test( 'Register modal', function( assert ) {
     service.register( mockModal );
 
-    let modals = service.modals;
+    const modals = service.modals;
 
     assert.ok(
         mockModal.name in modals
@@ -39,7 +38,7 @@ test( 'Register modal', function( assert ) {
 test( 'Find modal', function( assert ) {
     service.set( `modals.${mockModal.name}`, mockModal );
 
-    let modal = service.find( mockModal.name );
+    const modal = service.find( mockModal.name );
 
     assert.equal(
         modal.name,
@@ -64,7 +63,7 @@ test( 'Unregister a modal', function( assert ) {
     service.register( mockModal, mockModal.name );
     service.unregister( mockModal );
 
-    let modalUnregistered = !( mockModal.name in service.modals );
+    const modalUnregistered = !( mockModal.name in service.modals );
 
     assert.ok(
         modalUnregistered

@@ -35,12 +35,12 @@ export default Ember.Component.extend({
     // Methods
 
     /**
-     * aria-labelledby attribute value
+     * aria-labelledby value
      *
      * @function
      * @returns {String}
      */
-    'aria-labelledby': Ember.computed(
+    'ariaLabelledby': Ember.computed(
         'elementId',
         function() {
             return 'modalTitle' + this.get( 'elementId' );

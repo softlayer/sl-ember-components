@@ -6,7 +6,7 @@ moduleForComponent( 'sl-modal-body', 'Unit | Component | sl modal body', {
 });
 
 test( 'It renders', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.equal(
         component._state,
@@ -29,7 +29,7 @@ test( 'Modal body exists', function( assert ) {
 });
 
 test( 'Content is yielded', function( assert ) {
-    let content = '<div class="test"></div>';
+    const content = '<div class="test"></div>';
 
     this.subject({
         template: Ember.Handlebars.compile( content )

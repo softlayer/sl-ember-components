@@ -6,7 +6,7 @@ moduleForComponent( 'sl-modal-footer', 'Unit | Component | sl modal footer', {
 });
 
 test( 'It renders', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.equal(
         component._state,
@@ -36,7 +36,7 @@ test( 'Close button exists', function( assert ) {
 });
 
 test( 'Close button text is customizable', function( assert ) {
-    let buttonText = 'Custom Close Text';
+    const buttonText = 'Custom Close Text';
 
     this.subject({
         buttonText: buttonText
@@ -49,7 +49,7 @@ test( 'Close button text is customizable', function( assert ) {
 });
 
 test( 'Content is yielded', function( assert ) {
-    let content = '<div class="test"></div>';
+    const content = '<div class="test"></div>';
 
     this.subject({
         template: Ember.Handlebars.compile( content )

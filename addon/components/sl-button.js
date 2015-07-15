@@ -89,6 +89,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * @function
+     * @throws {ember.assert} Thrown if the modal is not found in modal service
      * @returns {undefined}
      */
     click() {
