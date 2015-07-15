@@ -108,6 +108,23 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     ),
 
     /**
+     * Validate required parameters
+     *
+     * @function
+     * @throws {ember.assert} Thrown when `content` is not an array
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            Ember.assert(
+                '"content" is a required property of type array',
+                'array' === Ember.typeOf( this.get( 'content' ) )
+            );
+        }
+    ),
+
+    /**
      * Set up select2 initialization after the element is inserted in the DOM
      *
      * @function
