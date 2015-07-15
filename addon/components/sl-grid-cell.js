@@ -113,11 +113,13 @@ export default Ember.Component.extend({
                     .indexOf( align ) > -1
             );
 
+            let alignment = null;
+
             if ( 'right' === align ) {
-                return 'text-right';
+                alignment = 'text-right';
             }
 
-            return null;
+            return alignment;
         }
     ),
 

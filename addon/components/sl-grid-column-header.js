@@ -71,14 +71,15 @@ export default SlGridCell.extend({
             }
 
             const sortAscending = this.get( 'column.sortAscending' );
+            let className = null;
 
             if ( 'boolean' === Ember.typeOf( sortAscending ) ) {
-                return 'column-' + (
+                className = 'column-' + (
                     sortAscending ? 'ascending' : 'descending'
                 );
             }
 
-            return null;
+            return className;
         }
     ),
 

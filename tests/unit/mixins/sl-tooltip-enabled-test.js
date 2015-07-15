@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import { test } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 let temporaryData;
 const jQueryMock = function() {
@@ -23,7 +23,7 @@ const jQueryMock = function() {
     };
 };
 
-window.module( 'Unit | Mixin | sl tooltip enabled', {
+module( 'Unit | Mixin | sl tooltip enabled', {
     beforeEach() {
         temporaryData = {};
     }

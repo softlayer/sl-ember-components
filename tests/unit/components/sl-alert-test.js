@@ -36,7 +36,10 @@ test( 'Dismiss action is handled', function( assert ) {
 
         targetObject: {
             dismiss: function() {
-                assert.ok( true, 'Bound dismiss action fired' );
+                assert.ok(
+                    true,
+                    'Bound dismiss action fired'
+                );
             }
         }
     });

@@ -35,7 +35,10 @@ test( 'The element fires event when clicked', function( assert ) {
         action: 'externalAction',
         targetObject: {
             externalAction() {
-                assert.ok( true, 'External action was called' );
+                assert.ok(
+                    true,
+                    'External action was called'
+                );
             }
         }
     });
