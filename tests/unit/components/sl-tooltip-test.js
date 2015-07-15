@@ -51,6 +51,24 @@ test( '"title" property needs to be a string', function( assert ) {
         'Property was empty'
     );
 
+    // Symbol Property
+
+    assertionThrown = false;
+
+    try {
+        let sym = Symbol( 'foo' );
+        this.subject({
+            title: sym
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        "Property was a symbol"
+    );
+
     // Number Property
 
     assertionThrown = false;
@@ -186,6 +204,25 @@ test( '"popover" property needs to be a string or undefined', function( assert )
     assert.ok(
         assertionThrown,
         'Property was empty'
+    );
+
+    // Symbol Property
+
+    assertionThrown = false;
+
+    try {
+        let sym = Symbol( 'foo' );
+        this.subject({
+            popover: sym,
+            title: "Tooltip Text"
+        });
+    } catch( error ) {
+        assertionThrown = true;
+    }
+
+    assert.ok(
+        assertionThrown,
+        "Property was a symbol"
     );
 
     // Number Property

@@ -85,12 +85,11 @@ export default Ember.Component.extend({
     setupFocusTransition: Ember.on(
         'didInsertElement',
         function() {
-            const endDateInput = this.$( '.sl-daterange-end-date input' );
-
             this.$( '.sl-daterange-start-date input' ).on( 'change', () => {
-                endDateInput.focus();
+                this.$( '.sl-daterange-end-date input' ).focus();
             });
-        }),
+        }
+    ),
 
     /**
      * Remove events
