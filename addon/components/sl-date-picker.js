@@ -294,7 +294,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         }
     ),
 
-     /**
+    /**
      * Dynamically update the startDate and endDate values for the datepicker
      *
      * @function
