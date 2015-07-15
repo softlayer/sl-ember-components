@@ -5,7 +5,7 @@ moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
 });
 
-test('it renders', function( assert ) {
+test( 'it renders', function( assert ) {
     assert.expect( 2 );
 
     // Creates the component instance
@@ -29,11 +29,21 @@ test( 'Default class names are present', function( assert ) {
         this.$().hasClass( 'sl-date-picker' ),
         'Default rendered component has class "sl-date-picker"'
     );
+
+    assert.ok(
+        this.$('input').hasClass( 'date-picker' ),
+        'Default rendered input has class "date-picker"'
+    );
+
+    assert.ok(
+        this.$('input').hasClass( 'form-control' ),
+        'Default rendered input has class "form-control"'
+    );
 });
 
 
 test( 'Default properties are set correctly', function( assert ) {
-    var component = this.subject();
+    let component = this.subject();
 
     assert.equal(
         component.get( 'autoclose' ),
@@ -84,6 +94,12 @@ test( 'Default properties are set correctly', function( assert ) {
     );
 
     assert.equal(
+        component.get( 'helpText' ),
+        null,
+        'The "helpText" default value is correct'
+    );
+
+    assert.equal(
         component.get( 'inputElementId' ),
         null,
         'The "inputElementId" default value is correct'
@@ -99,6 +115,12 @@ test( 'Default properties are set correctly', function( assert ) {
         component.get( 'keyboardNavigation' ),
         true,
         'The "keyboardNavigation" default value is correct'
+    );
+
+    assert.equal(
+        component.get( 'label' ),
+        null,
+        'The "label" default value is correct'
     );
 
     assert.equal(
@@ -202,46 +224,152 @@ test( 'setupDatepicker() - listens to correct event', function( assert ) {
     });
 });
 
-test( 'setEndDate() - listens to correct event', function( assert ) {
+test( 'updateDateRange() - listens to endDate event', function( assert ) {
     assert.expect( 1 );
 
     let component = this.subject({
         endDate: window.moment().toDate()
     });
-    let inputElement = this.$( 'input.date-picker' );
-    let spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'datepicker' );
-    let testDate = window.moment( '2013-02-08' ).toDate();
+    let inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
+    let spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'setEndDate' );
 
     Ember.run( () => {
-        component.set( 'endDate', testDate );
+        component.set(
+            'endDate',
+            window.moment( '2013-02-08' ).toDate()
+        );
     });
 
     assert.ok(
-        spy.calledWith( 'setEndDate', testDate )
+        spy.called
     );
 
-    inputElement.datepicker.restore();
+    inputElement.setEndDate.restore();
 });
 
-test( 'setStartDate() - listens to correct event', function( assert ) {
+test( 'updateDateRange() - listens to startDate event', function( assert ) {
     assert.expect( 1 );
 
     let component = this.subject({
         startDate: window.moment().toDate()
     });
-    let inputElement = this.$( 'input.date-picker' );
-    let spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'datepicker' );
-    let testDate = window.moment( '2013-02-08' ).toDate();
+    let inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
+    let spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'setStartDate' );
 
     Ember.run( () => {
-        component.set( 'startDate', testDate );
+        component.set(
+            'startDate',
+            window.moment( '2013-02-08' ).toDate()
+        );
     });
 
     assert.ok(
-        spy.calledWith( 'setStartDate', testDate )
+        spy.called
     );
 
-    inputElement.datepicker.restore();
+    inputElement.setStartDate.restore();
+});
+
+test( 'updateDateRange() - clears input date when outside of startDate range', function( assert ) {
+    let component = this.subject({
+        startDate: window.moment().toDate()
+    });
+    let inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
+
+    inputElement.setDate( window.moment( '2015-06-08' ).toDate() );
+
+    Ember.run( () => {
+        component.set(
+            'startDate',
+            window.moment( '2015-07-08' ).toDate()
+        );
+    });
+
+    assert.equal(
+        inputElement.getDate(),
+        'Invalid Date',
+        'Setting a date before "startDate" results in an "Invalid Date"'
+    );
+
+    assert.equal(
+        this.$( 'input.date-picker' ).datepicker().val(),
+        '',
+        'The datepicker input value was cleared successfully'
+    );
+});
+
+test( 'updateDateRange() - clears input date when outside of endDate range', function( assert ) {
+    let component = this.subject({
+        endDate: window.moment().toDate()
+    });
+    let inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
+
+    inputElement.setDate( window.moment( '2015-07-20' ).toDate() );
+
+    Ember.run( () => {
+        component.set(
+            'endDate',
+            window.moment( '2015-07-08' ).toDate()
+        );
+    });
+
+    assert.equal(
+        inputElement.getDate(),
+        'Invalid Date',
+        'Setting a date after "endDate" results in an "Invalid Date"'
+    );
+
+    assert.equal(
+        this.$( 'input.date-picker' ).datepicker().val(),
+        '',
+        'The datepicker input value was cleared successfully'
+    );
+});
+
+test( 'updateDateRange() - when date outside startDate range we show placeholder text when supplied', function( assert ) {
+    let component = this.subject({
+        startDate: window.moment().toDate(),
+        placeholder: 'Enter a valid date'
+    });
+
+    this.$( 'input.date-picker' ).data( 'datepicker' )
+        .setDate( window.moment( '2015-06-08' ).toDate() );
+
+    Ember.run( () => {
+        component.set(
+            'startDate',
+            window.moment( '2015-07-08' ).toDate()
+        );
+    });
+
+    assert.equal(
+        this.$( 'input.date-picker' ).datepicker().attr( 'placeholder' ),
+        'Enter a valid date',
+        'The "placeholder" value was displayed'
+    );
+});
+
+test( 'updateDateRange() - when date outside endDate range we show placeholder text when supplied', function( assert ) {
+    let component = this.subject({
+        endDate: window.moment().toDate(),
+        placeholder: 'Enter a valid date'
+    });
+
+    this.$( 'input.date-picker' ).data( 'datepicker' )
+        .setDate( window.moment( '2015-07-20' ).toDate() );
+
+    Ember.run( () => {
+        component.set(
+            'endDate',
+            window.moment( '2015-07-08' ).toDate()
+        );
+    });
+
+    assert.equal(
+        this.$( 'input.date-picker' ).datepicker().attr( 'placeholder' ),
+        'Enter a valid date',
+        'The "placeholder" value was displayed'
+    );
 });
 
 test( 'unregisterEvents() - listens to correct event', function( assert ) {
@@ -262,3 +390,33 @@ test( 'unregisterEvents() - listens to correct event', function( assert ) {
         'Datepicker does not have event listeners after willClearRender'
     );
 });
+
+test( 'options() - object contains the expected keys', function( assert ) {
+    let component = this.subject();
+    let optionsMockObject = Ember.Object.create({
+        autoclose: true,
+        calendarWeeks: false,
+        clearBtn: false,
+        daysOfWeekDisabled: [],
+        endDate: null,
+        forceParse: true,
+        format: 'mm/dd/yyyy',
+        inputs: null,
+        keyboardNavigation: true,
+        language: 'en',
+        multidate: false,
+        orientation: 'auto',
+        startDate: null,
+        startView: 'month',
+        todayBtn: false,
+        todayHighlight: false,
+        weekStart: 0
+    });
+
+    assert.deepEqual(
+        Object.keys( component.get( 'options' ) ).sort(),
+        Object.keys( optionsMockObject ).sort(),
+        'The options object contains the expected keys'
+    );
+});
+
