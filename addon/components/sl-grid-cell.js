@@ -116,6 +116,8 @@ export default Ember.Component.extend({
             if ( 'right' === align ) {
                 return 'text-right';
             }
+
+            return null;
         }
     ),
 

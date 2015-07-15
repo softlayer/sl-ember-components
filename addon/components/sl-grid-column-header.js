@@ -77,6 +77,8 @@ export default SlGridCell.extend({
                     sortAscending ? 'ascending' : 'descending'
                 );
             }
+
+            return null;
         }
     ),
 
