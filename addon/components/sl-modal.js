@@ -16,9 +16,9 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     attributeBindings: [
-        'ariaDescribedby:aria-describedby',
+        'ariaDescribedBy:aria-describedby',
         'ariaHidden:aria-hidden',
-        'ariaLabelledby:aria-labelledby',
+        'ariaLabelleBy:aria-labelledby',
         'tabindex'
     ],
 
@@ -82,12 +82,12 @@ export default Ember.Component.extend({
     animated: true,
 
     /**
-     * ariaDescribedby property, the value of this will be set as
+     * ariaDescribedBy property, the value of this will be set as
      * the value to the aria-describedby attribute
      *
      * @type {?String}
      */
-    ariaDescribedby: null,
+    ariaDescribedBy: null,
 
     /**
      * ariaHidden property, the value of this will be set as
@@ -98,13 +98,13 @@ export default Ember.Component.extend({
     ariaHidden: 'true',
 
      /**
-      * ariaLabelledby property, the value of this will be set as
+      * ariaLabelledBy property, the value of this will be set as
       * the value to the aria-labelledby attribute
       *
       * @function
       * @returns {String}
       */
-    ariaLabelledby: null,
+    ariaLabelledBy: null,
 
     /**
      * The ariaRole property, the value of this will be set as
@@ -157,7 +157,7 @@ export default Ember.Component.extend({
     // Observers
 
     /**
-     * Get ariaLabelledby target element id
+     * Get ariaLabelledBy target element id
      *
      * @function
      * @returns {undefined}
@@ -165,7 +165,7 @@ export default Ember.Component.extend({
     getLabelledby: Ember.on(
         'willInsertElement',
         function() {
-            this.set( 'ariaLabelledby', this.$('[id^="modalTitle"]').attr( 'id' ) );
+            this.set( 'ariaLabelledBy', this.$('[id^="modalTitle"]').attr( 'id' ) );
         }
     ),
 

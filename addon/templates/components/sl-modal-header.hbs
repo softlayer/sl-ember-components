@@ -1,6 +1,6 @@
 <div class="modal-header">
     {{#if template}}
-        {{yield ariaLabelledby}}
+        {{yield ariaLabelledBy}}
     {{else}}
         <button class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true">&times;</span>
@@ -9,6 +9,6 @@
     {{/if}}
 
     {{#if title}}
-        <span class="modal-title" id={{ariaLabelledby}}>{{title}}</span>
+        <span class="modal-title" id={{ariaLabelledBy}}>{{title}}</span>
     {{/if}}
 </div>

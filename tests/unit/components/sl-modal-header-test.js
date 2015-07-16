@@ -61,27 +61,27 @@ test( 'Content is yielded', function( assert ) {
     );
 });
 
-test( 'Modal title\'s id is set to ariaLabelledby property value', function( assert ) {
+test( 'Modal title\'s id is set to ariaLabelledBy property value', function( assert ) {
     const component = this.subject({
         title: 'labelTest'
     });
 
     assert.equal(
         this.$( '.modal-title' ).prop( 'id' ),
-        component.get( 'ariaLabelledby' )
+        component.get( 'ariaLabelledBy' )
     );
 });
 
 test( 'aria-labelledby can be bound in a custom header', function( assert ) {
-    const template = '<span class="modal-title" id={{ariaLabelledby}}>Custom Title</span>';
+    const template = '<span class="modal-title" id={{ariaLabelledBy}}>Custom Title</span>';
 
     const component = this.subject({
         layout: Ember.Handlebars.compile( template ),
-        ariaLabelledby: 'mockUniqueString'
+        ariaLabelledBy: 'mockUniqueString'
     });
 
     assert.equal(
         this.$( '.modal-title' ).prop( 'id' ),
-        component.get( 'ariaLabelledby' )
+        component.get( 'ariaLabelledBy' )
     );
 });

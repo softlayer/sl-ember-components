@@ -297,12 +297,12 @@ test( 'Fade class is absent when animated is set to false', function( assert ) {
 
 });
 
-test( 'ariaDescribedby attribute binding', function( assert ) {
+test( 'ariaDescribedBy attribute binding', function( assert ) {
     const describedBy = 'targetId';
 
     component = this.subject({
         modalService: mockModalService,
-        ariaDescribedby: describedBy
+        ariaDescribedBy: describedBy
     });
 
     assert.equal(
