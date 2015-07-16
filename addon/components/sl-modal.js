@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     attributeBindings: [
         'ariaDescribedBy:aria-describedby',
         'ariaHidden:aria-hidden',
-        'ariaLabelleBy:aria-labelledby',
+        'ariaLabelledBy:aria-labelledby',
         'tabindex'
     ],
 
