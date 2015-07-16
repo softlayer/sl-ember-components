@@ -21,7 +21,7 @@ test( 'Has expected aria-role property', function( assert ) {
 });
 
 test( 'Option type class value depends on `label` value', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         this.$().hasClass( 'presentation' ),

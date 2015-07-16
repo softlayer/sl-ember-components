@@ -2,7 +2,9 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
-    needs: [ 'component:sl-radio' ],
+    needs: [
+        'component:sl-radio'
+    ],
 
     unit: true
 });
@@ -73,7 +75,7 @@ test( 'The readonly state applies to sl-radio children', function( assert ) {
 });
 
 test( 'Value changes when sl-radio child selected', function( assert ) {
-    var component = this.subject({
+    const component = this.subject({
         name: 'test',
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}' +

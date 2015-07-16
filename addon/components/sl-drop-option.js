@@ -80,7 +80,7 @@ export default Ember.Component.extend({
     optionType: Ember.computed(
         'label',
         function() {
-            return this.get( 'label' ) ? 'presentation': 'divider';
+            return this.get( 'label' ) ? 'presentation' : 'divider';
         }
     )
 

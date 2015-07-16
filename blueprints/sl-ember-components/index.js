@@ -1,6 +1,6 @@
 module.exports = {
     afterInstall: function() {
-        var self = this;
+        const self = this;
 
         return this.addBowerPackageToProject( 'bootstrap-datepicker', '~1.3.0' )
             .then( function() {

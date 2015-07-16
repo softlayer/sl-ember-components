@@ -18,7 +18,7 @@ test( 'Default classes are present', function( assert ) {
 });
 
 test( 'Property "onFirstPage" works correctly', function( assert ) {
-    var component = this.subject({ currentPage: 2 });
+    const component = this.subject({ currentPage: 2 });
 
     assert.equal(
         component.get( 'onFirstPage' ),
@@ -37,7 +37,7 @@ test( 'Property "onFirstPage" works correctly', function( assert ) {
 });
 
 test( 'Changing to previous page behaves correctly', function( assert ) {
-    var component = this.subject({ currentPage: 1, totalPages: 3 });
+    const component = this.subject({ currentPage: 1, totalPages: 3 });
 
     this.$( '.previous-page-button' ).trigger( 'click' );
     assert.equal(
@@ -68,7 +68,7 @@ test( 'Changing to previous page behaves correctly', function( assert ) {
 });
 
 test( 'Changing to next page behaves correctly', function( assert ) {
-    var component = this.subject({ currentPage: 3, totalPages: 3 });
+    const component = this.subject({ currentPage: 3, totalPages: 3 });
 
     this.$( '.next-page-button' ).trigger( 'click' );
     assert.equal(

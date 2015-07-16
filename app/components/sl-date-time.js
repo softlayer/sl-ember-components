@@ -1,3 +1,1 @@
-import SlDateTime from 'sl-ember-components/components/sl-date-time';
-
-export default SlDateTime;
+export { default } from 'sl-ember-components/components/sl-date-time';

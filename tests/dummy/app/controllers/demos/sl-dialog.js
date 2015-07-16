@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     actions: {
-        openModal: function () {
+        openModal: function() {
             this.set( 'showModal', true );
         }
     },

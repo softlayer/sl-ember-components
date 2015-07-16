@@ -5,9 +5,11 @@
   "homepage": "http://softlayer.github.io/sl-ember-components",
   "scripts": {
     "build": "ember build",
+    "docs": "ember ember-cli-jsdoc",
+    "lint": "node_modules/.bin/sl-eslint",
+    "lint-all": "node_modules/.bin/sl-eslint addon app blueprints tests",
     "start": "ember server",
-    "test": "ember test",
-    "docs": "ember ember-cli-jsdoc"
+    "test": "ember test"
   },
   "bugs": "https://github.com/softlayer/sl-ember-components/issues",
   "repository": {
@@ -64,6 +66,7 @@
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
-    "ember-try": "0.0.6"
+    "ember-try": "0.0.6",
+    "@joshforisha/sl-eslint": "0.0.7"
   }
 }

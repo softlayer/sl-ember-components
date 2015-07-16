@@ -9,12 +9,12 @@ import layout from '../templates/components/sl-textarea';
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-const DIRECTION = {
+const Direction = Object.freeze({
     BACKWARD: 'backward',
     FORWARD: 'forward',
     NONE: 'none'
-};
-export { DIRECTION };
+});
+export { Direction };
 
 /**
  * Valid values for `spellcheck` property
@@ -22,12 +22,12 @@ export { DIRECTION };
  * @memberof module:components/sl-textarea
  * @enum {Boolean|String}
  */
-const SPELLCHECK = {
+const Spellcheck = {
     DEFAULT: 'default',
     FALSE: false,
     TRUE: true
 };
-export { SPELLCHECK };
+export { Spellcheck };
 
 /**
  * Valid values for `wrap` property
@@ -35,11 +35,11 @@ export { SPELLCHECK };
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-const WRAP = {
+const Wrap = {
     HARD: 'hard',
     SOFT: 'soft'
 };
-export { WRAP };
+export { Wrap };
 
 /**
  * @module
@@ -85,9 +85,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * Accepted values are either "forward" (default), "backward", or "none".
      *
-     * @type {DIRECTION}
+     * @type {Direction}
      */
-    selectionDirection: DIRECTION.FORWARD,
+    selectionDirection: Direction.FORWARD,
 
     /**
      * The `selectionEnd` HTML attribute value
@@ -108,18 +108,18 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * Accepted values are true, false, "default" (default), "true", or "false".
      *
-     * @type {SPELLCHECK}
+     * @type {Spellcheck}
      */
-    spellcheck: SPELLCHECK.DIRECTION,
+    spellcheck: Spellcheck.Direction,
 
     /**
      * The `wrap` HTML attribute value
      *
      * Accepted values are "soft" (default), or "hard".
      *
-     * @type {WRAP}
+     * @type {Wrap}
      */
-    wrap: WRAP.SOFT
+    wrap: Wrap.SOFT
 
     // -------------------------------------------------------------------------
     // Observers

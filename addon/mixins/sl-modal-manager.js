@@ -33,7 +33,7 @@ export default Ember.Mixin.create({
             Ember.$( selector ).modal( 'show' );
 
             if ( !Ember.isBlank( controller ) && !Ember.isBlank( model ) ) {
-                if ( Ember.typeOf( controller ) === 'string' ) {
+                if ( 'string' === Ember.typeOf( controller ) ) {
                     controller = this.controllerFor( controller );
                 }
 
