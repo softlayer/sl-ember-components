@@ -33,6 +33,9 @@ export default Ember.Controller.extend({
             name: 'drop-button',
             lib: { 'twb': true }
         }, {
+            name: 'drop-option',
+            lib: { 'twb': true }
+        }, {
             name: 'grid',
             lib: { 'sec': true }
         }, {
@@ -45,23 +48,29 @@ export default Ember.Controller.extend({
             name: 'menu',
             lib: { 'sec': true }
         }, {
+            name: 'pagination',
+            lib: { 'sec': true }
+        }, {
             name: 'panel',
             lib: { 'twb': true, 'bd': true }
         }, {
             name: 'progress-bar',
             lib: { 'twb': true }
         }, {
-            name: 'radio',
-            lib: { 'sec': true }
-        }, {
             name: 'radio-group',
             lib: { 'twb': true }
+        }, {
+            name: 'radio',
+            lib: { 'sec': true }
         }, {
             name: 'select',
             lib: { 's2': true }
         }, {
             name: 'span',
             lib: { 'sec': true }
+        }, {
+            name: 'tab-pane',
+            lib: { 'twb': true }
         }, {
             name: 'tab-panel',
             lib: { 'twb': true }
