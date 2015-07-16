@@ -334,6 +334,68 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
     );
 });
 
+test( 'Grid adds and removes events from the correct namespace', function( assert ) {
+    const component = this.subject({ columns, content, height: 'auto' });
+    const contentElement = this.$( '.list-pane .content' );
+    const windowElement = Ember.$( window );
+    const jQueryData = Ember.get( Ember.$, '_data' );
+
+    const hasEventNamespace = ( element, event, namespace ) => {
+        let hasNamespace = false;
+
+        assert.equal(
+            Ember.typeOf(
+                Ember.get( jQueryData( element, 'events' ), event )
+            ),
+            'array',
+            `Element has ${event} listeners`
+        );
+
+        Ember.get( jQueryData( element, 'events' ), event ).every(
+            ( item ) => {
+                if ( item.namespace === namespace ) {
+                    hasNamespace = true;
+                    return false;
+                }
+                return true;
+            }
+        );
+
+        return hasNamespace;
+    };
+
+    assert.ok(
+        hasEventNamespace( windowElement[0], 'resize', `sl-grid-${component.elementId}` ),
+        'Window has resize event listener in the correct namespace when height is auto'
+    );
+
+    component.enableContinuousPaging();
+
+    assert.ok(
+        hasEventNamespace( contentElement[0], 'scroll', 'sl-grid' ),
+        'Content pane has a scroll event listener in the correct namespace when continuous paging is enabled'
+    );
+
+    windowElement.on( 'resize', function(){} );
+    contentElement.on( 'scroll', function(){} );
+
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+    });
+
+    assert.strictEqual(
+        hasEventNamespace( windowElement[0], 'resize', `sl-grid-${component.elementId}` ),
+        false,
+        'willClearRender removes window resize listener from the correct namespace'
+    );
+
+    assert.strictEqual(
+        hasEventNamespace( contentElement[0], 'scroll', 'sl-grid' ),
+        false,
+        'willClearRender removes content pane scroll listener from the correct namespace'
+    );
+});
+
 // These tests require valid registered template paths for proper testing.
 window.QUnit.skip( 'Sub-template paths are determined correctly' );
 window.QUnit.skip( 'Toggling detail pane is supported' );

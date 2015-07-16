@@ -38,7 +38,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
         done();
     });
 
-    this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
+    this.$( '.sl-daterange-start-date input' ).trigger( 'changeDate' );
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
@@ -95,30 +95,48 @@ test( 'Latest start date is the based on max date and end date', function( asser
     );
 });
 
-test( 'Events from start date input are removed upon willClearRender', function( assert ) {
+test( 'changeDate listener is added and removed from the correct namespace', function( assert ) {
     const component = this.subject();
-
-    this.render();
-
-    const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
+    const inputElement = this.$( '.sl-daterange-start-date input' );
     const jQueryData = Ember.get( Ember.$, '_data' );
+    const hasDateRangePickerNamespace = () => {
+        let hasNamespace = false;
 
-    assert.equal(
-        Ember.typeOf(
-            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
-        ),
-        'array',
-        'Start date input has change event listener after render'
+        assert.equal(
+            Ember.typeOf(
+                Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' )
+            ),
+            'array',
+            'Start date picker has changeDate listeners'
+        );
+
+        Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' ).every(
+            ( element ) => {
+                if ( element.namespace === "sl-date-range-picker" ) {
+                    hasNamespace = true;
+                    return false;
+                }
+                return true;
+            }
+        );
+
+        return hasNamespace;
+    };
+
+    assert.ok(
+        hasDateRangePickerNamespace(),
+        'Start date picker has a changeDate event listener in the correct namespace after render'
     );
 
+    inputElement.on( 'changeDate', function(){} );
     Ember.run( () => {
         component.trigger( 'willClearRender' );
     });
 
     assert.strictEqual(
-        jQueryData( startDateInput, 'events' ),
-        undefined,
-        'Start date input has no event listeners after willClearRender'
+        hasDateRangePickerNamespace(),
+        false,
+        'willClearRender removes changeDate listener from the correct namespace'
     );
 });
 

@@ -85,7 +85,7 @@ export default Ember.Component.extend({
     setupFocusTransition: Ember.on(
         'didInsertElement',
         function() {
-            this.$( '.sl-daterange-start-date input' ).on( 'change', () => {
+            this.$( '.sl-daterange-start-date input' ).on( 'changeDate.sl-date-range-picker', () => {
                 this.$( '.sl-daterange-end-date input' ).trigger( 'focus' );
             });
         }
@@ -100,8 +100,7 @@ export default Ember.Component.extend({
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.$( '.sl-daterange-start-date input' ).off();
-            this.$( '.sl-daterange-end-date input' ).off();
+            this.$( '.sl-daterange-start-date input' ).off( 'changeDate.sl-date-range-picker' );
         }
     ),
 

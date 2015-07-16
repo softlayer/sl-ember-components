@@ -101,7 +101,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         'didInsertElement',
         function() {
             if ( this.get( 'blur' ) ) {
-                this.getInput().on( 'blur', () => {
+                this.getInput().on( 'blur.sl-input', () => {
                     this.sendAction( 'blur' );
                 });
             }
@@ -188,7 +188,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.getInput().off();
+            this.getInput().off( 'blur.sl-input' );
         }
     ),
 

@@ -367,22 +367,48 @@ test( 'updateDateRange() - when date outside endDate range we show placeholder t
     );
 });
 
-test( 'unregisterEvents() - listens to correct event', function( assert ) {
+test( 'changeDate listener is added and removed from the correct namespace', function( assert ) {
     const component = this.subject();
-    const inputElement = this.$( 'input.date-picker' )[ 0 ];
+    const inputElement = this.$( 'input.date-picker' );
+    const jQueryData = Ember.get( Ember.$, '_data' );
+    const hasDatePickerNamespace = () => {
+        let hasNamespace = false;
 
-    assert.equal(
-        Ember.typeOf( $._data( inputElement, 'events' ).changeDate ),
-        'array',
-        'Datepicker has a changeDate event listener after render'
+        assert.equal(
+            Ember.typeOf(
+                Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' )
+            ),
+            'array',
+            'Datepicker has changeDate listeners'
+        );
+
+        Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' ).every(
+            ( element ) => {
+                if ( element.namespace === "sl-date-picker" ) {
+                    hasNamespace = true;
+                    return false;
+                }
+                return true;
+            }
+        );
+
+        return hasNamespace;
+    };
+
+    assert.ok(
+        hasDatePickerNamespace(),
+        'Datepicker has a changeDate event listener in the correct namespace after render'
     );
 
-    component.trigger( 'willClearRender' );
+    inputElement.on( 'changeDate', function(){} );
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+    });
 
     assert.strictEqual(
-        $._data( inputElement, 'events' ),
-        undefined,
-        'Datepicker does not have event listeners after willClearRender'
+        hasDatePickerNamespace(),
+        false,
+        'willClearRender removes changeDate listener from the correct namespace'
     );
 });
 

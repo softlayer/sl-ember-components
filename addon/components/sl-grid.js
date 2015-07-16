@@ -411,7 +411,7 @@ export default Ember.Component.extend({
         'didInsertElement',
         function() {
             if ( 'auto' === this.get( 'height' ) ) {
-                Ember.$( window ).bind( 'resize', () => {
+                Ember.$( window ).on( `resize.sl-grid-${this.elementId}`, () => {
                     this.updateHeight();
                 });
             }
@@ -550,6 +550,20 @@ export default Ember.Component.extend({
     ),
 
     /**
+     * Remove events
+     *
+     * @function
+     * @returns {undefined}
+     */
+    unregisterEvents: Ember.on(
+        'willClearRender',
+        function() {
+            Ember.$( window ).off( `resize.sl-grid-${this.elementId}` );
+            this.disableContinuousPaging();
+        }
+    ),
+
+    /**
      * Update the panes' heights according to `height` property value
      *
      * @function
@@ -620,7 +634,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     disableContinuousPaging() {
-        this.$( '.list-pane .content' ).unbind( 'scroll' );
+        this.$( '.list-pane .content' ).off( 'scroll.sl-grid' );
     },
 
     /**
@@ -630,7 +644,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     enableContinuousPaging() {
-        this.$( '.list-pane .content' ).bind( 'scroll', ( event ) => {
+        this.$( '.list-pane .content' ).on( 'scroll.sl-grid', ( event ) => {
             this.handleListContentScroll( event );
         });
     },
