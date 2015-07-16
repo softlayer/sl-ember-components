@@ -32,10 +32,6 @@
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="action" type="function"}}
-        Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
-    {{/property-text}}
-
     {{#property-text name="autoclose" type="boolean" default="true"}}
         Whether or not to close the datepicker immediately when a date is selected.
     {{/property-text}}
@@ -50,6 +46,10 @@
 
     {{#property-text name="daysOfWeekDisabled" type="array"}}
         Days of the week that should be disabled. Values are 0 (Sunday) to 6 (Saturday). Multiple values should be comma-separated.
+    {{/property-text}}
+
+    {{#property-text name="disabled" type="string" default="false"}}
+        When true, the input field is disabled and the datepicker will never display.
     {{/property-text}}
 
     {{#property-text name="endDate" type="date"}}
@@ -71,12 +71,20 @@
         </ul>
     {{/property-text}}
 
+    {{#property-text name="helpText" type="string"}}
+        The help text below the datepicker's input field.
+    {{/property-text}}
+
     {{#property-text name="inputs" type="array"}}
         A list of inputs to be used in a range picker, which will be attached to the selected element. Allows for explicitly creating a range picker on a non-standard element.
     {{/property-text}}
 
     {{#property-text name="keyboardNavigation" type="boolean" default="true"}}
         Whether or not to allow date navigation by arrow keys.
+    {{/property-text}}
+
+    {{#property-text name="label" type="string"}}
+        The label text above the datepicker's input field.
     {{/property-text}}
 
     {{#property-text name="language" type="string" default="\"en\""}}
@@ -95,6 +103,10 @@
         A space-separated string consisting of one or two of "left" or "right", "top" or "bottom", and "auto" (may be omitted). Refers to the location of the picker popup's "anchor".
     {{/property-text}}
 
+    {{#property-text name="placeholder" type="string"}}
+        The <code>placeholder</code> attribute text for the date input.
+    {{/property-text}}
+
     {{#property-text name="startDate" type="date"}}
         The earliest date that may be selected. All earlier dates will be disabled.
     {{/property-text}}
@@ -109,6 +121,10 @@
 
     {{#property-text name="todayHighlight" type="boolean" default="false"}}
         When true, highlight the current date.
+    {{/property-text}}
+
+    {{#property-text name="value" type="string"}}
+        The date either selected by the datepicker or entered by the user.
     {{/property-text}}
 
     {{#property-text name="weekStart" type="number/string"}}
