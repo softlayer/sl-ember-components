@@ -85,14 +85,20 @@ export default Ember.Component.extend({
     setupChart: Ember.on(
         'didInsertElement',
         function() {
-            let chartDiv = this.$( 'div.chart' );
+            const chartDiv = this.$( 'div.chart' );
 
-            let chartStyle = {
-                fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            const chartStyle = {
+                fontFamily: [
+                    '"Benton Sans"',
+                    '"Helvetica Neue"',
+                    'Helvetica',
+                    'Arial',
+                    'sans-serif'
+                ].join( ', ' ),
                 fontSize: '13px'
             };
 
-            let options = Ember.$.extend( true, {
+            const options = Ember.$.extend( true, {
                 title: '',
                 chart: {
                     animation: false,
@@ -157,8 +163,8 @@ export default Ember.Component.extend({
     updateData: Ember.observer(
         'series',
         function() {
-            let chart = this.get( 'chart' );
-            let series = this.get( 'series' );
+            const chart = this.get( 'chart' );
+            const series = this.get( 'series' );
 
             if ( !chart.hasOwnProperty( 'series' ) ) {
                 chart.series = [];
@@ -187,10 +193,12 @@ export default Ember.Component.extend({
         'height',
         'width',
         function() {
-            let height = this.get( 'height' );
-            let width = this.get( 'width' );
+            const height = this.get( 'height' );
+            const width = this.get( 'width' );
 
-            return Ember.String.htmlSafe( `height: ${height}; width: ${width};` );
+            return Ember.String.htmlSafe(
+                `height: ${height}; width: ${width};`
+            );
         }
     )
 

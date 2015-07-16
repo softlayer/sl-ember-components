@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 module.exports = function( environment ) {
-    var ENV = {
+    const ENV = {
         modulePrefix: 'dummy',
         environment: environment,
         baseURL: '/',
@@ -10,8 +10,8 @@ module.exports = function( environment ) {
 
         EmberENV: {
             FEATURES: {
-                // Here you can enable experimental features on an ember canary build
-                // e.g. 'with-controller': true
+                // Here you can enable experimental features on an ember canary
+                // build (e.g. 'with-controller': true)
             }
         },
 
@@ -21,7 +21,7 @@ module.exports = function( environment ) {
         }
     };
 
-    if ( environment === 'development' ) {
+    if ( 'development' === environment ) {
         // We want to be able to host the demo app without `ember serve`
         ENV.locationType = 'hash';
 
@@ -32,7 +32,7 @@ module.exports = function( environment ) {
         // ENV.APP.LOG_VIEW_LOOKUPS = true;
     }
 
-    if ( environment === 'test' ) {
+    if ( 'test' === environment ) {
         // Testem prefers this...
         ENV.baseURL = '/';
         ENV.locationType = 'none';
@@ -44,9 +44,7 @@ module.exports = function( environment ) {
         ENV.APP.rootElement = '#ember-testing';
     }
 
-    if ( environment === 'production' ) {
-
-    }
+    // if ( 'production' === environment ) {
 
     return ENV;
 };

@@ -1,3 +1,1 @@
-import SlGrid from 'sl-ember-components/components/sl-grid';
-
-export default SlGrid;
+export { default } from 'sl-ember-components/components/sl-grid';

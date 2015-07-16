@@ -42,7 +42,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     click() {
-        let content = this.get( 'content' );
+        const content = this.get( 'content' );
 
         if ( content ) {
             this.sendAction( 'action', content );

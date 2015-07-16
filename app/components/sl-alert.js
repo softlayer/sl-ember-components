@@ -1,3 +1,1 @@
-import SlAlert from 'sl-ember-components/components/sl-alert';
-
-export default SlAlert;
+export { default } from 'sl-ember-components/components/sl-alert';

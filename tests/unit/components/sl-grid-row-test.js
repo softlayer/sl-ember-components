@@ -6,7 +6,7 @@ moduleForComponent( 'sl-grid-row', 'Unit | Component | sl grid row', {
 });
 
 test( 'Active row class is supported', function( assert ) {
-    var row = {};
+    const row = {};
 
     this.subject({ row });
 
@@ -28,7 +28,7 @@ test( 'Active row class is supported', function( assert ) {
 });
 
 test( 'Click event triggers rowClick action with row record', function( assert ) {
-    var row = { testValue: true };
+    const row = { testValue: true };
 
     this.subject({
         row,
