@@ -25,10 +25,17 @@ test( 'Default classNames are present', function( assert ) {
 test( 'Change focus to end date input upon start date change', function( assert ) {
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.subject();
 
     this.$( '.sl-daterange-end-date input' ).on( 'focus', () => {
-        assert.ok( true, 'End date input receives focus upon start date change' );
+        assert.ok(
+            true,
+            'End date input receives focus upon start date change'
+        );
+
+        done();
     });
 
     this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
@@ -90,10 +97,16 @@ test( 'Latest start date is the based on max date and end date', function( asser
 
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
     const component = this.subject();
+
+    this.render();
+
     const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
+    const jQueryData = Ember.get( Ember.$, '_data' );
 
     assert.equal(
-        Ember.typeOf( Ember.$.data( startDateInput, 'events' ).change ),
+        Ember.typeOf(
+            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
+        ),
         'array',
         'Start date input has change event listener after render'
     );
@@ -103,7 +116,7 @@ test( 'Events from start date input are removed upon willClearRender', function(
     });
 
     assert.strictEqual(
-        Ember.$.data( startDateInput, 'events' ),
+        jQueryData( startDateInput, 'events' ),
         undefined,
         'Start date input has no event listeners after willClearRender'
     );

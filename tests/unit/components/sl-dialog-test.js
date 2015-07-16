@@ -195,7 +195,9 @@ test( 'hideHandler properly handles hiding', function( assert ) {
         'Initial component property "show" is set to true'
     );
 
-    this.$().trigger( 'hide.bs.modal' );
+    Ember.run( () => {
+        this.$().trigger( 'hide.bs.modal' );
+    });
 
     assert.strictEqual(
         component.get( 'show' ),

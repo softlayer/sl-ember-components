@@ -86,7 +86,7 @@ export default Ember.Component.extend({
         'didInsertElement',
         function() {
             this.$( '.sl-daterange-start-date input' ).on( 'change', () => {
-                this.$( '.sl-daterange-end-date input' ).focus();
+                this.$( '.sl-daterange-end-date input' ).trigger( 'focus' );
             });
         }
     ),
@@ -101,6 +101,7 @@ export default Ember.Component.extend({
         'willClearRender',
         function() {
             this.$( '.sl-daterange-start-date input' ).off();
+            this.$( '.sl-daterange-end-date input' ).off();
         }
     ),
 
