@@ -114,7 +114,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @function
      * @returns {undefined}
      */
-    setupTypeahead: Ember.computed(
+    setupTypeahead: Ember.observer(
         'suggestions',
         Ember.on(
             'didInsertElement',
