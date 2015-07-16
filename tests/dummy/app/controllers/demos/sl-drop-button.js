@@ -2,20 +2,20 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
     actions: {
-        alertRed() {
-            window.alert( 'Red!' );
+        logRed() {
+            window.console.log( 'Red!' );
         },
 
-        alertGreen() {
-            window.alert( 'Green!' );
+        logGreen() {
+            window.console.log( 'Green!' );
         },
 
-        alertBlue() {
-            window.alert( 'Blue!' );
+        logBlue() {
+            window.console.log( 'Blue!' );
         },
 
-        alertWhite() {
-            window.alert( 'White!' );
+        logWhite() {
+            window.console.log( 'White!' );
         }
     }
 });

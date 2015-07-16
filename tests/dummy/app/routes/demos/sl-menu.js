@@ -12,17 +12,17 @@ export default Ember.Route.extend({
                         {
                             label: 'Red',
                             action() {
-                                window.alert( 'The color RED' );
+                                window.console.log( 'The color RED' );
                             }
                         }, {
                             label: 'Green',
                             action() {
-                                window.alert( 'The color GREEN' );
+                                window.console.log( 'The color GREEN' );
                             }
                         }, {
                             label: 'Blue',
                             action() {
-                                window.alert( 'The color BLUE' );
+                                window.console.log( 'The color BLUE' );
                             }
                         }
                     ]

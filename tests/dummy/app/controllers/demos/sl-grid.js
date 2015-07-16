@@ -6,10 +6,6 @@ export default Ember.ArrayController.extend({
             window.console.log( 'Clicked', row );
         },
 
-        sendAlert( row ) {
-            window.alert( 'Record: ' + Ember.get( row, 'name' ) );
-        },
-
         sendLog( row ) {
             window.console.log( 'Record:', Ember.get( row, 'name' ) );
         },
@@ -43,9 +39,6 @@ export default Ember.ArrayController.extend({
 
     rowActions: new Ember.A([
         {
-            label: 'Alert',
-            action: 'sendAlert'
-        }, {
             label: 'Log',
             action: 'sendLog'
         }
