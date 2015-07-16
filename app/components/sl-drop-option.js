@@ -1,3 +1,1 @@
-import SlDropOption from 'sl-ember-components/components/sl-drop-option';
-
-export default SlDropOption;
+export { default } from 'sl-ember-components/components/sl-drop-option';

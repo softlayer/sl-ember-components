@@ -23,8 +23,8 @@ test( 'Has expected initial classes', function( assert ) {
 });
 
 test( 'Disabled state applies class and disables input', function( assert ) {
-    var component = this.subject(),
-        $input = this.$( 'input' );
+    const component = this.subject();
+    const $input = this.$( 'input' );
 
     assert.strictEqual(
         this.$().hasClass( 'disabled' ),
@@ -37,7 +37,7 @@ test( 'Disabled state applies class and disables input', function( assert ) {
         'Rendered input is initially enabled'
     );
 
-    Ember.run( function() {
+    Ember.run( () => {
         component.set( 'disabled', true );
     });
 
@@ -53,8 +53,8 @@ test( 'Disabled state applies class and disables input', function( assert ) {
 });
 
 test( 'Checked state applies property to input', function( assert ) {
-    var component = this.subject(),
-        $input = this.$( 'input' );
+    const component = this.subject();
+    const $input = this.$( 'input' );
 
     assert.strictEqual(
         $input.prop( 'checked' ),
@@ -62,7 +62,7 @@ test( 'Checked state applies property to input', function( assert ) {
         'Rendered input is not checked'
     );
 
-    Ember.run( function() {
+    Ember.run( () => {
         component.set( 'checked', true );
     });
 

@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-calendar-year', 'Unit | Component | sl calendar year', {
@@ -6,7 +5,7 @@ moduleForComponent( 'sl-calendar-year', 'Unit | Component | sl calendar year', {
 });
 
 test( 'Default state is not active, new, or old', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
@@ -46,7 +45,7 @@ test( 'Default state is not active, new, or old', function( assert ) {
 });
 
 test( 'Click event sends action with year value', function( assert ) {
-    var exampleYear = 2000;
+    const exampleYear = 2000;
 
     assert.expect( 1 );
 
@@ -54,8 +53,12 @@ test( 'Click event sends action with year value', function( assert ) {
         action: 'test',
 
         targetObject: {
-            test: (year) => {
-                assert.strictEqual( year, exampleYear, 'Received year' );
+            test: ( year ) => {
+                assert.strictEqual(
+                    year,
+                    exampleYear,
+                    'Received year'
+                );
             }
         },
 

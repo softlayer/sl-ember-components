@@ -1,3 +1,1 @@
-import SlDialog from 'sl-ember-components/components/sl-dialog';
-
-export default SlDialog;
+export { default } from 'sl-ember-components/components/sl-dialog';

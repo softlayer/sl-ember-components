@@ -16,8 +16,8 @@ test( 'Default class names are present', function( assert ) {
 
 test( 'Attribute "datetime" is properly set', function( assert ) {
     this.subject({
-        timezone : 'America/Chicago',
-        value    : new Date( 2015, 0, 1 )
+        timezone: 'America/Chicago',
+        value: new Date( 2015, 0, 1 )
     });
 
     assert.equal(
@@ -28,12 +28,13 @@ test( 'Attribute "datetime" is properly set', function( assert ) {
 });
 
 test( 'Format "date" results in correctly formatted value', function( assert ) {
-    var formattedValue = '2015-01-01',
-        component = this.subject({
-            format   : 'date',
-            timezone : 'America/Chicago',
-            value    : new Date( 2015, 0, 1 )
-        });
+    const component = this.subject({
+        format: 'date',
+        timezone: 'America/Chicago',
+        value: new Date( 2015, 0, 1 )
+    });
+
+    const formattedValue = '2015-01-01';
 
     assert.equal(
         component.get( 'formattedValue' ),
@@ -49,12 +50,13 @@ test( 'Format "date" results in correctly formatted value', function( assert ) {
 });
 
 test( 'Format "relative" results in correctly formatted value', function( assert ) {
-    var formattedValue = 'a year ago',
-        component = this.subject({
-            format   : 'relative',
-            timezone : 'America/Chicago',
-            value    : window.moment().subtract( 1, 'year' )
-        });
+    const component = this.subject({
+        format: 'relative',
+        timezone: 'America/Chicago',
+        value: window.moment().subtract( 1, 'year' )
+    });
+
+    const formattedValue = 'a year ago';
 
     assert.equal(
         component.get( 'formattedValue' ),
@@ -70,12 +72,13 @@ test( 'Format "relative" results in correctly formatted value', function( assert
 });
 
 test( 'Format "datetime" results in correctly formatted value', function( assert ) {
-    var formattedValue = 'Thursday, January 1st 2015, 12:00 AM CST',
-        component = this.subject({
-            format   : 'datetime',
-            timezone : 'America/Chicago',
-            value    : new Date( 2015, 0, 1 )
-        });
+    const component = this.subject({
+        format: 'datetime',
+        timezone: 'America/Chicago',
+        value: new Date( 2015, 0, 1 )
+    });
+
+    const formattedValue = 'Thursday, January 1st 2015, 12:00 AM CST';
 
     assert.equal(
         component.get( 'formattedValue' ),
@@ -91,9 +94,9 @@ test( 'Format "datetime" results in correctly formatted value', function( assert
 });
 
 test( 'Computed momentValue is set and updated correctly', function( assert ) {
-    var component = this.subject({
-        timezone : 'America/Chicago',
-        value    : new Date( 2015, 0, 1 )
+    const component = this.subject({
+        timezone: 'America/Chicago',
+        value: new Date( 2015, 0, 1 )
     });
 
     assert.equal(
@@ -113,9 +116,9 @@ test( 'Computed momentValue is set and updated correctly', function( assert ) {
 });
 
 test( 'Computed timezoneString is set and updated correctly', function( assert ) {
-    var component = this.subject({
-        timezone : 'America/Chicago',
-        value    : new Date( 2015, 0, 1 )
+    const component = this.subject({
+        timezone: 'America/Chicago',
+        value: new Date( 2015, 0, 1 )
     });
 
     assert.equal(
@@ -136,7 +139,7 @@ test( 'Computed timezoneString is set and updated correctly', function( assert )
 });
 
 test( '"title" property is an alias to "datetime" value', function( assert ) {
-    var component = this.subject({ timezone: 'America/Chicago' });
+    const component = this.subject({ timezone: 'America/Chicago' });
 
     assert.equal(
         component.get( 'title' ),
