@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 
-var App;
+let App;
 
 moduleForComponent( 'sl-tab-pane', 'Unit | Component | sl tab pane', {
     needs: [ 'component:sl-tab-panel' ],
@@ -31,7 +31,7 @@ test( 'Expected default classes are applied', function( assert ) {
 });
 
 test( '"data-tab-label" attribute gets set as expected', function( assert ) {
-    var label = 'Test Label';
+    const label = 'Test Label';
 
     this.subject({ label });
 
@@ -43,7 +43,7 @@ test( '"data-tab-label" attribute gets set as expected', function( assert ) {
 });
 
 test( '"data-tab-name" attribute gets set as expected', function( assert ) {
-    var name = 'Test Name';
+    const name = 'Test Name';
 
     this.subject({ name });
 
@@ -72,9 +72,10 @@ test( 'Can provide content in block form', function( assert ) {
 });
 
 test( 'Can provide content via "templateName" property', function( assert ) {
-    var templateContent = 'Template content';
-    var component = this.subject({
-        container: App.__container__,
+    const templateContent = 'Template content';
+
+    this.subject({
+        container: Ember.get( App, '__container__' ),
         templateName: 'tabtest'
     });
 

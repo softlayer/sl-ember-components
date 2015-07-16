@@ -2,12 +2,12 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
     actions: {
-        logOptions: function () {
-            window.console.log( 'Chart options:', this.get( 'chartOptions' ));
+        logOptions() {
+            window.console.log( 'Chart options:', this.get( 'chartOptions' ) );
         },
 
-        logSeries: function () {
-            window.console.log( 'Content:', this.get( 'content' ));
+        logSeries() {
+            window.console.log( 'Content:', this.get( 'content' ) );
         }
     },
 

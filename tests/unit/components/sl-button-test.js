@@ -6,12 +6,12 @@ moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
 });
 
 test( 'Label changes for pending state', function( assert ) {
-    var pendingText = 'Pending',
-        staticText = 'Static',
-        component = this.subject({
-            pendingLabel: pendingText,
-            label: staticText
-        });
+    const pendingText = 'Pending';
+    const staticText = 'Static';
+    const component = this.subject({
+        pendingLabel: pendingText,
+        label: staticText
+    });
 
     assert.equal(
         component.get( 'currentLabel' ),
@@ -19,7 +19,7 @@ test( 'Label changes for pending state', function( assert ) {
         'Static text is set initially'
     );
 
-    Ember.run( function() {
+    Ember.run( () => {
         component.set( 'pending', true );
     });
 
@@ -31,21 +31,24 @@ test( 'Label changes for pending state', function( assert ) {
 });
 
 test( 'The element fires event when clicked', function( assert ) {
-    var component = this.subject({
-            action: 'externalAction',
-            targetObject: {
-                externalAction: function() {
-                    ok( true, 'External action was called' );
-                }
+    this.subject({
+        action: 'externalAction',
+        targetObject: {
+            externalAction() {
+                assert.ok(
+                    true,
+                    'External action was called'
+                );
             }
-        });
+        }
+    });
 
     assert.expect( 1 );
     this.$().click();
 });
 
 test( 'Button supports disabled state', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         this.$().is( ':disabled' ),
@@ -53,7 +56,7 @@ test( 'Button supports disabled state', function( assert ) {
         'Component is disabled by default'
     );
 
-    Ember.run( function() {
+    Ember.run( () => {
         component.set( 'disabled', true );
     });
 
@@ -100,7 +103,7 @@ test( 'Labels are correctly initialized', function( assert ) {
 });
 
 test( 'sizeClass() returns correct values', function( assert ) {
-    var component = this.subject({ size: 'large' });
+    const component = this.subject({ size: 'large' });
 
     assert.equal(
         component.get( 'sizeClass' ),
@@ -115,7 +118,7 @@ test( 'sizeClass() returns correct values', function( assert ) {
 });
 
 test( 'themeClass() returns correct value', function( assert ) {
-    var component = this.subject({ theme: 'success' });
+    const component = this.subject({ theme: 'success' });
 
     assert.equal(
         component.get( 'themeClass' ),
@@ -130,7 +133,7 @@ test( 'themeClass() returns correct value', function( assert ) {
 });
 
 test( 'Button supports click event bubbling', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.click(),

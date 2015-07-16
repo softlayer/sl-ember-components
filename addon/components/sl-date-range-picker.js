@@ -86,7 +86,7 @@ export default Ember.Component.extend({
         'didInsertElement',
         function() {
             this.$( '.sl-daterange-start-date input' ).on( 'change', () => {
-                this.$( '.sl-daterange-end-date input' ).focus();
+                this.$( '.sl-daterange-end-date input' ).trigger( 'focus' );
             });
         }
     ),
@@ -101,6 +101,7 @@ export default Ember.Component.extend({
         'willClearRender',
         function() {
             this.$( '.sl-daterange-start-date input' ).off();
+            this.$( '.sl-daterange-end-date input' ).off();
         }
     ),
 
@@ -118,8 +119,8 @@ export default Ember.Component.extend({
         'minDate',
         'startDateValue',
         function() {
-            let minDate = this.get( 'minDate' );
-            let startDateValue = this.get( 'startDateValue' );
+            const minDate = this.get( 'minDate' );
+            const startDateValue = this.get( 'startDateValue' );
 
             if ( startDateValue ) {
                 return startDateValue;
@@ -144,8 +145,8 @@ export default Ember.Component.extend({
         'endDateValue',
         'maxDate',
         function() {
-            let endDateValue = this.get( 'endDateValue' );
-            let maxDate = this.get( 'maxDate' );
+            const endDateValue = this.get( 'endDateValue' );
+            const maxDate = this.get( 'maxDate' );
 
             if ( endDateValue ) {
                 return endDateValue;

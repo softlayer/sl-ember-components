@@ -6,7 +6,7 @@ moduleForComponent( 'sl-calendar-day', 'Unit | Component | sl calendar day', {
 });
 
 test( 'Default state of calendar-day is not active, new or old', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
@@ -46,7 +46,7 @@ test( 'Default state of calendar-day is not active, new or old', function( asser
 });
 
 test( 'Active state is applied correctly', function( assert ) {
-    var component = this.subject({ active: true });
+    const component = this.subject({ active: true });
 
     assert.ok(
         component.get( 'active' ),
@@ -60,7 +60,7 @@ test( 'Active state is applied correctly', function( assert ) {
 });
 
 test( 'New state is applied correctly', function( assert ) {
-    var component = this.subject({ 'new': true });
+    const component = this.subject({ 'new': true });
 
     assert.ok(
         component.get( 'new' ),
@@ -74,7 +74,7 @@ test( 'New state is applied correctly', function( assert ) {
 });
 
 test( 'Old state is applied correctly', function( assert ) {
-    var component = this.subject({ old: true });
+    const component = this.subject({ old: true });
 
     assert.ok(
         component.get( 'old' ),
@@ -98,14 +98,18 @@ test( 'Property "day" populates component content', function( assert ) {
 });
 
 test( 'Action bindings sends action with expected day content', function( assert ) {
-    var dayContent = { day: 42 };
+    const dayContent = { day: 42 };
 
     this.subject({
         action: 'test',
         content: dayContent,
         targetObject: {
-            test: function( content ) {
-                assert.strictEqual( content, dayContent, 'Test action fired with expected value' );
+            test( content ) {
+                assert.strictEqual(
+                    content,
+                    dayContent,
+                    'Test action fired with expected value'
+                );
             }
         }
     });

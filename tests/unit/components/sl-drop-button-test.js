@@ -2,7 +2,9 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
-    needs: [ 'component:sl-button' ],
+    needs: [
+        'component:sl-button'
+    ],
 
     unit: true
 });
@@ -25,7 +27,7 @@ test( 'Default classes are present', function( assert ) {
 });
 
 test( 'Theme property applies theme class', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.ok(
         this.$().hasClass( 'dropdown-default' ),
@@ -43,7 +45,7 @@ test( 'Theme property applies theme class', function( assert ) {
 });
 
 test( 'Click action triggers bound action', function( assert ) {
-    var component = this.subject({
+    const component = this.subject({
         action: 'test',
         targetObject: {
             test() {
@@ -58,7 +60,7 @@ test( 'Click action triggers bound action', function( assert ) {
 });
 
 test( 'Alignment property is supported', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.equal(
         component.get( 'align' ),
@@ -89,7 +91,7 @@ test( 'Alignment property is supported', function( assert ) {
 });
 
 test( 'Icon class property is supported', function( assert ) {
-    var component = this.subject({ label: 'Test' });
+    const component = this.subject({ label: 'Test' });
 
     assert.equal(
         component.get( 'iconClass' ),

@@ -1,12 +1,17 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-date-range-picker', 'Unit | Component | sl date range picker', {
-    needs: [
-        'component:sl-date-picker'
-    ],
-    unit: true
-});
+moduleForComponent(
+    'sl-date-range-picker',
+    'Unit | Component | sl date range picker',
+    {
+        needs: [
+            'component:sl-date-picker'
+        ],
+
+        unit: true
+    }
+);
 
 test( 'Default classNames are present', function( assert ) {
     this.subject();
@@ -20,33 +25,42 @@ test( 'Default classNames are present', function( assert ) {
 test( 'Change focus to end date input upon start date change', function( assert ) {
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.subject();
 
     this.$( '.sl-daterange-end-date input' ).on( 'focus', () => {
-        assert.ok( true, 'End date input receives focus upon start date change' );
+        assert.ok(
+            true,
+            'End date input receives focus upon start date change'
+        );
+
+        done();
     });
 
-    Ember.run( () => {
-        this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
-    });
+    this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'earliestEndDate' ),
         null
     );
 
-    component.set( 'minDate', '01/01/2001' );
+    Ember.run( () => {
+        component.set( 'minDate', '01/01/2001' );
+    });
 
     assert.equal(
         component.get( 'earliestEndDate' ),
         '01/01/2001'
     );
 
-    component.set( 'startDateValue', '01/01/2015' );
+    Ember.run( () => {
+        component.set( 'startDateValue', '01/01/2015' );
+    });
 
     assert.equal(
         component.get( 'earliestEndDate' ),
@@ -55,21 +69,25 @@ test( 'Earliest end date is the based on min date and start date', function( ass
 });
 
 test( 'Latest start date is the based on max date and end date', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'latestStartDate' ),
         null
     );
 
-    component.set( 'maxDate', '01/01/2029' );
+    Ember.run( () => {
+        component.set( 'maxDate', '01/01/2029' );
+    });
 
     assert.equal(
         component.get( 'latestStartDate' ),
         '01/01/2029'
     );
 
-    component.set( 'endDateValue', '01/01/2015' );
+    Ember.run( () => {
+        component.set( 'endDateValue', '01/01/2015' );
+    });
 
     assert.equal(
         component.get( 'latestStartDate' ),
@@ -78,26 +96,34 @@ test( 'Latest start date is the based on max date and end date', function( asser
 });
 
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
-    let component = this.subject();
-    let startDateInput = this.$( '.sl-daterange-start-date input' )[0];
+    const component = this.subject();
+
+    this.render();
+
+    const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
+    const jQueryData = Ember.get( Ember.$, '_data' );
 
     assert.equal(
-        Ember.typeOf( $._data( startDateInput, 'events' ).change ),
+        Ember.typeOf(
+            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
+        ),
         'array',
         'Start date input has change event listener after render'
     );
 
-    component.trigger( 'willClearRender' );
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+    });
 
     assert.strictEqual(
-        $._data( startDateInput, 'events' ),
+        jQueryData( startDateInput, 'events' ),
         undefined,
         'Start date input has no event listeners after willClearRender'
     );
 });
 
 test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by default', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'label' ),
@@ -106,7 +132,7 @@ test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by defa
     );
 
     assert.strictEqual(
-        this.$( 'label' )[0],
+        this.$( 'label' )[ 0 ],
         undefined,
         'No label is created when label is undefined'
     );
@@ -137,8 +163,8 @@ test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by defa
 });
 
 test( 'label is accepted as a parameter', function( assert ) {
-    let labelText = 'lorem ipsum';
-    let component = this.subject({ label: labelText });
+    const labelText = 'lorem ipsum';
+    const component = this.subject({ label: labelText });
 
     assert.equal(
         this.$( 'label' ).html(),
@@ -160,8 +186,9 @@ test( 'label is accepted as a parameter', function( assert ) {
 });
 
 test( 'startDatePlaceholder is accepted as a parameter', function( assert ) {
-    let placeholderText = 'lorem ipsum';
-    let component = this.subject({ startDatePlaceholder: placeholderText });
+    const placeholderText = 'lorem ipsum';
+
+    this.subject({ startDatePlaceholder: placeholderText });
 
     assert.equal(
         this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
@@ -171,8 +198,9 @@ test( 'startDatePlaceholder is accepted as a parameter', function( assert ) {
 });
 
 test( 'endDatePlaceholder is accepted as a parameter', function( assert ) {
-    let placeholderText = 'lorem ipsum';
-    let component = this.subject({ endDatePlaceholder: placeholderText });
+    const placeholderText = 'lorem ipsum';
+
+    this.subject({ endDatePlaceholder: placeholderText });
 
     assert.equal(
         this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
@@ -182,7 +210,7 @@ test( 'endDatePlaceholder is accepted as a parameter', function( assert ) {
 });
 
 test( 'Default format gets passed to child date pickers', function( assert ) {
-    let component = this.subject();
+    const component = this.subject();
 
     assert.equal(
         this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.format,
@@ -198,8 +226,9 @@ test( 'Default format gets passed to child date pickers', function( assert ) {
 });
 
 test( 'Format parameter gets passed to child date pickers', function( assert ) {
-    let format = 'yyyy/mm/dd';
-    let component = this.subject({ format: format });
+    const format = 'yyyy/mm/dd';
+
+    this.subject({ format: format });
 
     assert.equal(
         this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.format,
@@ -217,7 +246,7 @@ test( 'Format parameter gets passed to child date pickers', function( assert ) {
 // @todo This needs to be updated when upgrading to 1.13 to spy on the child
 // sl-date-pickers rather than directly accessing bootstrap-datepicker values
 test( 'Date pickers have unbound start and end dates by default', function( assert ) {
-    let component = this.subject();
+    this.subject();
 
     assert.equal(
         this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.startDate,
@@ -244,18 +273,18 @@ test( 'Date pickers have unbound start and end dates by default', function( asse
     );
 });
 
-QUnit.skip( 'Date pickers respects minDate', function( assert ) {
+window.QUnit.skip( 'Date pickers respects minDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-QUnit.skip( 'Date pickers respects maxDate', function( assert ) {
+window.QUnit.skip( 'Date pickers respects maxDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-QUnit.skip( 'End date picker respects startDateValue over minDate due to earliestEndDate', function( assert ) {
+window.QUnit.skip( 'End date picker respects startDateValue over minDate due to earliestEndDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-QUnit.skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function( assert ) {
+window.QUnit.skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });

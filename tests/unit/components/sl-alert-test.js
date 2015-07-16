@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
@@ -10,7 +9,7 @@ test( 'ARIA role is applied', function( assert ) {
 });
 
 test( 'Dismissable option allows dismissal', function( assert ) {
-    var component = this.subject({ dismissable: true });
+    const component = this.subject({ dismissable: true });
 
     assert.strictEqual(
         component.get( 'dismissable' ),
@@ -31,22 +30,25 @@ test( 'Dismissable option allows dismissal', function( assert ) {
 });
 
 test( 'Dismiss action is handled', function( assert ) {
-    var component = this.subject({
-            dismiss: 'dismiss',
-            dismissable: true,
+    this.subject({
+        dismiss: 'dismiss',
+        dismissable: true,
 
-            targetObject: {
-                dismiss: function() {
-                    assert.ok( true, 'Bound dismiss action fired' );
-                }
+        targetObject: {
+            dismiss: function() {
+                assert.ok(
+                    true,
+                    'Bound dismiss action fired'
+                );
             }
-        });
+        }
+    });
 
     this.$( 'button.close' ).trigger( 'click' );
 });
 
 test( 'Theme class is applied', function( assert ) {
-    var component = this.subject({ theme: 'success' });
+    this.subject({ theme: 'success' });
 
     assert.ok(
         this.$().hasClass( 'alert-success' ),
@@ -55,7 +57,7 @@ test( 'Theme class is applied', function( assert ) {
 });
 
 test( 'Default classes are applied', function( assert ) {
-    var component = this.subject();
+    this.subject();
 
     assert.ok(
         this.$().hasClass( 'alert' ),
@@ -69,7 +71,7 @@ test( 'Default classes are applied', function( assert ) {
 });
 
 test( 'Not dismissable by default', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'dismissable' ),
