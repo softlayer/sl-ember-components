@@ -103,6 +103,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     destroySelect2: Ember.on(
         'willClearRender',
         function() {
+            this.$( 'label.control-label' ).off( 'click.sl-select' );
             this.input.off( 'change' ).select2( 'destroy' );
         }
     ),
@@ -252,6 +253,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
             input.on( 'change', () => {
                 this.set( 'value', input.select2( 'val' ) );
+            });
+            this.$( 'label.control-label' ).on( 'click.sl-select', () => {
+                input.select2( 'open' );
             });
 
             let originalBodyOverflow = document.body.style.overflow || 'auto';
