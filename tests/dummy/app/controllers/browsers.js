@@ -57,11 +57,11 @@ export default Ember.Controller.extend({
             name: 'progress-bar',
             lib: { 'twb': true }
         }, {
-            name: 'radio-group',
-            lib: { 'twb': true }
-        }, {
             name: 'radio',
             lib: { 'sec': true }
+        }, {
+            name: 'radio-group',
+            lib: { 'twb': true }
         }, {
             name: 'select',
             lib: { 's2': true }

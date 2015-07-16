@@ -40,8 +40,8 @@ is served from the *gh-pages* branch of this repository.
 * sl-pagination
 * sl-panel
 * sl-progress-bar
-* sl-radio-group
 * sl-radio
+* sl-radio-group
 * sl-select
 * sl-span
 * sl-tab-pane
