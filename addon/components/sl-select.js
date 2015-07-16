@@ -240,7 +240,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 query: ( query ) => {
                     const content = this.get( 'content' ) || [];
                     const optionLabelPath = this.get( 'optionLabelPath' );
-                    const select2 = this;
+                    const select2 = input.data( 'select2' ).opts;
 
                     query.callback({
                         results: content.reduce( ( results, item ) => {
@@ -265,16 +265,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
             input.on( 'change', () => {
                 this.set( 'value', input.select2( 'val' ) );
-            });
-
-            const originalBodyOverflow = document.body.style.overflow || 'auto';
-
-            input.on( 'select2-open', () => {
-                document.body.style.overflow = 'hidden';
-            });
-
-            input.on( 'select2-close', () => {
-                document.body.style.overflow = originalBodyOverflow;
             });
 
             if ( !this.get( 'multiple' ) ) {
