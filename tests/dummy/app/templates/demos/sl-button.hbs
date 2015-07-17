@@ -148,6 +148,10 @@
         Text label on the button.
     {{/property-text}}
 
+    {{#property-text name="openModal" type="string"}}
+    Used to trigger opening of a {{#link-to 'demos.sl-modal'}}sl-modal{{/link-to}} by passing in the name of the modal.
+    {{/property-text}}
+
     {{#property-text name="pending" type="boolean" default="false"}}
         When true, the button is placed in a pending state, with the <code>pendingLabel</code> value becoming the primary button label text.
     {{/property-text}}
