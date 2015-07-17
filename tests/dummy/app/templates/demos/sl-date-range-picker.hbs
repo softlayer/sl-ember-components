@@ -30,11 +30,15 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="earliestEndDate" type="date/string"}}
+        The earliest date selectable in the ending date range.
+    {{/property-text}}
+
     {{#property-text name="endDatePlaceholder" type="string"}}
         The <code>placeholder</code> attribute text for the end date input.
     {{/property-text}}
 
-    {{#property-text name="endDateValue" type="string" default="null"}}
+    {{#property-text name="endDateValue" type="string"}}
         The binding value for the endDate input.
     {{/property-text}}
 
@@ -49,19 +53,31 @@
         </ul>
     {{/property-text}}
 
-    {{#property-text name="maxDate" type="date/string" default="null"}}
-        The latest possible date for the range.
+    {{#property-text name="helpText" type="string"}}
+        The help text below the date range picker.
     {{/property-text}}
 
-    {{#property-text name="minDate" type="date/string" default="null"}}
-        The earliest possible date for the range.
+    {{#property-text name="label" type="string"}}
+        The label text above the date range picker.
+    {{/property-text}}
+
+    {{#property-text name="latestStartDate" type="date/string"}}
+        The latest date that may be selected for the starting range.
+    {{/property-text}}
+
+    {{#property-text name="maxDate" type="date/string"}}
+        The latest valid date for the ending date range.
+    {{/property-text}}
+
+    {{#property-text name="minDate" type="date/string"}}
+        The earliest date selectable in the starting range.
     {{/property-text}}
 
     {{#property-text name="startDatePlaceholder" type="string"}}
         The <code>placeholder</code> attribute text for the start date input.
     {{/property-text}}
 
-    {{#property-text name="startDateValue" type="string" default="null"}}
+    {{#property-text name="startDateValue" type="string"}}
         The binding value for the startDate input.
     {{/property-text}}
 </div>
