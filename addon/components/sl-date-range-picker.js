@@ -101,7 +101,6 @@ export default Ember.Component.extend({
         'willClearRender',
         function() {
             this.$( '.sl-daterange-start-date input' ).off();
-            this.$( '.sl-daterange-end-date input' ).off();
         }
     ),
 
