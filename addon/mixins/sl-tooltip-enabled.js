@@ -14,7 +14,8 @@ export default Ember.Mixin.create({
 
     /** @type {String[]} */
     attributeBindings: [
-        'data-toggle',
+        'dataToggle:data-toggle',
+        'dataTrigger:data-trigger',
         'title'
     ],
 
@@ -28,11 +29,18 @@ export default Ember.Mixin.create({
     // Properties
 
     /**
-     * 'data-toggle' attribute for use in template binding
+     * dataToggle property
      *
      * @type {?Boolean}
      */
-    'data-toggle': null,
+    dataToggle: null,
+
+    /**
+     * dataTrigger
+     *
+     * @type {?String}
+     */
+    dataTrigger: null,
 
     /**
      * Title attribute

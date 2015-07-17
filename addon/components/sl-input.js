@@ -26,6 +26,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /** @type {Object} */
     layout,
 
+    /** @type {String} */
+    dataTrigger: 'focus',
     // -------------------------------------------------------------------------
     // Actions
 
