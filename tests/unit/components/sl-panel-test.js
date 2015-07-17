@@ -23,7 +23,7 @@ test( 'Default classes are present', function( assert ) {
 });
 
 test( 'Loading state applies class name', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         this.$().hasClass( 'sl-loading' ),
@@ -42,7 +42,7 @@ test( 'Loading state applies class name', function( assert ) {
 });
 
 test( 'Valid heading value renders panel-heading', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         this.$().find( '.panel-heading' ).length,

@@ -8,13 +8,13 @@ import layout from '../templates/components/sl-button';
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const SIZE = {
+const Size = Object.freeze({
     EXTRA_SMALL: 'extra-small',
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
-};
-export { SIZE };
+});
+export { Size };
 
 /**
  * Valid Bootstrap theme values for buttons
@@ -22,7 +22,7 @@ export { SIZE };
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const THEME = {
+const Theme = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     HOVER: 'hover',
@@ -31,8 +31,8 @@ const THEME = {
     PRIMARY: 'primary',
     SUCCESS: 'success',
     WARNING: 'warning'
-};
-export { THEME };
+});
+export { Theme };
 
 /**
  * @module
@@ -71,6 +71,13 @@ export default Ember.Component.extend( TooltipEnabled, {
     /** @type {Object} */
     layout,
 
+    /**
+     * The modal service which will be used to open modals
+     *
+     * @type {ember/Service}
+     */
+    modalService: Ember.inject.service( 'sl-modal' ),
+
     /** @type {String} */
     tagName: 'button',
 
@@ -82,14 +89,35 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * @function
+     * @throws {ember.assert} Thrown if the modal is not found in modal service
      * @returns {undefined}
      */
     click() {
+        let openModal = this.get( 'openModal' );
+
+        if ( openModal ) {
+            let modal = this.get( 'modalService' ).find( openModal );
+            Ember.assert(
+                `Modal with name "${openModal}" was not found`,
+                modal
+            );
+            modal.show();
+        }
+
         this.sendAction();
+
+        return this.get( 'bubbles' );
     },
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether or not the button should bubble actions to its parent
+     *
+     * @type {Boolean}
+     */
+    bubbles: true,
 
     /**
      * Whether or not the button should be disabled during AJAX activity
@@ -132,16 +160,16 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The size of the button
      *
-     * @type {SIZE}
+     * @type {Size}
      */
-    size: SIZE.MEDIUM,
+    size: Size.MEDIUM,
 
     /**
      * The bootstrap "theme" name
      *
-     * @type {THEME}
+     * @type {Theme}
      */
-    theme: THEME.DEFAULT,
+    theme: Theme.DEFAULT,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -160,12 +188,14 @@ export default Ember.Component.extend( TooltipEnabled, {
         'pending',
         'pendingLabel',
         function() {
-            let pendingLabel = this.get( 'pendingLabel' );
+            const pendingLabel = this.get( 'pendingLabel' );
+
             if ( this.get( 'pending' ) && pendingLabel ) {
                 return pendingLabel;
             }
 
-            let label = this.get( 'label' );
+            const label = this.get( 'label' );
+
             if ( label ) {
                 return label;
             }
@@ -177,30 +207,32 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember.assert} Thrown if the supplied `size` value is not one
-     *         defined in the enum SIZE
+     *         defined in the enum Size
      * @returns {?String} Defaults to undefined
      */
     sizeClass: Ember.computed(
         'size',
         function() {
-            let size = this.get( 'size' );
+            const size = this.get( 'size' );
 
             Ember.assert(
                 'Error: Invalid size value',
-                Object.keys( SIZE ).map( ( key ) => SIZE[ key ] ).indexOf( size ) > -1
+                Object.keys( Size )
+                    .map( ( key ) => Size[ key ] )
+                    .indexOf( size ) > -1
             );
 
             let sizeClass;
             switch ( size ) {
-                case SIZE.EXTRA_SMALL:
+                case Size.EXTRA_SMALL:
                     sizeClass = 'btn-xs';
                     break;
 
-                case SIZE.SMALL:
+                case Size.SMALL:
                     sizeClass = 'btn-sm';
                     break;
 
-                case SIZE.LARGE:
+                case Size.LARGE:
                     sizeClass = 'btn-lg';
                     break;
             }
@@ -214,17 +246,19 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember.assert} Thrown if the supplied `theme` value is one not
-     *         defined in the enum THEME
+     *         defined in the enum Theme
      * @returns {String} Defaults to "btn-default"
      */
     themeClass: Ember.computed(
         'theme',
         function() {
-            let theme = this.get( 'theme' );
+            const theme = this.get( 'theme' );
 
             Ember.assert(
                 'Error: Invalid theme value',
-                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+                Object.keys( Theme )
+                    .map( ( key ) => Theme[ key ] )
+                    .indexOf( theme ) > -1
             );
 
             return `btn-${theme}`;

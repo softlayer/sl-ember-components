@@ -116,32 +116,6 @@ export default Ember.Component.extend({
         }
     ),
 
-    /**
-     * Updates the chart's series data
-     *
-     * @function
-     * @returns {undefined}
-     */
-    updateData: Ember.observer(
-        'series',
-        function() {
-            const chart = this.get( 'chart' );
-            const series = this.get( 'series' );
-
-            if ( !chart.hasOwnProperty( 'series' ) ) {
-                chart.series = [];
-            }
-
-            for ( let i = 0; i < series.length; i++ ) {
-                if ( chart.series.length <= i ) {
-                    chart.addSeries( series[ i ] );
-                } else {
-                    chart.series[ i ].setData( series[ i ].data );
-                }
-            }
-        }
-    ),
-
     // -------------------------------------------------------------------------
     // Methods
 
@@ -154,11 +128,18 @@ export default Ember.Component.extend({
      highchartsOptions: Ember.computed(
         function() {
             const chartStyle = {
-                fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+                fontFamily: [
+                    '"Benton Sans"',
+                    '"Helvetica Neue"',
+                    'Helvetica',
+                    'Arial',
+                    'sans-serif'
+                ].join( ', ' ),
                 fontSize: '13px'
             };
 
             const options = Ember.$.extend( true, {
+                title: '',
                 chart: {
                     animation: false,
                     backgroundColor: 'rgba(255, 255, 255, 0)',
@@ -213,6 +194,31 @@ export default Ember.Component.extend({
             return options;
         }
     ),
+    /**
+     * Updates the chart's series data
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateData: Ember.observer(
+        'series',
+        function() {
+            const chart = this.get( 'chart' );
+            const series = this.get( 'series' );
+
+            if ( !chart.hasOwnProperty( 'series' ) ) {
+                chart.series = [];
+            }
+
+            for ( let i = 0; i < series.length; i++ ) {
+                if ( chart.series.length <= i ) {
+                    chart.addSeries( series[ i ] );
+                } else {
+                    chart.series[ i ].setData( series[ i ].data );
+                }
+            }
+        }
+    ),
 
     /**
      * Inline style containing height and width, required by Highcharts
@@ -227,7 +233,9 @@ export default Ember.Component.extend({
             const height = this.get( 'height' );
             const width = this.get( 'width' );
 
-            return Ember.String.htmlSafe( `height: ${height}; width: ${width};` );
+            return Ember.String.htmlSafe(
+                `height: ${height}; width: ${width};`
+            );
         }
     )
 

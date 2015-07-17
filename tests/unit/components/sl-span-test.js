@@ -2,7 +2,9 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-span', 'Unit | Component | sl span', {
-    needs: [ 'component:sl-loading-icon' ],
+    needs: [
+        'component:sl-loading-icon'
+    ],
 
     unit: true
 });
@@ -17,7 +19,7 @@ test( '"value" property is supported', function( assert ) {
 });
 
 test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.equal(
         this.$( '.sl-loading-icon' ).length,
@@ -37,7 +39,7 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
 });
 
 test( 'Inverse property applies to loading-icon', function( assert ) {
-    var component = this.subject({ loading: true });
+    const component = this.subject({ loading: true });
 
     assert.ok(
         this.$( '.sl-loading-icon' ).hasClass( 'sl-loading-icon-dark' ),

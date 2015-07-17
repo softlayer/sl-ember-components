@@ -7,11 +7,11 @@ import layout from '../templates/components/sl-grid-cell';
  * @memberof module:components/sl-grid-cell
  * @enum {String}
  */
-const COLUMN_ALIGN = {
+const ColumnAlign = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
-};
-export { COLUMN_ALIGN };
+});
+export { ColumnAlign };
 
 /**
  * Valid size values for columns
@@ -19,12 +19,12 @@ export { COLUMN_ALIGN };
  * @memberof module:components/sl-grid-cell
  * @enum {String}
  */
-const COLUMN_SIZE = {
+const ColumnSize = Object.freeze({
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
-};
-export { COLUMN_SIZE };
+});
+export { ColumnSize };
 
 /**
  * @module
@@ -94,26 +94,32 @@ export default Ember.Component.extend({
      *
      * @function
      * @throws {ember.assert} Thrown when supplied `align` is a value not
-     *         defined in enum COLUMN_ALIGN
-     * @returns {String|undefined}
+     *         defined in enum ColumnAlign
+     * @returns {?String}
      */
     alignmentClass: Ember.computed(
         'column.align',
         function() {
-            let align = this.get( 'column.align' );
+            const align = this.get( 'column.align' );
 
             if ( !align ) {
-                return;
+                return null;
             }
 
             Ember.assert(
                 `Error: Invalid column align value "${align}"`,
-                Object.keys( COLUMN_ALIGN ).map( ( key ) => COLUMN_ALIGN[ key ] ).indexOf( align ) > -1
+                Object.keys( ColumnAlign )
+                    .map( ( key ) => ColumnAlign[ key ] )
+                    .indexOf( align ) > -1
             );
 
-            if ( align === 'right' ) {
-                return 'text-right';
+            let alignment = null;
+
+            if ( 'right' === align ) {
+                alignment = 'text-right';
             }
+
+            return alignment;
         }
     ),
 
@@ -139,18 +145,20 @@ export default Ember.Component.extend({
      *
      * @function
      * @throws {ember.assert} Thrown when supplied `size` value is one not
-     *         defined in enum COLUMN_SIZE
+     *         defined in enum ColumnSize
      * @returns {String|undefined}
      */
     sizeClass: Ember.computed(
         'column.size',
         function() {
-            let size = this.get( 'column.size' );
+            const size = this.get( 'column.size' );
 
-            if ( Ember.typeOf( size ) === 'string' ) {
+            if ( 'string' === Ember.typeOf( size ) ) {
                 Ember.assert(
                     `Error: Invalid column size value "${size}"`,
-                    Object.keys( COLUMN_SIZE ).map( ( key ) => COLUMN_SIZE[ key ] ).indexOf( size ) > -1
+                    Object.keys( ColumnSize )
+                        .map( ( key ) => ColumnSize[ key ] )
+                        .indexOf( size ) > -1
                 );
 
                 return 'column-' + size;
@@ -167,10 +175,10 @@ export default Ember.Component.extend({
     style: Ember.computed(
         'column.size',
         function() {
-            let size = this.get( 'column.size' );
+            const size = this.get( 'column.size' );
             let value = '';
 
-            if ( Ember.typeOf( size ) === 'number' ) {
+            if ( 'number' === Ember.typeOf( size ) ) {
                 value = `width: ${size}px;`;
             }
 

@@ -132,6 +132,10 @@
         An action to fire when the button is clicked.
     {{/property-text}}
 
+    {{#property-text name="bubbles" type="boolean" default="true"}}
+        Whether the browser should propagate the button click event.
+    {{/property-text}}
+
     {{#property-text name="class" type="string"}}
         <code>class</code> attribute for the button.
     {{/property-text}}
@@ -142,6 +146,10 @@
 
     {{#property-text name="label" type="string"}}
         Text label on the button.
+    {{/property-text}}
+
+    {{#property-text name="openModal" type="string"}}
+    Used to trigger opening of a {{#link-to 'demos.sl-modal'}}sl-modal{{/link-to}} by passing in the name of the modal.
     {{/property-text}}
 
     {{#property-text name="pending" type="boolean" default="false"}}

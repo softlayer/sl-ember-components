@@ -6,7 +6,7 @@ moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl progress bar', {
 });
 
 test( 'isLowPercentage is only true when value < 50', function( assert ) {
-    var component = this.subject({ value: 49 });
+    const component = this.subject({ value: 49 });
 
     assert.ok(
         component.get( 'isLowPercentage' ),
@@ -34,8 +34,8 @@ test( 'Has class for low percentage value', function( assert ) {
 });
 
 test( 'Width style string is set equal to the percentage value', function( assert ) {
-    var randomValue = 100 * Math.random(),
-        component = this.subject({ value: randomValue });
+    const randomValue = 100 * Math.random();
+    const component = this.subject({ value: randomValue });
 
     assert.equal(
         component.get( 'styleString' ),
@@ -45,7 +45,7 @@ test( 'Width style string is set equal to the percentage value', function( asser
 });
 
 test( 'themeClass is set correctly by theme property', function( assert ) {
-    var component = this.subject({ theme: 'danger' });
+    const component = this.subject({ theme: 'danger' });
 
     assert.equal(
         component.get( 'themeClassName' ),

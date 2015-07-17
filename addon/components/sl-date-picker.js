@@ -34,7 +34,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Properties
 
     /**
-     * Whether or not to close the datepicker immediately when a date is selected
+     * Whether or not to close the datepicker immediately when a date
+     * is selected
      *
      * @type {Boolean}
      */
@@ -66,6 +67,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @type {Array|String}
      */
     daysOfWeekDisabled: [],
+
+    /**
+     * When true, the input field is disabled and the datepicker will never display
+     *
+     * @type {Boolean}
+     */
+    disabled: false,
 
     /**
      * The latest date that may be selected; all later dates will be disabled
@@ -101,10 +109,17 @@ export default Ember.Component.extend( TooltipEnabled, {
     format: 'mm/dd/yyyy',
 
     /**
+     * The help text below the datepicker's input field
+     *
+     * @type {String}
+     */
+    helpText: null,
+
+    /**
      * The input field's id attribute
      *
-     * Used to expose this value externally for use when composing this
-     * component into others.
+     * Used to expose this value externally for use in this component and when
+     * composing this component into others.
      *
      * @type {?String}
      */
@@ -126,6 +141,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @type {Boolean}
      */
     keyboardNavigation: true,
+
+    /**
+     * The label text above the datepicker's input field
+     *
+     * @type {String}
+     */
+    label: null,
 
     /**
      * The IETF code of the language to use for month and day names
@@ -166,6 +188,13 @@ export default Ember.Component.extend( TooltipEnabled, {
     orientation: 'auto',
 
     /**
+     * The placeholder text that the datepicker should show
+     *
+     * @type {?String}
+     */
+    placeholder: null,
+
+    /**
      * The earliest date that may be selected; all earlier dates will
      * be disabled
      *
@@ -198,6 +227,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @type {Boolean}
      */
     todayHighlight: false,
+
+    /**
+     * The date either selected by the datepicker or entered by the user
+     *
+     * @type {?String}
+     */
+    value: null,
 
     /**
      * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
@@ -237,11 +273,11 @@ export default Ember.Component.extend( TooltipEnabled, {
     setupDatepicker: Ember.on(
         'didInsertElement',
         function() {
-            let datepicker = this.$( 'input.date-picker' )
+            const datepicker = this.$( 'input.date-picker' )
                 .datepicker( this.get( 'options' ) );
 
             datepicker.on( 'changeDate', () => {
-                this.sendAction( 'change' );
+                this.sendAction();
             });
         }
     ),
@@ -260,30 +296,25 @@ export default Ember.Component.extend( TooltipEnabled, {
     ),
 
     /**
-     * Dynamically update the endDate value for the datepicker
+     * Dynamically update the startDate and endDate values for the datepicker
      *
      * @function
      * @returns {undefined}
      */
-    setEndDate: Ember.computed(
+    updateDateRange: Ember.observer(
         'endDate',
-        function() {
-            this.$( 'input.date-picker' )
-                .datepicker( 'setEndDate', this.get( 'endDate' ) );
-        }
-    ),
-
-    /**
-     * Dynamically update the startDate value for the datepicker
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setStartDate: Ember.computed(
         'startDate',
         function() {
-            this.$( 'input.date-picker' )
-                .datepicker( 'setStartDate', this.get( 'startDate' ) );
+            const input = this.$( 'input.date-picker' );
+            const datepicker = input.data( 'datepicker' );
+
+            datepicker.setStartDate( this.get( 'startDate' ) );
+            datepicker.setEndDate( this.get( 'endDate' ) );
+
+           if ( 'Invalid Date' === datepicker.getDate() ) {
+                input.datepicker().val('');
+                input.attr( 'placeholder', this.get( 'placeholder' ) );
+            }
         }
     ),
 

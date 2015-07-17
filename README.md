@@ -30,12 +30,12 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-picker
 * sl-date-range-picker
 * sl-date-time
-* sl-dialog
 * sl-drop-button
 * sl-grid
 * sl-input
 * sl-loading-icon
 * sl-menu
+* sl-modal
 * sl-pagination-controls
 * sl-pagination-info
 * sl-pagination-per-page-select
@@ -52,21 +52,6 @@ is served from the *gh-pages* branch of this repository.
 
 **Mixins**
 
-
-*sl-modal-manager*
-
-Provides an advanced implemention of the modal component.
-
-The documentation is viewable at [addon/mixins/docs/modal.md](https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md)
-
-
-*sl-modal*
-
-Provides an advanced implemention of the modal component.
-
-The documentation is viewable at [addon/mixins/docs/modal.md](https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md)
-
-
 *sl-notify-view*
 
 Use this mixin on a view when you need to notify its controller of any of the following events:
@@ -75,7 +60,6 @@ Use this mixin on a view when you need to notify its controller of any of the fo
 * willClearRender
 * willDestroyElement
 * willInsertElement
-
 
 *sl-pagination-controller*
 
