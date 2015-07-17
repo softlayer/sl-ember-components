@@ -1,0 +1,14 @@
+<div class="modal-header">
+    {{#if template}}
+        {{yield ariaLabelledBy}}
+    {{else}}
+        <button class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    {{/if}}
+
+    {{#if title}}
+        <span class="modal-title" id={{ariaLabelledBy}}>{{title}}</span>
+    {{/if}}
+</div>

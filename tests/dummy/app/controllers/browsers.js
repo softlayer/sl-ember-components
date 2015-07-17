@@ -27,9 +27,6 @@ export default Ember.Controller.extend({
             name: 'date-time',
             lib: { 'sec': true }
         }, {
-            name: 'dialog',
-            lib: { 'twb': true }
-        }, {
             name: 'drop-button',
             lib: { 'twb': true }
         }, {
@@ -47,6 +44,9 @@ export default Ember.Controller.extend({
         }, {
             name: 'menu',
             lib: { 'sec': true }
+        }, {
+            name: 'modal',
+            lib: { 'twb': true }
         }, {
             name: 'pagination',
             lib: { 'sec': true }

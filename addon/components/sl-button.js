@@ -71,6 +71,13 @@ export default Ember.Component.extend( TooltipEnabled, {
     /** @type {Object} */
     layout,
 
+    /**
+     * The modal service which will be used to open modals
+     *
+     * @type {ember/Service}
+     */
+    modalService: Ember.inject.service( 'sl-modal' ),
+
     /** @type {String} */
     tagName: 'button',
 
@@ -82,9 +89,21 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * @function
-     * @returns {Boolean}
+     * @throws {ember.assert} Thrown if the modal is not found in modal service
+     * @returns {undefined}
      */
     click() {
+        let openModal = this.get( 'openModal' );
+
+        if ( openModal ) {
+            let modal = this.get( 'modalService' ).find( openModal );
+            Ember.assert(
+                `Modal with name "${openModal}" was not found`,
+                modal
+            );
+            modal.show();
+        }
+
         this.sendAction();
 
         return this.get( 'bubbles' );

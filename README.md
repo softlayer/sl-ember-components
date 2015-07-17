@@ -30,13 +30,13 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-picker
 * sl-date-range-picker
 * sl-date-time
-* sl-dialog
 * sl-drop-button
 * sl-drop-option
 * sl-grid
 * sl-input
 * sl-loading-icon
 * sl-menu
+* sl-modal
 * sl-pagination
 * sl-panel
 * sl-progress-bar
@@ -52,24 +52,9 @@ is served from the *gh-pages* branch of this repository.
 
 **Mixins**
 
-
 *sl-input-based*
 
 Provides state properties for input element based components.
-
-
-*sl-modal-manager*
-
-Provides an advanced implemention of the modal component.
-
-The documentation is viewable at [addon/mixins/docs/modal.md](https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md)
-
-
-*sl-modal*
-
-Provides an advanced implemention of the modal component.
-
-The documentation is viewable at [addon/mixins/docs/modal.md](https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md)
 
 
 *sl-notify-view*

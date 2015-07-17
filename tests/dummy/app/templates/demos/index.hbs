@@ -1,4 +1,3 @@
-
 <h3>Components</h3>
 <div class="list-group">
     {{#link-to "demos.sl-alert" class="list-group-item"}}
@@ -25,9 +24,6 @@
     {{#link-to "demos.sl-date-time" class="list-group-item"}}
         sl-date-time
     {{/link-to}}
-    {{#link-to "demos.sl-dialog" class="list-group-item"}}
-        sl-dialog
-    {{/link-to}}
     {{#link-to "demos.sl-drop-button" class="list-group-item"}}
         sl-drop-button
     {{/link-to}}
@@ -42,6 +38,9 @@
     {{/link-to}}
     {{#link-to "demos.sl-menu" class="list-group-item"}}
         sl-menu
+    {{/link-to}}
+    {{#link-to "demos.sl-modal" class="list-group-item"}}
+        sl-modal
     {{/link-to}}
     {{#link-to "demos.sl-pagination" class="list-group-item"}}
         sl-pagination
@@ -77,21 +76,18 @@
 
 <hr>
 
+<h3>Services</h3>
+<div class="list-group">
+    {{#link-to "demos.services.sl-modal" class="list-group-item"}}
+        sl-modal
+    {{/link-to}}
+</div>
+
+<hr>
+
 <h3>Mixins</h3>
 <div class="list-group">
-    <div class="list-group-item">
-        <h6>sl-modal-manager</h6>
-        <p>Provides an advanced implemention of the modal component.</p>
-        <p>The documentation is viewable at <a href="https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md">https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md</a></p>
-    </div>
-
-    <div class="list-group-item">
-        <h6>sl-modal</h6>
-        <p>Provides an advanced implemention of the modal component.</p>
-        <p>The documentation is viewable at <a href="https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md">https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md</a></p>
-    </div>
-
-    <div class="list-group-item">
+     <div class="list-group-item">
         <h6>sl-notify-view</h6>
         <p>Use this mixin on a view when you need to notify its controller of any of the following events:</p>
         <ul>
