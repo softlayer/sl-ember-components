@@ -173,10 +173,6 @@ test( 'change listener is added and removed from the correct namespace', functio
     };
 
     assert.ok(
-        eventData.length > 0,
-        'Radio has at least one change listener'
-    );
-    assert.ok(
         hasRadioGroupNamespace(),
         'Radio has a change event listener in the correct namespace after render'
     );

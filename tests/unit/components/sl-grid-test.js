@@ -343,14 +343,6 @@ test( 'Grid adds and removes events from the correct namespace', function( asser
     const hasEventNamespace = ( element, event, namespace ) => {
         let hasNamespace = false;
 
-        assert.equal(
-            Ember.typeOf(
-                Ember.get( jQueryData( element, 'events' ), event )
-            ),
-            'array',
-            `Element has ${event} listeners`
-        );
-
         Ember.get( jQueryData( element, 'events' ), event ).every(
             ( item ) => {
                 if ( item.namespace === namespace ) {
@@ -383,12 +375,20 @@ test( 'Grid adds and removes events from the correct namespace', function( asser
         component.trigger( 'willClearRender' );
     });
 
+    assert.ok(
+        Ember.get( jQueryData( windowElement[0], 'events' ), 'resize' ).length > 0,
+        'window has at least one resize listener'
+    );
     assert.strictEqual(
         hasEventNamespace( windowElement[0], 'resize', `sl-grid-${component.elementId}` ),
         false,
         'willClearRender removes window resize listener from the correct namespace'
     );
 
+    assert.ok(
+        Ember.get( jQueryData( contentElement[0], 'events' ), 'scroll' ).length > 0,
+        'content pane has at least one scroll listener'
+    );
     assert.strictEqual(
         hasEventNamespace( contentElement[0], 'scroll', 'sl-grid' ),
         false,

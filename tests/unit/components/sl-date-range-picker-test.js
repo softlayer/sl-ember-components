@@ -117,10 +117,6 @@ test( 'changeDate listener is added and removed from the correct namespace', fun
     };
 
     assert.ok(
-        eventData.length > 0,
-        'Start date picker has at least one changeDate listener'
-    );
-    assert.ok(
         hasDateRangePickerNamespace(),
         'Start date picker has a changeDate event listener in the correct namespace after render'
     );
