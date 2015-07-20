@@ -47,7 +47,7 @@ export default Ember.Controller.extend({
             lib: { 'twb': true }
         },{
             name: 'panel',
-            lib: { 'twb': true, 'bd': true }
+            lib: { 'twb': true }
         }, {
             name: 'progress-bar',
             lib: { 'twb': true }
