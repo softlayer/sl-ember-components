@@ -99,20 +99,13 @@ test( 'changeDate listener is added and removed from the correct namespace', fun
     const component = this.subject();
     const inputElement = this.$( '.sl-daterange-start-date input' );
     const jQueryData = Ember.get( Ember.$, '_data' );
+    const eventData = Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' );
     const hasDateRangePickerNamespace = () => {
         let hasNamespace = false;
 
-        assert.equal(
-            Ember.typeOf(
-                Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' )
-            ),
-            'array',
-            'Start date picker has changeDate listeners'
-        );
-
-        Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' ).every(
+        eventData.every(
             ( element ) => {
-                if ( element.namespace === "sl-date-range-picker" ) {
+                if ( 'sl-date-range-picker' === element.namespace ) {
                     hasNamespace = true;
                     return false;
                 }
@@ -124,6 +117,10 @@ test( 'changeDate listener is added and removed from the correct namespace', fun
     };
 
     assert.ok(
+        eventData.length > 0,
+        'Start date picker has at least one changeDate listener'
+    );
+    assert.ok(
         hasDateRangePickerNamespace(),
         'Start date picker has a changeDate event listener in the correct namespace after render'
     );
@@ -133,6 +130,10 @@ test( 'changeDate listener is added and removed from the correct namespace', fun
         component.trigger( 'willClearRender' );
     });
 
+    assert.ok(
+        eventData.length > 0,
+        'Start date picker has at least one changeDate listener'
+    );
     assert.strictEqual(
         hasDateRangePickerNamespace(),
         false,

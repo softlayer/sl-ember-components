@@ -145,3 +145,54 @@ test( "Inline false sets sl-radio children's inline property to false", function
         'Rendered component has three default (non-inline) radio buttons'
     );
 });
+
+test( 'change listener is added and removed from the correct namespace', function( assert ) {
+    const component = this.subject({
+        name: 'test',
+        template: Ember.Handlebars.compile(
+            '{{sl-radio label="One" value="one"}}'
+        )
+    });
+    const inputElement = this.$( 'input[name=test]:radio' );
+    const jQueryData = Ember.get( Ember.$, '_data' );
+    const eventData = Ember.get( jQueryData( inputElement[0], 'events' ), 'change' );
+    const hasRadioGroupNamespace = () => {
+        let hasNamespace = false;
+
+        eventData.every(
+            ( element ) => {
+                if ( 'sl-radio-group' === element.namespace ) {
+                    hasNamespace = true;
+                    return false;
+                }
+                return true;
+            }
+        );
+
+        return hasNamespace;
+    };
+
+    assert.ok(
+        eventData.length > 0,
+        'Radio has at least one change listener'
+    );
+    assert.ok(
+        hasRadioGroupNamespace(),
+        'Radio has a change event listener in the correct namespace after render'
+    );
+
+    inputElement.on( 'change', function(){} );
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+    });
+
+    assert.ok(
+        eventData.length > 0,
+        'Radio has at least one change listener'
+    );
+    assert.strictEqual(
+        hasRadioGroupNamespace(),
+        false,
+        'willClearRender removes change listener from the correct namespace'
+    );
+});
