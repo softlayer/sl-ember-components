@@ -311,7 +311,7 @@ export default Ember.Component.extend( TooltipEnabled, {
             datepicker.setStartDate( this.get( 'startDate' ) );
             datepicker.setEndDate( this.get( 'endDate' ) );
 
-           if ( 'Invalid Date' === datepicker.getDate() ) {
+           if ( 'Invalid Date' === datepicker.getDate().toString() ) {
                 input.datepicker().val('');
                 input.attr( 'placeholder', this.get( 'placeholder' ) );
             }

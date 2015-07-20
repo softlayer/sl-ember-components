@@ -132,6 +132,30 @@ test( 'themeClass() returns correct value', function( assert ) {
     );
 });
 
+test( 'openModal property triggers modal to open', function( assert ) {
+    let registerSpy = sinon.spy();
+    let show = sinon.spy();
+
+    let mockModal = {
+        show: show
+    };
+
+    let mockService = {
+        find() {
+            return mockModal;
+        }
+    };
+
+    let component = this.subject({
+        modalService: mockService,
+        openModal: 'test'
+    });
+
+    this.$().click();
+
+    assert.ok( show.calledOnce );
+});
+
 test( 'Button supports click event bubbling', function( assert ) {
     const component = this.subject();
 
