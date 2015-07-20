@@ -147,48 +147,37 @@ test( "Inline false sets sl-radio children's inline property to false", function
 });
 
 test( 'change listener is added and removed from the correct namespace', function( assert ) {
+    const inputMock = {
+        each(){},
+        off(){},
+        on(){}
+    };
     const component = this.subject({
         name: 'test',
         template: Ember.Handlebars.compile(
             '{{sl-radio label="One" value="one"}}'
-        )
+        ),
+        $: function() {
+            return inputMock;
+        }
     });
-    const inputElement = this.$( 'input[name=test]:radio' );
-    const jQueryData = Ember.get( Ember.$, '_data' );
-    const eventData = Ember.get( jQueryData( inputElement[0], 'events' ), 'change' );
-    const hasRadioGroupNamespace = () => {
-        let hasNamespace = false;
 
-        eventData.every(
-            ( element ) => {
-                if ( 'sl-radio-group' === element.namespace ) {
-                    hasNamespace = true;
-                    return false;
-                }
-                return true;
-            }
-        );
+    const onSpy = sinon.spy( inputMock, 'on' );
+    const offSpy = sinon.spy( inputMock, 'off' );
 
-        return hasNamespace;
-    };
+    this.render();
 
     assert.ok(
-        hasRadioGroupNamespace(),
-        'Radio has a change event listener in the correct namespace after render'
+        onSpy.alwaysCalledWith( 'change.sl-radio-group' ),
+        'change listener added in the correct namespace'
     );
 
-    inputElement.on( 'change', function(){} );
     Ember.run( () => {
         component.trigger( 'willClearRender' );
     });
 
     assert.ok(
-        eventData.length > 0,
-        'Radio has at least one change listener'
-    );
-    assert.strictEqual(
-        hasRadioGroupNamespace(),
-        false,
-        'willClearRender removes change listener from the correct namespace'
+        offSpy.alwaysCalledWith( 'change.sl-radio-group' ),
+        'change listener removed from the correct namespace'
     );
 });

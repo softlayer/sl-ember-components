@@ -96,44 +96,32 @@ test( 'Latest start date is the based on max date and end date', function( asser
 });
 
 test( 'changeDate listener is added and removed from the correct namespace', function( assert ) {
-    const component = this.subject();
-    const inputElement = this.$( '.sl-daterange-start-date input' );
-    const jQueryData = Ember.get( Ember.$, '_data' );
-    const eventData = Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' );
-    const hasDateRangePickerNamespace = () => {
-        let hasNamespace = false;
-
-        eventData.every(
-            ( element ) => {
-                if ( 'sl-date-range-picker' === element.namespace ) {
-                    hasNamespace = true;
-                    return false;
-                }
-                return true;
-            }
-        );
-
-        return hasNamespace;
+    const inputMock = {
+        off(){},
+        on(){}
     };
+    const component = this.subject({
+        $: function() {
+            return inputMock;
+        }
+    });
+    const onSpy = sinon.spy( inputMock, 'on' );
+    const offSpy = sinon.spy( inputMock, 'off' );
+
+    this.render();
 
     assert.ok(
-        hasDateRangePickerNamespace(),
-        'Start date picker has a changeDate event listener in the correct namespace after render'
+        onSpy.alwaysCalledWith( 'changeDate.sl-date-range-picker' ),
+        'changeDate listener added in the correct namespace'
     );
 
-    inputElement.on( 'changeDate', function(){} );
     Ember.run( () => {
         component.trigger( 'willClearRender' );
     });
 
     assert.ok(
-        eventData.length > 0,
-        'Start date picker has at least one changeDate listener'
-    );
-    assert.strictEqual(
-        hasDateRangePickerNamespace(),
-        false,
-        'willClearRender removes changeDate listener from the correct namespace'
+        offSpy.alwaysCalledWith( 'changeDate.sl-date-range-picker' ),
+        'changeDate listener removed from the correct namespace'
     );
 });
 

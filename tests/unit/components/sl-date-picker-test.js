@@ -368,44 +368,36 @@ test( 'updateDateRange() - when date outside endDate range we show placeholder t
 });
 
 test( 'changeDate listener is added and removed from the correct namespace', function( assert ) {
-    const component = this.subject();
-    const inputElement = this.$( 'input.date-picker' );
-    const jQueryData = Ember.get( Ember.$, '_data' );
-    const eventData = Ember.get( jQueryData( inputElement[0], 'events' ), 'changeDate' );
-    const hasDatePickerNamespace = () => {
-        let hasNamespace = false;
-
-        eventData.every(
-            ( element ) => {
-                if ( 'sl-date-picker' === element.namespace ) {
-                    hasNamespace = true;
-                    return false;
-                }
-                return true;
-            }
-        );
-
-        return hasNamespace;
+    const inputMock = {
+        datepicker() {
+            return this;
+        },
+        off(){},
+        on(){},
+        prop(){}
     };
+    const component = this.subject({
+        $: function() {
+            return inputMock;
+        }
+    });
+    const onSpy = sinon.spy( inputMock, 'on' );
+    const offSpy = sinon.spy( inputMock, 'off' );
+
+    this.render();
 
     assert.ok(
-        hasDatePickerNamespace(),
-        'Datepicker has a changeDate event listener in the correct namespace after render'
+        onSpy.alwaysCalledWith( 'changeDate.sl-date-picker' ),
+        'changeDate listener added in the correct namespace'
     );
 
-    inputElement.on( 'changeDate', function(){} );
     Ember.run( () => {
         component.trigger( 'willClearRender' );
     });
 
     assert.ok(
-        eventData.length > 0,
-        'Datepicker has at least one changeDate event listener'
-    );
-    assert.strictEqual(
-        hasDatePickerNamespace(),
-        false,
-        'willClearRender removes changeDate listener from the correct namespace'
+        offSpy.alwaysCalledWith( 'changeDate.sl-date-picker' ),
+        'changeDate listener removed from the correct namespace'
     );
 });
 
