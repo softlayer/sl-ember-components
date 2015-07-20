@@ -54,7 +54,7 @@ export default Ember.Component.extend({
     /**
      * The help text below the date range picker
      *
-     * @type {String}
+     * @type {?String}
      */
     helpText: null,
 
@@ -68,7 +68,7 @@ export default Ember.Component.extend({
     /**
      * The label text above the date range picker
      *
-     * @type {String}
+     * @type {?String}
      */
     label: null,
 
