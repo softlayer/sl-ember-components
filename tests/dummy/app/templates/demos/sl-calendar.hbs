@@ -30,35 +30,35 @@
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="action" type="function"}}
+    {{#property-text name="action" type="Function"}}
         Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
     {{/property-text}}
 
-    {{#property-text name="content" type="mixed"}}
+    {{#property-text name="content" type="Mixed"}}
         Bound array of objects with date values, looked up using the <code>dateValuePath</code> property.
     {{/property-text}}
 
-    {{#property-text name="currentMonth" type="number" default="current month"}}
+    {{#property-text name="currentMonth" type="Number" default="current month"}}
         The month number to display (1-12).
     {{/property-text}}
 
-    {{#property-text name="currentYear" type="number" default="current year"}}
+    {{#property-text name="currentYear" type="Number" default="current year"}}
         The year to display.
     {{/property-text}}
 
-    {{#property-text name="dateValuePath" type="string" default="\"date\""}}
+    {{#property-text name="dateValuePath" type="String" default="\"date\""}}
         Path to the content objects' date value.
     {{/property-text}}
 
-    {{#property-text name="locale" type="string" default="\"en\""}}
+    {{#property-text name="locale" type="String" default="\"en\""}}
         The locale string to use for <em>moment</em> date formats.
     {{/property-text}}
 
-    {{#property-text name="locked" type="boolean" default="false"}}
+    {{#property-text name="locked" type="Boolean" default="false"}}
         When true, the view is locked in the initial mode, and forward and back buttons are disabled.
     {{/property-text}}
 
-    {{#property-text name="viewMode" type="string" default="\"days\""}}
+    {{#property-text name="viewMode" type="String" default="\"days\""}}
         The view to display the calendar in; "days", "months", or "years".
     {{/property-text}}
 </div>

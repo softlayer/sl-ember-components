@@ -55,7 +55,7 @@
 <h3>Properties</h3>
 
 <ul class="list-group">
-    {{#property-text name="menu" required=true type="object"}}
+    {{#property-text name="menu" required=true type="Object"}}
         Used to provide the underlying structure of the entire menu. This expects an Ember.Object with a <code>pages</code> attribute that contains an Ember.Array of other nodes. Each node, including the top level, can have the following attributes:
         <ul>
             <li><strong>pages</strong> - An array of nodes that will be embedded under the <code>label</code> attribute as a sub-menu.</li>
@@ -68,27 +68,27 @@
         Of the last 2 properties in the list only one will be respected even if both are applied. The order of precedence is <strong>action</strong> then <strong>route</strong>.
     {{/property-text}}
 
-    {{#property-text name="actionInitiated" type="function"}}
+    {{#property-text name="actionInitiated" type="Function"}}
         Handler for string based actions that are associated with a menu item. If a given item has an associated action, the handler bound to the actionInitiated property will be called and the name of the action handed as the only parameter.
     {{/property-text}}
 
-    {{#property-text name="changeRoute" type="function"}}
+    {{#property-text name="changeRoute" type="Function"}}
         Handler for handling the selection of menu items that have a corresponding route property.  Typically, this will be a simple <code>transitionTo</code> or <code>transitionToRoute</code> call.
     {{/property-text}}
 
-    {{#property-text name="keyEvents" type="object"}}
+    {{#property-text name="keyEvents" type="Object"}}
         Used for providing events to the menu. This can be used in conjunction with the <strong>utils/sl-menu-key-adapter</strong> to provide the proper events to support key presses.
     {{/property-text}}
 
-    {{#property-text name="keyboardInUse" type="boolean"}}
+    {{#property-text name="keyboardInUse" type="Boolean"}}
         Whether the menu is being interacted with via the keyboard.  This value gets set by the inner workings of the component and is exposed for use by view logic.  One example of how to use this value is to be able to use the <code>TAB</code> key to navigate through the menu options, where its default event needs to suppressed while doing so.
     {{/property-text}}
 
-    {{#property-text name="selectionMade" type="function"}}
+    {{#property-text name="selectionMade" type="Function"}}
         Handler for selection events. Handler will be given the full path to the selected node.
     {{/property-text}}
 
-    {{#property-text name="showAll" type="boolean" default="false"}}
+    {{#property-text name="showAll" type="Boolean" default="false"}}
         Whether a "Show All" icon appears, displaying all of the menu options when interacted with.
     {{/property-text}}
 </ul>

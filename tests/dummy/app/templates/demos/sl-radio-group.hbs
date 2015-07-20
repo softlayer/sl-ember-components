@@ -55,41 +55,41 @@
 <h3>sl-radio-group Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="name" type="string" required=true}}
+    {{#property-text name="name" type="String" required=true}}
         <p>Shared <code>name</code> attribute for the radio inputs.</p>
         <p>NOTE: This property will overwrite all child <em>sl-radio</em>s' <code>name</code> values.</p>
     {{/property-text}}
 
-    {{#property-text name="disabled" type="boolean" default="false"}}
+    {{#property-text name="disabled" type="Boolean" default="false"}}
         <p>When true, all child radio inputs will be disabled.</p>
         <p>NOTE: When true, this property overrides all child <em>sl-radio</em>s' <code>disabled</code> values.</p>
     {{/property-text}}
 
-    {{#property-text name="inline" type="boolean" default="null"}}
+    {{#property-text name="inline" type="Boolean" default="null"}}
         <p>When true, all child radio inputs will be displayed inline.</p>
         <p>When false, all child radio inputs will not be displayed inline.</p>
 
         <p>NOTE: When true or false, this property will overwrite all child <em>sl-radio</em>s' <code>inline</code> values.</p>
     {{/property-text}}
 
-    {{#property-text name="label" type="string"}}
+    {{#property-text name="label" type="String"}}
         Text label for radio group as a whole.
     {{/property-text}}
 
-    {{#property-text name="optional" type="boolean" default="false"}}
+    {{#property-text name="optional" type="Boolean" default="false"}}
         When true, the component is styled to reflect optional status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
-    {{#property-text name="readonly" type="boolean" default="false"}}
+    {{#property-text name="readonly" type="Boolean" default="false"}}
         <p>Shared <code>readonly</code> attribute value for the child radio inputs.</p>
         <p>NOTE: When true, this property overrides all child <em>sl-radio</em>s' <code>readonly</code> values.</p>
     {{/property-text}}
 
-    {{#property-text name="required" type="boolean" default="false"}}
+    {{#property-text name="required" type="Boolean" default="false"}}
         When true, the component is styled to reflect required status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
-    {{#property-text name="value" type="mixed"}}
+    {{#property-text name="value" type="Mixed"}}
         Bound value for the radiogroup component.
     {{/property-text}}
 </div>

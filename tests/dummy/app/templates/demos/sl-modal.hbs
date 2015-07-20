@@ -56,7 +56,7 @@
 
 {{#sl-modal name="customHeader"}}
     {{#sl-modal-header as |ariaLabelledBy|}}
-        <button class="close" data-dismiss="modal" type="button">
+        <button class="close" data-dismiss="modal" type="Button">
             <span aria-hidden="true" class="fa fa-close"></span>
             <span class="sr-only">close</span>
         </button>
@@ -102,8 +102,8 @@
                 {{/sl-modal-body}}
 
                 {{#sl-modal-footer}}
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="Button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="Button" class="btn btn-primary">Save changes</button>
                 {{/sl-modal-footer}}
             {{/sl-modal}}
         </div>
@@ -129,31 +129,31 @@
 </section>
 <hr>
 <h3>sl-modal Properties</h3>
-{{#property-text name="afterHide" type="function"}}
+{{#property-text name="afterHide" type="Function"}}
     Action to call after modal is shown.
 {{/property-text}}
 
-{{#property-text name="afterShow" type="function"}}
+{{#property-text name="afterShow" type="Function"}}
     Action to call after modal is shown.
 {{/property-text}}
 
-{{#property-text name="animated" type="boolean" default="true"}}
+{{#property-text name="animated" type="Boolean" default="true"}}
     Whether to animate opening and closing of modal.
 {{/property-text}}
 
-{{#property-text name="backdrop" type="boolean" default="true"}}
+{{#property-text name="backdrop" type="Boolean" default="true"}}
     Whether to show backdrop.
 {{/property-text}}
 
-{{#property-text name="beforeHide" type="function"}}
+{{#property-text name="beforeHide" type="Function"}}
     Action to call after modal is shown.
 {{/property-text}}
 
-{{#property-text name="beforeShow" type="function"}}
+{{#property-text name="beforeShow" type="Function"}}
     Action to call after modal is shown.
 {{/property-text}}
 
-{{#property-text name="name" type="string"}}
+{{#property-text name="name" type="String"}}
     Unique name used to identify modal. This name can be used to lookup the modal using the {{#link-to 'demos.services.sl-modal'}}modal service{{/link-to}}.
 {{/property-text}}
 
@@ -171,13 +171,13 @@
 <hr>
 <h3>sl-modal-header Properties</h3>
 
-{{#property-text name="title" type="string"}}
+{{#property-text name="title" type="String"}}
     Title of the modal.
 {{/property-text}}
 
 <hr>
 <h3>sl-modal-footer Properties</h3>
-{{#property-text name="buttonText" type="string" default="Close"}}
+{{#property-text name="buttonText" type="String" default="Close"}}
     Close button text.
 {{/property-text}}
 
