@@ -104,9 +104,9 @@ test( 'enabledTooltip() - Renders tooltip', function( assert ) {
     subject.enableTooltip();
 
     assert.equal(
-        subject.get( 'data-toggle' ),
+        subject.get( 'dataToggle' ),
         'tooltip',
-        '"data-toggle" has correct value'
+        '"dataToggle" has correct value'
     );
 
     assert.equal(
@@ -153,9 +153,9 @@ test( 'enablePopover() - Renders popover', function( assert ) {
     subject.enablePopover();
 
     assert.equal(
-        subject.get( 'data-toggle' ),
+        subject.get( 'dataToggle' ),
         'popover',
-        '"data-toggle" has correct value'
+        '"dataToggle" has correct value'
     );
 
     assert.equal(
