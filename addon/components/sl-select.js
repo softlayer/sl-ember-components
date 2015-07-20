@@ -255,7 +255,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 this.set( 'value', input.select2( 'val' ) );
             });
             this.$( 'label.control-label' ).on( 'click.sl-select', () => {
-                input.select2( 'open' );
+                input.select2( 'focus' );
             });
 
             let originalBodyOverflow = document.body.style.overflow || 'auto';
