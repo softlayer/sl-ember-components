@@ -26,9 +26,11 @@ export default Ember.Controller.extend({
         }, {
             name: 'date-time',
             lib: { 'sec': true }
-        },
-           {
+        }, {
             name: 'drop-button',
+            lib: { 'twb': true }
+        }, {
+            name: 'drop-option',
             lib: { 'twb': true }
         }, {
             name: 'grid',
@@ -45,7 +47,10 @@ export default Ember.Controller.extend({
         }, {
             name: 'modal',
             lib: { 'twb': true }
-        },{
+        }, {
+            name: 'pagination',
+            lib: { 'sec': true }
+        }, {
             name: 'panel',
             lib: { 'twb': true, 'bd': true }
         }, {
@@ -63,6 +68,9 @@ export default Ember.Controller.extend({
         }, {
             name: 'span',
             lib: { 'sec': true }
+        }, {
+            name: 'tab-pane',
+            lib: { 'twb': true }
         }, {
             name: 'tab-panel',
             lib: { 'twb': true }
