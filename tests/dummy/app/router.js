@@ -15,6 +15,7 @@ Router.map( function() {
 
     this.route( 'demos', function() {
         this.route( 'sl-alert' );
+        this.route( 'sl-modal' );
         this.route( 'sl-button' );
         this.route( 'sl-calendar' );
         this.route( 'sl-chart' );
@@ -22,7 +23,6 @@ Router.map( function() {
         this.route( 'sl-date-picker' );
         this.route( 'sl-date-range-picker' );
         this.route( 'sl-date-time' );
-        this.route( 'sl-dialog' );
         this.route( 'sl-drop-button' );
         this.route( 'sl-input' );
         this.route( 'sl-grid' );
@@ -41,6 +41,7 @@ Router.map( function() {
 
         this.route( 'services', function() {
             this.route( 'sl-event' );
+            this.route( 'sl-modal' );
         });
     });
 });
