@@ -103,7 +103,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     destroySelect2: Ember.on(
         'willClearRender',
         function() {
-            this.input.off( 'change' ).select2( 'destroy' );
+            this.input.off( 'change.sl-select' ).select2( 'destroy' );
         }
     ),
 
@@ -263,7 +263,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 }
             });
 
-            input.on( 'change', () => {
+            input.on( 'change.sl-select', () => {
                 this.set( 'value', input.select2( 'val' ) );
             });
 

@@ -276,7 +276,7 @@ export default Ember.Component.extend( TooltipEnabled, {
             const datepicker = this.$( 'input.date-picker' )
                 .datepicker( this.get( 'options' ) );
 
-            datepicker.on( 'changeDate', () => {
+            datepicker.on( 'changeDate.sl-date-picker', () => {
                 this.sendAction();
             });
         }
@@ -291,7 +291,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.$( 'input.date-picker' ).off();
+            this.$( 'input.date-picker' ).off( 'changeDate.sl-date-picker' );
         }
     ),
 

@@ -367,22 +367,37 @@ test( 'updateDateRange() - when date outside endDate range we show placeholder t
     );
 });
 
-test( 'unregisterEvents() - listens to correct event', function( assert ) {
-    const component = this.subject();
-    const inputElement = this.$( 'input.date-picker' )[ 0 ];
+test( 'changeDate listener is added and removed from the correct namespace', function( assert ) {
+    const inputMock = {
+        datepicker() {
+            return this;
+        },
+        off(){},
+        on(){},
+        prop(){}
+    };
+    const component = this.subject({
+        $: function() {
+            return inputMock;
+        }
+    });
+    const onSpy = sinon.spy( inputMock, 'on' );
+    const offSpy = sinon.spy( inputMock, 'off' );
 
-    assert.equal(
-        Ember.typeOf( $._data( inputElement, 'events' ).changeDate ),
-        'array',
-        'Datepicker has a changeDate event listener after render'
+    this.render();
+
+    assert.ok(
+        onSpy.alwaysCalledWith( 'changeDate.sl-date-picker' ),
+        'changeDate listener added in the correct namespace'
     );
 
-    component.trigger( 'willClearRender' );
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+    });
 
-    assert.strictEqual(
-        $._data( inputElement, 'events' ),
-        undefined,
-        'Datepicker does not have event listeners after willClearRender'
+    assert.ok(
+        offSpy.alwaysCalledWith( 'changeDate.sl-date-picker' ),
+        'changeDate listener removed from the correct namespace'
     );
 });
 

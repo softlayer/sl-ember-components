@@ -334,6 +334,67 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
     );
 });
 
+test( 'Grid adds and removes events from the correct namespace', function( assert ) {
+    const contentMock = {
+        css(){},
+        height(){},
+        off(){},
+        on(){},
+        position() {
+            return {
+                top: 0
+            };
+        },
+    };
+    const component = this.subject({
+        columns,
+        content,
+        continuous: true,
+        hasMoreData: true,
+        height: 'auto',
+        $: function() {
+            return contentMock;
+        }
+    });
+    const windowElement = Ember.$( window );
+    const originalFunction = Ember.$;
+
+    Ember.$ = function() {
+        return windowElement;
+    };
+
+    const contentOnSpy = sinon.spy( contentMock, 'on' );
+    const contentOffSpy = sinon.spy( contentMock, 'off' );
+    const windowOnSpy = sinon.spy( windowElement, 'on' );
+    const windowOffSpy = sinon.spy( windowElement, 'off' );
+
+    this.render();
+
+    assert.ok(
+        windowOnSpy.alwaysCalledWith( `resize.sl-grid-${component.elementId}` ),
+        'Window resize listener added in the correct namespace when height is auto'
+    );
+    assert.ok(
+        contentOnSpy.alwaysCalledWith( 'scroll.sl-grid' ),
+        'Content scroll listener added in the correct namespace when continuous paging is enabled'
+    );
+
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+    });
+
+    assert.ok(
+        windowOffSpy.alwaysCalledWith( `resize.sl-grid-${component.elementId}` ),
+        'Window resize listener removed from the correct namespace'
+    );
+    assert.ok(
+        contentOffSpy.alwaysCalledWith( 'scroll.sl-grid' ),
+        'Content scroll listener removed from the correct namespace'
+    );
+
+    Ember.$ = originalFunction;
+});
+
 // These tests require valid registered template paths for proper testing.
 window.QUnit.skip( 'Sub-template paths are determined correctly' );
 window.QUnit.skip( 'Toggling detail pane is supported' );

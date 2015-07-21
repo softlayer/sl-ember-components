@@ -155,7 +155,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             // Apply change() listener to keep group value in sync with select
             // sl-radio option
             const radios = this.$( `input[name=${name}]:radio` );
-            radios.change( () => {
+            radios.on( 'change.sl-radio-group', () => {
                 this.set( 'value', radios.filter( ':checked' ).val() );
             });
         }
@@ -170,7 +170,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.$( `input[name=${this.get( 'name' )}]:radio` ).off();
+            this.$( `input[name=${this.get( 'name' )}]:radio` ).off( 'change.sl-radio-group' );
         }
     )
 
