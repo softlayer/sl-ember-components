@@ -38,7 +38,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
         done();
     });
 
-    this.$( '.sl-daterange-start-date input' ).trigger( 'changeDate' );
+    this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
@@ -95,33 +95,30 @@ test( 'Latest start date is the based on max date and end date', function( asser
     );
 });
 
-test( 'changeDate listener is added and removed from the correct namespace', function( assert ) {
-    const inputMock = {
-        off(){},
-        on(){}
-    };
-    const component = this.subject({
-        $: function() {
-            return inputMock;
-        }
-    });
-    const onSpy = sinon.spy( inputMock, 'on' );
-    const offSpy = sinon.spy( inputMock, 'off' );
+test( 'Events from start date input are removed upon willClearRender', function( assert ) {
+    const component = this.subject();
 
     this.render();
 
-    assert.ok(
-        onSpy.alwaysCalledWith( 'changeDate.sl-date-range-picker' ),
-        'changeDate listener added in the correct namespace'
+    const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
+    const jQueryData = Ember.get( Ember.$, '_data' );
+
+    assert.equal(
+        Ember.typeOf(
+            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
+        ),
+        'array',
+        'Start date input has change event listener after render'
     );
 
     Ember.run( () => {
         component.trigger( 'willClearRender' );
     });
 
-    assert.ok(
-        offSpy.alwaysCalledWith( 'changeDate.sl-date-range-picker' ),
-        'changeDate listener removed from the correct namespace'
+    assert.strictEqual(
+        jQueryData( startDateInput, 'events' ),
+        undefined,
+        'Start date input has no event listeners after willClearRender'
     );
 });
 
