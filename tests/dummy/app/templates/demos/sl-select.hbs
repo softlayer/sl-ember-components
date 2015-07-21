@@ -29,11 +29,33 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{sl-select
-    content=numbers
+    content=content
     disableSearch=true
-    label="Multiple number select, no search"
+    label="Single item select, no search"
+    placeholder="Select a color"
+}}</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-select
+            content=content
+            disableSearch=true
+            label="Single item select, no search"
+            placeholder="Select a color"
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-select
+    content=numbers
+    label="Multiple number select, preset value"
     multiple=true
     placeholder="Select number(s)"
+    value="30,10,20"
 }}</pre>
     </div>
 
@@ -41,10 +63,10 @@
         <h6>Rendered Component</h6>
         {{sl-select
             content=numbers
-            disableSearch=true
-            label="Multiple number select, no search"
+            label="Multiple number select, preset value"
             multiple=true
             placeholder="Select number(s)"
+            value="30,10,20"
         }}
     </div>
 </div>
@@ -73,8 +95,8 @@
         </ul>
     {{/property-text}}
 
-    {{#property-text name="disableSearch" type="boolean" default="false"}}
-        Disables the search filter.
+    {{#property-text name="disableSearch" type="boolean" default="false" requires="multiple=false"}}
+        Disables the search filter. Only applies to single item select boxes.
     {{/property-text}}
 
     {{#property-text name="disabled" type="boolean" default="false"}}
@@ -89,7 +111,7 @@
         Text label for the select input.
     {{/property-text}}
 
-    {{#property-text name="maximumSelectionSize" type="number" default="null"}}
+    {{#property-text name="maximumSelectionSize" type="number" default="null" requires="multiple=true"}}
         The maximum number of selections allowed when <code>multiple=true</code>.  By default there is no maximum value enforced.
     {{/property-text}}
 
@@ -109,7 +131,7 @@
         Option's value field path.
     {{/property-text}}
 
-    {{#property-text name="optional" type="boolean" default="false"}}
+    {{#property-text name="optional" type="boolean" default="false" requires="label"}}
         When true, the component is styled to reflect optional status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
@@ -121,7 +143,7 @@
         Popover content text.
     {{/property-text}}
 
-    {{#property-text name="readonly" type="boolean" default="false"}}
+    {{#property-text name="readonly" type="boolean" default="false" requires="label"}}
         <code>readonly</code> attribute value for the input.
     {{/property-text}}
 
