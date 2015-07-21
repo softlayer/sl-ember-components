@@ -38,7 +38,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
         done();
     });
 
-    this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
+    this.$( '.sl-daterange-start-date input' ).trigger( 'changeDate' );
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
@@ -92,33 +92,6 @@ test( 'Latest start date is the based on max date and end date', function( asser
     assert.equal(
         component.get( 'latestStartDate' ),
         '01/01/2015'
-    );
-});
-
-test( 'Events from start date input are removed upon willClearRender', function( assert ) {
-    const component = this.subject();
-
-    this.render();
-
-    const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
-    const jQueryData = Ember.get( Ember.$, '_data' );
-
-    assert.equal(
-        Ember.typeOf(
-            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
-        ),
-        'array',
-        'Start date input has change event listener after render'
-    );
-
-    Ember.run( () => {
-        component.trigger( 'willClearRender' );
-    });
-
-    assert.strictEqual(
-        jQueryData( startDateInput, 'events' ),
-        undefined,
-        'Start date input has no event listeners after willClearRender'
     );
 });
 
