@@ -40,8 +40,9 @@ test( 'If "label" property is populated, label element is rendered', function( a
 
     this.subject({ label: labelText });
 
-    const label = this.$(
-        'label[for="' + this.$( 'textarea' ).prop( 'id' ) + '"]'
+    const label = this.$( 'label[for="' +
+          this.$( 'textarea' ).prop( 'id' ) +
+          '"]'
     );
 
     assert.equal( label.length, 1, 'Label is present' );
