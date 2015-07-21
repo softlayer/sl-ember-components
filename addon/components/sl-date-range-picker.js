@@ -24,6 +24,12 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Actions
 
+    actions: {
+        startDateChange() {
+            this.$( '.sl-daterange-end-date input' ).trigger( 'focus' );
+        }
+    },
+
     // -------------------------------------------------------------------------
     // Events
 
@@ -74,36 +80,6 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Set up a transition that moves focus to the endDate input when the
-     * startDate input is changed
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupFocusTransition: Ember.on(
-        'didInsertElement',
-        function() {
-            this.$( '.sl-daterange-start-date input' ).on( 'change', () => {
-                this.$( '.sl-daterange-end-date input' ).trigger( 'focus' );
-            });
-        }
-    ),
-
-    /**
-     * Remove events
-     *
-     * @function
-     * @returns {undefined}
-     */
-    unregisterEvents: Ember.on(
-        'willClearRender',
-        function() {
-            this.$( '.sl-daterange-start-date input' ).off();
-            this.$( '.sl-daterange-end-date input' ).off();
-        }
-    ),
 
     // -------------------------------------------------------------------------
     // Methods
