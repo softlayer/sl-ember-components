@@ -77,6 +77,29 @@ export default Ember.Component.extend({
     // Observers
 
     /**
+     * Check passed parameters on initialization
+     *
+     * @function
+     * @throws {ember.assert} Series property must be an Array
+     * @throws {ember.assert} Options property must be an Object
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            Ember.assert(
+                'Series property must be an array',
+                'array' === Ember.typeOf( this.get( 'series' ) )
+            );
+            Ember.assert(
+                'Options property must be an Object',
+                'instance' === Ember.typeOf( this.get( 'options' ) ) ||
+                'object' === Ember.typeOf ( this.get( 'options' ) )
+            );
+        }
+    ),
+
+    /**
      * Sets up Highcharts initialization
      *
      * @function
@@ -85,14 +108,37 @@ export default Ember.Component.extend({
     setupChart: Ember.on(
         'didInsertElement',
         function() {
-            let chartDiv = this.$( 'div.chart' );
+            const chartDiv = this.$( 'div.chart' );
 
-            let chartStyle = {
-                fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            chartDiv.highcharts( this.get( 'highchartsOptions' ) );
+            this.set( 'chart', chartDiv.highcharts() );
+            this.updateData();
+        }
+    ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Options for Highcharts
+     *
+     * @function
+     * @returns {Object}
+     */
+     highchartsOptions: Ember.computed(
+        function() {
+            const chartStyle = {
+                fontFamily: [
+                    '"Benton Sans"',
+                    '"Helvetica Neue"',
+                    'Helvetica',
+                    'Arial',
+                    'sans-serif'
+                ].join( ', ' ),
                 fontSize: '13px'
             };
 
-            let options = Ember.$.extend( true, {
+            const options = Ember.$.extend( true, {
                 title: '',
                 chart: {
                     animation: false,
@@ -142,12 +188,12 @@ export default Ember.Component.extend({
                 }
             }, this.get( 'options' ) || {} );
 
-            chartDiv.highcharts( options );
-            this.set( 'chart', chartDiv.highcharts() );
-            this.updateData();
+            // Title property in options must be kept null in order to suppress its default behavior for our specific usage.
+            options.title = null;
+
+            return options;
         }
     ),
-
     /**
      * Updates the chart's series data
      *
@@ -157,8 +203,8 @@ export default Ember.Component.extend({
     updateData: Ember.observer(
         'series',
         function() {
-            let chart = this.get( 'chart' );
-            let series = this.get( 'series' );
+            const chart = this.get( 'chart' );
+            const series = this.get( 'series' );
 
             if ( !chart.hasOwnProperty( 'series' ) ) {
                 chart.series = [];
@@ -174,9 +220,6 @@ export default Ember.Component.extend({
         }
     ),
 
-    // -------------------------------------------------------------------------
-    // Methods
-
     /**
      * Inline style containing height and width, required by Highcharts
      *
@@ -187,10 +230,12 @@ export default Ember.Component.extend({
         'height',
         'width',
         function() {
-            let height = this.get( 'height' );
-            let width = this.get( 'width' );
+            const height = this.get( 'height' );
+            const width = this.get( 'width' );
 
-            return Ember.String.htmlSafe( `height: ${height}; width: ${width};` );
+            return Ember.String.htmlSafe(
+                `height: ${height}; width: ${width};`
+            );
         }
     )
 

@@ -1,12 +1,14 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent( 'sl-calendar-month', 'Unit | Component | sl calendar month', {
-    unit: true
-});
+moduleForComponent(
+    'sl-calendar-month',
+    'Unit | Component | sl calendar month', {
+        unit: true
+    }
+);
 
 test( 'Default state is inactive', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
@@ -29,7 +31,7 @@ test( 'Component has "month" class by default', function( assert ) {
 });
 
 test( 'Active state is set correctly', function( assert ) {
-    var component = this.subject({ active: true });
+    const component = this.subject({ active: true });
 
     assert.ok(
         component.get( 'active' ),
@@ -47,8 +49,12 @@ test( 'Action binding sends action with month', function( assert ) {
         action: 'test',
         month: 6,
         targetObject: {
-            test: function( month ) {
-                assert.equal( month, 6, 'Test action fired with expected month' );
+            test( month ) {
+                assert.equal(
+                    month,
+                    6,
+                    'Test action fired with expected month'
+                );
             }
         }
     });
@@ -59,7 +65,7 @@ test( 'Action binding sends action with month', function( assert ) {
 });
 
 test( 'Short name property is invalid without month', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'shortName' ),
@@ -69,7 +75,7 @@ test( 'Short name property is invalid without month', function( assert ) {
 });
 
 test( 'Short name property is defined with valid month', function( assert ) {
-    var component = this.subject({ month: 1 });
+    const component = this.subject({ month: 1 });
 
     assert.equal(
         component.get( 'shortName' ),

@@ -56,7 +56,8 @@ export default Ember.Mixin.create({
     // Observers
 
     /**
-     * Enable the tooltip functionality, based on component's `popover` attribute or component's 'title' attribute.
+     * Enable the tooltip functionality, based on component's
+     * `popover` attribute or component's `title` attribute
      *
      * @function
      * @returns {undefined}
@@ -87,11 +88,12 @@ export default Ember.Mixin.create({
      * @returns {undefined}
      */
     enablePopover() {
-        let popover = this.get( 'popover' );
+        const popover = this.get( 'popover' );
+        const originalTitle = this.$().attr( 'data-original-title' );
 
         // First-time rendering
-        if ( 'undefined' === Ember.typeOf( this.$().attr( 'data-original-title' ) ) ) {
-            this.set( 'dataToggle', 'popover' );
+        if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
+            this.set( 'data-toggle', 'popover' );
 
             this.$().popover({
                 content: popover,
@@ -113,11 +115,12 @@ export default Ember.Mixin.create({
      * @returns {undefined}
      */
     enableTooltip() {
-        let title = this.get( 'title' );
+        const title = this.get( 'title' );
+        const originalTitle = this.$().attr( 'data-original-title' );
 
         // First-time rendering
-        if ( 'undefined' === Ember.typeOf( this.$().attr( 'data-original-title' ) ) ) {
-            this.set( 'dataToggle', 'tooltip' );
+        if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
+            this.set( 'data-toggle', 'tooltip' );
 
             this.$().tooltip({
                 container: 'body',

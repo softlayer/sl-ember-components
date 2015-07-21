@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-    model: function () {
-        return Ember.A([
+    model() {
+        return new Ember.A([
             {
                 name: 'Jane',
                 data: [ 1, 0, 4 ]

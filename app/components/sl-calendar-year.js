@@ -1,3 +1,1 @@
-import SlCalendarYear from 'sl-ember-components/components/sl-calendar-year';
-
-export default SlCalendarYear;
+export { default } from 'sl-ember-components/components/sl-calendar-year';

@@ -2,26 +2,45 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
 
-var clickCounter = 0,
-    modelStub = {
-        label: null,
-        pages: [
-            { label: 'Top Level A', extraClassNames: [ 'class1', 'class2' ], pages: [
-                { label: 'Option A1', action: 'MyAction' },
-                { label: 'Option A2', action: function() { clickCounter = 0; clickCounter++; }},
-                { label: 'Option A3', action: { actionName: 'MyAction', data: { name: 'Joe' }}},
-                { label: 'Sub Menu A3', pages: [
-                    { label: 'Sub Sub Menu A3.1' },
-                    { label: 'Sub Sub Menu A3.2' },
-                    { label: 'Sub Sub Menu A3.3' },
-                    { label: 'Sub Sub Menu A3.4' }
-                ]}
-            ]},
-            { label: 'Top Level B' },
-            { label: 'Top Level C' }
-        ]
-    },
-    App;
+let clickCounter = 0;
+const modelStub = {
+    label: null,
+    pages: [
+        {
+            label: 'Top Level A',
+            extraClassNames: [ 'class1', 'class2' ],
+            pages: [
+                {
+                    label: 'Option A1',
+                    action: 'MyAction'
+                }, {
+                    label: 'Option A2',
+                    action() {
+                        clickCounter = 0; clickCounter++;
+                    }
+                }, {
+                    label: 'Option A3',
+                    action: {
+                        actionName: 'MyAction',
+                        data: { name: 'Joe' }
+                    }
+                }, {
+                    label: 'Sub Menu A3',
+                    pages: [
+                        { label: 'Sub Sub Menu A3.1' },
+                        { label: 'Sub Sub Menu A3.2' },
+                        { label: 'Sub Sub Menu A3.3' },
+                        { label: 'Sub Sub Menu A3.4' }
+                    ]
+                }
+            ]
+        },
+        { label: 'Top Level B' },
+        { label: 'Top Level C' }
+    ]
+};
+
+let App;
 
 moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
     beforeEach() {
@@ -36,7 +55,7 @@ moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
 });
 
 test( '"children" property is an empty array on initialization', function( assert ) {
-    var component = this.subject();
+    const component = this.subject();
 
     this.render();
 
@@ -54,10 +73,10 @@ test( '"children" property is an empty array on initialization', function( asser
 });
 
 test( 'Class attributes are properly bound', function( assert ) {
-    var component  = this.subject({ menu: modelStub });
-    var menus = this.$( 'li' );
-    var firstMenuClasses = Ember.$( menus[0] ).attr( 'class' ).split( ' ' );
-    var secondMenuClasses = Ember.$( menus[1] ).attr( 'class' ).split( ' ' );
+    this.subject({ menu: modelStub });
+
+    const menus = this.$( 'li' );
+    const firstMenuClasses = Ember.$( menus[0] ).attr( 'class' ).split( ' ' );
 
     assert.ok(
         firstMenuClasses.indexOf( 'class1' ) > -1,
@@ -74,6 +93,8 @@ test( 'Class attributes are properly bound', function( assert ) {
         '"sl-menu" is added to the first menu element class'
     );
 
+    const secondMenuClasses = Ember.$( menus[1] ).attr( 'class' ).split( ' ' );
+
     assert.ok(
         secondMenuClasses.indexOf( 'sl-menu' ) > -1,
         '"sl-menu" is added to a menu when no classNames property is present'
@@ -81,7 +102,7 @@ test( 'Class attributes are properly bound', function( assert ) {
 });
 
 test( 'Menu creates correct DOM structure', function( assert ) {
-    var component = this.subject({ menu: modelStub });
+    this.subject({ menu: modelStub });
 
     assert.equal(
         this.$( 'li' ).length,
@@ -90,7 +111,7 @@ test( 'Menu creates correct DOM structure', function( assert ) {
 });
 
 test( 'Menu properly hides all but root list', function( assert ) {
-    var component = this.subject({ menu: modelStub });
+    this.subject({ menu: modelStub });
 
     assert.equal(
         this.$( 'li:visible' ).length,
@@ -99,7 +120,7 @@ test( 'Menu properly hides all but root list', function( assert ) {
 });
 
 test( 'Menu shows child on hover', function( assert ) {
-    var component = this.subject({ menu: modelStub });
+    this.subject({ menu: modelStub });
 
     assert.equal(
         this.$( 'li:visible' ).length,
@@ -115,8 +136,9 @@ test( 'Menu shows child on hover', function( assert ) {
 });
 
 test( 'Menu closes child on mouse exit', function( assert ) {
-    var component = this.subject({ menu: modelStub });
-    var child = this.$( 'li:visible' ).first();
+    this.subject({ menu: modelStub });
+
+    const child = this.$( 'li:visible' ).first();
 
     assert.equal(
         this.$( 'li:visible' ).length,
@@ -137,9 +159,9 @@ test( 'Menu closes child on mouse exit', function( assert ) {
 });
 
 test( 'Menu click supports native function', function( assert ) {
-    var component = this.subject({ menu: modelStub });
-    var child = this.$( 'li:visible' ).first();
-    var spy = sinon.spy();
+    const component = this.subject({ menu: modelStub });
+    const child = this.$( 'li:visible' ).first();
+    const spy = window.sinon.spy();
 
     Ember.set(
         Ember.get(
@@ -152,7 +174,7 @@ test( 'Menu click supports native function', function( assert ) {
     child.trigger( 'mouseenter' );
     child.find( 'li:visible' ).eq( 1 ).trigger( 'click' );
 
-    andThen( () => {
+    window.andThen( () => {
         assert.equal(
             spy.calledOnce,
             true
@@ -161,10 +183,10 @@ test( 'Menu click supports native function', function( assert ) {
 });
 
 test( 'Menu click supports action names', function( assert ) {
-    var component = this.subject({ menu: modelStub });
-    var child = this.$( 'li:visible' ).first();
-    var spy = sinon.spy();
-    var targetObject = {
+    const component = this.subject({ menu: modelStub });
+    const child = this.$( 'li:visible' ).first();
+    const spy = window.sinon.spy();
+    const targetObject = {
         actionHandler: spy
     };
 
@@ -174,7 +196,7 @@ test( 'Menu click supports action names', function( assert ) {
     child.trigger( 'mouseenter' );
     child.find( 'li:visible' ).first().trigger( 'click' );
 
-    andThen( () => {
+    window.andThen( () => {
         assert.equal(
             spy.args[ 0 ][ 0 ],
             'MyAction'
@@ -183,10 +205,10 @@ test( 'Menu click supports action names', function( assert ) {
 });
 
 test( 'Menu click supports action names with supporting data', function( assert ) {
-    var component = this.subject({ menu: modelStub });
-    var child = this.$( 'li:visible' ).first();
-    var spy = sinon.spy();
-    var targetObject = {
+    const component = this.subject({ menu: modelStub });
+    const child = this.$( 'li:visible' ).first();
+    const spy = window.sinon.spy();
+    const targetObject = {
         actionHandler: spy
     };
 
@@ -197,40 +219,43 @@ test( 'Menu click supports action names with supporting data', function( assert 
 
     child.find( 'li:visible' ).eq( 2 ).trigger( 'click' );
 
-    andThen( () => {
+    window.andThen( () => {
         assert.equal(
             spy.args[ 0 ][ 0 ],
             'MyAction'
         );
 
         assert.equal(
-            spy.args[ 0 ][ 1 ][ 'name' ],
+            spy.args[ 0 ][ 1 ].name,
             'Joe'
         );
     });
 });
 
 test( 'Menu selection fires proper selection event', function( assert ) {
-    var component = this.subject({ menu: modelStub });
-    var selectionCounter = 0;
-    var targetObject = {
-        selectionHandler( path ) {
-            selectionCounter++;
+    let selectionCounter = 0;
+
+    this.subject({
+        menu: modelStub,
+
+        selectionMade: 'selectionHandler',
+
+        targetObject: {
+            selectionHandler() {
+                selectionCounter++;
+            }
         }
-    };
+    });
 
-    component.set( 'selectionMade', 'selectionHandler' );
-    component.set( 'targetObject', targetObject );
-
-    let child1 = this.$( 'li:visible' ).first();
+    const child1 = this.$( 'li:visible' ).first();
     child1.trigger( 'mouseenter' );
     child1.trigger( 'click' );
 
-    let child2 = child1.find( 'li:visible' ).last();
+    const child2 = child1.find( 'li:visible' ).last();
     child2.trigger( 'mouseenter' );
     child2.trigger( 'click' );
 
-    let child3 = child2.find( 'li:visible' ).first();
+    const child3 = child2.find( 'li:visible' ).first();
     child3.trigger( 'mouseenter' );
     child3.trigger( 'click' );
 

@@ -8,14 +8,14 @@ import layout from '../templates/components/sl-progress-bar';
  * @memberof module:components/sl-progress-bar
  * @enum {String}
  */
-const THEME = {
+const Theme = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
-};
-export { THEME };
+});
+export { Theme };
 
 /**
  * @module
@@ -77,9 +77,9 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The Bootstrap "theme" style name
      *
-     * @type {THEME}
+     * @type {Theme}
      */
-    theme: THEME.DEFAULT,
+    theme: Theme.DEFAULT,
 
     /**
      * The progress value as an integer (out of 100)
@@ -125,17 +125,19 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember.assert} Thrown if the supplied `theme` property value is
-     *         not included in the enum THEME
+     *         not included in the enum Theme
      * @returns {String}
      */
     themeClassName: Ember.computed(
         'theme',
         function() {
-            let theme = this.get( 'theme' );
+            const theme = this.get( 'theme' );
 
             Ember.assert(
                 `Error: Invalid theme property value "${theme}"`,
-                Object.keys( THEME ).map( ( key ) => THEME[ key ] ).indexOf( theme ) > -1
+                Object.keys( Theme )
+                    .map( ( key ) => Theme[ key ] )
+                    .indexOf( theme ) > -1
             );
 
             return `progress-bar-${theme}`;

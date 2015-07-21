@@ -8,12 +8,12 @@ import layout from '../templates/components/sl-date-time';
  * @memberof module:components/sl-date-time
  * @enum {String}
  */
-const FORMAT = {
+const Format = Object.freeze({
     DATE: 'date',
     DATETIME: 'datetime',
     RELATIVE: 'relative'
-};
-export { FORMAT };
+});
+export { Format };
 
 /**
  * @module
@@ -59,7 +59,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @type {String}
      */
-    format: FORMAT.DATETIME,
+    format: Format.DATETIME,
 
     /**
      * @type {String}
@@ -104,7 +104,8 @@ export default Ember.Component.extend( TooltipEnabled, {
         'timezoneString',
         'value',
         function() {
-            return window.moment( this.get( 'value' ) ).format( 'YYYY-MM-DD HH:mm ' ) +
+            return window.moment( this.get( 'value' ) )
+                .format( 'YYYY-MM-DD HH:mm ' ) +
                 this.get( 'timezoneString' );
         }
     ),
@@ -119,20 +120,20 @@ export default Ember.Component.extend( TooltipEnabled, {
         'format',
         'momentValue',
         function() {
-            let momentValue = this.get( 'momentValue' );
+            const momentValue = this.get( 'momentValue' );
             let formattedString = '';
 
             switch ( this.get( 'format' ) ) {
-                case FORMAT.DATE:
+                case Format.DATE:
                     formattedString = momentValue.format( 'YYYY-MM-DD' );
                     break;
 
-                case FORMAT.RELATIVE:
+                case Format.RELATIVE:
                     formattedString = momentValue.fromNow();
                     break;
 
                 default:
-                case FORMAT.DATETIME:
+                case Format.DATETIME:
                     formattedString =
                         momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) +
                         ' ' +
@@ -152,7 +153,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     momentValue: Ember.computed(
         'value',
         function() {
-            return window.moment( this.get( 'value' ) ).locale( this.get( 'locale' ) );
+            return window.moment( this.get( 'value' ) )
+                .locale( this.get( 'locale' ) );
         }
     ),
 
@@ -166,7 +168,8 @@ export default Ember.Component.extend( TooltipEnabled, {
         'timezone',
         'momentValue',
         function() {
-            return this.get( 'momentValue' ).tz( this.get( 'timezone' ) ).format( 'z' );
+            return this.get( 'momentValue' )
+                .tz( this.get( 'timezone' ) ).format( 'z' );
         }
     )
 

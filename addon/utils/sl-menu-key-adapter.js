@@ -15,7 +15,7 @@ export default Ember.Object.extend( Ember.Evented, {
      * @returns {undefined}
      */
     childSelection( key ) {
-        if ( Ember.typeOf( key ) === 'string' ) {
+        if ( 'string' === Ember.typeOf( key ) ) {
             key = parseInt( key, 10 );
         }
 
