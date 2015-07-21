@@ -31,6 +31,13 @@ export default Ember.Component.extend({
     // Properties
 
     /**
+     * The end date placeholder text that the date range picker should show
+     *
+     * @type {?String}
+     */
+    endDatePlaceholder: null,
+
+    /**
      * The value for the endDate input
      *
      * @type {?String}
@@ -45,6 +52,13 @@ export default Ember.Component.extend({
     format: 'mm/dd/yyyy',
 
     /**
+     * The help text below the date range picker
+     *
+     * @type {?String}
+     */
+    helpText: null,
+
+    /**
      * Bound value of Start Date input element's id
      *
      * @type {?String}
@@ -52,18 +66,32 @@ export default Ember.Component.extend({
     inputElementId: null,
 
     /**
-     * The last valid date for the date range
+     * The label text above the date range picker
+     *
+     * @type {?String}
+     */
+    label: null,
+
+    /**
+     * The latest valid date for the ending date range
      *
      * @type {?Date|String}
      */
     maxDate: null,
 
     /**
-     * The earliest date selectable in the range
+     * The earliest date selectable in the starting range
      *
      * @type {?Date|String}
      */
     minDate: null,
+
+    /**
+     * The start date placeholder text that the date range picker should show
+     *
+     * @type {?String}
+     */
+    startDatePlaceholder: null,
 
     /**
      * The value for the startDate input

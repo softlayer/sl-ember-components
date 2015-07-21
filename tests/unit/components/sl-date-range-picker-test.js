@@ -35,6 +35,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
             'End date input receives focus upon start date change'
         );
 
+        $( '.datepicker' ).remove();
         done();
     });
 
@@ -122,14 +123,84 @@ test( 'Events from start date input are removed upon willClearRender', function(
     );
 });
 
-test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by default', function( assert ) {
+test( 'Default properties are set correctly in the component', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'label' ),
-        undefined,
-        'label is undefined by default'
+        component.get( 'earliestEndDate' ),
+        null,
+        '"earliestEndDate" is undefined by default'
     );
+
+    assert.strictEqual(
+        component.get( 'endDatePlaceholder' ),
+        null,
+        '"endDatePlaceholder" is undefined by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'endDateValue' ),
+        null,
+        'The "endDateValue" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'format' ),
+        'mm/dd/yyyy',
+        'The "format" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'helpText' ),
+        null,
+        'The "helpText" default value is correct'
+    );
+
+    assert.equal(
+        component.get( 'inputElementId' ),
+        null,
+        'The "inputElementId" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'label' ),
+        null,
+        'The "label" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'latestStartDate' ),
+        null,
+        'The "latestStartDate" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'maxDate' ),
+        null,
+        'The "maxDate" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'minDate' ),
+        null,
+        'The "minDate" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'startDatePlaceholder' ),
+        null,
+        'The "startDatePlaceholder" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'startDateValue' ),
+        null,
+        'The "startDateValue" default value is correct'
+    );
+});
+
+test( 'Default properties are set correctly in the DOM', function( assert ) {
+    const component = this.subject();
 
     assert.strictEqual(
         this.$( 'label' )[ 0 ],
@@ -138,21 +209,9 @@ test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by defa
     );
 
     assert.strictEqual(
-        component.get( 'startDatePlaceholder' ),
-        undefined,
-        'startDatePlaceholder is undefined by default'
-    );
-
-    assert.strictEqual(
         this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
         '',
         'Start date input placeholder is empty when startDatePlaceholder is undefined'
-    );
-
-    assert.strictEqual(
-        component.get( 'endDatePlaceholder' ),
-        undefined,
-        'endDatePlaceholder is undefined by default'
     );
 
     assert.strictEqual(
@@ -185,7 +244,19 @@ test( 'label is accepted as a parameter', function( assert ) {
     );
 });
 
-test( 'startDatePlaceholder is accepted as a parameter', function( assert ) {
+test( 'helpText is set correctly', function( assert ) {
+    const testHelpText = 'lorem ipsum';
+
+    const component = this.subject({ helpText: testHelpText });
+
+    assert.equal(
+        this.$( '.help-block' ).text(),
+        testHelpText,
+        'Start date input helpText was passed through correctly'
+    );
+});
+
+test( 'startDatePlaceholder is set correctly', function( assert ) {
     const placeholderText = 'lorem ipsum';
 
     this.subject({ startDatePlaceholder: placeholderText });
@@ -197,7 +268,7 @@ test( 'startDatePlaceholder is accepted as a parameter', function( assert ) {
     );
 });
 
-test( 'endDatePlaceholder is accepted as a parameter', function( assert ) {
+test( 'endDatePlaceholder is is set correctly', function( assert ) {
     const placeholderText = 'lorem ipsum';
 
     this.subject({ endDatePlaceholder: placeholderText });
