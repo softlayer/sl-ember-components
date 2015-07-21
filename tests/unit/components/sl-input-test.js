@@ -55,7 +55,7 @@ test( 'Help text is displayed', function( assert) {
     });
 
     assert.equal(
-        this.$( '.help-block' ).text(),
+        this.$( '.help-block' ).text().trim(),
         helpText
     );
 });
@@ -195,16 +195,16 @@ test( 'Typeahead is initialized', function( assert ) {
 });
 
 test( 'Value is set to value property', function( assert ) {
-    const val = 'set value';
+    const value = 'set value';
 
     const component = this.subject({
-        value: val
+        value: value
     });
 
     this.render();
 
     assert.equal(
         component.getInput().val(),
-        val
+        value
     );
 });
