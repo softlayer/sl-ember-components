@@ -184,7 +184,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     ),
 
     /**
-     * Select2 fomartResult function
+     * Select2 formatResult function
      *
      * @function
      * @returns {Function}
@@ -221,7 +221,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     ),
 
     /**
-     * Select2 fomartSelection function
+     * Select2 formatSelection function
      *
      * @function
      * @returns {Function}
