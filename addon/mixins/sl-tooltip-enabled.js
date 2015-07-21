@@ -93,7 +93,7 @@ export default Ember.Mixin.create({
 
         // First-time rendering
         if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
-            this.set( 'data-toggle', 'popover' );
+            this.set( 'dataToggle', 'popover' );
 
             this.$().popover({
                 content: popover,
@@ -120,7 +120,7 @@ export default Ember.Mixin.create({
 
         // First-time rendering
         if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
-            this.set( 'data-toggle', 'tooltip' );
+            this.set( 'dataToggle', 'tooltip' );
 
             this.$().tooltip({
                 container: 'body',
