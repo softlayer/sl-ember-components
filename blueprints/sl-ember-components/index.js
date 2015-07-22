@@ -2,28 +2,16 @@ module.exports = {
     afterInstall: function() {
         const self = this;
 
-        return this.addBowerPackageToProject( 'bootstrap-datepicker', '~1.3.0' )
-            .then( function() {
-                return self.addBowerPackageToProject( 'fontawesome', '~4.3.0' );
-            })
-            .then( function() {
-                return self.addBowerPackageToProject( 'highcharts', '~4.1.5' );
-            })
-            .then( function() {
-                return self.addBowerPackageToProject( 'moment', '~2.10.3' );
-            })
-            .then( function() {
-                return self.addBowerPackageToProject( 'moment-timezone', '~0.4.0' );
-            })
-            .then( function() {
-                return self.addBowerPackageToProject( 'select2', '~3.5.2' );
-            })
-            .then( function() {
-                return self.addBowerPackageToProject( 'typeahead.js', '~0.11.1' );
-            })
-            .then( function() {
-                return self.addBowerPackageToProject( 'softlayer/sl-bootstrap', '1.1.0' );
-            });
+        return this.addBowerPackagesToProject([
+            {name: 'bootstrap-datepicker', target: '~1.3.0'},
+            {name: 'fontawesome', target: '~4.3.0'},
+            {name: 'highcharts', target: '~4.1.5'},
+            {name: 'moment', target: '~2.10.3'},
+            {name: 'moment-timezone', target: '~0.4.0'},
+            {name: 'select2', target: '~3.5.2'},
+            {name: 'typeahead.js', target: '~0.11.1'},
+            {name: 'softlayer/sl-bootstrap', target: '1.1.0'}
+        ]);
     },
 
     normalizeEntityName: function() {}
