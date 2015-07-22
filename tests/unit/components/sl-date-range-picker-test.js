@@ -35,6 +35,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
             'End date input receives focus upon start date change'
         );
 
+        $( '.datepicker' ).remove();
         done();
     });
 
