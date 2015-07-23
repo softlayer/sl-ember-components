@@ -57,16 +57,6 @@ is served from the *gh-pages* branch of this repository.
 Provides state properties for input element based components.
 
 
-*sl-notify-view*
-
-Use this mixin on a view when you need to notify its controller of any of the following events:
-
-* didInsertElement
-* willClearRender
-* willDestroyElement
-* willInsertElement
-
-
 *sl-tooltip-enabled*
 
 Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.
