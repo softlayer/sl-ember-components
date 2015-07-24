@@ -40,7 +40,6 @@ Router.map( function() {
         this.route( 'sl-tooltip' );
 
         this.route( 'services', function() {
-            this.route( 'sl-event' );
             this.route( 'sl-modal' );
         });
     });
