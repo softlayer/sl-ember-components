@@ -192,7 +192,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     const filteredContent = [];
                     const multiple = this.get( 'multiple' );
                     const optionValuePath = this.get( 'optionValuePath' );
-                    const values = value.split( ',' );
+                    const values = "array" === Ember.typeOf( value ) ? value : value.split( ',' );
                     let unmatchedValues = values.length;
 
                     for ( let i = 0; i < contentLength; i++ ) {
@@ -214,9 +214,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     }
 
                     if ( 0 === unmatchedValues ) {
-                        this.input.select2( 'readonly', false );
+                        element.select2( 'readonly', false );
                     } else {
-                        this.input.select2( 'readonly', true );
+                        element.select2( 'readonly', true );
 
                         const warning = 'sl-select:select2#initSelection was' +
                             ' not able to map each "' + optionValuePath + '"' +
