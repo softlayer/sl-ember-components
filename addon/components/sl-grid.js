@@ -339,13 +339,6 @@ export default Ember.Component.extend({
     pageSize: 25,
 
     /**
-     * The aliased grid's parent controller, used to trigger row actions
-     *
-     * @type {module:components/sl-grid~_parentView._controller}
-     */
-    rowActionContext: Ember.computed.alias( '_parentView._controller' ),
-
-    /**
      * An array of action definitions to use for individual row actions
      *
      * Each item in this array should have the following properties:
