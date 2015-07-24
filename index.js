@@ -29,6 +29,11 @@ module.exports = {
         });
 
         app.import({
+            development: 'bower_components/jquery-mousewheel/jquery.mousewheel.js',
+            production: 'bower_components/jquery-mousewheel/jquery-mousewheel.min.js'
+        });
+
+        app.import({
             development: 'bower_components/moment/min/moment-with-locales.js',
             production: 'bower_components/moment/min/moment-with-locales.min.js'
         });
