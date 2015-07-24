@@ -54,7 +54,7 @@ export default Ember.Component.extend({
     /**
      * Bound value for the radio button
      *
-     * @type {String}
+     * @type {?String}
      */
     value: null,
 
