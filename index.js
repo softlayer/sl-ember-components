@@ -50,7 +50,7 @@ module.exports = {
     },
 
     postprocessTree: function( type, tree ) {
-        var fontPath = 'assets/' + this.name + '/fonts';
+        var fontPath = this.name + '/assets/fonts';
 
         return mergeTrees(
             [
