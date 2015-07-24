@@ -12,6 +12,7 @@
     "fontawesome": "~4.3.0",
     "highcharts": "~4.1.5",
     "jquery": "^1.11.1",
+    "jquery-mousewheel": "^3.1.12",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "moment": "~2.10.3",
     "moment-timezone": "~0.4.0",
