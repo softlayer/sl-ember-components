@@ -7,118 +7,77 @@ export default Ember.Controller.extend({
         }
     },
 
-    eventService: Ember.inject.service( 'sl-event' ),
+    streamService: Ember.inject.service( 'stream' ),
 
     initialize: Ember.on(
         'init',
         function() {
+            const streamService = this.get( 'streamService' );
             let lastPressedKey;
 
-            window.addEventListener( 'keydown', ( event ) => {
-                let eventService = this.get( 'eventService' );
+            const keydownStream = streamService.createStream( ( observer ) => {
+                window.addEventListener( 'keydown', ( event ) => {
+                    observer.onNext( event );
+                    lastPressedKey = event.keyCode;
+                });
+            });
 
-                switch ( event.keyCode ) {
-                    case 9: // Tab key
-                        event.preventDefault();
-                        eventService.trigger(
-                            event.shiftKey ?
-                                'demoMenu.previous' :
-                                'demoMenu.next'
-                        );
-                        break;
+            const hideAllMenusStream = keydownStream
+                .filter( event => event.keyCode === 27 ); // 27 = Esc
 
-                    case 13: // Enter key
-                        eventService.trigger( 'demoMenu.subMenu' );
-                        break;
+            const selectStream = keydownStream
+                .filter( event => event.keyCode > 48 && event.keyCode < 58 )
+                .map( event => event.keyCode - 49 );
 
-                    case 27: // Escape key
-                        eventService.trigger( 'hideAllMenus' );
-                        break;
+            const selectDownStream = keydownStream
+                .filter( event => event.keyCode === 40 ); // 40 = down arrow
+            selectDownStream.subscribe( event => event.preventDefault() );
 
-                    case 37: // Left arrow key
-                        event.preventDefault();
-                        eventService.trigger( 'demoMenu.left' );
-                        break;
+            const selectLeftStream = keydownStream
+                .filter( event => event.keyCode === 37 ); // 37 = left arrow
+            selectLeftStream.subscribe( event => event.preventDefault() );
 
-                    case 38: // Up arrow key
-                        event.preventDefault();
-                        eventService.trigger( 'demoMenu.up' );
-                        break;
+            // 9 = tab key
+            const selectNextStream = keydownStream
+                .filter( event => event.keyCode === 9 && !event.shiftKey );
+            selectNextStream.subscribe( event => event.preventDefault() );
 
-                    case 39: // Right arrow key
-                        event.preventDefault();
-                        eventService.trigger( 'demoMenu.right' );
-                        break;
+            const selectPreviousStream = keydownStream
+                .filter( event => event.keyCode === 9 && event.shiftKey );
+            selectPreviousStream.subscribe( event => event.preventDefault() );
 
-                    case 40: // Down arrow key
-                        event.preventDefault();
-                        eventService.trigger( 'demoMenu.down' );
-                        break;
+            const selectRightStream = keydownStream
+                .filter( event => event.keyCode === 39 ); // 39 = right arrow
+            selectRightStream.subscribe( event => event.preventDefault() );
 
-                    case 48: // 0 key
-                        eventService.trigger( 'demoMenu.showAll' );
-                        break;
+            const selectSubMenuStream = keydownStream
+                .filter( event => (
+                    event.keyCode === 13 || // 13 = enter key
+                    event.keyCode === 189 && // 189 = '-' key
+                    lastPressedKey !== 189
+                ));
 
-                    case 49: // 1 key
-                        eventService.trigger( 'demoMenu.select', 0 );
-                        break;
+            const selectUpStream = keydownStream
+                .filter( event => event.keyCode === 38 ); // 38 = up arrow
+            selectUpStream.subscribe( event => event.preventDefault() );
 
-                    case 50: // 2 key
-                        eventService.trigger( 'demoMenu.select', 1 );
-                        break;
+            const showAllStream = keydownStream
+                .filter( event => event.keyCode === 48 ); // 48 = 0 key
 
-                    case 51: // 3 key
-                        eventService.trigger( 'demoMenu.select', 2 );
-                        break;
-
-                    case 52: // 4 key
-                        eventService.trigger( 'demoMenu.select', 3 );
-                        break;
-
-                    case 53: // 5 key
-                        eventService.trigger( 'demoMenu.select', 4 );
-                        break;
-
-                    case 54: // 6 key
-                        eventService.trigger( 'demoMenu.select', 5 );
-                        break;
-
-                    case 55: // 7 key
-                        eventService.trigger( 'demoMenu.select', 6 );
-                        break;
-
-                    case 56: // 8 key
-                        eventService.trigger( 'demoMenu.select', 7 );
-                        break;
-
-                    case 57: // 9 key
-                        eventService.trigger( 'demoMenu.select', 8 );
-                        break;
-
-                    case 189: // - key
-                        if ( lastPressedKey !== 189 ) {
-                            eventService.trigger( 'demoMenu.subMenu' );
-                        }
-                        break;
-                }
-
-                lastPressedKey = event.keyCode;
+            streamService.registerStreams({
+                'hideAllMenus': hideAllMenusStream,
+                'demoMenu.select': selectStream,
+                'demoMenu.down': selectDownStream,
+                'demoMenu.left': selectLeftStream,
+                'demoMenu.next': selectNextStream,
+                'demoMenu.previous': selectPreviousStream,
+                'demoMenu.right': selectRightStream,
+                'demoMenu.subMenu': selectSubMenuStream,
+                'demoMenu.up': selectUpStream,
+                'demoMenu.showAll': showAllStream
             });
         }
     ),
-
-    menuEvents: {
-        'hideAll': 'hideAllMenus',
-        'select': 'demoMenu.select',
-        'selectDown': 'demoMenu.down',
-        'selectLeft': 'demoMenu.left',
-        'selectNext': 'demoMenu.next',
-        'selectPrevious': 'demoMenu.previous',
-        'selectRight': 'demoMenu.right',
-        'selectSubMenu': 'demoMenu.subMenu',
-        'selectUp': 'demoMenu.up',
-        'showAll': 'demoMenu.showAll'
-    },
 
     menuItems: Ember.A([
         {
@@ -144,5 +103,18 @@ export default Ember.Controller.extend({
         }, {
             label: 'Main Three'
         }
-    ])
+    ]),
+
+    menuStreams: {
+        'hideAll': 'hideAllMenus',
+        'select': 'demoMenu.select',
+        'selectDown': 'demoMenu.down',
+        'selectLeft': 'demoMenu.left',
+        'selectNext': 'demoMenu.next',
+        'selectPrevious': 'demoMenu.previous',
+        'selectRight': 'demoMenu.right',
+        'selectSubMenu': 'demoMenu.subMenu',
+        'selectUp': 'demoMenu.up',
+        'showAll': 'demoMenu.showAll'
+    }
 });

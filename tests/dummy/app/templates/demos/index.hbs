@@ -78,33 +78,9 @@
 
 <h3>Services</h3>
 <div class="list-group">
-    {{#link-to "demos.services.sl-event" class="list-group-item"}}
-        sl-event
-    {{/link-to}}
-
     {{#link-to "demos.services.sl-modal" class="list-group-item"}}
         sl-modal
     {{/link-to}}
-</div>
-
-<hr>
-
-<h3>Mixins</h3>
-<div class="list-group">
-    <div class="list-group-item">
-        <h6>sl-evented</h6>
-        <p>Provides <code>eventService</code> property binding to the {{#link-to "demos.services.sl-event"}}sl-event service{{/link-to}}, along with the following shortcut methods:</p>
-        <ul>
-            <li><strong>listenFor</strong>( <em>eventName</em> ) - Sets up a listener on services/sl-event for the object using this mixin</li>
-            <li><strong>unlistenFor</strong>( <em>eventName</em> ) - Removes any listeners on services/sl-event for the object using this mixin</li>
-        </ul>
-    </div>
-
-    <div class="list-group-item">
-        <h6>sl-modal-manager</h6>
-        <p>Provides an advanced implemention of the modal component.</p>
-        <p>The documentation is viewable at <a href="https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md">https://github.com/softlayer/sl-ember-components/blob/master/addon/mixins/docs/modal.md</a></p>
-    </div>
 </div>
 
 <hr>

@@ -11,8 +11,8 @@
         <pre>\{{sl-menu
     action="doSomething"
     allowShowAll=true
-    events=menuEvents
     items=menuItems
+    streams=menuStreams
 }}</pre>
     </div>
 
@@ -21,8 +21,8 @@
         {{sl-menu
             action="doSomething"
             allowShowAll=true
-            events=menuEvents
             items=menuItems
+            streams=menuStreams
         }}
     </div>
 </div>
@@ -32,7 +32,7 @@
 <h3>Properties</h3>
 
 <ul class="list-group">
-    {{#property-text name="items" type="array" required=true}}
+    {{#property-text name="items" type="Array" required=true}}
         <p>The array of menu items, each object member containing the following properties:</p>
         <ul>
             <li><strong>action</strong> - A <em>string</em> name of an action to pass back to the controller using the <code>action</code> component binding</li>
@@ -42,16 +42,16 @@
         </ul>
     {{/property-text}}
 
-    {{#property-text name="action" type="string"}}
+    {{#property-text name="action" type="String"}}
         The name of an action to trigger whenever a sub-menu item's action is triggered. The action should accept <em>actionName</em> and <em>data</em> from the menu item.
     {{/property-text}}
 
-    {{#property-text name="allowShowAll" type="boolean" default="false"}}
+    {{#property-text name="allowShowAll" type="Boolean" default="false"}}
         When true, the menu includes a show-all menu item.
     {{/property-text}}
 
-    {{#property-text name="events" type="object"}}
-        <p>An object containing event binding strings, with the keys mapping to the following internal event names, and the values to the event service's event names.</p>
+    {{#property-text name="streams" type="Object"}}
+        <p>An key-value hash containing stream name strings, with the keys mapping to the following internal names, and the values to the stream names.</p>
         <ul>
             <li><strong>hideAll</strong> - Trigger hiding all of the sub-menus</li>
             <li><strong>select( index )</strong> - Select an item by its index in the current selected context</li>
@@ -90,9 +90,5 @@
             </li>
             <li><strong>showAll</strong> - Trigger showing all of the menu items</li>
         </ul>
-
-        <br>
-
-        <p>See {{#link-to "demos.services.sl-event"}}services/sl-event{{/link-to}} for information on how to properly trigger these custom events.</p>
     {{/property-text}}
 </ul>

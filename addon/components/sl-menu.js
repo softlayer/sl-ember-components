@@ -1,14 +1,12 @@
 import Ember from 'ember';
-import SlEvented from '../mixins/sl-evented';
 import layout from '../templates/components/sl-menu';
 import { error, warn } from '../utils/logger';
 
 /**
  * @module
  * @augments ember/Component
- * @augments sl-ember-components/mixins/sl-evented
  */
-export default Ember.Component.extend( SlEvented, {
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -96,27 +94,6 @@ export default Ember.Component.extend( SlEvented, {
     allowShowAll: false,
 
     /**
-     * A definition object outlining the event bindings this component should be
-     * listening for
-     *
-     * Relevant event names include:
-     * - hideAll
-     * - select (accepts an id argument)
-     * - selectDown
-     * - selectLeft
-     * - selectNext
-     * - selectParent
-     * - selectPrevious
-     * - selectRight
-     * - selectSubMenu
-     * - selectUp
-     * - showAll
-     *
-     * @type {?Object}
-     */
-    events: null,
-
-    /**
      * The array of menu items
      *
      * @type {?Object[]}
@@ -139,11 +116,39 @@ export default Ember.Component.extend( SlEvented, {
      */
     showingAll: false,
 
+    /**
+     * The ember-stream service
+     *
+     * @type {ember/Service}
+     */
+    streamService: Ember.inject.service( 'stream' ),
+
+    /**
+     * A definition object outlining the observable streams this component
+     * should be listening for
+     *
+     * Relevant event names include:
+     * - hideAll
+     * - select (accepts an id argument)
+     * - selectDown
+     * - selectLeft
+     * - selectNext
+     * - selectParent
+     * - selectPrevious
+     * - selectRight
+     * - selectSubMenu
+     * - selectUp
+     * - showAll
+     *
+     * @type {?Object}
+     */
+    streams: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
     /**
-     * Setup the eventService event listeners
+     * Setup the stream observers
      *
      * @function
      * @returns {undefined}
@@ -151,56 +156,72 @@ export default Ember.Component.extend( SlEvented, {
     setupListeners: Ember.on(
         'init',
         function() {
-            const events = this.get( 'events' );
+            const streams = this.get( 'streams' );
 
-            if ( events.hasOwnProperty( 'hideAll' ) ) {
-                this.listenFor( events.hideAll );
-                this.on( events.hideAll, this.hideAll );
+            if ( !streams ) {
+                return;
             }
 
-            if ( events.hasOwnProperty( 'select' ) ) {
-                this.listenFor( events.select );
-                this.on( events.select, this.select );
+            const streamService = this.get( 'streamService' );
+
+            if ( streams.hasOwnProperty( 'hideAll' ) ) {
+                streamService.subscribeTo( streams.hideAll, () => {
+                    this.hideAll();
+                });
             }
 
-            if ( events.hasOwnProperty( 'selectDown' ) ) {
-                this.listenFor( events.selectDown );
-                this.on( events.selectDown, this.selectDown );
+            if ( streams.hasOwnProperty( 'select' ) ) {
+                streamService.subscribeTo( streams.select, ( index ) => {
+                    this.select( index );
+                });
             }
 
-            if ( events.hasOwnProperty( 'selectLeft' ) ) {
-                this.listenFor( events.selectLeft );
-                this.on( events.selectLeft, this.selectLeft );
+            if ( streams.hasOwnProperty( 'selectDown' ) ) {
+                streamService.subscribeTo( streams.selectDown, () => {
+                    this.selectDown();
+                });
             }
 
-            if ( events.hasOwnProperty( 'selectNext' ) ) {
-                this.listenFor( events.selectNext );
-                this.on( events.selectNext, this.selectNext );
+            if ( streams.hasOwnProperty( 'selectLeft' ) ) {
+                streamService.subscribeTo( streams.selectLeft, () => {
+                    this.selectLeft();
+                });
             }
 
-            if ( events.hasOwnProperty( 'selectPrevious' ) ) {
-                this.listenFor( events.selectPrevious );
-                this.on( events.selectPrevious, this.selectPrevious );
+            if ( streams.hasOwnProperty( 'selectNext' ) ) {
+                streamService.subscribeTo( streams.selectNext, () => {
+                    this.selectNext();
+                });
             }
 
-            if ( events.hasOwnProperty( 'selectRight' ) ) {
-                this.listenFor( events.selectRight );
-                this.on( events.selectRight, this.selectRight );
+            if ( streams.hasOwnProperty( 'selectPrevious' ) ) {
+                streamService.subscribeTo( streams.selectPrevious, () => {
+                    this.selectPrevious();
+                });
             }
 
-            if ( events.hasOwnProperty( 'selectSubMenu' ) ) {
-                this.listenFor( events.selectSubMenu );
-                this.on( events.selectSubMenu, this.selectSubMenu );
+            if ( streams.hasOwnProperty( 'selectRight' ) ) {
+                streamService.subscribeTo( streams.selectRight, () => {
+                    this.selectRight();
+                });
             }
 
-            if ( events.hasOwnProperty( 'selectUp' ) ) {
-                this.listenFor( events.selectUp );
-                this.on( events.selectUp, this.selectUp );
+            if ( streams.hasOwnProperty( 'selectSubMenu' ) ) {
+                streamService.subscribeTo( streams.selectSubMenu, () => {
+                    this.selectSubMenu();
+                });
             }
 
-            if ( events.hasOwnProperty( 'showAll' ) ) {
-                this.listenFor( events.showAll );
-                this.on( events.showAll, this.showAll );
+            if ( streams.hasOwnProperty( 'selectUp' ) ) {
+                streamService.subscribeTo( streams.selectUp, () => {
+                    this.selectUp();
+                });
+            }
+
+            if ( streams.hasOwnProperty( 'showAll' ) ) {
+                streamService.subscribeTo( streams.showAll, () => {
+                    this.showAll();
+                });
             }
         }
     ),
