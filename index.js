@@ -55,6 +55,8 @@ module.exports = {
     },
 
     postprocessTree: function( type, tree ) {
+        var fontPath = this.name + '/assets/fonts';
+
         return mergeTrees(
             [
                 tree,
@@ -62,13 +64,13 @@ module.exports = {
                 pickFiles( 'bower_components/sl-bootstrap/fonts', {
                     srcDir: '/',
                     files: [ 'benton-sans-*' ],
-                    destDir: '/fonts'
+                    destDir: fontPath
                 }),
 
                 pickFiles( 'bower_components/fontawesome/fonts', {
                     srcDir: '/',
                     files: [ 'fontawesome-webfont.*' ],
-                    destDir: '/fonts'
+                    destDir: fontPath
                 })
             ],
             {
