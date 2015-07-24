@@ -87,6 +87,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      */
     type: 'text',
 
+    /**
+     * Value of the input
+     *
+     * @type {?String}
+     */
+    value: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
