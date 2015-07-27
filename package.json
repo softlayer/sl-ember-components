@@ -66,7 +66,7 @@
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
-    "ember-stream": "0.5.1",
+    "ember-stream": "0.6.0",
     "ember-try": "0.0.6",
     "sl-eslint": "0.0.9"
   }
