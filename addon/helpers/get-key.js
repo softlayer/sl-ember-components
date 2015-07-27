@@ -12,7 +12,7 @@ import Ember from 'ember';
  * @param {String} objectKey - The string path to lookup the object in context
  * @param {String} pathKey - The string path to lookup the value on the object
  * @param {Object} context - The current context of execution
- * @returns {mixed} The value returned from looking up the path on the object
+ * @returns {*} The value returned from looking up the path on the object
  */
 export default function( objectKey, pathKey, context ) {
     const object = Ember.get( context, `data.view._keywords.${objectKey}` );
