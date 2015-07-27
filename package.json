@@ -7,7 +7,7 @@
     "build": "ember build",
     "docs": "ember ember-cli-jsdoc",
     "lint": "node_modules/.bin/sl-eslint",
-    "lint-all": "node_modules/.bin/sl-eslint addon app blueprints tests",
+    "lint-all": "node_modules/.bin/sl-eslint addon app tests",
     "start": "ember server",
     "test": "ember test"
   },
@@ -67,6 +67,6 @@
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
     "ember-try": "0.0.6",
-    "sl-eslint": "0.0.8"
+    "sl-eslint": "0.0.9"
   }
 }
