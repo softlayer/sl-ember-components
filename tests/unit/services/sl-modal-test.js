@@ -47,10 +47,10 @@ test( 'Find modal', function( assert ) {
 });
 
 test( 'Registering the same modal twice throws an error', function( assert ) {
-        const register = () => {
-            service.register( mockModal, mockModal.name );
-            service.register( mockModal, mockModal.name );
-        };
+    const register = () => {
+        service.register( mockModal, mockModal.name );
+        service.register( mockModal, mockModal.name );
+    };
 
     assert.throws( register );
 });
