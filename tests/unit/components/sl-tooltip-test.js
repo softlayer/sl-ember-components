@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
@@ -36,355 +37,169 @@ test( 'Renders as a span tag with no classes', function( assert ) {
 
 test( '"title" property needs to be a string', function( assert ) {
 
+    let properties = Ember.Object.create();
+
+    const callSubject = () => this.subject( properties );
+
     // Empty Property
 
-    let assertionThrown = false;
-
-    try {
-        this.subject( {} );
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
+    assert.throws(
+        callSubject,
         'Property was empty'
     );
 
     // Null Property
 
-    assertionThrown = false;
+    properties.set( 'title', null );
 
-    try {
-        this.subject({
-            title: null
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
+    assert.throws(
+        callSubject,
         'Property was null'
     );
 
-    // Symbol Property
-
-    assertionThrown = false;
-
-    try {
-        const sym = Symbol( 'foo' );
-
-        this.subject({
-            title: sym
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was a symbol'
-    );
 
     // Number Property
 
-    assertionThrown = false;
+    properties.set( 'title', 3 );
 
-    try {
-        this.subject({
-            title: 3
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was Number'
+    assert.throws(
+        callSubject,
+        'Property was a number'
     );
-
 
     // Boolean Property
 
-    assertionThrown = false;
+    properties.set( 'title', true );
 
-    try {
-        this.subject({
-            title: true
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        'Property was a Boolean'
+    assert.throws(
+        callSubject,
+        'Property was a boolean'
     );
 
     // Array as a Property
 
-    assertionThrown = false;
+    properties.set( 'title', []);
 
-    try {
-        this.subject({
-            title: []
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was an Array'
+    assert.throws(
+        callSubject,
+        'Property was an array'
     );
 
     // Function as a Property
 
-    assertionThrown = false;
+    properties.set( 'title', function(){ } );
 
-    try {
-        this.subject({
-            title: function() {}
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was a Function'
+    assert.throws(
+        callSubject,
+        'Property was a function'
     );
 
     // Object as a Property
 
-    assertionThrown = false;
+    properties.set( 'title', {});
 
-    try {
-        this.subject({
-            title: {}
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was an Object'
+    assert.throws(
+        callSubject,
+        'Property was an object'
     );
 
     // Undefined Property
 
-    assertionThrown = false;
+    properties.set( 'title', undefined );
 
-    try {
-        this.subject({
-            title: undefined
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was Undefined'
+    assert.throws(
+        callSubject,
+        'Property was undefined'
     );
 
     // String Property
 
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
+    properties.set( 'title', 'Test title' );
 
     assert.ok(
-        !assertionThrown,
-        'Property was a String'
+        callSubject(),
+        'Property was a string'
     );
 });
 
 test( '"popover" property needs to be a string or undefined', function( assert ) {
 
-    // Empty Property
+    let properties = Ember.Object.create({
+        title: 'Tooltip text'
+    });
 
-    let assertionThrown = false;
-
-    try {
-        this.subject( {} );
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was empty'
-    );
+    const callSubject = () => this.subject( properties );
 
     // Null Property
 
-    assertionThrown = false;
+    properties.set( 'popover', null );
 
-    try {
-        this.subject({
-            popover: null,
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
+    assert.throws(
+        callSubject,
         'Property was null'
-    );
-
-    // Symbol Property
-
-    assertionThrown = false;
-
-    try {
-        const sym = Symbol( 'foo' );
-
-        this.subject({
-            popover: sym,
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was a symbol'
     );
 
     // Number Property
 
-    assertionThrown = false;
+    properties.set( 'popover', 3 );
 
-    try {
-        this.subject({
-            popover: 3,
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was Number'
+    assert.throws(
+        callSubject,
+        'Property was a number'
     );
-
 
     // Boolean Property
 
-    assertionThrown = false;
+    properties.set( 'popover', true );
 
-    try {
-        this.subject({
-            popover: true,
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was a Boolean'
+    assert.throws(
+        callSubject,
+        'Property was a number'
     );
 
     // Array as a Property
 
-    assertionThrown = false;
+    properties.set( 'popover', []);
 
-    try {
-        this.subject({
-            popover: [],
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was an Array'
+    assert.throws(
+        callSubject,
+        'Property was an array'
     );
 
     // Function as a Property
 
-    assertionThrown = false;
+    properties.set( 'popover', function(){ } );
 
-    try {
-        this.subject({
-            popover() {},
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was a Function'
+    assert.throws(
+        callSubject,
+        'Property was a function'
     );
 
     // Object as a Property
 
-    assertionThrown = false;
+    properties.set( 'popover', {});
 
-    try {
-        this.subject({
-            popover: {},
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'Property was an Object'
-    );
-
-    // String Property
-
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            popover: 'Popover Text',
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        !assertionThrown,
-        'Property was a String'
+    assert.throws(
+        callSubject,
+        'Property was an object'
     );
 
     // Undefined Property
 
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            title: 'Tooltip Text'
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
+    //Delete previously populated popover property
+    delete properties.popover;
 
     assert.ok(
-        !assertionThrown,
+        callSubject(),
         'Property was undefined'
+    );
+
+    // String Property
+
+    properties.set( 'popover', 'Popover text' );
+
+    assert.ok(
+        callSubject(),
+        'Property was a string'
     );
 });
