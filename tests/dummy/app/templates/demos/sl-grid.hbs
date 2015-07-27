@@ -78,7 +78,7 @@ rowActions: Ember.A([
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="columns" type="array" required=true}}
+    {{#property-text name="columns" type="Array" required=true}}
         <p>An array of column definition objects. Each column definition object can contain the following values:</p>
         <ul>
             <li><strong>align</strong> - A <em>string</em> that determines which direction to align the column's text (default: "left")</li>
@@ -91,53 +91,53 @@ rowActions: Ember.A([
         </ul>
     {{/property-text}}
 
-    {{#property-text name="content" type="array" required=true}}
+    {{#property-text name="content" type="Array" required=true}}
         Array of records to display as the rows.
     {{/property-text}}
 
-    {{#property-text name="actionButtonLabel" type="string" default="\"Actions\""}}
+    {{#property-text name="actionButtonLabel" type="String" default="\"Actions\""}}
         The text to label the row actions' button with.
     {{/property-text}}
 
-    {{#property-text name="continuous" type="boolean" default="false"}}
+    {{#property-text name="continuous" type="Boolean" default="false"}}
         When this is true, the grid requests data in a continuous paging manner, without the use of pagination options or data. See <code>requestData</code> for information on how content is handled in a <code>continuous</code> grid.
     {{/property-text}}
 
-    {{#property-text name="detailComponent" type="string"}}
+    {{#property-text name="detailComponent" type="String"}}
         The name of a component to render in the detail pane. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If `detailComponent` is omitted, the detail pane will not be opened when a row in the list pane is clicked.
     {{/property-text}}
 
-    {{#property-text name="detailFooterPath" type="string"}}
+    {{#property-text name="detailFooterPath" type="String"}}
         The application path to a template to use for the detail-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
     {{/property-text}}
 
-    {{#property-text name="detailHeaderPath" type="string"}}
+    {{#property-text name="detailHeaderPath" type="String"}}
         The application path to a template to use for the detail-pane header. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-header.hbs</code>, and if not found, will not render anything for the detail header.
     {{/property-text}}
 
-    {{#property-text name="filterButtonLabel" type="string" default="Filter"}}
+    {{#property-text name="filterButtonLabel" type="String" default="Filter"}}
         The string to use for the filter button label text.
     {{/property-text}}
 
-    {{#property-text name="filterComponent" type="string"}}
+    {{#property-text name="filterComponent" type="String"}}
         The name of a component to render in the filter pane. If this property is omitted, the filter button and pane will be disabled.
     {{/property-text}}
 
-    {{#property-text name="footerPath" type="string"}}
+    {{#property-text name="footerPath" type="String"}}
         The application path to a template to use for list-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
     {{/property-text}}
 
-    {{#property-text name="height" type="number/string" default="\"auto\""}}
+    {{#property-text name="height" type="Number/String" default="\"auto\""}}
         Determines the overall height of the sl-grid component. When the value is "auto" (the default), then the component will responsively size its own height to the allowed space in the viewport. Setting it to a number will lock the height to that many pixels high.
     {{/property-text}}
 
-    {{#property-text name="pageSize" type="number" default="25"}}
+    {{#property-text name="pageSize" type="Number" default="25"}}
         <p><em>Valid only for non-<code>continuous</code> grids</em>.</p>
 
         <p>The number of records shown per page.</p>
     {{/property-text}}
 
-    {{#property-text name="requestData" type="string"}}
+    {{#property-text name="requestData" type="String"}}
         <p>The name of an action to trigger when a data change is requested.</p>
 
         <p>For a <code>continuous</code> grid, this is triggered when the end of the content data in the grid's table is encountered. The action function is not sent anything, and should handle simply appending data onto the bound <code>content</code> array itself.</p>
@@ -145,7 +145,7 @@ rowActions: Ember.A([
         <p>For a non-<code>continuous</code> grid&mdash;the default&mdash;the action function should accept a page number to load data into <code>content</code> for.</p>
     {{/property-text}}
 
-    {{#property-text name="rowActions" type="array"}}
+    {{#property-text name="rowActions" type="Array"}}
         <p>An array of objects defining what actions display in the right-most column for each row in the list pane. Each object in this array should contain the following values:</p>
         <ul>
             <li><strong>action</strong> - A <em>string</em> name of an action to trigger when this action option is selected</li>
@@ -153,15 +153,15 @@ rowActions: Ember.A([
         </ul>
     {{/property-text}}
 
-    {{#property-text name="rowClick" type="string"}}
+    {{#property-text name="rowClick" type="String"}}
         The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record. If no valid detailPath is defined, then nothing will happen when a list-pane row is clicked.
     {{/property-text}}
 
-    {{#property-text name="sortColumn" type="string"}}
+    {{#property-text name="sortColumn" type="String"}}
         The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and a boolean for whether the column is sorted ascending (true) or descending (false).
     {{/property-text}}
 
-    {{#property-text name="totalCount" type="number"}}
+    {{#property-text name="totalCount" type="Number"}}
         The total number of records for the content. This value is used to determine when new pages in a <code>continuous</code> grid should be requested, and the interface text in a non-<code>continuous</code> grid.
     {{/property-text}}
 </div>

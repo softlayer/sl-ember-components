@@ -87,7 +87,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The current value of the select input
      *
-     * @type {?String}
+     * @type {?Array|String}
      */
     value: null,
 
