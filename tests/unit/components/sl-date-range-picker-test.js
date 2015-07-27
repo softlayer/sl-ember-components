@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { skip } from 'qunit';
 
 moduleForComponent(
     'sl-date-range-picker',
@@ -274,18 +275,18 @@ test( 'Date pickers have unbound start and end dates by default', function( asse
     );
 });
 
-window.QUnit.skip( 'Date pickers respects minDate', function() {
+skip( 'Date pickers respects minDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-window.QUnit.skip( 'Date pickers respects maxDate', function() {
+skip( 'Date pickers respects maxDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-window.QUnit.skip( 'End date picker respects startDateValue over minDate due to earliestEndDate', function() {
+skip( 'End date picker respects startDateValue over minDate due to earliestEndDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-window.QUnit.skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function() {
+skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });

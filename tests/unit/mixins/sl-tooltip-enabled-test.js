@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import { module, test } from 'qunit';
+import { module, test, skip } from 'qunit';
 
 let temporaryData;
 const jQueryMock = function() {
@@ -36,11 +36,11 @@ test( 'Successfully mixed', function( assert ) {
     assert.ok( subject );
 });
 
-window.QUnit.skip( 'enable() - observes correct properties', function() {
+skip( 'enable() - observes correct properties', function() {
     // Can use ._dependentKeys in 2.0
 });
 
-window.QUnit.skip( 'enable() - listens to correct event', function() {
+skip( 'enable() - listens to correct event', function() {
     // Waiting to see if an easier way in 2.0
 });
 
