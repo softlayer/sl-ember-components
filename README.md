@@ -31,20 +31,20 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-range-picker
 * sl-date-time
 * sl-drop-button
+* sl-drop-option
 * sl-grid
 * sl-input
 * sl-loading-icon
 * sl-menu
 * sl-modal
-* sl-pagination-controls
-* sl-pagination-info
-* sl-pagination-per-page-select
+* sl-pagination
 * sl-panel
 * sl-progress-bar
 * sl-radio
 * sl-radio-group
 * sl-select
 * sl-span
+* sl-tab-pane
 * sl-tab-panel
 * sl-textarea
 * sl-tooltip
@@ -52,30 +52,29 @@ is served from the *gh-pages* branch of this repository.
 
 **Mixins**
 
-*sl-notify-view*
+*sl-input-based*
 
-Use this mixin on a view when you need to notify its controller of any of the following events:
+Provides state properties for input element based components.
 
-* didInsertElement
-* willClearRender
-* willDestroyElement
-* willInsertElement
 
-*sl-pagination-controller*
+*sl-tooltip-enabled*
 
-Most usually employed by a controller being used to back an implementation of the *sl-grid system*, this mixin should be used whenever pagination support for a data set is desired.
-
-Requires either the use of [sl-ember-store](https://github.com/softlayer/sl-ember-store) or the use of a *metaData* property on your Array Controller's model data for the mixin to work correctly.
+Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.
 
 
 **Helpers**
 
-*render-component*
 
-arguments: component name, optional bound properties
+*get-key*
 
-Render the component referenced by name. Bound properties can be passed to the component in the normal fashion.
+arguments: objectKey string, pathKey string, context object
 
+Lookup a value on an object in the current context with passed-in objectKey and pathKey strings.
+
+
+*render-dynamic*
+
+Call the render handlebars helper with a key value for the template name lookup (render requires a string argument).
 
 
 **Utility Classes**
@@ -85,6 +84,7 @@ Render the component referenced by name. Bound properties can be passed to the c
 Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
 
 
+---
 
 
 All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings as well as our own implementations when the existing offerings were deficient. Existing offerings that were leveraged include:

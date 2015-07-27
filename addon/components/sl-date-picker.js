@@ -78,7 +78,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The latest date that may be selected; all later dates will be disabled
      *
-     * @type {?Date}
+     * @type {?Date|String}
      */
     endDate: null,
 
@@ -109,7 +109,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     format: 'mm/dd/yyyy',
 
     /**
-     * The help text below the datepicker's input field
+     * The help text below the datepicker
      *
      * @type {String}
      */
@@ -198,7 +198,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The earliest date that may be selected; all earlier dates will
      * be disabled
      *
-     * @type {?Date}
+     * @type {?Date|String}
      */
     startDate: null,
 
@@ -311,7 +311,7 @@ export default Ember.Component.extend( TooltipEnabled, {
             datepicker.setStartDate( this.get( 'startDate' ) );
             datepicker.setEndDate( this.get( 'endDate' ) );
 
-           if ( 'Invalid Date' === datepicker.getDate() ) {
+           if ( 'Invalid Date' === datepicker.getDate().toString() ) {
                 input.datepicker().val('');
                 input.attr( 'placeholder', this.get( 'placeholder' ) );
             }

@@ -77,6 +77,35 @@ export default Ember.Component.extend({
     // Observers
 
     /**
+     * Check passed parameters on initialization
+     *
+     * @function
+     * @throws {ember.assert} Series property must be an Array
+     * @throws {ember.assert} Options property must be an Object
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            Ember.assert(
+                'Series property must be an array',
+                'array' === Ember.typeOf( this.get( 'series' ) )
+            );
+
+            /* jshint ignore:start */
+            Ember.assert(
+                'Options property must be an Object',
+                (
+                    'instance' === Ember.typeOf( this.get( 'options' ) ) ||
+                    'object' === Ember.typeOf ( this.get( 'options' ) )
+                ) &&
+                'symbol' !== typeof this.get( 'options' )
+            );
+            /* jshint ignore:end */
+        }
+    ),
+
+    /**
      * Sets up Highcharts initialization
      *
      * @function
@@ -87,6 +116,23 @@ export default Ember.Component.extend({
         function() {
             const chartDiv = this.$( 'div.chart' );
 
+            chartDiv.highcharts( this.get( 'highchartsOptions' ) );
+            this.set( 'chart', chartDiv.highcharts() );
+            this.updateData();
+        }
+    ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Options for Highcharts
+     *
+     * @function
+     * @returns {Object}
+     */
+     highchartsOptions: Ember.computed(
+        function() {
             const chartStyle = {
                 fontFamily: [
                     '"Benton Sans"',
@@ -148,12 +194,12 @@ export default Ember.Component.extend({
                 }
             }, this.get( 'options' ) || {} );
 
-            chartDiv.highcharts( options );
-            this.set( 'chart', chartDiv.highcharts() );
-            this.updateData();
+            // Title property in options must be kept null in order to suppress its default behavior for our specific usage.
+            options.title = null;
+
+            return options;
         }
     ),
-
     /**
      * Updates the chart's series data
      *
@@ -179,9 +225,6 @@ export default Ember.Component.extend({
             }
         }
     ),
-
-    // -------------------------------------------------------------------------
-    // Methods
 
     /**
      * Inline style containing height and width, required by Highcharts

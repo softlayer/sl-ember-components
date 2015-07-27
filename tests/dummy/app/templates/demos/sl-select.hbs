@@ -65,7 +65,7 @@
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="content" required=true type="array"}}
+    {{#property-text name="content" required=true type="Array"}}
         Bound content for the select's options. Each item can be one of the following:
         <ul>
             <li>A native value (number, string, etc.) which becomes the option's label and value</li>
@@ -73,67 +73,67 @@
         </ul>
     {{/property-text}}
 
-    {{#property-text name="disableSearch" type="boolean" default="false"}}
+    {{#property-text name="disableSearch" type="Boolean" default="false"}}
         Disables the search filter.
     {{/property-text}}
 
-    {{#property-text name="disabled" type="boolean" default="false"}}
+    {{#property-text name="disabled" type="Boolean" default="false"}}
         When true, input is disabled.
     {{/property-text}}
 
-    {{#property-text name="helpText" type="string"}}
+    {{#property-text name="helpText" type="String"}}
         Help text to display below the select input.
     {{/property-text}}
 
-    {{#property-text name="label" type="string"}}
+    {{#property-text name="label" type="String"}}
         Text label for the select input.
     {{/property-text}}
 
-    {{#property-text name="maximumSelectionSize" type="number" default="null"}}
+    {{#property-text name="maximumSelectionSize" type="Number" default="null"}}
         The maximum number of selections allowed when <code>multiple=true</code>.  By default there is no maximum value enforced.
     {{/property-text}}
 
-    {{#property-text name="multiple" type="boolean" default="false"}}
+    {{#property-text name="multiple" type="Boolean" default="false"}}
         Enables multiple selections.
     {{/property-text}}
 
-    {{#property-text name="optionDescriptionPath" type="string" default="\"description\""}}
+    {{#property-text name="optionDescriptionPath" type="String" default="\"description\""}}
         Option's description field path.
     {{/property-text}}
 
-    {{#property-text name="optionLabelPath" type="string" default="\"label\""}}
+    {{#property-text name="optionLabelPath" type="String" default="\"label\""}}
         Option's label field path.
     {{/property-text}}
 
-    {{#property-text name="optionValuePath" type="string" default="\"value\""}}
+    {{#property-text name="optionValuePath" type="String" default="\"value\""}}
         Option's value field path.
     {{/property-text}}
 
-    {{#property-text name="optional" type="boolean" default="false"}}
+    {{#property-text name="optional" type="Boolean" default="false"}}
         When true, the component is styled to reflect optional status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
-    {{#property-text name="placeholder" type="string"}}
+    {{#property-text name="placeholder" type="String"}}
         <code>placeholder</code> attribute value for the select.
     {{/property-text}}
 
-    {{#property-text name="popover" type="string" requires="title"}}
+    {{#property-text name="popover" type="String" requires="title"}}
         Popover content text.
     {{/property-text}}
 
-    {{#property-text name="readonly" type="boolean" default="false"}}
+    {{#property-text name="readonly" type="Boolean" default="false"}}
         <code>readonly</code> attribute value for the input.
     {{/property-text}}
 
-    {{#property-text name="required" type="boolean" default="false"}}
+    {{#property-text name="required" type="Boolean" default="false"}}
         When true, the component is styled to reflect required status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
-    {{#property-text name="title" type="string"}}
+    {{#property-text name="title" type="String"}}
         Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 
-    {{#property-text name="value" type="mixed"}}
+    {{#property-text name="value" type="Array/String"}}
         Bound value to the selected value.
     {{/property-text}}
 </div>
