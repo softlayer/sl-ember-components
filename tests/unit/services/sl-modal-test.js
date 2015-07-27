@@ -47,7 +47,14 @@ test( 'Find modal', function( assert ) {
 });
 
 test( 'Registering the same modal twice throws an error', function( assert ) {
+<<<<<<< Updated upstream
     let errorThrown = false;
+=======
+    const register = () => {
+        service.register( mockModal, mockModal.name );
+        service.register( mockModal, mockModal.name );
+    };
+>>>>>>> Stashed changes
 
     try {
         service.register( mockModal, mockModal.name );
