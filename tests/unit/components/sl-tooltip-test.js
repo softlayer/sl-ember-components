@@ -76,27 +76,27 @@ test( '"title" property needs to be a string', function( assert ) {
         'Property was a boolean'
     );
 
-    // Array as a Property
+    // Array Property
 
-    properties.set( 'title', []);
+    properties.set( 'title', [] );
 
     assert.throws(
         callSubject,
         'Property was an array'
     );
 
-    // Function as a Property
+    // Function Property
 
-    properties.set( 'title', function(){ } );
+    properties.set( 'title', function() { } );
 
     assert.throws(
         callSubject,
         'Property was a function'
     );
 
-    // Object as a Property
+    // Object Property
 
-    properties.set( 'title', {});
+    properties.set( 'title', {} );
 
     assert.throws(
         callSubject,
@@ -157,27 +157,27 @@ test( '"popover" property needs to be a string or undefined', function( assert )
         'Property was a number'
     );
 
-    // Array as a Property
+    // Array Property
 
-    properties.set( 'popover', []);
+    properties.set( 'popover', [] );
 
     assert.throws(
         callSubject,
         'Property was an array'
     );
 
-    // Function as a Property
+    // Function Property
 
-    properties.set( 'popover', function(){ } );
+    properties.set( 'popover', function() { } );
 
     assert.throws(
         callSubject,
         'Property was a function'
     );
 
-    // Object as a Property
+    // Object Property
 
-    properties.set( 'popover', {});
+    properties.set( 'popover', {} );
 
     assert.throws(
         callSubject,
