@@ -164,7 +164,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     properties.set( 'options', {} );
 
     assert.ok(
-        callSubject,
+        callSubject(),
         'property was an Object'
     );
 });
@@ -237,7 +237,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     properties.set( 'series', [] );
 
     assert.ok(
-        callSubject,
+        callSubject(),
         'property was an Array'
     );
 });
