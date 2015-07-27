@@ -192,7 +192,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     const filteredContent = [];
                     const multiple = this.get( 'multiple' );
                     const optionValuePath = this.get( 'optionValuePath' );
-                    const values = "array" === Ember.typeOf( value ) ? value : value.split( ',' );
+                    const values = 'array' === Ember.typeOf( value ) ? value : value.split( ',' );
                     let unmatchedValues = values.length;
 
                     for ( let i = 0; i < contentLength; i++ ) {

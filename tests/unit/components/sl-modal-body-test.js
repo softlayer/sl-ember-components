@@ -5,25 +5,9 @@ moduleForComponent( 'sl-modal-body', 'Unit | Component | sl modal body', {
     unit: true
 });
 
-test( 'It renders', function( assert ) {
-    const component = this.subject();
-
-    assert.equal(
-        component._state,
-        'preRender'
-    );
-
-    this.render();
-
-    assert.equal(
-        component._state,
-        'inDOM'
-    );
-});
-
 test( 'Modal body exists', function( assert ) {
     assert.equal(
-        this.$('.modal-body').length,
+        this.$( '.modal-body' ).length,
         1
     );
 });
@@ -36,7 +20,7 @@ test( 'Content is yielded', function( assert ) {
     });
 
     assert.equal(
-        this.$('.test').length,
+        this.$( '.test' ).length,
         1
     );
 });
