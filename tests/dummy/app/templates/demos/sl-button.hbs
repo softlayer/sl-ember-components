@@ -128,51 +128,51 @@
 <h3>Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="action" type="function"}}
+    {{#property-text name="action" type="Function"}}
         An action to fire when the button is clicked.
     {{/property-text}}
 
-    {{#property-text name="bubbles" type="boolean" default="true"}}
+    {{#property-text name="bubbles" type="Boolean" default="true"}}
         Whether the browser should propagate the button click event.
     {{/property-text}}
 
-    {{#property-text name="class" type="string"}}
+    {{#property-text name="class" type="String"}}
         <code>class</code> attribute for the button.
     {{/property-text}}
 
-    {{#property-text name="disabled" type="boolean" default="false"}}
+    {{#property-text name="disabled" type="Boolean" default="false"}}
         Whether the button is disabled.
     {{/property-text}}
 
-    {{#property-text name="label" type="string"}}
+    {{#property-text name="label" type="String"}}
         Text label on the button.
     {{/property-text}}
 
-    {{#property-text name="openModal" type="string"}}
+    {{#property-text name="openModal" type="String"}}
     Used to trigger opening of a {{#link-to 'demos.sl-modal'}}sl-modal{{/link-to}} by passing in the name of the modal.
     {{/property-text}}
 
-    {{#property-text name="pending" type="boolean" default="false"}}
+    {{#property-text name="pending" type="Boolean" default="false"}}
         When true, the button is placed in a pending state, with the <code>pendingLabel</code> value becoming the primary button label text.
     {{/property-text}}
 
-    {{#property-text name="pendingLabel" type="function" default="null" requires="ajaxEnabled=true"}}
+    {{#property-text name="pendingLabel" type="Function" default="null" requires="ajaxEnabled=true"}}
         Text to display during associated AJAX activity.
     {{/property-text}}
 
-    {{#property-text name="popover" type="string" requires="title"}}
+    {{#property-text name="popover" type="String" requires="title"}}
         Popover content string.
     {{/property-text}}
 
-    {{#property-text name="size" type="string" default="\"medium\""}}
+    {{#property-text name="size" type="String" default="\"medium\""}}
         Suffix string of Bootstrap button sizes; "extra-small", "small", "medium" (default) or "large".
     {{/property-text}}
 
-    {{#property-text name="theme" type="string" default="\"default\""}}
+    {{#property-text name="theme" type="String" default="\"default\""}}
         Bootstrap contextual style type; "danger", "default", "hover", "info", "link", "primary", "success", "warning".
     {{/property-text}}
 
-    {{#property-text name="title" type="string"}}
+    {{#property-text name="title" type="String"}}
         Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 </div>

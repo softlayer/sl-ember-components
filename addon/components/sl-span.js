@@ -40,7 +40,14 @@ export default Ember.Component.extend({
      *
      * @type {Boolean}
      */
-    loading: false
+    loading: false,
+
+    /**
+     * The value to display once loaded/ready
+     *
+     * @type {?String}
+     */
+    value: null,
 
     // -------------------------------------------------------------------------
     // Observers

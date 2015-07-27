@@ -67,13 +67,13 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-input type="number" value=dynamicValue}}
+        <pre>\{{sl-input type="Number" value=dynamicValue}}
 \{{sl-progress-bar label=true value=dynamicValue}}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        Dynamic value input: {{sl-input type="number" value=dynamicValue}}
+        Dynamic value input: {{sl-input type="Number" value=dynamicValue}}
         {{sl-progress-bar label=true value=dynamicValue}}
     </div>
 </div>
@@ -93,11 +93,11 @@
 <h3>Properties</h3>
 
 <div class="group-list">
-    {{#property-text name="animated" type="boolean" default="false" requires="striped=true"}}
+    {{#property-text name="animated" type="Boolean" default="false" requires="striped=true"}}
         When true, the striped progress bar will be animated.
     {{/property-text}}
 
-    {{#property-text name="label" type="boolean" default="false"}}
+    {{#property-text name="label" type="Boolean" default="false"}}
         When true, label text is shown over the bar.
     {{/property-text}}
 
@@ -105,11 +105,11 @@
         Popover content text.
     {{/property-text}}
 
-    {{#property-text name="striped" type="boolean" default="false"}}
+    {{#property-text name="striped" type="Boolean" default="false"}}
         When true, the progress bar will be striped.
     {{/property-text}}
 
-    {{#property-text name="theme" type="string" default="\"default\""}}
+    {{#property-text name="theme" type="String" default="\"default\""}}
         The Bootstrap contextual theme string to style the progress bar with.
     {{/property-text}}
 
@@ -117,7 +117,7 @@
         Tooltip content text, or popover title text when <code>popover</code> property is set.
     {{/property-text}}
 
-    {{#property-text name="value" type="number"}}
+    {{#property-text name="value" type="Number"}}
         The bound integer value for the progress (1-100).
     {{/property-text}}
 </div>
