@@ -165,61 +165,61 @@ export default Ember.Component.extend({
             const streamService = this.get( 'streamService' );
 
             if ( streams.hasOwnProperty( 'hideAll' ) ) {
-                streamService.subscribeTo( streams.hideAll, () => {
+                streamService.subscribe( streams.hideAll, () => {
                     this.hideAll();
                 });
             }
 
             if ( streams.hasOwnProperty( 'select' ) ) {
-                streamService.subscribeTo( streams.select, ( index ) => {
+                streamService.subscribe( streams.select, ( index ) => {
                     this.select( index );
                 });
             }
 
             if ( streams.hasOwnProperty( 'selectDown' ) ) {
-                streamService.subscribeTo( streams.selectDown, () => {
+                streamService.subscribe( streams.selectDown, () => {
                     this.selectDown();
                 });
             }
 
             if ( streams.hasOwnProperty( 'selectLeft' ) ) {
-                streamService.subscribeTo( streams.selectLeft, () => {
+                streamService.subscribe( streams.selectLeft, () => {
                     this.selectLeft();
                 });
             }
 
             if ( streams.hasOwnProperty( 'selectNext' ) ) {
-                streamService.subscribeTo( streams.selectNext, () => {
+                streamService.subscribe( streams.selectNext, () => {
                     this.selectNext();
                 });
             }
 
             if ( streams.hasOwnProperty( 'selectPrevious' ) ) {
-                streamService.subscribeTo( streams.selectPrevious, () => {
+                streamService.subscribe( streams.selectPrevious, () => {
                     this.selectPrevious();
                 });
             }
 
             if ( streams.hasOwnProperty( 'selectRight' ) ) {
-                streamService.subscribeTo( streams.selectRight, () => {
+                streamService.subscribe( streams.selectRight, () => {
                     this.selectRight();
                 });
             }
 
             if ( streams.hasOwnProperty( 'selectSubMenu' ) ) {
-                streamService.subscribeTo( streams.selectSubMenu, () => {
+                streamService.subscribe( streams.selectSubMenu, () => {
                     this.selectSubMenu();
                 });
             }
 
             if ( streams.hasOwnProperty( 'selectUp' ) ) {
-                streamService.subscribeTo( streams.selectUp, () => {
+                streamService.subscribe( streams.selectUp, () => {
                     this.selectUp();
                 });
             }
 
             if ( streams.hasOwnProperty( 'showAll' ) ) {
-                streamService.subscribeTo( streams.showAll, () => {
+                streamService.subscribe( streams.showAll, () => {
                     this.showAll();
                 });
             }

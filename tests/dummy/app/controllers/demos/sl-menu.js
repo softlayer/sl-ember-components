@@ -15,7 +15,8 @@ export default Ember.Controller.extend({
             const streamService = this.get( 'streamService' );
             let lastPressedKey;
 
-            const keydownStream = streamService.createStream( ( observer ) => {
+            // Use Rx.Observable here, as we don't need to register the stream
+            const keydownStream = streamService.Rx.Observable.create( ( observer ) => {
                 window.addEventListener( 'keydown', ( event ) => {
                     observer.onNext( event );
                     lastPressedKey = event.keyCode;
@@ -64,7 +65,7 @@ export default Ember.Controller.extend({
             const showAllStream = keydownStream
                 .filter( event => event.keyCode === 48 ); // 48 = 0 key
 
-            streamService.registerStreams({
+            streamService.register({
                 'hideAllMenus': hideAllMenusStream,
                 'demoMenu.select': selectStream,
                 'demoMenu.down': selectDownStream,
