@@ -26,8 +26,7 @@ export default Ember.Controller.extend({
         }, {
             name: 'date-time',
             lib: { 'sec': true }
-        },
-           {
+        }, {
             name: 'drop-button',
             lib: { 'twb': true }
         }, {
