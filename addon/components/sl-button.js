@@ -93,10 +93,10 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {undefined}
      */
     click() {
-        let openModal = this.get( 'openModal' );
+        const openModal = this.get( 'openModal' );
 
         if ( openModal ) {
-            let modal = this.get( 'modalService' ).find( openModal );
+            const modal = this.get( 'modalService' ).find( openModal );
             Ember.assert(
                 `Modal with name "${openModal}" was not found`,
                 modal
