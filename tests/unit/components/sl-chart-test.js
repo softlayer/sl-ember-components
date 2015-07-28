@@ -98,314 +98,146 @@ test( 'updateData() is called after series property is modified', function( asse
 
 test( '"Options" property needs to be an object', function( assert ) {
 
-    // Null
-    let assertionThrown = false;
+    let properties = Ember.Object.create({
+        series: testSeries
+    });
 
-    try {
-        this.subject({
-            options: null,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
+    const callSubject = () => this.subject( properties );
 
-    assert.ok(
-        assertionThrown,
+    // null
+    properties.set( 'options', null );
+
+    assert.throws(
+        callSubject,
         'property was null'
     );
 
     // Array
-    assertionThrown = false;
+    properties.set( 'options', [] );
 
-    try {
-        this.subject({
-            options: [],
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was an array'
+    assert.throws(
+        callSubject,
+        'property was an Array'
     );
 
     // String
-    assertionThrown = false;
+    properties.set( 'options', 'test string' );
 
-    try {
-        this.subject({
-            options: "string",
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was string'
+    assert.throws(
+        callSubject,
+        'property was a String'
     );
 
-    // Undefined
-    assertionThrown = false;
+    // undefined
+    properties.set( 'options', undefined );
 
-    try {
-        this.subject({
-            options: undefined,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
+    assert.throws(
+        callSubject,
         'property was undefined'
     );
 
     // Boolean
-    assertionThrown = false;
+    properties.set( 'options', false );
 
-    try {
-        this.subject({
-            options: true,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was a boolean'
+    assert.throws(
+        callSubject,
+        'property was a Boolean'
     );
 
     // Number
-    assertionThrown = false;
+    properties.set( 'options', 132 );
 
-    try {
-        this.subject({
-            options: 123,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was number'
+    assert.throws(
+        callSubject,
+        'property was a Number'
     );
 
     // Function
-    assertionThrown = false;
+    properties.set( 'options', function() {} );
 
-    try {
-        this.subject({
-            options: function(){},
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was a function'
+    assert.throws(
+        callSubject,
+        'property was a Function'
     );
 
     // Object
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
+    properties.set( 'options', {} );
 
     assert.ok(
-        !assertionThrown,
+        callSubject,
         'property was an Object'
-    );
-
-    // Symbol
-    assertionThrown = false;
-
-    try {
-        const sym = Symbol( 'foo' );
-        this.subject({
-            options: sym,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was a symbol'
     );
 });
 
 test( '"Series" property needs to be an array', function( assert ) {
 
-    // Null
-    let assertionThrown = false;
+    let properties = Ember.Object.create({
+        options: testOptions
+    });
 
-    try {
-        this.subject({
-            options: testOptions,
-            series: null
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
+    const callSubject = () => this.subject( properties );
 
-    assert.ok(
-        assertionThrown,
+    // null
+    properties.set( 'series', null );
+
+    assert.throws(
+        callSubject,
         'property was null'
     );
 
-    // Object
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: {}
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was an object'
-    );
-
-    // Symbol
-    assertionThrown = false;
-
-    try {
-        const sym = Symbol( 'foo' );
-        this.subject({
-            options: testOptions,
-            series: sym
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was a symbol'
-    );
-
     // String
-    assertionThrown = false;
+    properties.set( 'series', 'test string' );
 
-    try {
-        this.subject({
-            options: testOptions,
-            series: "string"
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was string'
+    assert.throws(
+        callSubject,
+        'property was a String'
     );
 
-    // Undefined
-    assertionThrown = false;
+    // undefined
+    properties.set( 'series', undefined );
 
-    try {
-        this.subject({
-            options: testOptions,
-            series: undefined
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
+    assert.throws(
+        callSubject,
         'property was undefined'
     );
 
     // Boolean
-    assertionThrown = false;
+    properties.set( 'series', false );
 
-    try {
-        this.subject({
-            options: testOptions,
-            series: true
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was a boolean'
+    assert.throws(
+        callSubject,
+        'property was a Boolean'
     );
 
     // Number
-    assertionThrown = false;
+    properties.set( 'series', 132 );
 
-    try {
-        this.subject({
-            options: testOptions,
-            series: 123
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
-
-    assert.ok(
-        assertionThrown,
-        'property was number'
+    assert.throws(
+        callSubject,
+        'property was a Number'
     );
 
     // Function
-    assertionThrown = false;
+    properties.set( 'series', function() {} );
 
-    try {
-        this.subject({
-            options: testOptions,
-            series: function(){}
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
+    assert.throws(
+        callSubject,
+        'property was a Function'
+    );
 
-    assert.ok(
-        assertionThrown,
-        'property was a function'
+    // Object
+    properties.set( 'series', {} );
+
+    assert.throws(
+        callSubject,
+        'property was an Object'
     );
 
     // Array
-    assertionThrown = false;
-
-    try {
-        this.subject({
-            options: testOptions,
-            series: testSeries
-        });
-    } catch( error ) {
-        assertionThrown = true;
-    }
+    properties.set( 'series', [] );
 
     assert.ok(
-        !assertionThrown,
+        callSubject,
         'property was an Array'
     );
 });

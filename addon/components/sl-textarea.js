@@ -113,6 +113,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     spellcheck: Spellcheck.Direction,
 
     /**
+     * The bound value of the textarea
+     *
+     * @type {?String}
+     */
+    value: null,
+
+    /**
      * The `wrap` HTML attribute value
      *
      * Accepted values are "soft" (default), or "hard".

@@ -29,6 +29,11 @@ module.exports = {
         });
 
         app.import({
+            development: 'bower_components/jquery-mousewheel/jquery.mousewheel.js',
+            production: 'bower_components/jquery-mousewheel/jquery-mousewheel.min.js'
+        });
+
+        app.import({
             development: 'bower_components/moment/min/moment-with-locales.js',
             production: 'bower_components/moment/min/moment-with-locales.min.js'
         });
@@ -50,6 +55,8 @@ module.exports = {
     },
 
     postprocessTree: function( type, tree ) {
+        var fontPath = this.name + '/assets/fonts';
+
         return mergeTrees(
             [
                 tree,
@@ -57,13 +64,13 @@ module.exports = {
                 pickFiles( 'bower_components/sl-bootstrap/fonts', {
                     srcDir: '/',
                     files: [ 'benton-sans-*' ],
-                    destDir: '/fonts'
+                    destDir: fontPath
                 }),
 
                 pickFiles( 'bower_components/fontawesome/fonts', {
                     srcDir: '/',
                     files: [ 'fontawesome-webfont.*' ],
-                    destDir: '/fonts'
+                    destDir: fontPath
                 })
             ],
             {
