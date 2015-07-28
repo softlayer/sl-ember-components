@@ -67,6 +67,6 @@
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
     "ember-try": "0.0.6",
-    "sl-eslint": "0.0.9"
+    "sl-eslint": "notmessenger/sl-eslint"
   }
 }
