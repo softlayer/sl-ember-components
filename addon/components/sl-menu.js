@@ -104,9 +104,9 @@ export default Ember.Component.extend({
      * An of objects containing data about the selected states
      *
      * @private
-     * @type {ember/NativeArray}
+     * @type {?ember/Array}
      */
-    selections: new Ember.A(),
+    selections: null,
 
     /**
      * Whether to show all the menu's sub-items
@@ -146,6 +146,19 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Initialize any computed properties that need setup
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            this.set( 'selections', new Ember.A() );
+        }
+    ),
 
     /**
      * Setup the stream observers

@@ -40,7 +40,7 @@ export default Ember.Component.extend({
         /**
          * Click event handler
          *
-         * @function
+         * @function actions:clickLink
          * @returns {undefined}
          */
         clickLink() {
