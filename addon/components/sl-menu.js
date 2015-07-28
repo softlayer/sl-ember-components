@@ -238,7 +238,8 @@ export default Ember.Component.extend({
     clearSelection() {
         const selections = this.get( 'selections' );
 
-        for ( let selection of selections ) {
+        let selection;
+        for ( selection of selections ) {
             Ember.set( selection.item, 'selected', false );
         }
 
@@ -268,6 +269,7 @@ export default Ember.Component.extend({
     select( index ) {
         const selections = this.get( 'selections' );
         const selectionsLength = selections.length;
+        let item;
 
         if ( selectionsLength > 0 ) {
             const selection = selections.objectAt( selectionsLength - 1 );
@@ -288,7 +290,7 @@ export default Ember.Component.extend({
                 return error( 'Current item is undefined' );
             }
 
-            let item = currentItems.objectAt( index );
+            item = currentItems.objectAt( index );
 
             if ( !item ) {
                 return error( `Item at index ${index} is undefined` );
@@ -308,7 +310,7 @@ export default Ember.Component.extend({
             }
 
             if ( items.length > 0 ) {
-                let item = items.get( 0 );
+                item = items.get( 0 );
 
                 Ember.set( item, 'selected', true );
 

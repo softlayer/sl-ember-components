@@ -24,46 +24,45 @@ export default Ember.Controller.extend({
             });
 
             const hideAllMenusStream = keydownStream
-                .filter( event => event.keyCode === 27 ); // 27 = Esc
+                .filter( event => 27 === event.keyCode ); // 27 = Esc
 
             const selectStream = keydownStream
                 .filter( event => event.keyCode > 48 && event.keyCode < 58 )
                 .map( event => event.keyCode - 49 );
 
             const selectDownStream = keydownStream
-                .filter( event => event.keyCode === 40 ); // 40 = down arrow
+                .filter( event => 40 === event.keyCode ); // 40 = down arrow
             selectDownStream.subscribe( event => event.preventDefault() );
 
             const selectLeftStream = keydownStream
-                .filter( event => event.keyCode === 37 ); // 37 = left arrow
+                .filter( event => 37 === event.keyCode ); // 37 = left arrow
             selectLeftStream.subscribe( event => event.preventDefault() );
 
             // 9 = tab key
             const selectNextStream = keydownStream
-                .filter( event => event.keyCode === 9 && !event.shiftKey );
+                .filter( event => 9 === event.keyCode && !event.shiftKey );
             selectNextStream.subscribe( event => event.preventDefault() );
 
             const selectPreviousStream = keydownStream
-                .filter( event => event.keyCode === 9 && event.shiftKey );
+                .filter( event => 9 === event.keyCode && event.shiftKey );
             selectPreviousStream.subscribe( event => event.preventDefault() );
 
             const selectRightStream = keydownStream
-                .filter( event => event.keyCode === 39 ); // 39 = right arrow
+                .filter( event => 39 === event.keyCode ); // 39 = right arrow
             selectRightStream.subscribe( event => event.preventDefault() );
 
             const selectSubMenuStream = keydownStream
-                .filter( event => (
-                    event.keyCode === 13 || // 13 = enter key
-                    event.keyCode === 189 && // 189 = '-' key
-                    lastPressedKey !== 189
-                ));
+                .filter( event => 13 === event.keyCode || // 13 = enter key
+                    189 === event.keyCode && // 189 = '-' key
+                    189 !== lastPressedKey
+                );
 
             const selectUpStream = keydownStream
-                .filter( event => event.keyCode === 38 ); // 38 = up arrow
+                .filter( event => 38 === event.keyCode ); // 38 = up arrow
             selectUpStream.subscribe( event => event.preventDefault() );
 
             const showAllStream = keydownStream
-                .filter( event => event.keyCode === 48 ); // 48 = 0 key
+                .filter( event => 48 === event.keyCode ); // 48 = 0 key
 
             streamService.register({
                 'hideAllMenus': hideAllMenusStream,
@@ -80,7 +79,7 @@ export default Ember.Controller.extend({
         }
     ),
 
-    menuItems: Ember.A([
+    menuItems: new Ember.A([
         {
             label: 'Main One',
             items: [
