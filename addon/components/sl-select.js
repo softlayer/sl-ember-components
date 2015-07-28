@@ -87,7 +87,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The current value of the select input
      *
-     * @type {?String}
+     * @type {?Array|String}
      */
     value: null,
 
@@ -192,7 +192,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     const filteredContent = [];
                     const multiple = this.get( 'multiple' );
                     const optionValuePath = this.get( 'optionValuePath' );
-                    const values = value.split( ',' );
+                    const values = 'array' === Ember.typeOf( value ) ? value : value.split( ',' );
                     let unmatchedValues = values.length;
 
                     for ( let i = 0; i < contentLength; i++ ) {
@@ -214,9 +214,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                     }
 
                     if ( 0 === unmatchedValues ) {
-                        this.input.select2( 'readonly', false );
+                        element.select2( 'readonly', false );
                     } else {
-                        this.input.select2( 'readonly', true );
+                        element.select2( 'readonly', true );
 
                         const warning = 'sl-select:select2#initSelection was' +
                             ' not able to map each "' + optionValuePath + '"' +
@@ -240,7 +240,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 query: ( query ) => {
                     const content = this.get( 'content' ) || [];
                     const optionLabelPath = this.get( 'optionLabelPath' );
-                    const select2 = this;
+                    const select2 = input.data( 'select2' ).opts;
 
                     query.callback({
                         results: content.reduce( ( results, item ) => {
@@ -265,16 +265,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
             input.on( 'change', () => {
                 this.set( 'value', input.select2( 'val' ) );
-            });
-
-            const originalBodyOverflow = document.body.style.overflow || 'auto';
-
-            input.on( 'select2-open', () => {
-                document.body.style.overflow = 'hidden';
-            });
-
-            input.on( 'select2-close', () => {
-                document.body.style.overflow = originalBodyOverflow;
             });
 
             if ( !this.get( 'multiple' ) ) {

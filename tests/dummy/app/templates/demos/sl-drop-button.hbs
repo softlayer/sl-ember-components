@@ -44,23 +44,23 @@
 <h3>sl-drop-button Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="align" type="string" default="\"left\""}}
+    {{#property-text name="align" type="String" default="\"left\""}}
         Aligns the dropdown menu "left" or "right".
     {{/property-text}}
 
-    {{#property-text name="content" type="array"}}
+    {{#property-text name="content" type="Array"}}
         An array of hash objects containing the same optional properties as the \{{sl-drop-option}} below. Note that currently, the context is different between these two ways of defining drop-button options.
     {{/property-text}}
 
-    {{#property-text name="label" type="string"}}
+    {{#property-text name="label" type="String"}}
         Text label for button text.
     {{/property-text}}
 
-    {{#property-text name="size" type="string" default="\"medium\""}}
+    {{#property-text name="size" type="String" default="\"medium\""}}
         Suffix string for the Bootstrap button size; "extra-small", "small", "medium" (default), or "large".
     {{/property-text}}
 
-    {{#property-text name="theme" type="string" default="\"default\""}}
+    {{#property-text name="theme" type="String" default="\"default\""}}
         The theme style string to use for the button; "default" or "hover".
     {{/property-text}}
 </div>
@@ -70,11 +70,11 @@
 <h3>sl-drop-option Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="action" type="string"}}
+    {{#property-text name="action" type="String"}}
         Action to fire when the option is clicked.
     {{/property-text}}
 
-    {{#property-text name="label" type="string"}}
+    {{#property-text name="label" type="String"}}
         Text label for the option in the menu. If this property is omitted, the option becomes a divider.
     {{/property-text}}
 </div>

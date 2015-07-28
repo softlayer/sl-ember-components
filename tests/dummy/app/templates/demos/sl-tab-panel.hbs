@@ -36,11 +36,11 @@
 <h3>sl-tab-panel Properties</h3>
 
 <div class="list-group">
-    {{#property-text name="alignTabs" type="string" default="\"left\""}}
+    {{#property-text name="alignTabs" type="String" default="\"left\""}}
         How to align the tabs, "left" or "right".
     {{/property-text}}
 
-    {{#property-text name="initialTabName" type="string"}}
+    {{#property-text name="initialTabName" type="String"}}
         Name of the initial active tab. This value corresponds to the value set on the <code>name</code> property of the sl-tab-pane component. If omitted, the first tab pane will be open on initialization.
     {{/property-text}}
 </div>
@@ -50,17 +50,17 @@
 <h3>sl-tab-pane Properties</h3>
 
 <ul class="list-group">
-    {{#property-text name="label" type="string" required=true}}
+    {{#property-text name="label" type="String" required=true}}
         The text label for the tab pane's tab.
     {{/property-text}}
 
-    {{#property-text name="name" type="string" required=true}}
+    {{#property-text name="name" type="String" required=true}}
         <p>This value is never displayed in the tabs.</p>
         <p>Used to set the <code>data-tab-name</code> attribute on the tab and used internally by the component to manage tab selection.</p>
         <p>The name provided can be specified in the <code>initialTabName</code> property of the sl-tab-panel component to indicate which tab should be active when initially displayed.</p>
     {{/property-text}}
 
-    {{#property-text name="templateName" type="string"}}
+    {{#property-text name="templateName" type="String"}}
         Name of the template to render in the tab pane. If omitted, the component will render content from its block.
     {{/property-text}}
 </ul>

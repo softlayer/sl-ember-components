@@ -84,7 +84,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * The bound value of the component's date value
      *
-     * @type {Date}
+     * @default new Date()
+     * @type {Array|Date|moment|Number|Object|String|undefined}
      */
     value: new Date(),
 

@@ -79,7 +79,8 @@ generate documentation.  Simply run either `ember ember-cli-jsdoc` or `npm run d
 and then visit *http://localhost:4200/docs*.
 
 6. Commit your changes. If your pull request fixes an issue specify it in the commit message. Here's an example:
-`git commit -m "Close #12 Fix passing of context"`
+`git commit -m "Close #12 Fix passing of context"`.
+[GitHub offers additional examples here.](https://help.github.com/articles/closing-issues-via-commit-messages/)
 
 7. Push to your fork and submit a pull request againt the `develop` branch (due to our use of the
 [git-flow branching model](https://github.com/nvie/gitflow)). Please provide us with some explanation of why you
