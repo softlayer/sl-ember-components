@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleFor, test } from 'ember-qunit';
 import ModalService from 'sl-ember-components/services/sl-modal';
 
@@ -20,7 +19,7 @@ moduleFor( 'service:sl-modal', 'Unit | Service | sl modal', {
     unit: true,
 
     beforeEach() {
-        //reset modals property before each test so tests are independent
+        // reset modals property before each test so tests are independent
         service.set( 'modals', {} );
     }
 });
@@ -47,16 +46,12 @@ test( 'Find modal', function( assert ) {
 });
 
 test( 'Registering the same modal twice throws an error', function( assert ) {
-    let errorThrown = false;
-
-    try {
+    const register = () => {
         service.register( mockModal, mockModal.name );
         service.register( mockModal, mockModal.name );
-    } catch( error ) {
-        errorThrown = true;
-    }
+    };
 
-    assert.ok( errorThrown );
+    assert.throws( register );
 });
 
 test( 'Unregister a modal', function( assert ) {
