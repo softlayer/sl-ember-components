@@ -18,7 +18,6 @@ export { Theme };
 
 /**
  * @module
- * @type
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
