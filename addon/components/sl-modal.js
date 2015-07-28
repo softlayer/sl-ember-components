@@ -165,7 +165,7 @@ export default Ember.Component.extend({
     getLabelledby: Ember.on(
         'willInsertElement',
         function() {
-            this.set( 'ariaLabelledBy', this.$('[id^="modalTitle"]').attr( 'id' ) );
+            this.set( 'ariaLabelledBy', this.$( '[id^="modalTitle"]' ).attr( 'id' ) );
         }
     ),
 
@@ -176,14 +176,14 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     register: Ember.on(
-       'init',
-       function() {
-           const name = this.get( 'name' );
+        'init',
+        function() {
+            const name = this.get( 'name' );
 
-           if ( name ) {
-              this.get( 'modalService' ).register( this );
-           }
-       }
+            if ( name ) {
+                this.get( 'modalService' ).register( this );
+            }
+        }
     ),
 
     /**
@@ -193,8 +193,8 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
      setupModal: Ember.on(
-         'didInsertElement',
-         function() {
+        'didInsertElement',
+        function() {
             const modal = this.$().modal({
                 keyboard: true,
                 show: false,
@@ -202,24 +202,24 @@ export default Ember.Component.extend({
             });
 
             modal.on( 'show.bs.modal', () => {
-               this.sendAction( 'beforeShow' );
+                this.sendAction( 'beforeShow' );
             });
 
             modal.on( 'shown.bs.modal', () => {
-               this.set( 'isOpen', true );
-               this.sendAction( 'afterShow' );
+                this.set( 'isOpen', true );
+                this.sendAction( 'afterShow' );
             });
 
             modal.on( 'hide.bs.modal', () => {
-               this.sendAction( 'beforeHide' );
+                this.sendAction( 'beforeHide' );
             });
 
             modal.on( 'hidden.bs.modal', () => {
-               this.set( 'isOpen', false );
-               this.sendAction( 'afterHide' );
+                this.set( 'isOpen', false );
+                this.sendAction( 'afterHide' );
             });
-         }
-     ),
+        }
+    ),
 
     /**
      * Unbind bootstrap event handlers
