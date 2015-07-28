@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { skip } from 'qunit';
 
 const columns = new Ember.A([
     { title: 'Name', valuePath: 'name' },
@@ -335,10 +336,10 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
 });
 
 // These tests require valid registered template paths for proper testing.
-window.QUnit.skip( 'Sub-template paths are determined correctly' );
-window.QUnit.skip( 'Toggling detail pane is supported' );
-window.QUnit.skip( 'Toggling filter pane is supported' );
-window.QUnit.skip(
+skip( 'Sub-template paths are determined correctly' );
+skip( 'Toggling detail pane is supported' );
+skip( 'Toggling filter pane is supported' );
+skip(
     'Bindings run for showActions and detail controller actions'
 );
-window.QUnit.skip( 'Filter button label text is settable' );
+skip( 'Filter button label text is settable' );

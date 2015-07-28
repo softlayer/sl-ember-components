@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { skip } from 'qunit';
 
 moduleForComponent(
     'sl-date-range-picker',
@@ -29,17 +30,23 @@ test( 'Change focus to end date input upon start date change', function( assert 
 
     this.subject();
 
-    this.$( '.sl-daterange-end-date input' ).on( 'focus', () => {
-        assert.ok(
-            true,
-            'End date input receives focus upon start date change'
-        );
+    Ember.run( () => {
+        const daterangeEndDate = this.$( '.sl-daterange-end-date input' );
 
-        Ember.$( '.datepicker' ).remove();
-        done();
+        this.$( '.sl-daterange-start-date input' )
+            .trigger( 'change' );
+
+        Ember.run.later( this, function() {
+            assert.equal(
+                document.activeElement,
+                daterangeEndDate[ 0 ],
+                'Focus was changed to end date input'
+            );
+
+            this.$( '.datepicker' ).remove();
+            done();
+        });
     });
-
-    this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
@@ -274,18 +281,18 @@ test( 'Date pickers have unbound start and end dates by default', function( asse
     );
 });
 
-window.QUnit.skip( 'Date pickers respects minDate', function() {
+skip( 'Date pickers respects minDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-window.QUnit.skip( 'Date pickers respects maxDate', function() {
+skip( 'Date pickers respects maxDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-window.QUnit.skip( 'End date picker respects startDateValue over minDate due to earliestEndDate', function() {
+skip( 'End date picker respects startDateValue over minDate due to earliestEndDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
 
-window.QUnit.skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function() {
+skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
 });
