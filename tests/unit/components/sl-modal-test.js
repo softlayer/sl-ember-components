@@ -36,7 +36,7 @@ moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
      * The hideModal property can be overridden in a test.
      **/
     afterEach() {
-        if (!component.isDestroyed) {
+        if ( !component.isDestroyed ) {
             Ember.run( () => {
                 if( this.hideModal ) {
                     component.hide();
@@ -45,24 +45,6 @@ moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
         }
     },
     unit: true
-});
-
-test( 'It renders', function( assert ) {
-    component = this.subject({
-        modalService: mockModalService
-    });
-
-    assert.equal(
-        component._state,
-        'preRender'
-    );
-
-    this.render();
-
-    assert.equal(
-        component._state,
-        'inDOM'
-    );
 });
 
 test( 'Classes are present', function( assert ) {
@@ -112,7 +94,7 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
                 afterShowDone();
             },
 
-            beforeHide(){
+            beforeHide() {
                 assert.ok(
                     true,
                     'beforeHide was triggered'
@@ -121,7 +103,7 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
                 beforeHideDone();
             },
 
-            afterHide(){
+            afterHide() {
                 assert.ok(
                     true,
                     'afterHide was triggered'
@@ -167,7 +149,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
 
 });
 
-test( 'Closing of modal using close button works', function ( assert ) {
+test( 'Closing of modal using close button works', function( assert ) {
     assert.expect( 1 );
 
     const closeDone = assert.async();
@@ -194,16 +176,16 @@ test( 'Closing of modal using close button works', function ( assert ) {
 });
 
 test( 'Modal registered on modal service', function( assert ) {
-    const registerSpy = sinon.spy();
+    const registerSpy = window.sinon.spy();
 
-    const mockModalService = {
+    const localMockModalService = {
         register: registerSpy,
-        find: function(){ }
+        find: function() {}
     };
 
     component = this.subject({
         name: 'demo',
-        modalService: mockModalService
+        modalService: localMockModalService
     });
 
     this.render();
@@ -214,7 +196,7 @@ test( 'Modal registered on modal service', function( assert ) {
     );
 });
 
-test( 'Backdrop is hidden when backdrop property is set to false', function ( assert ) {
+test( 'Backdrop is hidden when backdrop property is set to false', function( assert ) {
     assert.expect( 1 );
 
     const openDone = assert.async();
@@ -226,7 +208,7 @@ test( 'Backdrop is hidden when backdrop property is set to false', function ( as
         targetObject: {
             modalOpen() {
                 assert.equal(
-                    $( '.modal-backdrop' ).length,
+                    Ember.$( '.modal-backdrop' ).length,
                     0
                 );
                 openDone();
@@ -253,13 +235,13 @@ test( 'Backdrop is shown by default', function( assert ) {
     });
 
     assert.equal(
-        $( '.modal-backdrop' ).length,
+        Ember.$( '.modal-backdrop' ).length,
         1
     );
 });
 
 test( 'Modal is unregistered after destroy', function( assert ) {
-    const spyUnregister = sinon.spy();
+    const spyUnregister = window.sinon.spy();
 
     component = this.subject({
         modalService: mockModalService,
@@ -312,16 +294,16 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
 });
 
 test( 'aria-hidden is true', function( assert ) {
-   component = this.subject({
-       modalService: mockModalService
-   });
+    component = this.subject({
+        modalService: mockModalService
+    });
 
-   this.render();
+    this.render();
 
-   assert.equal(
-       this.$().attr( 'aria-hidden' ),
-       'true'
-   );
+    assert.equal(
+        this.$().attr( 'aria-hidden' ),
+        'true'
+    );
 });
 
 test( 'aria-labelledby is set', function( assert ) {

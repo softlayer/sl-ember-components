@@ -21,7 +21,7 @@ export default Ember.Service.extend({
      * @returns {ember/Component|undefined}
      */
     find( name ) {
-       return this.get( `modals.${name}` );
+        return this.get( `modals.${name}` );
     },
 
 

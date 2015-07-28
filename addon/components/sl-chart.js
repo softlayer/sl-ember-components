@@ -97,7 +97,7 @@ export default Ember.Component.extend({
                 'Options property must be an Object',
                 (
                     'instance' === Ember.typeOf( this.get( 'options' ) ) ||
-                    'object' === Ember.typeOf ( this.get( 'options' ) )
+                    'object' === Ember.typeOf( this.get( 'options' ) )
                 ) &&
                 'symbol' !== typeof this.get( 'options' )
             );
@@ -194,7 +194,8 @@ export default Ember.Component.extend({
                 }
             }, this.get( 'options' ) || {} );
 
-            // Title property in options must be kept null in order to suppress its default behavior for our specific usage.
+            // Title property in options must be kept null in order to
+            // suppress its default behavior for our specific usage
             options.title = null;
 
             return options;
