@@ -47,7 +47,7 @@ export default Ember.Component.extend({
      *
      * @type {?String}
      */
-    value: null,
+    value: null
 
     // -------------------------------------------------------------------------
     // Observers

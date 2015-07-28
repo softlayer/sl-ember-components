@@ -19,10 +19,12 @@ const testOptions = {
     }
 };
 
-const testSeries = [{
-    name: 'Alice',
-    data: [ 1, 0, 4 ]
-}];
+const testSeries = [
+    {
+        name: 'Alice',
+        data: [ 1, 0, 4 ]
+    }
+];
 
 moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
     unit: true
@@ -85,10 +87,10 @@ test( 'updateData() is called after series property is modified', function( asse
 
     this.render();
 
-    const spy = sinon.spy( component, 'updateData' );
+    const spy = window.sinon.spy( component, 'updateData' );
     const changedTestSeries = [];
 
-    component.set( 'series' , changedTestSeries );
+    component.set( 'series', changedTestSeries );
 
     assert.ok(
         spy.calledOnce,
@@ -98,7 +100,7 @@ test( 'updateData() is called after series property is modified', function( asse
 
 test( '"Options" property needs to be an object', function( assert ) {
 
-    let properties = Ember.Object.create({
+    const properties = Ember.Object.create({
         series: testSeries
     });
 
@@ -171,7 +173,7 @@ test( '"Options" property needs to be an object', function( assert ) {
 
 test( '"Series" property needs to be an array', function( assert ) {
 
-    let properties = Ember.Object.create({
+    const properties = Ember.Object.create({
         options: testOptions
     });
 
@@ -242,7 +244,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 });
 
-test( "Chart div uses the correct style", function( assert ) {
+test( 'Chart div uses the correct style', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
@@ -276,7 +278,7 @@ test( "Chart div uses the correct style", function( assert ) {
     );
 });
 
-test( "Title property is set", function( assert ) {
+test( 'Title property is set', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
@@ -288,7 +290,7 @@ test( "Title property is set", function( assert ) {
         'No chart title is rendered when title is not set'
     );
 
-    const testTitle = "Peak server hours";
+    const testTitle = 'Peak server hours';
 
     Ember.run( () => {
         component.set( 'title', testTitle );
@@ -302,15 +304,11 @@ test( "Title property is set", function( assert ) {
 });
 
 
-test( "setupChart initializes chart and updates data upon render", function( assert ) {
-    const chartTest = "a test chart";
+test( 'setupChart initializes chart and updates data upon render', function( assert ) {
+    const chartTest = 'a test chart';
     const chartDivMock = {
         highcharts( options ) {
-            if ( Ember.typeOf( options ) === "undefined" ) {
-                return chartTest;
-            } else {
-                return null;
-            }
+            return ( 'undefined' === Ember.typeOf( options ) ) ? chartTest : null;
         }
     };
 
@@ -325,9 +323,9 @@ test( "setupChart initializes chart and updates data upon render", function( ass
         }
     });
 
-    const setupSpy = sinon.spy( component, 'setupChart' );
-    const updateSpy = sinon.spy( component, 'updateData' );
-    const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
+    const setupSpy = window.sinon.spy( component, 'setupChart' );
+    const updateSpy = window.sinon.spy( component, 'updateData' );
+    const highchartsSpy = window.sinon.spy( chartDivMock, 'highcharts' );
 
     assert.equal(
         component.get( 'chart' ),

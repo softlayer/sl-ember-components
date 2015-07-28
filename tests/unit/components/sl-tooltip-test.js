@@ -37,7 +37,7 @@ test( 'Renders as a span tag with no classes', function( assert ) {
 
 test( '"title" property needs to be a string', function( assert ) {
 
-    let properties = Ember.Object.create();
+    const properties = Ember.Object.create();
 
     const callSubject = () => this.subject( properties );
 
@@ -124,7 +124,7 @@ test( '"title" property needs to be a string', function( assert ) {
 
 test( '"popover" property needs to be a string or undefined', function( assert ) {
 
-    let properties = Ember.Object.create({
+    const properties = Ember.Object.create({
         title: 'Tooltip text'
     });
 
@@ -186,7 +186,7 @@ test( '"popover" property needs to be a string or undefined', function( assert )
 
     // Undefined Property
 
-    //Delete previously populated popover property
+    // Delete previously populated popover property
     delete properties.popover;
 
     assert.ok(
