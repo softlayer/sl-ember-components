@@ -133,20 +133,19 @@ test( 'themeClass() returns correct value', function( assert ) {
 });
 
 test( 'openModal property triggers modal to open', function( assert ) {
-    let registerSpy = sinon.spy();
-    let show = sinon.spy();
+    const show = window.sinon.spy();
 
-    let mockModal = {
+    const mockModal = {
         show: show
     };
 
-    let mockService = {
+    const mockService = {
         find() {
             return mockModal;
         }
     };
 
-    let component = this.subject({
+    this.subject({
         modalService: mockService,
         openModal: 'test'
     });

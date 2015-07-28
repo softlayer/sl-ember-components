@@ -5,22 +5,6 @@ moduleForComponent( 'sl-modal-header', 'Unit | Component | sl modal header', {
     unit: true
 });
 
-test( 'It renders', function( assert ) {
-   const component = this.subject();
-
-    assert.equal(
-        component._state,
-        'preRender'
-    );
-
-    this.render();
-
-    assert.equal(
-        component._state,
-        'inDOM'
-    );
-});
-
 test( 'Modal header class exists on child element', function( assert ) {
     assert.equal(
         this.$().find( '.modal-header' ).length,
