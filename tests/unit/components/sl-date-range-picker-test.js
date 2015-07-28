@@ -29,17 +29,23 @@ test( 'Change focus to end date input upon start date change', function( assert 
 
     this.subject();
 
-    this.$( '.sl-daterange-end-date input' ).on( 'focus', () => {
-        assert.ok(
-            true,
-            'End date input receives focus upon start date change'
-        );
+    Ember.run( () => {
+        const daterangeEndDate = this.$( '.sl-daterange-end-date input' );
 
-        Ember.$( '.datepicker' ).remove();
-        done();
+        this.$( '.sl-daterange-start-date input' )
+            .trigger( 'change' );
+
+        Ember.run.later( this, function() {
+            assert.equal(
+                document.activeElement,
+                daterangeEndDate[ 0 ],
+                'Focus was changed to end date input'
+            );
+
+            this.$( '.datepicker' ).remove();
+            done();
+        });
     });
-
-    this.$( '.sl-daterange-start-date input' ).trigger( 'change' );
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
