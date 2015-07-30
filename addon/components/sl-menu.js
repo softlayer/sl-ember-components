@@ -1,12 +1,32 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-menu';
 import { error, warn } from '../utils/logger';
+import StreamEnabled from 'ember-stream/mixins/stream-enabled';
+
+/**
+ * Direction string values for selecting menu items in an abstract direction
+ *
+ * @memberof module:components/sl-menu
+ * @enum {String}
+ */
+const Direction = Object.freeze({
+    'DOWN': 'down',
+    'LEFT': 'left',
+    'NEXT': 'next',
+    'PARENT': 'parent',
+    'PREVIOUS': 'previous',
+    'RIGHT': 'right',
+    'SUB_MENU': 'subMenu',
+    'UP': 'up'
+});
+export { Direction };
 
 /**
  * @module
  * @augments ember/Component
+ * @augments ember-stream/mixins/stream-enabled
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( StreamEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -116,34 +136,6 @@ export default Ember.Component.extend({
      */
     showingAll: false,
 
-    /**
-     * The ember-stream service
-     *
-     * @type {ember/Service}
-     */
-    streamService: Ember.inject.service( 'stream' ),
-
-    /**
-     * A definition object outlining the observable streams this component
-     * should be listening for
-     *
-     * Relevant event names include:
-     * - hideAll
-     * - select (accepts an id argument)
-     * - selectDown
-     * - selectLeft
-     * - selectNext
-     * - selectParent
-     * - selectPrevious
-     * - selectRight
-     * - selectSubMenu
-     * - selectUp
-     * - showAll
-     *
-     * @type {?Object}
-     */
-    streams: null,
-
     // -------------------------------------------------------------------------
     // Observers
 
@@ -157,83 +149,61 @@ export default Ember.Component.extend({
         'init',
         function() {
             this.set( 'selections', new Ember.A() );
-        }
-    ),
 
-    /**
-     * Setup the stream observers
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupListeners: Ember.on(
-        'init',
-        function() {
-            const streams = this.get( 'streams' );
+            const stream = this.get( 'stream' );
 
-            if ( !streams ) {
-                return;
-            }
-
-            const streamService = this.get( 'streamService' );
-
-            if ( streams.hasOwnProperty( 'hideAll' ) ) {
-                streamService.subscribe( streams.hideAll, () => {
+            if ( stream ) {
+                stream.on( 'hideAll', () => {
                     this.hideAll();
                 });
-            }
 
-            if ( streams.hasOwnProperty( 'select' ) ) {
-                streamService.subscribe( streams.select, ( index ) => {
-                    this.select( index );
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'selectDown' ) ) {
-                streamService.subscribe( streams.selectDown, () => {
-                    this.selectDown();
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'selectLeft' ) ) {
-                streamService.subscribe( streams.selectLeft, () => {
-                    this.selectLeft();
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'selectNext' ) ) {
-                streamService.subscribe( streams.selectNext, () => {
-                    this.selectNext();
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'selectPrevious' ) ) {
-                streamService.subscribe( streams.selectPrevious, () => {
-                    this.selectPrevious();
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'selectRight' ) ) {
-                streamService.subscribe( streams.selectRight, () => {
-                    this.selectRight();
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'selectSubMenu' ) ) {
-                streamService.subscribe( streams.selectSubMenu, () => {
-                    this.selectSubMenu();
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'selectUp' ) ) {
-                streamService.subscribe( streams.selectUp, () => {
-                    this.selectUp();
-                });
-            }
-
-            if ( streams.hasOwnProperty( 'showAll' ) ) {
-                streamService.subscribe( streams.showAll, () => {
+                stream.on( 'showAll', () => {
                     this.showAll();
+                });
+
+                stream.on( 'select', ( indexOrDirection ) => {
+                    if ( 'number' === Ember.typeOf( indexOrDirection ) ) {
+                        this.select( indexOrDirection );
+                        return;
+                    }
+
+                    switch ( indexOrDirection ) {
+                        case Direction.DOWN:
+                            this.selectDown();
+                            break;
+
+                        case Direction.LEFT:
+                            this.selectLeft();
+                            break;
+
+                        case Direction.NEXT:
+                            this.selectNext();
+                            break;
+
+                        case Direction.PARENT:
+                            this.selectParent();
+                            break;
+
+                        case Direction.PREVIOUS:
+                            this.selectPrevious();
+                            break;
+
+                        case Direction.RIGHT:
+                            this.selectRight();
+                            break;
+
+                        case Direction.SUB_MENU:
+                            this.selectSubMenu();
+                            break;
+
+                        case Direction.UP:
+                            this.selectUp();
+                            break;
+
+                        default:
+                            warn( `Received "select" stream action with invalid selection, "${indexOrDirection}"` );
+                            break;
+                    }
                 });
             }
         }
@@ -546,19 +516,22 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean} - True unless an error state is detected
      */
-    selectRight() {
-        const selections = this.get( 'selections' );
+    selectRight: Ember.on(
+        'selectRight',
+        function() {
+            const selections = this.get( 'selections' );
 
-        if ( 1 === selections.length ) {
-            return this.selectNext();
+            if ( 1 === selections.length ) {
+                return this.selectNext();
+            }
+
+            if ( selections.length > 1 ) {
+                return this.selectSubMenu();
+            }
+
+            return true;
         }
-
-        if ( selections.length > 1 ) {
-            return this.selectSubMenu();
-        }
-
-        return true;
-    },
+    ),
 
     /**
      * Select the sub-menu in the current context
@@ -566,48 +539,51 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean} - True unless an error state is detected
      */
-    selectSubMenu() {
-        const selections = this.get( 'selections' );
+    selectSubMenu: Ember.on(
+        'selectSubMenu',
+        function() {
+            const selections = this.get( 'selections' );
 
-        if ( selections.length < 1 ) {
+            if ( selections.length < 1 ) {
+                return true;
+            }
+
+            const selection = selections.get( selections.length - 1 );
+
+            if ( !selection ) {
+                return error( 'Last item of `selection` is invalid' );
+            }
+
+            const currentItem = Ember.get( selection, 'item' );
+
+            if ( !currentItem ) {
+                return error( 'Last selection menu item is invalid' );
+            }
+
+            const items = Ember.get( currentItem, 'items' );
+
+            if ( !items ) {
+                return true;
+            }
+
+            const index = 0;
+            const item = items.get( 0 );
+
+            if ( !item ) {
+                return error( 'First item in selected sub-menu is undefined' );
+            }
+
+            Ember.set( item, 'selected', true );
+
+            selections.pushObject({
+                index,
+                item,
+                items
+            });
+
             return true;
         }
-
-        const selection = selections.get( selections.length - 1 );
-
-        if ( !selection ) {
-            return error( 'Last item of `selection` is invalid' );
-        }
-
-        const currentItem = Ember.get( selection, 'item' );
-
-        if ( !currentItem ) {
-            return error( 'Last selection menu item is invalid' );
-        }
-
-        const items = Ember.get( currentItem, 'items' );
-
-        if ( !items ) {
-            return true;
-        }
-
-        const index = 0;
-        const item = items.get( 0 );
-
-        if ( !item ) {
-            return error( 'First item in selected sub-menu is undefined' );
-        }
-
-        Ember.set( item, 'selected', true );
-
-        selections.pushObject({
-            index,
-            item,
-            items
-        });
-
-        return true;
-    },
+    ),
 
     /**
      * Select a menu item in the "up" direction
@@ -621,24 +597,27 @@ export default Ember.Component.extend({
      * @function
      * @returns {Boolean} - True unless an error state is detected
      */
-    selectUp() {
-        const selections = this.get( 'selections' );
-        const selectionsLength = selections.length;
+    selectUp: Ember.on(
+        'selectUp',
+        function() {
+            const selections = this.get( 'selections' );
+            const selectionsLength = selections.length;
 
-        if ( selectionsLength < 1 ) {
-            return true;
-        }
-
-        if ( 2 === selectionsLength ) {
-            const selection = selections.get( 1 );
-
-            if ( 0 === Ember.get( selection, 'index' ) ) {
-                return this.selectParent();
+            if ( selectionsLength < 1 ) {
+                return true;
             }
-        }
 
-        return this.selectPrevious();
-    },
+            if ( 2 === selectionsLength ) {
+                const selection = selections.get( 1 );
+
+                if ( 0 === Ember.get( selection, 'index' ) ) {
+                    return this.selectParent();
+                }
+            }
+
+            return this.selectPrevious();
+        }
+    ),
 
     /**
      * Trigger the showAll menu-item
@@ -646,8 +625,11 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-    showAll() {
-        this.set( 'showingAll', true );
-    }
+    showAll: Ember.on(
+        'showAll',
+        function() {
+            this.set( 'showingAll', true );
+        }
+    )
 
 });

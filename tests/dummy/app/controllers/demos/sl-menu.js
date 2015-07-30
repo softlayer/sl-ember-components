@@ -1,80 +1,86 @@
 import Ember from 'ember';
+import StreamEnabled from 'ember-stream/mixins/stream-enabled';
+import { Direction as MenuDirection } from 'sl-ember-components/components/sl-menu';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend( StreamEnabled, {
     actions: {
         doSomething( actionName, data ) {
             console.log( 'Doing', actionName, data );
         }
     },
 
-    streamService: Ember.inject.service( 'stream' ),
-
     initialize: Ember.on(
         'init',
         function() {
             const streamService = this.get( 'streamService' );
+            const menuStreamName = this.get( 'menuStreamName' );
+
             let lastPressedKey;
+            window.addEventListener( 'keydown', ( event ) => {
+                switch ( event.keyCode ) {
+                    case 9: // Tab key
+                        streamService.send(
+                            menuStreamName,
+                            'select',
+                            event.shiftKey ?
+                                MenuDirection.NEXT :
+                                MenuDirection.PREVIOUS
+                        );
+                        event.preventDefault();
+                        break;
 
-            // Use Rx.Observable here, as we don't need to register the stream
-            const keydownStream = streamService.Rx.Observable.create( ( observer ) => {
-                window.addEventListener( 'keydown', ( event ) => {
-                    observer.onNext( event );
-                    lastPressedKey = event.keyCode;
-                });
-            });
+                    case 13: // Enter key
+                        streamService.send( menuStreamName, 'select', MenuDirection.SUB_MENU );
+                        break;
 
-            const hideAllMenusStream = keydownStream
-                .filter( event => 27 === event.keyCode ); // 27 = Esc
+                    case 27: // Escape key
+                        streamService.send( menuStreamName, 'hideAll' );
+                        break;
 
-            const selectStream = keydownStream
-                .filter( event => event.keyCode > 48 && event.keyCode < 58 )
-                .map( event => event.keyCode - 49 );
+                    case 37: // Left arrow key
+                        streamService.send( menuStreamName, 'select', MenuDirection.LEFT );
+                        event.preventDefault();
+                        break;
 
-            const selectDownStream = keydownStream
-                .filter( event => 40 === event.keyCode ); // 40 = down arrow
-            selectDownStream.subscribe( event => event.preventDefault() );
+                    case 38: // Up arrow key
+                        streamService.send( menuStreamName, 'select', MenuDirection.UP );
+                        event.preventDefault();
+                        break;
 
-            const selectLeftStream = keydownStream
-                .filter( event => 37 === event.keyCode ); // 37 = left arrow
-            selectLeftStream.subscribe( event => event.preventDefault() );
+                    case 39: // Right arrow key
+                        streamService.send( menuStreamName, 'select', MenuDirection.RIGHT );
+                        event.preventDefault();
+                        break;
 
-            // 9 = tab key
-            const selectNextStream = keydownStream
-                .filter( event => 9 === event.keyCode && !event.shiftKey );
-            selectNextStream.subscribe( event => event.preventDefault() );
+                    case 40: // Down arrow key
+                        streamService.send( menuStreamName, 'select', MenuDirection.DOWN );
+                        event.preventDefault();
+                        break;
 
-            const selectPreviousStream = keydownStream
-                .filter( event => 9 === event.keyCode && event.shiftKey );
-            selectPreviousStream.subscribe( event => event.preventDefault() );
+                    case 48: // 0 key
+                        streamService.send( menuStreamName, 'showAll' );
+                        break;
 
-            const selectRightStream = keydownStream
-                .filter( event => 39 === event.keyCode ); // 39 = right arrow
-            selectRightStream.subscribe( event => event.preventDefault() );
+                    case 49: // 1 key
+                    case 50: // 2 key
+                    case 51: // 3 key
+                    case 52: // 4 key
+                    case 53: // 5 key
+                    case 54: // 6 key
+                    case 55: // 7 key
+                    case 56: // 8 key
+                    case 57: // 9 key
+                        streamService.send( menuStreamName, 'select', event.keyCode - 49 );
+                        break;
 
-            const selectSubMenuStream = keydownStream
-                .filter( event => 13 === event.keyCode || // 13 = enter key
-                    189 === event.keyCode && // 189 = '-' key
-                    189 !== lastPressedKey
-                );
+                    case 189: // - key
+                        if ( 189 !== lastPressedKey ) {
+                            streamService.send( menuStreamName, 'select', MenuDirection.SUB_MENU );
+                        }
+                        break;
+                }
 
-            const selectUpStream = keydownStream
-                .filter( event => 38 === event.keyCode ); // 38 = up arrow
-            selectUpStream.subscribe( event => event.preventDefault() );
-
-            const showAllStream = keydownStream
-                .filter( event => 48 === event.keyCode ); // 48 = 0 key
-
-            streamService.register({
-                'hideAllMenus': hideAllMenusStream,
-                'demoMenu.select': selectStream,
-                'demoMenu.down': selectDownStream,
-                'demoMenu.left': selectLeftStream,
-                'demoMenu.next': selectNextStream,
-                'demoMenu.previous': selectPreviousStream,
-                'demoMenu.right': selectRightStream,
-                'demoMenu.subMenu': selectSubMenuStream,
-                'demoMenu.up': selectUpStream,
-                'demoMenu.showAll': showAllStream
+                lastPressedKey = event.keyCode;
             });
         }
     ),
@@ -105,16 +111,6 @@ export default Ember.Controller.extend({
         }
     ]),
 
-    menuStreams: {
-        'hideAll': 'hideAllMenus',
-        'select': 'demoMenu.select',
-        'selectDown': 'demoMenu.down',
-        'selectLeft': 'demoMenu.left',
-        'selectNext': 'demoMenu.next',
-        'selectPrevious': 'demoMenu.previous',
-        'selectRight': 'demoMenu.right',
-        'selectSubMenu': 'demoMenu.subMenu',
-        'selectUp': 'demoMenu.up',
-        'showAll': 'demoMenu.showAll'
-    }
+    menuStreamName: 'demoMenu'
+
 });
