@@ -43,12 +43,20 @@ test( 'Default values are set correctly', function( assert ) {
 
     assert.strictEqual(
         subject.get( 'dataToggle' ),
-        null
+        null,
+        'dataToggle is null'
+    );
+
+    assert.strictEqual(
+        subject.get( 'dataTrigger' ),
+        null,
+        'dataTrigger is null'
     );
 
     assert.strictEqual(
         subject.get( 'title' ),
-        null
+        null,
+        'title is null'
     );
 });
 
