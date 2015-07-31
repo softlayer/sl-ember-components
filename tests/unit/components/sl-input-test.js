@@ -1,10 +1,58 @@
-import ember from 'ember';
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-input', 'Unit | Component | sl input', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
+    );
+
+    assert.ok(
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
+    );
+});
+
+test( 'getInput() returns correct element', function( assert ) {
+    const component = this.subject();
+
+    assert.ok(
+        this.$( 'input' ).get( 0 ) ===
+        component.getInput().get( 0 )
+    );
+});
+
+test( 'Event handlers are registered and unregistered', function( assert ) {
+    const component = this.subject({
+        blur: 'blur'
+    });
+
+    this.render();
+
+    const input = component.getInput().get( 0 );
+    const jQueryData = Ember.get( Ember.$, '_data' );
+    const events = jQueryData( input, 'events' );
+
+    assert.ok(
+        'blur' in events,
+        'Blur event handler is registered after didInsertElement'
+    );
+
+    Ember.run( () => {
+        component.trigger( 'willClearRender' );
+
+        assert.ok(
+            !( 'blur' in events ),
+            'Blur event handler is unregistered after willClearRender'
+        );
+    });
+});
 
 test( 'Blur action is triggered when input loses focus', function( assert ) {
     assert.expect( 1 );
@@ -12,7 +60,7 @@ test( 'Blur action is triggered when input loses focus', function( assert ) {
     const done = assert.async();
 
     this.subject({
-        'blur': 'blur',
+        blur: 'blur',
         targetObject: {
             blur() {
                 assert.ok(
@@ -27,6 +75,51 @@ test( 'Blur action is triggered when input loses focus', function( assert ) {
     this.$( 'input' ).trigger( 'blur' );
 });
 
+test( 'Default values are correct', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'clickToEdit' ),
+        false,
+        'clickToEdit property false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'isTypeaheadSetup' ),
+        false,
+        'isTypeaheadSetup property false by default'
+    );
+
+    assert.equal(
+        component.get( 'suggestionNamePath' ),
+        'name',
+        'suggestionNamePath property is "name" by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'required' ),
+        false,
+        'required property is false by default'
+    );
+
+    assert.equal(
+        component.get( 'inputElementId' ),
+        null,
+        'inputElementId property is null by default'
+    );
+});
+
+test( 'setInputElementId() - sets inputElementId correctly', function( assert ) {
+    const component = this.subject();
+
+    const inputElementId = this.$( 'input.form-control' ).prop( 'id' );
+
+    assert.equal(
+        component.get( 'inputElementId' ),
+        inputElementId
+    );
+});
+
 test( 'Click to edit input has the correct class', function( assert ) {
     this.subject({
         clickToEdit: true
@@ -37,7 +130,7 @@ test( 'Click to edit input has the correct class', function( assert ) {
     );
 });
 
-test( 'Input can be disabled' , function( assert ) {
+test( 'Input can be disabled', function( assert ) {
     this.subject({
         disabled: true
     });
@@ -47,7 +140,7 @@ test( 'Input can be disabled' , function( assert ) {
     );
 });
 
-test( 'Help text is displayed', function( assert) {
+test( 'Help text is displayed', function( assert ) {
     const helpText = 'Testing help text is displayed';
 
     this.subject({
@@ -70,6 +163,15 @@ test( 'Label text is displayed', function( assert ) {
     assert.equal(
         this.$( '.control-label' ).text().trim(),
         labelText
+    );
+});
+
+test( 'Label text is not displayed', function( assert ) {
+    this.subject();
+
+    assert.equal(
+        this.$( '.control-label' ).length,
+        0
     );
 });
 
@@ -97,6 +199,18 @@ test( 'Required property displays required label', function( assert ) {
     );
 });
 
+test( 'Required property does not display required label', function( assert ) {
+    this.subject({
+        label: 'Required input',
+        required: false
+    });
+
+    assert.equal(
+        this.$( '.text-danger' ).length,
+        0
+    );
+});
+
 test( 'Placeholder property sets the placeholder for the input', function( assert ) {
     const placeholderText = 'placeholder';
 
@@ -110,51 +224,6 @@ test( 'Placeholder property sets the placeholder for the input', function( asser
     );
 });
 
-test( 'Popover is displayed and has the correct title and content', function( assert ) {
-    assert.expect( 3 );
-
-    const done = assert.async();
-    const text = 'popover text';
-    const title = 'popover title';
-
-    const component = this.subject({
-        popover: text,
-        title: title
-    });
-
-    this.render();
-
-    const input = component.getInput();
-
-    input.on( 'focus', function() {
-        const popover = $( '.popover' );
-        const popoverTitle = popover.find( '.popover-title' ).text();
-        const popoverText = popover.find( '.popover-content' ).text();
-
-        assert.equal(
-            popover.length,
-            1,
-            'Popover displayed'
-        );
-
-        assert.equal(
-            text,
-            popoverText,
-            'Popover content is set correctly'
-        );
-
-        assert.equal(
-            title,
-            popoverTitle,
-            'Popover title is set correctly'
-        );
-
-        done();
-    });
-
-    input.trigger( 'focus' );
-});
-
 test( 'Readonly property, makes the input readonly', function( assert ) {
     this.subject({
         readonly: true
@@ -165,18 +234,62 @@ test( 'Readonly property, makes the input readonly', function( assert ) {
     );
 });
 
-test( 'Disabled property, disables the input', function( assert ) {
+test( 'Typeahead is initialized and has the correct classes', function( assert ) {
+    const colors = [
+        'Black',
+        'Yellow'
+    ];
+
     this.subject({
-        disabled: true
+        suggestions: colors
     });
 
+    const typeahead = this.$( '.tt-input' ).data().ttTypeahead;
+
     assert.ok(
-        this.$( 'input' ).prop( 'disabled' )
+        typeahead,
+        'Typeahead is initialized'
     );
 });
 
-test( 'Typeahead is initialized', function( assert ) {
-    const colors =  [
+test( 'Typeahead classes are present', function( assert ) {
+    const colors = [
+        'Black',
+        'Yellow'
+    ];
+
+    this.subject({
+        suggestions: colors
+    });
+
+    assert.ok(
+        this.$( '.twitter-typeahead' ),
+        'twitter-typeahead class exists'
+    );
+
+    assert.ok(
+        this.$( '.typeahead' ),
+        'typeahead class exists'
+    );
+
+    assert.ok(
+        this.$( '.tt-input' ),
+        'tt-input class exists'
+    );
+
+    assert.ok(
+        this.$( '.tt-menu' ),
+        'tt-menu class exists'
+    );
+
+    assert.ok(
+        this.$( '.tt-dataset' ),
+        'tt-dataset class exists'
+    );
+});
+
+test( 'isTypeaheadSetup is true when suggestions are provided', function( assert ) {
+    const colors = [
         'Black',
         'Yellow'
     ];
@@ -187,14 +300,13 @@ test( 'Typeahead is initialized', function( assert ) {
 
     this.render();
 
-    const typeahead = this.$( '.tt-input' ).data().ttTypeahead;
-
-    assert.ok(
-        typeahead
+    assert.strictEqual(
+        component.get( 'isTypeaheadSetup' ),
+        true
     );
 });
 
-test( 'Value is set to value property', function( assert ) {
+test( 'Value is set correctly', function( assert ) {
     const value = 'set value';
 
     const component = this.subject({

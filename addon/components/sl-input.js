@@ -28,6 +28,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /** @type {String} */
     dataTrigger: 'focus',
+
     // -------------------------------------------------------------------------
     // Actions
 
@@ -42,16 +43,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
          */
         blur() {
             this.sendAction( 'blur' );
-        },
-
-        /**
-         * Sends the primary bound action when `enter` is pressed
-         *
-         * @function actions:enter
-         * @returns {undefined}
-         */
-        enter() {
-            this.sendAction();
         }
     },
 
@@ -67,6 +58,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @type {Boolean}
      */
     clickToEdit: false,
+
+    /**
+     * The input field's id attribute
+     * Used to expose this value externally for use in this component
+     *
+     * @type {?String}
+     */
+    inputElementId: null,
 
     /**
      * Whether the typeahead.js functionality has been setup
@@ -98,6 +97,25 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Captures and sets the input field's id attribute.
+     *
+     * This is used to expose this value externally for use when composing this
+     * component into others.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setInputElementId: Ember.on(
+        'didInsertElement',
+        function() {
+            this.set(
+                'inputElementId',
+                this.$( 'input.form-control' ).prop( 'id' )
+            );
+        }
+    ),
 
     /**
      * Sets up the input event listeners exposed to the component's

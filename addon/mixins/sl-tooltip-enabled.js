@@ -31,14 +31,17 @@ export default Ember.Mixin.create({
     /**
      * dataToggle property
      *
-     * @type {?Boolean}
+     * @type {?String}
      */
     dataToggle: null,
 
     /**
-     * dataTrigger
+     * dataTrigger property
      *
-     * @type {?String}
+     * How the tooltip/popover is triggered - click | hover | focus.
+     * You may pass multiple triggers; separate them with a space.
+     *
+     * @type {String}
      */
     dataTrigger: null,
 

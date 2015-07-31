@@ -36,6 +36,22 @@ test( 'Successfully mixed', function( assert ) {
     assert.ok( subject );
 });
 
+test( 'Default values are set correctly', function( assert ) {
+    const testObject = Ember.Object.extend( mixinUnderTest );
+
+    const subject = testObject.create();
+
+    assert.strictEqual(
+        subject.get( 'dataToggle' ),
+        null
+    );
+
+    assert.strictEqual(
+        subject.get( 'title' ),
+        null
+    );
+});
+
 window.QUnit.skip( 'enable() - observes correct properties', function() {
     // Can use ._dependentKeys in 2.0
 });
@@ -68,7 +84,6 @@ test( 'enable() - popover defined calls enablePopover()', function( assert ) {
     subject.enablePopover.reset();
     subject.enableTooltip.reset();
 });
-
 
 test( 'enable() - title defined calls enableTooltip()', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest, {
