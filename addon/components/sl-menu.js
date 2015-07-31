@@ -209,6 +209,19 @@ export default Ember.Component.extend( StreamEnabled, {
         }
     ),
 
+    /**
+     * Retrieve the currently selected item
+     *
+     * @function
+     * @returns {?Object}
+     */
+    selectedItem: Ember.computed(
+        'selections.@each.item',
+        function() {
+            return this.get( 'selections.lastObject.item' );
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
@@ -293,7 +306,7 @@ export default Ember.Component.extend( StreamEnabled, {
             }
 
             if ( items.length > 0 ) {
-                item = items.get( 0 );
+                item = items[ 0 ];
 
                 Ember.set( item, 'selected', true );
 
@@ -366,10 +379,9 @@ export default Ember.Component.extend( StreamEnabled, {
     selectNext() {
         const selections = this.get( 'selections' );
 
+        // Select the first item from `items` if nothing is currently selected
         if ( selections.length < 1 ) {
-            return warn(
-                '`selectNext` triggered without any selection context'
-            );
+            return this.select( 0 );
         }
 
         const selection = selections.objectAt( selections.length - 1 );
@@ -567,7 +579,7 @@ export default Ember.Component.extend( StreamEnabled, {
             }
 
             const index = 0;
-            const item = items.get( 0 );
+            const item = items[ index ];
 
             if ( !item ) {
                 return error( 'First item in selected sub-menu is undefined' );

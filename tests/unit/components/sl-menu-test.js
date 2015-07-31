@@ -1,5 +1,7 @@
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, skip, test } from 'ember-qunit';
+
+let testItems;
 
 moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
     unit: true,
@@ -7,24 +9,26 @@ moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
     needs: [
         'component:sl-menu-item',
         'component:sl-menu-item-show-all'
-    ]
-});
+    ],
 
-const testItems = new Ember.A([
-    {
-        action: 'firstTest',
-        data: 'first',
-        label: 'First',
-        items: [
-            { label: 'First sub-item' },
-            { label: 'Second sub-item' }
-        ]
-    }, {
-        action: 'secondTest',
-        data: 'second',
-        label: 'Second'
+    beforeEach() {
+        testItems = new Ember.A([
+            {
+                action: 'firstTest',
+                data: 'first',
+                label: 'First',
+                items: [
+                    { label: 'First sub-item' },
+                    { label: 'Second sub-item' }
+                ]
+            }, {
+                action: 'secondTest',
+                data: 'second',
+                label: 'Second'
+            }
+        ]);
     }
-]);
+});
 
 test( 'Default property values', function( assert ) {
     this.subject();
@@ -157,7 +161,7 @@ test( 'select() selects a certain menu item', function( assert ) {
     );
 
     assert.equal(
-        selections[ 0 ].item,
+        component.get( 'selectedItem' ),
         testItems[ 0 ],
         'Selected item is first testItem'
     );
@@ -179,7 +183,7 @@ test( 'selectDown() selects an item in the "down" direction', function( assert )
     });
 
     assert.equal(
-        component.get( 'selections' )[ 0 ].item,
+        component.get( 'selectedItem' ),
         testItems[ 0 ],
         'Selected item is first testItem'
     );
@@ -189,20 +193,136 @@ test( 'selectDown() selects an item in the "down" direction', function( assert )
     });
 
     assert.equal(
-        component.get( 'selections' )[ 1 ].item,
+        component.get( 'selectedItem' ),
         testItems[ 0 ].items[ 0 ],
         'Selected item is first sub-menu item'
     );
 });
 
-/*
- - selectDown
- - selectLeft
- - selectNext
- - selectParent
- - selectPrevious
- - selectRight
- - selectSubMenu
- - selectUp
- - showAll
+test( 'selectLeft() selects an item in the "left" direction', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Selection has to be "down" first in order to select the top level for
+        // the context
+        component.selectDown();
+        component.selectLeft();
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'Only one selection is made'
+    );
+
+    Ember.run( () => {
+        component.selectLeft(); // "left" to the first top-level item
+        component.selectDown(); // "down" into the first sub-menu
+    });
+
+    // This assertion ensures that we have gone into the first sub-menu
+    assert.equal(
+        component.get( 'selections' ).length,
+        2,
+        'Two selections are made'
+    );
+
+    Ember.run( () => {
+        component.selectLeft(); // Back to top-level items
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'Only one selection is made'
+    );
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'First top-level item is selected again'
+    );
+});
+
+test( 'selectNext() selects the next sibling menu item', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        component.selectNext();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'First top-level item is selected'
+    );
+
+    Ember.run( () => {
+        component.selectNext();
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'One item is still selected'
+    );
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'Second top-level item is selected'
+    );
+});
+
+test( "selectParent() selects a sub-menu's parent item", function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        component.select( 0 ); // Select the first top-level item
+        component.selectSubMenu(); // Descend into the first sub-menu
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ],
+        'The first sub-menu item is selected'
+    );
+});
+
+/* TODO
+skip( 'selectPrevious() selects ', function() {
+});
+
+skip( 'selectRight() selects ', function() {
+});
+
+skip( 'selectSubMenu() selects ', function() {
+});
+
+skip( 'selectUp() selects ', function() {
+});
 */
