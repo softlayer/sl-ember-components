@@ -149,7 +149,18 @@ export default Ember.Component.extend( StreamEnabled, {
         'init',
         function() {
             this.set( 'selections', new Ember.A() );
+        }
+    ),
 
+    /**
+     * Setup the stream actions bindings
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupStreamActions: Ember.on(
+        'init',
+        function() {
             const stream = this.get( 'stream' );
 
             if ( stream ) {

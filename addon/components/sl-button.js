@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-button';
 
@@ -39,7 +40,7 @@ export { Theme };
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -71,13 +72,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     /** @type {Object} */
     layout,
 
-    /**
-     * The modal service which will be used to open modals
-     *
-     * @type {ember/Service}
-     */
-    modalService: Ember.inject.service( 'sl-modal' ),
-
     /** @type {String} */
     tagName: 'button',
 
@@ -93,15 +87,10 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @returns {undefined}
      */
     click() {
-        const openModal = this.get( 'openModal' );
+        const showModalWithStreamName = this.get( 'showModalWithStreamName' );
 
-        if ( openModal ) {
-            const modal = this.get( 'modalService' ).find( openModal );
-            Ember.assert(
-                `Modal with name "${openModal}" was not found`,
-                modal
-            );
-            modal.show();
+        if ( showModalWithStreamName ) {
+            this.get( 'streamService' ).send( showModalWithStreamName, 'show' );
         }
 
         this.sendAction();
@@ -156,6 +145,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @type {?String}
      */
     pendingLabel: null,
+
+    /**
+     * The name of a registered modal stream to trigger opening of
+     *
+     * @type {?String}
+     */
+    showModalWithStreamName: null,
 
     /**
      * The size of the button
