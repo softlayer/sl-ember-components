@@ -245,10 +245,9 @@ export default Ember.Component.extend( StreamEnabled, {
     clearSelection() {
         const selections = this.get( 'selections' );
 
-        let selection;
-        for ( selection of selections ) {
+        selections.forEach( ( selection ) => {
             Ember.set( selection.item, 'selected', false );
-        }
+        });
 
         this.set( 'selection', null );
 

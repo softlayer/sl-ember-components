@@ -2,7 +2,27 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 
-let testItems;
+const testItems = new Ember.A([
+    {
+        action: 'firstTest',
+        data: 'first',
+        label: 'First',
+        items: [
+            {
+                label: 'First sub-item',
+                items: [
+                    { label: 'First sub-item sub-item' }
+                ]
+            }, {
+                label: 'Second sub-item'
+            }
+        ]
+    }, {
+        action: 'secondTest',
+        data: 'second',
+        label: 'Second'
+    }
+]);
 
 moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
     unit: true,
@@ -10,31 +30,7 @@ moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
     needs: [
         'component:sl-menu-item',
         'component:sl-menu-item-show-all'
-    ],
-
-    beforeEach() {
-        testItems = new Ember.A([
-            {
-                action: 'firstTest',
-                data: 'first',
-                label: 'First',
-                items: [
-                    {
-                        label: 'First sub-item',
-                        items: [
-                            { label: 'First sub-item sub-item' }
-                        ]
-                    }, {
-                        label: 'Second sub-item'
-                    }
-                ]
-            }, {
-                action: 'secondTest',
-                data: 'second',
-                label: 'Second'
-            }
-        ]);
-    }
+    ]
 });
 
 test( 'Default property values', function( assert ) {
@@ -121,26 +117,31 @@ test( 'showAll() properly sets state to showingAll', function( assert ) {
     );
 });
 
-test( 'hideAll() hides all currently visible menus', function( assert ) {
+test( 'hideAll() sets state to not showingAll', function( assert ) {
     const component = this.subject({
         items: testItems,
         showingAll: true
     });
-
-    assert.equal(
-        this.$( 'li:visible' ).length,
-        5,
-        'All children menu items are visible'
-    );
 
     Ember.run( () => {
         component.hideAll();
     });
 
     assert.equal(
-        this.$( 'li:visible' ).length,
-        2,
-        'Only top-level menu items are visible'
+        component.get( 'showingAll' ),
+        false,
+        'showingAll is false'
+    );
+});
+
+test( 'showingAll sets class "show-all"', function( assert ) {
+    this.subject({
+        showingAll: true
+    });
+
+    assert.ok(
+        this.$().hasClass( 'show-all' ),
+        'Rendered element has class "show-all"'
     );
 });
 
