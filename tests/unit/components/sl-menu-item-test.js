@@ -22,7 +22,8 @@ test( 'Active state applies class', function( assert ) {
         false,
         'Component is not active by default'
     );
-assert.equal(
+
+    assert.equal(
         this.$().hasClass( 'active' ),
         false,
         'Rendered element does not have class "active" by default'
@@ -39,11 +40,10 @@ assert.equal(
 });
 
 test( 'Class "has-sub-menu" is present when bound item has items array', function( assert ) {
-    const item = {};
     const component = this.subject();
 
     assert.ok(
-        this.$().hasClass( 'has-sub-menu' ) === false,
+        false === this.$().hasClass( 'has-sub-menu' ),
         'Rendered element does not have class "has-sub-menu" by default'
     );
 
@@ -61,7 +61,7 @@ test( 'Class "active" is present when bound item is selected', function( assert 
     const component = this.subject();
 
     assert.ok(
-        this.$().hasClass( 'active' ) === false,
+        false === this.$().hasClass( 'active' ),
         'Rendered element does not have class "active" by default'
     );
 
@@ -79,12 +79,12 @@ test( 'Component responds to mouse enter/leave events', function( assert ) {
     const component = this.subject();
 
     assert.ok(
-        component.get( 'active' ) === false,
+        false === component.get( 'active' ),
         'Component is not active by default'
     );
 
     assert.ok(
-        this.$().hasClass( 'active' ) === false,
+        false === this.$().hasClass( 'active' ),
         'Rendered element does not have "active" class'
     );
 
@@ -93,7 +93,7 @@ test( 'Component responds to mouse enter/leave events', function( assert ) {
     });
 
     assert.ok(
-        component.get( 'active' ) === true,
+        true === component.get( 'active' ),
         'Component is active after mouseenter event'
     );
 
@@ -107,12 +107,12 @@ test( 'Component responds to mouse enter/leave events', function( assert ) {
     });
 
     assert.ok(
-        component.get( 'active' ) === false,
+        false === component.get( 'active' ),
         'Component is inactive after mouseleave event'
     );
 
     assert.ok(
-        this.$().hasClass( 'active' ) === false,
+        false === this.$().hasClass( 'active' ),
         'Rendered element is inactive after mouseleave event'
     );
 });
@@ -130,7 +130,7 @@ test( 'Bound item.action is triggered when link is clicked', function( assert ) 
         targetObject: {
             test( actionName, data ) {
                 assert.ok(
-                    actionName === 'test' && data.okay === true,
+                    'test' === actionName && true === data.okay,
                     'Bound item.action triggered with expected data'
                 );
             }

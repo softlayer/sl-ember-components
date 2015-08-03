@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-menu-item-show-all', 'Unit | Component | sl menu item show all', {
