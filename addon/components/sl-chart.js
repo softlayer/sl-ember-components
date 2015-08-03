@@ -131,7 +131,7 @@ export default Ember.Component.extend({
      * @function
      * @returns {Object}
      */
-     highchartsOptions: Ember.computed(
+    highchartsOptions: Ember.computed(
         function() {
             const chartStyle = {
                 fontFamily: [

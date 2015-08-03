@@ -192,7 +192,7 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-     setupModal: Ember.on(
+    setupModal: Ember.on(
         'didInsertElement',
         function() {
             const modal = this.$().modal({
