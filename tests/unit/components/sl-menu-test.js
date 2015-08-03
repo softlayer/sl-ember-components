@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import { moduleForComponent, skip, test } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
+import { skip } from 'qunit';
 
 let testItems;
 
