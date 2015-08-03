@@ -18,8 +18,14 @@ moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
                 data: 'first',
                 label: 'First',
                 items: [
-                    { label: 'First sub-item' },
-                    { label: 'Second sub-item' }
+                    {
+                        label: 'First sub-item',
+                        items: [
+                            { label: 'First sub-item sub-item' }
+                        ]
+                    }, {
+                        label: 'Second sub-item'
+                    }
                 ]
             }, {
                 action: 'secondTest',
@@ -51,7 +57,7 @@ test( 'Items are rendered', function( assert ) {
 
     assert.equal(
         this.$( 'li' ).length,
-        4,
+        5,
         'Has 4 children list items'
     );
 });
@@ -122,7 +128,7 @@ test( 'hideAll() hides all currently visible menus', function( assert ) {
 
     assert.equal(
         this.$( 'li:visible' ).length,
-        4,
+        5,
         'All children menu items are visible'
     );
 
@@ -152,10 +158,8 @@ test( 'select() selects a certain menu item', function( assert ) {
         component.select( 0 );
     });
 
-    const selections = component.get( 'selections' );
-
     assert.equal(
-        selections.length,
+        component.get( 'selections' ).length,
         1,
         'A single item is selected after select()'
     );
@@ -163,7 +167,23 @@ test( 'select() selects a certain menu item', function( assert ) {
     assert.equal(
         component.get( 'selectedItem' ),
         testItems[ 0 ],
-        'Selected item is first testItem'
+        'Selected item is first test item'
+    );
+
+    Ember.run( () => {
+        component.select( 1 );
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'A single item is selected after select()'
+    );
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'Selected item is second test item'
     );
 });
 
@@ -224,8 +244,11 @@ test( 'selectLeft() selects an item in the "left" direction', function( assert )
     );
 
     Ember.run( () => {
-        component.selectLeft(); // "left" to the first top-level item
-        component.selectDown(); // "down" into the first sub-menu
+        // Select "left" to the first top-level item
+        component.selectLeft();
+
+        // Select "down" into the first sub-menu
+        component.selectDown();
     });
 
     // This assertion ensures that we have gone into the first sub-menu
@@ -236,7 +259,8 @@ test( 'selectLeft() selects an item in the "left" direction', function( assert )
     );
 
     Ember.run( () => {
-        component.selectLeft(); // Back to top-level items
+        // Back to top-level items
+        component.selectLeft();
     });
 
     assert.equal(
@@ -302,8 +326,11 @@ test( "selectParent() selects a sub-menu's parent item", function( assert ) {
     );
 
     Ember.run( () => {
-        component.select( 0 ); // Select the first top-level item
-        component.selectSubMenu(); // Descend into the first sub-menu
+        // Select the first top-level item
+        component.select( 0 );
+
+        // Descend into the first sub-menu
+        component.selectSubMenu();
     });
 
     assert.equal(
@@ -313,16 +340,177 @@ test( "selectParent() selects a sub-menu's parent item", function( assert ) {
     );
 });
 
-/* TODO
-skip( 'selectPrevious() selects ', function() {
+test( 'selectPrevious() selects the previous sibling menu item', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Select the second top-level item
+        component.select( 1 );
+
+        // Select previous; should be the first top-level item
+        component.selectPrevious();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'The first top-level item is selected'
+    );
+
+    Ember.run( () => {
+        // Select previous again; should wrap and select the second top-level item
+        component.selectPrevious();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'The second top-level item is selected'
+    );
 });
 
-skip( 'selectRight() selects ', function() {
+test( 'selectRight() selects an item in the "right" direction', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        component.select( 0 );
+        component.selectRight();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'The second top-level item is selected'
+    );
+
+    Ember.run( () => {
+        // Should wrap around back to the first item
+        component.selectRight();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'The first top-level item is selected'
+    );
+
+    Ember.run( () => {
+        // Descend "down" into the first sub-menu
+        component.selectDown();
+
+        // Select "right" to the first nested sub-menu's first sub-item
+        component.selectRight();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ].items[ 0 ],
+        "The first nested sub-menu's first sub-item is selected"
+    );
 });
 
-skip( 'selectSubMenu() selects ', function() {
+test( 'selectSubMenu() selects a sub-menu item', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Select the first top-level item
+        component.select( 0 );
+
+        // Select the first sub-menu
+        component.selectSubMenu();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ],
+        'The first sub-menu item is selected'
+    );
 });
 
-skip( 'selectUp() selects ', function() {
+test( 'selectUp() selects an item in the "up" direction', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Select the first top-level item
+        component.select( 0 );
+
+        // Select the first sub-menu
+        component.selectSubMenu();
+
+        // Select the second sub-menu item
+        component.selectDown();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 1 ],
+        'The second sub-menu item is selected'
+    );
+
+    Ember.run( () => {
+        // Select "up" to the first sub-menu item
+        component.selectUp();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ],
+        'The first sub-menu item is selected'
+    );
+
+    Ember.run( () => {
+        // Select "up" again to select the sub-menu's parent
+        component.selectUp();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'The first top-level item is selected'
+    );
 });
-*/
+
+// These tests rely on being able to instantiate the ember-stream/streamService
+skip( 'Stream action "hideAll" triggers hideAll()', function() {});
+skip( 'Stream action "select" triggers select()', function() {} );
+skip( 'Stream action "selectDown" triggers selectDown()', function() {} );
+skip( 'Stream action "selectLeft" triggers selectLeft()', function() {} );
+skip( 'Stream action "selectNext" triggers selectNext()', function() {} );
+skip( 'Stream action "selectParent" triggers selectParent()', function() {} );
+skip( 'Stream action "selectPrevious" triggers selectPrevious()', function() {} );
+skip( 'Stream action "selectRight" triggers selectRight()', function() {} );
+skip( 'Stream action "selectSubMenu" triggers selectSubMenu()', function() {} );
+skip( 'Stream action "selectUp" triggers selectUp()', function() {} );
+skip( 'Stream action "showAll" triggers showAll()', function() {} );

@@ -274,11 +274,9 @@ export default Ember.Component.extend( StreamEnabled, {
                 return error( 'Current selection is undefined' );
             }
 
-            const currentItems = Ember.get( selection, 'items' );
-
-            if ( !currentItems ) {
-                return error( 'Current items array is undefined' );
-            }
+            const contextItems = selectionsLength > 1 ?
+                Ember.get( selections.objectAt( selectionsLength - 2 ), 'items' ) :
+                this.get( 'items' );
 
             const currentItem = Ember.get( selection, 'item' );
 
@@ -286,7 +284,7 @@ export default Ember.Component.extend( StreamEnabled, {
                 return error( 'Current item is undefined' );
             }
 
-            item = currentItems.objectAt( index );
+            item = contextItems.objectAt( index );
 
             if ( !item ) {
                 return error( `Item at index ${index} is undefined` );
@@ -294,10 +292,7 @@ export default Ember.Component.extend( StreamEnabled, {
 
             Ember.set( currentItem, 'selected', false );
             Ember.set( item, 'selected', true );
-            Ember.setProperties( selection, {
-                index,
-                item
-            });
+            Ember.setProperties( selection, { index, item });
         } else {
             const items = this.get( 'items' );
 
@@ -306,15 +301,11 @@ export default Ember.Component.extend( StreamEnabled, {
             }
 
             if ( items.length > 0 ) {
-                item = items[ 0 ];
+                index = Math.min( items.length - 1, index );
+                item = items[ index ];
 
                 Ember.set( item, 'selected', true );
-
-                selections.pushObject({
-                    index: 0,
-                    item,
-                    items
-                });
+                selections.pushObject({ index, item, items });
             }
         }
 
@@ -415,7 +406,7 @@ export default Ember.Component.extend( StreamEnabled, {
             newIndex -= currentItems.length;
         }
 
-        const item = currentItems.get( newIndex );
+        const item = currentItems[ newIndex ];
 
         if ( !item ) {
             return error( `Item with index ${newIndex} is undefined` );
@@ -500,7 +491,7 @@ export default Ember.Component.extend( StreamEnabled, {
             newIndex += currentItems.length;
         }
 
-        const item = currentItems.get( newIndex );
+        const item = currentItems[ newIndex ];
 
         if ( !item ) {
             return error( `Item with index ${newIndex} is undefined` );
