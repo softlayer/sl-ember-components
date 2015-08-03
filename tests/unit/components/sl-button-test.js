@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { skip } from 'qunit';
 
 moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
     unit: true
@@ -132,29 +133,6 @@ test( 'themeClass() returns correct value', function( assert ) {
     );
 });
 
-test( 'openModal property triggers modal to open', function( assert ) {
-    const show = window.sinon.spy();
-
-    const mockModal = {
-        show: show
-    };
-
-    const mockService = {
-        find() {
-            return mockModal;
-        }
-    };
-
-    this.subject({
-        modalService: mockService,
-        openModal: 'test'
-    });
-
-    this.$().click();
-
-    assert.ok( show.calledOnce );
-});
-
 test( 'Button supports click event bubbling', function( assert ) {
     const component = this.subject();
 
@@ -172,3 +150,6 @@ test( 'Button supports click event bubbling', function( assert ) {
         'Button click event will not propagate when bubbles is false'
     );
 });
+
+// This test will need to have the ember-stream/streamService available to test
+skip( 'showModalWithStreamName property triggers modal to open', function() {} );
