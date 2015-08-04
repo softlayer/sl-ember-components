@@ -229,7 +229,9 @@ export default Ember.Component.extend( StreamEnabled, {
     selectedItem: Ember.computed(
         'selections.@each.item',
         function() {
-            return this.get( 'selections.lastObject.item' );
+            const lastItem = this.get( 'selections.lastObject.item' );
+
+            return lastItem ? lastItem : null;
         }
     ),
 
