@@ -2,6 +2,7 @@ import Ember from 'ember';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-button';
+import { isEnumValue, warn } from '../utils/all';
 
 /**
  * Valid size values for the sl-button component
@@ -85,7 +86,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     /**
      * @function
      * @throws {ember.assert} Thrown if the modal is not found in modal service
-     * @returns {undefined}
+     * @returns {Boolean} - The `bubbles` property value
      */
     click() {
         const showModalWithStreamName = this.get( 'showModalWithStreamName' );
@@ -178,7 +179,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * The current label text for the button
      *
      * @function
-     * @returns {String}
+     * @returns {?String}
      */
     currentLabel: Ember.computed(
         'label',
@@ -196,6 +197,8 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
             if ( label ) {
                 return label;
             }
+
+            return null;
         }
     ),
 
@@ -205,21 +208,18 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * @function
      * @throws {ember.assert} Thrown if the supplied `size` value is not one
      *         defined in the enum Size
-     * @returns {?String} Defaults to undefined
+     * @returns {?String}
      */
     sizeClass: Ember.computed(
         'size',
         function() {
             const size = this.get( 'size' );
 
-            Ember.assert(
-                'Error: Invalid size value',
-                Object.keys( Size )
-                    .map( ( key ) => Size[ key ] )
-                    .indexOf( size ) > -1
-            );
+            if ( !isEnumValue( size, Size ) ) {
+                warn( `Invalid size value "${size}"` );
+            }
 
-            let sizeClass;
+            let sizeClass = null;
             switch ( size ) {
                 case Size.EXTRA_SMALL:
                     sizeClass = 'btn-xs';
@@ -251,12 +251,9 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
         function() {
             const theme = this.get( 'theme' );
 
-            Ember.assert(
-                'Error: Invalid theme value',
-                Object.keys( Theme )
-                    .map( ( key ) => Theme[ key ] )
-                    .indexOf( theme ) > -1
-            );
+            if ( !isEnumValue( theme, Theme ) ) {
+                warn( `Invalid theme value "${theme}"` );
+            }
 
             return `btn-${theme}`;
         }

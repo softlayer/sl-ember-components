@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import layout from '../templates/components/sl-menu';
-import { error, warn } from '../utils/logger';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
+import layout from '../templates/components/sl-menu';
+import { warn } from '../utils/all';
 
 /**
  * Direction string values for selecting menu items in an abstract direction
@@ -242,7 +242,7 @@ export default Ember.Component.extend( StreamEnabled, {
      * Clear the `selection` data
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @returns {undefined}
      */
     clearSelection() {
         const selections = this.get( 'selections' );
@@ -252,8 +252,6 @@ export default Ember.Component.extend( StreamEnabled, {
         });
 
         this.set( 'selection', null );
-
-        return true;
     },
 
     /**
@@ -272,7 +270,8 @@ export default Ember.Component.extend( StreamEnabled, {
      *
      * @function
      * @param {Number} index - The index of the item to select
-     * @returns {Boolean} - True unless an error state is detected
+     * @throws {ember/Error}
+     * @returns {undefined}
      */
     select( index ) {
         const selections = this.get( 'selections' );
@@ -283,7 +282,7 @@ export default Ember.Component.extend( StreamEnabled, {
             const selection = selections.objectAt( selectionsLength - 1 );
 
             if ( !selection ) {
-                return error( 'Current selection is undefined' );
+                throw new Ember.Error( 'Current selection is undefined' );
             }
 
             const contextItems = selectionsLength > 1 ?
@@ -293,13 +292,13 @@ export default Ember.Component.extend( StreamEnabled, {
             const currentItem = Ember.get( selection, 'item' );
 
             if ( !currentItem ) {
-                return error( 'Current item is undefined' );
+                throw new Ember.Error( 'Current item is undefined' );
             }
 
             item = contextItems.objectAt( index );
 
             if ( !item ) {
-                return error( `Item at index ${index} is undefined` );
+                throw new Ember.Error( `Item at index ${index} is undefined` );
             }
 
             Ember.set( currentItem, 'selected', false );
@@ -309,7 +308,7 @@ export default Ember.Component.extend( StreamEnabled, {
             const items = this.get( 'items' );
 
             if ( !items ) {
-                return error( 'Component `items` is undefined' );
+                throw new Ember.Error( 'Component `items` is undefined' );
             }
 
             if ( items.length > 0 ) {
@@ -320,8 +319,6 @@ export default Ember.Component.extend( StreamEnabled, {
                 selections.pushObject({ index, item, items });
             }
         }
-
-        return true;
     },
 
     /**
@@ -333,20 +330,18 @@ export default Ember.Component.extend( StreamEnabled, {
      * menu item.
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @returns {undefined}
      */
     selectDown() {
         const selectionsLength = this.get( 'selections' ).length;
 
         if ( 1 === selectionsLength ) {
-            return this.selectSubMenu();
+            this.selectSubMenu();
+        } else if ( selectionsLength > 1 ) {
+            this.selectNext();
+        } else {
+            this.select( 0 );
         }
-
-        if ( selectionsLength > 1 ) {
-            return this.selectNext();
-        }
-
-        return this.select( 0 );
     },
 
     /**
@@ -357,59 +352,56 @@ export default Ember.Component.extend( StreamEnabled, {
      * Inside a sub-menu, "left" corresponds to parsing back to the parent item
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @returns {undefined}
      */
     selectLeft() {
         const selectionsLength = this.get( 'selections' ).length;
 
         if ( 1 === selectionsLength ) {
-            return this.selectPrevious();
+            this.selectPrevious();
+        } else if ( selectionsLength > 1 ) {
+            this.selectParent();
         }
-
-        if ( selectionsLength > 1 ) {
-            return this.selectParent();
-        }
-
-        return true;
     },
 
     /**
      * Select the next sibling in the current context
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @throws {ember/Error}
+     * @returns {undefined}
      */
     selectNext() {
         const selections = this.get( 'selections' );
 
         // Select the first item from `items` if nothing is currently selected
         if ( selections.length < 1 ) {
-            return this.select( 0 );
+            this.select( 0 );
+            return;
         }
 
         const selection = selections.objectAt( selections.length - 1 );
         const currentItems = Ember.get( selection, 'items' );
 
         if ( !currentItems ) {
-            return error( 'Current selection items are undefined' );
+            throw new Ember.Error( 'Current selection items are undefined' );
         }
 
         if ( currentItems.length < 2 ) {
-            return warn(
-                '`selectNext` triggered with fewer than two siblings in context'
-            );
+            warn( '`selectNext` triggered with fewer than two siblings in context' );
+            return;
         }
 
         const currentIndex = Ember.get( selection, 'index' );
 
         if ( Ember.typeOf( currentIndex ) !== 'number' ) {
-            return error( 'Current index is not valid' );
+            throw new Ember.Error( 'Current index is not valid' );
         }
 
         const currentItem = Ember.get( selection, 'item' );
 
         if ( !currentItem ) {
-            return error( 'Current item is undefined' );
+            throw new Ember.Error( 'Current item is undefined' );
         }
 
         let newIndex = currentIndex + 1;
@@ -421,7 +413,7 @@ export default Ember.Component.extend( StreamEnabled, {
         const item = currentItems[ newIndex ];
 
         if ( !item ) {
-            return error( `Item with index ${newIndex} is undefined` );
+            throw new Ember.Error( `Item with index ${newIndex} is undefined` );
         }
 
         Ember.set( currentItem, 'selected', false );
@@ -431,70 +423,68 @@ export default Ember.Component.extend( StreamEnabled, {
             index: newIndex,
             item
         });
-
-        return true;
     },
 
     /**
      * Select the parent menu from the current context
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @throws {ember/Error}
+     * @returns {undefined}
      */
     selectParent() {
         const selections = this.get( 'selections' );
 
         if ( selections.length <= 1 ) {
-            return warn( '`selectParent` triggered with no parent context' );
+            warn( '`selectParent` triggered with no parent context' );
         }
 
         const currentItem = Ember.get( selections.popObject(), 'item' );
 
         if ( !currentItem ) {
-            return error( 'Invalid last menu item' );
+            throw new Ember.Error( 'Invalid last menu item' );
         }
 
         Ember.set( currentItem, 'selected', false );
-
-        return true;
     },
 
     /**
      * Select the previous sibling in the current context
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @throws {ember/Error}
+     * @returns {undefined}
      */
     selectPrevious() {
         const selections = this.get( 'selections' );
 
         if ( selections.length < 1 ) {
-            return warn( '`selectPrevious` triggered with no siblings' );
+            warn( '`selectPrevious` triggered with no siblings' );
+            return;
         }
 
         const selection = selections.objectAt( selections.length - 1 );
         const currentItems = Ember.get( selection, 'items' );
 
         if ( !currentItems ) {
-            return error( 'Current items are undefined' );
+            throw new Ember.Error( 'Current items are undefined' );
         }
 
         if ( currentItems.length < 2 ) {
-            return warn(
-                '`selectPrevious` triggered with no siblings in context'
-            );
+            warn( '`selectPrevious` triggered with no siblings in context' );
+            return;
         }
 
         const currentIndex = Ember.get( selection, 'index' );
 
         if ( Ember.typeOf( currentIndex ) !== 'number' ) {
-            return error( 'Current index is not valid' );
+            throw new Ember.Error( 'Current index is not valid' );
         }
 
         const currentItem = Ember.get( selection, 'item' );
 
         if ( !currentItem ) {
-            return error( 'Current item is undefined' );
+            throw new Ember.Error( 'Current item is undefined' );
         }
 
         let newIndex = currentIndex - 1;
@@ -506,7 +496,7 @@ export default Ember.Component.extend( StreamEnabled, {
         const item = currentItems[ newIndex ];
 
         if ( !item ) {
-            return error( `Item with index ${newIndex} is undefined` );
+            throw new Ember.Error( `Item with index ${newIndex} is undefined` );
         }
 
         Ember.set( currentItem, 'selected', false );
@@ -516,8 +506,6 @@ export default Ember.Component.extend( StreamEnabled, {
             index: newIndex,
             item
         });
-
-        return true;
     },
 
     /**
@@ -529,76 +517,66 @@ export default Ember.Component.extend( StreamEnabled, {
      * it has one.
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @throws {ember/Error}
+     * @returns {undefined}
      */
-    selectRight: Ember.on(
-        'selectRight',
-        function() {
-            const selections = this.get( 'selections' );
+    selectRight() {
+        const selections = this.get( 'selections' );
 
-            if ( 1 === selections.length ) {
-                return this.selectNext();
-            }
-
-            if ( selections.length > 1 ) {
-                return this.selectSubMenu();
-            }
-
-            return true;
+        if ( 1 === selections.length ) {
+            this.selectNext();
+        } else if ( selections.length > 1 ) {
+            this.selectSubMenu();
         }
-    ),
+    },
 
     /**
      * Select the sub-menu in the current context
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @throws {ember/Error}
+     * @returns {undefined}
      */
-    selectSubMenu: Ember.on(
-        'selectSubMenu',
-        function() {
-            const selections = this.get( 'selections' );
+    selectSubMenu() {
+        const selections = this.get( 'selections' );
 
-            if ( selections.length < 1 ) {
-                return true;
-            }
-
-            const selection = selections.get( selections.length - 1 );
-
-            if ( !selection ) {
-                return error( 'Last item of `selection` is invalid' );
-            }
-
-            const currentItem = Ember.get( selection, 'item' );
-
-            if ( !currentItem ) {
-                return error( 'Last selection menu item is invalid' );
-            }
-
-            const items = Ember.get( currentItem, 'items' );
-
-            if ( !items ) {
-                return true;
-            }
-
-            const index = 0;
-            const item = items[ index ];
-
-            if ( !item ) {
-                return error( 'First item in selected sub-menu is undefined' );
-            }
-
-            Ember.set( item, 'selected', true );
-
-            selections.pushObject({
-                index,
-                item,
-                items
-            });
-
-            return true;
+        if ( selections.length < 1 ) {
+            return;
         }
-    ),
+
+        const selection = selections.get( selections.length - 1 );
+
+        if ( !selection ) {
+            throw new Ember.Error( 'Last item of `selection` is invalid' );
+        }
+
+        const currentItem = Ember.get( selection, 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Last selection menu item is invalid' );
+        }
+
+        const items = Ember.get( currentItem, 'items' );
+
+        if ( !items ) {
+            return;
+        }
+
+        const index = 0;
+        const item = items[ index ];
+
+        if ( !item ) {
+            throw new Ember.Error( 'First item in selected sub-menu is undefined' );
+        }
+
+        Ember.set( item, 'selected', true );
+
+        selections.pushObject({
+            index,
+            item,
+            items
+        });
+    },
 
     /**
      * Select a menu item in the "up" direction
@@ -610,29 +588,28 @@ export default Ember.Component.extend( StreamEnabled, {
      * sibling menu item.
      *
      * @function
-     * @returns {Boolean} - True unless an error state is detected
+     * @throws {ember/Error}
+     * @returns {undefined}
      */
-    selectUp: Ember.on(
-        'selectUp',
-        function() {
-            const selections = this.get( 'selections' );
-            const selectionsLength = selections.length;
+    selectUp() {
+        const selections = this.get( 'selections' );
+        const selectionsLength = selections.length;
 
-            if ( selectionsLength < 1 ) {
-                return true;
-            }
-
-            if ( 2 === selectionsLength ) {
-                const selection = selections.get( 1 );
-
-                if ( 0 === Ember.get( selection, 'index' ) ) {
-                    return this.selectParent();
-                }
-            }
-
-            return this.selectPrevious();
+        if ( selectionsLength < 1 ) {
+            return;
         }
-    ),
+
+        if ( 2 === selectionsLength ) {
+            const selection = selections.get( 1 );
+
+            if ( 0 === Ember.get( selection, 'index' ) ) {
+                this.selectParent();
+                return;
+            }
+        }
+
+        this.selectPrevious();
+    },
 
     /**
      * Trigger the showAll menu-item
@@ -640,11 +617,8 @@ export default Ember.Component.extend( StreamEnabled, {
      * @function
      * @returns {undefined}
      */
-    showAll: Ember.on(
-        'showAll',
-        function() {
-            this.set( 'showingAll', true );
-        }
-    )
+    showAll() {
+        this.set( 'showingAll', true );
+    }
 
 });
