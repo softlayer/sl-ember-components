@@ -38,6 +38,7 @@ export { Theme };
 /**
  * @module
  * @augments ember/Component
+ * @augments ember-stream/mixins/stream-enabled
  * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
