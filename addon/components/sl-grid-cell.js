@@ -144,20 +144,18 @@ export default Ember.Component.extend({
      * @function
      * @throws {ember.assert} Thrown when supplied `size` value is one not
      *         defined in enum ColumnSize
-     * @returns {String|undefined}
+     * @returns {String}
      */
     sizeClass: Ember.computed(
         'column.size',
         function() {
             const size = this.get( 'column.size' );
 
-            if ( 'string' === Ember.typeOf( size ) ) {
-                if ( !containsValue( size, ColumnSize ) ) {
-                    warn( `Invalid column size value "${size}'` );
-                }
-
-                return 'column-' + size;
+            if ( !containsValue( size, ColumnSize ) ) {
+                warn( `Invalid column size value "${size}'` );
             }
+
+            return 'column-' + size;
         }
     ),
 
