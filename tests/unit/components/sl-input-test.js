@@ -234,6 +234,37 @@ test( 'Readonly property, makes the input readonly', function( assert ) {
     );
 });
 
+test( 'Popover is initialized with the correct options', function( assert ) {
+    const popoverText = 'Popover text';
+
+    this.subject({
+        popover: popoverText
+    });
+
+    this.render();
+
+    const data = this.$().data();
+    const popoverData = data[ 'bs.popover' ];
+
+    assert.strictEqual(
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    assert.equal(
+        popoverData.options.trigger,
+        'focus',
+        'Popover trigger is "focus"'
+    );
+
+    assert.equal(
+        popoverData.options.content,
+        popoverText,
+        'Popover text is set correctly'
+    );
+});
+
 test( 'Typeahead is initialized and has the correct classes', function( assert ) {
     const colors = [
         'Black',
