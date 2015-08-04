@@ -48,7 +48,7 @@ test( 'Class "has-sub-menu" is present when bound item has items array', functio
     );
 
     Ember.run( () => {
-        component.set( 'item', { items: [] } );
+        component.set( 'item', { items: [ { label: '' } ] } );
     });
 
     assert.ok(

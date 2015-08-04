@@ -151,11 +151,17 @@ export default Ember.Component.extend({
         function() {
             const size = this.get( 'column.size' );
 
-            if ( !containsValue( size, ColumnSize ) ) {
-                warn( `Invalid column size value "${size}'` );
+            let sizeString = null;
+
+            if ( 'string' === Ember.typeOf( size ) ) {
+                if ( !containsValue( size, ColumnSize ) ) {
+                    warn( `Invalid column size value "${size}"` );
+                }
+
+                sizeString = 'column-' + size;
             }
 
-            return 'column-' + size;
+            return sizeString;
         }
     ),
 
