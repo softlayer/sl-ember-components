@@ -116,7 +116,7 @@ export default Ember.Component.extend({
     hasSubItems: Ember.computed(
         'item',
         function() {
-            return !!this.get( 'item.items' );
+            return !Ember.isEmpty( this.get( 'item.items' ) );
         }
     ),
 
