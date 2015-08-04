@@ -121,7 +121,7 @@ export default Ember.Component.extend( StreamEnabled, {
     items: null,
 
     /**
-     * An of objects containing data about the selected states
+     * An array of objects containing data about the selected states
      *
      * @private
      * @type {?ember/Array}
