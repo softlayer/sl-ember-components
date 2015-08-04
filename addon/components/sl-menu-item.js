@@ -107,6 +107,12 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Observers
 
+    /**
+     * Whether or not the `item` has a sub-array of items
+     *
+     * @function
+     * @returns {Boolean} - True if the item has sub-items
+     */
     hasSubItems: Ember.computed(
         'item',
         function() {
