@@ -2,7 +2,7 @@ import Ember from 'ember';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-button';
-import { isEnumValue, warn } from '../utils/all';
+import { containsValue, warn } from '../utils/all';
 
 /**
  * Valid size values for the sl-button component
@@ -215,7 +215,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
         function() {
             const size = this.get( 'size' );
 
-            if ( !isEnumValue( size, Size ) ) {
+            if ( !containsValue( size, Size ) ) {
                 warn( `Invalid size value "${size}"` );
             }
 
@@ -251,7 +251,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
         function() {
             const theme = this.get( 'theme' );
 
-            if ( !isEnumValue( theme, Theme ) ) {
+            if ( !containsValue( theme, Theme ) ) {
                 warn( `Invalid theme value "${theme}"` );
             }
 

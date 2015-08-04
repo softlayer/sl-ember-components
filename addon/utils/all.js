@@ -1,7 +1,7 @@
-import isEnumValue from './isEnumValue';
+import containsValue from './containsValue';
 import warn from './warn';
 
 export {
-    isEnumValue,
+    containsValue,
     warn
 };

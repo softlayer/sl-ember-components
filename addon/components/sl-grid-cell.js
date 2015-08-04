@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-grid-cell';
+import { containsValue, warn } from '../utils/all';
 
 /**
  * Valid alignment values for columns
@@ -106,12 +107,9 @@ export default Ember.Component.extend({
                 return null;
             }
 
-            Ember.assert(
-                `Error: Invalid column align value "${align}"`,
-                Object.keys( ColumnAlign )
-                    .map( ( key ) => ColumnAlign[ key ] )
-                    .indexOf( align ) > -1
-            );
+            if ( !containsValue( align, ColumnAlign ) ) {
+                warn( `Invalid column align value "${align}"` );
+            }
 
             let alignment = null;
 
@@ -154,12 +152,9 @@ export default Ember.Component.extend({
             const size = this.get( 'column.size' );
 
             if ( 'string' === Ember.typeOf( size ) ) {
-                Ember.assert(
-                    `Error: Invalid column size value "${size}"`,
-                    Object.keys( ColumnSize )
-                        .map( ( key ) => ColumnSize[ key ] )
-                        .indexOf( size ) > -1
-                );
+                if ( !containsValue( size, ColumnSize ) ) {
+                    warn( `Invalid column size value "${size}'` );
+                }
 
                 return 'column-' + size;
             }
