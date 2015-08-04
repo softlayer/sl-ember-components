@@ -130,10 +130,13 @@ export default Ember.Component.extend({
         'item',
         function() {
             const subItems = this.get( 'item.items' );
+            let items = null;
 
             if ( subItems ) {
-                return new Ember.A( subItems );
+                items = new Ember.A( subItems );
             }
+
+            return items;
         }
     )
 
