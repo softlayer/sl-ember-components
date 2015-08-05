@@ -4,24 +4,6 @@ import layout from '../templates/components/sl-menu';
 import { warn } from '../utils/all';
 
 /**
- * Direction string values for selecting menu items in an abstract direction
- *
- * @memberof module:components/sl-menu
- * @enum {String}
- */
-const Direction = Object.freeze({
-    'DOWN': 'down',
-    'LEFT': 'left',
-    'NEXT': 'next',
-    'PARENT': 'parent',
-    'PREVIOUS': 'previous',
-    'RIGHT': 'right',
-    'SUB_MENU': 'subMenu',
-    'UP': 'up'
-});
-export { Direction };
-
-/**
  * @module
  * @augments ember/Component
  * @augments ember-stream/mixins/stream-enabled
@@ -163,60 +145,57 @@ export default Ember.Component.extend( StreamEnabled, {
         function() {
             const stream = this.get( 'stream' );
 
-            if ( stream ) {
-                stream.on( 'hideAll', () => {
-                    this.hideAll();
-                });
-
-                stream.on( 'showAll', () => {
-                    this.showAll();
-                });
-
-                stream.on( 'select', ( indexOrDirection ) => {
-                    if ( 'number' === Ember.typeOf( indexOrDirection ) ) {
-                        this.select( indexOrDirection );
-                        return;
-                    }
-
-                    switch ( indexOrDirection ) {
-                        case Direction.DOWN:
-                            this.selectDown();
-                            break;
-
-                        case Direction.LEFT:
-                            this.selectLeft();
-                            break;
-
-                        case Direction.NEXT:
-                            this.selectNext();
-                            break;
-
-                        case Direction.PARENT:
-                            this.selectParent();
-                            break;
-
-                        case Direction.PREVIOUS:
-                            this.selectPrevious();
-                            break;
-
-                        case Direction.RIGHT:
-                            this.selectRight();
-                            break;
-
-                        case Direction.SUB_MENU:
-                            this.selectSubMenu();
-                            break;
-
-                        case Direction.UP:
-                            this.selectUp();
-                            break;
-
-                        default:
-                            warn( `Received "select" stream action with invalid selection, "${indexOrDirection}"` );
-                            break;
-                    }
-                });
+            if ( !stream ) {
+                return;
             }
+
+            stream.on( 'doAction', () => {
+                this.doAction();
+            });
+
+            stream.on( 'hideAll', () => {
+                this.hideAll();
+            });
+
+            stream.on( 'select', ( index ) => {
+                this.select( index );
+            });
+
+            stream.on( 'selectDown', () => {
+                this.selectDown();
+            });
+
+            stream.on( 'selectLeft', () => {
+                this.selectLeft();
+            });
+
+            stream.on( 'selectNext', () => {
+                this.selectNext();
+            });
+
+            stream.on( 'selectParent', () => {
+                this.selectParent();
+            });
+
+            stream.on( 'selectPrevious', () => {
+                this.selectPrevious();
+            });
+
+            stream.on( 'selectRight', () => {
+                this.selectRight();
+            });
+
+            stream.on( 'selectSubMenu', () => {
+                this.selectSubMenu();
+            });
+
+            stream.on( 'selectUp', () => {
+                this.selectUp();
+            });
+
+            stream.on( 'showAll', () => {
+                this.showAll();
+            });
         }
     ),
 
@@ -252,6 +231,24 @@ export default Ember.Component.extend( StreamEnabled, {
         });
 
         this.set( 'selection', null );
+    },
+
+    /**
+     * Perform the currently selected item's `action`
+     *
+     * @function
+     * @returns {undefined}
+     */
+    doAction() {
+        const selectedItem = this.get( 'selectedItem' );
+
+        if ( selectedItem ) {
+            const action = Ember.get( selectedItem, 'action' );
+
+            if ( action ) {
+                this.sendAction( 'action', action, Ember.get( selectedItem, 'data' ) );
+            }
+        }
     },
 
     /**

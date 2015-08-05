@@ -27,6 +27,21 @@
     </div>
 </div>
 
+<p>This demo app showcases the following keybindings set up to trigger <a href="#stream-actions">stream actions</a>:</p>
+<ul>
+    <li>Escape key: hideAll</li>
+    <li>Key 0: showAll</li>
+    <li>Keys 1-9: select( 0-8 )</li>
+    <li>Tab: selectNext</li>
+    <li>Shift+tab: selectPrevious</li>
+    <li>Enter: doAction</li>
+    <li>Up key: selectUp</li>
+    <li>Left key: selectLeft</li>
+    <li>Right key: selectRight</li>
+    <li>Down key: selectDown</li>
+    <li><strong>-</strong> key: selectSubMenu</li>
+</ul>
+
 <hr>
 
 <h3>Properties</h3>
@@ -57,31 +72,33 @@
 
 <hr>
 
-<h3>Stream Actions</h3>
+<h3 id="stream-actions">Stream Actions</h3>
 
 <p>If the <code>streamName</code> property is set on the component, it will register a stream named that value, listen for actions matching the following names, and act accordingly.</p>
+
+{{#property-text name="doAction"}}
+    Trigger the currently selected item's <code>action</code>, sending its optional <code>data</code>
+{{/property-text}}
 
 {{#property-text name="hideAll"}}
     Trigger hiding all of the sub-menus
 {{/property-text}}
 
 {{#property-text name="select"}}
-    Select an item by its `index` in the current selected context
+    Select an item by its index <em>{Number}</em> in the current selected context
 {{/property-text}}
 
 {{#property-text name="selectDown"}}
-    <p>Select an item "down":</p>
     <ul>
-        <li>In the top-level menu, "down" selects the first item in the current selection's sub-menu</li>
-        <li>In a sub-menu, "down" selects the next sibling item, wrapping around to the top when necessary</li>
+        <li>In the top-level menu, select the first item in the current selection's sub-menu</li>
+        <li>In a sub-menu, select the next sibling item, wrapping around to the top when necessary</li>
     </ul>
 {{/property-text}}
 
 {{#property-text name="selectLeft"}}
-    <p>Select an item "left":</p>
     <ul>
-        <li>In the top-level menu, "left" selects the previous sibling item</li>
-        <li>In a sub-menu, "left" selects the parent menu</li>
+        <li>In the top-level menu, select the previous sibling item</li>
+        <li>In a sub-menu, select the parent menu</li>
     </ul>
 {{/property-text}}
 
@@ -98,10 +115,9 @@
 {{/property-text}}
 
 {{#property-text name="selectRight"}}
-    <p>Select an item "right":</p>
     <ul>
-        <li>In the top-level menu, "right" selects the next sibling item</li>
-        <li>An a sub-menu, "right" selects the first item in the current item's sub-menu</li>
+        <li>In the top-level menu, select the next sibling item</li>
+        <li>In a sub-menu, select the first item in the current item's sub-menu</li>
     </ul>
 {{/property-text}}
 
@@ -110,11 +126,10 @@
 {{/property-text}}
 
 {{#property-text name="selectUp"}}
-    <p>Select an item "up":</p>
     <ul>
-        <li>In the top-level menu, "up" does not select anything different</li>
-        <li>On the first item of the first level of sub-menu, "up" selects the parent item</li>
-        <li>On any other sub-menu item, "up" selects the previous sibling, wrapping around the list when necessary</li>
+        <li>In the top-level menu, do not select anything different</li>
+        <li>On the first item of the first level of sub-menu, select the parent item</li>
+        <li>On any other sub-menu item, select the previous sibling, wrapping around the list when necessary</li>
     </ul>
 {{/property-text}}
 

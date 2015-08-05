@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
-import { Direction as MenuDirection } from 'sl-ember-components/components/sl-menu';
 
 export default Ember.Controller.extend( StreamEnabled, {
     actions: {
@@ -21,16 +20,13 @@ export default Ember.Controller.extend( StreamEnabled, {
                     case 9: // Tab key
                         streamService.send(
                             menuStreamName,
-                            'select',
-                            event.shiftKey ?
-                                MenuDirection.PREVIOUS :
-                                MenuDirection.NEXT
+                            event.shiftKey ? 'selectPrevious' : 'selectNext'
                         );
                         event.preventDefault();
                         break;
 
                     case 13: // Enter key
-                        streamService.send( menuStreamName, 'select', MenuDirection.SUB_MENU );
+                        streamService.send( menuStreamName, 'doAction' );
                         break;
 
                     case 27: // Escape key
@@ -38,22 +34,22 @@ export default Ember.Controller.extend( StreamEnabled, {
                         break;
 
                     case 37: // Left arrow key
-                        streamService.send( menuStreamName, 'select', MenuDirection.LEFT );
+                        streamService.send( menuStreamName, 'selectLeft' );
                         event.preventDefault();
                         break;
 
                     case 38: // Up arrow key
-                        streamService.send( menuStreamName, 'select', MenuDirection.UP );
+                        streamService.send( menuStreamName, 'selectUp' );
                         event.preventDefault();
                         break;
 
                     case 39: // Right arrow key
-                        streamService.send( menuStreamName, 'select', MenuDirection.RIGHT );
+                        streamService.send( menuStreamName, 'selectRight' );
                         event.preventDefault();
                         break;
 
                     case 40: // Down arrow key
-                        streamService.send( menuStreamName, 'select', MenuDirection.DOWN );
+                        streamService.send( menuStreamName, 'selectDown' );
                         event.preventDefault();
                         break;
 
@@ -75,7 +71,7 @@ export default Ember.Controller.extend( StreamEnabled, {
 
                     case 189: // - key
                         if ( 189 !== lastPressedKey ) {
-                            streamService.send( menuStreamName, 'select', MenuDirection.SUB_MENU );
+                            streamService.send( menuStreamName, 'selectSubMenu' );
                         }
                         break;
                 }
