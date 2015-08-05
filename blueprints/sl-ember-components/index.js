@@ -17,6 +17,9 @@ module.exports = {
                 name: 'moment-timezone',
                 target: '~0.4.0'
             }, {
+                name: 'rxjs',
+                target: '~2.5.2'
+            }, {
                 name: 'select2',
                 target: '~3.5.2'
             }, {
