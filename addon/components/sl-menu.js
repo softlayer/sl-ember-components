@@ -394,7 +394,7 @@ export default Ember.Component.extend( StreamEnabled, {
 
         const currentIndex = Ember.get( selection, 'index' );
 
-        if ( Ember.typeOf( currentIndex ) !== 'number' ) {
+        if ( 'number' !== Ember.typeOf( currentIndex ) ) {
             throw new Ember.Error( 'Current index is not valid' );
         }
 
