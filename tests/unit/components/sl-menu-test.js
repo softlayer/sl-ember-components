@@ -2,6 +2,14 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 
+const mockStream = {
+    actions: {},
+
+    on( actionName, handler ) {
+        this.actions[ actionName ] = handler;
+    }
+};
+
 const testItems = new Ember.A([
     {
         action: 'firstTest',
@@ -551,15 +559,177 @@ test( 'selectPrevious() shows all when at the beginning of the context', functio
     );
 });
 
-// These tests rely on being able to instantiate the ember-stream/streamService
-skip( 'Stream action "hideAll" triggers hideAll()', function() {});
-skip( 'Stream action "select" triggers select()', function() {} );
-skip( 'Stream action "selectDown" triggers selectDown()', function() {} );
-skip( 'Stream action "selectLeft" triggers selectLeft()', function() {} );
-skip( 'Stream action "selectNext" triggers selectNext()', function() {} );
-skip( 'Stream action "selectParent" triggers selectParent()', function() {} );
-skip( 'Stream action "selectPrevious" triggers selectPrevious()', function() {} );
-skip( 'Stream action "selectRight" triggers selectRight()', function() {} );
-skip( 'Stream action "selectSubMenu" triggers selectSubMenu()', function() {} );
-skip( 'Stream action "selectUp" triggers selectUp()', function() {} );
-skip( 'Stream action "showAll" triggers showAll()', function() {} );
+test( 'Stream action "doAction" triggers doAction()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const doActionSpy = window.sinon.spy( component, 'doAction' );
+
+    mockStream.actions[ 'doAction' ]();
+    assert.ok(
+        doActionSpy.called,
+        'doAction method was called'
+    );
+});
+
+test( 'Stream action "hideAll" triggers hideAll()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const doActionSpy = window.sinon.spy( component, 'doAction' );
+
+    mockStream.actions[ 'doAction' ]();
+    assert.ok(
+        doActionSpy.called,
+        'doAction method was called'
+    );
+});
+
+test( 'Stream action "select" triggers select()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectSpy = window.sinon.spy( component, 'select' );
+
+    mockStream.actions[ 'select' ]( 0 );
+    assert.ok(
+        selectSpy.called,
+        'select method was called'
+    );
+});
+
+test( 'Stream action "selectDown" triggers selectDown()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectDownSpy = window.sinon.spy( component, 'selectDown' );
+
+    mockStream.actions[ 'selectDown' ]();
+    assert.ok(
+        selectDownSpy.called,
+        'selectDown method was called'
+    );
+});
+
+test( 'Stream action "selectLeft" triggers selectLeft()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectLeftSpy = window.sinon.spy( component, 'selectLeft' );
+
+    mockStream.actions[ 'selectLeft' ]();
+    assert.ok(
+        selectLeftSpy.called,
+        'selectLeft method was called'
+    );
+});
+
+test( 'Stream action "selectNext" triggers selectNext()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectNextSpy = window.sinon.spy( component, 'selectNext' );
+
+    mockStream.actions[ 'selectNext' ]();
+    assert.ok(
+        selectNextSpy.called,
+        'selectNext method was called'
+    );
+});
+
+test( 'Stream action "selectParent" triggers selectParent()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectParentSpy = window.sinon.spy( component, 'selectParent' );
+
+    Ember.run( () => {
+        // An error occurs if selectParent() is triggered without any parent
+        // context, so we need to descend into the first sub-menu first
+        component.select( 0 );
+        component.selectSubMenu();
+    });
+
+    mockStream.actions[ 'selectParent' ]();
+    assert.ok(
+        selectParentSpy.called,
+        'selectParent method was called'
+    );
+});
+
+test( 'Stream action "selectPrevious" triggers selectPrevious()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectPreviousSpy = window.sinon.spy( component, 'selectPrevious' );
+
+    mockStream.actions[ 'selectPrevious' ]();
+    assert.ok(
+        selectPreviousSpy.called,
+        'selectPrevious method was called'
+    );
+});
+
+test( 'Stream action "selectRight" triggers selectRight()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectRightSpy = window.sinon.spy( component, 'selectRight' );
+
+    mockStream.actions[ 'selectRight' ]();
+    assert.ok(
+        selectRightSpy.called,
+        'selectRight method was called'
+    );
+});
+
+test( 'Stream action "selectSubMenu" triggers selectSubMenu()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectSubMenuSpy = window.sinon.spy( component, 'selectSubMenu' );
+
+    mockStream.actions[ 'selectSubMenu' ]();
+    assert.ok(
+        selectSubMenuSpy.called,
+        'selectSubMenu method was called'
+    );
+});
+
+test( 'Stream action "selectUp" triggers selectUp()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectUpSpy = window.sinon.spy( component, 'selectUp' );
+
+    mockStream.actions[ 'selectUp' ]();
+    assert.ok(
+        selectUpSpy.called,
+        'selectUp method was called'
+    );
+});
+
+test( 'Stream action "showAll" triggers showAll()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const showAllSpy = window.sinon.spy( component, 'showAll' );
+
+    mockStream.actions[ 'showAll' ]();
+    assert.ok(
+        showAllSpy.called,
+        'showAll method was called'
+    );
+});
