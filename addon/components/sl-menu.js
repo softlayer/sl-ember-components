@@ -295,7 +295,7 @@ export default Ember.Component.extend( StreamEnabled, {
             item = contextItems.objectAt( index );
 
             if ( !item ) {
-                throw new Ember.Error( `Item at index ${index} is undefined` );
+                return;
             }
 
             Ember.set( currentItem, 'selected', false );
