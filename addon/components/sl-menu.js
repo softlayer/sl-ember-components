@@ -283,7 +283,7 @@ export default Ember.Component.extend( StreamEnabled, {
             }
 
             const contextItems = selectionsLength > 1 ?
-                Ember.get( selections.objectAt( selectionsLength - 2 ), 'items' ) :
+                Ember.get( selection, 'items' ) :
                 this.get( 'items' );
 
             const currentItem = Ember.get( selection, 'item' );
