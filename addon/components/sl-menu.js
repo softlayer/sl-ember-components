@@ -489,7 +489,11 @@ export default Ember.Component.extend( StreamEnabled, {
 
         // Select the "show all" option when at the beginning of the top-level
         // and `allowShowAll` is enabled
-        if ( selection.index === 0 && this.get( 'allowShowAll' ) ) {
+        if (
+            selections.length === 1 &&
+            selection.index === 0 &&
+            this.get( 'allowShowAll' )
+        ) {
             this.clearSelections();
             this.showAll();
             return;
