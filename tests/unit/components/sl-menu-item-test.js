@@ -83,11 +83,6 @@ test( 'Component responds to mouse enter/leave events', function( assert ) {
         'Component is not active by default'
     );
 
-    assert.ok(
-        false === this.$().hasClass( 'active' ),
-        'Rendered element does not have "active" class'
-    );
-
     Ember.run( () => {
         this.$().trigger( 'mouseenter' );
     });
@@ -97,11 +92,6 @@ test( 'Component responds to mouse enter/leave events', function( assert ) {
         'Component is active after mouseenter event'
     );
 
-    assert.ok(
-        this.$().hasClass( 'active' ),
-        'Rendered element has "active" class after mouseenter event'
-    );
-
     Ember.run( () => {
         this.$().trigger( 'mouseleave' );
     });
@@ -109,11 +99,6 @@ test( 'Component responds to mouse enter/leave events', function( assert ) {
     assert.ok(
         false === component.get( 'active' ),
         'Component is inactive after mouseleave event'
-    );
-
-    assert.ok(
-        false === this.$().hasClass( 'active' ),
-        'Rendered element is inactive after mouseleave event'
     );
 });
 
