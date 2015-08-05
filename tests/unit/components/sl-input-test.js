@@ -84,6 +84,12 @@ test( 'Default values are correct', function( assert ) {
         'clickToEdit property false by default'
     );
 
+    assert.equal(
+        component.get( 'type' ),
+        'text',
+        'type property is text by default'
+    );
+
     assert.strictEqual(
         component.get( 'isTypeaheadSetup' ),
         false,

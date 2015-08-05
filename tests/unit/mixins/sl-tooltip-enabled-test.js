@@ -60,7 +60,7 @@ test( 'Default values are set correctly', function( assert ) {
     );
 });
 
-window.QUnit.skip( 'enable() - observes correct properties', function() {
+skip( 'enable() - observes correct properties', function() {
 });
 
 skip( 'enable() - listens to correct event', function() {
