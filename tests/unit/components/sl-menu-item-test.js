@@ -124,3 +124,23 @@ test( 'Bound item.action is triggered when link is clicked', function( assert ) 
 
     this.$( 'a' ).trigger( 'click' );
 });
+
+test( 'Rendered element is correct element type', function( assert ) {
+    assert.ok(
+        this.$().is( 'li' ),
+        'Element is an <li>'
+    );
+});
+
+test( '`subItems` computed property is a wrapped `item.items` array', function( assert ) {
+    const component = this.subject({
+        item: {
+            items: [ { okay: true } ]
+        }
+    });
+
+    assert.ok(
+        component.get( 'subItems' ).objectAt( 0 ).okay,
+        'Parsed `subItems` correctly'
+    );
+});
