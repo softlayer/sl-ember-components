@@ -90,16 +90,16 @@ export default Ember.Controller.extend( StreamEnabled, {
             label: 'Main One',
             items: [
                 {
-                    label: 'Sub One | One',
+                    label: 'Sub 1',
                     action: 'say',
                     data: '"hello"'
                 }, {
-                    label: 'Sub One | Two',
+                    label: 'Sub 2',
                     items: [
                         {
-                            label: 'Sub One | Two | One'
+                            label: 'Sub 1 - 1'
                         }, {
-                            label: 'Sub One | Two | Two'
+                            label: 'Sub 1 - 2'
                         }
                     ]
                 }
