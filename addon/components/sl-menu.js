@@ -218,19 +218,19 @@ export default Ember.Component.extend( StreamEnabled, {
     // Methods
 
     /**
-     * Clear the `selection` data
+     * Clear the `selections` data
      *
      * @function
      * @returns {undefined}
      */
-    clearSelection() {
+    clearSelections() {
         const selections = this.get( 'selections' );
 
         selections.forEach( ( selection ) => {
             Ember.set( selection.item, 'selected', false );
         });
 
-        this.set( 'selection', null );
+        this.set( 'selections', new Ember.A() );
     },
 
     /**
@@ -259,7 +259,7 @@ export default Ember.Component.extend( StreamEnabled, {
      */
     hideAll() {
         this.set( 'showingAll', false );
-        this.clearSelection();
+        this.clearSelections();
     },
 
     /**
@@ -373,6 +373,10 @@ export default Ember.Component.extend( StreamEnabled, {
 
         // Select the first item from `items` if nothing is currently selected
         if ( selections.length < 1 ) {
+            if ( this.get( 'showingAll' ) ) {
+                this.hideAll();
+            }
+
             this.select( 0 );
             return;
         }
@@ -384,15 +388,22 @@ export default Ember.Component.extend( StreamEnabled, {
             throw new Ember.Error( 'Current selection items are undefined' );
         }
 
-        if ( currentItems.length < 2 ) {
-            warn( '`selectNext` triggered with fewer than two siblings in context' );
-            return;
-        }
-
         const currentIndex = Ember.get( selection, 'index' );
 
         if ( 'number' !== Ember.typeOf( currentIndex ) ) {
             throw new Ember.Error( 'Current index is not valid' );
+        }
+
+        // Select the "show all" option if we're on the last context item at the
+        // top level, and the `allowShowAll` is enabled
+        if (
+            selections.length === 1 &&
+            currentItems.length - 1 === currentIndex &&
+            this.get( 'allowShowAll' )
+        ) {
+            this.clearSelections();
+            this.showAll();
+            return;
         }
 
         const currentItem = Ember.get( selection, 'item' );
@@ -455,8 +466,17 @@ export default Ember.Component.extend( StreamEnabled, {
     selectPrevious() {
         const selections = this.get( 'selections' );
 
+        // Check if we're at the top-level context
         if ( selections.length < 1 ) {
-            warn( '`selectPrevious` triggered with no siblings' );
+            // Trigger "show all" if allowed to
+            if ( this.get( 'allowShowAll' ) && !this.get( 'showingAll' ) ) {
+                this.showAll();
+            } else {
+                // Otherwise, select the last item in the context
+                this.hideAll();
+                this.select( this.get( 'items' ).length - 1 );
+            }
+
             return;
         }
 

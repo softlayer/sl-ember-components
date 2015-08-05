@@ -504,6 +504,53 @@ test( 'selectUp() selects an item in the "up" direction', function( assert ) {
     );
 });
 
+test( 'selectNext() shows all at the end of the context', function( assert ) {
+    const component = this.subject({
+        allowShowAll: true,
+        items: testItems
+    });
+
+    Ember.run( () => {
+        // Select the last item option
+        component.select( 2 );
+    });
+
+    assert.ok(
+        false === component.get( 'showingAll' ),
+        'Component is not showing all'
+    );
+
+    Ember.run( () => {
+        component.selectNext();
+    });
+
+    assert.ok(
+        component.get( 'showingAll' ),
+        'Component is now showing all'
+    );
+});
+
+test( 'selectPrevious() shows all when at the beginning of the context', function( assert ) {
+    const component = this.subject({
+        allowShowAll: true,
+        items: testItems
+    });
+
+    assert.ok(
+        false === component.get( 'showingAll' ),
+        'Component is not showing all by default'
+    );
+
+    Ember.run( () => {
+        component.selectPrevious();
+    });
+
+    assert.ok(
+        component.get( 'showingAll' ),
+        'Component is now showing all'
+    );
+});
+
 // These tests rely on being able to instantiate the ember-stream/streamService
 skip( 'Stream action "hideAll" triggers hideAll()', function() {});
 skip( 'Stream action "select" triggers select()', function() {} );
