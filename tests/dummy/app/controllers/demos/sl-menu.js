@@ -23,8 +23,8 @@ export default Ember.Controller.extend( StreamEnabled, {
                             menuStreamName,
                             'select',
                             event.shiftKey ?
-                                MenuDirection.NEXT :
-                                MenuDirection.PREVIOUS
+                                MenuDirection.PREVIOUS :
+                                MenuDirection.NEXT
                         );
                         event.preventDefault();
                         break;
