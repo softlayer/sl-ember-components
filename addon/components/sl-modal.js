@@ -5,6 +5,7 @@ import layout from '../templates/components/sl-modal';
 /**
  * @module
  * @augments ember/Component
+ * @augments ember-stream/mixins/stream-enabled
  */
 export default Ember.Component.extend( StreamEnabled, {
 
