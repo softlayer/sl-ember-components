@@ -487,6 +487,14 @@ export default Ember.Component.extend( StreamEnabled, {
             throw new Ember.Error( 'Current items are undefined' );
         }
 
+        // Select the "show all" option when at the beginning of the top-level
+        // and `allowShowAll` is enabled
+        if ( selection.index === 0 && this.get( 'allowShowAll' ) ) {
+            this.clearSelections();
+            this.showAll();
+            return;
+        }
+
         if ( currentItems.length < 2 ) {
             warn( '`selectPrevious` triggered with no siblings in context' );
             return;
