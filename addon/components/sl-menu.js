@@ -592,10 +592,12 @@ export default Ember.Component.extend( StreamEnabled, {
         const selections = this.get( 'selections' );
         const selectionsLength = selections.length;
 
-        if ( selectionsLength < 1 ) {
+        // Do nothing if there is no parent context
+        if ( selectionsLength < 2 ) {
             return;
         }
 
+        // Check if the selection is in a first-level sub-menu
         if ( 2 === selectionsLength ) {
             const selection = selections.get( 1 );
 
@@ -605,6 +607,7 @@ export default Ember.Component.extend( StreamEnabled, {
             }
         }
 
+        // In any other sub-menu level, cycle through siblings
         this.selectPrevious();
     },
 
