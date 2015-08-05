@@ -397,7 +397,7 @@ export default Ember.Component.extend( StreamEnabled, {
         // Select the "show all" option if we're on the last context item at the
         // top level, and the `allowShowAll` is enabled
         if (
-            selections.length === 1 &&
+            1 === selections.length &&
             currentItems.length - 1 === currentIndex &&
             this.get( 'allowShowAll' )
         ) {
@@ -490,8 +490,8 @@ export default Ember.Component.extend( StreamEnabled, {
         // Select the "show all" option when at the beginning of the top-level
         // and `allowShowAll` is enabled
         if (
-            selections.length === 1 &&
-            selection.index === 0 &&
+            1 === selections.length &&
+            0 === selection.index &&
             this.get( 'allowShowAll' )
         ) {
             this.clearSelections();
