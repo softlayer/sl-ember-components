@@ -144,3 +144,31 @@ test( '`subItems` computed property is a wrapped `item.items` array', function( 
         'Parsed `subItems` correctly'
     );
 });
+
+test( '`hasSubItems` represents the presence of `item.items`', function( assert ) {
+    const component = this.subject();
+    const item = { items: [] };
+
+    assert.ok(
+        false === component.get( 'hasSubItems' ),
+        '`hasSubItems` is false with no `item.items`'
+    );
+
+    Ember.run( () => {
+        component.set( 'item', item );
+    });
+
+    assert.ok(
+        false === component.get( 'hasSubItems' ),
+        '`hasSubItems` is false with empty `item.items`'
+    );
+
+    Ember.run( () => {
+        Ember.set( item, 'items', [ { okay: true } ] );
+    });
+
+    assert.ok(
+        true === component.get( 'hasSubItems' ),
+        '`hasSubItems` is true when `item.items` is present and not empty'
+    );
+});
