@@ -1,28 +1,14 @@
-{{#if menu.label}}
-    <a
-        {{action "selected" target="view" bubbles=false}}
-        class="{{if menu.pages 'submenu'}}"
-        href="#"
-    >
-        {{view.menu.label}}
-    </a>
-{{/if}}
+<ul class="list-inline">
+    {{#each items as |item|}}
+        {{sl-menu-item
+            action="handleAction"
+            item=item
+        }}
+    {{/each}}
 
-{{#if menu.pages}}
-    <ul class="{{if view.isRoot 'list-inline'}}">
-        {{#each pages as |page|}}
-            {{sl-menu
-                extraClassNames=page.extraClassNames
-                isRoot=false
-                menu=page
-                tagName="li"
-            }}
-        {{/each}}
-
-        {{#if view.displayShowAll}}
-            {{#view view.AllView}}
-                <a href="#" class="fa fa-chevron-circle-down" style="font-size: 18px;"></a>
-            {{/view}}
-        {{/if}}
-    </ul>
-{{/if}}
+    {{#if allowShowAll}}
+        {{sl-menu-item-show-all
+            onMouseEnter="showAll"
+        }}
+    {{/if}}
+</ul>
