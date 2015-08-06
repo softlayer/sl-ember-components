@@ -1,0 +1,12 @@
+<a {{action "clickLink"}}>{{item.label}}</a>
+
+{{#if subItems}}
+    <ul class="sub-menu">
+        {{#each subItems as |item|}}
+            {{sl-menu-item
+                action="handleAction"
+                item=item
+            }}
+        {{/each}}
+    </ul>
+{{/if}}

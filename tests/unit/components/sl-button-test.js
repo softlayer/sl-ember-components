@@ -5,6 +5,10 @@ moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
     unit: true
 });
 
+const mockStreamService = {
+    send() {}
+};
+
 test( 'Label changes for pending state', function( assert ) {
     const pendingText = 'Pending';
     const staticText = 'Static';
@@ -132,29 +136,6 @@ test( 'themeClass() returns correct value', function( assert ) {
     );
 });
 
-test( 'openModal property triggers modal to open', function( assert ) {
-    const show = window.sinon.spy();
-
-    const mockModal = {
-        show: show
-    };
-
-    const mockService = {
-        find() {
-            return mockModal;
-        }
-    };
-
-    this.subject({
-        modalService: mockService,
-        openModal: 'test'
-    });
-
-    this.$().click();
-
-    assert.ok( show.calledOnce );
-});
-
 test( 'Button supports click event bubbling', function( assert ) {
     const component = this.subject();
 
@@ -170,5 +151,21 @@ test( 'Button supports click event bubbling', function( assert ) {
         component.click(),
         false,
         'Button click event will not propagate when bubbles is false'
+    );
+});
+
+test( 'showModalWithStreamName property triggers modal to open', function( assert ) {
+    this.subject({
+        showModalWithStreamName: 'test',
+        streamService: mockStreamService
+    });
+
+    const sendSpy = window.sinon.spy( mockStreamService, 'send' );
+
+    this.$().trigger( 'click' );
+
+    assert.ok(
+        sendSpy.called,
+        'The send() method of the mock stream service was called'
     );
 });
