@@ -36,8 +36,31 @@ test( 'Successfully mixed', function( assert ) {
     assert.ok( subject );
 });
 
+test( 'Default values are set correctly', function( assert ) {
+    const testObject = Ember.Object.extend( mixinUnderTest );
+
+    const subject = testObject.create();
+
+    assert.strictEqual(
+        subject.get( 'dataToggle' ),
+        null,
+        'dataToggle is null'
+    );
+
+    assert.strictEqual(
+        subject.get( 'dataTrigger' ),
+        null,
+        'dataTrigger is null'
+    );
+
+    assert.strictEqual(
+        subject.get( 'title' ),
+        null,
+        'title is null'
+    );
+});
+
 skip( 'enable() - observes correct properties', function() {
-    // Can use ._dependentKeys in 2.0
 });
 
 skip( 'enable() - listens to correct event', function() {
@@ -68,7 +91,6 @@ test( 'enable() - popover defined calls enablePopover()', function( assert ) {
     subject.enablePopover.reset();
     subject.enableTooltip.reset();
 });
-
 
 test( 'enable() - title defined calls enableTooltip()', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest, {
@@ -107,9 +129,9 @@ test( 'enabledTooltip() - Renders tooltip', function( assert ) {
     subject.enableTooltip();
 
     assert.equal(
-        subject.get( 'data-toggle' ),
+        subject.get( 'dataToggle' ),
         'tooltip',
-        '"data-toggle" has correct value'
+        '"dataToggle" has correct value'
     );
 
     assert.equal(
@@ -156,9 +178,9 @@ test( 'enablePopover() - Renders popover', function( assert ) {
     subject.enablePopover();
 
     assert.equal(
-        subject.get( 'data-toggle' ),
+        subject.get( 'dataToggle' ),
         'popover',
-        '"data-toggle" has correct value'
+        '"dataToggle" has correct value'
     );
 
     assert.equal(

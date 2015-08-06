@@ -1,5 +1,5 @@
 {{#if label}}
-    <label class="control-label" for={{sl-input-view.elementId}}>
+    <label class="control-label" for={{inputElementId}}>
         {{label}}
 
         {{#if optional}}
@@ -13,9 +13,7 @@
 {{/if}}
 
 {{input
-    viewName="sl-input-view"
     type=type
-    action="enter"
     class=inputClass
     disabled=disabled
     placeholder=placeholder

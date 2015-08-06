@@ -14,7 +14,8 @@ export default Ember.Mixin.create({
 
     /** @type {String[]} */
     attributeBindings: [
-        'data-toggle',
+        'dataToggle:data-toggle',
+        'dataTrigger:data-trigger',
         'title'
     ],
 
@@ -28,11 +29,21 @@ export default Ember.Mixin.create({
     // Properties
 
     /**
-     * 'data-toggle' attribute for use in template binding
+     * dataToggle property
      *
-     * @type {?Boolean}
+     * @type {?String}
      */
-    'data-toggle': null,
+    dataToggle: null,
+
+    /**
+     * dataTrigger property
+     *
+     * How the tooltip/popover is triggered - click | hover | focus.
+     * You may pass multiple triggers; separate them with a space.
+     *
+     * @type {String}
+     */
+    dataTrigger: null,
 
     /**
      * Title attribute
@@ -85,7 +96,7 @@ export default Ember.Mixin.create({
 
         // First-time rendering
         if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
-            this.set( 'data-toggle', 'popover' );
+            this.set( 'dataToggle', 'popover' );
 
             this.$().popover({
                 content: popover,
@@ -112,7 +123,7 @@ export default Ember.Mixin.create({
 
         // First-time rendering
         if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
-            this.set( 'data-toggle', 'tooltip' );
+            this.set( 'dataToggle', 'tooltip' );
 
             this.$().tooltip({
                 container: 'body',

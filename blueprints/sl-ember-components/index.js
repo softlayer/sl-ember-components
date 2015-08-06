@@ -28,6 +28,9 @@ module.exports = {
             }, {
                 name: 'softlayer/sl-bootstrap',
                 target: '1.1.0'
+            }, {
+                name: 'jquery-mousewheel',
+                target: '^3.1.12'
             }
         ]);
     },
