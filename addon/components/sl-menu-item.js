@@ -114,7 +114,7 @@ export default Ember.Component.extend({
      * @returns {Boolean} - True if the item has sub-items
      */
     hasSubItems: Ember.computed(
-        'item.items',
+        'item',
         function() {
             return !Ember.isEmpty( this.get( 'item.items' ) );
         }
