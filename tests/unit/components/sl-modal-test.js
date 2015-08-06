@@ -1,8 +1,23 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { skip } from 'qunit';
 
 let component;
+
+const mockStream = {
+    actions: {},
+
+    on( actionName, handler ) {
+        this.actions[ actionName ] = handler;
+    },
+
+    subject: {
+        dispose() {
+            mockStream.actions = {};
+        },
+
+        onCompleted() {}
+    }
+};
 
 const template = Ember.Handlebars.compile(
     '{{sl-modal-header title="Simple Example"}}' +
@@ -259,6 +274,32 @@ test( 'aria-labelledby is set', function( assert ) {
     );
 });
 
-// These tests require the ember-stream/streamService to be available to test
-skip( 'Component accepts "hide" stream action', function() {} );
-skip( 'Component accepts "show" stream action', function() {} );
+test( 'Component responds to "hide" stream action', function( assert ) {
+    component = this.subject({ stream: mockStream });
+
+    this.render();
+
+    const hideSpy = window.sinon.spy( component, 'hide' );
+
+    mockStream.actions[ 'hide' ]();
+
+    assert.ok(
+        hideSpy.called,
+        'hide() was triggered successfully'
+    );
+});
+
+test( 'Component responds to "show" stream action', function( assert ) {
+    component = this.subject({ stream: mockStream });
+
+    this.render();
+
+    const showSpy = window.sinon.spy( component, 'show' );
+
+    mockStream.actions[ 'show' ]();
+
+    assert.ok(
+        showSpy.called,
+        'show() was triggered successfully'
+    );
+});
