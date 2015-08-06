@@ -281,6 +281,10 @@ export default Ember.Component.extend( StreamEnabled, {
      * @returns {undefined}
      */
     select( index ) {
+        if ( this.get( 'showingAll' ) ) {
+            this.hideAll();
+        }
+
         const selections = this.get( 'selections' );
         const selectionsLength = selections.length;
         let item;
