@@ -364,7 +364,7 @@ export default Ember.Component.extend( StreamEnabled, {
     selectLeft() {
         const selectionsLength = this.get( 'selections' ).length;
 
-        if ( 1 === selectionsLength ) {
+        if ( 1 === selectionsLength || this.get( 'showingAll' ) ) {
             this.selectPrevious();
         } else if ( selectionsLength > 1 ) {
             this.selectParent();
@@ -562,7 +562,7 @@ export default Ember.Component.extend( StreamEnabled, {
     selectRight() {
         const selections = this.get( 'selections' );
 
-        if ( 1 === selections.length ) {
+        if ( 1 === selections.length || this.get( 'showingAll' ) ) {
             this.selectNext();
         } else if ( selections.length > 1 ) {
             this.selectSubMenu();
