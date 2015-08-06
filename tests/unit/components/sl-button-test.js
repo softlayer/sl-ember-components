@@ -1,10 +1,13 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { skip } from 'qunit';
 
 moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
     unit: true
 });
+
+const mockStreamService = {
+    send() {}
+};
 
 test( 'Label changes for pending state', function( assert ) {
     const pendingText = 'Pending';
@@ -151,5 +154,18 @@ test( 'Button supports click event bubbling', function( assert ) {
     );
 });
 
-// This test will need to have the ember-stream/streamService available to test
-skip( 'showModalWithStreamName property triggers modal to open', function() {} );
+test( 'showModalWithStreamName property triggers modal to open', function( assert ) {
+    this.subject({
+        showModalWithStreamName: 'test',
+        streamService: mockStreamService
+    });
+
+    const sendSpy = window.sinon.spy( mockStreamService, 'send' );
+
+    this.$().trigger( 'click' );
+
+    assert.ok(
+        sendSpy.called,
+        'The send() method of the mock stream service was called'
+    );
+});

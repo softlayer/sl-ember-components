@@ -6,6 +6,14 @@ const mockStream = {
 
     on( actionName, handler ) {
         this.actions[ actionName ] = handler;
+    },
+
+    subject: {
+        dispose() {
+            mockStream.actions = {};
+        },
+
+        onCompleted() {}
     }
 };
 
