@@ -85,6 +85,16 @@ export default Ember.Component.extend( StreamEnabled, {
         this.send( 'hideAll' );
     },
 
+    /**
+     * mouseMove event handler
+     *
+     * @function
+     * returns {undefined}
+     */
+    mouseMove() {
+        this.clearSelections();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
