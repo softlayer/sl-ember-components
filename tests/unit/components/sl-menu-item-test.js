@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { skip } from 'qunit';
 
 moduleForComponent( 'sl-menu-item', 'Unit | Component | sl menu item', {
     unit: true
@@ -145,7 +146,7 @@ test( '`subItems` computed property is a wrapped `item.items` array', function( 
     );
 });
 
-test( '`hasSubItems` represents the presence of `item.items`', function( assert ) {
+skip( '`hasSubItems` represents the presence of `item.items`', function( assert ) {
     const component = this.subject();
     const item = { items: [] };
 
