@@ -25,6 +25,7 @@ before_install:
 install:
     - npm install -g bower
     - npm install
+    - npm install phantomjs@1.9.8
     - bower install
 
 script:
