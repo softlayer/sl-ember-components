@@ -1,11 +1,22 @@
-import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
+import { moduleForComponent, test } from 'ember-qunit';
 
 let component;
 
-const mockModalService = {
-    register() {},
-    find() {}
+const mockStream = {
+    actions: {},
+
+    on( actionName, handler ) {
+        this.actions[ actionName ] = handler;
+    },
+
+    subject: {
+        dispose() {
+            mockStream.actions = {};
+        },
+
+        onCompleted() {}
+    }
 };
 
 const template = Ember.Handlebars.compile(
@@ -44,13 +55,12 @@ moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
             });
         }
     },
+
     unit: true
 });
 
 test( 'Classes are present', function( assert ) {
-    component = this.subject({
-        modalService: mockModalService
-    });
+    component = this.subject();
 
     this.render();
 
@@ -73,7 +83,6 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
         afterShow: 'afterShow',
         beforeHide: 'beforeHide',
         afterHide: 'afterHide',
-        modalService: mockModalService,
         template: template,
         targetObject: {
             beforeShow() {
@@ -126,10 +135,7 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
 });
 
 test( 'Property isOpen is set appropriately', function( assert ) {
-    component = this.subject({
-        template: template,
-        modalService: mockModalService
-    });
+    component = this.subject({ template });
 
     this.$().trigger( 'shown.bs.modal' );
 
@@ -157,7 +163,6 @@ test( 'Closing of modal using close button works', function( assert ) {
     component = this.subject({
         afterHide: 'modalClosed',
         template: template,
-        modalService: mockModalService,
         targetObject: {
             modalClosed() {
                 assert.ok( 'Modal was closed' );
@@ -175,27 +180,6 @@ test( 'Closing of modal using close button works', function( assert ) {
     this.$( '.close' ).click();
 });
 
-test( 'Modal registered on modal service', function( assert ) {
-    const registerSpy = window.sinon.spy();
-
-    const localMockModalService = {
-        register: registerSpy,
-        find: function() {}
-    };
-
-    component = this.subject({
-        name: 'demo',
-        modalService: localMockModalService
-    });
-
-    this.render();
-
-    assert.ok(
-        registerSpy.calledOnce,
-        'Register called on modal service'
-    );
-});
-
 test( 'Backdrop is hidden when backdrop property is set to false', function( assert ) {
     assert.expect( 1 );
 
@@ -204,7 +188,6 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
     component = this.subject({
         afterShow: 'modalOpen',
         backdrop: false,
-        modalService: mockModalService,
         targetObject: {
             modalOpen() {
                 assert.equal(
@@ -224,9 +207,7 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
 });
 
 test( 'Backdrop is shown by default', function( assert ) {
-    component = this.subject({
-        modalService: mockModalService
-    });
+    component = this.subject();
 
     this.render();
 
@@ -240,27 +221,8 @@ test( 'Backdrop is shown by default', function( assert ) {
     );
 });
 
-test( 'Modal is unregistered after destroy', function( assert ) {
-    const spyUnregister = window.sinon.spy();
-
-    component = this.subject({
-        modalService: mockModalService,
-        name: 'testDestroy',
-        unregister: spyUnregister
-    });
-
-    this.render();
-
-    Ember.run( () => {
-        component.destroy();
-        assert.ok( spyUnregister.calledOnce );
-    });
-});
-
 test( 'Fade class is present when animated is set to true', function( assert ) {
-    component = this.subject({
-        modalService: mockModalService
-    });
+    component = this.subject();
 
     assert.ok(
         this.$().hasClass( 'fade' )
@@ -269,7 +231,6 @@ test( 'Fade class is present when animated is set to true', function( assert ) {
 
 test( 'Fade class is absent when animated is set to false', function( assert ) {
     component = this.subject({
-        modalService: mockModalService,
         animated: false
     });
 
@@ -283,7 +244,6 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
     const describedBy = 'targetId';
 
     component = this.subject({
-        modalService: mockModalService,
         ariaDescribedBy: describedBy
     });
 
@@ -294,9 +254,7 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
 });
 
 test( 'aria-hidden is true', function( assert ) {
-    component = this.subject({
-        modalService: mockModalService
-    });
+    component = this.subject();
 
     this.render();
 
@@ -307,14 +265,41 @@ test( 'aria-hidden is true', function( assert ) {
 });
 
 test( 'aria-labelledby is set', function( assert ) {
-    component = this.subject({
-        modalService: mockModalService,
-        template: template
-    });
+    component = this.subject({ template });
 
     this.render();
 
     assert.ok(
         this.$().attr( 'aria-labelledby' )
+    );
+});
+
+test( 'Component responds to "hide" stream action', function( assert ) {
+    component = this.subject({ stream: mockStream });
+
+    this.render();
+
+    const hideSpy = window.sinon.spy( component, 'hide' );
+
+    mockStream.actions[ 'hide' ]();
+
+    assert.ok(
+        hideSpy.called,
+        'hide() was triggered successfully'
+    );
+});
+
+test( 'Component responds to "show" stream action', function( assert ) {
+    component = this.subject({ stream: mockStream });
+
+    this.render();
+
+    const showSpy = window.sinon.spy( component, 'show' );
+
+    mockStream.actions[ 'show' ]();
+
+    assert.ok(
+        showSpy.called,
+        'show() was triggered successfully'
     );
 });
