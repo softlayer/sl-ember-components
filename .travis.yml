@@ -28,4 +28,6 @@ install:
     - bower install
 
 script:
+    - npm run lint-all
+    - ember ember-cli-jsdoc
     - ember try $EMBER_TRY_SCENARIO test
