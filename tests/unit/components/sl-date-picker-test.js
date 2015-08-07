@@ -1,11 +1,12 @@
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent } from 'ember-qunit';
+import { skip } from 'qunit';
 
 moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
 });
 
-test( 'Default class names are present', function( assert ) {
+skip( 'Default class names are present', function( assert ) {
     this.subject();
 
     assert.ok(
@@ -30,7 +31,7 @@ test( 'Default class names are present', function( assert ) {
 });
 
 
-test( 'Default properties are set correctly', function( assert ) {
+skip( 'Default properties are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.equal(
@@ -178,7 +179,7 @@ test( 'Default properties are set correctly', function( assert ) {
     );
 });
 
-test( 'setInputElementId() - sets inputElementId correctly', function( assert ) {
+skip( 'setInputElementId() - sets inputElementId correctly', function( assert ) {
     const component = this.subject();
 
     const inputElementId = this.$( 'input.date-picker' ).prop( 'id' );
@@ -190,7 +191,7 @@ test( 'setInputElementId() - sets inputElementId correctly', function( assert ) 
     );
 });
 
-test( 'setupDatepicker() - listens to correct event', function( assert ) {
+skip( 'setupDatepicker() - listens to correct event', function( assert ) {
     assert.expect( 1 );
 
     const done = assert.async();
@@ -211,7 +212,7 @@ test( 'setupDatepicker() - listens to correct event', function( assert ) {
     });
 });
 
-test( 'updateDateRange() - listens to endDate event', function( assert ) {
+skip( 'updateDateRange() - listens to endDate event', function( assert ) {
     assert.expect( 1 );
 
     const component = this.subject({
@@ -234,7 +235,7 @@ test( 'updateDateRange() - listens to endDate event', function( assert ) {
     inputElement.setEndDate.restore();
 });
 
-test( 'updateDateRange() - listens to startDate event', function( assert ) {
+skip( 'updateDateRange() - listens to startDate event', function( assert ) {
     assert.expect( 1 );
 
     const component = this.subject({
@@ -257,7 +258,7 @@ test( 'updateDateRange() - listens to startDate event', function( assert ) {
     inputElement.setStartDate.restore();
 });
 
-test( 'updateDateRange() - clears input date when outside of startDate range', function( assert ) {
+skip( 'updateDateRange() - clears input date when outside of startDate range', function( assert ) {
     assert.expect( 2 );
 
     const component = this.subject({
@@ -287,7 +288,7 @@ test( 'updateDateRange() - clears input date when outside of startDate range', f
     );
 });
 
-test( 'updateDateRange() - clears input date when outside of endDate range', function( assert ) {
+skip( 'updateDateRange() - clears input date when outside of endDate range', function( assert ) {
     assert.expect( 2 );
 
     const component = this.subject({
@@ -317,7 +318,7 @@ test( 'updateDateRange() - clears input date when outside of endDate range', fun
     );
 });
 
-test(
+skip(
     'updateDateRange() - when date outside startDate range we show placeholder text when supplied',
     function( assert ) {
         assert.expect( 1 );
@@ -345,7 +346,7 @@ test(
     }
 );
 
-test( 'updateDateRange() - when date outside endDate range we show placeholder text when supplied', function( assert ) {
+skip( 'updateDateRange() - when date outside endDate range we show placeholder text when supplied', function( assert ) {
     assert.expect( 1 );
 
     const component = this.subject({
@@ -370,7 +371,7 @@ test( 'updateDateRange() - when date outside endDate range we show placeholder t
     );
 });
 
-test( 'unregisterEvents() - listens to correct event', function( assert ) {
+skip( 'unregisterEvents() - listens to correct event', function( assert ) {
     const component = this.subject();
     const inputElement = this.$( 'input.date-picker' )[ 0 ];
     const jQueryData = Ember.get( Ember.$, '_data' );
@@ -390,7 +391,7 @@ test( 'unregisterEvents() - listens to correct event', function( assert ) {
     );
 });
 
-test( 'options() - object contains the expected keys', function( assert ) {
+skip( 'options() - object contains the expected keys', function( assert ) {
     const component = this.subject();
     const optionsMockObject = Ember.Object.create({
         autoclose: true,
