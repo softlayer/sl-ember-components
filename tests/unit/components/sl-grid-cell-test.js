@@ -57,8 +57,8 @@ test( 'Column size values are supported', function( assert ) {
 
     assert.equal(
         Ember.typeOf( component.get( 'sizeClass' ) ),
-        'undefined',
-        'Default component sizeClass value is undefined'
+        'null',
+        'Default component sizeClass value is null'
     );
 
     assert.equal(

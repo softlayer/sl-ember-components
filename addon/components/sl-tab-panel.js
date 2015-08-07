@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-tab-panel';
+import { containsValue, warn } from '../utils/all';
 
 /**
  * Valid `align` property values
@@ -228,12 +229,9 @@ export default Ember.Component.extend({
         function() {
             const alignTabs = this.get( 'alignTabs' );
 
-            Ember.assert(
-                `Error: Invalid alignTabs property value "${alignTabs}"`,
-                Object.keys( Alignment )
-                    .map( ( key ) => Alignment[ key ] )
-                    .indexOf( alignTabs ) > -1
-            );
+            if ( !containsValue( alignTabs, Alignment ) ) {
+                warn( `Invalid alignTabs property value "${alignTabs}"` );
+            }
 
             return `sl-align-tabs-${alignTabs}`;
         }

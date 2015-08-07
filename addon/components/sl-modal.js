@@ -1,18 +1,19 @@
 import Ember from 'ember';
+import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
 
 /**
  * @module
  * @augments ember/Component
+ * @augments ember-stream/mixins/stream-enabled
  */
-export default Ember.Component.extend({
-    // -----------------------------------------------------
+export default Ember.Component.extend( StreamEnabled, {
+
+    // -------------------------------------------------------------------------
     // Dependencies
 
-
-    // -----------------------------------------------------
+    // -------------------------------------------------------------------------
     // Attributes
-
 
     /** @type {String[]} */
     attributeBindings: [
@@ -38,13 +39,12 @@ export default Ember.Component.extend({
     /** @type {Object} */
     layout: layout,
 
-
-    // -----------------------------------------------------
+    // -------------------------------------------------------------------------
     // Actions
-
 
     /** @type {Object} */
     actions: {
+
         /**
          * Trigger hiding the model
          *
@@ -64,14 +64,13 @@ export default Ember.Component.extend({
         show() {
             this.show();
         }
+
     },
 
-
-    // -----------------------------------------------------
+    // -------------------------------------------------------------------------
     // Events
 
-
-    // -----------------------------------------------------
+    // -------------------------------------------------------------------------
     // Properties
 
     /**
@@ -82,24 +81,24 @@ export default Ember.Component.extend({
     animated: true,
 
     /**
-     * ariaDescribedBy property, the value of this will be set as
-     * the value to the aria-describedby attribute
+     * ariaDescribedBy property, the value of this will be set as the value to
+     * the aria-describedby attribute
      *
      * @type {?String}
      */
     ariaDescribedBy: null,
 
     /**
-     * ariaHidden property, the value of this will be set as
-     * the value to the aria-hidden attribute
+     * ariaHidden property, the value of this will be set as the value to the
+     * aria-hidden attribute
      *
      * @type {String}
      */
     ariaHidden: 'true',
 
      /**
-      * ariaLabelledBy property, the value of this will be set as
-      * the value to the aria-labelledby attribute
+      * ariaLabelledBy property, the value of this will be set as the value to
+      * the aria-labelledby attribute
       *
       * @function
       * @returns {String}
@@ -107,8 +106,8 @@ export default Ember.Component.extend({
     ariaLabelledBy: null,
 
     /**
-     * The ariaRole property, the value of this will be set as
-     * the value to the aria-role attribute
+     * The ariaRole property, the value of this will be set as the value to the
+     * aria-role attribute
      *
      * @type {String}
      */
@@ -129,31 +128,13 @@ export default Ember.Component.extend({
     isOpen: false,
 
     /**
-     * The modal service used to register and unregister this modal component
-     *
-     * @type {ember/Service}
-     */
-    modalService: Ember.inject.service( 'sl-modal' ),
-
-    /**
-     * The unique name use to register this modal with the modal service
-     *
-     * If this value is left null(default), then the component will not
-     * be registered on the modal service.
-     *
-     * @type {?String}
-     */
-    name: null,
-
-    /**
      * tabindex attribute value
      *
      * @type {String}
      */
     tabindex: '-1',
 
-
-    // -----------------------------------------------------
+    // -------------------------------------------------------------------------
     // Observers
 
     /**
@@ -170,19 +151,27 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Register component on the modal service
+     * Setup stream actions bindings
      *
      * @function
      * @returns {undefined}
      */
-    register: Ember.on(
+    setupStreamActions: Ember.on(
         'init',
         function() {
-            const name = this.get( 'name' );
+            const stream = this.get( 'stream' );
 
-            if ( name ) {
-                this.get( 'modalService' ).register( this );
+            if ( !stream ) {
+                return;
             }
+
+            stream.on( 'hide', () => {
+                this.hide();
+            });
+
+            stream.on( 'show', () => {
+                this.show();
+            });
         }
     ),
 
@@ -224,7 +213,7 @@ export default Ember.Component.extend({
     /**
      * Unbind bootstrap event handlers
      *
-     * @function unbindHandlers
+     * @function
      * @returns {undefined}
      */
     unbindHandlers: Ember.on(
@@ -237,30 +226,27 @@ export default Ember.Component.extend({
         }
     ),
 
-    /**
-     * Unregister modal from modal service
-     *
-     * @function unregister
-     * @returns {undefined}
-     */
-    unregister: Ember.on(
-        'willDestroyElement',
-        function() {
-            const modalService = this.get( 'modalService' );
-            if ( modalService.find( this ) ) {
-                modalService.unregister( this );
-            }
-        }
-    ),
-
-    // -----------------------------------------------------
+    // -------------------------------------------------------------------------
     // Methods
 
+    /**
+     * Hide the modal by triggering Bootstrap's modal( hide )
+     *
+     * @function
+     * @returns {undefined}
+     */
     hide() {
         this.$().modal( 'hide' );
     },
 
+    /**
+     * Show the modal by triggering Bootstrap's modal( show )
+     *
+     * @function
+     * @returns {undefined}
+     */
     show() {
         this.$().modal( 'show' );
     }
+
 });
