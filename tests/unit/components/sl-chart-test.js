@@ -233,7 +233,6 @@ test( '"Series" property needs to be an array', function( assert ) {
         'property was an Object'
     );
 
-/*
     // Array
     properties.set( 'series', [] );
 
@@ -241,7 +240,6 @@ test( '"Series" property needs to be an array', function( assert ) {
         callSubject(),
         'property was an Array'
     );
-*/
 });
 
 test( 'Chart div uses the correct style', function( assert ) {
