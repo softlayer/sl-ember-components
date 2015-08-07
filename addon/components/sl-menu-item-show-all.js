@@ -1,10 +1,12 @@
 import Ember from 'ember';
+import SlMenuItem from './sl-menu-item';
+import layout from '../templates/components/sl-menu-item-show-all';
 
 /**
  * @module
- * @augments ember/View
+ * @augments module:components/sl-button
  */
-export default Ember.View.extend({
+export default SlMenuItem.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -12,56 +14,38 @@ export default Ember.View.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /**
-     * HTML tag name of the root element
-     *
-     * @type {String}
-     */
-    tagName: 'li',
-
-    /**
-     * Class names for the AllView view
-     *
-     * @type {String[]}
-     */
+    /** @type {String[]} */
     classNames: [
-        'all'
+        'show-all'
     ],
 
-    // -------------------------------------------------------------------------
-    // Events
+    /** @type {Object} */
+    layout,
 
     // -------------------------------------------------------------------------
     // Actions
 
+    // -------------------------------------------------------------------------
+    // Events
+
     /**
-     * Method called on mouseenter event
+     * mouseEnter event handler
      *
      * @function
      * @returns {undefined}
      */
-    mouseEnter() {
-        this.send( 'showAll' );
-    },
+    handleMouseEnter: Ember.on(
+        'mouseEnter',
+        function() {
+            this.sendAction( 'onMouseEnter' );
+        }
+    )
 
     // -------------------------------------------------------------------------
     // Properties
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Target pointer to the parent view
-     *
-     * @function
-     * @return {ember/View}
-     */
-    target: Ember.computed(
-        'parentView',
-        function() {
-            return this.get( 'parentView' );
-        }
-    )
 
     // -------------------------------------------------------------------------
     // Methods

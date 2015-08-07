@@ -148,10 +148,6 @@
         Text label on the button.
     {{/property-text}}
 
-    {{#property-text name="openModal" type="String"}}
-    Used to trigger opening of a {{#link-to 'demos.sl-modal'}}sl-modal{{/link-to}} by passing in the name of the modal.
-    {{/property-text}}
-
     {{#property-text name="pending" type="Boolean" default="false"}}
         When true, the button is placed in a pending state, with the <code>pendingLabel</code> value becoming the primary button label text.
     {{/property-text}}
@@ -162,6 +158,10 @@
 
     {{#property-text name="popover" type="String" requires="title"}}
         Popover content string.
+    {{/property-text}}
+
+    {{#property-text name="showModalWithStreamName" type="String"}}
+        Used to trigger opening of a {{#link-to 'demos.sl-modal'}}sl-modal{{/link-to}} by passing in the name of the stream that the modal is registered to.
     {{/property-text}}
 
     {{#property-text name="size" type="String" default="\"medium\""}}
