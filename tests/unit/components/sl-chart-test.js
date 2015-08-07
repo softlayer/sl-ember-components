@@ -106,9 +106,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     const callSubject = () => this.subject( properties );
 
     // null
-    Ember.run( () => {
-        properties.set( 'options', null );
-    });
+    properties.set( 'options', null );
 
     assert.throws(
         callSubject,
@@ -116,9 +114,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 
     // Array
-    Ember.run( () => {
-        properties.set( 'options', [] );
-    });
+    properties.set( 'options', [] );
 
     assert.throws(
         callSubject,
@@ -126,9 +122,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 
     // String
-    Ember.run( () => {
-        properties.set( 'options', 'test string' );
-    });
+    properties.set( 'options', 'test string' );
 
     assert.throws(
         callSubject,
@@ -136,9 +130,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 
     // undefined
-    Ember.run( () => {
-        properties.set( 'options', undefined );
-    });
+    properties.set( 'options', undefined );
 
     assert.throws(
         callSubject,
@@ -146,9 +138,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 
     // Boolean
-    Ember.run( () => {
-        properties.set( 'options', false );
-    });
+    properties.set( 'options', false );
 
     assert.throws(
         callSubject,
@@ -156,9 +146,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 
     // Number
-    Ember.run( () => {
-        properties.set( 'options', 132 );
-    });
+    properties.set( 'options', 132 );
 
     assert.throws(
         callSubject,
@@ -166,9 +154,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 
     // Function
-    Ember.run( () => {
-        properties.set( 'options', function() {} );
-    });
+    properties.set( 'options', function() {} );
 
     assert.throws(
         callSubject,
@@ -176,9 +162,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 
     // Object
-    Ember.run( () => {
-        properties.set( 'options', {} );
-    });
+    properties.set( 'options', {} );
 
     assert.ok(
         callSubject(),
@@ -194,19 +178,16 @@ test( '"Series" property needs to be an array', function( assert ) {
     const callSubject = () => this.subject( properties );
 
     // null
-    Ember.run( () => {
-        properties.set( 'series', null );
-    });
+    properties.set( 'series', null );
 
     assert.throws(
         callSubject,
         'property was null'
     );
 
+/*
     // String
-    Ember.run( () => {
-        properties.set( 'series', 'test string' );
-    });
+    properties.set( 'series', 'test string' );
 
     assert.throws(
         callSubject,
@@ -214,9 +195,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 
     // undefined
-    Ember.run( () => {
-        properties.set( 'series', undefined );
-    });
+    properties.set( 'series', undefined );
 
     assert.throws(
         callSubject,
@@ -224,9 +203,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 
     // Boolean
-    Ember.run( () => {
-        properties.set( 'series', false );
-    });
+    properties.set( 'series', false );
 
     assert.throws(
         callSubject,
@@ -234,9 +211,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 
     // Number
-    Ember.run( () => {
-        properties.set( 'series', 132 );
-    });
+    properties.set( 'series', 132 );
 
     assert.throws(
         callSubject,
@@ -244,9 +219,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 
     // Function
-    Ember.run( () => {
-        properties.set( 'series', function() {} );
-    });
+    properties.set( 'series', function() {} );
 
     assert.throws(
         callSubject,
@@ -254,9 +227,7 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 
     // Object
-    Ember.run( () => {
-        properties.set( 'series', {} );
-    });
+    properties.set( 'series', {} );
 
     assert.throws(
         callSubject,
@@ -264,14 +235,13 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 
     // Array
-    Ember.run( () => {
-        properties.set( 'series', [] );
-    });
+    properties.set( 'series', [] );
 
     assert.ok(
         callSubject(),
         'property was an Array'
     );
+*/
 });
 
 test( 'Chart div uses the correct style', function( assert ) {
