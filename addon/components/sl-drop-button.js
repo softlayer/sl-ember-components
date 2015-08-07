@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-drop-button';
+import { containsValue, warn } from '../utils/all';
 import {
     Size as ButtonSize,
     Theme as ButtonTheme
@@ -145,12 +146,9 @@ export default Ember.Component.extend( TooltipEnabled, {
         function() {
             const theme = this.get( 'theme' );
 
-            Ember.assert(
-                `Error: Invalid sl-drop-button theme value "${theme}"`,
-                Object.keys( ButtonTheme )
-                    .map( ( key ) => ButtonTheme[ key ] )
-                    .indexOf( theme ) > -1
-            );
+            if ( !containsValue( theme, ButtonTheme ) ) {
+                warn( `Invalid sl-drop-button theme value "${theme}"` );
+            }
 
             return `dropdown-${theme}`;
         }

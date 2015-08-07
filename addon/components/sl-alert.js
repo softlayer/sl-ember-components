@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-alert';
+import { containsValue, warn } from '../utils/all';
 
 /**
  * Bootstrap theme names for alert components
@@ -106,12 +107,9 @@ export default Ember.Component.extend( TooltipEnabled, {
         function() {
             const theme = this.get( 'theme' );
 
-            Ember.assert(
-                'Error: Invalid theme string',
-                Object.keys( Theme )
-                    .map( ( key ) => Theme[ key ] )
-                    .indexOf( theme ) > -1
-            );
+            if ( !containsValue( theme, Theme ) ) {
+                warn( `Invalid theme value "${theme}"` );
+            }
 
             return `alert-${theme}`;
         }

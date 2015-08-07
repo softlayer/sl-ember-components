@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Simple usage</h6>
-            <pre>\{{#sl-modal name="simpleDemo}}
+            <pre>\{{#sl-modal streamName="demoModal"}}
     \{{sl-modal-header title="Simple Example"}}
 
     \{{#sl-modal-body}}
@@ -17,7 +17,7 @@
 
     \{{sl-modal-footer}}
 \{{/sl-modal}} </pre>
-        {{#sl-modal name="simpleDemo"}}
+        {{#sl-modal streamName="demoModal"}}
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
@@ -29,7 +29,10 @@
         </div>
         <div class="col-lg-4">
             <h6>Click to Show Component</h6>
-            {{sl-button openModal="simpleDemo" label="Open Modal"}}
+            {{sl-button
+                label="Open Modal"
+                showModalWithStreamName="demoModal"
+            }}
         </div>
     </div>
 </section>
@@ -38,7 +41,7 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Custom header</h6>
-            <pre>\{{#sl-modal name="customHeader"}}
+            <pre>\{{#sl-modal streamName="customHeader"}}
     \{{#sl-modal-header as |ariaLabelledBy|}}
         &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
             &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
@@ -54,7 +57,7 @@
     \{{sl-modal-footer}}
 \{{/sl-modal}}</pre>
 
-{{#sl-modal name="customHeader"}}
+{{#sl-modal streamName="customHeader"}}
     {{#sl-modal-header as |ariaLabelledBy|}}
         <button class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true" class="fa fa-close"></span>
@@ -72,7 +75,10 @@
         </div>
         <div class="col-lg-4">
             <h6>Click to Show Component</h6>
-            {{sl-button openModal="customHeader" label="Open Modal"}}
+            {{sl-button
+                label="Open Modal"
+                showModalWithStreamName="customHeader"
+            }}
         </div>
     </div>
 </section>
@@ -81,7 +87,7 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Custom footer with multiple buttons</h6>
-            <pre>\{{#sl-modal name="customFooter"}}
+            <pre>\{{#sl-modal streamName="customFooter"}}
     \{{sl-modal-header title="Custom Footer"}}
 
     \{{#sl-modal-body}}
@@ -94,7 +100,7 @@
    \{{/sl-modal-footer}}
 \{{/sl-modal}}</pre>
 
-            {{#sl-modal name="customFooter"}}
+            {{#sl-modal streamName="customFooter"}}
                 {{sl-modal-header title="Custom Footer"}}
 
                 {{#sl-modal-body}}
@@ -109,25 +115,25 @@
         </div>
         <div class="col-lg-4">
             <h6>Click to Show Component</h6>
-            {{sl-button openModal="customFooter" label="Open Modal"}}
+            {{sl-button
+                label="Open Modal"
+                showModalWithStreamName="customFooter"
+            }}
         </div>
     </div>
 </section>
 
 <hr>
+
 <section>
     <h2>Triggering a modal to open using a sl-button</h2>
     <p>The code below shows how to use a {{#link-to 'demos.sl-button'}}sl-button{{/link-to}} to trigger a modal with a name of "demo" to open, when clicked.</p>
-    <p>Pass in the name of the modal as the value to the <code>openModal</code> property.</p>
-    <pre> \{{sl-button openModal="demo" label="Open Modal"}}</pre>
+    <p>Pass in the name of the modal as the value to the <code>showModalWithStreamName</code> property.</p>
+    <pre> \{{sl-button showModalWithStreamName="demo" label="Open Modal"}}</pre>
 </section>
 
 <hr>
-<section>
-    <h2>Using sl-modal service to manage multiple modals</h2>
-    <p>Every modal with a unique name is registered on the sl-modal service, refer to the {{#link-to 'demos.services.sl-modal'}}sl-modal service page{{/link-to}} for documentation and sample code on how to use the service to lookup and manage modals across the app.</p>
-</section>
-<hr>
+
 <h3>sl-modal Properties</h3>
 {{#property-text name="afterHide" type="Function"}}
     Action to call after modal is shown.
@@ -153,22 +159,12 @@
     Action to call after modal is shown.
 {{/property-text}}
 
-{{#property-text name="name" type="String"}}
-    Unique name used to identify modal. This name can be used to lookup the modal using the {{#link-to 'demos.services.sl-modal'}}modal service{{/link-to}}.
+{{#property-text name="streamName" type="String"}}
+    The name to register a stream with on the streamService. See "Stream Actions" below.
 {{/property-text}}
 
 <hr>
-<h3>sl-modal Methods</h3>
 
-{{#property-text name="show"}}
-    Show modal.
-{{/property-text}}
-
-{{#property-text name="hide"}}
-    Hide modal.
-{{/property-text}}
-
-<hr>
 <h3>sl-modal-header Properties</h3>
 
 {{#property-text name="title" type="String"}}
@@ -176,12 +172,14 @@
 {{/property-text}}
 
 <hr>
+
 <h3>sl-modal-footer Properties</h3>
 {{#property-text name="buttonText" type="String" default="Close"}}
     Close button text.
 {{/property-text}}
 
 <hr>
+
 <h3>ARIA Support</h3>
 {{#property-text name="role"}}
     This attribute is automatically rendered as <code>role="dialog"</code>
@@ -192,12 +190,11 @@
 {{/property-text}}
 
 {{#property-text name="aria-labelledby"}}
-<p> This attribute is automatically rendered as <code>aria-labelledby="X"</code>, where X is a string composed of the value modalTitle- followed by a random number.
-If you pass in a title to the <code>sl-modal-header</code> component, no action is needed on your part, the <code>aria-labelledby</code> attribute will automatically point to the id of the title element. If you do not pass in a title and are <em>not</em> using a custom header, the <code>aria-labelledby</code> attribute will not be present.</p>
+    <p> This attribute is automatically rendered as <code>aria-labelledby="X"</code>, where X is a string composed of the value modalTitle- followed by a random number.  If you pass in a title to the <code>sl-modal-header</code> component, no action is needed on your part, the <code>aria-labelledby</code> attribute will automatically point to the id of the title element. If you do not pass in a title and are <em>not</em> using a custom header, the <code>aria-labelledby</code> attribute will not be present.</p>
 
-<p>If you would like to use a custom header you will need to identify a section of text that servers as the label for this dialog and give it the same id value assigned to the <code>aria-labelledby</code> attribute.</p>
+    <p>If you would like to use a custom header you will need to identify a section of text that servers as the label for this dialog and give it the same id value assigned to the <code>aria-labelledby</code> attribute.</p>
 
-<p>The example below illustrates how to bind the value of the <code>ariaLabelledBy</code> property to the id of a target element using <code>id=\{{ariaLabelledBy}}</code>.</p>
+    <p>The example below illustrates how to bind the value of the <code>ariaLabelledBy</code> property to the id of a target element using <code>id=\{{ariaLabelledBy}}</code>.</p>
 
 <pre>\{{#sl-modal name="labelledbyDemo"}}
     \{{#sl-modal-header as |ariaLabelledBy|}}
@@ -218,7 +215,7 @@ If you pass in a title to the <code>sl-modal-header</code> component, no action 
 {{/property-text}}
 
 {{#property-text name="aria-describedby"}}
-<p>The <code>ariaDescribedBy</code> property can be set on the <code>sl-modal</code> component. Once this property is set, you will need to provide an element with a section of text whose <code>id</code> attribute corresponds to the <code>ariaDescribedBy</code> property set on the <code>sl-modal</code> component, as shown in the code below.</p>
+    <p>The <code>ariaDescribedBy</code> property can be set on the <code>sl-modal</code> component. Once this property is set, you will need to provide an element with a section of text whose <code>id</code> attribute corresponds to the <code>ariaDescribedBy</code> property set on the <code>sl-modal</code> component, as shown in the code below.</p>
 
 <pre>\{{#sl-modal name="describedbyDemo" ariaDescribedBy="modalDescription"}}
     \{{#sl-modal-header}}
@@ -232,4 +229,18 @@ If you pass in a title to the <code>sl-modal-header</code> component, no action 
     \{{sl-modal-footer}}
 \{{/sl-modal}}
 </pre>
+{{/property-text}}
+
+<hr>
+
+<h3>Stream Actions</h3>
+
+<p>If the <code>streamName</code> property is set on the component, it will register a stream named that value, listen for actions matching the following names, and act accordingly.</p>
+
+{{#property-text name="hide"}}
+    Trigger to hide the modal
+{{/property-text}}
+
+{{#property-text name="show"}}
+    Trigger to show the modal
 {{/property-text}}

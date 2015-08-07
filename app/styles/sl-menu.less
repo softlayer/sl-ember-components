@@ -1,4 +1,6 @@
 .sl-menu {
+    display: inline-block;
+
     ul {
         display: inline-block;
         list-style: none;
@@ -10,21 +12,15 @@
             display: block;
         }
 
-        li {
+        .sl-menu-item {
             background-color: @gray-darker;
-            min-height: 35px;
+            cursor: pointer;
             float: left;
+            min-height: 35px;
             padding: 0;
             position: relative;
             text-align: left;
             width: 120px;
-
-            a {
-                color: #fff;
-                display: block;
-                padding: @padding-base-vertical @padding-base-horizontal;
-                text-decoration: none;
-            }
 
             &.active {
                 background-color: @gray-dark;
@@ -34,12 +30,20 @@
                 }
             }
 
-            &.all {
+            &.show-all {
+                font-size: 18px;
                 width: 35px;
+            }
+
+            a {
+                color: #fff;
+                display: block;
+                padding: @padding-base-vertical @padding-base-horizontal;
+                text-decoration: none;
             }
         }
 
-        ul {
+        .sub-menu {
             display: none;
             left: 0;
             margin: 0;
@@ -48,57 +52,45 @@
             top: 100%;
             z-index: 1000;
 
-            li {
+            .sl-menu-item {
                 background-color: fade(@gray-darker, 90%);
                 border: 0;
                 float: none;
                 margin: 0;
                 position: relative;
 
-                a.submenu::after {
+                &.active {
+                    background-color: fade(@gray-dark, 90%);
+                }
+
+                &.has-sub-menu > a::after {
+                    -moz-osx-font-smoothing: grayscale;
+                    -webkit-font-smoothing: antialiased;
                     content: "\f105";
                     display: inline-block;
                     float: right;
                     font-family: FontAwesome;
+                    font-size: 150%;
                     font-style: normal;
                     font-weight: normal;
-                    font-size: 150%;
                     line-height: 0.9em;
-                    -webkit-font-smoothing: antialiased;
-                    -moz-osx-font-smoothing: grayscale;
-                }
-
-                &.active {
-                    background-color: fade(@gray-dark, 90%);
                 }
             }
 
-            ul {
-                position: absolute;
+            .sub-menu {
                 left: 100%;
+                position: absolute;
                 top: 0;
             }
         }
     }
 
-    &.showall {
-        li {
+    &.show-all {
+        .sl-menu-item {
             background-color: @gray-dark;
-        }
 
-        ul {
-            li {
-                 &:hover {
-                    background-color: fade(@gray-dark, 90%);
-                }
-            }
-
-            ul {
-                ul {
-                    position: relative;
-                    left: 0;
-                    top: 100%;
-                }
+            .sub-menu {
+                display: block;
             }
         }
     }
