@@ -99,7 +99,6 @@ test( 'updateData() is called after series property is modified', function( asse
 });
 
 test( '"Options" property needs to be an object', function( assert ) {
-
     const properties = Ember.Object.create({
         series: testSeries
     });
@@ -172,7 +171,6 @@ test( '"Options" property needs to be an object', function( assert ) {
 });
 
 test( '"Series" property needs to be an array', function( assert ) {
-
     const properties = Ember.Object.create({
         options: testOptions
     });
@@ -285,7 +283,7 @@ test( 'Title property is set', function( assert ) {
     });
 
     assert.strictEqual(
-        this.$( '.panel-heading' )[0],
+        this.$( '.panel-heading' )[ 0 ],
         undefined,
         'No chart title is rendered when title is not set'
     );
@@ -302,7 +300,6 @@ test( 'Title property is set', function( assert ) {
         'Chart title is created with title value'
     );
 });
-
 
 test( 'setupChart initializes chart and updates data upon render', function( assert ) {
     const chartTest = 'a test chart';
