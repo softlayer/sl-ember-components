@@ -235,7 +235,7 @@ test( '"Series" property needs to be an array', function( assert ) {
 
     // Array
     properties.set( 'series', [] );
-    callSubject();
+    this.subject( properties );
 
     assert.ok(
         true,
