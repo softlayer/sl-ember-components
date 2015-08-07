@@ -19,15 +19,12 @@ matrix:
         - env: EMBER_TRY_SCENARIO=ember-release
 
 before_install:
-    - "echo $PATH"
-    - "phantomjs -v"
     - "npm config set spin false"
     - "npm install -g npm@^2"
 
 install:
     - npm install -g bower
     - npm install
-    - npm install phantomjs@1.9.8
     - bower install
 
 script:
