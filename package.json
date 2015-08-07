@@ -68,6 +68,7 @@
     "ember-export-application-global": "^1.0.2",
     "ember-stream": "^0.7.2",
     "ember-try": "0.0.6",
+    "phantomjs": "1.9.8",
     "sl-eslint": "0.1.2"
   }
 }
