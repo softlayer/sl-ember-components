@@ -20,6 +20,7 @@ matrix:
 
 before_install:
     - "echo $PATH"
+    - "phantomjs -v"
     - "npm config set spin false"
     - "npm install -g npm@^2"
 
