@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { skip } from 'qunit';
 
 const testOptions = {
     chartOptions: {
@@ -171,8 +170,7 @@ test( '"Options" property needs to be an object', function( assert ) {
     );
 });
 
-skip( '"Series" property needs to be an array', function( assert ) {
-
+test( '"Series" property needs to be an array', function( assert ) {
     const properties = Ember.Object.create({
         options: testOptions
     });
