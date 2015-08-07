@@ -99,7 +99,7 @@ test( 'updateData() is called after series property is modified', function( asse
     );
 });
 
-skip( '"Options" property needs to be an object', function( assert ) {
+test( '"Options" property needs to be an object', function( assert ) {
     const properties = Ember.Object.create({
         series: testSeries
     });
