@@ -217,7 +217,6 @@ test( '"Series" property needs to be an array', function( assert ) {
         'property was a Number'
     );
 
-/*
     // Function
     properties.set( 'series', function() {} );
 
@@ -226,6 +225,7 @@ test( '"Series" property needs to be an array', function( assert ) {
         'property was a Function'
     );
 
+/*
     // Object
     properties.set( 'series', {} );
 
