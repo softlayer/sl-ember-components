@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 
 const testOptions = {
@@ -31,7 +31,7 @@ moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
     unit: true
 });
 
-skip( 'Default classNames are present', function( assert ) {
+test( 'Default classNames are present', function( assert ) {
     this.subject({
         options: testOptions,
         series: testSeries
@@ -58,7 +58,7 @@ skip( 'Default classNames are present', function( assert ) {
     );
 });
 
-skip( 'Loading state adds loading class', function( assert ) {
+test( 'Loading state adds loading class', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
@@ -80,7 +80,7 @@ skip( 'Loading state adds loading class', function( assert ) {
     );
 });
 
-skip( 'updateData() is called after series property is modified', function( assert ) {
+test( 'updateData() is called after series property is modified', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
@@ -100,7 +100,6 @@ skip( 'updateData() is called after series property is modified', function( asse
 });
 
 skip( '"Options" property needs to be an object', function( assert ) {
-
     const properties = Ember.Object.create({
         series: testSeries
     });
@@ -245,7 +244,7 @@ skip( '"Series" property needs to be an array', function( assert ) {
     );
 });
 
-skip( 'Chart div uses the correct style', function( assert ) {
+test( 'Chart div uses the correct style', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
@@ -279,14 +278,14 @@ skip( 'Chart div uses the correct style', function( assert ) {
     );
 });
 
-skip( 'Title property is set', function( assert ) {
+test( 'Title property is set', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
     });
 
     assert.strictEqual(
-        this.$( '.panel-heading' )[0],
+        this.$( '.panel-heading' )[ 0 ],
         undefined,
         'No chart title is rendered when title is not set'
     );
@@ -304,8 +303,7 @@ skip( 'Title property is set', function( assert ) {
     );
 });
 
-
-skip( 'setupChart initializes chart and updates data upon render', function( assert ) {
+test( 'setupChart initializes chart and updates data upon render', function( assert ) {
     const chartTest = 'a test chart';
     const chartDivMock = {
         highcharts( options ) {
@@ -368,7 +366,7 @@ skip( 'setupChart initializes chart and updates data upon render', function( ass
     );
 });
 
-skip( 'highchartsOptions returns expected options', function( assert ) {
+test( 'highchartsOptions returns expected options', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
@@ -434,7 +432,7 @@ skip( 'highchartsOptions returns expected options', function( assert ) {
     );
 });
 
-skip( 'title property is not missing in highchartsOptions and set to null', function( assert ) {
+test( 'title property is not missing in highchartsOptions and set to null', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
