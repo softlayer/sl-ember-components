@@ -87,10 +87,9 @@ export default Ember.Component.extend({
     initialize: Ember.on(
         'init',
         function() {
-            Ember.assert(
-                'Series property must be an array',
-                'array' === Ember.typeOf( this.get( 'series' ) )
-            );
+            if ( 'array' !== Ember.typeOf( this.get( 'series' ) ) ) {
+                throw new Ember.Error( 'Series property must be an array' );
+            }
 
             /* jshint ignore:start */
             Ember.assert(
