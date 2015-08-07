@@ -193,7 +193,6 @@ test( '"Series" property needs to be an array', function( assert ) {
         'property was a String'
     );
 
-/*
     // undefined
     properties.set( 'series', undefined );
 
@@ -202,6 +201,7 @@ test( '"Series" property needs to be an array', function( assert ) {
         'property was undefined'
     );
 
+/*
     // Boolean
     properties.set( 'series', false );
 
