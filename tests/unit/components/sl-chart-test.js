@@ -234,11 +234,10 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 
     // Array
-    properties.set( 'series', [] );
-    this.subject( properties );
+    properties.set( 'series', new Ember.A([]) );
 
     assert.ok(
-        true,
+        callSubject(),
         'property was an Array'
     );
 });
