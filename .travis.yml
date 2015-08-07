@@ -19,6 +19,7 @@ matrix:
         - env: EMBER_TRY_SCENARIO=ember-release
 
 before_install:
+    - "echo $PATH"
     - "npm config set spin false"
     - "npm install -g npm@^2"
 
