@@ -92,14 +92,16 @@ export default Ember.Component.extend({
             }
 
             /* jshint ignore:start */
-            Ember.assert(
-                'Options property must be an Object',
+            const options = this.get( 'options' );
+            if (
                 (
-                    'instance' === Ember.typeOf( this.get( 'options' ) ) ||
-                    'object' === Ember.typeOf( this.get( 'options' ) )
-                ) &&
-                'symbol' !== typeof this.get( 'options' )
-            );
+                    'instance' !== Ember.typeOf( options ) &&
+                    'object' !== Ember.typeOf( options )
+                ) ||
+                'symbol' === typeof options
+            ) {
+                throw new Ember.Error( 'Options property must be an Object' );
+            }
             /* jshint ignore:end */
         }
     ),
