@@ -1,263 +1,742 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import startApp from '../../helpers/start-app';
 
-let clickCounter = 0;
-const modelStub = {
-    label: null,
-    pages: [
-        {
-            label: 'Top Level A',
-            extraClassNames: [ 'class1', 'class2' ],
-            pages: [
-                {
-                    label: 'Option A1',
-                    action: 'MyAction'
-                }, {
-                    label: 'Option A2',
-                    action() {
-                        clickCounter = 0; clickCounter++;
-                    }
-                }, {
-                    label: 'Option A3',
-                    action: {
-                        actionName: 'MyAction',
-                        data: { name: 'Joe' }
-                    }
-                }, {
-                    label: 'Sub Menu A3',
-                    pages: [
-                        { label: 'Sub Sub Menu A3.1' },
-                        { label: 'Sub Sub Menu A3.2' },
-                        { label: 'Sub Sub Menu A3.3' },
-                        { label: 'Sub Sub Menu A3.4' }
-                    ]
-                }
-            ]
+const mockStream = {
+    actions: {},
+
+    on( actionName, handler ) {
+        this.actions[ actionName ] = handler;
+    },
+
+    subject: {
+        dispose() {
+            mockStream.actions = {};
         },
-        { label: 'Top Level B' },
-        { label: 'Top Level C' }
-    ]
+
+        onCompleted() {}
+    }
 };
 
-let App;
+const testItems = new Ember.A([
+    {
+        action: 'firstTest',
+        data: 'first',
+        label: 'First',
+        items: [
+            {
+                label: 'First sub-item',
+                items: [
+                    { label: 'First sub-item sub-item' }
+                ]
+            }, {
+                label: 'Second sub-item'
+            }
+        ]
+    }, {
+        action: 'secondTest',
+        data: 'second',
+        label: 'Second'
+    }
+]);
 
 moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
-    beforeEach() {
-        App = startApp();
-    },
+    unit: true,
 
-    afterEach() {
-        Ember.run( App, App.destroy );
-    },
-
-    unit: true
+    needs: [
+        'component:sl-menu-item',
+        'component:sl-menu-item-show-all'
+    ]
 });
 
-test( '"children" property is an empty array on initialization', function( assert ) {
-    const component = this.subject();
+test( 'Default property values', function( assert ) {
+    this.subject();
 
-    this.render();
-
-    assert.equal(
-        Ember.typeOf( component.get( 'children' ) ),
-        'array',
-        'Is array'
+    assert.ok(
+        this.$().hasClass( 'sl-menu' ),
+        'Has class "sl-menu"'
     );
 
-    assert.equal(
-        component.get( 'children' ).length,
-        0,
-        'Array is empty'
+    assert.ok(
+        this.$().is( 'div' ),
+        'Element is a <div>'
     );
 });
 
-test( 'Class attributes are properly bound', function( assert ) {
-    this.subject({ menu: modelStub });
-
-    const menus = this.$( 'li' );
-    const firstMenuClasses = Ember.$( menus[0] ).attr( 'class' ).split( ' ' );
-
-    assert.ok(
-        firstMenuClasses.indexOf( 'class1' ) > -1,
-        '"class1" is added to the first menu element class'
-    );
-
-    assert.ok(
-        firstMenuClasses.indexOf( 'class2' ) > -1,
-        '"class2" is added to the first menu element class'
-    );
-
-    assert.ok(
-        firstMenuClasses.indexOf( 'sl-menu' ) > -1,
-        '"sl-menu" is added to the first menu element class'
-    );
-
-    const secondMenuClasses = Ember.$( menus[1] ).attr( 'class' ).split( ' ' );
-
-    assert.ok(
-        secondMenuClasses.indexOf( 'sl-menu' ) > -1,
-        '"sl-menu" is added to a menu when no classNames property is present'
-    );
-});
-
-test( 'Menu creates correct DOM structure', function( assert ) {
-    this.subject({ menu: modelStub });
+test( 'Items are rendered', function( assert ) {
+    this.subject({
+        items: testItems
+    });
 
     assert.equal(
         this.$( 'li' ).length,
-        11
+        5,
+        'Has 4 children list items'
     );
 });
 
-test( 'Menu properly hides all but root list', function( assert ) {
-    this.subject({ menu: modelStub });
-
-    assert.equal(
-        this.$( 'li:visible' ).length,
-        3
-    );
-});
-
-test( 'Menu shows child on hover', function( assert ) {
-    this.subject({ menu: modelStub });
-
-    assert.equal(
-        this.$( 'li:visible' ).length,
-        3
-    );
-
-    this.$( 'li:visible' ).first().mouseenter();
-
-    assert.equal(
-        this.$( 'li:visible' ).length,
-        7
-    );
-});
-
-test( 'Menu closes child on mouse exit', function( assert ) {
-    this.subject({ menu: modelStub });
-
-    const child = this.$( 'li:visible' ).first();
-
-    assert.equal(
-        this.$( 'li:visible' ).length,
-        3
-    );
-
-    child.trigger( 'mouseenter' );
-    assert.equal(
-        this.$( 'li:visible' ).length,
-        7
-    );
-
-    child.trigger( 'mouseleave' );
-    assert.equal(
-        this.$( 'li:visible' ).length,
-        3
-    );
-});
-
-test( 'Menu click supports native function', function( assert ) {
-    const component = this.subject({ menu: modelStub });
-    const child = this.$( 'li:visible' ).first();
-    const spy = window.sinon.spy();
-
-    Ember.set(
-        Ember.get(
-            Ember.get( component, 'pages' )[ 0 ], 'pages'
-        )[ 1 ],
-        'action',
-        spy
-    );
-
-    child.trigger( 'mouseenter' );
-    child.find( 'li:visible' ).eq( 1 ).trigger( 'click' );
-
-    window.andThen( () => {
-        assert.equal(
-            spy.calledOnce,
-            true
-        );
-    });
-});
-
-test( 'Menu click supports action names', function( assert ) {
-    const component = this.subject({ menu: modelStub });
-    const child = this.$( 'li:visible' ).first();
-    const spy = window.sinon.spy();
-    const targetObject = {
-        actionHandler: spy
-    };
-
-    component.set( 'actionInitiated', 'actionHandler' );
-    component.set( 'targetObject', targetObject );
-
-    child.trigger( 'mouseenter' );
-    child.find( 'li:visible' ).first().trigger( 'click' );
-
-    window.andThen( () => {
-        assert.equal(
-            spy.args[ 0 ][ 0 ],
-            'MyAction'
-        );
-    });
-});
-
-test( 'Menu click supports action names with supporting data', function( assert ) {
-    const component = this.subject({ menu: modelStub });
-    const child = this.$( 'li:visible' ).first();
-    const spy = window.sinon.spy();
-    const targetObject = {
-        actionHandler: spy
-    };
-
-    component.set( 'actionInitiated', 'actionHandler' );
-    component.set( 'targetObject', targetObject );
-
-    child.trigger( 'mouseenter' );
-
-    child.find( 'li:visible' ).eq( 2 ).trigger( 'click' );
-
-    window.andThen( () => {
-        assert.equal(
-            spy.args[ 0 ][ 0 ],
-            'MyAction'
-        );
-
-        assert.equal(
-            spy.args[ 0 ][ 1 ].name,
-            'Joe'
-        );
-    });
-});
-
-test( 'Menu selection fires proper selection event', function( assert ) {
-    let selectionCounter = 0;
-
+test( 'Actions are handled properly from menu items', function( assert ) {
     this.subject({
-        menu: modelStub,
-
-        selectionMade: 'selectionHandler',
+        action: 'test',
+        items: testItems,
 
         targetObject: {
-            selectionHandler() {
-                selectionCounter++;
+            test( actionName, data ) {
+                assert.equal(
+                    actionName,
+                    'firstTest',
+                    'Given action name is expected value'
+                );
+
+                assert.equal(
+                    data,
+                    'first',
+                    'Given data is expected value'
+                );
             }
         }
     });
 
-    const child1 = this.$( 'li:visible' ).first();
-    child1.trigger( 'mouseenter' );
-    child1.trigger( 'click' );
+    this.$( 'li a' ).first().trigger( 'click' );
+});
 
-    const child2 = child1.find( 'li:visible' ).last();
-    child2.trigger( 'mouseenter' );
-    child2.trigger( 'click' );
+test( 'allowShowAll property enables the show-all menu item', function( assert ) {
+    this.subject({
+        allowShowAll: true,
+        items: testItems
+    });
 
-    const child3 = child2.find( 'li:visible' ).first();
-    child3.trigger( 'mouseenter' );
-    child3.trigger( 'click' );
+    assert.ok(
+        this.$( 'li' ).last().hasClass( 'show-all' ),
+        'show-all menu item is rendered'
+    );
+});
 
-    assert.equal( selectionCounter, 3 );
+test( 'showAll() properly sets state to showingAll', function( assert ) {
+    const component = this.subject({
+        allowShowAll: true,
+        items: testItems
+    });
+
+    assert.ok(
+        !component.get( 'showingAll' ),
+        'showingAll is initially false'
+    );
+
+    Ember.run( () => {
+        component.showAll();
+    });
+
+    assert.ok(
+        component.get( 'showingAll' ),
+        'showingAll is true after showAll()'
+    );
+});
+
+test( 'hideAll() sets state to not showingAll', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        showingAll: true
+    });
+
+    Ember.run( () => {
+        component.hideAll();
+    });
+
+    assert.equal(
+        component.get( 'showingAll' ),
+        false,
+        'showingAll is false'
+    );
+});
+
+test( 'showingAll sets class "show-all"', function( assert ) {
+    this.subject({
+        showingAll: true
+    });
+
+    assert.ok(
+        this.$().hasClass( 'show-all' ),
+        'Rendered element has class "show-all"'
+    );
+});
+
+test( 'select() selects a certain menu item', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        component.select( 0 );
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'A single item is selected after select()'
+    );
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'Selected item is first test item'
+    );
+
+    Ember.run( () => {
+        component.select( 1 );
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'A single item is selected after select()'
+    );
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'Selected item is second test item'
+    );
+});
+
+test( 'selectDown() selects an item in the "down" direction', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        component.selectDown();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'Selected item is first testItem'
+    );
+
+    Ember.run( () => {
+        component.selectDown();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ],
+        'Selected item is first sub-menu item'
+    );
+});
+
+test( 'selectLeft() selects an item in the "left" direction', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Selection has to be "down" first in order to select the top level for
+        // the context
+        component.selectDown();
+        component.selectLeft();
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'Only one selection is made'
+    );
+
+    Ember.run( () => {
+        // Select "left" to the first top-level item
+        component.selectLeft();
+
+        // Select "down" into the first sub-menu
+        component.selectDown();
+    });
+
+    // This assertion ensures that we have gone into the first sub-menu
+    assert.equal(
+        component.get( 'selections' ).length,
+        2,
+        'Two selections are made'
+    );
+
+    Ember.run( () => {
+        // Back to top-level items
+        component.selectLeft();
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'Only one selection is made'
+    );
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'First top-level item is selected again'
+    );
+});
+
+test( 'selectNext() selects the next sibling menu item', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        component.selectNext();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'First top-level item is selected'
+    );
+
+    Ember.run( () => {
+        component.selectNext();
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        1,
+        'One item is still selected'
+    );
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'Second top-level item is selected'
+    );
+});
+
+test( "selectParent() selects a sub-menu's parent item", function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Select the first top-level item
+        component.select( 0 );
+
+        // Descend into the first sub-menu
+        component.selectSubMenu();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ],
+        'The first sub-menu item is selected'
+    );
+});
+
+test( 'selectPrevious() selects the previous sibling menu item', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Select the second top-level item
+        component.select( 1 );
+
+        // Select previous; should be the first top-level item
+        component.selectPrevious();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'The first top-level item is selected'
+    );
+
+    Ember.run( () => {
+        // Select previous again; should wrap and select the second top-level item
+        component.selectPrevious();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'The second top-level item is selected'
+    );
+});
+
+test( 'selectRight() selects an item in the "right" direction', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        component.select( 0 );
+        component.selectRight();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 1 ],
+        'The second top-level item is selected'
+    );
+
+    Ember.run( () => {
+        // Should wrap around back to the first item
+        component.selectRight();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'The first top-level item is selected'
+    );
+
+    Ember.run( () => {
+        // Descend "down" into the first sub-menu
+        component.selectDown();
+
+        // Select "right" to the first nested sub-menu's first sub-item
+        component.selectRight();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ].items[ 0 ],
+        "The first nested sub-menu's first sub-item is selected"
+    );
+});
+
+test( 'selectSubMenu() selects a sub-menu item', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Select the first top-level item
+        component.select( 0 );
+
+        // Select the first sub-menu
+        component.selectSubMenu();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ],
+        'The first sub-menu item is selected'
+    );
+});
+
+test( 'selectUp() selects an item in the "up" direction', function( assert ) {
+    const component = this.subject({
+        items: testItems
+    });
+
+    assert.equal(
+        component.get( 'selections' ).length,
+        0,
+        'Nothing is selected initially'
+    );
+
+    Ember.run( () => {
+        // Select the first top-level item
+        component.select( 0 );
+
+        // Select the first sub-menu
+        component.selectSubMenu();
+
+        // Select the second sub-menu item
+        component.selectDown();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 1 ],
+        'The second sub-menu item is selected'
+    );
+
+    Ember.run( () => {
+        // Select "up" to the first sub-menu item
+        component.selectUp();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ].items[ 0 ],
+        'The first sub-menu item is selected'
+    );
+
+    Ember.run( () => {
+        // Select "up" again to select the sub-menu's parent
+        component.selectUp();
+    });
+
+    assert.equal(
+        component.get( 'selectedItem' ),
+        testItems[ 0 ],
+        'The first top-level item is selected'
+    );
+});
+
+test( 'selectNext() shows all at the end of the context', function( assert ) {
+    const component = this.subject({
+        allowShowAll: true,
+        items: testItems
+    });
+
+    Ember.run( () => {
+        // Select the last item option
+        component.select( 1 );
+    });
+
+    assert.ok(
+        false === component.get( 'showingAll' ),
+        'Component is not showing all'
+    );
+
+    Ember.run( () => {
+        component.selectNext();
+    });
+
+    assert.ok(
+        component.get( 'showingAll' ),
+        'Component is now showing all'
+    );
+});
+
+test( 'selectPrevious() shows all when at the beginning of the context', function( assert ) {
+    const component = this.subject({
+        allowShowAll: true,
+        items: testItems
+    });
+
+    assert.ok(
+        false === component.get( 'showingAll' ),
+        'Component is not showing all by default'
+    );
+
+    Ember.run( () => {
+        component.selectPrevious();
+    });
+
+    assert.ok(
+        component.get( 'showingAll' ),
+        'Component is now showing all'
+    );
+});
+
+test( 'Stream action "doAction" triggers doAction()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const doActionSpy = window.sinon.spy( component, 'doAction' );
+
+    mockStream.actions[ 'doAction' ]();
+    assert.ok(
+        doActionSpy.called,
+        'doAction method was called'
+    );
+});
+
+test( 'Stream action "hideAll" triggers hideAll()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const doActionSpy = window.sinon.spy( component, 'doAction' );
+
+    mockStream.actions[ 'doAction' ]();
+    assert.ok(
+        doActionSpy.called,
+        'doAction method was called'
+    );
+});
+
+test( 'Stream action "select" triggers select()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectSpy = window.sinon.spy( component, 'select' );
+
+    mockStream.actions[ 'select' ]( 0 );
+    assert.ok(
+        selectSpy.called,
+        'select method was called'
+    );
+});
+
+test( 'Stream action "selectDown" triggers selectDown()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectDownSpy = window.sinon.spy( component, 'selectDown' );
+
+    mockStream.actions[ 'selectDown' ]();
+    assert.ok(
+        selectDownSpy.called,
+        'selectDown method was called'
+    );
+});
+
+test( 'Stream action "selectLeft" triggers selectLeft()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectLeftSpy = window.sinon.spy( component, 'selectLeft' );
+
+    mockStream.actions[ 'selectLeft' ]();
+    assert.ok(
+        selectLeftSpy.called,
+        'selectLeft method was called'
+    );
+});
+
+test( 'Stream action "selectNext" triggers selectNext()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectNextSpy = window.sinon.spy( component, 'selectNext' );
+
+    mockStream.actions[ 'selectNext' ]();
+    assert.ok(
+        selectNextSpy.called,
+        'selectNext method was called'
+    );
+});
+
+test( 'Stream action "selectParent" triggers selectParent()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectParentSpy = window.sinon.spy( component, 'selectParent' );
+
+    Ember.run( () => {
+        // An error occurs if selectParent() is triggered without any parent
+        // context, so we need to descend into the first sub-menu first
+        component.select( 0 );
+        component.selectSubMenu();
+    });
+
+    mockStream.actions[ 'selectParent' ]();
+    assert.ok(
+        selectParentSpy.called,
+        'selectParent method was called'
+    );
+});
+
+test( 'Stream action "selectPrevious" triggers selectPrevious()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectPreviousSpy = window.sinon.spy( component, 'selectPrevious' );
+
+    mockStream.actions[ 'selectPrevious' ]();
+    assert.ok(
+        selectPreviousSpy.called,
+        'selectPrevious method was called'
+    );
+});
+
+test( 'Stream action "selectRight" triggers selectRight()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectRightSpy = window.sinon.spy( component, 'selectRight' );
+
+    mockStream.actions[ 'selectRight' ]();
+    assert.ok(
+        selectRightSpy.called,
+        'selectRight method was called'
+    );
+});
+
+test( 'Stream action "selectSubMenu" triggers selectSubMenu()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectSubMenuSpy = window.sinon.spy( component, 'selectSubMenu' );
+
+    mockStream.actions[ 'selectSubMenu' ]();
+    assert.ok(
+        selectSubMenuSpy.called,
+        'selectSubMenu method was called'
+    );
+});
+
+test( 'Stream action "selectUp" triggers selectUp()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const selectUpSpy = window.sinon.spy( component, 'selectUp' );
+
+    mockStream.actions[ 'selectUp' ]();
+    assert.ok(
+        selectUpSpy.called,
+        'selectUp method was called'
+    );
+});
+
+test( 'Stream action "showAll" triggers showAll()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const showAllSpy = window.sinon.spy( component, 'showAll' );
+
+    mockStream.actions[ 'showAll' ]();
+    assert.ok(
+        showAllSpy.called,
+        'showAll method was called'
+    );
 });

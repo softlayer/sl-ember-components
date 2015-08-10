@@ -1,5 +1,5 @@
 <h2>sl-menu</h2>
-<p class="lead">A component that can be nested to build complex menu hierarchies.</p>
+<p class="lead">A component to build complex menu hierarchies.</p>
 
 <hr>
 
@@ -9,205 +9,130 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{sl-menu
-    actionInitiated="actionInitiatedHandler"
-    changeRoute="changeRouteHandler"
-    keyEvents=controller.keyHandler
-    keyboardInUse=controller.keyboardInUse
-    menu=controller.content
-    selectionMade="selectionMadeHandler"
-    showAll="true"
+    action="doSomething"
+    allowShowAll=true
+    items=menuItems
+    streamName=menuStreamName
 }}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{sl-menu
-            actionInitiated="actionInitiatedHandler"
-            changeRoute="changeRouteHandler"
-            keyEvents=controller.keyHandler
-            keyboardInUse=controller.keyboardInUse
-            menu=controller.content
-            selectionMade="selectionMadeHandler"
-            showAll="true"
+            action="doSomething"
+            allowShowAll=true
+            items=menuItems
+            streamName=menuStreamName
         }}
     </div>
 </div>
 
-<br>
-<div class="row">
-    <div class="col-lg-12">
-        <p>In addition to being able to interact with the menu via a mouse, the following keyboard shortcuts can also be used:</p>
-
-        <ul>
-            <li>The numbers 1-4 can be selected to expand the menu option corresponding to its same location in the menu.</li>
-            <li>The numbers 0 can be selected to expand the "Show All" menu option.  How this option is visually rendered is a product of the applied CSS, which you can specify.</li>
-            <li>The ESC key can be used to close the expanded menu option.</li>
-            <li>To select an option from the expanded menu follow up your previous numerical selection with the selection of the dash/hyphen key followed by the numerical digit representing the location of the desired option desired in the display.</li>
-            <li>Once a top-level menu option has been selected you can use the TAB key or SHIFT+TAB key combination to cycle forwards and backwards through the menu options.</li>
-        </ul>
-
-        <p>Instructions on how to implement your own keyboard shortcuts can be found further below.</p>
-    </div>
-</div>
+<p>This demo app showcases the following keybindings set up to trigger stream actions:</p>
+<ul>
+    <li>Escape key: hideAll</li>
+    <li>Key 0: showAll</li>
+    <li>Keys 1-9: select( 0-8 )</li>
+    <li>Tab: selectNext</li>
+    <li>Shift+tab: selectPrevious</li>
+    <li>Enter: doAction</li>
+    <li>Up key: selectUp</li>
+    <li>Left key: selectLeft</li>
+    <li>Right key: selectRight</li>
+    <li>Down key: selectDown</li>
+    <li><strong>-</strong> key: selectSubMenu</li>
+</ul>
 
 <hr>
 
 <h3>Properties</h3>
 
 <ul class="list-group">
-    {{#property-text name="menu" required=true type="Object"}}
-        Used to provide the underlying structure of the entire menu. This expects an Ember.Object with a <code>pages</code> attribute that contains an Ember.Array of other nodes. Each node, including the top level, can have the following attributes:
+    {{#property-text name="action" type="String"}}
+        The name of an action to trigger whenever a sub-menu item's action is triggered. The action should accept <em>actionName</em> and <em>data</em> from the menu item.
+    {{/property-text}}
+
+    {{#property-text name="allowShowAll" type="Boolean" default="false"}}
+        When true, the menu includes a show-all menu item.
+    {{/property-text}}
+
+    {{#property-text name="items" type="Array"}}
+        <p>The array of menu items, each object member containing the following properties:</p>
         <ul>
-            <li><strong>pages</strong> - An array of nodes that will be embedded under the <code>label</code> attribute as a sub-menu.</li>
-            <li><strong>label</strong> - The label of the menu itself. This should be <em>null</em> for top level menus and will provide the name of the sub-menu for sub-menu lists.</li>
-            <li><strong>extraClassNames</strong> - An array of classes to be added to the element's <code>class</code> attribute.</li>
-            <li><strong>action</strong> - This can either be a string, which will be received by the <code>actionInitiated</code> binding on the template or can actually be a function that will be executed when the item is selected with either a mouse click or through a keyboard shortcut.</li>
-            <li><strong>route</strong> - This can be used to specify a route to which the application will transition if the menu item is selected.</li>
+            <li><strong>action</strong> - A <em>string</em> name of an action to pass back to the controller using the <code>action</code> component binding</li>
+            <li><strong>data</strong> - Any value to pass up through the action</li>
+            <li><strong>label</strong> - <em>String</em> text to display on the menu item link</li>
+            <li><strong>items</strong> - An <em>array</em> for sub-menu items on this menu item (recursive structure)</li>
         </ul>
-        <br>
-        Of the last 2 properties in the list only one will be respected even if both are applied. The order of precedence is <strong>action</strong> then <strong>route</strong>.
     {{/property-text}}
 
-    {{#property-text name="actionInitiated" type="Function"}}
-        Handler for string based actions that are associated with a menu item. If a given item has an associated action, the handler bound to the actionInitiated property will be called and the name of the action handed as the only parameter.
-    {{/property-text}}
-
-    {{#property-text name="changeRoute" type="Function"}}
-        Handler for handling the selection of menu items that have a corresponding route property.  Typically, this will be a simple <code>transitionTo</code> or <code>transitionToRoute</code> call.
-    {{/property-text}}
-
-    {{#property-text name="keyEvents" type="Object"}}
-        Used for providing events to the menu. This can be used in conjunction with the <strong>utils/sl-menu-key-adapter</strong> to provide the proper events to support key presses.
-    {{/property-text}}
-
-    {{#property-text name="keyboardInUse" type="Boolean"}}
-        Whether the menu is being interacted with via the keyboard.  This value gets set by the inner workings of the component and is exposed for use by view logic.  One example of how to use this value is to be able to use the <code>TAB</code> key to navigate through the menu options, where its default event needs to suppressed while doing so.
-    {{/property-text}}
-
-    {{#property-text name="selectionMade" type="Function"}}
-        Handler for selection events. Handler will be given the full path to the selected node.
-    {{/property-text}}
-
-    {{#property-text name="showAll" type="Boolean" default="false"}}
-        Whether a "Show All" icon appears, displaying all of the menu options when interacted with.
+    {{#property-text name="streamName" type="String"}}
+        The name to register a stream with on the streamService. See "Stream Actions" below.
     {{/property-text}}
 </ul>
 
 <hr>
 
-<h3>Keyboard Shortcuts</h3>
+<h3 id="stream-actions">Stream Actions</h3>
 
-<div class="list-group">
-    <div class="list-group-item">
-        <h6>Hooks</h6>
-        <p>The <strong>utils/sl-menu-key-adapter</strong> provides the following hooks into the menu component onto which to attach keyboard events:</p>
+<p>If the <code>streamName</code> property is set on the component, it will register a stream named that value, listen for actions matching the following names, and act accordingly.</p>
 
-        <ul>
-            <li>childSelection
-                <ul>
-                    <li>Select a menu option</li>
-                </ul>
-            </li>
-            <li>drillDown
-                <ul>
-                    <li>Select a sub-menu</li>
-                </ul>
-            </li>
-            <li>cycleRootSelectionNext
-                <ul>
-                    <li>Select the next top-level menu option</li>
-                </ul>
-            </li>
-            <li>cycleRootSelectionPrevious
-                <ul>
-                    <li>Select the previous top-level menu option</li>
-                </ul>
-            </li>
-            <li>closeAll
-                <ul>
-                    <li>Close all menu options</li>
-                </ul>
-            </li>
-            <li>showAll
-                <ul>
-                    <li>Show all menu options</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+{{#property-text name="doAction"}}
+    Trigger the currently selected item's <code>action</code>, sending its optional <code>data</code>
+{{/property-text}}
 
-    <div class="list-group-item">
-        <h6>Code Example</h6>
+{{#property-text name="hideAll"}}
+    Trigger hiding all of the sub-menus
+{{/property-text}}
 
-        <p>The keyboard shortcuts for this demo are configured in <a href="https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/views/sl-menu.js">https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/views/sl-menu.js</a> and <a href="https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/controllers/sl-menu.js">https://github.com/softlayer/sl-ember-components/blob/master/tests/dummy/app/controllers/sl-menu.js</a>, relevant excerpts of which are presented below:</p>
+{{#property-text name="select"}}
+    Select an item by its index <em>{Number}</em> in the current selected context
+{{/property-text}}
 
-        <p><strong>tests/dummy/app/controllers/sl-menu.js</strong></p>
-<pre>import Ember from 'ember';
-import KeyManager from 'sl-ember-components/utils/sl-menu-key-adapter';
+{{#property-text name="selectDown"}}
+    <ul>
+        <li>In the top-level menu, select the first item in the current selection's sub-menu</li>
+        <li>In a sub-menu, select the next sibling item, wrapping around to the top when necessary</li>
+    </ul>
+{{/property-text}}
 
-export default Ember.ObjectController.extend({
+{{#property-text name="selectLeft"}}
+    <ul>
+        <li>In the top-level menu, select the previous sibling item</li>
+        <li>In a sub-menu, select the parent menu</li>
+    </ul>
+{{/property-text}}
 
-    keyHandler: KeyManager.create(),
+{{#property-text name="selectNext"}}
+    Select the next sibling menu item, wrapping around the list when necessary
+{{/property-text}}
 
-    keyboardInUse: null
+{{#property-text name="selectParent"}}
+    Select the parent menu item
+{{/property-text}}
 
-});
-</pre>
+{{#property-text name="selectPrevious"}}
+    Select the previous sibling menu item, wrapping around the list when necessary
+{{/property-text}}
 
-        <p><strong>tests/dummy/app/views/sl-menu.js</strong></p>
-<pre>import Ember from 'ember';
+{{#property-text name="selectRight"}}
+    <ul>
+        <li>In the top-level menu, select the next sibling item</li>
+        <li>In a sub-menu, select the first item in the current item's sub-menu</li>
+    </ul>
+{{/property-text}}
 
-export default Ember.View.extend({
+{{#property-text name="selectSubMenu"}}
+    Select the first item in the current item's sub-menu
+{{/property-text}}
 
-    registerKeyListeners: Ember.on(
-        'didInsertElement',
-        function() {
-            Ember.$( document ).on( 'keypress.menu', ( e ) =&gt; {
-                if ( e.charCode &gt;= 49 &amp;&amp; e.charCode &lt;= 57 ) {
-                    var keypressed = e.charCode - 48;
-                    this.get( 'controller.keyHandler' ).childSelection( keypressed );
-                } else if ( e.charCode === 45 ) {
-                    this.get( 'controller.keyHandler' ).drillDown( '-' );
-                } else if ( e.charCode === 48 ) {
-                    this.get( 'controller.keyHandler' ).showAll();
-                }
-            });
+{{#property-text name="selectUp"}}
+    <ul>
+        <li>In the top-level menu, do not select anything different</li>
+        <li>On the first item of the first level of sub-menu, select the parent item</li>
+        <li>On any other sub-menu item, select the previous sibling, wrapping around the list when necessary</li>
+    </ul>
+{{/property-text}}
 
-            // keypress doesn't appear to catch ESC
-            Ember.$( document ).on( 'keyup.menu', ( e ) =&gt; {
-                if ( e.keyCode === 27 ) {
-                    this.get( 'controller.keyHandler' ).closeAll();
-                }
-            });
-
-            // need to capture TAB key with keydown event
-            Ember.$( document ).on( 'keydown.menu', ( e ) =&gt; {
-                if ( 9 === e.keyCode &amp;&amp; this.get( 'controller.keyboardInUse' ) ) {
-                    e.preventDefault();
-
-                    if ( e.shiftKey ) {
-                        this.get( 'controller.keyHandler' ).cycleRootSelectionPrevious();
-                    } else {
-                        this.get( 'controller.keyHandler' ).cycleRootSelectionNext();
-                    }
-                }
-            });
-        }
-    },
-
-    unregisterKeyListeners: Ember.on(
-        'willClearRender',
-        function() {
-            Ember.$( document )
-                .off( 'keypress.menu' )
-                .off( 'keyup.menu' )
-                .off( 'keydown.menu' );
-        }
-    )
-
-});
-</pre>
-
-
-    </div>
-</div>
+{{#property-text name="showAll"}}
+    Trigger showing all of the menu items
+{{/property-text}}

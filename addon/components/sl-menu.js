@@ -1,12 +1,14 @@
 import Ember from 'ember';
-import SlMenuShowAllView from '../views/sl-menu-show-all';
+import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-menu';
+import { warn } from '../utils/all';
 
 /**
  * @module
  * @augments ember/Component
+ * @augments ember-stream/mixins/stream-enabled
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( StreamEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -16,7 +18,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'extraClassNamesString'
+        'showingAll:show-all'
     ],
 
     /** @type {String[]} */
@@ -37,194 +39,36 @@ export default Ember.Component.extend({
     actions: {
 
         /**
-         * Close all of the sub menus
+         * Handle an action from a sub-menu item
          *
-         * @function actions:closeAll
+         * @function actions:handleAction
+         * @param {String} actionName - The name of an action to pass up to the
+         *        parent controller
+         * @param {*} data - Any data to also pass up to the parent controller
          * @returns {undefined}
          */
-        closeAll() {
-            if ( this.$() ) {
-                this.$().removeClass( 'active' );
-
-                if ( this.get( 'isRoot' ) ) {
-                    this.$().removeClass( 'showall' );
-                }
-            }
-
-            this.set( 'keyHandler', false );
-
-            this.get( 'children' ).forEach( function( item ) {
-                item.send( 'closeAll' );
-            });
-
-            if ( this.get( 'isRoot' ) ) {
-                this.set( 'keyHandler', true );
-            }
+        handleAction( actionName, data ) {
+            this.sendAction( 'action', actionName, data );
         },
 
         /**
-         * Cycle rootNode selection forward
+         * Trigger hiding all of the menu's sub-menus
          *
-         * Only cycles through rootNodes if node was initially selected
-         * via keyboard.
-         *
-         * If "Show All" enabled:
-         *     If last rootNode then moves forward to "Show All" option.
-         *     If "Show All" option wraps around to first option.
-         * If "Show All" disabled:
-         *     If last rootNode then wraps around to first option.
-         *
-         * @function actions:cycleRootSelectionNext
+         * @function actions:hideAll
          * @returns {undefined}
          */
-        cycleRootSelectionNext() {
-            if ( !this.get( 'keyboardInUse' ) ) {
-                return;
-            }
-
-            const currentIndex = this.get( 'currentRootNodeIndex' );
-            const rootMenuPages = this.get( 'rootNode.menu.pages.length' );
-
-            // Whether "Show All" is enabled
-            if ( this.get( 'showAllBoolean' ) ) {
-                // Not on "Show All"
-                if ( null !== currentIndex ) {
-
-                    // Cycling forward, wrapping around last option to
-                    // first option
-                    if ( rootMenuPages < currentIndex + 2 ) {
-                        this.send( 'showAll' );
-                        this.set( 'activeChild', null );
-
-                    // Cycle forward, selecting next rootNode
-                    } else {
-                        this.childSelected( currentIndex + 2 );
-                    }
-
-                // Select first rootNode
-                } else {
-                    this.childSelected( 1 );
-                }
-
-            } else {
-
-                // Cycle forward, wrapping around last option to first option
-                if ( rootMenuPages < currentIndex + 2 ) {
-                    // Select first rootNode
-                    this.childSelected( 1 );
-
-                } else {
-                    // Cycle forward, selecting next rootNode
-                    this.childSelected( currentIndex + 2 );
-                }
-            }
+        hideAll() {
+            this.hideAll();
         },
 
         /**
-         * Cycle rootNode selection backwards
-         *
-         * Only cycles through rootNodes if node was initially selected
-         * via keyboard.
-         *
-         * If "Show All" enabled:
-         *     If first rootNode then wraps around to "Show All" option.
-         *     If "Show All" option moves backward to previous option
-         * If "Show All" disabled:
-         *     If first rootNode then wraps around to last option.
-         *
-         * @function actions:cycleRootSelectionPrevious
-         * @returns {undefined}
-         */
-        cycleRootSelectionPrevious() {
-            if ( !this.get( 'keyboardInUse' ) ) {
-                return;
-            }
-
-            const currentIndex = this.get( 'currentRootNodeIndex' );
-            const rootMenuPages = this.get( 'rootNode.menu.pages.length' );
-
-            // Whether "Show All" is enabled
-            if ( this.get( 'showAllBoolean' ) ) {
-                // Not on "Show All"
-                if ( null !== currentIndex ) {
-
-                    // Cycling backwards, wrapping around first option to
-                    // last option
-                    if ( 0 === currentIndex ) {
-                        this.send( 'showAll' );
-                        this.set( 'activeChild', null );
-
-                    // Cycle backwards, selecting previous rootNode
-                    } else {
-                        this.childSelected( currentIndex );
-                    }
-
-                // Select last rootNode
-                } else {
-                    this.childSelected( rootMenuPages );
-                }
-
-            } else {
-
-                // Cycle backwards, wrapping around first option to last option
-                if ( 0 === currentIndex ) {
-                    // Select last rootNode
-                    this.childSelected( rootMenuPages );
-
-                } else {
-                    // Cycle backward, selecting previous rootNode
-                    this.childSelected( currentIndex );
-                }
-            }
-        },
-
-        /**
-         * Recursively open sub menus
-         *
-         * @function actions:drillDown
-         * @returns {undefined}
-         */
-        drillDown() {
-            const child = this.get( 'activeChild' );
-
-            if ( this.get( 'keyHandler' ) ) {
-                if ( child ) {
-                    child.set( 'keyHandler', true );
-                    this.set( 'keyHandler', false );
-                }
-            } else if ( child ) {
-                child.drillDown();
-            }
-        },
-
-        /**
-         * Send selected action when menu item is selected
-         *
-         * @function actions:selected
-         * @returns {undefined}
-         */
-        selected() {
-            this.performAction();
-        },
-
-        /**
-         * Show all of the sub menus
+         * Trigger showing all the menu's sub-menus
          *
          * @function actions:showAll
          * @returns {undefined}
          */
         showAll() {
-            if ( this.$() ) {
-                this.$().addClass( 'active' );
-
-                if ( this.get( 'isRoot' ) ) {
-                    this.$().addClass( 'showall' );
-                }
-            }
-
-            this.get( 'children' ).forEach( function( item ) {
-                item.send( 'showAll' );
-            });
+            this.showAll();
         }
     },
 
@@ -232,220 +76,151 @@ export default Ember.Component.extend({
     // Events
 
     /**
-     * @function
-     * @returns {Boolean}
-     */
-    click() {
-        this.performAction();
-
-        return false;
-    },
-
-    /**
-     * @function
-     * @returns {undefined}
-     */
-    mouseEnter() {
-        if ( this.get( 'keyboardInUse' ) ) {
-            const currentIndex = this.get( 'currentRootNodeIndex' );
-
-            if ( currentIndex ) {
-                const query = 'a:contains("' +
-                    this.get( 'rootNode.menu.pages' )[ currentIndex ].label +
-                    '")';
-
-                this.$( query ).parent().removeClass( 'active' );
-            }
-
-            this.set( 'keyboardInUse', false );
-        }
-
-        this.$().addClass( 'active' );
-    },
-
-    /**
+     * mouseLeave event handler
+     *
      * @function
      * @returns {undefined}
      */
     mouseLeave() {
-        if ( this.get( 'isRoot' ) ) {
-            this.send( 'closeAll' );
-        } else if ( !this.get( 'rootNode' ).$().hasClass( 'showall' ) ) {
-            this.$().removeClass( 'active' );
-        }
+        this.send( 'hideAll' );
+    },
+
+    /**
+     * mouseMove event handler
+     *
+     * @function
+     * returns {undefined}
+     */
+    mouseMove() {
+        this.clearSelections();
     },
 
     // -------------------------------------------------------------------------
     // Properties
 
     /**
-     * Currently active child
+     * Whether to show a menu item to display all sub-menus
      *
-     * @type {?Number}
+     * @type {Boolean}
      */
-    activeChild: null,
+    allowShowAll: false,
 
     /**
-     * Embedded Ember View representing the "Show All"
-     *
-     * @type {ember/View}
-     */
-    AllView: SlMenuShowAllView,
-
-    /**
-     * Collection of children items
+     * The array of menu items
      *
      * @type {?Object[]}
      */
-    children: null,
+    items: null,
 
     /**
-     * Array of classes to be added to the element's class attribute
+     * An array of objects containing data about the selected states
      *
-     * @type {String[]}
+     * @private
+     * @type {?ember/Array}
      */
-    extraClassNames: [],
+    selections: null,
 
     /**
+     * Whether to show all the menu's sub-items
+     *
+     * @private
      * @type {Boolean}
      */
-    isRoot: true,
-
-    /**
-     * @type {?Object[]}
-     */
-    keyEvents: null,
-
-    /**
-     * @type {Boolean}
-     */
-    keyHandler: false,
-
-    /**
-     * Is the menu being interacted with via the keyboard?
-     *
-     * @type {Boolean}
-     */
-    keyboardInUse: false,
-
-    /**
-     * Whether "Show All" icon and functionality is enabled
-     *
-     * This is a string representaton of a boolean state.
-     *
-     * @type {String}
-     */
-    showAll: 'false',
-
-    /**
-     * When true, allows key binding to drill down
-     *
-     * @type {Boolean}
-     */
-    useDrillDownKey: true,
+    showingAll: false,
 
     // -------------------------------------------------------------------------
     // Observers
 
     /**
-     * Remove bound events and current menu state
+     * Initialize any computed properties that need setup
      *
      * @function
      * @returns {undefined}
      */
-    destroyMenu: Ember.on(
-        'willClearRender',
-        function() {
-            const parent = this.get( 'parentView' );
-
-            if ( 'function' === Ember.typeOf( parent.unregisterChild ) ) {
-                parent.unregisterChild( this );
-            }
-
-            const keyEvents = this.get( 'keyEvents' );
-            if ( keyEvents ) {
-                keyEvents.off( 'childSelected' )
-                    .off( 'drillDown' )
-                    .off( 'closeAll' )
-                    .off( 'showAll' )
-                    .off( 'cycleRootSelectionNext' )
-                    .off( 'cycleRootSelectionPrevious' );
-            }
-        }
-    ),
-
-    /**
-     * Initialize children array
-     *
-     * @function
-     * @returns {undefined}
-     */
-    initChildren: Ember.on(
+    initialize: Ember.on(
         'init',
         function() {
-            this.set( 'children', new Ember.A() );
+            this.set( 'selections', new Ember.A() );
         }
     ),
 
     /**
-     * Initialize menu
+     * Setup the stream actions bindings
      *
      * @function
      * @returns {undefined}
      */
-    initMenu: Ember.on(
-        'didInsertElement',
+    setupStreamActions: Ember.on(
+        'init',
         function() {
-            const keyEvents = this.get( 'keyEvents' );
-            const parent = this.get( 'parentView' );
-            const path = new Ember.A();
-            let rootNode = this;
+            const stream = this.get( 'stream' );
 
-            this.set( 'pages', new Ember.A( this.get( 'menu.pages' ) ) );
-
-            // Register keyboard event listeners
-            if ( keyEvents ) {
-                this.set( 'keyHandler', true );
-
-                keyEvents.on( 'childSelected', ( key ) => {
-                    this.set( 'keyboardInUse', true );
-                    this.childSelected( key );
-                })
-                .on( 'drillDown', () => {
-                    if ( this.get( 'useDrillDownKey' ) ) {
-                        this.send( 'drillDown' );
-                    }
-                })
-                .on( 'cycleRootSelectionNext', ( event ) => {
-                    this.send( 'cycleRootSelectionNext', event );
-                })
-                .on( 'cycleRootSelectionPrevious', ( event ) => {
-                    this.send( 'cycleRootSelectionPrevious', event );
-                })
-                .on( 'closeAll', () => {
-                    this.set( 'keyboardInUse', false );
-                    this.send( 'closeAll' );
-                })
-                .on( 'showAll', () => {
-                    this.set( 'keyboardInUse', true );
-                    this.send( 'showAll' );
-                });
+            if ( !stream ) {
+                return;
             }
 
-            // Register child
-            if ( 'function' === Ember.typeOf( parent.registerChild ) ) {
-                parent.registerChild( this );
-            }
-
-            while( !Ember.get( rootNode, 'isRoot' ) ) {
-                path.insertAt( 0, Ember.get( rootNode, 'menu.label' ) );
-                rootNode = Ember.get( rootNode, 'parentView' );
-            }
-
-            this.setProperties({
-                path: path,
-                rootNode: rootNode
+            stream.on( 'doAction', () => {
+                this.doAction();
             });
+
+            stream.on( 'hideAll', () => {
+                this.hideAll();
+            });
+
+            stream.on( 'select', ( index ) => {
+                this.select( index );
+            });
+
+            stream.on( 'selectDown', () => {
+                this.selectDown();
+            });
+
+            stream.on( 'selectLeft', () => {
+                this.selectLeft();
+            });
+
+            stream.on( 'selectNext', () => {
+                this.selectNext();
+            });
+
+            stream.on( 'selectParent', () => {
+                this.selectParent();
+            });
+
+            stream.on( 'selectPrevious', () => {
+                this.selectPrevious();
+            });
+
+            stream.on( 'selectRight', () => {
+                this.selectRight();
+            });
+
+            stream.on( 'selectSubMenu', () => {
+                this.selectSubMenu();
+            });
+
+            stream.on( 'selectUp', () => {
+                this.selectUp();
+            });
+
+            stream.on( 'showAll', () => {
+                this.showAll();
+            });
+        }
+    ),
+
+    /**
+     * Retrieve the currently selected item
+     *
+     * @function
+     * @returns {?Object}
+     */
+    selectedItem: Ember.computed(
+        'selections.@each.item',
+        function() {
+            const lastItem = this.get( 'selections.lastObject.item' );
+
+            return lastItem ? lastItem : null;
         }
     ),
 
@@ -453,194 +228,442 @@ export default Ember.Component.extend({
     // Methods
 
     /**
-     * Activate specified child
+     * Clear the `selections` data
      *
      * @function
-     * @param {Number|Object[]} child - Which child(ren) to activate
      * @returns {undefined}
      */
-    activateChild( child ) {
-        if ( 'number' === Ember.typeOf( child ) ) {
-            child = this.get( 'children' )[ child - 1 ]; // convert to 0 base
+    clearSelections() {
+        const selections = this.get( 'selections' );
+
+        selections.forEach( ( selection ) => {
+            Ember.set( selection.item, 'selected', false );
+        });
+
+        this.set( 'selections', new Ember.A() );
+    },
+
+    /**
+     * Perform the currently selected item's `action`
+     *
+     * @function
+     * @returns {undefined}
+     */
+    doAction() {
+        const selectedItem = this.get( 'selectedItem' );
+
+        if ( selectedItem ) {
+            const action = Ember.get( selectedItem, 'action' );
+
+            if ( action ) {
+                this.sendAction( 'action', action, Ember.get( selectedItem, 'data' ) );
+            }
+        }
+    },
+
+    /**
+     * Hide all the menu's sub-menus
+     *
+     * @function
+     * @returns {undefined}
+     */
+    hideAll() {
+        this.set( 'showingAll', false );
+        this.clearSelections();
+    },
+
+    /**
+     * Select an item by its index in the current selection context
+     *
+     * @function
+     * @param {Number} index - The index of the item to select
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    select( index ) {
+        if ( this.get( 'showingAll' ) ) {
+            this.hideAll();
         }
 
-        this.get( 'children' ).forEach( ( item ) => {
-            if ( item === child ) {
-                child.performAction();
-            } else {
-                item.$().removeClass( 'active' );
+        const selections = this.get( 'selections' );
+        const selectionsLength = selections.length;
+        let item;
+
+        if ( selectionsLength > 0 ) {
+            const selection = selections.objectAt( selectionsLength - 1 );
+
+            if ( !selection ) {
+                throw new Ember.Error( 'Current selection is undefined' );
             }
+
+            const contextItems = selectionsLength > 1 ?
+                Ember.get( selection, 'items' ) :
+                this.get( 'items' );
+
+            const currentItem = Ember.get( selection, 'item' );
+
+            if ( !currentItem ) {
+                throw new Ember.Error( 'Current item is undefined' );
+            }
+
+            item = contextItems.objectAt( index );
+
+            if ( !item ) {
+                return;
+            }
+
+            Ember.set( currentItem, 'selected', false );
+            Ember.set( item, 'selected', true );
+            Ember.setProperties( selection, { index, item });
+        } else {
+            const items = this.get( 'items' );
+
+            if ( !items ) {
+                throw new Ember.Error( 'Component `items` is undefined' );
+            }
+
+            if ( items.length > 0 && index < items.length ) {
+                item = items[ index ];
+
+                Ember.set( item, 'selected', true );
+                selections.pushObject({ index, item, items });
+            }
+        }
+    },
+
+    /**
+     * Select a menu item in the "down" direction
+     *
+     * At the top-level of the menu, "down" corresponds to opening and selecting
+     * the first child in its sub-menu.
+     * Inside a sub-menu, "down" corresponds to selecting the next sibling
+     * menu item.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    selectDown() {
+        const selectionsLength = this.get( 'selections' ).length;
+
+        if ( 1 === selectionsLength ) {
+            this.selectSubMenu();
+        } else if ( selectionsLength > 1 ) {
+            this.selectNext();
+        } else {
+            this.select( 0 );
+        }
+    },
+
+    /**
+     * Select a menu item in the "left" direction
+     *
+     * At the top-level of the menu, "left" corresponds to selecting the
+     * previous sibling menu item.
+     * Inside a sub-menu, "left" corresponds to parsing back to the parent item
+     *
+     * @function
+     * @returns {undefined}
+     */
+    selectLeft() {
+        const selectionsLength = this.get( 'selections' ).length;
+
+        if ( 1 === selectionsLength || this.get( 'showingAll' ) ) {
+            this.selectPrevious();
+        } else if ( selectionsLength > 1 ) {
+            this.selectParent();
+        }
+    },
+
+    /**
+     * Select the next sibling in the current context
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectNext() {
+        const selections = this.get( 'selections' );
+
+        // Select the first item from `items` if nothing is currently selected
+        if ( selections.length < 1 ) {
+            if ( this.get( 'showingAll' ) ) {
+                this.hideAll();
+            }
+
+            this.select( 0 );
+            return;
+        }
+
+        const selection = selections.objectAt( selections.length - 1 );
+        const currentItems = Ember.get( selection, 'items' );
+
+        if ( !currentItems ) {
+            throw new Ember.Error( 'Current selection items are undefined' );
+        }
+
+        const currentIndex = Ember.get( selection, 'index' );
+
+        if ( 'number' !== Ember.typeOf( currentIndex ) ) {
+            throw new Ember.Error( 'Current index is not valid' );
+        }
+
+        // Select the "show all" option if we're on the last context item at the
+        // top level, and the `allowShowAll` is enabled
+        if (
+            1 === selections.length &&
+            currentItems.length - 1 === currentIndex &&
+            this.get( 'allowShowAll' )
+        ) {
+            this.clearSelections();
+            this.showAll();
+            return;
+        }
+
+        const currentItem = Ember.get( selection, 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Current item is undefined' );
+        }
+
+        let newIndex = currentIndex + 1;
+
+        if ( newIndex >= currentItems.length ) {
+            newIndex -= currentItems.length;
+        }
+
+        const item = currentItems[ newIndex ];
+
+        if ( !item ) {
+            throw new Ember.Error( `Item with index ${newIndex} is undefined` );
+        }
+
+        Ember.set( currentItem, 'selected', false );
+        Ember.set( item, 'selected', true );
+
+        Ember.setProperties( selection, {
+            index: newIndex,
+            item
         });
     },
 
     /**
-     * Handle child selection event
+     * Select the parent menu from the current context
      *
      * @function
-     * @param {Number} childIndex - Index of the child that is being selected
+     * @throws {ember/Error}
      * @returns {undefined}
      */
-    childSelected( childIndex ) {
-        if ( this.get( 'isRoot' ) && this.$().hasClass( 'showall' ) ) {
-            this.send( 'closeAll' );
+    selectParent() {
+        const selections = this.get( 'selections' );
+
+        if ( selections.length <= 1 ) {
+            warn( '`selectParent` triggered with no parent context' );
         }
 
-        if ( this.get( 'keyHandler' ) ) {
-            this.activateChild( childIndex );
-        } else {
-            const child = this.get( 'activeChild' );
+        const currentItem = Ember.get( selections.popObject(), 'item' );
 
-            if ( child ) {
-                child.childSelected( childIndex );
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Invalid last menu item' );
+        }
+
+        Ember.set( currentItem, 'selected', false );
+    },
+
+    /**
+     * Select the previous sibling in the current context
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectPrevious() {
+        const selections = this.get( 'selections' );
+
+        // Check if we're at the top-level context
+        if ( selections.length < 1 ) {
+            // Trigger "show all" if allowed to
+            if ( this.get( 'allowShowAll' ) && !this.get( 'showingAll' ) ) {
+                this.showAll();
+            } else {
+                // Otherwise, select the last item in the context
+                this.hideAll();
+                this.select( this.get( 'items' ).length - 1 );
             }
+
+            return;
+        }
+
+        const selection = selections.objectAt( selections.length - 1 );
+        const currentItems = Ember.get( selection, 'items' );
+
+        if ( !currentItems ) {
+            throw new Ember.Error( 'Current items are undefined' );
+        }
+
+        // Select the "show all" option when at the beginning of the top-level
+        // and `allowShowAll` is enabled
+        if (
+            1 === selections.length &&
+            0 === selection.index &&
+            this.get( 'allowShowAll' )
+        ) {
+            this.clearSelections();
+            this.showAll();
+            return;
+        }
+
+        if ( currentItems.length < 2 ) {
+            warn( '`selectPrevious` triggered with no siblings in context' );
+            return;
+        }
+
+        const currentIndex = Ember.get( selection, 'index' );
+
+        if ( 'number' !== Ember.typeOf( currentIndex ) ) {
+            throw new Ember.Error( 'Current index is not valid' );
+        }
+
+        const currentItem = Ember.get( selection, 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Current item is undefined' );
+        }
+
+        let newIndex = currentIndex - 1;
+
+        if ( newIndex < 0 ) {
+            newIndex += currentItems.length;
+        }
+
+        const item = currentItems[ newIndex ];
+
+        if ( !item ) {
+            throw new Ember.Error( `Item with index ${newIndex} is undefined` );
+        }
+
+        Ember.set( currentItem, 'selected', false );
+        Ember.set( item, 'selected', true );
+
+        Ember.setProperties( selection, {
+            index: newIndex,
+            item
+        });
+    },
+
+    /**
+     * Select a menu item in the "right" direction
+     *
+     * When at the top-level of the menu, "right" corresponds to the next
+     * sibling item.
+     * When inside a sub-menu, "right" corresponds to entering its sub-menu, if
+     * it has one.
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectRight() {
+        const selections = this.get( 'selections' );
+
+        if ( 1 === selections.length || this.get( 'showingAll' ) ) {
+            this.selectNext();
+        } else if ( selections.length > 1 ) {
+            this.selectSubMenu();
         }
     },
 
     /**
-     * Get index of rootNode currently on
+     * Select the sub-menu in the current context
      *
      * @function
-     * @returns {Number} - The current root node index
-     */
-    currentRootNodeIndex: Ember.computed(
-        function() {
-            let currentIndex = null;
-
-            // Determine index of rootNode currently on
-            this.get( 'rootNode.menu.pages' ).forEach( ( item, index ) => {
-                if ( item.label === this.get( 'activeChild.menu.label' ) ) {
-                    currentIndex = index;
-                }
-            });
-
-            return currentIndex;
-        }
-    ).volatile(),
-
-    /**
-     * Additional class string to be added to the element's class attribute
-     *
-     * @function
-     * @returns {String}
-     */
-    extraClassNamesString: Ember.computed(
-        'extraClassNames',
-        function() {
-            const extraClassNames = this.get( 'extraClassNames' );
-            let extraClassNamesString = '';
-
-            if ( !Ember.isNone( extraClassNames ) ) {
-                extraClassNamesString = extraClassNames.join( ' ' );
-            }
-
-            return extraClassNamesString;
-        }
-    ),
-
-    /**
-     * Boolean representation of showAll property
-     *
-     * @function
-     * @returns {Boolean}
-     */
-    showAllBoolean: Ember.computed(
-        'showAll',
-        function() {
-            return 'true' === this.get( 'showAll' );
-        }
-    ),
-
-    /**
-     * Whether to display the AllView view
-     *
-     * @function
-     * @returns {Boolean}
-     */
-    displayShowAll: Ember.computed(
-        'isRoot',
-        'showAllBoolean',
-        function() {
-            return this.get( 'isRoot' ) && this.get( 'showAllBoolean' );
-        }
-    ),
-
-    /**
-     * Send the primary action
-     *
-     * @function
+     * @throws {ember/Error}
      * @returns {undefined}
      */
-    performAction() {
-        this.$().addClass( 'active' );
+    selectSubMenu() {
+        const selections = this.get( 'selections' );
 
-        const rootNode = this.get( 'rootNode' );
-        rootNode.sendAction( 'selectionMade', this.get( 'path' ) );
-
-        if ( this.get( 'menu.pages' ) ) {
-            this.showContent();
-
-            if ( !this.get( 'useDrillDownKey' ) ) {
-                this.set( 'keyHandler', true );
-                this.get( 'parentView' ).set( 'keyHandler', false );
-            }
-        } else {
-            const action = this.get( 'menu.action' );
-            const route = this.get( 'menu.route' );
-
-            if ( action ) {
-                if ( 'function' === Ember.typeOf( action ) ) {
-                    action.call( this );
-                } else if ( 'object' === Ember.typeOf( action ) ) {
-                    rootNode.sendAction(
-                        'actionInitiated',
-                        action.actionName,
-                        action.data
-                    );
-                } else {
-                    rootNode.sendAction( 'actionInitiated', action );
-                }
-            } else if ( route ) {
-                rootNode.sendAction( 'changeRoute', route );
-            }
-
-            rootNode.send( 'closeAll' );
+        if ( selections.length < 1 ) {
+            return;
         }
+
+        const selection = selections.get( selections.length - 1 );
+
+        if ( !selection ) {
+            throw new Ember.Error( 'Last item of `selection` is invalid' );
+        }
+
+        const currentItem = Ember.get( selection, 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Last selection menu item is invalid' );
+        }
+
+        const items = Ember.get( currentItem, 'items' );
+
+        if ( !items ) {
+            return;
+        }
+
+        const index = 0;
+        const item = items[ index ];
+
+        if ( !item ) {
+            throw new Ember.Error( 'First item in selected sub-menu is undefined' );
+        }
+
+        Ember.set( item, 'selected', true );
+
+        selections.pushObject({
+            index,
+            item,
+            items
+        });
     },
 
     /**
-     * Append a child to the children array
+     * Select a menu item in the "up" direction
+     *
+     * When at the top level, "up" corresponds to no action.
+     * When in the first sub-menu and on the first item, "up" corresponds to
+     * selecting the top level.
+     * When in any other sub-menu, "up" corresponds to selecting the previous
+     * sibling menu item.
      *
      * @function
-     * @param {Object} child
+     * @throws {ember/Error}
      * @returns {undefined}
      */
-    registerChild( child ) {
-        this.get( 'children' ).insertAt( 0, child );
-    },
+    selectUp() {
+        const selections = this.get( 'selections' );
+        const selectionsLength = selections.length;
 
-    /**
-     * Show the active child content of this menu
-     *
-     * @function
-     * @returns {undefined}
-     */
-    showContent() {
-        this.get( 'parentView' ).set( 'activeChild', this );
-    },
-
-    /**
-     * Un-register the specified child
-     *
-     * @function
-     * @param {Object} child - The child to un-register from this menu
-     * @returns {undefined}
-     */
-    unregisterChild( child ) {
-        if ( child === this.get( 'activeChild' ) ) {
-            this.set( 'activeChild', null );
+        // Do nothing if there is no parent context
+        if ( selectionsLength < 2 ) {
+            return;
         }
 
-        this.get( 'children' ).removeObject( child );
+        // Check if the selection is in a first-level sub-menu
+        if ( 2 === selectionsLength ) {
+            const selection = selections.get( 1 );
+
+            if ( 0 === Ember.get( selection, 'index' ) ) {
+                this.selectParent();
+                return;
+            }
+        }
+
+        // In any other sub-menu level, cycle through siblings
+        this.selectPrevious();
+    },
+
+    /**
+     * Trigger the showAll menu-item
+     *
+     * @function
+     * @returns {undefined}
+     */
+    showAll() {
+        this.set( 'showingAll', true );
     }
 
 });
