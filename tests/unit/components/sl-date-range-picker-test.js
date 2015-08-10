@@ -24,29 +24,20 @@ test( 'Default classNames are present', function( assert ) {
 });
 
 test( 'Change focus to end date input upon start date change', function( assert ) {
-    assert.expect( 1 );
+    const component = this.subject();
+    this.render();
 
-    const done = assert.async();
+    const daterangeEndDate = component.get( 'endDateInput' );
+    const spy = sinon.spy( daterangeEndDate, 'trigger' );
 
-    this.subject();
+    component.get( 'startDateInput' ).trigger( 'change' );
 
-    Ember.run( () => {
-        const daterangeEndDate = this.$( '.sl-daterange-end-date input' );
+    assert.ok(
+        spy.calledWithExactly( 'focus' ),
+        'End date input was given focus on start date change'
+    );
 
-        this.$( '.sl-daterange-start-date input' )
-            .trigger( 'change' );
-
-        Ember.run.later( this, function() {
-            assert.equal(
-                document.activeElement,
-                daterangeEndDate[ 0 ],
-                'Focus was changed to end date input'
-            );
-
-            this.$( '.datepicker' ).remove();
-            done();
-        });
-    });
+    this.$( '.sl-date-picker' ).remove();
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
