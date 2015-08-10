@@ -322,8 +322,7 @@ export default Ember.Component.extend( StreamEnabled, {
                 throw new Ember.Error( 'Component `items` is undefined' );
             }
 
-            if ( items.length > 0 ) {
-                index = Math.min( items.length - 1, index );
+            if ( items.length > 0 && index < items.length ) {
                 item = items[ index ];
 
                 Ember.set( item, 'selected', true );
