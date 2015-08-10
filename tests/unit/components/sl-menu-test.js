@@ -527,7 +527,7 @@ test( 'selectNext() shows all at the end of the context', function( assert ) {
 
     Ember.run( () => {
         // Select the last item option
-        component.select( 2 );
+        component.select( 1 );
     });
 
     assert.ok(
