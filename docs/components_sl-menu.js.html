@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/sl-menu.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/sl-menu.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Ember from 'ember';
+import StreamEnabled from 'ember-stream/mixins/stream-enabled';
+import layout from '../templates/components/sl-menu';
+import { warn } from '../utils/all';
+
+/**
+ * @module
+ * @augments ember/Component
+ * @augments ember-stream/mixins/stream-enabled
+ */
+export default Ember.Component.extend( StreamEnabled, {
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'showingAll:show-all'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'sl-menu'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    /** @type {String} */
+    tagName: 'div',
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    /** @type {Object} */
+    actions: {
+
+        /**
+         * Handle an action from a sub-menu item
+         *
+         * @function actions:handleAction
+         * @param {String} actionName - The name of an action to pass up to the
+         *        parent controller
+         * @param {*} data - Any data to also pass up to the parent controller
+         * @returns {undefined}
+         */
+        handleAction( actionName, data ) {
+            this.sendAction( 'action', actionName, data );
+        },
+
+        /**
+         * Trigger hiding all of the menu's sub-menus
+         *
+         * @function actions:hideAll
+         * @returns {undefined}
+         */
+        hideAll() {
+            this.hideAll();
+        },
+
+        /**
+         * Trigger showing all the menu's sub-menus
+         *
+         * @function actions:showAll
+         * @returns {undefined}
+         */
+        showAll() {
+            this.showAll();
+        }
+    },
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    /**
+     * mouseLeave event handler
+     *
+     * @function
+     * @returns {undefined}
+     */
+    mouseLeave() {
+        this.send( 'hideAll' );
+    },
+
+    /**
+     * mouseMove event handler
+     *
+     * @function
+     * returns {undefined}
+     */
+    mouseMove() {
+        this.clearSelections();
+    },
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * Whether to show a menu item to display all sub-menus
+     *
+     * @type {Boolean}
+     */
+    allowShowAll: false,
+
+    /**
+     * The array of menu items
+     *
+     * @type {?Object[]}
+     */
+    items: null,
+
+    /**
+     * An array of objects containing data about the selected states
+     *
+     * @private
+     * @type {?ember/Array}
+     */
+    selections: null,
+
+    /**
+     * Whether to show all the menu's sub-items
+     *
+     * @private
+     * @type {Boolean}
+     */
+    showingAll: false,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
+     * Initialize any computed properties that need setup
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            this.set( 'selections', new Ember.A() );
+        }
+    ),
+
+    /**
+     * Setup the stream actions bindings
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupStreamActions: Ember.on(
+        'init',
+        function() {
+            const stream = this.get( 'stream' );
+
+            if ( !stream ) {
+                return;
+            }
+
+            stream.on( 'doAction', () => {
+                this.doAction();
+            });
+
+            stream.on( 'hideAll', () => {
+                this.hideAll();
+            });
+
+            stream.on( 'select', ( index ) => {
+                this.select( index );
+            });
+
+            stream.on( 'selectDown', () => {
+                this.selectDown();
+            });
+
+            stream.on( 'selectLeft', () => {
+                this.selectLeft();
+            });
+
+            stream.on( 'selectNext', () => {
+                this.selectNext();
+            });
+
+            stream.on( 'selectParent', () => {
+                this.selectParent();
+            });
+
+            stream.on( 'selectPrevious', () => {
+                this.selectPrevious();
+            });
+
+            stream.on( 'selectRight', () => {
+                this.selectRight();
+            });
+
+            stream.on( 'selectSubMenu', () => {
+                this.selectSubMenu();
+            });
+
+            stream.on( 'selectUp', () => {
+                this.selectUp();
+            });
+
+            stream.on( 'showAll', () => {
+                this.showAll();
+            });
+        }
+    ),
+
+    /**
+     * Retrieve the currently selected item
+     *
+     * @function
+     * @returns {?Object}
+     */
+    selectedItem: Ember.computed(
+        'selections.@each.item',
+        function() {
+            const lastItem = this.get( 'selections.lastObject.item' );
+
+            return lastItem ? lastItem : null;
+        }
+    ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Clear the `selections` data
+     *
+     * @function
+     * @returns {undefined}
+     */
+    clearSelections() {
+        const selections = this.get( 'selections' );
+
+        selections.forEach( ( selection ) => {
+            Ember.set( selection.item, 'selected', false );
+        });
+
+        this.set( 'selections', new Ember.A() );
+    },
+
+    /**
+     * Perform the currently selected item's `action`
+     *
+     * @function
+     * @returns {undefined}
+     */
+    doAction() {
+        const selectedItem = this.get( 'selectedItem' );
+
+        if ( selectedItem ) {
+            const action = Ember.get( selectedItem, 'action' );
+
+            if ( action ) {
+                this.sendAction( 'action', action, Ember.get( selectedItem, 'data' ) );
+            }
+        }
+    },
+
+    /**
+     * Hide all the menu's sub-menus
+     *
+     * @function
+     * @returns {undefined}
+     */
+    hideAll() {
+        this.set( 'showingAll', false );
+        this.clearSelections();
+    },
+
+    /**
+     * Select an item by its index in the current selection context
+     *
+     * @function
+     * @param {Number} index - The index of the item to select
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    select( index ) {
+        if ( this.get( 'showingAll' ) ) {
+            this.hideAll();
+        }
+
+        const selections = this.get( 'selections' );
+        const selectionsLength = selections.length;
+        let item;
+
+        if ( selectionsLength > 0 ) {
+            const selection = selections.objectAt( selectionsLength - 1 );
+
+            if ( !selection ) {
+                throw new Ember.Error( 'Current selection is undefined' );
+            }
+
+            const contextItems = selectionsLength > 1 ?
+                Ember.get( selection, 'items' ) :
+                this.get( 'items' );
+
+            const currentItem = Ember.get( selection, 'item' );
+
+            if ( !currentItem ) {
+                throw new Ember.Error( 'Current item is undefined' );
+            }
+
+            item = contextItems.objectAt( index );
+
+            if ( !item ) {
+                return;
+            }
+
+            Ember.set( currentItem, 'selected', false );
+            Ember.set( item, 'selected', true );
+            Ember.setProperties( selection, { index, item });
+        } else {
+            const items = this.get( 'items' );
+
+            if ( !items ) {
+                throw new Ember.Error( 'Component `items` is undefined' );
+            }
+
+            if ( items.length > 0 &amp;&amp; index &lt; items.length ) {
+                item = items[ index ];
+
+                Ember.set( item, 'selected', true );
+                selections.pushObject({ index, item, items });
+            }
+        }
+    },
+
+    /**
+     * Select a menu item in the "down" direction
+     *
+     * At the top-level of the menu, "down" corresponds to opening and selecting
+     * the first child in its sub-menu.
+     * Inside a sub-menu, "down" corresponds to selecting the next sibling
+     * menu item.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    selectDown() {
+        const selectionsLength = this.get( 'selections' ).length;
+
+        if ( 1 === selectionsLength ) {
+            this.selectSubMenu();
+        } else if ( selectionsLength > 1 ) {
+            this.selectNext();
+        } else {
+            this.select( 0 );
+        }
+    },
+
+    /**
+     * Select a menu item in the "left" direction
+     *
+     * At the top-level of the menu, "left" corresponds to selecting the
+     * previous sibling menu item.
+     * Inside a sub-menu, "left" corresponds to parsing back to the parent item
+     *
+     * @function
+     * @returns {undefined}
+     */
+    selectLeft() {
+        const selectionsLength = this.get( 'selections' ).length;
+
+        if ( 1 === selectionsLength || this.get( 'showingAll' ) ) {
+            this.selectPrevious();
+        } else if ( selectionsLength > 1 ) {
+            this.selectParent();
+        }
+    },
+
+    /**
+     * Select the next sibling in the current context
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectNext() {
+        const selections = this.get( 'selections' );
+
+        // Select the first item from `items` if nothing is currently selected
+        if ( selections.length &lt; 1 ) {
+            if ( this.get( 'showingAll' ) ) {
+                this.hideAll();
+            }
+
+            this.select( 0 );
+            return;
+        }
+
+        const selection = selections.objectAt( selections.length - 1 );
+        const currentItems = Ember.get( selection, 'items' );
+
+        if ( !currentItems ) {
+            throw new Ember.Error( 'Current selection items are undefined' );
+        }
+
+        const currentIndex = Ember.get( selection, 'index' );
+
+        if ( 'number' !== Ember.typeOf( currentIndex ) ) {
+            throw new Ember.Error( 'Current index is not valid' );
+        }
+
+        // Select the "show all" option if we're on the last context item at the
+        // top level, and the `allowShowAll` is enabled
+        if (
+            1 === selections.length &amp;&amp;
+            currentItems.length - 1 === currentIndex &amp;&amp;
+            this.get( 'allowShowAll' )
+        ) {
+            this.clearSelections();
+            this.showAll();
+            return;
+        }
+
+        const currentItem = Ember.get( selection, 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Current item is undefined' );
+        }
+
+        let newIndex = currentIndex + 1;
+
+        if ( newIndex >= currentItems.length ) {
+            newIndex -= currentItems.length;
+        }
+
+        const item = currentItems[ newIndex ];
+
+        if ( !item ) {
+            throw new Ember.Error( `Item with index ${newIndex} is undefined` );
+        }
+
+        Ember.set( currentItem, 'selected', false );
+        Ember.set( item, 'selected', true );
+
+        Ember.setProperties( selection, {
+            index: newIndex,
+            item
+        });
+    },
+
+    /**
+     * Select the parent menu from the current context
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectParent() {
+        const selections = this.get( 'selections' );
+
+        if ( selections.length &lt;= 1 ) {
+            warn( '`selectParent` triggered with no parent context' );
+        }
+
+        const currentItem = Ember.get( selections.popObject(), 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Invalid last menu item' );
+        }
+
+        Ember.set( currentItem, 'selected', false );
+    },
+
+    /**
+     * Select the previous sibling in the current context
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectPrevious() {
+        const selections = this.get( 'selections' );
+
+        // Check if we're at the top-level context
+        if ( selections.length &lt; 1 ) {
+            // Trigger "show all" if allowed to
+            if ( this.get( 'allowShowAll' ) &amp;&amp; !this.get( 'showingAll' ) ) {
+                this.showAll();
+            } else {
+                // Otherwise, select the last item in the context
+                this.hideAll();
+                this.select( this.get( 'items' ).length - 1 );
+            }
+
+            return;
+        }
+
+        const selection = selections.objectAt( selections.length - 1 );
+        const currentItems = Ember.get( selection, 'items' );
+
+        if ( !currentItems ) {
+            throw new Ember.Error( 'Current items are undefined' );
+        }
+
+        // Select the "show all" option when at the beginning of the top-level
+        // and `allowShowAll` is enabled
+        if (
+            1 === selections.length &amp;&amp;
+            0 === selection.index &amp;&amp;
+            this.get( 'allowShowAll' )
+        ) {
+            this.clearSelections();
+            this.showAll();
+            return;
+        }
+
+        if ( currentItems.length &lt; 2 ) {
+            warn( '`selectPrevious` triggered with no siblings in context' );
+            return;
+        }
+
+        const currentIndex = Ember.get( selection, 'index' );
+
+        if ( 'number' !== Ember.typeOf( currentIndex ) ) {
+            throw new Ember.Error( 'Current index is not valid' );
+        }
+
+        const currentItem = Ember.get( selection, 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Current item is undefined' );
+        }
+
+        let newIndex = currentIndex - 1;
+
+        if ( newIndex &lt; 0 ) {
+            newIndex += currentItems.length;
+        }
+
+        const item = currentItems[ newIndex ];
+
+        if ( !item ) {
+            throw new Ember.Error( `Item with index ${newIndex} is undefined` );
+        }
+
+        Ember.set( currentItem, 'selected', false );
+        Ember.set( item, 'selected', true );
+
+        Ember.setProperties( selection, {
+            index: newIndex,
+            item
+        });
+    },
+
+    /**
+     * Select a menu item in the "right" direction
+     *
+     * When at the top-level of the menu, "right" corresponds to the next
+     * sibling item.
+     * When inside a sub-menu, "right" corresponds to entering its sub-menu, if
+     * it has one.
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectRight() {
+        const selections = this.get( 'selections' );
+
+        if ( 1 === selections.length || this.get( 'showingAll' ) ) {
+            this.selectNext();
+        } else if ( selections.length > 1 ) {
+            this.selectSubMenu();
+        }
+    },
+
+    /**
+     * Select the sub-menu in the current context
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectSubMenu() {
+        const selections = this.get( 'selections' );
+
+        if ( selections.length &lt; 1 ) {
+            return;
+        }
+
+        const selection = selections.get( selections.length - 1 );
+
+        if ( !selection ) {
+            throw new Ember.Error( 'Last item of `selection` is invalid' );
+        }
+
+        const currentItem = Ember.get( selection, 'item' );
+
+        if ( !currentItem ) {
+            throw new Ember.Error( 'Last selection menu item is invalid' );
+        }
+
+        const items = Ember.get( currentItem, 'items' );
+
+        if ( !items ) {
+            return;
+        }
+
+        const index = 0;
+        const item = items[ index ];
+
+        if ( !item ) {
+            throw new Ember.Error( 'First item in selected sub-menu is undefined' );
+        }
+
+        Ember.set( item, 'selected', true );
+
+        selections.pushObject({
+            index,
+            item,
+            items
+        });
+    },
+
+    /**
+     * Select a menu item in the "up" direction
+     *
+     * When at the top level, "up" corresponds to no action.
+     * When in the first sub-menu and on the first item, "up" corresponds to
+     * selecting the top level.
+     * When in any other sub-menu, "up" corresponds to selecting the previous
+     * sibling menu item.
+     *
+     * @function
+     * @throws {ember/Error}
+     * @returns {undefined}
+     */
+    selectUp() {
+        const selections = this.get( 'selections' );
+        const selectionsLength = selections.length;
+
+        // Do nothing if there is no parent context
+        if ( selectionsLength &lt; 2 ) {
+            return;
+        }
+
+        // Check if the selection is in a first-level sub-menu
+        if ( 2 === selectionsLength ) {
+            const selection = selections.get( 1 );
+
+            if ( 0 === Ember.get( selection, 'index' ) ) {
+                this.selectParent();
+                return;
+            }
+        }
+
+        // In any other sub-menu level, cycle through siblings
+        this.selectPrevious();
+    },
+
+    /**
+     * Trigger the showAll menu-item
+     *
+     * @function
+     * @returns {undefined}
+     */
+    showAll() {
+        this.set( 'showingAll', true );
+    }
+
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addon_components_sl-alert.html">addon/components/sl-alert</a></li><li><a href="module-addon_components_sl-button.html">addon/components/sl-button</a></li><li><a href="module-addon_components_sl-calendar.html">addon/components/sl-calendar</a></li><li><a href="module-addon_components_sl-calendar-day.html">addon/components/sl-calendar-day</a></li><li><a href="module-addon_components_sl-calendar-month.html">addon/components/sl-calendar-month</a></li><li><a href="module-addon_components_sl-calendar-year.html">addon/components/sl-calendar-year</a></li><li><a href="module-addon_components_sl-chart.html">addon/components/sl-chart</a></li><li><a href="module-addon_components_sl-checkbox.html">addon/components/sl-checkbox</a></li><li><a href="module-addon_components_sl-date-picker.html">addon/components/sl-date-picker</a></li><li><a href="module-addon_components_sl-date-range-picker.html">addon/components/sl-date-range-picker</a></li><li><a href="module-addon_components_sl-date-time.html">addon/components/sl-date-time</a></li><li><a href="module-addon_components_sl-drop-button.html">addon/components/sl-drop-button</a></li><li><a href="module-addon_components_sl-drop-option.html">addon/components/sl-drop-option</a></li><li><a href="module-addon_components_sl-grid.html">addon/components/sl-grid</a></li><li><a href="module-addon_components_sl-grid-cell.html">addon/components/sl-grid-cell</a></li><li><a href="module-addon_components_sl-grid-column-header.html">addon/components/sl-grid-column-header</a></li><li><a href="module-addon_components_sl-grid-row.html">addon/components/sl-grid-row</a></li><li><a href="module-addon_components_sl-input.html">addon/components/sl-input</a></li><li><a href="module-addon_components_sl-loading-icon.html">addon/components/sl-loading-icon</a></li><li><a href="module-addon_components_sl-menu.html">addon/components/sl-menu</a></li><li><a href="module-addon_components_sl-menu-item.html">addon/components/sl-menu-item</a></li><li><a href="module-addon_components_sl-menu-item-show-all.html">addon/components/sl-menu-item-show-all</a></li><li><a href="module-addon_components_sl-modal.html">addon/components/sl-modal</a></li><li><a href="module-addon_components_sl-modal-body.html">addon/components/sl-modal-body</a></li><li><a href="module-addon_components_sl-modal-footer.html">addon/components/sl-modal-footer</a></li><li><a href="module-addon_components_sl-modal-header.html">addon/components/sl-modal-header</a></li><li><a href="module-addon_components_sl-pagination.html">addon/components/sl-pagination</a></li><li><a href="module-addon_components_sl-panel.html">addon/components/sl-panel</a></li><li><a href="module-addon_components_sl-progress-bar.html">addon/components/sl-progress-bar</a></li><li><a href="module-addon_components_sl-radio.html">addon/components/sl-radio</a></li><li><a href="module-addon_components_sl-radio-group.html">addon/components/sl-radio-group</a></li><li><a href="module-addon_components_sl-select.html">addon/components/sl-select</a></li><li><a href="module-addon_components_sl-span.html">addon/components/sl-span</a></li><li><a href="module-addon_components_sl-tab-pane.html">addon/components/sl-tab-pane</a></li><li><a href="module-addon_components_sl-tab-panel.html">addon/components/sl-tab-panel</a></li><li><a href="module-addon_components_sl-textarea.html">addon/components/sl-textarea</a></li><li><a href="module-addon_components_sl-tooltip.html">addon/components/sl-tooltip</a></li><li><a href="module-addon_helpers_get-key.html">addon/helpers/get-key</a></li><li><a href="module-addon_helpers_render-dynamic.html">addon/helpers/render-dynamic</a></li><li><a href="module-addon_initializers_register-helpers.html">addon/initializers/register-helpers</a></li><li><a href="module-addon_mixins_sl-input-based.html">addon/mixins/sl-input-based</a></li><li><a href="module-addon_mixins_sl-tooltip-enabled.html">addon/mixins/sl-tooltip-enabled</a></li><li><a href="module-addon_utils_containsValue.html">addon/utils/containsValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Aug 11 2015 08:49:05 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

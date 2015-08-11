@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/sl-tab-panel.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/sl-tab-panel.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Ember from 'ember';
+import layout from '../templates/components/sl-tab-panel';
+import { containsValue, warn } from '../utils/all';
+
+/**
+ * Valid `align` property values
+ *
+ * @memberof module:components/sl-tab-panel
+ * @enum {String}
+ */
+const Alignment = Object.freeze({
+    LEFT: 'left',
+    RIGHT: 'right'
+});
+export { Alignment };
+
+/**
+ * @module
+ * @augments ember/Component
+ */
+export default Ember.Component.extend({
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'tabAlignmentClass'
+    ],
+
+    /** @type {String[]} */
+    classNames: [
+        'sl-tab-panel'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    /** @type {Object} */
+    actions: {
+
+        /**
+         * Action to trigger when a tab is clicked
+         *
+         * @function actions:change
+         * @param {String} tabName - The name of the tab to change into
+         * @returns {undefined}
+         */
+        change( tabName ) {
+            const activeTabName = this.get( 'activeTabName' );
+
+            if ( activeTabName !== tabName ) {
+                this.setActiveTab( tabName );
+                this.deactivatePane( () => {
+                    this.activatePane( tabName );
+                });
+            }
+        }
+    },
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * The currently active tab name
+     *
+     * @type {?String}
+     */
+    activeTabName: null,
+
+    /**
+     * Determines the alignment of tabs at the top of the panel,
+     * "left" or "right"
+     *
+     * @type {Alignment}
+     */
+    alignTabs: Alignment.LEFT,
+
+    /**
+     * The height of the tab-content in pixels
+     *
+     * @type {Number}
+     */
+    contentHeight: 0,
+
+    /**
+     * The name of the tab to open when the component is first rendered
+     *
+     * @type {?String}
+     */
+    initialTabName: null,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
+     * Sets up the initial tab, and parses the content of the tab panel to
+     * determine tab labels and names.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupTabs: Ember.on(
+        'didInsertElement',
+        function() {
+            let initialTabName = this.get( 'initialTabName' );
+            const tabs = new Ember.A();
+
+            if ( !initialTabName ) {
+                initialTabName = this
+                    .$( '.tab-pane:first' )
+                    .attr( 'data-tab-name' );
+            }
+
+            this.setActiveTab( initialTabName );
+            this.activatePane( initialTabName );
+
+            this.$( '.tab-pane' ).each( function() {
+                const tabName = this.getAttribute( 'data-tab-name' );
+
+                tabs.push({
+                    active: tabName === initialTabName,
+                    label: this.getAttribute( 'data-tab-label' ),
+                    name: tabName
+                });
+            });
+
+            this.set( 'tabs', tabs );
+        }
+    ),
+
+    /**
+     * Sets the tab-content div height based on current contentHeight value
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateContentHeight: Ember.observer(
+        'contentHeight',
+        function() {
+            this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
+        }
+    ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Activate a tab pane, animating the transition
+     *
+     * @function
+     * @param {String} tabName - The name of the tab to activate
+     * @returns {undefined}
+     */
+    activatePane( tabName ) {
+        const pane = this.paneFor( tabName );
+
+        pane.fadeIn( 'fast', function() {
+            pane.addClass( 'active' );
+        });
+
+        this.set( 'activeTabName', tabName );
+        this.set( 'contentHeight', parseInt( pane.css( 'height' ) ) );
+    },
+
+    /**
+     * Deactivate a tab pane, animating the transition
+     *
+     * @function
+     * @param {Function} callback - Function called when the pane is deactivated
+     * @returns {undefined}
+     */
+    deactivatePane( callback ) {
+        const pane = this.paneFor( this.get( 'activeTabName' ) );
+
+        pane.fadeOut( 'fast', function() {
+            pane.removeClass( 'active' );
+
+            if ( 'function' === Ember.typeOf( callback ) ) {
+                callback();
+            }
+        });
+    },
+
+    /**
+     * Get the tab-panel's tab-pane for the specified tabName
+     *
+     * @function
+     * @param {String} tabName - The name of the tab to get the pane for
+     * @returns {jQuery.Object}
+     */
+    paneFor( tabName ) {
+        return this.$( `.tab-pane[data-tab-name="${tabName}"]` );
+    },
+
+    /**
+     * Update the internal active tab name and handle tabs' statuses
+     *
+     * @function
+     * @param {String} tabName - The name of the tab to switch state to
+     * @returns {undefined}
+     */
+    setActiveTab( tabName ) {
+        const activeTabName = this.get( 'activeTabName' );
+
+        this.tabFor( activeTabName ).removeClass( 'active' );
+        this.tabFor( tabName ).addClass( 'active' );
+    },
+
+    /**
+     * The class determining how to align tabs
+     *
+     * @function
+     * @throws {ember.assert} Thrown if supplied `alignTabs` is a value not
+     *         defined in enum Alignment
+     * @returns {String}
+     */
+    tabAlignmentClass: Ember.computed(
+        'alignTabs',
+        function() {
+            const alignTabs = this.get( 'alignTabs' );
+
+            if ( !containsValue( alignTabs, Alignment ) ) {
+                warn( `Invalid alignTabs property value "${alignTabs}"` );
+            }
+
+            return `sl-align-tabs-${alignTabs}`;
+        }
+    ),
+
+    /**
+     * Get the tab with the specified tabName
+     *
+     * @function
+     * @param {String} tabName - The name for the tab to get
+     * @returns {jQuery.Object} DOM Element
+     */
+    tabFor( tabName ) {
+        return this.$( '.tab[data-tab-name="' + tabName + '"]' );
+    }
+
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addon_components_sl-alert.html">addon/components/sl-alert</a></li><li><a href="module-addon_components_sl-button.html">addon/components/sl-button</a></li><li><a href="module-addon_components_sl-calendar.html">addon/components/sl-calendar</a></li><li><a href="module-addon_components_sl-calendar-day.html">addon/components/sl-calendar-day</a></li><li><a href="module-addon_components_sl-calendar-month.html">addon/components/sl-calendar-month</a></li><li><a href="module-addon_components_sl-calendar-year.html">addon/components/sl-calendar-year</a></li><li><a href="module-addon_components_sl-chart.html">addon/components/sl-chart</a></li><li><a href="module-addon_components_sl-checkbox.html">addon/components/sl-checkbox</a></li><li><a href="module-addon_components_sl-date-picker.html">addon/components/sl-date-picker</a></li><li><a href="module-addon_components_sl-date-range-picker.html">addon/components/sl-date-range-picker</a></li><li><a href="module-addon_components_sl-date-time.html">addon/components/sl-date-time</a></li><li><a href="module-addon_components_sl-drop-button.html">addon/components/sl-drop-button</a></li><li><a href="module-addon_components_sl-drop-option.html">addon/components/sl-drop-option</a></li><li><a href="module-addon_components_sl-grid.html">addon/components/sl-grid</a></li><li><a href="module-addon_components_sl-grid-cell.html">addon/components/sl-grid-cell</a></li><li><a href="module-addon_components_sl-grid-column-header.html">addon/components/sl-grid-column-header</a></li><li><a href="module-addon_components_sl-grid-row.html">addon/components/sl-grid-row</a></li><li><a href="module-addon_components_sl-input.html">addon/components/sl-input</a></li><li><a href="module-addon_components_sl-loading-icon.html">addon/components/sl-loading-icon</a></li><li><a href="module-addon_components_sl-menu.html">addon/components/sl-menu</a></li><li><a href="module-addon_components_sl-menu-item.html">addon/components/sl-menu-item</a></li><li><a href="module-addon_components_sl-menu-item-show-all.html">addon/components/sl-menu-item-show-all</a></li><li><a href="module-addon_components_sl-modal.html">addon/components/sl-modal</a></li><li><a href="module-addon_components_sl-modal-body.html">addon/components/sl-modal-body</a></li><li><a href="module-addon_components_sl-modal-footer.html">addon/components/sl-modal-footer</a></li><li><a href="module-addon_components_sl-modal-header.html">addon/components/sl-modal-header</a></li><li><a href="module-addon_components_sl-pagination.html">addon/components/sl-pagination</a></li><li><a href="module-addon_components_sl-panel.html">addon/components/sl-panel</a></li><li><a href="module-addon_components_sl-progress-bar.html">addon/components/sl-progress-bar</a></li><li><a href="module-addon_components_sl-radio.html">addon/components/sl-radio</a></li><li><a href="module-addon_components_sl-radio-group.html">addon/components/sl-radio-group</a></li><li><a href="module-addon_components_sl-select.html">addon/components/sl-select</a></li><li><a href="module-addon_components_sl-span.html">addon/components/sl-span</a></li><li><a href="module-addon_components_sl-tab-pane.html">addon/components/sl-tab-pane</a></li><li><a href="module-addon_components_sl-tab-panel.html">addon/components/sl-tab-panel</a></li><li><a href="module-addon_components_sl-textarea.html">addon/components/sl-textarea</a></li><li><a href="module-addon_components_sl-tooltip.html">addon/components/sl-tooltip</a></li><li><a href="module-addon_helpers_get-key.html">addon/helpers/get-key</a></li><li><a href="module-addon_helpers_render-dynamic.html">addon/helpers/render-dynamic</a></li><li><a href="module-addon_initializers_register-helpers.html">addon/initializers/register-helpers</a></li><li><a href="module-addon_mixins_sl-input-based.html">addon/mixins/sl-input-based</a></li><li><a href="module-addon_mixins_sl-tooltip-enabled.html">addon/mixins/sl-tooltip-enabled</a></li><li><a href="module-addon_utils_containsValue.html">addon/utils/containsValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Aug 11 2015 08:49:05 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

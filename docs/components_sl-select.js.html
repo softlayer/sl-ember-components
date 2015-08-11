@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/sl-select.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/sl-select.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Ember from 'ember';
+import InputBased from '../mixins/sl-input-based';
+import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import layout from '../templates/components/sl-select';
+
+/**
+ * @module
+ * @augments ember/Component
+ * @augments module:mixins/sl-input-based
+ * @augments module:mixins/sl-tooltip-based
+ */
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
+
+    // -------------------------------------------------------------------------
+    // Dependencies
+
+    // -------------------------------------------------------------------------
+    // Attributes
+
+    /** @type {String[]} */
+    classNames: [
+        'form-group',
+        'sl-select'
+    ],
+
+    /** @type {Object} */
+    layout,
+
+    // -------------------------------------------------------------------------
+    // Actions
+
+    // -------------------------------------------------------------------------
+    // Events
+
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * Whether to show the search filter input or not
+     *
+     * @type {Boolean}
+     */
+    disableSearch: false,
+
+    /**
+     * The internal input element, used for Select2's bindings
+     *
+     * @type {?Object}
+     */
+    input: null,
+
+    /**
+     * The maximum number of selections allowed when `multiple` is enabled
+     *
+     * @type {?Number}
+     */
+    maximumSelectionSize: null,
+
+    /**
+     * Whether to allow multiple selections
+     *
+     * @type {Boolean}
+     */
+    multiple: false,
+
+    /**
+     * The path key for each option object's description
+     *
+     * @type {String}
+     */
+    optionDescriptionPath: 'description',
+
+    /**
+     * The path key for each option object's label
+     *
+     * @type {String}
+     */
+    optionLabelPath: 'label',
+
+    /**
+     * The path key for each option object's value
+     *
+     * @type {String}
+     */
+    optionValuePath: 'value',
+
+    /**
+     * The current value of the select input
+     *
+     * @type {?Array|String}
+     */
+    value: null,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    /**
+     * Teardown the select2 to prevent memory leaks
+     *
+     * @function
+     * @returns {undefined}
+     */
+    destroySelect2: Ember.on(
+        'willClearRender',
+        function() {
+            this.input.off( 'change' ).select2( 'destroy' );
+        }
+    ),
+
+    /**
+     * Set up select2 initialization after the element is inserted in the DOM
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupSelect2: Ember.on(
+        'didInsertElement',
+        function() {
+            const input = this.$( 'input' ).select2({
+                maximumSelectionSize: this.get( 'maximumSelectionSize' ),
+                multiple: this.get( 'multiple' ),
+                placeholder: this.get( 'placeholder' ),
+
+                formatResult: ( item ) => {
+                    if ( !item ) {
+                        return null;
+                    }
+
+                    if ( Ember.typeOf( item ) !== 'object' &amp;&amp; Ember.typeOf( item ) !== 'instance' ) {
+                        return item;
+                    }
+
+                    const description = Ember.get(
+                        item,
+                        this.get( 'optionDescriptionPath' )
+                    );
+
+                    let output = Ember.get(
+                        item,
+                        this.get( 'optionLabelPath' )
+                    );
+
+                    if ( description ) {
+                        output += ' &lt;span class="text-muted">' +
+                            description + '&lt;/span>';
+                    }
+
+                    return output;
+                },
+
+                formatSelection: ( item ) => {
+                    if ( !item ) {
+                        return null;
+                    }
+
+                    const typeOfItem = Ember.typeOf( item );
+
+                    if (
+                        'object' === typeOfItem ||
+                        'instance' === typeOfItem
+                    ) {
+                        return Ember.get( item, this.get( 'optionLabelPath' ) );
+                    }
+
+                    return item;
+                },
+
+                id: ( item ) => {
+                    let value = item;
+                    const typeOfItem = Ember.typeOf( item );
+
+                    if (
+                        'object' === typeOfItem ||
+                        'instance' === typeOfItem
+                    ) {
+                        const optionValuePath = this.get( 'optionValuePath' );
+                        value = Ember.get( item, optionValuePath );
+                    }
+
+                    return value;
+                },
+
+                initSelection: ( element, callback ) => {
+                    const value = element.val();
+
+                    if ( !value || !value.length ) {
+                        return callback( [] );
+                    }
+
+                    const content = this.get( 'content' );
+                    const contentLength = content.length;
+                    const filteredContent = [];
+                    const multiple = this.get( 'multiple' );
+                    const optionValuePath = this.get( 'optionValuePath' );
+                    const values = 'array' === Ember.typeOf( value ) ? value : value.split( ',' );
+                    let unmatchedValues = values.length;
+
+                    for ( let i = 0; i &lt; contentLength; i++ ) {
+                        const item = content[i];
+                        const typeOfItem = Ember.typeOf( item );
+                        const text = 'object' === typeOfItem ||
+                            'instance' === typeOfItem ?
+                            Ember.get( item, optionValuePath ) :
+                            item;
+
+                        const matchIndex = values.indexOf( text.toString() );
+
+                        if ( matchIndex !== -1 ) {
+                            filteredContent[ matchIndex ] = item;
+                            if ( 0 === --unmatchedValues ) {
+                                break;
+                            }
+                        }
+                    }
+
+                    if ( 0 === unmatchedValues ) {
+                        element.select2( 'readonly', false );
+                    } else {
+                        element.select2( 'readonly', true );
+
+                        const warning = 'sl-select:select2#initSelection was' +
+                            ' not able to map each "' + optionValuePath + '"' +
+                            ' to an object from "content". The remaining keys' +
+                            ' are: ' + values + '. The input will be disabled' +
+                            ' until a) the desired objects are added to the' +
+                            ' "content" array, or b) the "value" is changed.';
+
+                        Ember.warn( warning, !values.length );
+                    }
+
+                    return callback(
+                        multiple ?
+                        filteredContent :
+                        Ember.get( filteredContent, 'firstObject' )
+                    );
+                },
+
+                minimumResultsForSearch: this.get( 'disableSearch' ) ? -1 : 0,
+
+                query: ( query ) => {
+                    const content = this.get( 'content' ) || [];
+                    const optionLabelPath = this.get( 'optionLabelPath' );
+                    const select2 = input.data( 'select2' ).opts;
+
+                    query.callback({
+                        results: content.reduce( ( results, item ) => {
+                            const typeOfItem = Ember.typeOf( item );
+                            const text = 'object' === typeOfItem ||
+                                'instance' === typeOfItem ?
+                                Ember.get( item, optionLabelPath ) :
+                                item;
+
+                            if (
+                                text &amp;&amp;
+                                select2.matcher( query.term, text.toString() )
+                            ) {
+                                results.push( item );
+                            }
+
+                            return results;
+                        }, [] )
+                    });
+                }
+            });
+
+            input.on( 'change', () => {
+                this.set( 'value', input.select2( 'val' ) );
+            });
+
+            if ( !this.get( 'multiple' ) ) {
+                this.$( 'input.select2-input' ).attr(
+                    'placeholder',
+                    'Search...'
+                );
+            }
+
+            this.input = input;
+        }
+    )
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addon_components_sl-alert.html">addon/components/sl-alert</a></li><li><a href="module-addon_components_sl-button.html">addon/components/sl-button</a></li><li><a href="module-addon_components_sl-calendar.html">addon/components/sl-calendar</a></li><li><a href="module-addon_components_sl-calendar-day.html">addon/components/sl-calendar-day</a></li><li><a href="module-addon_components_sl-calendar-month.html">addon/components/sl-calendar-month</a></li><li><a href="module-addon_components_sl-calendar-year.html">addon/components/sl-calendar-year</a></li><li><a href="module-addon_components_sl-chart.html">addon/components/sl-chart</a></li><li><a href="module-addon_components_sl-checkbox.html">addon/components/sl-checkbox</a></li><li><a href="module-addon_components_sl-date-picker.html">addon/components/sl-date-picker</a></li><li><a href="module-addon_components_sl-date-range-picker.html">addon/components/sl-date-range-picker</a></li><li><a href="module-addon_components_sl-date-time.html">addon/components/sl-date-time</a></li><li><a href="module-addon_components_sl-drop-button.html">addon/components/sl-drop-button</a></li><li><a href="module-addon_components_sl-drop-option.html">addon/components/sl-drop-option</a></li><li><a href="module-addon_components_sl-grid.html">addon/components/sl-grid</a></li><li><a href="module-addon_components_sl-grid-cell.html">addon/components/sl-grid-cell</a></li><li><a href="module-addon_components_sl-grid-column-header.html">addon/components/sl-grid-column-header</a></li><li><a href="module-addon_components_sl-grid-row.html">addon/components/sl-grid-row</a></li><li><a href="module-addon_components_sl-input.html">addon/components/sl-input</a></li><li><a href="module-addon_components_sl-loading-icon.html">addon/components/sl-loading-icon</a></li><li><a href="module-addon_components_sl-menu.html">addon/components/sl-menu</a></li><li><a href="module-addon_components_sl-menu-item.html">addon/components/sl-menu-item</a></li><li><a href="module-addon_components_sl-menu-item-show-all.html">addon/components/sl-menu-item-show-all</a></li><li><a href="module-addon_components_sl-modal.html">addon/components/sl-modal</a></li><li><a href="module-addon_components_sl-modal-body.html">addon/components/sl-modal-body</a></li><li><a href="module-addon_components_sl-modal-footer.html">addon/components/sl-modal-footer</a></li><li><a href="module-addon_components_sl-modal-header.html">addon/components/sl-modal-header</a></li><li><a href="module-addon_components_sl-pagination.html">addon/components/sl-pagination</a></li><li><a href="module-addon_components_sl-panel.html">addon/components/sl-panel</a></li><li><a href="module-addon_components_sl-progress-bar.html">addon/components/sl-progress-bar</a></li><li><a href="module-addon_components_sl-radio.html">addon/components/sl-radio</a></li><li><a href="module-addon_components_sl-radio-group.html">addon/components/sl-radio-group</a></li><li><a href="module-addon_components_sl-select.html">addon/components/sl-select</a></li><li><a href="module-addon_components_sl-span.html">addon/components/sl-span</a></li><li><a href="module-addon_components_sl-tab-pane.html">addon/components/sl-tab-pane</a></li><li><a href="module-addon_components_sl-tab-panel.html">addon/components/sl-tab-panel</a></li><li><a href="module-addon_components_sl-textarea.html">addon/components/sl-textarea</a></li><li><a href="module-addon_components_sl-tooltip.html">addon/components/sl-tooltip</a></li><li><a href="module-addon_helpers_get-key.html">addon/helpers/get-key</a></li><li><a href="module-addon_helpers_render-dynamic.html">addon/helpers/render-dynamic</a></li><li><a href="module-addon_initializers_register-helpers.html">addon/initializers/register-helpers</a></li><li><a href="module-addon_mixins_sl-input-based.html">addon/mixins/sl-input-based</a></li><li><a href="module-addon_mixins_sl-tooltip-enabled.html">addon/mixins/sl-tooltip-enabled</a></li><li><a href="module-addon_utils_containsValue.html">addon/utils/containsValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Aug 11 2015 08:49:05 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
