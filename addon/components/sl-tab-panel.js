@@ -8,11 +8,10 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-tab-panel
  * @enum {String}
  */
-const Alignment = Object.freeze({
+export const Alignment = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { Alignment };
 
 /**
  * @module
