@@ -14,9 +14,7 @@ Think you've found a bug or have a new feature to suggest? Let us know!
 
 ## Reporting a Bug
 
-1. Make sure you have the latest version of the code, if possible, as we may have already fixed your bug.  This
-project uses the [git-flow branching model](https://github.com/nvie/gitflow) so the latest changes will be in the `
-develop` branch.
+1. Make sure you have the latest version of the code, if possible, as we may have already fixed your bug.
 
 2. Search for similar issues. It's possible somebody has encountered this bug already.
 
@@ -82,49 +80,18 @@ and then visit *http://localhost:4200/docs*.
 `git commit -m "Close #12 Fix passing of context"`.
 [GitHub offers additional examples here.](https://help.github.com/articles/closing-issues-via-commit-messages/)
 
-7. Push to your fork and submit a pull request againt the `develop` branch (due to our use of the
-[git-flow branching model](https://github.com/nvie/gitflow)). Please provide us with some explanation of why you
-made the changes you made. For new features make sure to explain a standard use case to us.
+7. Push to your fork and submit a pull request againt the `master` branch. Please provide us with some explanation of why you made the changes you made. For new features make sure to explain a standard use case to us.
 
 We try to be quick about responding to tickets but sometimes we get a bit backlogged.  If the response is slow, try
 to find someone on IRC(#softlayer) to give the ticket a review.
 
-Some things that will increase the chance that your pull request is accepted, taken straight from the Ruby on Rails
-guide:
+Some things that will increase the chance that your pull request is accepted include:
 
-    * Use Node idioms and helpers.
-    * Include tests that fail without your code, and pass with it.
-    * Update the documentation, the surrounding one, examples elsewhere, guides, whatever is affected by your
-    contribution.
+* Include tests that fail without your code, and pass with it.
+* Update the documentation, the surrounding one, examples elsewhere, guides, whatever is affected by your
+contribution.
+* Follow the [Ember.js Style Guide](https://github.com/softlayer/ember-style-guide).
 
-#### Syntax ####
-
-    * Four spaces, no tabs.
-    * No trailing whitespace. Blank lines should not have any space.
-    * Follow the conventions you see used in the source already.
-
-#### Inline Documentation Guidelines ####
-
-All inline documentation is written using [JSDoc](http://usejsdoc.org/). Follow these rules when updating or writing
-new documentation:
-
-    1. All code blocks must be fenced.
-    3. All code blocks must be valid code for syntax highlighting.
-    4. All examples in code blocks must be aligned.
-    5. Use two spaces between the code and the example: `foo(); // result`.
-    6. All references to code words must be enclosed in backticks.
-    7. Prefer a single space between sentences.
-    8. Wrap long markdown blocks > 120 characters.
-    9. Don't include blank lines after `@param` definitions.
-
-
-#### Style Conventions ####
-
-* `thisPropertyName`
-* `Global.Class.attribute`
-* `thisFunction()`
-* `Global.CONSTANT_NAME`
-* `true`, `false`, `null`, `undefined` (when referring to programming values)
 
 And in case we didn't emphasize it enough: **we love tests!**
 

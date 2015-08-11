@@ -2,8 +2,7 @@
 
 This document captures the steps a project maintainer should follow when releasing a new version of this Addon.
 
-* Merge all desired pull requests into `develop` branch
-* Merge `develop` branch into `master` branch
+* Merge all desired pull requests into `master` branch
 * If change is due to upgrading Ember CLI version
     * Update Ember CLI version text in README.md file
 * Update CHANGELOG.md
@@ -23,7 +22,6 @@ This document captures the steps a project maintainer should follow when releasi
     * `git push origin --tags`
     * `npm publish --registry http://registry.npmjs.org/`
         * Note: `--registry` flag is workaround for occasional issues with default SSL url
-* Merge `master` branch into `develop`
 * Run `ember build`
 * Run `npm run docs`
 * Copy the following resources outside of the working directory so they can be retained between switching branches:
