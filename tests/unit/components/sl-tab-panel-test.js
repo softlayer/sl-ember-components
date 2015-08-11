@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
     needs: [
@@ -232,7 +233,7 @@ test( '"activatePane" animates as expected', function( assert ) {
         ` )
     });
 
-    const spy = window.sinon.spy( Ember.$.prototype, 'fadeIn' );
+    const spy = sinon.spy( Ember.$.prototype, 'fadeIn' );
     const done = assert.async();
 
     this.render();
@@ -255,7 +256,7 @@ test( '"deactivatePane" animates as expected', function( assert ) {
             {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
         ` )
     });
-    const spy = window.sinon.spy( Ember.$.prototype, 'fadeOut' );
+    const spy = sinon.spy( Ember.$.prototype, 'fadeOut' );
     const done = assert.async();
 
     assert.expect( 1 );
@@ -281,7 +282,7 @@ test( '"deactivatePane" calls specified callback', function( assert ) {
         ` )
     });
 
-    const callback = window.sinon.spy();
+    const callback = sinon.spy();
     const done = assert.async();
 
     this.render();

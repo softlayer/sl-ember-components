@@ -31,14 +31,6 @@ var app = new EmberAddon({
 // along with the exports of each module as its value.
 
 // Development dependencies
-app.import( app.bowerDirectory + '/sinonjs/sinon.js', {
-    type: 'test'
-});
-
-app.import( app.bowerDirectory + '/sinon-qunit/lib/sinon-qunit.js', {
-    type: 'test'
-});
-
 app.import( app.bowerDirectory + '/ember/ember-template-compiler.js', {
     type: 'test'
 });

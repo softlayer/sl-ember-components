@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
     unit: true
@@ -160,7 +161,7 @@ test( 'showModalWithStreamName property triggers modal to open', function( asser
         streamService: mockStreamService
     });
 
-    const sendSpy = window.sinon.spy( mockStreamService, 'send' );
+    const sendSpy = sinon.spy( mockStreamService, 'send' );
 
     this.$().trigger( 'click' );
 

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import sinon from 'sinon';
 
 let component;
 
@@ -279,7 +280,7 @@ test( 'Component responds to "hide" stream action', function( assert ) {
 
     this.render();
 
-    const hideSpy = window.sinon.spy( component, 'hide' );
+    const hideSpy = sinon.spy( component, 'hide' );
 
     mockStream.actions[ 'hide' ]();
 
@@ -294,7 +295,7 @@ test( 'Component responds to "show" stream action', function( assert ) {
 
     this.render();
 
-    const showSpy = window.sinon.spy( component, 'show' );
+    const showSpy = sinon.spy( component, 'show' );
 
     mockStream.actions[ 'show' ]();
 

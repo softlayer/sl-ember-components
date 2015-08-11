@@ -66,6 +66,7 @@
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
+    "ember-sinon": "0.2.1",
     "ember-stream": "^0.7.2",
     "ember-try": "0.0.6",
     "phantomjs": "1.9.8",

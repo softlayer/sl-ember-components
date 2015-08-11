@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
+import sinon from 'sinon';
 
 moduleForComponent(
     'sl-date-range-picker',
