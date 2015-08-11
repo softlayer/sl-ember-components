@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
@@ -218,7 +219,7 @@ test( 'updateDateRange() - listens to endDate event', function( assert ) {
         endDate: window.moment().toDate()
     });
     const inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
-    const spy = window.sinon.spy( Object.getPrototypeOf( inputElement ), 'setEndDate' );
+    const spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'setEndDate' );
 
     Ember.run( () => {
         component.set(
@@ -241,7 +242,7 @@ test( 'updateDateRange() - listens to startDate event', function( assert ) {
         startDate: window.moment().toDate()
     });
     const inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
-    const spy = window.sinon.spy( Object.getPrototypeOf( inputElement ), 'setStartDate' );
+    const spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'setStartDate' );
 
     Ember.run( () => {
         component.set(

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
+import sinon from 'sinon';
 
 const columns = new Ember.A([
     { title: 'Name', valuePath: 'name' },
@@ -318,7 +319,7 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
 
     this.render();
 
-    const spy = window.sinon.spy( component, 'updateHeight' );
+    const spy = sinon.spy( component, 'updateHeight' );
 
     assert.equal(
         spy.calledOnce,

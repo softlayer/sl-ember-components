@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import sinon from 'sinon';
 
 const testOptions = {
     chartOptions: {
@@ -87,7 +88,7 @@ test( 'updateData() is called after series property is modified', function( asse
 
     this.render();
 
-    const spy = window.sinon.spy( component, 'updateData' );
+    const spy = sinon.spy( component, 'updateData' );
     const changedTestSeries = [];
 
     component.set( 'series', changedTestSeries );
@@ -323,9 +324,9 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
         }
     });
 
-    const setupSpy = window.sinon.spy( component, 'setupChart' );
-    const updateSpy = window.sinon.spy( component, 'updateData' );
-    const highchartsSpy = window.sinon.spy( chartDivMock, 'highcharts' );
+    const setupSpy = sinon.spy( component, 'setupChart' );
+    const updateSpy = sinon.spy( component, 'updateData' );
+    const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
 
     assert.equal(
         component.get( 'chart' ),

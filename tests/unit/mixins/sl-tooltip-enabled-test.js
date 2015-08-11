@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { module, test, skip } from 'qunit';
+import sinon from 'sinon';
 
 let temporaryData;
 const jQueryMock = function() {
@@ -73,8 +74,8 @@ test( 'enable() - popover defined calls enablePopover()', function( assert ) {
     });
     const subject = testObject.create();
 
-    subject.enablePopover = window.sinon.spy();
-    subject.enableTooltip = window.sinon.spy();
+    subject.enablePopover = sinon.spy();
+    subject.enableTooltip = sinon.spy();
 
     subject.enable();
 
@@ -98,8 +99,8 @@ test( 'enable() - title defined calls enableTooltip()', function( assert ) {
     });
     const subject = testObject.create();
 
-    subject.enablePopover = window.sinon.spy();
-    subject.enableTooltip = window.sinon.spy();
+    subject.enablePopover = sinon.spy();
+    subject.enableTooltip = sinon.spy();
 
     subject.enable();
 
