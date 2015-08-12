@@ -1,5 +1,12 @@
 # sl-ember-components Changelog
 
+### 0.9.1
+
+[#642](https://github.com/softlayer/sl-ember-components/issues/642) [BUGFIX] softlayer/sl-bootstrap entry in blueprints/sl-ember-components/index.js should reference correct version
+[#643](https://github.com/softlayer/sl-ember-components/issues/643) [BUGFIX] ember-stream should be a dependency, not a devDependency
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.0...v0.9.1)
+
 ### 0.9.0
 
 * [INTERNAL] All components are now fully tested
