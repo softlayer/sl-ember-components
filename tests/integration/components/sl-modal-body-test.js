@@ -1,23 +1,16 @@
+import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
-import Ember from 'ember';
 
-moduleForComponent( 'sl-modal-body', 'Unit | Component | sl modal body', {
-    unit: true
-});
-
-test( 'Modal body exists', function( assert ) {
-    assert.equal(
-        this.$( '.modal-body' ).length,
-        1
-    );
+moduleForComponent( 'sl-modal-body', 'Integration | Component | sl modal body', {
+    integration: true
 });
 
 test( 'Content is yielded', function( assert ) {
-    const content = '<div class="test"></div>';
-
-    this.subject({
-        template: Ember.Handlebars.compile( content )
-    });
+    this.render( hbs`
+        {{#sl-modal-body}}
+           <div class="test"></div>
+        {{/sl-modal-body}}`
+    );
 
     assert.equal(
         this.$( '.test' ).length,

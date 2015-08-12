@@ -1,8 +1,7 @@
 import Ember from 'ember';
+import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
-
-let component;
 
 const mockStream = {
     actions: {},
@@ -20,24 +19,20 @@ const mockStream = {
     }
 };
 
-const template = Ember.Handlebars.compile(
-    '{{sl-modal-header title="Simple Example"}}' +
-    '{{#sl-modal-body}}' +
-    '<p>A simple modal example</p>' +
-    '{{/sl-modal-body}}' +
-    '{{sl-modal-footer}}'
-);
+const template = hbs`
+    {{#sl-modal}}
+        {{sl-modal-header title="Simple Example"}}
 
-moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
-    needs: [
-        'component:sl-modal-header',
-        'component:sl-modal-body',
-        'component:sl-modal-footer'
-    ],
+        {{#sl-modal-body}}
+            <p>A simple modal example</p>'
+        {{/sl-modal-body}}'
 
-    /**
-     * Reset hideModal property before each test.
-     */
+        {{sl-modal-footer}}
+    {{/sl-modal}}
+`;
+
+moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
+
     beforeEach() {
         this.hideModal = true;
     },
@@ -48,25 +43,22 @@ moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
      * The hideModal property can be overridden in a test.
      **/
     afterEach() {
-        if ( !component.isDestroyed ) {
-            Ember.run( () => {
-                if( this.hideModal ) {
-                    component.hide();
-                }
-            });
+        if ( this.hideModal ) {
+            if ( this.$( '.modal' ) ) {
+                this.$( '.modal' ).modal( 'hide' );
+                Ember.$( '.modal-backdrop' ).remove();
+            }
         }
     },
 
-    unit: true
+    integration: true
 });
 
 test( 'Classes are present', function( assert ) {
-    component = this.subject();
-
-    this.render();
+    this.render( template );
 
     assert.ok(
-        this.$().hasClass( 'modal' ),
+        this.$().children().hasClass( 'modal' ),
         'Has class modal'
     );
 });
@@ -79,141 +71,167 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
     const beforeHideDone = assert.async();
     const afterHideDone = assert.async();
 
-    component = this.subject({
-        beforeShow: 'beforeShow',
-        afterShow: 'afterShow',
-        beforeHide: 'beforeHide',
-        afterHide: 'afterHide',
-        template: template,
-        targetObject: {
-            beforeShow() {
-                assert.ok(
-                    true,
-                    'beforeShow was triggered'
-                );
+    const beforeShow = () =>  {
+        assert.ok(
+            true,
+            'beforeShow was triggered'
+        );
 
-                beforeShowDone();
-            },
+        beforeShowDone();
+    };
 
-            afterShow() {
-                assert.ok(
-                    true,
-                   'afterShow was triggered'
-                );
+    const afterShow = () => {
+        assert.ok(
+            true,
+            'afterShow was triggered'
+        );
 
-                afterShowDone();
-            },
+        afterShowDone();
+    };
 
-            beforeHide() {
-                assert.ok(
-                    true,
-                    'beforeHide was triggered'
-                );
+    const beforeHide = () => {
+        assert.ok(
+            true,
+            'beforeHide was triggered'
+        );
 
-                beforeHideDone();
-            },
+        beforeHideDone();
+    };
 
-            afterHide() {
-                assert.ok(
-                    true,
-                    'afterHide was triggered'
-                );
+    const afterHide = () => {
+        assert.ok(
+            true,
+            'afterHide was triggered'
+        );
 
-                afterHideDone();
-            }
-        }
-    });
+        afterHideDone();
+    };
 
-    this.render();
+    this.on( 'beforeShow', beforeShow );
+    this.on( 'afterShow', afterShow );
+    this.on( 'beforeHide', beforeHide );
+    this.on( 'afterHide', afterHide );
+
+    this.render( hbs`
+        {{#sl-modal name='testing'
+            beforeShow='beforeShow'
+            afterShow='afterShow'
+            beforeHide='beforeHide'
+            afterHide='afterHide'
+         }}
+            {{sl-modal-header}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     Ember.run( () => {
-        component.show();
-        component.hide();
+        this.$( '.modal' ).modal( 'show' );
+        this.$( '.modal' ).modal( 'hide' );
     });
-
 
     this.hideModal = false;
 });
 
 test( 'Property isOpen is set appropriately', function( assert ) {
-    component = this.subject({ template });
 
-    this.$().trigger( 'shown.bs.modal' );
+    this.set( 'isOpen', 'initial Value' );
+
+    this.render( hbs`
+        {{#sl-modal isOpen=isOpen}}
+            {{sl-modal-header title="Simple Example"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
+
+    Ember.run( () => {
+        this.$( '.modal' ).trigger( 'shown.bs.modal' );
+    });
 
     assert.equal(
-        component.get( 'isOpen' ),
+        this.get( 'isOpen' ),
         true,
         'isOpen was set to true when modal show event was triggered'
     );
 
-    this.$().trigger( 'hidden.bs.modal' );
+    Ember.run( () => {
+        this.$( '.modal' ).trigger( 'hidden.bs.modal' );
+    });
 
     assert.equal(
-        component.get( 'isOpen' ),
+        this.get( 'isOpen' ),
         false,
         'isOpen was set to false when modal close event was triggered'
     );
-
 });
 
 test( 'Closing of modal using close button works', function( assert ) {
     assert.expect( 1 );
-
     const closeDone = assert.async();
 
-    component = this.subject({
-        afterHide: 'modalClosed',
-        template: template,
-        targetObject: {
-            modalClosed() {
-                assert.ok( 'Modal was closed' );
-                closeDone();
-            }
-        }
-    });
+    const modalClosed = () => {
+        assert.ok( 'Modal was closed' );
+        closeDone();
+    };
 
-    this.render();
+    this.on( 'modalClosed', modalClosed );
+
+    this.render( hbs`
+        {{#sl-modal afterHide='modalClosed'}}
+            {{sl-modal-header title="Simple Example"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     Ember.run( () => {
-        component.show();
+        this.$( '.modal' ).modal( 'show' );
+        this.$( '.modal' ).find( '.close' ).click();
     });
 
-    this.$( '.close' ).click();
 });
 
 test( 'Backdrop is hidden when backdrop property is set to false', function( assert ) {
-    assert.expect( 1 );
+    this.render( hbs`
+        {{#sl-modal backdrop=false}}
+            {{sl-modal-header title="Simple Example"}}
 
-    const openDone = assert.async();
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
 
-    component = this.subject({
-        afterShow: 'modalOpen',
-        backdrop: false,
-        targetObject: {
-            modalOpen() {
-                assert.equal(
-                    Ember.$( '.modal-backdrop' ).length,
-                    0
-                );
-                openDone();
-            }
-        }
-    });
-
-    this.render();
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     Ember.run( () => {
-        component.show();
+        this.$( '.modal' ).modal( 'show' );
     });
+
+    assert.equal(
+        Ember.$( '.modal-backdrop' ).length,
+        0
+    );
 });
 
 test( 'Backdrop is shown by default', function( assert ) {
-    component = this.subject();
-
-    this.render();
+    this.render( template );
 
     Ember.run( () => {
-        component.show();
+        this.$( '.modal' ).modal( 'show' );
     });
 
     assert.equal(
@@ -223,84 +241,131 @@ test( 'Backdrop is shown by default', function( assert ) {
 });
 
 test( 'Fade class is present when animated is set to true', function( assert ) {
-    component = this.subject();
+    this.render( template );
+
+    this.render( hbs`
+        {{#sl-modal animated=true}}
+            {{sl-modal-header title="Simple Example"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     assert.ok(
-        this.$().hasClass( 'fade' )
+        this.$( '.modal' ).hasClass( 'fade' )
     );
 });
 
 test( 'Fade class is absent when animated is set to false', function( assert ) {
-    component = this.subject({
-        animated: false
-    });
+    this.render( template );
+
+    this.render( hbs`
+        {{#sl-modal animated=false}}
+            {{sl-modal-header title="Simple Example"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     assert.ok(
         !this.$().hasClass( 'fade' )
     );
-
 });
 
 test( 'ariaDescribedBy attribute binding', function( assert ) {
     const describedBy = 'targetId';
 
-    component = this.subject({
-        ariaDescribedBy: describedBy
-    });
+    this.render( template );
+
+    this.set( 'ariaDescribedBy', describedBy );
+
+    this.render( hbs`
+        {{#sl-modal ariaDescribedBy=ariaDescribedBy}}
+            {{sl-modal-header title="Simple Example"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     assert.equal(
-        this.$().attr( 'aria-describedby' ),
+        this.$( '.modal' ).attr( 'aria-describedby' ),
         describedBy
     );
 });
 
 test( 'aria-hidden is true', function( assert ) {
-    component = this.subject();
-
-    this.render();
+    this.render( template );
 
     assert.equal(
-        this.$().attr( 'aria-hidden' ),
+        this.$( '.modal' ).attr( 'aria-hidden' ),
         'true'
     );
 });
 
 test( 'aria-labelledby is set', function( assert ) {
-    component = this.subject({ template });
-
-    this.render();
+    this.render( template );
 
     assert.ok(
-        this.$().attr( 'aria-labelledby' )
+        this.$( '.modal' ).attr( 'aria-labelledby' )
     );
 });
 
 test( 'Component responds to "hide" stream action', function( assert ) {
-    component = this.subject({ stream: mockStream });
+    this.set( 'stream', mockStream );
+    this.set( 'hide', sinon.spy() );
 
-    this.render();
+    this.render( hbs`
+        {{#sl-modal stream=stream hide=hide}}
+            {{sl-modal-header title="Simple Example"}}
 
-    const hideSpy = sinon.spy( component, 'hide' );
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     mockStream.actions[ 'hide' ]();
 
     assert.ok(
-        hideSpy.called,
+        this.get( 'hide' ).calledOnce,
         'hide() was triggered successfully'
     );
 });
 
 test( 'Component responds to "show" stream action', function( assert ) {
-    component = this.subject({ stream: mockStream });
+    this.set( 'stream', mockStream );
+    this.set( 'show', sinon.spy() );
 
-    this.render();
+    this.render( hbs`
+        {{#sl-modal stream=stream show=show}}
+            {{sl-modal-header title="Simple Example"}}
 
-    const showSpy = sinon.spy( component, 'show' );
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>'
+            {{/sl-modal-body}}'
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `);
 
     mockStream.actions[ 'show' ]();
 
     assert.ok(
-        showSpy.called,
-        'show() was triggered successfully'
+        this.get( 'show' ).calledOnce,
+        'hide() was triggered successfully'
     );
 });
