@@ -1,5 +1,11 @@
 # sl-ember-components Changelog
 
+### 0.9.2
+
+[#651](https://github.com/softlayer/sl-ember-components/issues/651) [BUGFIX] sl-bootstrap blueprint needs to use name and source
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.1...v0.9.2)
+
 ### 0.9.1
 
 [#642](https://github.com/softlayer/sl-ember-components/issues/642) [BUGFIX] softlayer/sl-bootstrap entry in blueprints/sl-ember-components/index.js should reference correct version
