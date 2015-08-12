@@ -35,6 +35,7 @@ test( 'Setting title on header works', function( assert ) {
     this.render( hbs`
         {{sl-modal-header title=title}}
     `);
+
     assert.equal(
         this.$( '.modal-title' ).text(),
         title

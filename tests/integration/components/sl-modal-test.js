@@ -138,7 +138,6 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
 });
 
 test( 'Property isOpen is set appropriately', function( assert ) {
-
     this.set( 'isOpen', 'initial Value' );
 
     this.render( hbs`
