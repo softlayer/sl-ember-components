@@ -7,11 +7,10 @@ import layout from '../templates/components/sl-grid';
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-const ColumnAlign = Object.freeze({
+export const ColumnAlign = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { ColumnAlign };
 
 /**
  * Valid values for the column definitions' `size` property
@@ -19,12 +18,11 @@ export { ColumnAlign };
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-const ColumnSize = Object.freeze({
+export const ColumnSize = Object.freeze({
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
 });
-export { ColumnSize };
 
 /**
  * @module

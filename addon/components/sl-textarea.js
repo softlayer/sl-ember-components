@@ -9,12 +9,11 @@ import layout from '../templates/components/sl-textarea';
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-const Direction = Object.freeze({
+export const Direction = Object.freeze({
     BACKWARD: 'backward',
     FORWARD: 'forward',
     NONE: 'none'
 });
-export { Direction };
 
 /**
  * Valid values for `spellcheck` property
@@ -22,12 +21,11 @@ export { Direction };
  * @memberof module:components/sl-textarea
  * @enum {Boolean|String}
  */
-const Spellcheck = {
+export const Spellcheck = {
     DEFAULT: 'default',
     FALSE: false,
     TRUE: true
 };
-export { Spellcheck };
 
 /**
  * Valid values for `wrap` property
@@ -35,11 +33,10 @@ export { Spellcheck };
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-const Wrap = {
+export const Wrap = {
     HARD: 'hard',
     SOFT: 'soft'
 };
-export { Wrap };
 
 /**
  * @module
