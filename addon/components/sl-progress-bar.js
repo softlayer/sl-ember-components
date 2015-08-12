@@ -9,14 +9,13 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-progress-bar
  * @enum {String}
  */
-const Theme = Object.freeze({
+export const Theme = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { Theme };
 
 /**
  * @module
