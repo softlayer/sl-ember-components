@@ -49,7 +49,7 @@
     "broccoli-static-compiler": "^0.2.1",
     "ember-cli-babel": "^5.0.0",
     "ember-cli-htmlbars": "0.7.6",
-    "ember-stream": "^0.7.2",
+    "ember-stream": "^0.7.2"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
