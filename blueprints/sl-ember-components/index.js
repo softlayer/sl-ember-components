@@ -26,7 +26,8 @@ module.exports = {
                 name: 'typeahead.js',
                 target: '~0.11.1'
             }, {
-                name: 'softlayer/sl-bootstrap',
+                name: 'sl-bootstrap',
+                source: 'softlayer/sl-bootstrap',
                 target: '1.3.0'
             }, {
                 name: 'jquery-mousewheel',
