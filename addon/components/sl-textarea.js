@@ -110,6 +110,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     spellcheck: Spellcheck.Direction,
 
     /**
+     * Unique textarea id that will generated and set on init of component
+     *
+     * @type {?String}
+     */
+    textAreaId: null,
+
+    /**
      * The bound value of the textarea
      *
      * @type {?String}
@@ -123,10 +130,23 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * @type {Wrap}
      */
-    wrap: Wrap.SOFT
+    wrap: Wrap.SOFT,
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Set unique textAreaId that will be set on label and textarea element
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setTextAreaId: Ember.on(
+        'init',
+        function() {
+            this.set( 'textAreaId', this.get( 'elementId' ) + '-textarea' );
+        }
+    )
 
     // -------------------------------------------------------------------------
     // Methods
