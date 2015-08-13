@@ -74,9 +74,12 @@ export default Ember.Mixin.create({
      * @function
      * @returns {?String}
      */
-    readonlyString: Ember.computed( 'readonly', function() {
-        return this.get( 'readonly' ) ? 'readonly' : null;
-    }),
+    readonlyString: Ember.computed(
+        'readonly',
+        function() {
+            return this.get( 'readonly' ) ? 'readonly' : null;
+        }
+    ),
 
     /**
      * Returns a string value for the boolean disabled property
@@ -85,7 +88,10 @@ export default Ember.Mixin.create({
      * @function
      * @returns {?String}
      */
-    disabledString: Ember.computed( 'disabled', function() {
-        return this.get( 'disabled' ) ? 'disabled' : null;
-    })
+    disabledString: Ember.computed(
+        'disabled',
+        function() {
+            return this.get( 'disabled' ) ? 'disabled' : null;
+        }
+    )
 });
