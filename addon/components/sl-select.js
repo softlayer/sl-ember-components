@@ -43,7 +43,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     disableSearch: false,
 
     /**
-     * Unique input id that will generated and set on init of component
+     * Unique input id that will get generated and set on init of component
      *
      * @type {?String}
      */

@@ -110,7 +110,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     spellcheck: Spellcheck.Direction,
 
     /**
-     * Unique textarea id that will generated and set on init of component
+     * Unique textarea id that will get generated and set on init of component
      *
      * @type {?String}
      */
