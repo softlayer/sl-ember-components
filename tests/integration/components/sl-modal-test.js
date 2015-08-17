@@ -127,7 +127,7 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     Ember.run( () => {
         this.$( '.modal' ).modal( 'show' );
@@ -150,7 +150,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     Ember.run( () => {
         this.$( '.modal' ).trigger( 'shown.bs.modal' );
@@ -194,7 +194,7 @@ test( 'Closing of modal using close button works', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     Ember.run( () => {
         this.$( '.modal' ).modal( 'show' );
@@ -214,7 +214,7 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     Ember.run( () => {
         this.$( '.modal' ).modal( 'show' );
@@ -252,7 +252,7 @@ test( 'Fade class is present when animated is set to true', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     assert.ok(
         this.$( '.modal' ).hasClass( 'fade' )
@@ -272,7 +272,7 @@ test( 'Fade class is absent when animated is set to false', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     assert.ok(
         !this.$().hasClass( 'fade' )
@@ -296,7 +296,7 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '.modal' ).attr( 'aria-describedby' ),
@@ -335,7 +335,7 @@ test( 'Component responds to "hide" stream action', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     mockStream.actions[ 'hide' ]();
 
@@ -359,7 +359,7 @@ test( 'Component responds to "show" stream action', function( assert ) {
 
             {{sl-modal-footer}}
         {{/sl-modal}}
-    `);
+    ` );
 
     mockStream.actions[ 'show' ]();
 

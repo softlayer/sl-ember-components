@@ -8,7 +8,7 @@ moduleForComponent( 'sl-modal-header', 'Integration | Component | sl modal heade
 test( 'Modal header class exists on child element', function( assert ) {
     this.render( hbs`
         {{sl-modal-header}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '.modal-header' ).length,
@@ -19,7 +19,7 @@ test( 'Modal header class exists on child element', function( assert ) {
 test( 'Close button exists', function( assert ) {
     this.render( hbs`
         {{sl-modal-header}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '.close' ).length,
@@ -34,7 +34,7 @@ test( 'Setting title on header works', function( assert ) {
 
     this.render( hbs`
         {{sl-modal-header title=title}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '.modal-title' ).text(),
@@ -47,7 +47,7 @@ test( 'Content is yielded', function( assert ) {
         {{#sl-modal-header title=title}}
             <div class="test"></div>
         {{/sl-modal-header}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '.test' ).length,
@@ -61,7 +61,7 @@ test( 'Modal title\'s id is set to ariaLabelledBy property value', function( ass
 
     this.render( hbs`
         {{sl-modal-header title=title ariaLabelledBy=ariaLabelledBy}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '.modal-title' ).prop( 'id' ),
@@ -76,7 +76,7 @@ test( 'aria-labelledby can be bound in a custom header', function( assert ) {
         {{#sl-modal-header title=title}}
             <span class="modal-title" id={{ariaLabelledBy}}>Custom Title</span>
         {{/sl-modal-header}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '.modal-title' ).prop( 'id' ),
