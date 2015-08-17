@@ -187,7 +187,7 @@ export default Ember.Component.extend( TooltipEnabled, {
         'momentValue',
         function() {
             const momentValue = this.get( 'momentValue' ),
-                  timezone = this.get( 'timezone' );
+                timezone = this.get( 'timezone' );
 
             if ( momentValue && timezone ) {
                 return momentValue
