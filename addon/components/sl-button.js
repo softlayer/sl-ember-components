@@ -51,7 +51,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     /** @type {String[]} */
     attributeBindings: [
         'data-target',
-        'data-toggle',
+        'dataToggle:data-toggle',
         'disabled',
         'type'
     ],
