@@ -123,7 +123,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * @type {Wrap}
      */
-    wrap: Wrap.SOFT,
+    wrap: Wrap.SOFT
 
     // -------------------------------------------------------------------------
     // Observers
