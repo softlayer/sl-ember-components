@@ -101,12 +101,18 @@ test( 'Dismissable Button is rendered when set', function( assert ) {
 test( 'Dismiss Action is called on button click', function( assert ) {
 
     const dismissAction = () => {
-        assert.ok( 'A dissmiss action was called' );
+        assert.ok( 'A dismiss action was called' );
+
+        assert.strictEqual(
+            this.$( '.sl-alert' ).hasClass( 'alert-dismissable' ),
+            true,
+            'Component has alert-dismissable class'
+        );
     };
 
     this.render( hbs`
         {{#sl-alert dismissable=true dismiss='dismissAction'}}
-            Dissmissable is true with dismiss action
+            Dismissable is true with dismiss action
         {{/sl-alert}}
     ` );
 
@@ -115,11 +121,11 @@ test( 'Dismiss Action is called on button click', function( assert ) {
     $button.click();
 });
 
-test( 'Dismiss Action is not possible when dissmissable is false', function( assert ) {
+test( 'Dismiss Action is not possible when dismissable is false', function( assert ) {
 
     this.render( hbs`
         {{#sl-alert dismiss='dismissAction'}}
-            Dissmissable is false with dismiss action
+            Dismissable is false with dismiss action
         {{/sl-alert}}
     ` );
 
