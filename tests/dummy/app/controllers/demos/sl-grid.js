@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ArrayController.extend({
+export default Ember.Controller.extend({
     actions: {
         rowClick( row ) {
             window.console.log( 'Clicked', row );
