@@ -43,13 +43,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     disableSearch: false,
 
     /**
-     * Unique input id that will get generated and set on init of component
-     *
-     * @type {?String}
-     */
-    inputId: null,
-
-    /**
      * The internal input element, used for Select2's bindings
      *
      * @type {?Object}
@@ -100,19 +93,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Set unique inputId that will be set on label and input element
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setInputId: Ember.on(
-        'init',
-        function() {
-            this.set( 'inputId', this.get( 'elementId' ) + '-input' );
-        }
-    ),
 
     /**
      * Teardown the select2 to prevent memory leaks
