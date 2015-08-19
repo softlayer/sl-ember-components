@@ -3,7 +3,7 @@ language: node_js
 node_js:
     - "0.12"
 
-sudo: false
+sudo: required
 
 cache:
     directories:
@@ -19,6 +19,7 @@ matrix:
         - env: EMBER_TRY_SCENARIO=ember-release
 
 before_install:
+    - "sudo rm -rf /usr/local/phantomjs"
     - "npm config set spin false"
     - "npm install -g npm@^2"
 
