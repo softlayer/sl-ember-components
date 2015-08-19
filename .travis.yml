@@ -3,7 +3,7 @@ language: node_js
 node_js:
     - "0.12"
 
-sudo: false
+sudo: required
 
 cache:
     directories:
@@ -20,6 +20,7 @@ matrix:
 
 before_install:
     - "echo $PATH"
+    - "sudo rm -rf /usr/local/phantomjs"
     - "npm config set spin false"
     - "npm install -g npm@^2"
     - "npm uninstall phantomjs"
