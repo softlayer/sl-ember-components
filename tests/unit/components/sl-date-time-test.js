@@ -16,14 +16,27 @@ test( 'Default class names are present', function( assert ) {
 
 test( 'Attribute "datetime" is properly set', function( assert ) {
     this.subject({
-        timezone: 'America/Chicago',
-        value: new Date( 2015, 0, 1 )
+        format: 'datetime',
+        timezone: 'America/Denver',
+        value: '2015-01-01 00:00'
     });
 
     assert.equal(
         this.$().attr( 'datetime' ),
-        '2015-01-01 00:00 CST',
+        '2015-01-01 00:00 MST',
         '"datetime" attribute is expected value'
+    );
+
+    this.subject({
+        format: 'datetime',
+        timezone: 'America/Denver',
+        value: '2015-01-01 07:00+00:00'
+    });
+
+    assert.equal(
+        this.$().attr( 'datetime' ),
+        '2015-01-01 00:00 MST',
+        '"datetime" attribute is expected value (from GMT)'
     );
 });
 
@@ -74,11 +87,11 @@ test( 'Format "relative" results in correctly formatted value', function( assert
 test( 'Format "datetime" results in correctly formatted value', function( assert ) {
     const component = this.subject({
         format: 'datetime',
-        timezone: 'America/Chicago',
-        value: new Date( 2015, 0, 1 )
+        timezone: 'America/Denver',
+        value: '2015-01-01 07:00+00:00'
     });
 
-    const formattedValue = 'Thursday, January 1st 2015, 12:00 AM CST';
+    const formattedValue = 'Thursday, January 1st 2015, 12:00 AM MST';
 
     assert.equal(
         component.get( 'formattedValue' ),
