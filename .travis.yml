@@ -22,6 +22,7 @@ before_install:
     - "echo $PATH"
     - "npm config set spin false"
     - "npm install -g npm@^2"
+    - "npm uninstall phantomjs"
 
 install:
     - npm install -g bower
