@@ -523,6 +523,8 @@ export default Ember.Component.extend({
                     }
                 }
             }
+
+            return null;
         }
     ),
 
@@ -546,6 +548,8 @@ export default Ember.Component.extend({
                     this.get( 'totalCount' ) / this.get( 'pageSize' )
                 );
             }
+
+            return null;
         }
     ),
 
@@ -665,7 +669,14 @@ export default Ember.Component.extend({
         'content.length',
         'totalCount',
         function() {
-            return this.get( 'content.length' ) < this.get( 'totalCount' );
+            const contentLength = this.get( 'content.length' );
+            const totalCount = this.get( 'totalCount' );
+
+            if ( contentLength && totalCount ) {
+                return this.get( 'content.length' ) < this.get( 'totalCount' );
+            }
+
+            return null;
         }
     ),
 
