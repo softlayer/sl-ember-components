@@ -10,8 +10,8 @@ test( 'Defaults applied correctly', function( assert ) {
     this.set( 'testoptions', {} );
 
     this.render( hbs`
-      {{#sl-chart series=testseries options=testoptions}}
-      {{/sl-chart}}
+        {{#sl-chart series=testseries options=testoptions}}
+        {{/sl-chart}}
     ` );
 
     assert.ok(
@@ -40,8 +40,8 @@ test( 'Loading state adds loading class', function( assert ) {
     this.set( 'testoptions', {} );
 
     this.render( hbs`
-      {{#sl-chart series=testseries isLoading=false options=testoptions}}
-      {{/sl-chart}}
+        {{#sl-chart series=testseries isLoading=false options=testoptions}}
+        {{/sl-chart}}
     ` );
 
     assert.strictEqual(
@@ -51,8 +51,8 @@ test( 'Loading state adds loading class', function( assert ) {
     );
 
     this.render( hbs`
-      {{#sl-chart series=testseries isLoading=true options=testoptions}}
-      {{/sl-chart}}
+        {{#sl-chart series=testseries isLoading=true options=testoptions}}
+        {{/sl-chart}}
     ` );
 
     assert.strictEqual(
@@ -67,8 +67,8 @@ test( 'Title property is set', function( assert ) {
     this.set( 'testoptions', {} );
 
     this.render( hbs`
-      {{#sl-chart series=testseries options=testoptions}}
-      {{/sl-chart}}
+        {{#sl-chart series=testseries options=testoptions}}
+        {{/sl-chart}}
     ` );
 
     assert.strictEqual(
@@ -78,8 +78,8 @@ test( 'Title property is set', function( assert ) {
     );
 
     this.render( hbs`
-      {{#sl-chart title='Peak serve hours' series=testseries options=testoptions}}
-      {{/sl-chart}}
+        {{#sl-chart title='Peak serve hours' series=testseries options=testoptions}}
+        {{/sl-chart}}
     ` );
 
     assert.equal(
@@ -94,8 +94,8 @@ test( 'Chart div uses the correct style', function( assert ) {
     this.set( 'testoptions', {} );
 
     this.render( hbs`
-      {{#sl-chart series=testseries options=testoptions}}
-      {{/sl-chart}}
+        {{#sl-chart series=testseries options=testoptions}}
+        {{/sl-chart}}
     ` );
 
     assert.equal(
@@ -105,8 +105,8 @@ test( 'Chart div uses the correct style', function( assert ) {
     );
 
     this.render( hbs`
-      {{#sl-chart series=testseries options=testoptions height=10 width=20}}
-      {{/sl-chart}}
+        {{#sl-chart series=testseries options=testoptions height=10 width=20}}
+        {{/sl-chart}}
     ` );
 
     assert.equal(
