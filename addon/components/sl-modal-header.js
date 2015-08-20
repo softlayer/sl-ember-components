@@ -45,7 +45,13 @@ export default Ember.Component.extend({
     ariaLabelledBy: Ember.computed(
         'elementId',
         function() {
-            return 'modalTitle' + this.get( 'elementId' );
+            const elementId = this.get( 'elementId' );
+
+            if ( elementId ) {
+                return 'modalTitle' + elementId;
+            }
+
+            return null;
         }
     )
 });
