@@ -6,8 +6,8 @@ moduleForComponent( 'sl-chart', 'Integration | Component | sl chart', {
 });
 
 test( 'Defaults applied correctly', function( assert ) {
-    this.set( 'testseries', []);
-    this.set( 'testoptions', {});
+    this.set( 'testseries', [] );
+    this.set( 'testoptions', {} );
 
     this.render( hbs`
       {{#sl-chart series=testseries options=testoptions}}
@@ -36,8 +36,8 @@ test( 'Defaults applied correctly', function( assert ) {
 });
 
 test( 'Loading state adds loading class', function( assert ) {
-    this.set( 'testseries', []);
-    this.set( 'testoptions', {});
+    this.set( 'testseries', [] );
+    this.set( 'testoptions', {} );
 
     this.render( hbs`
       {{#sl-chart series=testseries isLoading=false options=testoptions}}
@@ -63,8 +63,8 @@ test( 'Loading state adds loading class', function( assert ) {
 });
 
 test( 'Title property is set', function( assert ) {
-    this.set( 'testseries', []);
-    this.set( 'testoptions', {});
+    this.set( 'testseries', [] );
+    this.set( 'testoptions', {} );
 
     this.render( hbs`
       {{#sl-chart series=testseries options=testoptions}}
@@ -72,7 +72,7 @@ test( 'Title property is set', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '.panel-heading' )[0],
+        this.$( '.panel-heading' ).html(),
         undefined,
         'No chart title is rendered when title is not set'
     );
@@ -90,8 +90,8 @@ test( 'Title property is set', function( assert ) {
 });
 
 test( 'Chart div uses the correct style', function( assert ) {
-    this.set( 'testseries', []);
-    this.set( 'testoptions', {});
+    this.set( 'testseries', [] );
+    this.set( 'testoptions', {} );
 
     this.render( hbs`
       {{#sl-chart series=testseries options=testoptions}}
