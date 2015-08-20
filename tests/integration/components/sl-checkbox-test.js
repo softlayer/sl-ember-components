@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('sl-checkbox', 'Integration | Component | sl checkbox', {
+moduleForComponent( 'sl-checkbox', 'Integration | Component | sl checkbox', {
     integration: true
 });
 
