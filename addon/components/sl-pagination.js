@@ -92,7 +92,13 @@ export default Ember.Component.extend({
     onFirstPage: Ember.computed(
         'currentPage',
         function() {
-            return 1 === this.get( 'currentPage' );
+            const currentPage = this.get( 'currentPage' );
+
+            if ( currentPage ) {
+                return 1 === currentPage;
+            }
+
+            return null;
         }
     ),
 
@@ -106,7 +112,14 @@ export default Ember.Component.extend({
         'currentPage',
         'totalPages',
         function() {
-            return this.get( 'currentPage' ) === this.get( 'totalPages' );
+            const currentPage = this.get( 'currentPage' );
+            const totalPages = this.get( 'totalPages' );
+
+            if ( currentPage && totalPages ) {
+                return currentPage === totalPages;
+            }
+
+            return null;
         }
     ),
 
