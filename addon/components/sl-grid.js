@@ -673,10 +673,10 @@ export default Ember.Component.extend({
             const totalCount = this.get( 'totalCount' );
 
             if ( contentLength && totalCount ) {
-                return this.get( 'content.length' ) < this.get( 'totalCount' );
+                return contentLength < totalCount;
             }
 
-            return null;
+            return false;
         }
     ),
 
