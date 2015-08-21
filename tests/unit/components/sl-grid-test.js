@@ -214,7 +214,7 @@ test( 'Fixed height values are supported', function( assert ) {
 });
 
 test( 'Continuous mode and requestData are supported', function( assert ) {
-    this.subject({
+    const component = this.subject({
         columns,
         content,
         continuous: true,
@@ -231,6 +231,18 @@ test( 'Continuous mode and requestData are supported', function( assert ) {
             }
         }
     });
+
+    assert.equal(
+        component.get( 'totalPages' ),
+        null,
+        'Continuous-enabled grids have null total pages'
+    );
+
+    assert.equal(
+        component.get( 'showPagination' ),
+        false,
+        'Continuous-enabled grids do not display navigation controls'
+    );
 
     Ember.run( () => {
         this.$( '.list-pane .content' ).trigger( 'scroll' );
@@ -288,6 +300,12 @@ test( 'Pagination data is handled correctly', function( assert ) {
     });
 
     assert.equal(
+        component.get( 'showPagination' ),
+        true,
+        'Pagination control is shown'
+    );
+
+    assert.equal(
         component.get( 'currentPage' ),
         1,
         'Initial currentPage is 1'
@@ -305,11 +323,23 @@ test( 'Pagination data is handled correctly', function( assert ) {
         component.set( 'loading', false );
     });
 
+    this.$( '.next-page-button' ).trigger( 'click' );
+
+    assert.equal(
+        component.get( 'hasMoreData' ),
+        false,
+        'Current page is the last page'
+    );
+
+    Ember.run( () => {
+        component.set( 'loading', false );
+    });
+
     this.$( '.previous-page-button' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'currentPage' ),
-        1,
+        2,
         'Current page decremented correctly'
     );
 });
