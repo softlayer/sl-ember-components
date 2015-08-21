@@ -16,7 +16,6 @@ test( 'Default class names are present', function( assert ) {
 
 test( 'Attribute "datetime" is properly set', function( assert ) {
     this.subject({
-        format: 'datetime',
         timezone: 'America/Denver',
         value: '2015-01-01 00:00'
     });
@@ -28,7 +27,6 @@ test( 'Attribute "datetime" is properly set', function( assert ) {
     );
 
     this.subject({
-        format: 'datetime',
         timezone: 'America/Denver',
         value: '2015-01-01 07:00+00:00'
     });
@@ -86,7 +84,6 @@ test( 'Format "relative" results in correctly formatted value', function( assert
 
 test( 'Format "datetime" results in correctly formatted value', function( assert ) {
     const component = this.subject({
-        format: 'datetime',
         timezone: 'America/Denver',
         value: '2015-01-01 07:00+00:00'
     });

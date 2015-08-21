@@ -106,13 +106,14 @@ export default Ember.Component.extend( TooltipEnabled, {
         'value',
         function() {
             const timezoneString = this.get( 'timezoneString' );
+            const value = this.get( 'value' ) ? this.get( 'value' ) : new Date();
 
             if ( timezoneString ) {
-                return window.moment.tz( this.get( 'value' ), timezoneString )
+                return window.moment.tz( value, timezoneString )
                     .format( 'YYYY-MM-DD HH:mm z' );
             }
 
-            return null;
+            return value.format( 'YYYY-MM-DD HH:mm Z' );
         }
     ),
 
@@ -167,8 +168,7 @@ export default Ember.Component.extend( TooltipEnabled, {
             const locale = this.get( 'locale' );
 
             if ( locale ) {
-                return window.moment( this.get( 'value' ) )
-                    .locale( locale );
+                return window.moment( this.get( 'value' ) ).locale( locale );
             }
 
             return null;
@@ -185,12 +185,11 @@ export default Ember.Component.extend( TooltipEnabled, {
         'timezone',
         'momentValue',
         function() {
-            const momentValue = this.get( 'momentValue' ),
-                timezone = this.get( 'timezone' );
+            const momentValue = this.get( 'momentValue' );
+            const timezone = this.get( 'timezone' );
 
             if ( momentValue && timezone ) {
-                return momentValue
-                    .tz( timezone ).format( 'z' );
+                return momentValue.tz( timezone ).format( 'z' );
             }
 
             return null;
