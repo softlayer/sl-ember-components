@@ -190,6 +190,10 @@
         When true, the component is styled to reflect optional status. This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
+    {{#property-text name="pattern" type="String"}}
+        HTML5 Regex-Pattern which lets browsers validate the inputs value.
+    {{/property-text}}
+
     {{#property-text name="placeholder" type="String"}}
         <code>placeholder</code> attribute value for the input.
     {{/property-text}}
@@ -212,6 +216,10 @@
 
     {{#property-text name="suggestions" type="Array"}}
         Values to use as typeahead suggestions.
+    {{/property-text}}
+
+    {{#property-text name="tabindex" type="Integer"}}
+        Sets the HTML tabindex-attribute.
     {{/property-text}}
 
     {{#property-text name="title" type="String"}}
