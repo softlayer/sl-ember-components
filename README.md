@@ -62,21 +62,6 @@ Provides state properties for input element based components.
 Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.
 
 
-**Helpers**
-
-
-*get-key*
-
-arguments: objectKey string, pathKey string, context object
-
-Lookup a value on an object in the current context with passed-in objectKey and pathKey strings.
-
-
-*render-dynamic*
-
-Call the render handlebars helper with a key value for the template name lookup (render requires a string argument).
-
-
 **Utility Classes**
 
 *sl-menu-key-adapter*

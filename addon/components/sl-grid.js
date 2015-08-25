@@ -256,18 +256,18 @@ export default Ember.Component.extend({
     detailComponent: null,
 
     /**
-     * The path of a template to use for the detail-pane footer
+     * The name of the component to render for the detail-pane footer
      *
      * @type {?String}
      */
-    detailFooterPath: null,
+    detailFooterComponent: null,
 
     /**
-     * The path of a template to use for the detail-pane header
+     * The name of the component to render for the detail-pane header
      *
      * @type {?String}
      */
-    detailHeaderPath: null,
+    detailHeaderComponent: null,
 
     /**
      * Indicates when the detail-pane is open
@@ -446,31 +446,7 @@ export default Ember.Component.extend({
             if ( renderedName ) {
                 const registry = this.get( 'container._registry' );
                 const root = renderedName.replace( '.', '/' ) + '/';
-                const detailFooterPath = root + 'detail-footer';
-                const detailHeaderPath = root + 'detail-header';
-                const filterPath = root + 'filter';
                 const footerPath = root + 'footer';
-
-                if (
-                    !this.get( 'detailFooterPath' ) &&
-                    registry.resolve( 'template:' + detailFooterPath )
-                ) {
-                    this.set( 'detailFooterPath', detailFooterPath );
-                }
-
-                if (
-                    !this.get( 'detailHeaderPath' ) &&
-                    registry.resolve( 'template:' + detailHeaderPath )
-                ) {
-                    this.set( 'detailHeaderPath', detailHeaderPath );
-                }
-
-                if (
-                    !this.get( 'filterPath' ) &&
-                    registry.resolve( 'template:' + filterPath )
-                ) {
-                    this.set( 'filterPath', filterPath );
-                }
 
                 if (
                     !this.get( 'footerPath' ) &&

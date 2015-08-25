@@ -9,8 +9,13 @@
     <div class="col-lg-6">
         <h6>Template</h6>
         <pre>\{{#sl-tab-panel}}
-    \{{sl-tab-pane label="One" name="one" templateName="demos/tabs/one"}}
-    \{{sl-tab-pane label="Two" name="two" templateName="demos/tabs/two"}}
+    \{{#sl-tab-pane label="One" name="one"}}
+        \{{render "demos.tabs.one"}}
+    \{{/sl-tab-pane}}
+
+    \{{#sl-tab-pane label="Two" name="two"}}
+        \{{render "demos.tabs.two"}}
+    \{{/sl-tab-pane}}
 
     \{{#sl-tab-pane label="Three" name="three"}}
         &lt;p&gt;Content for tab three!&lt;/p&gt;
@@ -21,8 +26,13 @@
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{#sl-tab-panel}}
-            {{sl-tab-pane label="One" name="one" templateName="demos/tabs/one"}}
-            {{sl-tab-pane label="Two" name="two" templateName="demos/tabs/two"}}
+            {{#sl-tab-pane label="One" name="one"}}
+                {{render "demos.tabs.one"}}
+            {{/sl-tab-pane}}
+
+            {{#sl-tab-pane label="Two" name="two"}}
+                {{render "demos.tabs.two"}}
+            {{/sl-tab-pane}}
 
             {{#sl-tab-pane label="Three" name="three"}}
                 <p>Content for tab three!</p>
@@ -58,9 +68,5 @@
         <p>This value is never displayed in the tabs.</p>
         <p>Used to set the <code>data-tab-name</code> attribute on the tab and used internally by the component to manage tab selection.</p>
         <p>The name provided can be specified in the <code>initialTabName</code> property of the sl-tab-panel component to indicate which tab should be active when initially displayed.</p>
-    {{/property-text}}
-
-    {{#property-text name="templateName" type="String"}}
-        Name of the template to render in the tab pane. If omitted, the component will render content from its block.
     {{/property-text}}
 </ul>
