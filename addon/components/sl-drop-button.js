@@ -148,6 +148,8 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             if ( !containsValue( theme, ButtonTheme ) ) {
                 warn( `Invalid sl-drop-button theme value "${theme}"` );
+
+                return null;
             }
 
             return `dropdown-${theme}`;
