@@ -2,9 +2,9 @@
 
 ### 0.9.3
 
-[#684](https://github.com/softlayer/sl-ember-components/issues/684) [BUGFIX] jQuery mousewheel production import is incorrect
-[#509](https://github.com/softlayer/sl-ember-components/issues/509) [INTERNAL ENHANCEMENT] `sl-modal`: Computed properties should return null value by default
-[#672](https://github.com/softlayer/sl-ember-components/pull/672) [INTERNAL] Synchronize installed version of PhantomJS between TravisCI and dev environments
+* [#684](https://github.com/softlayer/sl-ember-components/issues/684) [BUGFIX] jQuery mousewheel production import is incorrect
+* [#509](https://github.com/softlayer/sl-ember-components/issues/509) [INTERNAL ENHANCEMENT] `sl-modal`: Computed properties should return null value by default
+* [#672](https://github.com/softlayer/sl-ember-components/pull/672) [INTERNAL] Synchronize installed version of PhantomJS between TravisCI and dev environments
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.2...v0.9.3)
 
