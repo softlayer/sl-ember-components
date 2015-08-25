@@ -34,7 +34,7 @@ test( 'Disabled state applies class and disables input', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( 'input' ).hasClass( 'disabled' ),
+        this.$( '.sl-checkbox' ).hasClass( 'disabled' ),
         false,
         'Initially does not have class "disabled"'
     );
@@ -49,6 +49,12 @@ test( 'Disabled state applies class and disables input', function( assert ) {
         {{#sl-checkbox disabled=true}}
         {{/sl-checkbox}}
     ` );
+
+    assert.strictEqual(
+        this.$( '.sl-checkbox' ).hasClass( 'disabled' ),
+        true,
+        'Has class "disabled"'
+    );
 
     assert.strictEqual(
         this.$( 'input' ).prop( 'disabled' ),
