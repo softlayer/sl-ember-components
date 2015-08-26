@@ -148,8 +148,8 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
     );
 });
 
-test( 'default Value gets selected by default', function( assert ) {
-    this.set( 'value', 'eric' );
+test( 'Default Value gets selected by default', function( assert ) {
+    this.set( 'value', 'josh' );
     this.render( hbs`
         {{#sl-radio-group value=value name="testName"}}
             {{#sl-radio label="One" value="eric"}}
@@ -163,7 +163,7 @@ test( 'default Value gets selected by default', function( assert ) {
 
     assert.equal(
         this.$( 'input[name="testName"]:checked' ).val(),
-        'eric',
-        'The value "eric" that is set is selected by default'
+        'josh',
+        'The value "josh" that is set is selected by default'
     );
 });
