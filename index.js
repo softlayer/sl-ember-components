@@ -30,7 +30,7 @@ module.exports = {
 
         app.import({
             development: 'bower_components/jquery-mousewheel/jquery.mousewheel.js',
-            production: 'bower_components/jquery-mousewheel/jquery-mousewheel.min.js'
+            production: 'bower_components/jquery-mousewheel/jquery.mousewheel.min.js'
         });
 
         app.import({
