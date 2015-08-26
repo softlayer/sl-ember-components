@@ -105,15 +105,9 @@ export default Ember.Component.extend( TooltipEnabled, {
         'timezoneString',
         'value',
         function() {
-            const timezoneString = this.get( 'timezoneString' );
-
-            if ( timezoneString ) {
-                return window.moment( this.get( 'value' ) )
-                    .format( 'YYYY-MM-DD HH:mm ' ) +
-                    timezoneString;
-            }
-
-            return null;
+            return window.moment( this.get( 'value' ) )
+                .format( 'YYYY-MM-DD HH:mm ' ) +
+                this.get( 'timezoneString' );
         }
     ),
 
@@ -128,28 +122,23 @@ export default Ember.Component.extend( TooltipEnabled, {
         'momentValue',
         function() {
             const momentValue = this.get( 'momentValue' );
-            let formattedString = null;
+            let formattedString = '';
 
-            if ( momentValue ) {
-                switch ( this.get( 'format' ) ) {
-                    case Format.DATE:
-                        formattedString = momentValue.format( 'YYYY-MM-DD' );
-                        break;
+            switch ( this.get( 'format' ) ) {
+                case Format.DATE:
+                    formattedString = momentValue.format( 'YYYY-MM-DD' );
+                    break;
 
-                    case Format.RELATIVE:
-                        formattedString = momentValue.fromNow();
-                        break;
+                case Format.RELATIVE:
+                    formattedString = momentValue.fromNow();
+                    break;
 
-                    default:
-                    case Format.DATETIME:
-                        if ( this.get( 'timezoneString' ) ) {
-                            formattedString =
-                                momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) +
-                                ' ' +
-                                this.get( 'timezoneString', 'en' );
-                        }
-                        break;
-                }
+                default:
+                case Format.DATETIME:
+                    formattedString =
+                        momentValue.format( 'dddd, MMMM Do YYYY, h:mm A' ) +
+                        ' ' +
+                        this.get( 'timezoneString', 'en' );
             }
 
             return formattedString;
@@ -165,14 +154,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     momentValue: Ember.computed(
         'value',
         function() {
-            const locale = this.get( 'locale' );
-
-            if ( locale ) {
-                return window.moment( this.get( 'value' ) )
-                    .locale( locale );
-            }
-
-            return null;
+            return window.moment( this.get( 'value' ) )
+                .locale( this.get( 'locale' ) );
         }
     ),
 
@@ -186,15 +169,8 @@ export default Ember.Component.extend( TooltipEnabled, {
         'timezone',
         'momentValue',
         function() {
-            const momentValue = this.get( 'momentValue' ),
-                  timezone = this.get( 'timezone' );
-
-            if ( momentValue && timezone ) {
-                return momentValue
-                    .tz( timezone ).format( 'z' );
-            }
-
-            return null;
+            return this.get( 'momentValue' )
+                .tz( this.get( 'timezone' ) ).format( 'z' );
         }
     )
 
