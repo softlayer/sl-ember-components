@@ -139,7 +139,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @throws {ember.assert} Thrown when supplied `theme` is not a value
      *         defined in enum ButtonTheme
-     * @returns {String}
+     * @returns {?String}
      */
     themeClass: Ember.computed(
         'theme',
