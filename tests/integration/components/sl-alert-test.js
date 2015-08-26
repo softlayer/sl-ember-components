@@ -101,7 +101,10 @@ test( 'Dismissable Button is rendered when set', function( assert ) {
 test( 'Dismiss Action is called on button click', function( assert ) {
 
     const dismissAction = () => {
-        assert.ok( 'A dismiss action was called' );
+        assert.ok(
+            true,
+            'A dismiss action was called'
+        );
 
         assert.strictEqual(
             this.$( '.sl-alert' ).hasClass( 'alert-dismissable' ),
