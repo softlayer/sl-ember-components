@@ -418,5 +418,50 @@ test( 'options() - object contains the expected keys', function( assert ) {
         Object.keys( optionsMockObject ).sort(),
         'The options object contains the expected keys'
     );
+
+    const emptyComponent = this.subject({
+        autoclose: undefined,
+        calendarWeeks: undefined,
+        clearBtn: undefined,
+        daysOfWeekDisabled: undefined,
+        endDate: undefined,
+        forceParse: undefined,
+        format: undefined,
+        inputs: undefined,
+        keyboardNavigation: undefined,
+        language: undefined,
+        multidate: undefined,
+        orientation: undefined,
+        startDate: undefined,
+        startView: undefined,
+        todayBtn: undefined,
+        todayHighlight: undefined,
+        weekStart: undefined
+    });
+
+    assert.deepEqual(
+        emptyComponent.get( 'options' ),
+        {
+            autoclose: true,
+            calendarWeeks: false,
+            clearBtn: false,
+            daysOfWeekDisabled: [],
+            endDate: null,
+            forceParse: true,
+            format: 'mm/dd/yyyy',
+            inputs: null,
+            keyboardNavigation: true,
+            language: 'en',
+            multidate: false,
+            orientation: 'auto',
+            startDate: null,
+            startView: 'month',
+            todayBtn: false,
+            todayHighlight: false,
+            weekStart: 0
+        },
+        'Undefined properties change to default values'
+    );
+
 });
 
