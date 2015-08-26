@@ -49,7 +49,10 @@ test( 'Click action triggers bound action', function( assert ) {
         action: 'test',
         targetObject: {
             test() {
-                assert.ok( true, 'Action was fired' );
+                assert.ok(
+                    true,
+                    'Action was fired'
+                );
             }
         }
     });

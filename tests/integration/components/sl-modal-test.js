@@ -178,7 +178,10 @@ test( 'Closing of modal using close button works', function( assert ) {
     const closeDone = assert.async();
 
     const modalClosed = () => {
-        assert.ok( 'Modal was closed' );
+        assert.ok(
+            true,
+            'Modal was closed'
+        );
         closeDone();
     };
 

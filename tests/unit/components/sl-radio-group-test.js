@@ -93,7 +93,11 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
 
     this.$().find( 'input[value="two"]' ).trigger( 'click' );
 
-    assert.equal( component.get( 'value' ), 'two', '"two" value is selected' );
+    assert.equal(
+        component.get( 'value' ),
+        'two',
+        '"two" value is selected'
+    );
 });
 
 test( "Inline true sets sl-radio children's inline property to true", function( assert ) {

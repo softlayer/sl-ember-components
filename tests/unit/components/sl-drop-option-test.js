@@ -56,7 +56,10 @@ test( 'Click triggers bound action', function( assert ) {
         label: 'Test',
         targetObject: {
             test: function() {
-                assert.ok( true, 'Test action fired correctly' );
+                assert.ok(
+                    true,
+                    'Test action fired correctly'
+                );
             }
         }
     });
