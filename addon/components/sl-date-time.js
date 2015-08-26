@@ -108,8 +108,9 @@ export default Ember.Component.extend( TooltipEnabled, {
             const timezoneString = this.get( 'timezoneString' );
 
             if ( timezoneString ) {
-                return window.moment.tz( this.get( 'value' ), timezoneString )
-                    .format( 'YYYY-MM-DD HH:mm z' );
+                return window.moment( this.get( 'value' ) )
+                    .format( 'YYYY-MM-DD HH:mm ' ) +
+                    timezoneString;
             }
 
             return null;
