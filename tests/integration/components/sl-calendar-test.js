@@ -2,14 +2,14 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-const testContent = new Ember.A([
+const testContent = Ember.A([
     {
         date: new Date( 2022, 8, 17 ),
         label: 'Today!'
     }
 ]);
 
-const multipleTestContent = new Ember.A([
+const multipleTestContent = Ember.A([
     {
         date: new Date( 2022, 8, 17 ),
         label: 'Event 1 Today!'
@@ -60,7 +60,7 @@ test( 'Setting currentYear and currentMonth modifies the view correctly', functi
 
 test( 'Setting dateValuePath modifies the view correctly', function( assert ) {
 
-    const modifiedValuePath = new Ember.A([
+    const modifiedValuePath = Ember.A([
         {
             modifiedDatePath: new Date( 2022, 8, 17 ),
             label: 'Today!'
@@ -100,7 +100,7 @@ test( 'Active day is set correctly', function( assert ) {
     const currentMonth = 9;
     this.set( 'currentMonth', currentMonth );
 
-    const emptyContent = new Ember.A( [ {} ] );
+    const emptyContent = Ember.A( [ {} ] );
     this.set( 'content', emptyContent );
 
     this.render( hbs`
