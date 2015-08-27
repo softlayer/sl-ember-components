@@ -138,7 +138,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @function
      * @throws {ember.assert} Thrown when supplied `theme` is not a value
      *         defined in enum ButtonTheme
-     * @returns {String}
+     * @returns {?String}
      */
     themeClass: Ember.computed(
         'theme',
@@ -147,6 +147,8 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             if ( !containsValue( theme, ButtonTheme ) ) {
                 warn( `Invalid sl-drop-button theme value "${theme}"` );
+
+                return null;
             }
 
             return `dropdown-${theme}`;
