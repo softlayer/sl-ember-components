@@ -1,6 +1,6 @@
 {
   "name": "sl-ember-components",
-  "version": "0.9.0",
+  "version": "0.9.3",
   "description": "Ember CLI Addon - UI components library",
   "homepage": "http://softlayer.github.io/sl-ember-components",
   "scripts": {
@@ -71,6 +71,6 @@
     "ember-sinon": "0.2.1",
     "ember-try": "0.0.6",
     "phantomjs": "1.9.18",
-    "sl-eslint": "0.1.2"
+    "sl-eslint": "0.2.2"
   }
 }
