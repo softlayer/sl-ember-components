@@ -135,17 +135,6 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
         'eric',
         '"eric" value is selected'
     );
-
-    Ember.run( () => {
-        const $radioButton = this.$( 'input[value="josh"]' );
-        $radioButton.click();
-    });
-
-    assert.equal(
-        this.get( 'value' ),
-        'josh',
-        '"josh" value is selected'
-    );
 });
 
 test( 'Default value gets selected by default', function( assert ) {
