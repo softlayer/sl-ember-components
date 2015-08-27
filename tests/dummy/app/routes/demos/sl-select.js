@@ -7,23 +7,28 @@ export default Ember.Route.extend({
                 label: 'Red',
                 description: 'Apples',
                 value: 'red'
-            }, {
+            },
+            {
                 label: 'Orange',
                 description: 'Oranges',
                 value: 'orange'
-            }, {
+            },
+            {
                 label: 'Yellow',
                 description: 'Bananas',
                 value: 'yellow'
-            }, {
+            },
+            {
                 label: 'Green',
                 description: 'Avocados',
                 value: 'green'
-            }, {
+            },
+            {
                 label: 'Purple',
                 description: 'Blueberries',
                 value: 'purple'
-            }, {
+            },
+            {
                 label: 'Splorge',
                 description: '???',
                 value: 'splorge'
