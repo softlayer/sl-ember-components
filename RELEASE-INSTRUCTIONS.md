@@ -13,7 +13,7 @@ This document captures the steps a project maintainer should follow when releasi
             * Are for things that users are interested in. Avoid super technical talk. Craft a concise description of the change.
         * INTERNAL
             * An internal log of changes.
-    * If a change requires a user to change their configuration, *bower.json*, *package.json*, or *Brocfile.js* also add a BREAKING tag within the brackets before any other tags (example [BREAKING BUGFIX])
+    * If a change requires a user to change their configuration, *bower.json*, *package.json*, or *ember-cli-build.js* also add a BREAKING tag within the brackets before any other tags (example [BREAKING BUGFIX])
     * Following the pattern of the existing entries for guidance
     * Add appropriately linked "View complete changeset" link at bottom of entries
 * After changes have been committed:

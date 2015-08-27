@@ -150,7 +150,7 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
     ember install sl-ember-components
     npm install --save-dev ember-cli-less
 
-Modify `Brocfile.js` file to add:
+Modify `ember-cli-build.js` file to add:
 
 ```
 app.import({
