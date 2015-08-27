@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import sinon from 'sinon';
+import { skip } from 'qunit';
 
 moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     needs: [
@@ -9,32 +11,6 @@ moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     ],
 
     unit: true
-});
-
-test( 'Default class name is present', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'sl-calendar' ),
-        'Default rendered component has class "sl-calendar"'
-    );
-});
-
-test( 'Locked property applies class', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        this.$().hasClass( 'sl-calendar-locked' ),
-        false,
-        'Default rendered component does not have class "sl-calendar-locked"'
-    );
-
-    Ember.run( () => {
-        component.set( 'locked', true );
-    });
-
-    assert.ok(
-        this.$().hasClass( 'sl-calendar-locked' ),
-        'Locked, rendered component has class "sl-calendar-locked"'
-    );
 });
 
 test( 'Lock mode prevents changing state', function( assert ) {
@@ -87,30 +63,34 @@ test( 'Lock mode prevents changing state', function( assert ) {
     );
 });
 
-test( 'Clicking a day with a valid content value sends data', function( assert ) {
-    const testDay = 1;
-    const testMonth = 1;
-    const testYear = 2015;
-    const testDate = new Date( testYear, testMonth - 1, testDay );
+skip( 'currentMonthString - current month string formatted as full word (January, November, ...)', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L305
+    */
+});
 
-    this.subject({
-        action: 'test',
-        content: [ { date: testDate } ],
-        currentMonth: testMonth,
-        currentYear: testYear,
+skip( 'contentDates - Verify dates array', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L264
+    */
+});
 
-        targetObject: {
-            test: dateContent => {
-                assert.equal(
-                    dateContent[ 0 ].date,
-                    testDate,
-                    'Date content received'
-                );
-            }
-        }
-    });
+skip( 'setYear - viewMode and currentYear set correctly', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L167
+    */
+});
 
-    this.$( '.active.day' ).trigger( 'click' );
+skip( 'setView - viewMode set correctly', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L152
+    */
+});
+
+skip( 'setMonth - currentMonth and viewMode set correctly', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L128
+    */
 });
 
 test( 'changeDecade action works', function( assert ) {
@@ -220,28 +200,32 @@ test( 'Incrementing month from December causes year to increment', function( ass
     );
 });
 
-test( 'Setting dateValuePath works', function( assert ) {
-    this.subject({
-        content: [ { test: new Date( 2015, 0, 1 ) } ],
-        currentMonth: 1,
-        currentYear: 2015,
-        dateValuePath: 'test'
+test( 'daysInMonth - Number of days in month is set correctly', function( assert ) {
+    const daysInMonthStub = sinon.stub().returns( 31 );
+
+    const momentStub = sinon.stub( window, 'moment' ).returns( { daysInMonth: daysInMonthStub } );
+
+    const component = this.subject({
+        currentMonth: 12,
+        currentYear: 2015
     });
 
     assert.equal(
-        this.$( '.active.day' ).text(),
-        '1',
-        'Active day is expected text value'
+        component.get( 'daysInMonth' ),
+        31,
+        '"daysInMonth" is set correctly'
     );
-});
 
-test( 'Number of days in month is valid', function( assert ) {
-    const component = this.subject();
-
-    assert.ok(
-        component.get( 'daysInMonth' ) > 0,
-        'Days in current month is a non-zero number'
+    assert.deepEqual(
+        momentStub.args[ 0 ][ 0 ],
+        [
+            component.get( 'currentYear' ),
+            component.get( 'currentMonth' ) - 1
+        ],
+        'Moment called with currentYear and currentMonth'
     );
+
+    window.moment.restore();
 });
 
 test( 'Decade range is correctly based on currentYear', function( assert ) {
@@ -270,12 +254,29 @@ test( 'Months for year view are generated validly', function( assert ) {
     );
 });
 
+skip( 'monthsInYearView - active month set correctly', function() {
+    /* Expand preceeding test to also check that the active month is set correctly.
+    https://github.com/softlayer/sl-ember-components/
+    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L382
+    */
+});
+
 test( 'View mode is settable to "days"', function( assert ) {
     const component = this.subject({ viewMode: 'days' });
 
     assert.ok(
         component.get( 'viewingDays' ),
         'viewingDays is true when viewMode = "days"'
+    );
+
+    assert.notOk(
+        component.get( 'viewingMonths' ),
+        'viewingMonths is false when viewMode = "days"'
+    );
+
+    assert.notOk(
+        component.get( 'viewingYears' ),
+        'viewingYears is false when viewMode = "days"'
     );
 });
 
@@ -286,6 +287,16 @@ test( 'View mode is settable to "months"', function( assert ) {
         component.get( 'viewingMonths' ),
         'viewingMonths is true when viewMode = "months"'
     );
+
+    assert.notOk(
+        component.get( 'viewingDays' ),
+        'viewingDays is false when viewMode = "months"'
+    );
+
+    assert.notOk(
+        component.get( 'viewingYears' ),
+        'viewingYears is false when viewMode = "months"'
+    );
 });
 
 test( 'View mode is settable to "years"', function( assert ) {
@@ -295,15 +306,377 @@ test( 'View mode is settable to "years"', function( assert ) {
         component.get( 'viewingYears' ),
         'viewingYears is true when viewMode = "years"'
     );
+
+    assert.notOk(
+        component.get( 'viewingDays' ),
+        'viewingDays is false when viewMode = "years"'
+    );
+
+    assert.notOk(
+        component.get( 'viewingMonths' ),
+        'viewingMonths is false when viewMode = "years"'
+    );
 });
 
-test( 'Weeks for month view are assembled correctly', function( assert ) {
-    const component = this.subject();
+test( 'weeksInMonthView - set previousMonth when: currentMonth is anything other than 1', function( assert ) {
+    const daysInMonthStub = sinon.stub().returns( 31 );
 
-    assert.ok(
-        component.get( 'weeksInMonthView' ).length > 0,
-        'A number of weeks were generated greater than zero'
+    const momentStub = sinon.stub( window, 'moment' ).returns( { daysInMonth: daysInMonthStub } );
+
+    const weeksInMonthView = [
+        [
+            {
+                'active': false,
+                'content': null,
+                'day': 30,
+                'new': false,
+                'old': true
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 31,
+                'new': false,
+                'old': true
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 1,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 2,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 3,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 4,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 5,
+                'new': false,
+                'old': false
+            }
+        ],
+        [
+            {
+                'active': false,
+                'content': null,
+                'day': 6,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 7,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 8,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 9,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 10,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 11,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 12,
+                'new': false,
+                'old': false
+            }
+        ],
+        [
+            {
+                'active': false,
+                'content': null,
+                'day': 13,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 14,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 15,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 16,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 17,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 18,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 19,
+                'new': false,
+                'old': false
+            }
+        ],
+        [
+            {
+                'active': false,
+                'content': null,
+                'day': 20,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 21,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 22,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 23,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 24,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 25,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 26,
+                'new': false,
+                'old': false
+            }
+        ],
+        [
+            {
+                'active': false,
+                'content': null,
+                'day': 27,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 28,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 29,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 30,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 31,
+                'new': false,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 1,
+                'new': true,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 2,
+                'new': true,
+                'old': false
+            }
+        ],
+        [
+            {
+                'active': false,
+                'content': null,
+                'day': 3,
+                'new': true,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 4,
+                'new': true,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 5,
+                'new': true,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 6,
+                'new': true,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 7,
+                'new': true,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 8,
+                'new': true,
+                'old': false
+            },
+            {
+                'active': false,
+                'content': null,
+                'day': 9,
+                'new': true,
+                'old': false
+            }
+        ]
+    ];
+
+    const component = this.subject({
+        currentMonth: 12,
+        currentYear: 2015
+    });
+
+    assert.deepEqual(
+        component.get( 'weeksInMonthView' ),
+        weeksInMonthView,
+        '"weeksInMonthView" is set correctly'
     );
+
+    assert.deepEqual(
+        momentStub.args[ 0 ][ 0 ],
+        [
+            component.get( 'currentYear' ),
+            component.get( 'currentMonth' ) - 1
+        ],
+        'Moment called with currentYear and currentMonth'
+    );
+
+    window.moment.restore();
+});
+
+skip( 'weeksInMonthView - set previousMonth when: currentMonth equals 1', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+        blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L489
+    */
+});
+
+skip( 'weeksInMonthView - set nextMonth when: currentMonth is anything other than 12', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+        blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L507
+    */
+});
+
+skip( 'weeksInMonthView - when firstWeekdayOfCurrentMonth is 0 (Sunday)', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+        blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L521
+    */
+});
+
+skip( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function() {
+    /* https://github.com/softlayer/sl-ember-components/
+    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L401
+    */
 });
 
 test( 'Years for decade view are assembled correctly', function( assert ) {
