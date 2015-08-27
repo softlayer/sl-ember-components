@@ -64,33 +64,18 @@ test( 'Lock mode prevents changing state', function( assert ) {
 });
 
 skip( 'currentMonthString - current month string formatted as full word (January, November, ...)', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L305
-    */
 });
 
 skip( 'contentDates - Verify dates array', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L264
-    */
 });
 
 skip( 'setYear - viewMode and currentYear set correctly', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L167
-    */
 });
 
 skip( 'setView - viewMode set correctly', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L152
-    */
 });
 
 skip( 'setMonth - currentMonth and viewMode set correctly', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L128
-    */
 });
 
 test( 'changeDecade action works', function( assert ) {
@@ -255,9 +240,8 @@ test( 'Months for year view are generated validly', function( assert ) {
 });
 
 skip( 'monthsInYearView - active month set correctly', function() {
-    /* Expand preceeding test to also check that the active month is set correctly.
-    https://github.com/softlayer/sl-ember-components/
-    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L382
+    /* Expand 'Months for year view are generated validly' test to also
+        check that the active month is set correctly.
     */
 });
 
@@ -656,27 +640,15 @@ test( 'weeksInMonthView - set previousMonth when: currentMonth is anything other
 });
 
 skip( 'weeksInMonthView - set previousMonth when: currentMonth equals 1', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-        blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L489
-    */
 });
 
 skip( 'weeksInMonthView - set nextMonth when: currentMonth is anything other than 12', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-        blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L507
-    */
 });
 
 skip( 'weeksInMonthView - when firstWeekdayOfCurrentMonth is 0 (Sunday)', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-        blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L521
-    */
 });
 
 skip( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function() {
-    /* https://github.com/softlayer/sl-ember-components/
-    blob/a939b257398a0bbe04fd62b6c222bcec87457e01/addon/components/sl-calendar.js#L401
-    */
 });
 
 test( 'Years for decade view are assembled correctly', function( assert ) {
