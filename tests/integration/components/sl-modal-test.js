@@ -113,11 +113,11 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
     this.on( 'afterHide', afterHide );
 
     this.render( hbs`
-        {{#sl-modal name='testing'
-            beforeShow='beforeShow'
-            afterShow='afterShow'
-            beforeHide='beforeHide'
-            afterHide='afterHide'
+        {{#sl-modal name="testing"
+            beforeShow="beforeShow"
+            afterShow="afterShow"
+            beforeHide="beforeHide"
+            afterHide="afterHide"
          }}
             {{sl-modal-header}}
 
@@ -188,7 +188,7 @@ test( 'Closing of modal using close button works', function( assert ) {
     this.on( 'modalClosed', modalClosed );
 
     this.render( hbs`
-        {{#sl-modal afterHide='modalClosed'}}
+        {{#sl-modal afterHide="modalClosed"}}
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}

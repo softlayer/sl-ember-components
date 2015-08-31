@@ -114,7 +114,7 @@ test( 'Dismiss Action is called on button click', function( assert ) {
     };
 
     this.render( hbs`
-        {{#sl-alert dismissable=true dismiss='dismissAction'}}
+        {{#sl-alert dismissable=true dismiss="dismissAction"}}
             Dismissable is true with dismiss action
         {{/sl-alert}}
     ` );
@@ -127,7 +127,7 @@ test( 'Dismiss Action is called on button click', function( assert ) {
 test( 'Dismiss Action is not possible when dismissable is false', function( assert ) {
 
     this.render( hbs`
-        {{#sl-alert dismiss='dismissAction'}}
+        {{#sl-alert dismiss="dismissAction"}}
             Dismissable is false with dismiss action
         {{/sl-alert}}
     ` );
