@@ -1,5 +1,26 @@
 # sl-ember-components Changelog
 
+### 0.9.3
+
+* [#684](https://github.com/softlayer/sl-ember-components/issues/684) [BUGFIX] jQuery mousewheel production import is incorrect
+* [#509](https://github.com/softlayer/sl-ember-components/issues/509) [INTERNAL ENHANCEMENT] `sl-modal`: Computed properties should return null value by default
+* [#672](https://github.com/softlayer/sl-ember-components/pull/672) [INTERNAL] Synchronize installed version of PhantomJS between TravisCI and dev environments
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.2...v0.9.3)
+
+### 0.9.2
+
+[#651](https://github.com/softlayer/sl-ember-components/issues/651) [BUGFIX] sl-bootstrap blueprint needs to use name and source
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.1...v0.9.2)
+
+### 0.9.1
+
+[#642](https://github.com/softlayer/sl-ember-components/issues/642) [BUGFIX] softlayer/sl-bootstrap entry in blueprints/sl-ember-components/index.js should reference correct version
+[#643](https://github.com/softlayer/sl-ember-components/issues/643) [BUGFIX] ember-stream should be a dependency, not a devDependency
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.0...v0.9.1)
+
 ### 0.9.0
 
 * [INTERNAL] All components are now fully tested

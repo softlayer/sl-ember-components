@@ -221,7 +221,7 @@ export default Ember.Component.extend({
      * @function
      * @throws {ember.assert} Thrown if supplied `alignTabs` is a value not
      *         defined in enum Alignment
-     * @returns {String}
+     * @returns {?String}
      */
     tabAlignmentClass: Ember.computed(
         'alignTabs',
@@ -230,6 +230,8 @@ export default Ember.Component.extend({
 
             if ( !containsValue( alignTabs, Alignment ) ) {
                 warn( `Invalid alignTabs property value "${alignTabs}"` );
+
+                return null;
             }
 
             return `sl-align-tabs-${alignTabs}`;
