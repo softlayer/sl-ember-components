@@ -532,7 +532,7 @@ export default Ember.Component.extend({
      * The total number of pages of bound content, based on pageSize
      *
      * @function
-     * @returns {Number|undefined}
+     * @returns {?Number}
      */
     totalPages: Ember.computed(
         'continuous',
