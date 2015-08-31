@@ -200,7 +200,10 @@ test( 'setupDatepicker() - listens to correct event', function( assert ) {
         action: 'changeDate',
         targetObject: {
             changeDate() {
-                assert.ok( 'changeDate event fired' );
+                assert.ok(
+                    true,
+                    'changeDate event fired'
+                );
                 done();
             }
         }

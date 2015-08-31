@@ -24,12 +24,14 @@ export default Ember.Controller.extend({
             size: 'small',
             title: 'Color',
             valuePath: 'name'
-        }, {
+        },
+        {
             size: 'small',
             sortable: true,
             title: 'Fruit',
             valuePath: 'fruit'
-        }, {
+        },
+        {
             size: 'small',
             sortable: true,
             title: 'Hex Code',
