@@ -24,8 +24,8 @@ const template = hbs`
         {{sl-modal-header title="Simple Example"}}
 
         {{#sl-modal-body}}
-            <p>A simple modal example</p>'
-        {{/sl-modal-body}}'
+            <p>A simple modal example</p>
+        {{/sl-modal-body}}
 
         {{sl-modal-footer}}
     {{/sl-modal}}
@@ -122,8 +122,8 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
             {{sl-modal-header}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -145,8 +145,8 @@ test( 'Property isOpen is set appropriately', function( assert ) {
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -192,8 +192,8 @@ test( 'Closing of modal using close button works', function( assert ) {
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -212,8 +212,8 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -250,8 +250,8 @@ test( 'Fade class is present when animated is set to true', function( assert ) {
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -270,8 +270,8 @@ test( 'Fade class is absent when animated is set to false', function( assert ) {
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -294,8 +294,8 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -333,8 +333,8 @@ test( 'Component responds to "hide" stream action', function( assert ) {
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
@@ -357,8 +357,8 @@ test( 'Component responds to "show" stream action', function( assert ) {
             {{sl-modal-header title="Simple Example"}}
 
             {{#sl-modal-body}}
-                <p>A simple modal example</p>'
-            {{/sl-modal-body}}'
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
             {{sl-modal-footer}}
         {{/sl-modal}}
