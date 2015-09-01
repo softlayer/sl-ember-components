@@ -29,11 +29,11 @@ test( 'Renders as a button tag', function( assert ) {
     assert.equal(
         this.$( 'button' ).length,
         1,
-        '<button> is present'
+        'button tag was rendered'
     );
 });
 
-test( 'The element fires event when clicked', function( assert ) {
+test( 'Default action is triggered when element is clicked event when clicked', function( assert ) {
     assert.expect( 1 );
 
     const externalAction = () => {
@@ -54,7 +54,7 @@ test( 'The element fires event when clicked', function( assert ) {
     this.$( 'button' ).click();
 });
 
-test( 'Button is not disabled when disabled is set to false', function( assert ) {
+test( 'Button is enabled by default', function( assert ) {
     this.render( template );
 
     assert.strictEqual(
@@ -100,7 +100,7 @@ test( 'Labels are correctly initialized', function( assert ) {
     ` );
 
     assert.equal(
-        Ember.$.trim( this.$( 'button' ).text() ),
+        this.$( 'button' ).text().trim(),
         'Test',
         'Expected label is present as text'
     );
