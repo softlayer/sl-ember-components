@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    components: new Ember.A([
+    components: Ember.A([
         {
             name: 'alert',
             lib: { 'twb': true }

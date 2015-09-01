@@ -18,7 +18,7 @@ const mockStream = {
     }
 };
 
-const testItems = new Ember.A([
+const testItems = Ember.A([
     {
         action: 'firstTest',
         data: 'first',

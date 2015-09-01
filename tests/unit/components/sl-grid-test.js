@@ -3,12 +3,12 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import sinon from 'sinon';
 
-const columns = new Ember.A([
+const columns = Ember.A([
     { title: 'Name', valuePath: 'name' },
     { title: 'ID', valuePath: 'id' }
 ]);
 
-const content = new Ember.A([
+const content = Ember.A([
     { id: 4, name: 'Alice' },
     { id: 8, name: 'Bob' },
     { id: 15, name: 'Charlie' }
@@ -81,7 +81,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
         content,
         sortColumn: 'test',
 
-        columns: new Ember.A([
+        columns: Ember.A([
             {
                 sortable: true,
                 title: 'Name',
@@ -105,7 +105,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
 
 test( 'Only primary columns remain visible when detail-pane is open', function( assert ) {
     this.subject({
-        columns: new Ember.A([
+        columns: Ember.A([
             {
                 primary: true,
                 title: 'Name',
@@ -174,7 +174,7 @@ test( 'Actions button label text is settable', function( assert ) {
         actionsButtonLabel: 'Test',
         columns,
         content,
-        rowActions: new Ember.A( [ { action: 'test', label: 'Test' } ] )
+        rowActions: Ember.A( [ { action: 'test', label: 'Test' } ] )
     });
 
     assert.equal(
@@ -239,7 +239,7 @@ test( 'Continuous mode and requestData are supported', function( assert ) {
 });
 
 test( 'handleNewContent unsets loading state when content data changes', function( assert ) {
-    const myContent = new Ember.A();
+    const myContent = Ember.A();
 
     const component = this.subject({
         columns,
