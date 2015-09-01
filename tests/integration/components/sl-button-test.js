@@ -22,12 +22,11 @@ const template = hbs`
  * adhered to.
  */
 
-test( 'Renders as a button tag', function( assert ) {
+test( 'Button tag is rendered', function( assert ) {
     this.render( template );
 
-    assert.equal(
-        this.$( '>:first-child' ).length,
-        1,
+    assert.ok(
+        this.$( '>:first-child' ).is( ':button' ),
         'button tag was rendered'
     );
 });
