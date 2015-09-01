@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -27,7 +26,7 @@ test( 'Renders as a button tag', function( assert ) {
     this.render( template );
 
     assert.equal(
-        this.$( 'button' ).length,
+        this.$( '>:first-child' ).length,
         1,
         'button tag was rendered'
     );
@@ -51,7 +50,7 @@ test( 'Default action is triggered when element is clicked event when clicked', 
         {{/sl-button}}
     ` );
 
-    this.$( 'button' ).click();
+    this.$( '>:first-child' ).click();
 });
 
 test( 'Button is enabled by default', function( assert ) {
@@ -72,7 +71,7 @@ test( 'Button is disabled when disabled is set to true', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( 'button' ).is( ':disabled' ),
+        this.$( '>:first-child' ).is( ':disabled' ),
         true,
         'Component becomes disabled'
     );
@@ -82,12 +81,12 @@ test( 'Expected default classes are applied', function( assert ) {
     this.render( template );
 
     assert.ok(
-        this.$( 'button' ).hasClass( 'btn' ),
+        this.$( '>:first-child' ).hasClass( 'btn' ),
         'Has class "btn"'
     );
 
     assert.ok(
-        this.$( 'button' ).hasClass( 'sl-button' ),
+        this.$( '>:first-child' ).hasClass( 'sl-button' ),
         'Has class "sl-button"'
     );
 });
@@ -100,7 +99,7 @@ test( 'Labels are correctly initialized', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'button' ).text().trim(),
+        this.$( '>:first-child' ).text().trim(),
         'Test',
         'Expected label is present as text'
     );
@@ -114,7 +113,7 @@ test( 'Correct size class is set', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( 'button' ).hasClass( 'btn-lg' ),
+        this.$( '>:first-child' ).hasClass( 'btn-lg' ),
         'Has expected class "btn-lg"'
     );
 
@@ -125,7 +124,7 @@ test( 'Correct size class is set', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( 'button' ).hasClass( 'btn-sm' ),
+        this.$( '>:first-child' ).hasClass( 'btn-sm' ),
         'Has expected class "btn-sm"'
     );
 
@@ -136,7 +135,7 @@ test( 'Correct size class is set', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( 'button' ).hasClass( 'btn-xs' ),
+        this.$( '>:first-child' ).hasClass( 'btn-xs' ),
         'Has expected class "btn-xs"'
     );
 });
@@ -149,7 +148,7 @@ test( 'Theme class is set correctly', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( 'button' ).hasClass( 'btn-success' ),
+        this.$( '>:first-child' ).hasClass( 'btn-success' ),
         'Has expected class "btn-success"'
     );
 });
@@ -167,7 +166,7 @@ test( 'Label changes for pending state', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'button' ).text().trim(),
+        this.$( '>:first-child' ).text().trim(),
         staticText,
         'Static text is set initially'
     );
@@ -182,7 +181,7 @@ test( 'Label changes for pending state', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'button' ).text().trim(),
+        this.$( '>:first-child' ).text().trim(),
         pendingLabelText,
         'Pending text is set while pending'
     );
@@ -199,7 +198,7 @@ test( 'showModalWithStreamName property triggers modal to open', function( asser
         {{/sl-button}}
     ` );
 
-    this.$( 'button' ).trigger( 'click' );
+    this.$( '>:first-child' ).trigger( 'click' );
 
     assert.ok(
         sendSpy.called,
