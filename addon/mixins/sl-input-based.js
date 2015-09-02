@@ -39,6 +39,13 @@ export default Ember.Mixin.create({
     disabled: false,
 
     /**
+     * Unique input id that will get generated and set on init of component
+     *
+     * @type {?String}
+     */
+    inputId: null,
+
+    /**
      * Whether the input-based component should be displayed as optional
      *
      * @type {Boolean}
@@ -63,6 +70,19 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Set unique inputId that will be set on label and input element
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setInputId: Ember.on(
+        'init',
+        function() {
+            this.set( 'inputId', this.get( 'elementId' ) + '-input' );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
