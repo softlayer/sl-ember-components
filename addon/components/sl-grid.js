@@ -459,71 +459,6 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Whether to show the pagination in the list-pane footer
-     *
-     * @function
-     * @returns {Boolean}
-     */
-    showPagination: Ember.computed(
-        'continuous',
-        'totalPages',
-        function() {
-            const totalPages = this.get( 'totalPages' );
-
-            return !this.get( 'continuous' ) && totalPages && totalPages > 1;
-        }
-    ),
-
-    /**
-     * The currently sorted column definition
-     *
-     * @function
-     * @returns {?Object} The definition for the currently sorted column
-     */
-    sortedColumn: Ember.computed(
-        'columns',
-        'sortedColumnTitle',
-        function() {
-            const sortedColumnTitle = this.get( 'sortedColumnTitle' );
-
-            if ( sortedColumnTitle ) {
-                const columns = this.get( 'columns' );
-
-                for ( let i = 0; i < columns.length; i++ ) {
-                    if (
-                        Ember.get( columns[ i ], 'title' ) === sortedColumnTitle
-                    ) {
-                        return columns[ i ];
-                    }
-                }
-            }
-        }
-    ),
-
-    /**
-     * The total number of pages of bound content, based on pageSize
-     *
-     * @function
-     * @returns {Number|undefined}
-     */
-    totalPages: Ember.computed(
-        'continuous',
-        'pageSize',
-        'totalCount',
-        function() {
-            if (
-                !this.get( 'continuous' ) &&
-                this.get( 'totalCount' ) &&
-                this.get( 'pageSize' )
-            ) {
-                return Math.ceil(
-                    this.get( 'totalCount' ) / this.get( 'pageSize' )
-                );
-            }
-        }
-    ),
-
-    /**
      * Update the panes' heights according to `height` property value
      *
      * @function
@@ -588,6 +523,75 @@ export default Ember.Component.extend({
     // Methods
 
     /**
+     * Whether to show the pagination in the list-pane footer
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    showPagination: Ember.computed(
+        'continuous',
+        'totalPages',
+        function() {
+            const totalPages = this.get( 'totalPages' );
+
+            return !this.get( 'continuous' ) && totalPages && totalPages > 1;
+        }
+    ),
+
+    /**
+     * The currently sorted column definition
+     *
+     * @function
+     * @returns {?Object} The definition for the currently sorted column
+     */
+    sortedColumn: Ember.computed(
+        'columns',
+        'sortedColumnTitle',
+        function() {
+            const sortedColumnTitle = this.get( 'sortedColumnTitle' );
+
+            if ( sortedColumnTitle ) {
+                const columns = this.get( 'columns' );
+
+                for ( let i = 0; i < columns.length; i++ ) {
+                    if (
+                        Ember.get( columns[ i ], 'title' ) === sortedColumnTitle
+                    ) {
+                        return columns[ i ];
+                    }
+                }
+            }
+
+            return null;
+        }
+    ),
+
+    /**
+     * The total number of pages of bound content, based on pageSize
+     *
+     * @function
+     * @returns {?Number}
+     */
+    totalPages: Ember.computed(
+        'continuous',
+        'pageSize',
+        'totalCount',
+        function() {
+            if (
+                !this.get( 'continuous' ) &&
+                this.get( 'totalCount' ) &&
+                this.get( 'pageSize' )
+            ) {
+                return Math.ceil(
+                    this.get( 'totalCount' ) / this.get( 'pageSize' )
+                );
+            }
+
+            return null;
+        }
+    ),
+
+    /**
      * Disables the scroll event handling for continuous paging
      *
      * @function
@@ -639,7 +643,14 @@ export default Ember.Component.extend({
         'content.length',
         'totalCount',
         function() {
-            return this.get( 'content.length' ) < this.get( 'totalCount' );
+            const contentLength = this.get( 'content.length' );
+            const totalCount = this.get( 'totalCount' );
+
+            if ( contentLength && totalCount ) {
+                return contentLength < totalCount;
+            }
+
+            return false;
         }
     ),
 
