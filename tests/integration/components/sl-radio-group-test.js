@@ -126,8 +126,8 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
     ` );
 
     Ember.run( () => {
-        const $radioButton = this.$( '>:first-child' ).find( 'input[value="eric"]' );
-        $radioButton.click();
+        const radioButton = this.$( '>:first-child' ).find( 'input[value="eric"]' );
+        radioButton.click();
     });
 
     assert.equal(
