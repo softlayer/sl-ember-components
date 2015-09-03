@@ -1,16 +1,16 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent( 'sl-span', 'Unit | Component | sl span', {
-    needs: [
-        'component:sl-loading-icon'
-    ],
-
-    unit: true
+moduleForComponent( 'sl-span', 'Integration | Component | sl span', {
+    integration: true
 });
 
 test( '"value" property is supported', function( assert ) {
-    this.subject({ value: 'Test content' });
+    this.render( hbs`
+        {{#sl-span value="Test content"}}
+        {{/sl-span}}
+    ` );
 
     assert.equal(
         Ember.$.trim( this.$().text() ),
@@ -19,7 +19,10 @@ test( '"value" property is supported', function( assert ) {
 });
 
 test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
-    const component = this.subject();
+    this.render( hbs`
+        {{#sl-span}}
+        {{/sl-span}}
+    ` );
 
     assert.equal(
         this.$( '.sl-loading-icon' ).length,
@@ -27,9 +30,10 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
         'Loading icon is not present initially'
     );
 
-    Ember.run( () => {
-        component.set( 'loading', true );
-    });
+    this.render( hbs`
+        {{#sl-span loading=true}}
+        {{/sl-span}}
+    ` );
 
     assert.equal(
         this.$( '.sl-loading-icon' ).length,
@@ -39,16 +43,20 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
 });
 
 test( 'Inverse property applies to loading-icon', function( assert ) {
-    const component = this.subject({ loading: true });
+    this.render( hbs`
+        {{#sl-span loading=true}}
+        {{/sl-span}}
+    ` );
 
     assert.ok(
         this.$( '.sl-loading-icon' ).hasClass( 'sl-loading-icon-dark' ),
         'Loading icon is dark initially'
     );
 
-    Ember.run( () => {
-        component.set( 'inverse', true );
-    });
+    this.render( hbs`
+        {{#sl-span inverse=true loading=true}}
+        {{/sl-span}}
+    ` );
 
     assert.ok(
         this.$( '.sl-loading-icon' ).hasClass( 'sl-loading-icon-light' ),
