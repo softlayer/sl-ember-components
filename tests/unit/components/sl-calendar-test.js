@@ -63,6 +63,9 @@ test( 'Lock mode prevents changing state', function( assert ) {
     );
 });
 
+skip( 'locale - Setting causes default of en (English) to be updated', function() {
+});
+
 skip( 'currentMonthString - current month string formatted as full word (January, November, ...)', function() {
 });
 
@@ -188,7 +191,8 @@ test( 'Incrementing month from December causes year to increment', function( ass
 test( 'daysInMonth - Number of days in month is set correctly', function( assert ) {
     const daysInMonthStub = sinon.stub().returns( 31 );
 
-    const momentStub = sinon.stub( window, 'moment' ).returns( { daysInMonth: daysInMonthStub } );
+    const momentStub = sinon.stub( window, 'moment' )
+        .returns( { daysInMonth: daysInMonthStub } );
 
     const component = this.subject({
         currentMonth: 12,
@@ -305,7 +309,8 @@ test( 'View mode is settable to "years"', function( assert ) {
 test( 'weeksInMonthView - set previousMonth when: currentMonth is anything other than 1', function( assert ) {
     const daysInMonthStub = sinon.stub().returns( 31 );
 
-    const momentStub = sinon.stub( window, 'moment' ).returns( { daysInMonth: daysInMonthStub } );
+    const momentStub = sinon.stub( window, 'moment' )
+        .returns( { daysInMonth: daysInMonthStub } );
 
     const weeksInMonthView = [
         [
