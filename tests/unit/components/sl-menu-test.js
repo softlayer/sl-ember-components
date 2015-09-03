@@ -29,11 +29,13 @@ const testItems = new Ember.A([
                 items: [
                     { label: 'First sub-item sub-item' }
                 ]
-            }, {
+            },
+            {
                 label: 'Second sub-item'
             }
         ]
-    }, {
+    },
+    {
         action: 'secondTest',
         data: 'second',
         label: 'Second'
