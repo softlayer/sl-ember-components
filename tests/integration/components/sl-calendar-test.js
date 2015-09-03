@@ -1218,10 +1218,6 @@ test( 'Dual instance: Navigating from Month to Year', function( assert ) {
     );
 });
 
-// ******************************
-// To do:
-// ******************************
-
 test( 'Dual instance: Navigating from Year to Month', function( assert ) {
 
     const currentYear = 2022;
