@@ -1,5 +1,5 @@
 {{#if label}}
-    <label for={{sl-textarea-view.elementId}} class="control-label">
+    <label for={{inputId}} class="control-label">
         {{label}}
 
         {{#if optional}}
@@ -13,6 +13,7 @@
 {{/if}}
 
 {{textarea
+    id=inputId
     autofocus=autofocus
     class="form-control"
     cols=cols
@@ -27,7 +28,6 @@
     spellcheck=spellcheck
     tabindex=tabindex
     value=value
-    viewName="sl-textarea-view"
     wrap=wrap
 }}
 
