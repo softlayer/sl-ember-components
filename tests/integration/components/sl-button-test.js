@@ -265,33 +265,3 @@ test( 'Popover properties are set correctly when popover parameter is set', func
         'Default trigger is "click"'
     );
 });
-
-test( 'showModalWithStreamName property works on multiple component instances', function( assert ) {
-    const sendSpy = sinon.spy( mockStreamService, 'send' );
-
-    this.set( 'streamService', mockStreamService );
-
-    this.render( hbs`
-        {{#sl-button showModalWithStreamName="buttonOne" streamService=streamService}}
-            Button One
-        {{/sl-button}}
-
-        {{#sl-button showModalWithStreamName="buttonTwo" streamService=streamService}}
-            Button Two
-        {{/sl-button}}
-    ` );
-
-    this.$( '>:first-child' ).trigger( 'click' );
-
-    assert.ok(
-        sendSpy.calledWith( 'buttonOne', 'show' ),
-        'stream service called with correct arguments for first button'
-    );
-
-    this.$( '>:last-child' ).trigger( 'click' );
-
-    assert.ok(
-        sendSpy.calledWith( 'buttonTwo', 'show' ),
-        'stream service called with correct arguments for second button'
-    );
-});
