@@ -63,7 +63,7 @@ export default Ember.Component.extend({
      *
      * @type {Boolean}
      */
-    readonly : false,
+    readonly: false,
 
     /**
      * Whether the component is in the disabled state or not
