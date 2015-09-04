@@ -16,32 +16,15 @@ const template = hbs`
     {{/sl-button}}
 `;
 
-/**
- * While it appears that core Ember functionality is being tested this test is
- * ensuring that the implied contract about which DOM element is rendered is
- * adhered to.
- */
-
-test( 'Button tag is rendered', function( assert ) {
-    this.render( template );
-
-    assert.ok(
-        this.$( '>:first-child' ).is( ':button' ),
-        'button tag was rendered'
-    );
-});
-
-test( 'Default action is triggered when element is clicked event when clicked', function( assert ) {
+test( 'Default action is triggered when element is clicked', function( assert ) {
     assert.expect( 1 );
 
-    const externalAction = () => {
+    this.on( 'externalAction', () => {
         assert.ok(
             true,
             'External action was called'
         );
-    };
-
-    this.on( 'externalAction', externalAction );
+    });
 
     this.render( hbs`
         {{#sl-button action="externalAction"}}
@@ -56,7 +39,7 @@ test( 'Button is enabled by default', function( assert ) {
     this.render( template );
 
     assert.strictEqual(
-        this.$().is( ':disabled' ),
+        this.$( '>:first-child' ).is( ':disabled' ),
         false,
         'Component is disabled by default'
     );
@@ -88,23 +71,43 @@ test( 'Expected default classes are applied', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'sl-button' ),
         'Has class "sl-button"'
     );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'btn-default' ),
+        'Has default theme class'
+    );
+});
+
+test( 'Class property is supported', function( assert ) {
+    this.render( hbs`
+        {{#sl-button class='testClass'}}
+           Test Button
+        {{/sl-button}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'testClass' )
+    );
 });
 
 test( 'Labels are correctly initialized', function( assert ) {
+    const labelText = 'Test';
+
+    this.set( 'label', labelText );
     this.render( hbs`
-        {{#sl-button label="Test"}}
+        {{#sl-button label=label}}
             Default Text
         {{/sl-button}}
     ` );
 
     assert.equal(
         this.$( '>:first-child' ).text().trim(),
-        'Test',
+        labelText,
         'Expected label is present as text'
     );
 });
 
-test( 'Correct size class is set', function( assert ) {
+test( 'Correct size class is applied correctly', function( assert ) {
     this.render( hbs`
         {{#sl-button size="large"}}
             Default Text
@@ -115,31 +118,9 @@ test( 'Correct size class is set', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'btn-lg' ),
         'Has expected class "btn-lg"'
     );
-
-    this.render( hbs`
-        {{#sl-button size="small"}}
-            Default Text
-        {{/sl-button}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'btn-sm' ),
-        'Has expected class "btn-sm"'
-    );
-
-    this.render( hbs`
-        {{#sl-button size="extra-small"}}
-            Default Text
-        {{/sl-button}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'btn-xs' ),
-        'Has expected class "btn-xs"'
-    );
 });
 
-test( 'Theme class is set correctly', function( assert ) {
+test( 'Theme class is applied correctly', function( assert ) {
     this.render( hbs`
         {{#sl-button theme="success"}}
             Default Text
@@ -152,8 +133,9 @@ test( 'Theme class is set correctly', function( assert ) {
     );
 });
 
-test( 'Label changes for pending state', function( assert ) {
+test( 'Label is correct for pending state', function( assert ) {
     const pendingLabelText = 'Pending';
+    const changedPendingLabelText = 'Changed pending label text';
     const staticText = 'Static';
 
     this.set( 'staticText', staticText );
@@ -184,23 +166,132 @@ test( 'Label changes for pending state', function( assert ) {
         pendingLabelText,
         'Pending text is set while pending'
     );
+
+    this.set( 'pendingLabel', changedPendingLabelText );
+
+    assert.equal(
+        this.$( '>:first-child' ).text().trim(),
+        changedPendingLabelText,
+        'Pending label text is set correctly when updated dynamically'
+    );
 });
 
-test( 'showModalWithStreamName property triggers modal to open', function( assert ) {
+test( 'Pending class is present when in pending state', function( assert ) {
+    this.render( hbs`
+        {{#sl-button pendingLabel='pending' pending=true}}
+            Default Text
+        {{/sl-button}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'pending' )
+    );
+});
+
+test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
+    const title = 'test title';
+
+    this.set( 'title', title );
+
+    this.render( hbs`
+        {{#sl-button title=title}}
+            default text
+        {{/sl-button}}
+    ` );
+
+    const element = this.$( '>:first-child' );
+    const data = element.data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
+
+    assert.equal(
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    assert.equal(
+        tooltipData.getTitle(),
+        title,
+        'Title text is set correctly'
+    );
+
+    assert.equal(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
+    );
+});
+
+test( 'Popover properties are set correctly when popover parameter is set', function( assert ) {
+    const title = 'test title';
+    const popover = 'popover text';
+
+    this.set( 'title', title );
+    this.set( 'popover', popover );
+
+    this.render( hbs`
+        {{#sl-button title=title popover=popover}}
+            default text
+        {{/sl-button}}
+    ` );
+
+    const element = this.$( '>:first-child' );
+    const data = element.data();
+    const popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
+
+    assert.equal(
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    assert.equal(
+        popoverData.getTitle(),
+        title,
+        'Popover title was set correctly'
+    );
+
+    assert.equal(
+        popoverData.getContent(),
+        popover,
+        'Popover text is set correctly'
+    );
+
+    assert.equal(
+        options.trigger,
+        'click',
+        'Default trigger is "click"'
+    );
+});
+
+test( 'showModalWithStreamName property works on multiple component instances', function( assert ) {
     const sendSpy = sinon.spy( mockStreamService, 'send' );
 
     this.set( 'streamService', mockStreamService );
 
     this.render( hbs`
-        {{#sl-button showModalWithStreamName="test" streamService=streamService}}
-            Default Text
+        {{#sl-button showModalWithStreamName="buttonOne" streamService=streamService}}
+            Button One
+        {{/sl-button}}
+
+        {{#sl-button showModalWithStreamName="buttonTwo" streamService=streamService}}
+            Button Two
         {{/sl-button}}
     ` );
 
     this.$( '>:first-child' ).trigger( 'click' );
 
     assert.ok(
-        sendSpy.called,
-        'The send() method of the mock stream service was called'
+        sendSpy.calledWith( 'buttonOne', 'show' ),
+        'stream service called with correct arguments for first button'
+    );
+
+    this.$( '>:last-child' ).trigger( 'click' );
+
+    assert.ok(
+        sendSpy.calledWith( 'buttonTwo', 'show' ),
+        'stream service called with correct arguments for second button'
     );
 });
