@@ -15,22 +15,22 @@ test( 'Defaults applied correctly', function( assert ) {
     ` );
 
     assert.ok(
-      this.$( '.sl-chart' ).hasClass( 'sl-chart' ),
+      this.$( '>:first-child' ).hasClass( 'sl-chart' ),
       'has class sl-chart'
     );
 
     assert.ok(
-      this.$( '.sl-chart' ).hasClass( 'panel' ),
+      this.$( '>:first-child' ).hasClass( 'panel' ),
       'has class panel'
     );
 
     assert.ok(
-      this.$( '.sl-chart' ).hasClass( 'panel-default' ),
+      this.$( '>:first-child' ).hasClass( 'panel-default' ),
       'has class panel-default'
     );
 
     assert.ok(
-      this.$( '.sl-chart' ).hasClass( 'sl-panel' ),
+      this.$( '>:first-child' ).hasClass( 'sl-panel' ),
       'has class sl-panel'
     );
 });
@@ -45,7 +45,7 @@ test( 'Loading state adds loading class', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '.sl-chart' ).hasClass( 'sl-loading' ),
+        this.$( '>:first-child' ).hasClass( 'sl-loading' ),
         false,
         'Default rendered component does not have "sl-loading" class'
     );
@@ -56,7 +56,7 @@ test( 'Loading state adds loading class', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '.sl-chart' ).hasClass( 'sl-loading' ),
+        this.$( '>:first-child' ).hasClass( 'sl-loading' ),
         true,
         'Default rendered component does have "sl-loading" class'
     );
@@ -72,7 +72,7 @@ test( 'Title property is set', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '.panel-heading' ).html(),
+        this.$( '>:first-child' ).find( '.panel-heading' ).html(),
         undefined,
         'No chart title is rendered when title is not set'
     );
@@ -83,7 +83,7 @@ test( 'Title property is set', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '.panel-heading' ).html(),
+        this.$( '>:first-child' ).find( '.panel-heading' ).html(),
         'Peak serve hours',
         'Chart title is created with title value'
     );
@@ -99,7 +99,7 @@ test( 'Chart div uses the correct style', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'div.chart' ).attr( 'style' ),
+        this.$( '>:first-child' ).find( 'div.chart' ).attr( 'style' ),
         'height: auto; width: auto;',
         'Chart div has automatic height and width'
     );
@@ -110,7 +110,7 @@ test( 'Chart div uses the correct style', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'div.chart' ).attr( 'style' ),
+        this.$( '>:first-child' ).find( 'div.chart' ).attr( 'style' ),
         'height: 10; width: 20;',
         'Chart div has height 10 and width 20'
     );
