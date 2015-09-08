@@ -46,7 +46,7 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         click() {
-            this.sendAction( 'action', this.get( 'data' ) );
+            this.sendAction( 'action', this.get( 'data' ), this.get( 'actionContext' ) );
         }
 
     },
@@ -56,6 +56,16 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Additional context to be passed along with the action
+     *
+     * Can be used by the receiver of the action sent to determine which drop button
+     * option was selected
+     *
+     * @type {?*}
+     */
+    actionContext: null,
 
     /**
      * Any data to be passed along with the action

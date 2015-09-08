@@ -10,9 +10,10 @@
         <h6>Template: demos/sl-grid.hbs</h6>
         <pre>\{{#sl-grid
     columns=columns
-    content=arrangedContent
+    content=model
     height=400
     rowActions=rowActions
+    sendLog=(action "sendLog")
     sortColumn="sortColumn"
     totalCount=totalCount
 }}
@@ -61,10 +62,11 @@ rowActions: Ember.A([
         <h6>Rendered Component</h6>
         {{#sl-grid
             columns=columns
-            content=arrangedContent
+            content=model
             detailComponent="demos/sl-grid-detail"
             height=400
             rowActions=rowActions
+            sendLog=(action "sendLog")
             sortColumn="sortColumn"
             totalCount=totalCount
         }}
