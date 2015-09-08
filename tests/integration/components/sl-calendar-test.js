@@ -564,7 +564,7 @@ test( 'When Locked, interacting with the view is not Possible', function( assert
     ` );
 
     assert.strictEqual(
-        this.$().hasClass( 'sl-calendar-locked' ),
+        this.$( '>:first-child' ).hasClass( 'sl-calendar-locked' ),
         false,
         'Default rendered component does not have class "sl-calendar-locked"'
     );
