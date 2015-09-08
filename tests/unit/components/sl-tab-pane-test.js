@@ -70,22 +70,3 @@ test( 'Can provide content in block form', function( assert ) {
         'Expected content is present'
     );
 });
-
-test( 'Can provide content via "templateName" property', function( assert ) {
-    const templateContent = 'Template content';
-
-    this.subject({
-        container: Ember.get( App, '__container__' ),
-        templateName: 'tabtest'
-    });
-
-    App.registry.register(
-        'template:tabtest', Ember.HTMLBars.compile( templateContent )
-    );
-
-    assert.equal(
-        Ember.$.trim( this.$().text() ),
-        templateContent,
-        'Template content is populated as expected'
-    );
-});

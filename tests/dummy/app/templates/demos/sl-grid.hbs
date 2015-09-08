@@ -11,6 +11,10 @@
         <pre>\{{#sl-grid
     columns=columns
     content=model
+    detailComponent="demos/sl-grid-detail"
+    detailFooterComponent="demos/sl-grid-detail-footer"
+    detailHeaderComponent="demos/sl-grid-detail-header"
+    footerPath="demos/sl-grid/footer"
     height=400
     rowActions=rowActions
     sendLog=(action "sendLog")
@@ -20,10 +24,10 @@
     &lt;h3&gt;Colors&lt;/h3&gt;
 \{{/sl-grid}}</pre>
 
-        <h6>Template: demos/sl-grid/detail-footer.hbs</h6>
+        <h6>Template: components/demos/sl-grid-detail-footer.hbs</h6>
         <pre>\{{model.hexCode}}</pre>
 
-        <h6>Template: demos/sl-grid/detail-header.hbs</h6>
+        <h6>Template: components/demos/sl-grid-detail-header.hbs</h6>
         <pre>Color: \{{model.name}}</pre>
 
         <h6>Template: components/demos/sl-grid-detail.hbs</h6>
@@ -64,6 +68,9 @@ rowActions: Ember.A([
             columns=columns
             content=model
             detailComponent="demos/sl-grid-detail"
+            detailFooterComponent="demos/sl-grid-detail-footer"
+            detailHeaderComponent="demos/sl-grid-detail-header"
+            footerPath="demos/sl-grid/footer"
             height=400
             rowActions=rowActions
             sendLog=(action "sendLog")
@@ -109,12 +116,12 @@ rowActions: Ember.A([
         The name of a component to render in the detail pane. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If `detailComponent` is omitted, the detail pane will not be opened when a row in the list pane is clicked.
     {{/property-text}}
 
-    {{#property-text name="detailFooterPath" type="String"}}
-        The application path to a template to use for the detail-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
+    {{#property-text name="detailFooterComponent" type="String"}}
+        The name of a component to render as the detail-pane footer. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If this property is omitted, the detail footer will not be rendered.
     {{/property-text}}
 
-    {{#property-text name="detailHeaderPath" type="String"}}
-        The application path to a template to use for the detail-pane header. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-header.hbs</code>, and if not found, will not render anything for the detail header.
+    {{#property-text name="detailHeaderComponent" type="String"}}
+        The name of a component to render as the detail-pane header. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If this property is omitted, the detail header will not be rendered.
     {{/property-text}}
 
     {{#property-text name="filterButtonLabel" type="String" default="Filter"}}

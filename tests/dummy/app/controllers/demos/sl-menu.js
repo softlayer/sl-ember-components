@@ -81,7 +81,7 @@ export default Ember.Controller.extend( StreamEnabled, {
         }
     ),
 
-    menuItems: new Ember.A([
+    menuItems: Ember.A([
         {
             label: 'Main One',
             items: [

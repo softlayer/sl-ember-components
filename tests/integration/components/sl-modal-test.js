@@ -44,9 +44,9 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
      **/
     afterEach() {
         if ( this.hideModal ) {
-            if ( this.$( '.modal' ) ) {
-                this.$( '.modal' ).modal( 'hide' );
-                Ember.$( '.modal-backdrop' ).remove();
+            if ( this.$( '>:first-child' ) ) {
+                this.$( '>:first-child' ).modal( 'hide' );
+                Ember.$( '>:first-child' ).find( '.modal-backdrop' ).remove();
             }
         }
     },
@@ -58,7 +58,7 @@ test( 'Classes are present', function( assert ) {
     this.render( template );
 
     assert.ok(
-        this.$().children().hasClass( 'modal' ),
+        this.$( '>:first-child' ).hasClass( 'modal' ),
         'Has class modal'
     );
 });
@@ -130,15 +130,15 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
     ` );
 
     Ember.run( () => {
-        this.$( '.modal' ).modal( 'show' );
-        this.$( '.modal' ).modal( 'hide' );
+        this.$( '>:first-child' ).modal( 'show' );
+        this.$( '>:first-child' ).modal( 'hide' );
     });
 
     this.hideModal = false;
 });
 
 test( 'Property isOpen is set appropriately', function( assert ) {
-    this.set( 'isOpen', 'initial Value' );
+    this.set( 'isOpen' );
 
     this.render( hbs`
         {{#sl-modal isOpen=isOpen}}
@@ -153,7 +153,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
     ` );
 
     Ember.run( () => {
-        this.$( '.modal' ).trigger( 'shown.bs.modal' );
+        this.$( '>:first-child' ).trigger( 'shown.bs.modal' );
     });
 
     assert.equal(
@@ -163,7 +163,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
     );
 
     Ember.run( () => {
-        this.$( '.modal' ).trigger( 'hidden.bs.modal' );
+        this.$( '>:first-child' ).trigger( 'hidden.bs.modal' );
     });
 
     assert.equal(
@@ -200,8 +200,8 @@ test( 'Closing of modal using close button works', function( assert ) {
     ` );
 
     Ember.run( () => {
-        this.$( '.modal' ).modal( 'show' );
-        this.$( '.modal' ).find( '.close' ).click();
+        this.$( '>:first-child' ).modal( 'show' );
+        this.$( '>:first-child' ).find( '.close' ).click();
     });
 
 });
@@ -220,11 +220,11 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
     ` );
 
     Ember.run( () => {
-        this.$( '.modal' ).modal( 'show' );
+        this.$( '>:first-child' ).modal( 'show' );
     });
 
     assert.equal(
-        Ember.$( '.modal-backdrop' ).length,
+        Ember.$( '>:first-child' ).find( '.modal-backdrop' ).length,
         0
     );
 });
@@ -233,11 +233,11 @@ test( 'Backdrop is shown by default', function( assert ) {
     this.render( template );
 
     Ember.run( () => {
-        this.$( '.modal' ).modal( 'show' );
+        this.$( '>:first-child' ).modal( 'show' );
     });
 
     assert.equal(
-        Ember.$( '.modal-backdrop' ).length,
+        Ember.$( '>:first-child' ).length,
         1
     );
 });
@@ -258,7 +258,7 @@ test( 'Fade class is present when animated is set to true', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '.modal' ).hasClass( 'fade' )
+        this.$( '>:first-child' ).hasClass( 'fade' )
     );
 });
 
@@ -278,7 +278,7 @@ test( 'Fade class is absent when animated is set to false', function( assert ) {
     ` );
 
     assert.ok(
-        !this.$().hasClass( 'fade' )
+        !this.$( '>:first-child' ).hasClass( 'fade' )
     );
 });
 
@@ -302,7 +302,7 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '.modal' ).attr( 'aria-describedby' ),
+        this.$( '>:first-child' ).attr( 'aria-describedby' ),
         describedBy
     );
 });
@@ -311,7 +311,7 @@ test( 'aria-hidden is true', function( assert ) {
     this.render( template );
 
     assert.equal(
-        this.$( '.modal' ).attr( 'aria-hidden' ),
+        this.$( '>:first-child' ).attr( 'aria-hidden' ),
         'true'
     );
 });
@@ -320,7 +320,7 @@ test( 'aria-labelledby is set', function( assert ) {
     this.render( template );
 
     assert.ok(
-        this.$( '.modal' ).attr( 'aria-labelledby' )
+        this.$( '>:first-child' ).attr( 'aria-labelledby' )
     );
 });
 

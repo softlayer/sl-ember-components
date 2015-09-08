@@ -104,8 +104,8 @@
 <div class="detail-pane">
     <header>
         <span class="title">
-            {{#if detailHeaderPath}}
-                {{render-dynamic detailHeaderPath activeRecord}}
+            {{#if detailHeaderComponent}}
+                {{component detailHeaderComponent model=activeRecord}}
             {{/if}}
         </span>
 
@@ -121,8 +121,8 @@
     </div>
 
     <footer>
-        {{#if detailFooterPath}}
-            {{render-dynamic detailFooterPath activeRecord}}
+        {{#if detailFooterComponent}}
+            {{component detailFooterComponent model=activeRecord}}
         {{/if}}
     </footer>
 </div>

@@ -13,13 +13,13 @@ test( 'The disabled state applies the disabled attribute and class', function( a
     ` );
 
     assert.equal(
-        this.$( '.sl-radio-group' ).attr( 'disabled' ),
+        this.$( '>:first-child' ).attr( 'disabled' ),
         'disabled',
         'has "disabled" attribute'
     );
 
     assert.ok(
-        this.$( '.sl-radio-group' ).hasClass( 'disabled' ),
+        this.$( '>:first-child' ).hasClass( 'disabled' ),
         'has "disabled" class'
     );
 });
@@ -37,7 +37,7 @@ test( 'The disabled state applies to sl-radio children', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'input[disabled]' ).length,
+        this.$( '>:first-child' ).find( 'input[disabled]' ).length,
         3,
         'Rendered component has three disabled inputs'
     );
@@ -56,7 +56,7 @@ test( 'The readonly state applies to sl-radio children', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'input[readonly]' ).length,
+        this.$( '>:first-child' ).find( 'input[readonly]' ).length,
         3,
         'Rendered component has three readonly inputs'
     );
@@ -75,13 +75,13 @@ test( "Inline true sets sl-radio children's inline property to true", function( 
     ` );
 
     assert.equal(
-        this.$( '.sl-radio.radio' ).length,
+        this.$( '>:first-child' ).find( '.sl-radio.radio' ).length,
         0,
         'Rendered component children buttons are not inline'
     );
 
     assert.equal(
-        this.$( '.sl-radio.radio-inline' ).length,
+        this.$( '>:first-child' ).find( '.sl-radio.radio-inline' ).length,
         3,
         'Rendered component children buttons are inline'
     );
@@ -100,13 +100,13 @@ test( "Inline false sets sl-radio children's inline property to false", function
     ` );
 
     assert.equal(
-        this.$( '.sl-radio.radio-inline' ).length,
+        this.$( '>:first-child' ).find( '.sl-radio.radio-inline' ).length,
         0,
         'Rendered component has zero inline radio buttons'
     );
 
     assert.equal(
-        this.$( '.sl-radio.radio' ).length,
+        this.$( '>:first-child' ).find( '.sl-radio.radio' ).length,
         3,
         'Rendered component has three default (non-inline) radio buttons'
     );
@@ -126,8 +126,8 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
     ` );
 
     Ember.run( () => {
-        const $radioButton = this.$( 'input[value="eric"]' );
-        $radioButton.click();
+        const radioButton = this.$( '>:first-child' ).find( 'input[value="eric"]' );
+        radioButton.click();
     });
 
     assert.equal(
@@ -151,7 +151,7 @@ test( 'Default value gets selected by default', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( 'input[name="testName"]:checked' ).val(),
+        this.$( '>:first-child' ).find( 'input[name="testName"]:checked' ).val(),
         'josh',
         'The value "josh" that is set is selected by default'
     );

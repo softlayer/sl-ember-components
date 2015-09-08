@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
         }
     },
 
-    columns: new Ember.A([
+    columns: Ember.A([
         {
             primary: true,
             size: 'small',
@@ -39,7 +39,7 @@ export default Ember.Controller.extend({
         }
     ]),
 
-    rowActions: new Ember.A([
+    rowActions: Ember.A([
         {
             label: 'Log',
             action: 'sendLog'
