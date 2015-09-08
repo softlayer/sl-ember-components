@@ -1,14 +1,9 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import sinon from 'sinon';
 
 moduleForComponent( 'sl-button', 'Integration | Component | sl button', {
     integration: true
 });
-
-const mockStreamService = {
-    send() {}
-};
 
 const template = hbs`
     {{#sl-button}}
@@ -103,11 +98,11 @@ test( 'Labels are correctly initialized', function( assert ) {
     assert.equal(
         this.$( '>:first-child' ).text().trim(),
         labelText,
-        'Expected label is present as text'
+        'Expected label text is present'
     );
 });
 
-test( 'Correct size class is applied correctly', function( assert ) {
+test( 'Correct size class is applied', function( assert ) {
     this.render( hbs`
         {{#sl-button size="large"}}
             Default Text

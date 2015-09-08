@@ -129,7 +129,6 @@ test( 'Label changes for pending state', function( assert ) {
 });
 
 test( 'themeClass() returns the correct class', function( assert ) {
-    const spy = sinon.spy( utils, 'warn' );
     const component = this.subject();
 
     Object.keys( Theme ).forEach( ( key ) => {
@@ -143,6 +142,8 @@ test( 'themeClass() returns the correct class', function( assert ) {
         );
     });
 
+    const spy = sinon.spy( utils, 'warn' );
+
     component.set( 'theme', 'invalid value' );
     component.get( 'themeClass' );
 
@@ -155,8 +156,6 @@ test( 'themeClass() returns the correct class', function( assert ) {
 });
 
 test( 'sizeClass() returns the correct class', function( assert ) {
-    const spy = sinon.spy( utils, 'warn' );
-
     const sizes = Ember.A([
         { size: 'extra-small', 'class': 'btn-xs' },
         { size: 'large', 'class': 'btn-lg' },
@@ -175,6 +174,8 @@ test( 'sizeClass() returns the correct class', function( assert ) {
             obj.size + ' returned correct value of ' + obj.class
         );
     });
+
+    const spy = sinon.spy( utils, 'warn' );
 
     component.set( 'size', 'invalid value' );
     component.get( 'sizeClass' );
