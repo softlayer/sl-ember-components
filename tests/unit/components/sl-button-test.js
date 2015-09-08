@@ -51,6 +51,12 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.equal(
+        component.get( 'disabled' ),
+        false,
+        'disabled is false by default'
+    );
+
+    assert.equal(
         component.get( 'label' ),
         null,
         'label is null by default'
@@ -66,12 +72,6 @@ test( 'Default property values are set correctly', function( assert ) {
         component.get( 'pendingLabel' ),
         null,
         'pendingLabel is null by default'
-    );
-
-    assert.equal(
-        component.get( 'showModalWithStreamName' ),
-        null,
-        'showModalWithStreamName is null by default'
     );
 
     assert.equal(
@@ -149,7 +149,7 @@ test( 'themeClass() returns the correct class', function( assert ) {
 
     assert.ok(
         spy.calledOnce,
-        'warn() was called when invalid theme '
+        'warn() was called when invalid theme was set'
     );
 
     utils.warn.restore();
