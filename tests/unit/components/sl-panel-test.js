@@ -4,7 +4,7 @@ moduleForComponent( 'sl-panel', 'Unit | Component | sl panel', {
     unit: true
 });
 
-test( 'Valid heading value renders panel-heading', function( assert ) {
+test( 'Default properties are correct', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
