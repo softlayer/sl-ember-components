@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentInputId from '../mixins/sl-component-input-id';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-input';
@@ -9,7 +10,7 @@ import layout from '../templates/components/sl-input';
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInputId, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -60,14 +61,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     clickToEdit: false,
 
     /**
-     * The input field's id attribute
-     * Used to expose this value externally for use in this component
-     *
-     * @type {?String}
-     */
-    inputElementId: null,
-
-    /**
      * Whether the typeahead.js functionality has been setup
      *
      * @type {Boolean}
@@ -97,25 +90,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Captures and sets the input field's id attribute.
-     *
-     * This is used to expose this value externally for use when composing this
-     * component into others.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setInputElementId: Ember.on(
-        'didInsertElement',
-        function() {
-            this.set(
-                'inputElementId',
-                this.$( 'input.form-control' ).prop( 'id' )
-            );
-        }
-    ),
 
     /**
      * Sets up the input event listeners exposed to the component's
