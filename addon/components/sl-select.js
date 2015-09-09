@@ -274,6 +274,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 );
             }
 
+            //"for" attribute value on label in template will be set to inputId.
+            //set id of select2 input to the same inputId.
+            this.$( 'input:visible' ).attr( 'id', this.get( 'inputId' ) );
+
             this.input = input;
         }
     )

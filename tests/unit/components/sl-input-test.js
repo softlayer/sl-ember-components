@@ -107,23 +107,6 @@ test( 'Default values are correct', function( assert ) {
         false,
         'required property is false by default'
     );
-
-    assert.equal(
-        component.get( 'inputElementId' ),
-        null,
-        'inputElementId property is null by default'
-    );
-});
-
-test( 'setInputElementId() - sets inputElementId correctly', function( assert ) {
-    const component = this.subject();
-
-    const inputElementId = this.$( 'input.form-control' ).prop( 'id' );
-
-    assert.equal(
-        component.get( 'inputElementId' ),
-        inputElementId
-    );
 });
 
 test( 'Click to edit input has the correct class', function( assert ) {
