@@ -1,14 +1,15 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('sl-select', 'Integration | Component | sl select', {
-  integration: true
+moduleForComponent( 'sl-select', 'Integration | Component | sl select', {
+    integration: true
 });
 
 test( 'for attribute value on label matches id of input', function( assert ) {
-    this.render(hbs`{{sl-select label='test label'}}`);
+    this.render( hbs`
+        {{sl-select label='test label'}}
+    ` );
     const wrapper = this.$( '>:first-child' );
-    console.log( wrapper.html() );
 
     assert.equal(
         wrapper.find( 'label' ).attr( 'for' ),

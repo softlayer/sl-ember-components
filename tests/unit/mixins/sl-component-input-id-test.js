@@ -25,7 +25,6 @@ test( 'inputId is set on component', function( assert ) {
 
 test( 'inputId value is preserved if it is already set', function( assert ) {
     const id = 'preset-id';
-
     const component = Ember.Component.extend( mixinUnderTest ).create( {
         inputId: id
     });
