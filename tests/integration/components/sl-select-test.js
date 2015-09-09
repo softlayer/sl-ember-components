@@ -9,6 +9,7 @@ test( 'for attribute value on label matches id of input', function( assert ) {
     this.render( hbs`
         {{sl-select label='test label'}}
     ` );
+
     const wrapper = this.$( '>:first-child' );
 
     assert.equal(
