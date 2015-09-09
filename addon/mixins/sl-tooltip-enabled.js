@@ -14,7 +14,6 @@ export default Ember.Mixin.create({
 
     /** @type {String[]} */
     attributeBindings: [
-        'dataToggle:data-toggle',
         'dataTrigger:data-trigger',
         'title'
     ],
@@ -27,13 +26,6 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Properties
-
-    /**
-     * dataToggle property
-     *
-     * @type {?String}
-     */
-    dataToggle: null,
 
     /**
      * dataTrigger property
@@ -57,23 +49,6 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Initialize mixin properties
-     *
-     * @function
-     * @returns {undefined}
-     */
-    initialize: Ember.on(
-        'init',
-        function() {
-            if ( this.get( 'popover' ) ) {
-                this.set( 'dataToggle', 'popover' );
-            } else if ( this.get( 'tooltip' ) ) {
-                this.set( 'dataToggle', 'tooltip' );
-            }
-        }
-    ),
 
     /**
      * Enable the tooltip functionality, based on component's
