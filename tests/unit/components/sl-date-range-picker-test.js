@@ -38,7 +38,8 @@ test( 'Change focus to end date input upon start date change', function( assert 
         'End date input was given focus on start date change'
     );
 
-    this.$( '.sl-date-picker' ).remove();
+    $( '.datepicker' ).remove();
+    daterangeEndDate.trigger.restore();
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
