@@ -71,19 +71,6 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Observers
 
-    /**
-     * Set unique inputId that will be set on label and input element
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setInputId: Ember.on(
-        'init',
-        function() {
-            this.set( 'inputId', this.get( 'elementId' ) + '-input' );
-        }
-    ),
-
     // -------------------------------------------------------------------------
     // Methods
 
