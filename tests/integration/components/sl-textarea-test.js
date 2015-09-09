@@ -7,6 +7,19 @@ moduleForComponent( 'sl-textarea', 'Integration | Component | sl textarea', {
     integration: true
 });
 
+test( 'Default classes are applied', function( assert ) {
+    this.render( hbs`
+        {{#sl-textarea}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.equal(
+        this.$( '>:first-child' ).prop( 'class' ),
+        [ 'ember-view form-group sl-textarea' ],
+        'Rendered component has expected classes'
+    );
+});
+
 test( '"value" property is supported', function( assert ) {
     this.set( 'value', 'testBoundValue' );
     this.render( hbs`
@@ -20,7 +33,6 @@ test( '"value" property is supported', function( assert ) {
         'Text area value is expected value'
     );
 });
-
 
 test( '"wrap" property is supported', function( assert ) {
     this.render( hbs`
@@ -233,7 +245,12 @@ test( 'If "label" property is populated, label element is rendered', function( a
         'label[for="' + this.$( '>:first-child' ).find( 'textarea' ).prop( 'id' ) + '"]'
     );
 
-    assert.equal( label.length, 1, 'Label is present' );
+    assert.equal(
+        label.length,
+        1,
+        'Label is present'
+    );
+
     assert.equal(
         Ember.$.trim( label.text() ),
         this.get( 'label' ),
@@ -260,7 +277,6 @@ test( '"selectionStart" is supported', function( assert ) {
         {{#sl-textarea selectionStart=2 value="testValue"}}
         {{/sl-textarea}}
     ` );
-    this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).focus();
     this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).setSelectionRange( 2, 8 );
 
     assert.equal(
@@ -276,7 +292,6 @@ test( '"selectionEnd" is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).focus();
     this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).setSelectionRange( 2, 8 );
 
     assert.equal(
