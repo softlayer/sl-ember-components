@@ -26,7 +26,7 @@ export default Ember.Mixin.create({
      * Unique input id that a component can assign to an input
      * and a labels for attribute
      *
-     * @type {Boolean}
+     * @type {String}
      */
     inputId: null,
 
