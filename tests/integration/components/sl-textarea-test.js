@@ -13,9 +13,9 @@ test( 'Default classes are applied', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).prop( 'class' ),
-        [ 'ember-view form-group sl-textarea' ],
+        'ember-view form-group sl-textarea',
         'Rendered component has expected classes'
     );
 });
@@ -27,7 +27,7 @@ test( '"value" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).val(),
         this.get( 'value' ),
         'Text area value is expected value'
@@ -40,7 +40,7 @@ test( '"wrap" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'wrap' ),
         'hard',
         'Textarea wrap attribute is expected value'
@@ -53,7 +53,7 @@ test( '"tabindex" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'tabindex' ),
         '2',
         'Textarea tabindex attribute is expected value'
@@ -66,7 +66,7 @@ test( '"spellcheck" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
         'true',
         'Textarea spellcheck attribute is expected value'
@@ -78,7 +78,7 @@ test( '"autofocus" property is supported', function( assert ) {
         {{#sl-textarea autofocus=true}}
         {{/sl-textarea}}
     ` );
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'autofocus' ),
         'autofocus',
         'Textarea autofocus attribute is present'
@@ -91,7 +91,7 @@ test( '"cols" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'cols' ),
         '8',
         'Textarea cols attribute is expected value'
@@ -116,7 +116,7 @@ test( '"maxlength" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'maxlength' ),
         '12',
         'Textarea maxlength attribute is expected value'
@@ -129,7 +129,7 @@ test( '"placeholder" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'placeholder' ),
         'placeholder text',
         'Textarea placeholder attribute is expected value'
@@ -154,7 +154,7 @@ test( '"rows" property is supported', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'rows' ),
         '4',
         'Textarea rows attribute is expected value'
@@ -168,13 +168,13 @@ test( '"helpText" is rendered if populated', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.help-block' ).prop( 'tagName' ),
         'P',
         'Help text block is rendered as a <p>'
     );
 
-    assert.equal(
+    assert.strictEqual(
         Ember.$.trim( this.$( '>:first-child' ).find( '.help-block' ).text() ),
         this.get( 'helpText' ),
         'Help text block text is expected value'
@@ -187,13 +187,13 @@ test( '"optional" and "required" elements are rendered if populated along with "
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'label > .text-info' ).prop( 'tagName' ),
         'SMALL',
         "Label's text-info <small> is rendered"
     );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'label > .text-danger' ).prop( 'tagName' ),
         'SMALL',
         "Label's text-danger <small> is rendered"
@@ -227,7 +227,7 @@ test( 'If "label" property is not populated, label element is not rendered', fun
         {{#sl-textarea label=""}}
         {{/sl-textarea}}
     ` );
-    assert.equal(
+    assert.strictEqual(
         Ember.typeOf( this.$( '>:first-child' ).find( 'label' ).prop( 'for' ) ),
         'undefined',
         'Label element is not rendered'
@@ -245,13 +245,13 @@ test( 'If "label" property is populated, label element is rendered', function( a
         'label[for="' + this.$( '>:first-child' ).find( 'textarea' ).prop( 'id' ) + '"]'
     );
 
-    assert.equal(
+    assert.strictEqual(
         label.length,
         1,
         'Label is present'
     );
 
-    assert.equal(
+    assert.strictEqual(
         Ember.$.trim( label.text() ),
         this.get( 'label' ),
         'Label text is expected value'
@@ -265,7 +265,7 @@ test( 'If "label" property is populated, "for" attribute is expected value', fun
         {{/sl-textarea}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'label' ).prop( 'for' ),
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'id' ),
         'Label "for" property matches textarea\'s "id" property'
@@ -279,7 +279,7 @@ test( '"selectionStart" is supported', function( assert ) {
     ` );
     this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).setSelectionRange( 2, 8 );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'selectionStart' ),
         2,
         'Textarea "selectionStart" property is expected value'
@@ -294,7 +294,7 @@ test( '"selectionEnd" is supported', function( assert ) {
 
     this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).setSelectionRange( 2, 8 );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'selectionEnd' ),
         8,
         'Textarea "selectionEnd" property is expected value'
