@@ -367,6 +367,28 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
     );
 });
 
+test( 'dropButtonSelect action sends an action to the targetObject', function( assert ) {
+    const targetObject = {
+        testAction: sinon.spy()
+    };
+
+    const rowData = { foo: 'bar' };
+
+    const component = this.subject({
+        columns,
+        content,
+        testAction: 'testAction',
+        targetObject: targetObject
+    });
+
+    component.send( 'dropButtonSelect', rowData, 'testAction' );
+
+    assert.ok(
+        targetObject.testAction.calledWith( rowData ),
+        'testAction was sent with the correct argument'
+    );
+});
+
 // These tests require valid registered template paths for proper testing.
 skip( 'Sub-template paths are determined correctly' );
 skip( 'Toggling detail pane is supported' );
