@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ComponentInputId from '../mixins/sl-component-input-id';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-select';
@@ -10,7 +9,7 @@ import layout from '../templates/components/sl-select';
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInputId, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -274,10 +273,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
                     'Search...'
                 );
             }
-
-            // "for" attribute value on label in template will be set to inputId
-            // set id of select2 input to the same inputId.
-            this.$( 'input:visible' ).attr( 'id', this.get( 'inputId' ) );
 
             this.input = input;
         }
