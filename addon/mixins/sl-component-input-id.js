@@ -21,12 +21,11 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Properties
 
-
     /**
      * Unique input id that a component can assign to an input
-     * and a labels for attribute
+     * and a label's for attribute
      *
-     * @type {String}
+     * @type {?String}
      */
     inputId: null,
 
