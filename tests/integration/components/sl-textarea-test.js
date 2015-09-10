@@ -7,7 +7,7 @@ moduleForComponent( 'sl-textarea', 'Integration | Component | sl textarea', {
 
 test( 'for attribute value on label matches id of textarea', function( assert ) {
     this.render( hbs`
-        {{sl-textarea label='test label'}}
+        {{sl-textarea label="test label"}}
     ` );
 
     const wrapper = this.$( '>:first-child' );
