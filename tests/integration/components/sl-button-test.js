@@ -57,19 +57,29 @@ test( 'Button is disabled when disabled is set to true', function( assert ) {
 test( 'Expected default classes are applied', function( assert ) {
     this.render( template );
 
+    const element = this.$( '>:first-child' );
+    const noSizeClassByDefault = !element.hasClass( 'btn-xs' ) &&
+                                   !element.hasClass( 'btn-sm' ) &&
+                                   !element.hasClass( 'btn-lg' );
+
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'btn' ),
+        element.hasClass( 'btn' ),
         'Has class "btn"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-button' ),
+        element.hasClass( 'sl-button' ),
         'Has class "sl-button"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'btn-default' ),
+        element.hasClass( 'btn-default' ),
         'Has default theme class'
+    );
+
+    assert.ok(
+        noSizeClassByDefault,
+        'No size class is applied by default'
     );
 });
 
