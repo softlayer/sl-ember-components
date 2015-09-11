@@ -13,10 +13,19 @@ test( 'Default classes are applied', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).prop( 'class' ),
-        'ember-view form-group sl-textarea',
-        'Rendered component has expected classes'
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'Has class "form-group"'
+    );
+    
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-textarea' ),
+        'Has class "sl-textarea"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'textarea' ).hasClass( 'form-control' ),
+        'Has class "form-control"'
     );
 });
 
@@ -181,9 +190,21 @@ test( '"helpText" is rendered if populated', function( assert ) {
     );
 });
 
+test( 'If "helpText" is not populated, it is not rendered', function( assert ) {
+    this.render( hbs`
+        {{#sl-textarea}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.ok(
+        !this.$( '>:first-child' ).hasClass( 'help-block' ),
+        'Help text block is not rendered'
+    );
+});
+
 test( '"optional" and "required" elements are rendered if populated along with "label" property', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea label='Test Label' optional=true required=true}}
+        {{#sl-textarea label="Test Label" optional=true required=true}}
         {{/sl-textarea}}
     ` );
 
@@ -227,9 +248,10 @@ test( 'If "label" property is not populated, label element is not rendered', fun
         {{#sl-textarea label=""}}
         {{/sl-textarea}}
     ` );
+
     assert.strictEqual(
-        Ember.typeOf( this.$( '>:first-child' ).find( 'label' ).prop( 'for' ) ),
-        'undefined',
+        this.$( '>:first-child' ).find( 'label' ).length,
+        0,
         'Label element is not rendered'
     );
 });
@@ -242,7 +264,7 @@ test( 'If "label" property is populated, label element is rendered', function( a
     ` );
 
     const label = this.$(
-        'label[for="' + this.$( '>:first-child' ).find( 'textarea' ).prop( 'id' ) + '"]'
+        this.$( '>:first-child' ).find( 'label' )
     );
 
     assert.strictEqual(
@@ -253,8 +275,13 @@ test( 'If "label" property is populated, label element is rendered', function( a
 
     assert.strictEqual(
         Ember.$.trim( label.text() ),
-        this.get( 'label' ),
+        'test',
         'Label text is expected value'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'label' ).hasClass( 'control-label' ),
+        'Has class "control-label"'
     );
 });
 
@@ -277,6 +304,7 @@ test( '"selectionStart" is supported', function( assert ) {
         {{#sl-textarea selectionStart=2 value="testValue"}}
         {{/sl-textarea}}
     ` );
+
     this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).setSelectionRange( 2, 8 );
 
     assert.strictEqual(
@@ -301,5 +329,5 @@ test( '"selectionEnd" is supported', function( assert ) {
     );
 });
 
-// This test requires full browser support
+// This test requires full browser support, Issue #719 opened.
 skip( 'selectionDirection is supported' );
