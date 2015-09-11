@@ -17,18 +17,6 @@ export const Direction = Object.freeze({
 });
 
 /**
- * Valid values for `spellcheck` property
- *
- * @memberof module:components/sl-textarea
- * @enum {Boolean|String}
- */
-export const Spellcheck = {
-    DEFAULT: 'default',
-    FALSE: false,
-    TRUE: true
-};
-
-/**
  * Valid values for `wrap` property
  *
  * @memberof module:components/sl-textarea
@@ -104,11 +92,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     /**
      * The `spellcheck` HTML attribute value
      *
-     * Accepted values are true, false, "default" (default), "true", or "false".
+     * Accepted values "false" (default) or "true".
      *
      * @type {Spellcheck}
      */
-    spellcheck: Spellcheck.Direction,
+    spellcheck: false,
 
     /**
      * The bound value of the textarea
