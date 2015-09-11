@@ -257,7 +257,6 @@ test( 'If "label" property is not populated, label element is not rendered', fun
 });
 
 test( 'If "label" property is populated, label element is rendered', function( assert ) {
-    this.set( 'label', 'test' );
     this.render( hbs`
         {{#sl-textarea label="test"}}
         {{/sl-textarea}}
