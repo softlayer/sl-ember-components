@@ -19,7 +19,7 @@ moduleForComponent(
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
         ComponentInputId.detect( this.subject() ),
-        'ComponentInputId Mixin is present'
+        'sl-component-input-id mixin is present'
     );
 });
 
