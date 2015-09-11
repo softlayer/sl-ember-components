@@ -394,7 +394,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     handleNewContent: Ember.observer(
-        'content.@each',
+        'content.[]',
         function() {
             this.set( 'loading', false );
 
