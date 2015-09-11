@@ -35,7 +35,7 @@ test( 'Successfully mixed', function( assert ) {
     const subject = testObject.create();
 
     assert.ok(
-        mixinUnderTest.detect( subject )
+        subject
     );
 });
 
