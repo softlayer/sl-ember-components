@@ -112,7 +112,7 @@ export default Ember.Component.extend({
         'didInsertElement',
         function() {
             let initialTabName = this.get( 'initialTabName' );
-            const tabs = new Ember.A();
+            const tabs = Ember.A();
 
             if ( !initialTabName ) {
                 initialTabName = this

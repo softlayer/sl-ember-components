@@ -9,7 +9,6 @@ test( 'Successfully mixed', function( assert ) {
     const subject = testObject.create();
 
     assert.ok(
-        true,
         subject
     );
 });
