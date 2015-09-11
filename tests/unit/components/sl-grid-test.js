@@ -3,12 +3,12 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import sinon from 'sinon';
 
-const columns = new Ember.A([
+const columns = Ember.A([
     { title: 'Name', valuePath: 'name' },
     { title: 'ID', valuePath: 'id' }
 ]);
 
-const content = new Ember.A([
+const content = Ember.A([
     { id: 4, name: 'Alice' },
     { id: 8, name: 'Bob' },
     { id: 15, name: 'Charlie' }
@@ -81,7 +81,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
         content,
         sortColumn: 'test',
 
-        columns: new Ember.A([
+        columns: Ember.A([
             {
                 sortable: true,
                 title: 'Name',
@@ -105,7 +105,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
 
 test( 'Only primary columns remain visible when detail-pane is open', function( assert ) {
     this.subject({
-        columns: new Ember.A([
+        columns: Ember.A([
             {
                 primary: true,
                 title: 'Name',
@@ -174,7 +174,7 @@ test( 'Actions button label text is settable', function( assert ) {
         actionsButtonLabel: 'Test',
         columns,
         content,
-        rowActions: new Ember.A( [ { action: 'test', label: 'Test' } ] )
+        rowActions: Ember.A( [ { action: 'test', label: 'Test' } ] )
     });
 
     assert.equal(
@@ -215,7 +215,7 @@ test( 'Fixed height values are supported', function( assert ) {
 });
 
 test( 'Continuous mode and requestData are supported', function( assert ) {
-    this.subject({
+    const component = this.subject({
         columns,
         content,
         continuous: true,
@@ -233,13 +233,25 @@ test( 'Continuous mode and requestData are supported', function( assert ) {
         }
     });
 
+    assert.equal(
+        component.get( 'totalPages' ),
+        null,
+        'Continuous-enabled grids have null total pages'
+    );
+
+    assert.equal(
+        component.get( 'showPagination' ),
+        false,
+        'Continuous-enabled grids do not display navigation controls'
+    );
+
     Ember.run( () => {
         this.$( '.list-pane .content' ).trigger( 'scroll' );
     });
 });
 
 test( 'handleNewContent unsets loading state when content data changes', function( assert ) {
-    const myContent = new Ember.A();
+    const myContent = Ember.A();
 
     const component = this.subject({
         columns,
@@ -289,6 +301,12 @@ test( 'Pagination data is handled correctly', function( assert ) {
     });
 
     assert.equal(
+        component.get( 'showPagination' ),
+        true,
+        'Pagination control is shown'
+    );
+
+    assert.equal(
         component.get( 'currentPage' ),
         1,
         'Initial currentPage is 1'
@@ -306,11 +324,23 @@ test( 'Pagination data is handled correctly', function( assert ) {
         component.set( 'loading', false );
     });
 
+    this.$( '.next-page-button' ).trigger( 'click' );
+
+    assert.equal(
+        component.get( 'hasMoreData' ),
+        false,
+        'Current page is the last page'
+    );
+
+    Ember.run( () => {
+        component.set( 'loading', false );
+    });
+
     this.$( '.previous-page-button' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'currentPage' ),
-        1,
+        2,
         'Current page decremented correctly'
     );
 });
@@ -334,6 +364,28 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
         spy.calledOnce,
         true,
         'updateHeight() is called after window resize'
+    );
+});
+
+test( 'dropButtonSelect action sends an action to the targetObject', function( assert ) {
+    const targetObject = {
+        testAction: sinon.spy()
+    };
+
+    const rowData = { foo: 'bar' };
+
+    const component = this.subject({
+        columns,
+        content,
+        testAction: 'testAction',
+        targetObject: targetObject
+    });
+
+    component.send( 'dropButtonSelect', rowData, 'testAction' );
+
+    assert.ok(
+        targetObject.testAction.calledWith( rowData ),
+        'testAction was sent with the correct argument'
     );
 });
 

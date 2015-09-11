@@ -12,12 +12,12 @@ test( 'Disabled state applies disabled class, and attribute to input', function(
     ` );
 
     assert.ok(
-        this.$( 'input' ).prop( 'disabled' ),
+        this.$( '>:first-child' ).find( 'input' ).prop( 'disabled' ),
         'has attribute "disabled"'
     );
 
     assert.ok(
-        this.$( '.sl-radio' ).hasClass( 'disabled' ),
+        this.$( '>:first-child' ).hasClass( 'disabled' ),
         'has class "disabled"'
     );
 });
@@ -29,7 +29,7 @@ test( 'Inline property sets relevant class', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '.sl-radio' ).hasClass( 'radio-inline' ),
+        this.$( '>:first-child' ).hasClass( 'radio-inline' ),
         'has class "radio-inline"'
     );
 });

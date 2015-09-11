@@ -10,19 +10,25 @@
         <h6>Template: demos/sl-grid.hbs</h6>
         <pre>\{{#sl-grid
     columns=columns
-    content=arrangedContent
+    content=model
+    detailComponent="demos/sl-grid-detail"
+    detailFooterComponent="demos/sl-grid-detail-footer"
+    detailHeaderComponent="demos/sl-grid-detail-header"
+    footerPath="demos/sl-grid/footer"
     height=400
     rowActions=rowActions
+    sendLog=(action "logName")
     sortColumn="sortColumn"
     totalCount=totalCount
 }}
     &lt;h3&gt;Colors&lt;/h3&gt;
 \{{/sl-grid}}</pre>
+<p>The <code>sendLog</code> action in the above template is not a built-in action of sl-grid, but is defined in the <code>rowActions</code> property specifically for this example. See the <code>rowActions</code> property documentation for a more in-depth example.</p>
 
-        <h6>Template: demos/sl-grid/detail-footer.hbs</h6>
+        <h6>Template: components/demos/sl-grid-detail-footer.hbs</h6>
         <pre>\{{model.hexCode}}</pre>
 
-        <h6>Template: demos/sl-grid/detail-header.hbs</h6>
+        <h6>Template: components/demos/sl-grid-detail-header.hbs</h6>
         <pre>Color: \{{model.name}}</pre>
 
         <h6>Template: components/demos/sl-grid-detail.hbs</h6>
@@ -49,22 +55,26 @@
     }
 ],
 
-rowActions: Ember.A([
+rowActions: [
     {
         action: 'sendLog',
         label: 'Log'
     }
-])</pre>
+]</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{#sl-grid
             columns=columns
-            content=arrangedContent
+            content=model
             detailComponent="demos/sl-grid-detail"
+            detailFooterComponent="demos/sl-grid-detail-footer"
+            detailHeaderComponent="demos/sl-grid-detail-header"
+            footerPath="demos/sl-grid/footer"
             height=400
             rowActions=rowActions
+            sendLog=(action "logName")
             sortColumn="sortColumn"
             totalCount=totalCount
         }}
@@ -107,12 +117,12 @@ rowActions: Ember.A([
         The name of a component to render in the detail pane. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If `detailComponent` is omitted, the detail pane will not be opened when a row in the list pane is clicked.
     {{/property-text}}
 
-    {{#property-text name="detailFooterPath" type="String"}}
-        The application path to a template to use for the detail-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-footer.hbs</code>, and if not found, will not render anything for the detail footer.
+    {{#property-text name="detailFooterComponent" type="String"}}
+        The name of a component to render as the detail-pane footer. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If this property is omitted, the detail footer will not be rendered.
     {{/property-text}}
 
-    {{#property-text name="detailHeaderPath" type="String"}}
-        The application path to a template to use for the detail-pane header. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./detail-header.hbs</code>, and if not found, will not render anything for the detail header.
+    {{#property-text name="detailHeaderComponent" type="String"}}
+        The name of a component to render as the detail-pane header. The component is supplied a `model` property representing the record of the row that was clicked on to open the pane. If this property is omitted, the detail header will not be rendered.
     {{/property-text}}
 
     {{#property-text name="filterButtonLabel" type="String" default="Filter"}}
@@ -151,6 +161,45 @@ rowActions: Ember.A([
             <li><strong>action</strong> - A <em>string</em> name of an action to trigger when this action option is selected</li>
             <li><strong>label</strong> - A <em>string</em> to use for the label of the action option as a dropdown item</li>
         </ul>
+        <p>In order for an action to be handled in the controller and/or routes, the action must be specified when using the grid in a template. When an action menu option is selected, the content object for that row is sent as an argument to that action's handler. The following example illustrates the use of <code>rowActions</code> with action handlers in a controller:</p>
+
+        <h6>Controller</h6>
+        <pre>actions: {
+    logName( row ) {
+        window.console.log( 'Name:', Ember.get( row, 'name' ) );
+    },
+
+    logFruit( row ) {
+        window.console.log( 'Fruit:', Ember.get( row, 'fruit' ) );
+    }
+},
+
+columns: [
+    // some column definitions
+],
+
+content: [
+    // some content
+],
+
+rowActions: [
+    {
+        label: 'Log',
+        action: 'sendLog'
+    },
+    {
+        label: 'Another Action',
+        action: 'anotherAction'
+    }
+]</pre>
+
+        <h6>Template</h6>
+        <pre>\{{sl-grid
+    columns=columns
+    content=content
+    sendLog=(action "logName")
+    anotherAction=(action "logFruit")
+}}</pre>
     {{/property-text}}
 
     {{#property-text name="rowClick" type="String"}}

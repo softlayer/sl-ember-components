@@ -39,6 +39,13 @@ export default Ember.Mixin.create({
     disabled: false,
 
     /**
+     * Unique input id that will get generated and set on init of component
+     *
+     * @type {?String}
+     */
+    inputId: null,
+
+    /**
      * Whether the input-based component should be displayed as optional
      *
      * @type {Boolean}
