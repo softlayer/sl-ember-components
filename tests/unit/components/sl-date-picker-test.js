@@ -10,7 +10,7 @@ moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
         ComponentInputId.detect( this.subject() ),
-        'ComponentInputId Mixin is present'
+        'sl-component-input-id mixin is present'
     );
 });
 
