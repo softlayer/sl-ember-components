@@ -8,7 +8,9 @@ test( 'Successfully mixed', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest );
     const subject = testObject.create();
 
-    assert.ok( subject );
+    assert.ok(
+        subject
+    );
 });
 
 test( 'Standard values are false by default', function( assert ) {

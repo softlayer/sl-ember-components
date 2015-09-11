@@ -8,11 +8,10 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-tab-panel
  * @enum {String}
  */
-const Alignment = Object.freeze({
+export const Alignment = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { Alignment };
 
 /**
  * @module
@@ -113,7 +112,7 @@ export default Ember.Component.extend({
         'didInsertElement',
         function() {
             let initialTabName = this.get( 'initialTabName' );
-            const tabs = new Ember.A();
+            const tabs = Ember.A();
 
             if ( !initialTabName ) {
                 initialTabName = this
