@@ -23,3 +23,49 @@ test( 'Expected Mixins are present', function( assert ) {
         'ComponentInputId Mixin is present'
     );
 });
+
+test( 'Correct default property values', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'autofocus' ),
+        false,
+        'Default property "autofocus" is false'
+    );
+
+    assert.strictEqual(
+        component.get( 'selectionDirection' ),
+        'forward',
+        'Default property "selectionDirection" is forward'
+    );
+
+    assert.strictEqual(
+        component.get( 'selectionEnd' ),
+        null,
+        'Default property "selectionEnd" is null'
+    );
+
+    assert.strictEqual(
+        component.get( 'selectionStart' ),
+        null,
+        'Default property "selectionStart" is null'
+    );
+
+    assert.strictEqual(
+        component.get( 'spellcheck' ),
+        'default',
+        'Default property "spellcheck" is null'
+    );
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        null,
+        'Default property "value" is null'
+    );
+
+    assert.strictEqual(
+        component.get( 'wrap' ),
+        'soft',
+        'Default property "wrap" is null'
+    );
+});

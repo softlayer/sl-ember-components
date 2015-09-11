@@ -17,7 +17,7 @@ test( 'Default classes are applied', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'form-group' ),
         'Has class "form-group"'
     );
-    
+
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'sl-textarea' ),
         'Has class "sl-textarea"'
