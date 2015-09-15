@@ -8,8 +8,8 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Simple usage</h6>
-            <pre>\{{#sl-modal streamName="demoModal"}}
-    \{{sl-modal-header title="Simple Example"}}
+            <pre>\{{#sl-modal streamName="demoModal" as |ariaLabelledBy|}}
+    \{{sl-modal-header title="Simple Example" ariaLabelledBy=ariaLabelledBy}}
 
     \{{#sl-modal-body}}
          &lt;p&gt;A simple modal example&lt;/p&gt;
@@ -41,8 +41,8 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Custom header</h6>
-            <pre>\{{#sl-modal streamName="customHeader"}}
-    \{{#sl-modal-header as |ariaLabelledBy|}}
+            <pre>\{{#sl-modal streamName="customHeader" as |ariaLabelledBy|}}
+    \{{#sl-modal-header ariaLabelledBy=ariaLabelledBy}}
         &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
             &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
             &lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;
@@ -196,8 +196,8 @@
 
     <p>The example below illustrates how to bind the value of the <code>ariaLabelledBy</code> property to the id of a target element using <code>id=\{{ariaLabelledBy}}</code>.</p>
 
-<pre>\{{#sl-modal name="labelledbyDemo"}}
-    \{{#sl-modal-header as |ariaLabelledBy|}}
+<pre>\{{#sl-modal name="labelledbyDemo" as |ariaLabelledBy|}}
+    \{{#sl-modal-header as ariaLabelledBy=ariaLabelledBy}}
         &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
             &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
             &lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;
