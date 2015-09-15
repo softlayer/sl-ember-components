@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import{ moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
@@ -36,13 +37,42 @@ test( 'Correct default property values', function( assert ) {
         null,
         'Default property "value" is null'
     );
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'div',
+        'Default property "tagName" is string "div"'
+    );
 });
 
-test( 'Inline property sets relevant class', function( assert ) {
-    this.subject({ inline: true });
+test( 'RadioType property sets correct class', function( assert ) {
+    const component = this.subject();
 
-    assert.ok(
-        this.$().hasClass( 'radio-inline' ),
-        'has class "radio-inline"'
+    assert.strictEqual(
+        component.get( 'radioType' ),
+        'radio',
+        'RadioType defaults radio class'
+    );
+
+    assert.notStrictEqual(
+        component.get( 'radioType' ),
+        'radio-inline',
+        'RadioType is not inline'
+    );
+
+    Ember.run( () => {
+        component.set( 'inline', true );
+    });
+
+    assert.strictEqual(
+        component.get( 'radioType' ),
+        'radio-inline',
+        'RadioType is inline'
+    );
+
+    assert.notStrictEqual(
+        component.get( 'radioType' ),
+        'radio',
+        'RadioType is not inline'
     );
 });
