@@ -35,7 +35,8 @@ test( 'Successfully mixed', function( assert ) {
     const subject = testObject.create();
 
     assert.ok(
-        subject
+        subject,
+        'Subject was created'
     );
 });
 
@@ -43,6 +44,12 @@ test( 'Default values are set correctly', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest );
 
     const subject = testObject.create();
+
+    assert.strictEqual(
+        subject.get( 'dataToggle' ),
+        null,
+        'dataToggle is null'
+    );
 
     assert.strictEqual(
         subject.get( 'dataTrigger' ),
@@ -126,6 +133,12 @@ test( 'enabledTooltip() - Renders tooltip', function( assert ) {
     subject.enableTooltip();
 
     assert.equal(
+        subject.get( 'dataToggle' ),
+        'tooltip',
+        '"dataToggle" has correct value'
+    );
+
+    assert.equal(
         temporaryData.tooltip.container,
         'body',
         'tooltip container is set to correct value'
@@ -167,6 +180,12 @@ test( 'enablePopover() - Renders popover', function( assert ) {
     const subject = testObject.create();
 
     subject.enablePopover();
+
+    assert.equal(
+        subject.get( 'dataToggle' ),
+        'popover',
+        '"dataToggle" has correct value'
+    );
 
     assert.equal(
         temporaryData.popover.content,

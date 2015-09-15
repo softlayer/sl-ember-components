@@ -3,12 +3,12 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import sinon from 'sinon';
 
-const columns = Ember.A([
+const columns = new Ember.A([
     { title: 'Name', valuePath: 'name' },
     { title: 'ID', valuePath: 'id' }
 ]);
 
-const content = Ember.A([
+const content = new Ember.A([
     { id: 4, name: 'Alice' },
     { id: 8, name: 'Bob' },
     { id: 15, name: 'Charlie' }
@@ -81,7 +81,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
         content,
         sortColumn: 'test',
 
-        columns: Ember.A([
+        columns: new Ember.A([
             {
                 sortable: true,
                 title: 'Name',
@@ -105,7 +105,7 @@ test( 'Sortable columns and sortColumn actions are supported', function( assert 
 
 test( 'Only primary columns remain visible when detail-pane is open', function( assert ) {
     this.subject({
-        columns: Ember.A([
+        columns: new Ember.A([
             {
                 primary: true,
                 title: 'Name',
@@ -174,7 +174,7 @@ test( 'Actions button label text is settable', function( assert ) {
         actionsButtonLabel: 'Test',
         columns,
         content,
-        rowActions: Ember.A( [ { action: 'test', label: 'Test' } ] )
+        rowActions: new Ember.A( [ { action: 'test', label: 'Test' } ] )
     });
 
     assert.equal(
@@ -251,7 +251,7 @@ test( 'Continuous mode and requestData are supported', function( assert ) {
 });
 
 test( 'handleNewContent unsets loading state when content data changes', function( assert ) {
-    const myContent = Ember.A();
+    const myContent = new Ember.A();
 
     const component = this.subject({
         columns,
@@ -364,28 +364,6 @@ test( 'Window resize triggers updateHeight() with "auto" width', function( asser
         spy.calledOnce,
         true,
         'updateHeight() is called after window resize'
-    );
-});
-
-test( 'dropButtonSelect action sends an action to the targetObject', function( assert ) {
-    const targetObject = {
-        testAction: sinon.spy()
-    };
-
-    const rowData = { foo: 'bar' };
-
-    const component = this.subject({
-        columns,
-        content,
-        testAction: 'testAction',
-        targetObject: targetObject
-    });
-
-    component.send( 'dropButtonSelect', rowData, 'testAction' );
-
-    assert.ok(
-        targetObject.testAction.calledWith( rowData ),
-        'testAction was sent with the correct argument'
     );
 });
 

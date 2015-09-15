@@ -1,15 +1,13 @@
 import Ember from 'ember';
-import ComponentInputId from '../mixins/sl-component-input-id';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-date-picker';
 
 /**
  * @module
  * @augments ember/Component
- * @augments module:mixins/sl-component-input-id
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
+export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -116,6 +114,16 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
      * @type {String}
      */
     helpText: null,
+
+    /**
+     * The input field's id attribute
+     *
+     * Used to expose this value externally for use in this component and when
+     * composing this component into others.
+     *
+     * @type {?String}
+     */
+    inputElementId: null,
 
     /**
      * A list of inputs to be used in a range picker
@@ -236,6 +244,25 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Captures and sets the input field's id attribute.
+     *
+     * This is used to expose this value externally for use when composing this
+     * component into others.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setInputElementId: Ember.on(
+        'didInsertElement',
+        function() {
+            this.set(
+                'inputElementId',
+                this.$( 'input.date-picker' ).prop( 'id' )
+            );
+        }
+    ),
 
     /**
      * Setup the bootstrap-datepicker plugin and events

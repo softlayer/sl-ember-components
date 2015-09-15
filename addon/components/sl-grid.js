@@ -96,18 +96,6 @@ export default Ember.Component.extend({
             this.updateHeight();
         },
 
-         /**
-         * Handles drop button selection
-         *
-         * @function actions:dropButtonSelect
-         * @param {Object} row - An object representing the row on which the drop button was selected
-         * @param {String} actionName - The action to be sent
-         * @returns {undefined}
-         */
-        dropButtonSelect( row, actionName ) {
-            this.sendAction( actionName, row );
-        },
-
         /**
          * Open the detail-pane with a specific row object
          *
@@ -347,6 +335,13 @@ export default Ember.Component.extend({
      * @type {Number}
      */
     pageSize: 25,
+
+    /**
+     * The aliased grid's parent controller, used to trigger row actions
+     *
+     * @type {module:components/sl-grid~_parentView._controller}
+     */
+    rowActionContext: Ember.computed.alias( '_parentView._controller' ),
 
     /**
      * An array of action definitions to use for individual row actions

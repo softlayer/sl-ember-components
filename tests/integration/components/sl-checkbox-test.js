@@ -12,17 +12,17 @@ test( 'Defaults applied correctly', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'checkbox' ),
+        this.$( '.sl-checkbox' ).hasClass( 'checkbox' ),
         'Has class "checkbox"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        this.$( '.sl-checkbox' ).hasClass( 'form-group' ),
         'Has class "form-group"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-checkbox' ),
+        this.$( '.sl-checkbox' ).hasClass( 'sl-checkbox' ),
         'Has class "sl-checkbox"'
     );
 });
@@ -34,13 +34,13 @@ test( 'Disabled state applies class and disables input', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'disabled' ),
+        this.$( '.sl-checkbox' ).hasClass( 'disabled' ),
         false,
         'Initially does not have class "disabled"'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'disabled' ),
+        this.$( 'input' ).prop( 'disabled' ),
         false,
         'Rendered input is initially enabled'
     );
@@ -51,13 +51,13 @@ test( 'Disabled state applies class and disables input', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'disabled' ),
+        this.$( '.sl-checkbox' ).hasClass( 'disabled' ),
         true,
         'Has class "disabled"'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'disabled' ),
+        this.$( 'input' ).prop( 'disabled' ),
         true,
         'Rendered input is disabled'
     );
@@ -70,7 +70,7 @@ test( 'Checked state applies property to input', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'checked' ),
+        this.$( 'input' ).prop( 'checked' ),
         false,
         'Rendered input is not checked'
     );
@@ -81,7 +81,7 @@ test( 'Checked state applies property to input', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'checked' ),
+        this.$( 'input' ).prop( 'checked' ),
         true,
         'Rendered input is checked'
     );

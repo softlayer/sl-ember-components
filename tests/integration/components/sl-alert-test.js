@@ -14,23 +14,23 @@ test( 'Defaults applied correctly', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert' ),
+        this.$( '.sl-alert' ).hasClass( 'alert' ),
         'Has class "alert"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-info' ),
+        this.$( '.sl-alert' ).hasClass( 'alert-info' ),
         'Default theme class is applied'
     );
 
     assert.equal(
-        this.$( '>:first-child' ).attr( 'role' ),
+        this.$( '.sl-alert' ).attr( 'role' ),
         'alert',
         'ARIA role is applied'
     );
 
     assert.equal(
-        this.$( '>:first-child' ).find( 'button' ).length,
+        this.$( '.sl-alert button' ).length,
         0,
         'Dismissable button was not set on default component'
     );
@@ -45,7 +45,7 @@ test( 'Theme properties applied correctly', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-info' ),
+        this.$( '.sl-alert' ).hasClass( 'alert-info' ),
         'Info theme class is applied'
     );
 
@@ -56,7 +56,7 @@ test( 'Theme properties applied correctly', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-success' ),
+        this.$( '.sl-alert' ).hasClass( 'alert-success' ),
         'Success theme class is applied'
     );
 
@@ -67,7 +67,7 @@ test( 'Theme properties applied correctly', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-warning' ),
+        this.$( '.sl-alert' ).hasClass( 'alert-warning' ),
         'Warning theme class is applied'
     );
 
@@ -78,7 +78,7 @@ test( 'Theme properties applied correctly', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-danger' ),
+        this.$( '.sl-alert' ).hasClass( 'alert-danger' ),
         'Danger theme class is applied'
     );
 });
@@ -92,7 +92,7 @@ test( 'Dismissable Button is rendered when set', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( 'button' ).length,
+        this.$( '.sl-alert button' ).length,
         1,
         'Dismissable button was rendered'
     );
@@ -107,7 +107,7 @@ test( 'Dismiss Action is called on button click', function( assert ) {
         );
 
         assert.strictEqual(
-            this.$( '>:first-child' ).hasClass( 'alert-dismissable' ),
+            this.$( '.sl-alert' ).hasClass( 'alert-dismissable' ),
             true,
             'Component has alert-dismissable class'
         );
@@ -119,7 +119,7 @@ test( 'Dismiss Action is called on button click', function( assert ) {
         {{/sl-alert}}
     ` );
 
-    const $button = this.$( '>:first-child' ).find( 'button' );
+    const $button = this.$( '.sl-alert button' );
     this.on( 'dismissAction', dismissAction );
     $button.click();
 });
@@ -133,13 +133,13 @@ test( 'Dismiss Action is not possible when dismissable is false', function( asse
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( 'button' ).length,
+        this.$( '.sl-alert button' ).length,
         0,
         'Dismissable button was not rendered'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'alert-dismissable' ),
+        this.$( '.sl-alert' ).hasClass( 'alert-dismissable' ),
         false,
         'Component does not indicate dismissable'
     );

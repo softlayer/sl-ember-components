@@ -14,6 +14,7 @@ export default Ember.Mixin.create({
 
     /** @type {String[]} */
     attributeBindings: [
+        'dataToggle:data-toggle',
         'dataTrigger:data-trigger',
         'title'
     ],
@@ -26,6 +27,13 @@ export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * dataToggle property
+     *
+     * @type {?String}
+     */
+    dataToggle: null,
 
     /**
      * dataTrigger property
@@ -88,6 +96,8 @@ export default Ember.Mixin.create({
 
         // First-time rendering
         if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
+            this.set( 'dataToggle', 'popover' );
+
             this.$().popover({
                 content: popover,
                 placement: 'top'
@@ -113,6 +123,8 @@ export default Ember.Mixin.create({
 
         // First-time rendering
         if ( 'undefined' === Ember.typeOf( originalTitle ) ) {
+            this.set( 'dataToggle', 'tooltip' );
+
             this.$().tooltip({
                 container: 'body',
                 title: title

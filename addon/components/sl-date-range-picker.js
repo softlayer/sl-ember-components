@@ -1,13 +1,11 @@
 import Ember from 'ember';
-import ComponentInputId from '../mixins/sl-component-input-id';
 import layout from '../templates/components/sl-date-range-picker';
 
 /**
  * @module
  * @augments ember/Component
- * @augments module:mixins/sl-component-input-id
  */
-export default Ember.Component.extend( ComponentInputId, {
+export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -45,6 +43,13 @@ export default Ember.Component.extend( ComponentInputId, {
      * @type {String}
      */
     format: 'mm/dd/yyyy',
+
+    /**
+     * Bound value of Start Date input element's id
+     *
+     * @type {?String}
+     */
+    inputElementId: null,
 
     /**
      * The last valid date for the date range

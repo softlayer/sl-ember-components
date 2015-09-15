@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
             window.console.log( 'Clicked', row );
         },
 
-        logName( row ) {
+        sendLog( row ) {
             window.console.log( 'Record:', Ember.get( row, 'name' ) );
         },
 
@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
         }
     },
 
-    columns: Ember.A([
+    columns: new Ember.A([
         {
             primary: true,
             size: 'small',
@@ -39,12 +39,12 @@ export default Ember.Controller.extend({
         }
     ]),
 
-    rowActions: [
+    rowActions: new Ember.A([
         {
             label: 'Log',
             action: 'sendLog'
         }
-    ],
+    ]),
 
     totalCount: 6
 });

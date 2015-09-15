@@ -11,7 +11,7 @@ test( 'Footer class exists', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.modal-footer' ).length,
+        this.$( '.modal-footer' ).length,
         1
     );
 });
@@ -22,7 +22,7 @@ test( 'Close button exists', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( 'button[data-dismiss="modal"]' ).length,
+        this.$( 'button[data-dismiss="modal"]' ).length,
         1
     );
 });
@@ -37,7 +37,7 @@ test( 'Close button text is customizable', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( 'button[data-dismiss="modal"]' ).text().trim(),
+        this.$( 'button[data-dismiss="modal"]' ).text().trim(),
         buttonText
     );
 });
@@ -50,7 +50,7 @@ test( 'Content is yielded', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.test' ).length,
+        this.$( '.test' ).length,
         1
     );
 });

@@ -44,9 +44,9 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
      **/
     afterEach() {
         if ( this.hideModal ) {
-            if ( this.$( '>:first-child' ) ) {
-                this.$( '>:first-child' ).modal( 'hide' );
-                Ember.$( '>:first-child' ).find( '.modal-backdrop' ).remove();
+            if ( this.$( '.modal' ) ) {
+                this.$( '.modal' ).modal( 'hide' );
+                Ember.$( '.modal-backdrop' ).remove();
             }
         }
     },
@@ -58,7 +58,7 @@ test( 'Classes are present', function( assert ) {
     this.render( template );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'modal' ),
+        this.$().children().hasClass( 'modal' ),
         'Has class modal'
     );
 });
@@ -130,8 +130,8 @@ test( 'Listeners are setup and firing appropriately', function( assert ) {
     ` );
 
     Ember.run( () => {
-        this.$( '>:first-child' ).modal( 'show' );
-        this.$( '>:first-child' ).modal( 'hide' );
+        this.$( '.modal' ).modal( 'show' );
+        this.$( '.modal' ).modal( 'hide' );
     });
 
     this.hideModal = false;
@@ -153,7 +153,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
     ` );
 
     Ember.run( () => {
-        this.$( '>:first-child' ).trigger( 'shown.bs.modal' );
+        this.$( '.modal' ).trigger( 'shown.bs.modal' );
     });
 
     assert.equal(
@@ -163,7 +163,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
     );
 
     Ember.run( () => {
-        this.$( '>:first-child' ).trigger( 'hidden.bs.modal' );
+        this.$( '.modal' ).trigger( 'hidden.bs.modal' );
     });
 
     assert.equal(
@@ -200,8 +200,8 @@ test( 'Closing of modal using close button works', function( assert ) {
     ` );
 
     Ember.run( () => {
-        this.$( '>:first-child' ).modal( 'show' );
-        this.$( '>:first-child' ).find( '.close' ).click();
+        this.$( '.modal' ).modal( 'show' );
+        this.$( '.modal' ).find( '.close' ).click();
     });
 
 });
@@ -220,11 +220,11 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
     ` );
 
     Ember.run( () => {
-        this.$( '>:first-child' ).modal( 'show' );
+        this.$( '.modal' ).modal( 'show' );
     });
 
     assert.equal(
-        Ember.$( '>:first-child' ).find( '.modal-backdrop' ).length,
+        Ember.$( '.modal-backdrop' ).length,
         0
     );
 });
@@ -233,11 +233,11 @@ test( 'Backdrop is shown by default', function( assert ) {
     this.render( template );
 
     Ember.run( () => {
-        this.$( '>:first-child' ).modal( 'show' );
+        this.$( '.modal' ).modal( 'show' );
     });
 
     assert.equal(
-        Ember.$( '>:first-child' ).length,
+        Ember.$( '.modal-backdrop' ).length,
         1
     );
 });
@@ -258,7 +258,7 @@ test( 'Fade class is present when animated is set to true', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'fade' )
+        this.$( '.modal' ).hasClass( 'fade' )
     );
 });
 
@@ -278,7 +278,7 @@ test( 'Fade class is absent when animated is set to false', function( assert ) {
     ` );
 
     assert.ok(
-        !this.$( '>:first-child' ).hasClass( 'fade' )
+        !this.$().hasClass( 'fade' )
     );
 });
 
@@ -302,7 +302,7 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).attr( 'aria-describedby' ),
+        this.$( '.modal' ).attr( 'aria-describedby' ),
         describedBy
     );
 });
@@ -311,7 +311,7 @@ test( 'aria-hidden is true', function( assert ) {
     this.render( template );
 
     assert.equal(
-        this.$( '>:first-child' ).attr( 'aria-hidden' ),
+        this.$( '.modal' ).attr( 'aria-hidden' ),
         'true'
     );
 });
@@ -320,7 +320,7 @@ test( 'aria-labelledby is set', function( assert ) {
     this.render( template );
 
     assert.ok(
-        this.$( '>:first-child' ).attr( 'aria-labelledby' )
+        this.$( '.modal' ).attr( 'aria-labelledby' )
     );
 });
 

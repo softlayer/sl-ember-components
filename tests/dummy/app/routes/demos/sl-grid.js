@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model() {
-        return Ember.A([
+        return new Ember.A([
             {
                 name: 'Red',
                 fruit: 'Apple',

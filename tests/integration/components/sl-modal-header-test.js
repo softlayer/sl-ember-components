@@ -11,7 +11,7 @@ test( 'Modal header class exists on child element', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.modal-header' ).length,
+        this.$( '.modal-header' ).length,
         1
     );
 });
@@ -22,7 +22,7 @@ test( 'Close button exists', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.close' ).length,
+        this.$( '.close' ).length,
         1
     );
 });
@@ -37,7 +37,7 @@ test( 'Setting title on header works', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.modal-title' ).text(),
+        this.$( '.modal-title' ).text(),
         title
     );
 });
@@ -50,7 +50,7 @@ test( 'Content is yielded', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.test' ).length,
+        this.$( '.test' ).length,
         1
     );
 });
@@ -64,7 +64,7 @@ test( 'Modal title\'s id is set to ariaLabelledBy property value', function( ass
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
+        this.$( '.modal-title' ).prop( 'id' ),
         this.get( 'ariaLabelledBy' )
     );
 });
@@ -79,7 +79,7 @@ test( 'aria-labelledby can be bound in a custom header', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
+        this.$( '.modal-title' ).prop( 'id' ),
         this.get( 'ariaLabelledBy' )
     );
 });

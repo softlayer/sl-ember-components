@@ -2,7 +2,6 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import sinon from 'sinon';
-import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 
 moduleForComponent(
     'sl-date-range-picker',
@@ -15,13 +14,6 @@ moduleForComponent(
         unit: true
     }
 );
-
-test( 'Expected Mixins are present', function( assert ) {
-    assert.ok(
-        ComponentInputId.detect( this.subject() ),
-        'sl-component-input-id mixin is present'
-    );
-});
 
 test( 'Default classNames are present', function( assert ) {
     this.subject();
@@ -46,8 +38,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
         'End date input was given focus on start date change'
     );
 
-    $( '.datepicker' ).remove();
-    daterangeEndDate.trigger.restore();
+    this.$( '.sl-date-picker' ).remove();
 });
 
 test( 'Earliest end date is the based on min date and start date', function( assert ) {
@@ -183,7 +174,7 @@ test( 'label is accepted as a parameter', function( assert ) {
 
     assert.equal(
         this.$( 'label' ).prop( 'for' ),
-        component.get( 'inputId' ),
+        component.get( 'inputElementId' ),
         'label element has the correct for property'
     );
 

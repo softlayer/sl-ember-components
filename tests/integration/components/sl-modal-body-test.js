@@ -13,7 +13,7 @@ test( 'Content is yielded', function( assert ) {
     );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.test' ).length,
+        this.$( '.test' ).length,
         1
     );
 });

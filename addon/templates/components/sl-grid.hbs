@@ -65,10 +65,10 @@
                                 }}
                                     {{#each rowActions as |rowAction|}}
                                         {{sl-drop-option
-                                            action="dropButtonSelect"
-                                            actionContext=rowAction.action
+                                            action=rowAction.action
                                             data=row
                                             label=rowAction.label
+                                            targetObject=rowActionContext
                                         }}
                                     {{/each}}
                                 {{/sl-drop-button}}
