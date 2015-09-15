@@ -109,6 +109,13 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     bubbles: true,
 
     /**
+     * Whether or not the button is disabled
+     *
+     * @type {Boolean}
+     */
+    disabled: false,
+
+    /**
      * Whether or not the button should be disabled during AJAX activity
      *
      * @type {Boolean}
