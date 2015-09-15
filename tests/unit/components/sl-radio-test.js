@@ -45,13 +45,13 @@ test( 'Correct default property values', function( assert ) {
     );
 });
 
-test( 'RadioType property sets correct class', function( assert ) {
+test( 'RadioType property sets relevant class', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
         component.get( 'radioType' ),
         'radio',
-        'RadioType defaults radio class'
+        'RadioType defaults to "radio"'
     );
 
     assert.notStrictEqual(
@@ -74,5 +74,15 @@ test( 'RadioType property sets correct class', function( assert ) {
         component.get( 'radioType' ),
         'radio',
         'RadioType is not inline'
+    );
+});
+
+test( 'Correct properties are being observed by RadioType', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.radioType._dependentKeys.join(),
+        'inline',
+        'RadioType is observing the correct property "inline"'
     );
 });
