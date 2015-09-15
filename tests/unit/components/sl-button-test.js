@@ -48,55 +48,55 @@ test( 'Successfully mixed sl-tooltip-enabled', function( assert ) {
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'tagName' ),
         'button',
         'Default tagName is button'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'bubbles' ),
         true,
         'bubbles is true by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'disabled' ),
         false,
         'disabled is false by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'label' ),
         null,
         'label is null by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'pending' ),
         false,
         'pending is false by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'pendingLabel' ),
         null,
         'pendingLabel is null by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'size' ),
         'medium',
         'size is medium by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'showModalWithStreamName' ),
         null,
         'showModalWithStreamName is null by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'theme' ),
         'default',
         'theme is "default" by default'
@@ -141,7 +141,7 @@ test( 'Label changes for pending state', function( assert ) {
         label: staticText
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentLabel' ),
         staticText,
         'Static text is set initially'
@@ -149,7 +149,7 @@ test( 'Label changes for pending state', function( assert ) {
 
     Ember.run( () => component.set( 'pending', true ) );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentLabel' ),
         pendingText,
         'Pending text is set while pending'
@@ -200,7 +200,7 @@ test( 'themeClass() returns the correct class', function( assert ) {
 
         Ember.run( () => component.set( 'theme',  theme ) );
 
-        assert.equal(
+        assert.strictEqual(
             component.get( 'themeClass' ),
             `btn-${theme}`
         );
@@ -232,7 +232,7 @@ test( 'sizeClass() returns the correct class', function( assert ) {
     sizes.forEach( ( obj ) => {
         Ember.run( () => component.set( 'size', obj.size ) );
 
-        assert.equal(
+        assert.strictEqual(
             component.get( 'sizeClass' ),
             obj.class,
             obj.size + ' returned correct value of ' + obj.class

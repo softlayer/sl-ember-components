@@ -104,7 +104,7 @@ test( 'Labels are correctly initialized', function( assert ) {
         {{/sl-button}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
         labelText,
         'Expected label text is present'
@@ -150,7 +150,7 @@ test( 'Label is correct for pending state', function( assert ) {
         {{/sl-button}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
         staticText,
         'Static text is set initially'
@@ -165,7 +165,7 @@ test( 'Label is correct for pending state', function( assert ) {
         {{/sl-button}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
         pendingLabelText,
         'Pending text is set while pending'
@@ -173,7 +173,7 @@ test( 'Label is correct for pending state', function( assert ) {
 
     this.set( 'pendingLabel', changedPendingLabelText );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
         changedPendingLabelText,
         'Pending label text is set correctly when updated dynamically'
@@ -208,19 +208,19 @@ test( 'Tooltip properties are set correctly when title parameter is set', functi
     const tooltipData = data[ 'bs.tooltip' ];
     const options = tooltipData.getOptions();
 
-    assert.equal(
+    assert.strictEqual(
         tooltipData.enabled,
         true,
         'tooltip is enabled'
     );
 
-    assert.equal(
+    assert.strictEqual(
         tooltipData.getTitle(),
         title,
         'Title text is set correctly'
     );
 
-    assert.equal(
+    assert.strictEqual(
         options.trigger,
         'hover focus',
         'Default trigger is "hover focus"'
@@ -245,25 +245,25 @@ test( 'Popover properties are set correctly when popover parameter is set', func
     const popoverData = data[ 'bs.popover' ];
     const options = popoverData.getOptions();
 
-    assert.equal(
+    assert.strictEqual(
         popoverData.enabled,
         true,
         'Popover is enabled'
     );
 
-    assert.equal(
+    assert.strictEqual(
         popoverData.getTitle(),
         title,
         'Popover title was set correctly'
     );
 
-    assert.equal(
+    assert.strictEqual(
         popoverData.getContent(),
         popover,
         'Popover text is set correctly'
     );
 
-    assert.equal(
+    assert.strictEqual(
         options.trigger,
         'click',
         'Default trigger is "click"'
