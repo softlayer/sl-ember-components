@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-drop-option', 'Unit | Component | sl drop option', {
@@ -51,27 +50,20 @@ test( 'Option type class value depends on `label` value', function( assert ) {
     );
 });
 
-test( 'Click triggers bound action with correct arguments', function( assert ) {
-    const testDataObject = {
-        testProp: 'testValue'
-    };
-
-    const testActionSpy = sinon.spy();
-
+test( 'Click triggers bound action', function( assert ) {
     this.subject({
-        action: 'testAction',
-        actionContext: 'testActionContext',
-        data: testDataObject,
+        action: 'test',
         label: 'Test',
         targetObject: {
-            testAction: testActionSpy
+            test: function() {
+                assert.ok(
+                    true,
+                    'Test action fired correctly'
+                );
+            }
         }
     });
 
+    assert.expect( 1 );
     this.$( 'a' ).trigger( 'click' );
-
-    assert.ok(
-        testActionSpy.calledWith( testDataObject, 'testActionContext' ),
-        'Test action fired correctly with the correct arguments'
-    );
 });

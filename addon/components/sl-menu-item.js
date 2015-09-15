@@ -133,7 +133,7 @@ export default Ember.Component.extend({
             let items = null;
 
             if ( subItems ) {
-                items = Ember.A( subItems );
+                items = new Ember.A( subItems );
             }
 
             return items;

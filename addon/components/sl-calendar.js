@@ -375,7 +375,7 @@ export default Ember.Component.extend({
         function() {
             const contentDates = this.get( 'contentDates' );
             const currentYear = this.get( 'currentYear' );
-            const months = Ember.A();
+            const months = new Ember.A();
 
             for ( let month = 1; month <= 12; month++ ) {
                 months.push({
@@ -403,7 +403,7 @@ export default Ember.Component.extend({
         function() {
             const m = window.moment().locale( this.get( 'locale' ) );
 
-            return Ember.A([
+            return new Ember.A([
                 m.day( 0 ).format( 'dd' ),
                 m.day( 1 ).format( 'dd' ),
                 m.day( 2 ).format( 'dd' ),
@@ -481,7 +481,7 @@ export default Ember.Component.extend({
                 new Date( currentYear, currentMonth - 1, 1 )
             ).getDay();
 
-            const weeks = Ember.A();
+            const weeks = new Ember.A();
             let inNextMonth = false;
 
             let previousMonth;
@@ -526,7 +526,7 @@ export default Ember.Component.extend({
             }
 
             for ( let week = 0; week < 6; week++ ) {
-                const days = Ember.A();
+                const days = new Ember.A();
 
                 for ( let wday = 0; wday < 7; wday++ ) {
                     const active = !inPreviousMonth && !inNextMonth &&
@@ -586,7 +586,7 @@ export default Ember.Component.extend({
             const contentDates = this.get( 'contentDates' );
             const decadeStart = this.get( 'decadeStart' );
             const decadeEnd = this.get( 'decadeEnd' );
-            const years = Ember.A();
+            const years = new Ember.A();
 
             for ( let year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
                 years.push({

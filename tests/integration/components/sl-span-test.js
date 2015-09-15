@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -12,7 +13,7 @@ test( '"value" property is supported', function( assert ) {
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).text().trim(),
+        Ember.$.trim( this.$().text() ),
         'Test content'
     );
 });
@@ -24,7 +25,7 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.sl-loading-icon' ).length,
+        this.$( '.sl-loading-icon' ).length,
         0,
         'Loading icon is not present initially'
     );
@@ -35,7 +36,7 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
     ` );
 
     assert.equal(
-        this.$( '>:first-child' ).find( '.sl-loading-icon' ).length,
+        this.$( '.sl-loading-icon' ).length,
         1,
         'Loading icon is present while span is loading'
     );
@@ -47,9 +48,8 @@ test( 'Inverse property applies to loading-icon', function( assert ) {
         {{/sl-span}}
     ` );
 
-    assert.equal(
-        this.$( '>:first-child' ).find( '.sl-loading-icon-dark' ).length,
-        1,
+    assert.ok(
+        this.$( '.sl-loading-icon' ).hasClass( 'sl-loading-icon-dark' ),
         'Loading icon is dark initially'
     );
 
@@ -58,9 +58,8 @@ test( 'Inverse property applies to loading-icon', function( assert ) {
         {{/sl-span}}
     ` );
 
-    assert.equal(
-        this.$( '>:first-child' ).find( '.sl-loading-icon-light' ).length,
-        1,
+    assert.ok(
+        this.$( '.sl-loading-icon' ).hasClass( 'sl-loading-icon-light' ),
         'Loading icon is light when inverse'
     );
 });

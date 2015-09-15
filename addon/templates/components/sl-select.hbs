@@ -1,5 +1,5 @@
 {{#if label}}
-    <label class="control-label">
+    <label for={{inputId}} class="control-label">
         {{label}}
 
         {{#if optional}}
@@ -13,6 +13,7 @@
 {{/if}}
 
 {{input
+    id=inputId
     type="hidden"
     class="form-control"
     disabled=disabledString

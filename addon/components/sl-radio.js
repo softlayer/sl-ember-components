@@ -45,27 +45,6 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * Name for the component
-     *
-     * @type {?String}
-     */
-    name: null,
-
-    /**
-     * Text label for the component
-     *
-     * @type {?String}
-     */
-    label: null,
-
-    /**
-     * Whether the component is in read-only state or not
-     *
-     * @type {Boolean}
-     */
-    readonly: false,
-
-    /**
      * Whether the component is in the disabled state or not
      *
      * @type {Boolean}

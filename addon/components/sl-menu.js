@@ -140,7 +140,7 @@ export default Ember.Component.extend( StreamEnabled, {
     initialize: Ember.on(
         'init',
         function() {
-            this.set( 'selections', Ember.A() );
+            this.set( 'selections', new Ember.A() );
         }
     ),
 
@@ -240,7 +240,7 @@ export default Ember.Component.extend( StreamEnabled, {
             Ember.set( selection.item, 'selected', false );
         });
 
-        this.set( 'selections', Ember.A() );
+        this.set( 'selections', new Ember.A() );
     },
 
     /**
