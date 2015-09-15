@@ -17,8 +17,8 @@
 
     \{{sl-modal-footer}}
 \{{/sl-modal}} </pre>
-        {{#sl-modal streamName="demoModal"}}
-            {{sl-modal-header title="Simple Example"}}
+        {{#sl-modal streamName="demoModal" as |ariaLabelledBy|}}
+            {{sl-modal-header title="Simple Example" ariaLabelledBy=ariaLabelledBy}}
 
             {{#sl-modal-body}}
                 <p>A simple modal example</p>
@@ -57,8 +57,8 @@
     \{{sl-modal-footer}}
 \{{/sl-modal}}</pre>
 
-{{#sl-modal streamName="customHeader"}}
-    {{#sl-modal-header as |ariaLabelledBy|}}
+{{#sl-modal streamName="customHeader" as |ariaLabelledBy|}}
+    {{#sl-modal-header ariaLabelledBy=ariaLabelledBy}}
         <button class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true" class="fa fa-close"></span>
             <span class="sr-only">close</span>
