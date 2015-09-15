@@ -27,8 +27,8 @@ test( 'Default classes are present', function( assert ) {
     );
 
     assert.ok(
-      this.$( '>:first-child' ).find( 'panel-body' ),
-      'Default rendered component has class "panel-body"'
+        this.$( '>:first-child' ).find( 'panel-body' ),
+        'Default rendered component has class "panel-body"'
     );
 
     assert.ok(
