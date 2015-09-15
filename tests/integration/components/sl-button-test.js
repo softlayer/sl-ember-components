@@ -58,9 +58,8 @@ test( 'Expected default classes are applied', function( assert ) {
     this.render( template );
 
     const element = this.$( '>:first-child' );
-    const noSizeClassByDefault = !element.hasClass( 'btn-xs' ) &&
-                                   !element.hasClass( 'btn-sm' ) &&
-                                   !element.hasClass( 'btn-lg' );
+    const classes = [ 'btn-xs', 'btn-sm', 'btn-lg' ];
+    const noSizeClassByDefault = classes.every( cls => !element.hasClass( cls ) );
 
     assert.ok(
         element.hasClass( 'btn' ),
