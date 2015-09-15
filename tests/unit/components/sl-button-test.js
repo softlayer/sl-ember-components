@@ -3,8 +3,27 @@ import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 import streamEnabled from 'ember-stream/mixins/stream-enabled';
 import tooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import { Theme } from 'sl-ember-components/components/sl-button';
+import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';
+import { Size as SizeEnum } from 'sl-ember-components/components/sl-button';
 import * as utils from 'sl-ember-components/utils/all';
+
+const Size = {
+    EXTRA_SMALL: 'extra-small',
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
+};
+
+const Theme = {
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    HOVER: 'hover',
+    INFO: 'info',
+    LINK: 'link',
+    PRIMARY: 'primary',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
 
 moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
     unit: true
@@ -15,34 +34,25 @@ const mockStreamService = {
 };
 
 test( 'Successfully mixed sl-stream-enabled', function( assert ) {
-    const testObject = Ember.Object.extend( streamEnabled );
-    const subject = testObject.create();
-
     assert.ok(
-        subject
+       streamEnabled.detect( this.subject() )
     );
 });
 
 test( 'Successfully mixed sl-tooltip-enabled', function( assert ) {
-    const testObject = Ember.Object.extend( tooltipEnabled );
-    const subject = testObject.create();
-
     assert.ok(
-        subject
-    );
-});
-
-test( 'tagName is set to "button"', function( assert ) {
-    const component = this.subject();
-
-    assert.equal(
-        component.get( 'tagName' ),
-        'button'
+        tooltipEnabled.detect( this.subject() )
     );
 });
 
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
+
+    assert.equal(
+        component.get( 'tagName' ),
+        'button',
+        'Default tagName is button'
+    );
 
     assert.equal(
         component.get( 'bubbles' ),
@@ -81,9 +91,27 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.equal(
+        component.get( 'showModalWithStreamName' ),
+        null,
+        'showModalWithStreamName is null by default'
+    );
+
+    assert.equal(
         component.get( 'theme' ),
         'default',
         'theme is "default" by default'
+    );
+
+    assert.deepEqual(
+        SizeEnum,
+        Size,
+        'Size enum values are correct'
+    );
+
+    assert.deepEqual(
+        ThemeEnum,
+        Theme,
+        'Theme enum values are correct'
     );
 });
 
@@ -125,6 +153,42 @@ test( 'Label changes for pending state', function( assert ) {
         component.get( 'currentLabel' ),
         pendingText,
         'Pending text is set while pending'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const currentLabelDependentKeys = [
+        'label',
+        'pending',
+        'pendingLabel'
+    ];
+
+    const sizeClassDependentKeys = [
+        'size'
+    ];
+
+    const themeClassDependentKeys = [
+        'theme'
+    ];
+
+    assert.deepEqual(
+        component.currentLabel._dependentKeys,
+        currentLabelDependentKeys,
+        'Dependent keys are correct for currentLabel()'
+    );
+
+    assert.deepEqual(
+        component.sizeClass._dependentKeys,
+        sizeClassDependentKeys,
+        'Dependent keys are correct for sizeClass()'
+    );
+
+    assert.deepEqual(
+        component.themeClass._dependentKeys,
+        themeClassDependentKeys,
+        'Dependent keys are correct for themeClass()'
     );
 });
 
