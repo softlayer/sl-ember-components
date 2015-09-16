@@ -644,7 +644,7 @@ test( 'weeksInMonthView - set previousMonth when: currentMonth is anything other
     window.moment.restore();
 });
 
-skip( 'weeksInMonthView - set previousMonth when: currentMonth strictEquals 1', function() {
+skip( 'weeksInMonthView - set previousMonth when: currentMonth equals 1', function() {
 });
 
 skip( 'weeksInMonthView - set nextMonth when: currentMonth is anything other than 12', function() {
