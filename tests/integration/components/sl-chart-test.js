@@ -82,7 +82,7 @@ test( 'Title property is set', function( assert ) {
         {{/sl-chart}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.panel-heading' ).html(),
         'Peak serve hours',
         'Chart title is created with title value'
@@ -98,7 +98,7 @@ test( 'Chart div uses the correct style', function( assert ) {
         {{/sl-chart}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'div.chart' ).attr( 'style' ),
         'height: auto; width: auto;',
         'Chart div has automatic height and width'
@@ -109,7 +109,7 @@ test( 'Chart div uses the correct style', function( assert ) {
         {{/sl-chart}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'div.chart' ).attr( 'style' ),
         'height: 10; width: 20;',
         'Chart div has height 10 and width 20'
