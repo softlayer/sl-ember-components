@@ -18,7 +18,7 @@ test( 'Lock mode prevents changing state', function( assert ) {
 
     const initialDecadeStart = component.get( 'decadeStart' );
     component.send( 'changeDecade', 1 );
-    assert.equal(
+    assert.strictEqual(
         initialDecadeStart,
         component.get( 'decadeStart' ),
         'Value decadeStart is unchanged from actions.changeDecade'
@@ -26,7 +26,7 @@ test( 'Lock mode prevents changing state', function( assert ) {
 
     const initialMonth = component.get( 'currentMonth' );
     component.send( 'changeMonth', 1 );
-    assert.equal(
+    assert.strictEqual(
         initialMonth,
         component.get( 'currentMonth' ),
         'Value currentMonth is unchanged from actions.changeMonth'
@@ -34,14 +34,14 @@ test( 'Lock mode prevents changing state', function( assert ) {
 
     const initialYear = component.get( 'currentYear' );
     component.send( 'changeYear', 1 );
-    assert.equal(
+    assert.strictEqual(
         initialYear,
         component.get( 'currentYear' ),
         'Value currentYear is unchanged from actions.changeYear'
     );
 
     component.send( 'setMonth', initialMonth + 1 );
-    assert.equal(
+    assert.strictEqual(
         initialMonth,
         component.get( 'currentMonth' ),
         'Value currentMonth is unchanged from actions.setMonth'
@@ -49,14 +49,14 @@ test( 'Lock mode prevents changing state', function( assert ) {
 
     const initialViewMode = component.get( 'viewMode' );
     component.send( 'setView', 'something' );
-    assert.equal(
+    assert.strictEqual(
         initialViewMode,
         component.get( 'viewMode' ),
         'Value viewMode is unchanged from actions.setView'
     );
 
     component.send( 'setYear', initialYear + 1 );
-    assert.equal(
+    assert.strictEqual(
         initialYear,
         component.get( 'currentYear' ),
         'Value currentYear is unchanged from actions.setYear'
@@ -84,13 +84,13 @@ skip( 'setMonth - currentMonth and viewMode set correctly', function() {
 test( 'changeDecade action works', function( assert ) {
     const component = this.subject({ currentYear: 2015 });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'decadeStart' ),
         2010,
         'Initial decadeStart is expected value'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'decadeEnd' ),
         2019,
         'Initial decadeEnd is expected value'
@@ -100,13 +100,13 @@ test( 'changeDecade action works', function( assert ) {
         component.send( 'changeDecade', 1 );
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'decadeStart' ),
         2020,
         'Altered decadeStart is expected value'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'decadeEnd' ),
         2029,
         'Altered decadeEnd is expected value'
@@ -116,7 +116,7 @@ test( 'changeDecade action works', function( assert ) {
 test( 'changeMonth action works', function( assert ) {
     const component = this.subject({ currentMonth: 1 });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentMonth' ),
         1,
         'Initial currentMonth is expected value'
@@ -126,7 +126,7 @@ test( 'changeMonth action works', function( assert ) {
         component.send( 'changeMonth', 1 );
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentMonth' ),
         2,
         'Altered currentMonth is expected value'
@@ -136,7 +136,7 @@ test( 'changeMonth action works', function( assert ) {
 test( 'changeYear action works', function( assert ) {
     const component = this.subject({ currentYear: 2015 });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentYear' ),
         2015,
         'Initial currentYear is expected value'
@@ -146,7 +146,7 @@ test( 'changeYear action works', function( assert ) {
         component.send( 'changeYear', 1 );
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentYear' ),
         2016,
         'Altered currentYear is expected value'
@@ -164,7 +164,7 @@ test( 'Decrementing month from January causes year to decrement', function( asse
         component.send( 'changeMonth', -1 );
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentYear' ),
         2014,
         'currentYear is decremented'
@@ -181,7 +181,7 @@ test( 'Incrementing month from December causes year to increment', function( ass
         component.send( 'changeMonth', 1 );
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'currentYear' ),
         2016,
         'currentYear is incremented'
@@ -199,7 +199,7 @@ test( 'daysInMonth - Number of days in month is set correctly', function( assert
         currentYear: 2015
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'daysInMonth' ),
         31,
         '"daysInMonth" is set correctly'
@@ -220,13 +220,13 @@ test( 'daysInMonth - Number of days in month is set correctly', function( assert
 test( 'Decade range is correctly based on currentYear', function( assert ) {
     const component = this.subject({ currentYear: 2023 });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'decadeStart' ),
         2020,
         'decadeStart is expected value'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'decadeEnd' ),
         2029,
         'decadeEnd is expected value'
@@ -236,7 +236,7 @@ test( 'Decade range is correctly based on currentYear', function( assert ) {
 test( 'Months for year view are generated validly', function( assert ) {
     const component = this.subject();
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'monthsInYearView' ).length,
         12,
         'Twelve months are created'
@@ -644,7 +644,7 @@ test( 'weeksInMonthView - set previousMonth when: currentMonth is anything other
     window.moment.restore();
 });
 
-skip( 'weeksInMonthView - set previousMonth when: currentMonth equals 1', function() {
+skip( 'weeksInMonthView - set previousMonth when: currentMonth strictEquals 1', function() {
 });
 
 skip( 'weeksInMonthView - set nextMonth when: currentMonth is anything other than 12', function() {
@@ -659,7 +659,7 @@ skip( 'shortWeekDayNames - returns array of day names in short name format (Su, 
 test( 'Years for decade view are assembled correctly', function( assert ) {
     const component = this.subject();
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'yearsInDecadeView' ).length,
         12,
         'Twelve years were generated for the decade view'

@@ -50,7 +50,7 @@ test( 'Action binding sends action with month', function( assert ) {
         month: 6,
         targetObject: {
             test( month ) {
-                assert.equal(
+                assert.strictEqual(
                     month,
                     6,
                     'Test action fired with expected month'
@@ -77,7 +77,7 @@ test( 'Short name property is invalid without month', function( assert ) {
 test( 'Short name property is defined with valid month', function( assert ) {
     const component = this.subject({ month: 1 });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'shortName' ),
         'Jan',
         'Valid shortName with valid month'
