@@ -23,13 +23,13 @@ test( 'Defaults applied correctly', function( assert ) {
         'Default theme class is applied'
     );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),
         'alert',
         'ARIA role is applied'
     );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'button' ).length,
         0,
         'Dismissable button was not set on default component'
@@ -91,7 +91,7 @@ test( 'Dismissable Button is rendered when set', function( assert ) {
         {{/sl-alert}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'button' ).length,
         1,
         'Dismissable button was rendered'
@@ -132,7 +132,7 @@ test( 'Dismiss Action is not possible when dismissable is false', function( asse
         {{/sl-alert}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'button' ).length,
         0,
         'Dismissable button was not rendered'
