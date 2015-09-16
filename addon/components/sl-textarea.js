@@ -92,8 +92,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     /**
      * The `spellcheck` HTML attribute value
      *
-     * Accepted values "false" (default) or "true".
-     *
      * @type {Boolean}
      */
     spellcheck: false,
@@ -119,5 +117,4 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
 
     // -------------------------------------------------------------------------
     // Methods
-
 });
