@@ -11,29 +11,40 @@ test( 'Default classes are set', function( assert ) {
         {{/sl-loading-icon}}
     ` );
 
-    const wrapper = this.$( '>:first-child' );
-
     assert.ok(
-        wrapper.hasClass( 'sl-loading-icon' ),
+        this.$( '>:first-child' ).hasClass( 'sl-loading-icon' ),
         'Has class "sl-loading-icon"'
     );
 
     assert.ok(
-        wrapper.hasClass( 'sl-loading-icon-dark' ),
+        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-dark' ),
         'Has class "sl-loading-icon-dark"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'span#tagName' ),
+        'tagName renders a span tag'
     );
 });
 
-test( 'Inverse property uses light icon scheme', function( assert ) {
+test( 'Inverse property renders light icon scheme', function( assert ) {
+    this.render( hbs`
+        {{#sl-loading-icon}}
+        {{/sl-loading-icon}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-dark' ),
+        'Inverse renders default scheme "sl-loading-icon-dark" icon'
+    );
+
     this.render( hbs`
         {{#sl-loading-icon inverse=true}}
         {{/sl-loading-icon}}
     ` );
 
-    const wrapper = this.$( '>:first-child' );
-
     assert.ok(
-        wrapper.hasClass( 'sl-loading-icon-light' ),
-        'Has class "sl-loading-icon-light"'
+        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-light' ),
+        'Inverse true renders scheme "sl-loading-icon-light" icon'
     );
 });
