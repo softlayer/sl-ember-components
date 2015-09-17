@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
 
@@ -6,48 +5,35 @@ moduleForComponent( 'sl-drop-option', 'Unit | Component | sl drop option', {
     unit: true
 });
 
-test( 'Has expected initial class name', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'sl-drop-option' ),
-        'Rendered component has class "sl-drop-option"'
-    );
-});
-
-test( 'Has expected aria-role property', function( assert ) {
-    assert.strictEqual(
-        this.$().attr( 'role' ),
-        'menuitem',
-        'ARIA role is properly set to "menuitem"'
-    );
-});
-
-test( 'Option type class value depends on `label` value', function( assert ) {
+test( 'Properties have correct default values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        this.$().hasClass( 'presentation' ),
-        false,
-        'Rendered component initially does not have class "presentation"'
+        component.get( 'data' ),
+        null,
+        'Data property defaults to null'
     );
-
-    assert.ok(
-        this.$().hasClass( 'divider' ),
-        'Rendered component initially has class "divider"'
-    );
-
-    Ember.run( function() {
-        component.set( 'label', 'Test' );
-    });
 
     assert.strictEqual(
-        this.$().hasClass( 'divider' ),
-        false,
-        'Rendered component does not have class "divider"'
+        component.get( 'data' ),
+        null,
+        'Data property defaults to null'
     );
 
-    assert.ok(
-        this.$().hasClass( 'presentation' ),
-        'Rendered compnonet has class "presentation" with valid "label" value'
+    assert.strictEqual(
+        component.get( 'actionContext' ),
+        null,
+        'Actioncontext property defaults to null'
+    );
+});
+
+test( 'Check computed property "optionType" is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.optionType._dependentKeys.join(),
+        'label',
+        '"Optiontype" computed property is observing the correct properties'
     );
 });
 
