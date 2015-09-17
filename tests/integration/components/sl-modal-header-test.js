@@ -68,18 +68,3 @@ test( 'Modal title\'s id is set to ariaLabelledBy property value', function( ass
         this.get( 'ariaLabelledBy' )
     );
 });
-
-test( 'aria-labelledby can be bound in a custom header', function( assert ) {
-    this.set( 'ariaLabelledBy', 'initial value' );
-
-    this.render( hbs`
-        {{#sl-modal-header title=title}}
-            <span class="modal-title" id={{ariaLabelledBy}}>Custom Title</span>
-        {{/sl-modal-header}}
-    ` );
-
-    assert.equal(
-        this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
-        this.get( 'ariaLabelledBy' )
-    );
-});
