@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+    sortProperties: [ 'fruit' ],
+    sortedModel: Ember.computed.sort( 'model', 'sortProperties' ),
+
     actions: {
         rowClick( row ) {
             window.console.log( 'Clicked', row );
@@ -11,10 +14,13 @@ export default Ember.Controller.extend({
         },
 
         sortColumn( column, sortAscending ) {
-            this.setProperties({
-                sortAscending,
-                'sortProperties': [ Ember.get( column, 'valuePath' ) ]
-            });
+            let columnString = column[ 'valuePath' ];
+
+            if ( !sortAscending ) {
+                columnString = `columnString:desc`;
+            }
+
+            this.set( 'sortProperties', [ columnString ] );
         }
     },
 
