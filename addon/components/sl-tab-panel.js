@@ -111,29 +111,31 @@ export default Ember.Component.extend({
     setupTabs: Ember.on(
         'didInsertElement',
         function() {
-            let initialTabName = this.get( 'initialTabName' );
-            const tabs = Ember.A();
+            Ember.run.scheduleOnce( 'afterRender', this, function() {
+                let initialTabName = this.get( 'initialTabName' );
+                const tabs = Ember.A();
 
-            if ( !initialTabName ) {
-                initialTabName = this
-                    .$( '.tab-pane:first' )
-                    .attr( 'data-tab-name' );
-            }
+                if ( !initialTabName ) {
+                    initialTabName = this
+                        .$( '.tab-pane:first' )
+                        .attr( 'data-tab-name' );
+                }
 
-            this.setActiveTab( initialTabName );
-            this.activatePane( initialTabName );
+                this.setActiveTab( initialTabName );
+                this.activatePane( initialTabName );
 
-            this.$( '.tab-pane' ).each( function() {
-                const tabName = this.getAttribute( 'data-tab-name' );
+                this.$( '.tab-pane' ).each( function() {
+                    const tabName = this.getAttribute( 'data-tab-name' );
 
-                tabs.push({
-                    active: tabName === initialTabName,
-                    label: this.getAttribute( 'data-tab-label' ),
-                    name: tabName
+                    tabs.push({
+                        active: tabName === initialTabName,
+                        label: this.getAttribute( 'data-tab-label' ),
+                        name: tabName
+                    });
                 });
-            });
 
-            this.set( 'tabs', tabs );
+                this.set( 'tabs', tabs );
+            });
         }
     ),
 
