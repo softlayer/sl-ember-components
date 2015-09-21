@@ -84,7 +84,7 @@ test( 'Expected default classes are applied', function( assert ) {
 
 test( 'Class property is supported', function( assert ) {
     this.render( hbs`
-        {{#sl-button class='testClass'}}
+        {{#sl-button class="testClass"}}
            Test Button
         {{/sl-button}}
     ` );
@@ -182,7 +182,7 @@ test( 'Label is correct for pending state', function( assert ) {
 
 test( 'Pending class is present when in pending state', function( assert ) {
     this.render( hbs`
-        {{#sl-button pendingLabel='pending' pending=true}}
+        {{#sl-button pendingLabel="pending" pending=true}}
             Default Text
         {{/sl-button}}
     ` );
