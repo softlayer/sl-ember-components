@@ -69,19 +69,6 @@ test( '"tabindex" property is supported', function( assert ) {
     );
 });
 
-test( '"spellcheck" property is supported', function( assert ) {
-    this.render( hbs`
-        {{#sl-textarea spellcheck=true}}
-        {{/sl-textarea}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
-        'true',
-        'Textarea spellcheck attribute is expected value'
-    );
-});
-
 test( '"autofocus" property is supported', function( assert ) {
     this.render( hbs`
         {{#sl-textarea autofocus=true}}
@@ -325,6 +312,65 @@ test( '"selectionEnd" is supported', function( assert ) {
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'selectionEnd' ),
         8,
         'Textarea "selectionEnd" property is expected value'
+    );
+});
+
+test( 'for attribute value on label matches id of textarea', function( assert ) {
+    this.render( hbs`
+        {{sl-textarea label="test label"}}
+    ` );
+
+    assert.equal(
+        this.$( '>:first-child' ).find( 'label' ).attr( 'for' ),
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'id' )
+    );
+});
+
+test( '"spellcheck" property is supported', function( assert ) {
+    this.render( hbs`
+        {{#sl-textarea spellcheck=true}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
+        'true',
+        'Textarea spellcheck attribute is expected value'
+    );
+});
+
+test( '"spellcheck" property is supported with bound values', function( assert ) {
+    this.set( 'spellcheck', true );
+    this.render( hbs`
+        {{#sl-textarea spellcheck=spellcheck}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
+        'true',
+        'Textarea spellcheck attribute is expected value'
+    );
+
+    this.set( 'spellcheck', false );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
+        'false',
+        'Textarea spellcheck attribute is expected value'
+    );
+});
+
+test( '"spellcheck" property defaults correctly', function( assert ) {
+    this.render( hbs`
+        {{#sl-textarea}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
+        'false',
+        'Textarea spellcheck attribute default value is false'
     );
 });
 
