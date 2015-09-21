@@ -468,7 +468,7 @@ test( 'Navigating Forward by Year', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        (currentYear + 1).toString(),
+        ( currentYear + 1 ).toString(),
         'The next year is set correctly'
     );
 });
@@ -495,7 +495,7 @@ test( 'Navigating Backward by Year', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        (currentYear - 1).toString(),
+        ( currentYear - 1 ).toString(),
         'The previous year is set correctly'
     );
 });
