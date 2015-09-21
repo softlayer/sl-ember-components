@@ -219,7 +219,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     const updateSpy = sinon.spy( component, 'updateData' );
     const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         null,
         'Chart is null upon initilization'
@@ -252,7 +252,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
         'highcharts was called once with no parameters'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         chartTest,
         'chart is initialized'

@@ -12,7 +12,7 @@ test( 'The disabled state applies the disabled attribute and class', function( a
         {{/sl-radio-group}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).attr( 'disabled' ),
         'disabled',
         'has "disabled" attribute'
@@ -36,7 +36,7 @@ test( 'The disabled state applies to sl-radio children', function( assert ) {
         {{/sl-radio-group}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'input[disabled]' ).length,
         3,
         'Rendered component has three disabled inputs'
@@ -55,7 +55,7 @@ test( 'The readonly state applies to sl-radio children', function( assert ) {
         {{/sl-radio-group}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'input[readonly]' ).length,
         3,
         'Rendered component has three readonly inputs'
@@ -74,13 +74,13 @@ test( "Inline true sets sl-radio children's inline property to true", function( 
         {{/sl-radio-group}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-radio.radio' ).length,
         0,
         'Rendered component children buttons are not inline'
     );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-radio.radio-inline' ).length,
         3,
         'Rendered component children buttons are inline'
@@ -99,13 +99,13 @@ test( "Inline false sets sl-radio children's inline property to false", function
         {{/sl-radio-group}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-radio.radio-inline' ).length,
         0,
         'Rendered component has zero inline radio buttons'
     );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-radio.radio' ).length,
         3,
         'Rendered component has three default (non-inline) radio buttons'
@@ -130,7 +130,7 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
         radioButton.click();
     });
 
-    assert.equal(
+    assert.strictEqual(
         this.get( 'value' ),
         'eric',
         '"eric" value is selected'
@@ -150,7 +150,7 @@ test( 'Default value gets selected by default', function( assert ) {
         {{/sl-radio-group}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'input[name="testName"]:checked' ).val(),
         'josh',
         'The value "josh" that is set is selected by default'
