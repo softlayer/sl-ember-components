@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
             let columnString = column[ 'valuePath' ];
 
             if ( !sortAscending ) {
-                columnString += ':desc';
+                columnString = `${columnString}:desc`;
             }
 
             this.set( 'sortProperties', [ columnString ] );
