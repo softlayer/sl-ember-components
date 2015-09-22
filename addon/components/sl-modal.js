@@ -138,15 +138,15 @@ export default Ember.Component.extend( StreamEnabled, {
     // Observers
 
     /**
-     * Get ariaLabelledBy target element id
+     * Set ariaLabelledBy target element id
      *
      * @function
      * @returns {undefined}
      */
-    getLabelledby: Ember.on(
-        'willInsertElement',
+    setLabelledby: Ember.on(
+        'init',
         function() {
-            this.set( 'ariaLabelledBy', this.$( '[id^="modalTitle"]' ).attr( 'id' ) );
+            this.set( 'ariaLabelledBy', 'modalTitle-' + this.get( 'elementId' ) );
         }
     ),
 
