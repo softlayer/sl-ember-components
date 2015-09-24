@@ -220,22 +220,29 @@ test( 'themeClass() returns the correct class', function( assert ) {
 });
 
 test( 'sizeClass() returns the correct class', function( assert ) {
-    const sizes = Ember.A([
-        { size: 'extra-small', 'class': 'btn-xs' },
-        { size: 'large', 'class': 'btn-lg' },
-        { size: 'medium', 'class': null },
-        { size: 'small', 'class': 'btn-sm' }
-    ]);
-
+    // clone imported enum
+    const sizes = Ember.copy( SizeEnum );
     const component = this.subject();
 
-    sizes.forEach( ( obj ) => {
-        Ember.run( () => component.set( 'size', obj.size ) );
+    // Set class values on cloned enum, any new values added to imported
+    // enum will cause this test to fail if corresponding class is not set.
+    // This will ensure that this test does not give false positives
+    // for new enum values added.
+    sizes.EXTRA_SMALL = { size: sizes.EXTRA_SMALL, 'class': 'btn-xs' };
+    sizes.LARGE = { size: sizes.LARGE, 'class': 'btn-lg' };
+    sizes.MEDIUM = { size: sizes.MEDIUM, 'class': null };
+    sizes.SMALL = { size: sizes.SMALL, 'class': 'btn-sm' };
+
+    Object.keys( sizes ).forEach( ( key ) => {
+        const size = sizes[ key ].size;
+        const cls = sizes[ key ].class;
+
+        Ember.run( () => component.set( 'size', size ) );
 
         assert.strictEqual(
             component.get( 'sizeClass' ),
-            obj.class,
-            obj.size + ' returned correct value of ' + obj.class
+            cls,
+            size + ' returned correct value of ' + cls
         );
     });
 
