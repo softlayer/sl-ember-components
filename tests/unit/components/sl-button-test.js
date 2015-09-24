@@ -277,4 +277,6 @@ test( 'send() and sendAction() are called when component click() is invoked', fu
         component.sendAction.calledOnce,
         'sendAction was called'
     );
+
+    mockStreamService.send.restore();
 });
