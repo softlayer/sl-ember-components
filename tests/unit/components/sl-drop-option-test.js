@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
 
@@ -11,19 +12,49 @@ test( 'Properties have correct default values', function( assert ) {
     assert.strictEqual(
         component.get( 'data' ),
         null,
-        'Data property defaults to null'
-    );
-
-    assert.strictEqual(
-        component.get( 'data' ),
-        null,
-        'Data property defaults to null'
+        '"Data" property defaults to null'
     );
 
     assert.strictEqual(
         component.get( 'actionContext' ),
         null,
-        'Actioncontext property defaults to null'
+        '"Actioncontext" property defaults to null'
+    );
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'li',
+        '"tagName" property defaults to li'
+    );
+});
+
+test( 'optionType function returns expected values', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'optionType' ),
+        'divider',
+        '"optionType" defaults to "divider" if label isnt set'
+    );
+
+    Ember.run ( () => {
+        component.set( 'label', '' );
+    });
+
+    assert.strictEqual(
+        component.get( 'optionType' ),
+        'divider',
+        '"optionType" returns "divider" if label is false'
+    );
+
+    Ember.run ( () => {
+        component.set( 'label', 'testLabel' );
+    });
+
+    assert.strictEqual(
+        component.get( 'optionType' ),
+        'presentation',
+        '"optionType" returns "presentation" if label is true'
     );
 });
 
