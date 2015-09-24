@@ -1,301 +1,93 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-tab-panel';
+import * as utils from 'sl-ember-components/utils/all';
 import sinon from 'sinon';
 
 moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
-    needs: [
-        'component:sl-tab-pane'
-    ],
-
     unit: true
 });
 
-test( 'Expected default classes are applied', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'sl-tab-panel' ),
-        'Has class "sl-tab-panel"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-align-tabs-left' ),
-        'Has class "sl-align-tabs-left"'
-    );
-});
-
-test( 'setupTabs() does so correctly', function( assert ) {
-    const component = this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        ` )
-    });
-
-    const done = assert.async();
-
-    assert.expect( 5 );
-
-    this.render();
-
-    component.paneFor( 'a' ).queue( () => {
-        assert.equal(
-            this.$( '.tab[data-tab-name]' ).length,
-            3,
-            'Three tabs are rendered'
-        );
-
-        assert.equal(
-            this.$( '.sl-tab-pane[data-tab-name]' ).length,
-            3,
-            'Three tab panes are rendered'
-        );
-
-        assert.equal(
-            Ember.$.trim( this.$( '.sl-tab-pane[data-tab-name="b"]' ).text() ),
-            'B content',
-            'Expected content is present in second tab pane'
-        );
-
-        assert.equal(
-            this.$( '.tab.active[data-tab-name="a"]' ).length,
-            1,
-            'Rendered component has tab "a" as its active tab'
-        );
-
-        assert.equal(
-            this.$( '.sl-tab-pane.active[data-tab-name="a"]' ).length,
-            1,
-            'Rendered component has panel for tab "a" as its active panel'
-        );
-
-        done();
-    });
-});
-
-test( 'ARIA roles are implemented', function( assert ) {
-    this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        ` )
-    });
-
-    assert.equal(
-        this.$( '.nav-tabs[role="tablist"]' ).length,
-        1,
-        'Rendered component has "tablist" ARIA role'
-    );
-
-    assert.equal(
-        this.$( '.tab a[role="tab"]' ).length,
-        3,
-        'Rendered component has three <a> with "tab" ARIA role'
-    );
-});
-
-test( '"initialTabName" property is respected', function( assert ) {
-    const component = this.subject({
-        initialTabName: 'b',
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        ` )
-    });
-
-    const done = assert.async();
-
-    assert.expect( 2 );
-
-    this.render();
-
-    component.paneFor( 'b' ).queue( () => {
-        assert.equal(
-            this.$( '.tab.active[data-tab-name="b"]' ).length,
-            1,
-            'Initial tab is expected "b"'
-        );
-
-        assert.equal(
-            this.$( '.sl-tab-pane.active[data-tab-name="b"]' ).length,
-            1,
-            'Initial tab pane is expected "b"'
-        );
-
-        done();
-    });
-});
-
-test( '"alignTabs" property is respected', function( assert ) {
-    this.subject({
-        alignTabs: 'right'
-    });
-
-    assert.ok(
-        this.$().hasClass( 'sl-align-tabs-right' ),
-        'Tab alignment class is applied'
-    );
-});
-
-test( 'Tabs display in expected order when "alignTabs" property is not specified', function( assert ) {
-    const labels = [];
-
-    this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        ` )
-    });
-
-    this.$( '.tab[data-tab-name]' ).each( function() {
-        labels.push( Ember.$( this ).attr( 'data-tab-name' ) );
-    });
+test( 'Alignment enum values are correct', function( assert ) {
+    const Alignment = {
+        LEFT: 'left',
+        RIGHT: 'right'
+    };
 
     assert.deepEqual(
-        labels,
-        [ 'a', 'b', 'c' ]
+        AlignmentEnum,
+        Alignment
     );
 });
 
-test( 'Clicking tab changes active tab', function( assert ) {
-    const component = this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        ` )
-    });
+test( 'Default values are set correctly', function( assert ) {
+    const component = this.subject();
 
-    const done = assert.async();
+    assert.equal(
+        component.get( 'activeTabName' ),
+        null,
+        'activeTabName is null'
+    );
 
-    assert.expect( 2 );
+    assert.equal(
+        component.get( 'alignTabs' ),
+        AlignmentEnum.LEFT,
+        'alignmentTabs is left by default'
+    );
 
-    this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
+    assert.equal(
+        component.get( 'contentHeight' ),
+        0,
+        'contentHeight is 0 by default'
+    );
 
-    component.paneFor( 'a' ).queue( () => {
-        component.paneFor( 'b' ).queue( () => {
-            assert.equal(
-                this.$( '.tab.active[data-tab-name="b"]' ).length,
-                1
-            );
-
-            assert.equal(
-                this.$( '.sl-tab-pane.active[data-tab-name="b"]' ).length,
-                1
-            );
-
-            done();
-        });
-    });
+    assert.equal(
+        component.get( 'initialTabName' ),
+        null,
+        'initialTabName is null by default'
+    );
 });
 
-test( 'Tab content height is adjusted after new tab selection', function( assert ) {
-    const component = this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}
-                B content<br><br>Taller content
-            {{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        ` )
-    });
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
 
-    const done = assert.async();
-    let initialHeight;
-
-    assert.expect( 1 );
-
-    this.render();
-
-    component.paneFor( 'a' ).queue( () => {
-        initialHeight = this.$( '.tab-content' ).height();
-    });
-
-    component.paneFor( 'b' ).queue( () => {
-        assert.notEqual(
-            initialHeight,
-            this.$( '.tab-content' ).height()
-        );
-
-        done();
-    });
-
-    this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
+    assert.deepEqual(
+        component.tabAlignmentClass._dependentKeys,
+        [ 'alignTabs' ]
+    );
 });
 
-test( '"activatePane" animates as expected', function( assert ) {
-    const component = this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-        ` )
-    });
+test( 'tabAlignmentClass() returns the correct value', function( assert ) {
+    const component = this.subject();
 
-    const spy = sinon.spy( Ember.$.prototype, 'fadeIn' );
-    const done = assert.async();
+    component.set( 'alignTabs', 'left' );
 
-    this.render();
+    assert.equal(
+        component.get( 'tabAlignmentClass' ),
+        'sl-align-tabs-left',
+        'Correct string returned for value of left'
+    );
 
-    assert.expect( 1 );
+    component.set( 'alignTabs', 'right' );
 
-    component.paneFor( 'a' ).queue( () => {
-        assert.equal(
-            spy.calledOnce,
-            true
-        );
-        done();
-    });
+    assert.equal(
+        component.get( 'tabAlignmentClass' ),
+        'sl-align-tabs-right',
+        'Correct string returned for value of right'
+    );
+
+    const spy = sinon.spy( utils, 'warn' );
+
+    component.set( 'alignTabs', 'Invalid value' );
+    component.get( 'tabAlignmentClass' );
+
+    assert.ok(
+        spy.calledOnce,
+        'warn() was called when invalid alignment class was provided'
+    );
 });
 
-test( '"deactivatePane" animates as expected', function( assert ) {
-    const component = this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-        ` )
-    });
-    const spy = sinon.spy( Ember.$.prototype, 'fadeOut' );
-    const done = assert.async();
+test( 'tabFor() returns the correct element', function( assert ) {
+    const component = this.subject();
 
-    assert.expect( 1 );
-
-    this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
-
-    component.paneFor( 'a' ).queue( () => {
-        component.paneFor( 'b' ).queue( () => {
-            assert.equal(
-                spy.calledOnce,
-                true
-            );
-            done();
-        });
-    });
 });
 
-test( '"deactivatePane" calls specified callback', function( assert ) {
-    const component = this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-        ` )
-    });
-
-    const callback = sinon.spy();
-    const done = assert.async();
-
-    this.render();
-
-    assert.expect( 1 );
-
-    component.deactivatePane( callback );
-
-    component.paneFor( 'a' ).queue( () => {
-        assert.equal(
-            callback.calledOnce,
-            true
-        );
-        done();
-    });
-});
