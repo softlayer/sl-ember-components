@@ -255,6 +255,8 @@ test( 'sizeClass() returns the correct class', function( assert ) {
         spy.calledOnce,
         'warn() was called when invalid size was set'
     );
+
+    utils.warn.restore();
 });
 
 test( 'send() and sendAction() are called when component click() is invoked', function( assert ) {
