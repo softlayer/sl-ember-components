@@ -9,6 +9,8 @@ We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softl
 
 [![Stories in Ready](https://badge.waffle.io/softlayer/sl-ember-components.png?label=ready&title=Ready)](https://waffle.io/softlayer/sl-ember-components) [![Stories in In Progress](https://badge.waffle.io/softlayer/sl-ember-components.png?label=in%20progress&title=In%20Progress)](https://waffle.io/softlayer/sl-ember-components) [![Stories in Ready For Review](https://badge.waffle.io/softlayer/sl-ember-components.png?label=ready%20for%20review&title=Ready%20For%20Review)](https://waffle.io/softlayer/sl-ember-components) [![Stories in In Review](https://badge.waffle.io/softlayer/sl-ember-components.png?label=in%20review&title=In%20Review)](https://waffle.io/softlayer/sl-ember-components)
 
+[![Throughput Graph](https://graphs.waffle.io/softlayer/sl-ember-components/throughput.svg)](https://waffle.io/softlayer/sl-ember-components/metrics)
+
 
 
 ### Is currently in BETA
