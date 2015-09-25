@@ -84,10 +84,6 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
         spy.calledOnce,
         'warn() was called when invalid alignment class was provided'
     );
+
+    utils.warn.restore();
 });
-
-test( 'tabFor() returns the correct element', function( assert ) {
-    const component = this.subject();
-
-});
-

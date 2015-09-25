@@ -104,6 +104,7 @@ test( '"initialTabName" property is respected', function( assert ) {
     const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
     const done = assert.async();
 
+    // queue asserts after animation
     tabPaneB.queue( () => {
         assert.equal(
             wrapper.find( '.tab.active[data-tab-name="b"]' ).length,
@@ -111,7 +112,6 @@ test( '"initialTabName" property is respected', function( assert ) {
             'Initial tab is expected "b"'
         );
 
-        // queue asserts after animation
         assert.ok(
             tabPaneB.hasClass( 'active' ),
             'Initial tab pane is expected "b"'
@@ -204,6 +204,7 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
 
     wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
+    // queue assert after animation
     tabPaneA.queue( () => {
         const initialHeight = wrapper.find( '.tab-content' ).height();
 
@@ -231,6 +232,7 @@ test( '"activatePane" animates as expected', function( assert ) {
 
     assert.expect( 1 );
 
+    // queue assert after animation
     component.paneFor( 'a' ).queue( () => {
         assert.equal(
             spy.calledOnce,
@@ -253,6 +255,7 @@ test( '"deactivatePane" animates as expected', function( assert ) {
 
     this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
+    // queue assert after animation
     tabPaneA.queue( () => {
         tabPaneB.queue( () => {
             assert.equal(
