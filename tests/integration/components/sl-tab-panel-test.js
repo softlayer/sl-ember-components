@@ -31,6 +31,7 @@ test( 'Expected default classes are applied', function( assert ) {
 
 test( 'setupTabs() does so correctly', function( assert ) {
     assert.expect( 5 );
+
     this.render( template );
 
     const wrapper = this.$( '>:first-child' );
@@ -122,10 +123,9 @@ test( '"initialTabName" property is respected', function( assert ) {
 });
 
 test( 'Tabs display in expected order when "alignTabs" property is not specified', function( assert ) {
-    const labels = [];
-
     this.render( template );
 
+    const labels = [];
     const wrapper = this.$( '>:first-child' );
 
     wrapper.find( '.tab[data-tab-name]' ).each( function() {
@@ -156,13 +156,14 @@ test( '"alignTabs" property is respected', function( assert ) {
 });
 
 test( 'Clicking tab changes active tab', function( assert ) {
+    assert.expect( 2 );
+
     this.render( template );
 
     const wrapper = this.$( '>:first-child' );
     const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
     const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
 
-    assert.expect( 2 );
     const done = assert.async();
 
     wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
@@ -186,6 +187,7 @@ test( 'Clicking tab changes active tab', function( assert ) {
 
 test( 'Tab content height is adjusted after new tab selection', function( assert ) {
     assert.expect( 1 );
+
     const done = assert.async();
 
     this.render( `hbs
@@ -218,6 +220,8 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
     });
 });
 test( '"activatePane" animates as expected', function( assert ) {
+    assert.expect( 1 );
+
     const component = this.subject({
         template: Ember.Handlebars.compile( `
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
@@ -230,7 +234,6 @@ test( '"activatePane" animates as expected', function( assert ) {
 
     this.render();
 
-    assert.expect( 1 );
 
     // queue assert after animation
     component.paneFor( 'a' ).queue( () => {
@@ -243,6 +246,8 @@ test( '"activatePane" animates as expected', function( assert ) {
 });
 
 test( '"deactivatePane" animates as expected', function( assert ) {
+    assert.expect( 1 );
+
     this.render( template );
 
     const spy = sinon.spy( Ember.$.prototype, 'fadeOut' );
@@ -251,7 +256,6 @@ test( '"deactivatePane" animates as expected', function( assert ) {
     const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
     const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
 
-    assert.expect( 1 );
 
     this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
