@@ -19,23 +19,3 @@ test( 'Default property values are set', function( assert ) {
         '"tagName" property defaults to span'
     );
 });
-
-test( 'Inverse value is supported', function( assert ) {
-    const component = this.subject({ inverse: true });
-
-    assert.strictEqual(
-        component.get( 'inverse' ),
-        true,
-        '"inverse" property is set to true, thus suppported'
-    );
-});
-
-test( 'tagName value is supported', function( assert ) {
-    const component = this.subject({ tagName: 'a' });
-
-    assert.strictEqual(
-        component.get( 'tagName' ),
-        'a',
-        '"tagName" property is set to "a", thus suppported'
-    );
-});
