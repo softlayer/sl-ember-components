@@ -113,10 +113,8 @@ test( 'if label is present and icon is set icon image tag is rendered with sampl
     );
 });
 
-test( 'Action fires when day is clicked', function( assert ) {
+test( 'Action is wired into template hyperlink tag', function( assert ) {
     assert.expect( 1 );
-
-    this.set( 'testDataObject', { testProp: 'testValue'});
 
     this.render( hbs`
         {{sl-drop-option action="testAction" label="test"}}
