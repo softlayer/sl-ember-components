@@ -112,3 +112,22 @@ test( 'if label is present and icon is set icon image tag is rendered with sampl
         'Icon is present with correct path and img tag is rendered with same path'
     );
 });
+
+test( 'Action fires when day is clicked', function( assert ) {
+    assert.expect( 1 );
+
+    this.set( 'testDataObject', { testProp: 'testValue'});
+
+    this.render( hbs`
+        {{sl-drop-option action="testAction" label="test"}}
+    ` );
+
+    this.on( 'testAction', () => {
+        assert.ok(
+            true,
+            'The test action was called'
+        );
+    });
+
+    this.$( '>:first-child' ).find( 'a' ).click();
+});
