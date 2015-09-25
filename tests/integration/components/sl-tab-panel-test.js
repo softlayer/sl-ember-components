@@ -93,6 +93,8 @@ test( 'ARIA roles are implemented', function( assert ) {
 });
 
 test( '"initialTabName" property is respected', function( assert ) {
+    assert.expect( 2 );
+
     this.render( hbs `
         {{#sl-tab-panel initialTabName='b'}}
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
@@ -219,24 +221,21 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
         });
     });
 });
+
 test( '"activatePane" animates as expected', function( assert ) {
     assert.expect( 1 );
 
-    const component = this.subject({
-        template: Ember.Handlebars.compile( `
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
-        ` )
-    });
+    this.render( template );
 
     const spy = sinon.spy( Ember.$.prototype, 'fadeIn' );
     const done = assert.async();
+    const wrapper = this.$( '>:first-child' );
+    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
 
-    this.render();
-
+    wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
     // queue assert after animation
-    component.paneFor( 'a' ).queue( () => {
+    tabPaneA.queue( () => {
         assert.equal(
             spy.calledOnce,
             true
@@ -256,8 +255,7 @@ test( '"deactivatePane" animates as expected', function( assert ) {
     const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
     const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
 
-
-    this.$( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
+    wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
     // queue assert after animation
     tabPaneA.queue( () => {
@@ -269,5 +267,4 @@ test( '"deactivatePane" animates as expected', function( assert ) {
             done();
         });
     });
-
 });
