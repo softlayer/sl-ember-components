@@ -7,8 +7,7 @@ moduleForComponent( 'sl-loading-icon', 'Integration | Component | sl loading ico
 
 test( 'Default classes are set', function( assert ) {
     this.render( hbs`
-        {{#sl-loading-icon}}
-        {{/sl-loading-icon}}
+        {{sl-loading-icon}}
     ` );
 
     assert.ok(
@@ -29,8 +28,7 @@ test( 'Default classes are set', function( assert ) {
 
 test( 'Inverse property renders light icon scheme', function( assert ) {
     this.render( hbs`
-        {{#sl-loading-icon}}
-        {{/sl-loading-icon}}
+        {{sl-loading-icon}}
     ` );
 
     assert.ok(
@@ -38,13 +36,22 @@ test( 'Inverse property renders light icon scheme', function( assert ) {
         'Inverse renders default scheme "sl-loading-icon-dark" icon'
     );
 
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-light' ),
+        'Inverse true renders scheme "sl-loading-icon-light" icon'
+    );
+
     this.render( hbs`
-        {{#sl-loading-icon inverse=true}}
-        {{/sl-loading-icon}}
+        {{sl-loading-icon inverse=true}}
     ` );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'sl-loading-icon-light' ),
         'Inverse true renders scheme "sl-loading-icon-light" icon'
+    );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-dark' ),
+        'Inverse renders default scheme "sl-loading-icon-dark" icon'
     );
 });
