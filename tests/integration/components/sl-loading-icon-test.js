@@ -19,11 +19,6 @@ test( 'Default classes are set', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'sl-loading-icon-dark' ),
         'Has class "sl-loading-icon-dark"'
     );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'span#tagName' ),
-        'tagName renders a span tag'
-    );
 });
 
 test( 'Inverse property renders light icon scheme', function( assert ) {
