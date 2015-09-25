@@ -241,7 +241,9 @@ test( '"activatePane" animates as expected', function( assert ) {
             true
         );
         done();
+        Ember.$.prototype.fadeIn.restore();
     });
+
 });
 
 test( '"deactivatePane" animates as expected', function( assert ) {
@@ -265,6 +267,8 @@ test( '"deactivatePane" animates as expected', function( assert ) {
                 true
             );
             done();
+            Ember.$.prototype.fadeOut.restore();
         });
     });
+
 });
