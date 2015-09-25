@@ -84,9 +84,15 @@ test( 'label is present thus hyperlink tag is rendered', function( assert ) {
         'menuitem',
         'Hyperlink is rendered if label is set'
     );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'a' ).text().trim(),
+        'test',
+        'Hyperlink text is that of label value'
+    );
 });
 
-test( 'if label is present and icon is set icon image tag is renedred with sample path', function( assert ) {
+test( 'if label is present and icon is set icon image tag is rendered with sample path', function( assert ) {
     this.render( hbs`
         {{sl-drop-option label="test"}}
     ` );
