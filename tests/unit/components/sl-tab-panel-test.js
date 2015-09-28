@@ -105,13 +105,11 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
 });
 
 test( 'paneFor() returns the correct DOM element', function( assert ) {
-
     this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
     });
-
 
     this.render();
 
@@ -131,7 +129,6 @@ test( 'tabFor() returns the correct DOM element', function( assert ) {
     const component = this.subject({
         templateName: 'test-template'
     });
-
 
     this.render();
 
