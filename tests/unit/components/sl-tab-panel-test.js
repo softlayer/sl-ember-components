@@ -22,25 +22,25 @@ test( 'Alignment enum values are correct', function( assert ) {
 test( 'Default values are set correctly', function( assert ) {
     const component = this.subject();
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'activeTabName' ),
         null,
         'activeTabName is null'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'alignTabs' ),
         AlignmentEnum.LEFT,
         'alignmentTabs is left by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'contentHeight' ),
         0,
         'contentHeight is 0 by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'initialTabName' ),
         null,
         'initialTabName is null by default'
@@ -61,7 +61,7 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
 
     component.set( 'alignTabs', 'left' );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'tabAlignmentClass' ),
         'sl-align-tabs-left',
         'Correct string returned for value of left'
@@ -69,7 +69,7 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
 
     component.set( 'alignTabs', 'right' );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'tabAlignmentClass' ),
         'sl-align-tabs-right',
         'Correct string returned for value of right'
