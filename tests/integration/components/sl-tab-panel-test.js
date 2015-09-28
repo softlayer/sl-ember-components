@@ -3,7 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-const template = hbs `
+const template = hbs`
     {{#sl-tab-panel}}
         {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
         {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
@@ -18,13 +18,15 @@ moduleForComponent( 'sl-tab-panel', 'Integration | Component | sl tab panel', {
 test( 'Expected default classes are applied', function( assert ) {
     this.render( template );
 
+    const wrapper = this.$( '>:first-child' );
+
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-tab-panel' ),
+        wrapper.hasClass( 'sl-tab-panel' ),
         'Has class "sl-tab-panel"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-align-tabs-left' ),
+        wrapper.hasClass( 'sl-align-tabs-left' ),
         'Has class "sl-align-tabs-left"'
     );
 });
@@ -95,7 +97,7 @@ test( 'ARIA roles are implemented', function( assert ) {
 test( '"initialTabName" property is respected', function( assert ) {
     assert.expect( 2 );
 
-    this.render( hbs `
+    this.render( hbs`
         {{#sl-tab-panel initialTabName='b'}}
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
             {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
@@ -141,7 +143,7 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
 });
 
 test( '"alignTabs" property is respected', function( assert ) {
-    this.render( hbs `
+    this.render( hbs`
         {{#sl-tab-panel alignTabs='right'}}
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
             {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
@@ -193,7 +195,7 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
 
     const done = assert.async();
 
-    this.render( `hbs
+    this.render( hbs`
         {{#sl-tab-panel}}
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
             {{#sl-tab-pane label="B" name="b"}}
