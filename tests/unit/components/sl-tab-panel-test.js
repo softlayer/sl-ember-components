@@ -1,10 +1,26 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-tab-panel';
 import * as utils from 'sl-ember-components/utils/all';
 import sinon from 'sinon';
 
+const template = `
+    {{#sl-tab-pane label="One" name="one"}}
+        One
+    {{/sl-tab-pane}}
+
+    {{#sl-tab-pane label="Two" name="two"}}
+        Two
+    {{/sl-tab-pane}}
+
+    {{#sl-tab-pane label="Three" name="three"}}
+        Three
+    {{/sl-tab-pane}}
+`;
+
 moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
-    unit: true
+    unit: true,
+    needs: [ 'component:sl-tab-pane' ]
 });
 
 test( 'Alignment enum values are correct', function( assert ) {
@@ -86,4 +102,45 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
     );
 
     utils.warn.restore();
+});
+
+test( 'paneFor() returns the correct DOM element', function( assert ) {
+
+    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+
+    const component = this.subject({
+        templateName: 'test-template'
+    });
+
+
+    this.render();
+
+    const tab = 'two';
+    const pane = component.paneFor( tab );
+
+    assert.ok(
+        pane.is( $( `.tab-pane[data-tab-name="${ tab }"]` ) )
+    );
+
+    this.registry.unregister( 'template:test-template' );
+});
+
+test( 'tabFor() returns the correct DOM element', function( assert ) {
+    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+
+    const component = this.subject({
+        templateName: 'test-template'
+    });
+
+
+    this.render();
+
+    const tab = 'two';
+    const pane = component.tabFor( tab );
+
+    assert.ok(
+        pane.is( $( `.tab[data-tab-name="${ tab }"]` ) )
+    );
+
+    this.registry.unregister( 'template:test-template' );
 });
