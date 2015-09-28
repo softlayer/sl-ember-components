@@ -2,6 +2,19 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
+import { Wrap as WrapEnum } from 'sl-ember-components/components/sl-textarea';
+import { Direction as DirectionEnum } from 'sl-ember-components/components/sl-textarea';
+
+const Direction = {
+    BACKWARD: 'backward',
+    FORWARD: 'forward',
+    NONE: 'none'
+};
+
+const Wrap = {
+    HARD: 'hard',
+    SOFT: 'soft'
+};
 
 moduleForComponent( 'sl-textarea', 'Unit | Component | sl textarea', {
     unit: true
@@ -53,7 +66,7 @@ test( 'Correct default property values', function( assert ) {
 
     assert.strictEqual(
         component.get( 'spellcheck' ),
-        'default',
+        false,
         'Default property "spellcheck" is null'
     );
 
@@ -67,5 +80,17 @@ test( 'Correct default property values', function( assert ) {
         component.get( 'wrap' ),
         'soft',
         'Default property "wrap" is null'
+    );
+
+    assert.deepEqual(
+        WrapEnum,
+        Wrap,
+        'Wrap enum values are correct'
+    );
+
+    assert.deepEqual(
+        DirectionEnum,
+        Direction,
+        'Direction enum values are correct'
     );
 });

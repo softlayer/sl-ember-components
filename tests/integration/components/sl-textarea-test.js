@@ -7,7 +7,7 @@ moduleForComponent( 'sl-textarea', 'Integration | Component | sl textarea', {
     integration: true
 });
 
-test( 'Default classes are applied', function( assert ) {
+test( 'Default applied correctly', function( assert ) {
     this.render( hbs`
         {{#sl-textarea}}
         {{/sl-textarea}}
@@ -31,6 +31,7 @@ test( 'Default classes are applied', function( assert ) {
 
 test( '"value" property is supported', function( assert ) {
     this.set( 'value', 'testBoundValue' );
+
     this.render( hbs`
         {{#sl-textarea value=value}}
         {{/sl-textarea}}
@@ -40,6 +41,14 @@ test( '"value" property is supported', function( assert ) {
         this.$( '>:first-child' ).find( 'textarea' ).val(),
         this.get( 'value' ),
         'Text area value is expected value'
+    );
+
+    this.$( '>:first-child' ).find( 'textarea' ).val( 'adding sample test' );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).val(),
+        'adding sample test',
+        'Entered text sets the correct value'
     );
 });
 
@@ -74,6 +83,7 @@ test( '"autofocus" property is supported', function( assert ) {
         {{#sl-textarea autofocus=true}}
         {{/sl-textarea}}
     ` );
+
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'autofocus' ),
         'autofocus',
@@ -159,6 +169,7 @@ test( '"rows" property is supported', function( assert ) {
 
 test( '"helpText" is rendered if populated', function( assert ) {
     this.set( 'helpText', 'Help Text' );
+
     this.render( hbs`
         {{#sl-textarea helpText=helpText}}
         {{/sl-textarea}}
@@ -183,8 +194,8 @@ test( 'If "helpText" is not populated, it is not rendered', function( assert ) {
         {{/sl-textarea}}
     ` );
 
-    assert.ok(
-        !this.$( '>:first-child' ).hasClass( 'help-block' ),
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'help-block' ),
         'Help text block is not rendered'
     );
 });
@@ -219,20 +230,20 @@ test(
         assert.strictEqual(
             this.$( '>:first-child' ).find( 'label > .text-info' ).length,
             0,
-            "Label's text-info is not rendered"
+            'Label text-info is not rendered'
         );
 
         assert.strictEqual(
             this.$( '>:first-child' ).find( 'label > .text-danger' ).length,
             0,
-            "Label's text-danger is not rendered"
+            'Label text-danger is not rendered'
         );
     }
 );
 
 test( 'If "label" property is not populated, label element is not rendered', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea label=""}}
+        {{#sl-textarea}}
         {{/sl-textarea}}
     ` );
 
@@ -260,7 +271,7 @@ test( 'If "label" property is populated, label element is rendered', function( a
     );
 
     assert.strictEqual(
-        Ember.$.trim( label.text() ),
+        label.text().trim(),
         'test',
         'Label text is expected value'
     );
@@ -273,6 +284,7 @@ test( 'If "label" property is populated, label element is rendered', function( a
 
 test( 'If "label" property is populated, "for" attribute is expected value', function( assert ) {
     this.set( 'label', 'Test Label' );
+
     this.render( hbs`
         {{#sl-textarea label=label}}
         {{/sl-textarea}}
@@ -282,36 +294,6 @@ test( 'If "label" property is populated, "for" attribute is expected value', fun
         this.$( '>:first-child' ).find( 'label' ).prop( 'for' ),
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'id' ),
         'Label "for" property matches textarea\'s "id" property'
-    );
-});
-
-test( '"selectionStart" is supported', function( assert ) {
-    this.render( hbs`
-        {{#sl-textarea selectionStart=2 value="testValue"}}
-        {{/sl-textarea}}
-    ` );
-
-    this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).setSelectionRange( 2, 8 );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).prop( 'selectionStart' ),
-        2,
-        'Textarea "selectionStart" property is expected value'
-    );
-});
-
-test( '"selectionEnd" is supported', function( assert ) {
-    this.render( hbs`
-        {{#sl-textarea selectionEnd=8 value="testValue"}}
-        {{/sl-textarea}}
-    ` );
-
-    this.$( '>:first-child' ).find( 'textarea' ).get( 0 ).setSelectionRange( 2, 8 );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).prop( 'selectionEnd' ),
-        8,
-        'Textarea "selectionEnd" property is expected value'
     );
 });
 
@@ -341,6 +323,7 @@ test( '"spellcheck" property is supported', function( assert ) {
 
 test( '"spellcheck" property is supported with bound values', function( assert ) {
     this.set( 'spellcheck', true );
+
     this.render( hbs`
         {{#sl-textarea spellcheck=spellcheck}}
         {{/sl-textarea}}
@@ -374,5 +357,45 @@ test( '"spellcheck" property defaults correctly', function( assert ) {
     );
 });
 
+test( '"Title" capabilities are supported', function( assert ) {
+    this.render( hbs`
+        {{#sl-textarea title="Test title"}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'title' ),
+        'Rendered title successfully'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'data-original-title' ),
+        'Test title',
+        'Title capabilites are supported'
+    );
+});
+
+test( '"Popover" capabilities are supported', function( assert ) {
+    this.render( hbs`
+        {{#sl-textarea popover="Test popover" dataTrigger="hover"}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'popover' ),
+        'Rendered popover successfully'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).data( 'bs.popover' ).options.content,
+        'Test popover',
+        'Popover capabilites are supported'
+    );
+});
+
 // This test requires full browser support, Issue #719 opened.
 skip( 'selectionDirection is supported' );
+
+// This tests will be implemented separately, Issue #803 opened.
+skip( '"selectionStart" is supported' );
+skip( '"selectionEnd" is supported' );
