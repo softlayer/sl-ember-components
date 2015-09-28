@@ -182,6 +182,7 @@ test( 'Clicking tab changes active tab', function( assert ) {
                 wrapper.find( '.sl-tab-pane.active[data-tab-name="b"]' ).length,
                 1
             );
+
             done();
         });
     });
@@ -240,6 +241,7 @@ test( '"activatePane" animates as expected', function( assert ) {
             spy.calledOnce,
             true
         );
+
         done();
         Ember.$.prototype.fadeIn.restore();
     });
@@ -265,6 +267,7 @@ test( '"deactivatePane" animates as expected', function( assert ) {
                 spy.calledOnce,
                 true
             );
+
             done();
             Ember.$.prototype.fadeOut.restore();
         });
