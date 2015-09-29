@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -7,10 +6,9 @@ moduleForComponent( 'sl-textarea', 'Integration | Component | sl textarea', {
     integration: true
 });
 
-test( 'Default applied correctly', function( assert ) {
+test( 'Default classes applied correctly', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea}}
-        {{/sl-textarea}}
+        {{sl-textarea}}
     ` );
 
     assert.ok(
@@ -33,137 +31,219 @@ test( '"value" property is supported', function( assert ) {
     this.set( 'value', 'testBoundValue' );
 
     this.render( hbs`
-        {{#sl-textarea value=value}}
-        {{/sl-textarea}}
+        {{sl-textarea value=value}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).val(),
         this.get( 'value' ),
-        'Text area value is expected value'
+        '"Value" property has expected value'
     );
 
-    this.$( '>:first-child' ).find( 'textarea' ).val( 'adding sample test' );
+    this.set( 'value', 'textInputValue' );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).val(),
-        'adding sample test',
-        'Entered text sets the correct value'
+        this.get( 'value' ),
+        '"Value" property is settable'
     );
 });
 
 test( '"wrap" property is supported', function( assert ) {
+    this.set( 'wrap', 'hard' );
+
     this.render( hbs`
-        {{#sl-textarea wrap="hard"}}
-        {{/sl-textarea}}
+        {{sl-textarea wrap=wrap}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'wrap' ),
-        'hard',
-        'Textarea wrap attribute is expected value'
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'wrap' ),
+        this.get( 'wrap' ),
+        '"Wrap" property has expected value'
+    );
+
+    this.set( 'wrap', 'soft' );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'wrap' ),
+        this.get( 'wrap' ),
+        '"Wrap" property is settable'
     );
 });
 
 test( '"tabindex" property is supported', function( assert ) {
+    this.set( 'tabindex', 2 );
+
     this.render( hbs`
-        {{#sl-textarea tabindex="2"}}
-        {{/sl-textarea}}
+        {{sl-textarea tabindex=tabindex}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'tabindex' ),
-        '2',
-        'Textarea tabindex attribute is expected value'
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'tabindex' ),
+        this.get( 'tabindex' ),
+        '"Tabindex" property has expected value'
+    );
+
+    this.set( 'tabindex', 1 );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'tabindex' ),
+        this.get( 'tabindex' ),
+        '"Tabindex" property is settable'
     );
 });
 
 test( '"autofocus" property is supported', function( assert ) {
+    this.set( 'autofocus', true );
+
     this.render( hbs`
-        {{#sl-textarea autofocus=true}}
-        {{/sl-textarea}}
+        {{sl-textarea autofocus=autofocus}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'autofocus' ),
-        'autofocus',
-        'Textarea autofocus attribute is present'
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'autofocus' ),
+        this.get( 'autofocus' ),
+        '"Autofocus" property has expected value'
+    );
+
+    this.set( 'autofocus', false );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'autofocus' ),
+        this.get( 'autofocus' ),
+        '"Autofocus" property is settable'
     );
 });
 
 test( '"cols" property is supported', function( assert ) {
+    this.set( 'cols', 8 );
+
     this.render( hbs`
-        {{#sl-textarea cols="8"}}
-        {{/sl-textarea}}
+        {{sl-textarea cols=cols}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'cols' ),
-        '8',
-        'Textarea cols attribute is expected value'
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'cols' ),
+        this.get( 'cols' ),
+        '"Cols" property has expected value'
+    );
+
+    this.set( 'cols', 7 );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'cols' ),
+        this.get( 'cols' ),
+        '"cols" property is settable'
     );
 });
 
 test( '"disabled" property is supported', function( assert ) {
+    this.set( 'disabled', true );
+
     this.render( hbs`
-        {{#sl-textarea disabled=true}}
-        {{/sl-textarea}}
+        {{sl-textarea disabled=disabled}}
     ` );
 
-    assert.ok(
-        this.$( '>:first-child' ).find( 'textarea' ).is( ':disabled' ),
-        'Textarea is disabled as expected'
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'disabled' ),
+        this.get( 'disabled' ),
+        '"Disabled" property has expected value'
+    );
+
+    this.set( 'disabled', false );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'disabled' ),
+        this.get( 'disabled' ),
+        '"Disabled" property is settable'
     );
 });
 
 test( '"maxlength" property is supported', function( assert ) {
+    this.set( 'maxlength', 12 );
+
     this.render( hbs`
-        {{#sl-textarea maxlength="12"}}
-        {{/sl-textarea}}
+        {{sl-textarea maxlength=maxlength}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'maxlength' ),
-        '12',
-        'Textarea maxlength attribute is expected value'
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'maxlength' ),
+        this.get( 'maxlength' ),
+        '"Maxlength" property has expected value'
+    );
+
+    this.set( 'maxlength', 11 );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'maxlength' ),
+        this.get( 'maxlength' ),
+        '"Maxlength" property is settable'
     );
 });
 
 test( '"placeholder" property is supported', function( assert ) {
+    this.set( 'placeholder', 'placeholder text' );
+
     this.render( hbs`
-        {{#sl-textarea placeholder="placeholder text"}}
-        {{/sl-textarea}}
+        {{sl-textarea placeholder=placeholder}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'placeholder' ),
-        'placeholder text',
-        'Textarea placeholder attribute is expected value'
+        this.get( 'placeholder' ),
+        '"Placeholder" property has expected value'
+    );
+
+    this.set( 'placeholder', 'placeholder text two' );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'placeholder' ),
+        this.get( 'placeholder' ),
+        '"Placeholder" property is settable'
     );
 });
 
 test( '"readonly" property is supported', function( assert ) {
+    this.set( 'readonly', true );
+
     this.render( hbs`
-        {{#sl-textarea readonly=true}}
-        {{/sl-textarea}}
+        {{sl-textarea readonly=readonly}}
     ` );
 
-    assert.ok(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'readonly' ),
-        'Textarea is readonly as expected'
+        this.get( 'readonly' ),
+        '"Readonly" property has expected value'
+    );
+
+    this.set( 'readonly', false );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'readonly' ),
+        this.get( 'readonly' ),
+        '"Readonly" property is settable'
     );
 });
 
 test( '"rows" property is supported', function( assert ) {
+    this.set( 'rows', 4 );
+
     this.render( hbs`
-        {{#sl-textarea rows="4"}}
-        {{/sl-textarea}}
+        {{sl-textarea rows=rows}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'rows' ),
-        '4',
-        'Textarea rows attribute is expected value'
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'rows' ),
+        this.get( 'rows' ),
+        '"Rows" property has expected value'
+    );
+
+    this.set( 'rows', 5 );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'rows' ),
+        this.get( 'rows' ),
+        '"Readonly" property is settable'
     );
 });
 
@@ -171,8 +251,7 @@ test( '"helpText" is rendered if populated', function( assert ) {
     this.set( 'helpText', 'Help Text' );
 
     this.render( hbs`
-        {{#sl-textarea helpText=helpText}}
-        {{/sl-textarea}}
+        {{sl-textarea helpText=helpText}}
     ` );
 
     assert.strictEqual(
@@ -182,7 +261,7 @@ test( '"helpText" is rendered if populated', function( assert ) {
     );
 
     assert.strictEqual(
-        Ember.$.trim( this.$( '>:first-child' ).find( '.help-block' ).text() ),
+        this.$( '>:first-child' ).find( '.help-block' ).text().trim(),
         this.get( 'helpText' ),
         'Help text block text is expected value'
     );
@@ -190,8 +269,7 @@ test( '"helpText" is rendered if populated', function( assert ) {
 
 test( 'If "helpText" is not populated, it is not rendered', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea}}
-        {{/sl-textarea}}
+        {{sl-textarea}}
     ` );
 
     assert.notOk(
@@ -202,8 +280,7 @@ test( 'If "helpText" is not populated, it is not rendered', function( assert ) {
 
 test( '"optional" and "required" elements are rendered if populated along with "label" property', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea label="Test Label" optional=true required=true}}
-        {{/sl-textarea}}
+        {{sl-textarea label="Test Label" optional=true required=true}}
     ` );
 
     assert.strictEqual(
@@ -223,8 +300,7 @@ test(
     'If "label" property is not populated, "optional" and "required" elements are not rendered even if populated',
     function( assert ) {
         this.render( hbs`
-            {{#sl-textarea optional=true required=true}}
-            {{/sl-textarea}}
+            {{sl-textarea optional=true required=true}}
         ` );
 
         assert.strictEqual(
@@ -243,8 +319,7 @@ test(
 
 test( 'If "label" property is not populated, label element is not rendered', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea}}
-        {{/sl-textarea}}
+        {{sl-textarea}}
     ` );
 
     assert.strictEqual(
@@ -256,8 +331,7 @@ test( 'If "label" property is not populated, label element is not rendered', fun
 
 test( 'If "label" property is populated, label element is rendered', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea label="test"}}
-        {{/sl-textarea}}
+        {{sl-textarea label="test"}}
     ` );
 
     const label = this.$(
@@ -286,8 +360,7 @@ test( 'If "label" property is populated, "for" attribute is expected value', fun
     this.set( 'label', 'Test Label' );
 
     this.render( hbs`
-        {{#sl-textarea label=label}}
-        {{/sl-textarea}}
+        {{sl-textarea label=label}}
     ` );
 
     assert.strictEqual(
@@ -308,25 +381,11 @@ test( 'for attribute value on label matches id of textarea', function( assert ) 
     );
 });
 
-test( '"spellcheck" property is supported', function( assert ) {
-    this.render( hbs`
-        {{#sl-textarea spellcheck=true}}
-        {{/sl-textarea}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
-        'true',
-        'Textarea spellcheck attribute is expected value'
-    );
-});
-
 test( '"spellcheck" property is supported with bound values', function( assert ) {
     this.set( 'spellcheck', true );
 
     this.render( hbs`
-        {{#sl-textarea spellcheck=spellcheck}}
-        {{/sl-textarea}}
+        {{sl-textarea spellcheck=spellcheck}}
     ` );
 
     assert.strictEqual(
@@ -346,8 +405,7 @@ test( '"spellcheck" property is supported with bound values', function( assert )
 
 test( '"spellcheck" property defaults correctly', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea}}
-        {{/sl-textarea}}
+        {{sl-textarea}}
     ` );
 
     assert.strictEqual(
@@ -359,36 +417,46 @@ test( '"spellcheck" property defaults correctly', function( assert ) {
 
 test( '"Title" capabilities are supported', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea title="Test title"}}
-        {{/sl-textarea}}
+        {{sl-textarea}}
     ` );
 
-    assert.ok(
-        this.$( '>:first-child' ).find( 'title' ),
-        'Rendered title successfully'
+    assert.notOk(
+        this.$( '>:first-child' ).attr( 'data-original-title' ),
+        'Title capabilites are supported'
     );
+
+    this.set( 'title', 'test title' );
+
+    this.render( hbs`
+        {{sl-textarea title=title}}
+    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'data-original-title' ),
-        'Test title',
-        'Title capabilites are supported'
+        this.get( 'title' ),
+        'Title prop supported'
     );
 });
 
 test( '"Popover" capabilities are supported', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea popover="Test popover" dataTrigger="hover"}}
-        {{/sl-textarea}}
+        {{sl-textarea}}
     ` );
 
-    assert.ok(
-        this.$( '>:first-child' ).find( 'popover' ),
-        'Rendered popover successfully'
+    assert.notOk(
+        this.$( '>:first-child' ).data( 'bs.popover' ),
+        'Title capabilites are supported'
     );
+
+    this.set( 'popover', 'Test popover' );
+
+    this.render( hbs`
+        {{sl-textarea popover=popover}}
+    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).data( 'bs.popover' ).options.content,
-        'Test popover',
+        this.get( 'popover' ),
         'Popover capabilites are supported'
     );
 });

@@ -2,8 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
-import { Wrap as WrapEnum } from 'sl-ember-components/components/sl-textarea';
-import { Direction as DirectionEnum } from 'sl-ember-components/components/sl-textarea';
+import { Wrap as WrapEnum, Direction as DirectionEnum } from 'sl-ember-components/components/sl-textarea';
 
 const Direction = {
     BACKWARD: 'backward',
