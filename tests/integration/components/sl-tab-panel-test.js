@@ -193,6 +193,8 @@ test( 'Clicking tab changes active tab', function( assert ) {
 test( 'Tab content height is adjusted after new tab selection', function( assert ) {
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.render( hbs`
         {{#sl-tab-panel}}
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
@@ -203,21 +205,25 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
         {{/sl-tab-panel}}
     ` );
 
-    const done = assert.async();
     const wrapper = this.$( '>:first-child' );
+    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
     const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
 
     const initialHeight = wrapper.find( '.tab-content' ).height();
 
     wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
 
-    tabPaneB.queue( () => {
-        assert.ok(
-            wrapper.find( '.tab-content' ).height() > initialHeight
-        );
+    // queue assert after animation
+    tabPaneA.queue( () => {
+        tabPaneB.queue( () => {
+            assert.ok(
+                wrapper.find( '.tab-content' ).height() > initialHeight
+            );
 
-        done();
+            done();
+        });
     });
+
 });
 
 test( '"activatePane" animates as expected', function( assert ) {
