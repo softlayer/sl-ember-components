@@ -9,13 +9,12 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-alert
  * @enum {String}
  */
-const Theme = Object.freeze({
+export const Theme = Object.freeze({
     DANGER: 'danger',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { Theme };
 
 /**
  * @module

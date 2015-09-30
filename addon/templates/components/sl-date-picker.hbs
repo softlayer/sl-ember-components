@@ -1,11 +1,12 @@
 {{#if label}}
-    <label for={{inputElementId}}>{{label}}</label>
+    <label for={{inputId}}>{{label}}</label>
 {{/if}}
 
 {{input
     type="text"
     class="date-picker form-control"
     disabled=disabled
+    id=inputId
     placeholder=placeholder
     value=value
 }}

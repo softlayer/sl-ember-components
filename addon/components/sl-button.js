@@ -10,13 +10,12 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const Size = Object.freeze({
+export const Size = Object.freeze({
     EXTRA_SMALL: 'extra-small',
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
 });
-export { Size };
 
 /**
  * Valid Bootstrap theme values for buttons
@@ -24,7 +23,7 @@ export { Size };
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const Theme = Object.freeze({
+export const Theme = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     HOVER: 'hover',
@@ -34,7 +33,6 @@ const Theme = Object.freeze({
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { Theme };
 
 /**
  * @module
@@ -53,7 +51,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     /** @type {String[]} */
     attributeBindings: [
         'data-target',
-        'data-toggle',
+        'dataToggle:data-toggle',
         'disabled',
         'type'
     ],
@@ -109,6 +107,13 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * @type {Boolean}
      */
     bubbles: true,
+
+    /**
+     * Whether or not the button is disabled
+     *
+     * @type {Boolean}
+     */
+    disabled: false,
 
     /**
      * Whether or not the button should be disabled during AJAX activity

@@ -19,7 +19,9 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'panel', 'panel-default', 'sl-panel'
+        'panel',
+        'panel-default',
+        'sl-panel'
     ],
 
     /** @type {Object} */

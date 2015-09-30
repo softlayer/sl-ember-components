@@ -1,5 +1,5 @@
 {{#if label}}
-    <label class="control-label" for={{inputElementId}}>
+    <label class="control-label" for={{inputId}}>
         {{label}}
 
         {{#if optional}}
@@ -13,11 +13,12 @@
 {{/if}}
 
 {{input
+    id=inputId
     type=type
     class=inputClass
-    disabled=disabled
+    disabled=disabledString
     placeholder=placeholder
-    readonly=readonly
+    readonly=readonlyString
     value=value
 }}
 
