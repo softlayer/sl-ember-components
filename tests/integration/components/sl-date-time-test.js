@@ -16,7 +16,7 @@ test( 'Defaults applied correctly', function( assert ) {
     const defaultRendered = this.$( '>:first-child' ).text().trim();
     const defaultRegEx = /^[a-zA-Z]+[,]\s[a-zA-Z]+\s\d{1,2}[a-z]{2}\s\d{4}[,]\s\d{1,2}[:]\d{2}\s(AM|PM)\s[A-Z]+$/;
 
-    assert.deepEqual(
+    assert.strictEqual(
         defaultRegEx.test( defaultRendered ),
         true,
         'Default datetime string matches default pattern'
@@ -31,7 +31,7 @@ test( 'Defaults applied correctly', function( assert ) {
         'Attributes datetime and data-original-title match'
     );
 
-    assert.deepEqual(
+    assert.strictEqual(
         /^\d{4}[-]\d{2}[-]\d{2}\s\d{1,2}[:]\d{2}\s[A-Z]+$/.test( this.$( '>:first-child' ).attr( 'datetime' ) ),
         true,
         'Attribute datetime matches ISO datetime format plus timezone code'
@@ -77,7 +77,7 @@ test( 'Relative values applied correctly', function( assert ) {
 
     const pastRendered = this.$( '>:first-child' ).text().trim();
 
-    assert.deepEqual(
+    assert.strictEqual(
         /^((\d+|a|an)\s[a-zA-Z]+|a few seconds)\s(ago)$/.test( pastRendered ),
         true,
         'Default datetime string matches default pattern'
@@ -92,7 +92,7 @@ test( 'Relative values applied correctly', function( assert ) {
         'Attributes datetime and data-original-title match'
     );
 
-    assert.deepEqual(
+    assert.strictEqual(
         /^\d{4}[-]\d{2}[-]\d{2}\s\d{1,2}[:]\d{2}\s[A-Z]+$/.test( this.$( '>:first-child' ).attr( 'datetime' ) ),
         true,
         'Attribute datetime matches ISO datetime format plus timezone code'
@@ -135,7 +135,7 @@ test( 'Relative values applied correctly', function( assert ) {
 
     const futureRendered = this.$( '>:first-child' ).text().trim();
 
-    assert.deepEqual(
+    assert.strictEqual(
         /^(in)\s(\d+\s[a-z]+|a few seconds)$/.test( futureRendered ),
         true,
         'Future datetime string matches default pattern'
@@ -158,7 +158,7 @@ test( 'Date values applied correctly', function( assert ) {
 
     const pastRendered = this.$( '>:first-child' ).text().trim();
 
-    assert.deepEqual(
+    assert.strictEqual(
         /^\d{4}[-]\d{2}[-]\d{2}$/.test( pastRendered ),
         true,
         'Default date string matches default ISO date pattern'
@@ -173,7 +173,7 @@ test( 'Date values applied correctly', function( assert ) {
         'Attributes datetime and data-original-title match'
     );
 
-    assert.deepEqual(
+    assert.strictEqual(
         /^\d{4}[-]\d{2}[-]\d{2}\s\d{1,2}[:]\d{2}\s[A-Z]+$/.test( this.$( '>:first-child' ).attr( 'datetime' ) ),
         true,
         'Attribute datetime matches ISO datetime format plus timezone code'
