@@ -14,12 +14,14 @@ export default Ember.Route.extend({
                             action() {
                                 window.console.log( 'The color RED' );
                             }
-                        }, {
+                        },
+                        {
                             label: 'Green',
                             action() {
                                 window.console.log( 'The color GREEN' );
                             }
-                        }, {
+                        },
+                        {
                             label: 'Blue',
                             action() {
                                 window.console.log( 'The color BLUE' );
@@ -38,25 +40,29 @@ export default Ember.Route.extend({
                                         actionName: 'number clicked',
                                         data: '1'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '2',
                                     action: {
                                         actionName: 'number clicked',
                                         data: '2'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '3',
                                     action: {
                                         actionName: 'number clicked',
                                         data: '3'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '4',
                                     action: {
                                         actionName: 'number clicked',
                                         data: '4'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '5',
                                     action: {
                                         actionName: 'number clicked',
@@ -73,25 +79,29 @@ export default Ember.Route.extend({
                                         actionName: 'number clicked',
                                         data: '6'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '7',
                                     action: {
                                         actionName: 'number clicked',
                                         data: '7'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '8',
                                     action: {
                                         actionName: 'number clicked',
                                         data: '8'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '9',
                                     action: {
                                         actionName: 'number clicked',
                                         data: '9'
                                     }
-                                }, {
+                                },
+                                {
                                     label: '10',
                                     action: {
                                         actionName: 'number clicked',
@@ -112,13 +122,15 @@ export default Ember.Route.extend({
                                 { label: 'San Antonio' },
                                 { label: 'Austin' }
                             ]
-                        }, {
+                        },
+                        {
                             label: 'Oklahoma',
                             pages: [
                                 { label: 'Oklahoma City' },
                                 { label: 'Norman' }
                             ]
-                        }, {
+                        },
+                        {
                             label: 'California',
                             pages: [
                                 { label: 'Los Angeles' },
