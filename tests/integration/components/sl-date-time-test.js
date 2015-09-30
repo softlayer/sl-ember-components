@@ -65,7 +65,7 @@ test( 'Relative values applied correctly', function( assert ) {
 
     const pastDate = moment().subtract( 4321, 'minutes' ).toISOString();
 
-    this.set( 'value', pastDate);
+    this.set( 'value', pastDate );
 
     this.render( hbs`
         {{sl-date-time
@@ -123,7 +123,7 @@ test( 'Relative values applied correctly', function( assert ) {
 
     const futureDate = moment().add( 123456, 'minutes' ).toISOString();
 
-    this.set( 'value', futureDate);
+    this.set( 'value', futureDate );
 
     this.render( hbs`
         {{sl-date-time
@@ -146,7 +146,7 @@ test( 'Date values applied correctly', function( assert ) {
 
     const pastDate = moment().subtract( 3, 'months' ).toISOString();
 
-    this.set( 'value', pastDate);
+    this.set( 'value', pastDate );
 
     this.render( hbs`
         {{sl-date-time
