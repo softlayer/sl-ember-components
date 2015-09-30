@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent( 'sl-date-time', 'Integration | Component | sl date-time', {
+moduleForComponent( 'sl-date-time', 'Integration | Component | sl date time', {
     integration: true
 });
 
@@ -63,7 +63,7 @@ test( 'Defaults applied correctly', function( assert ) {
 
 test( 'Relative values applied correctly', function( assert ) {
 
-    const pastDate = moment().subtract( 4321, 'minutes' ).toISOString();
+    const pastDate = window.moment().subtract( 4321, 'minutes' ).toISOString();
 
     this.set( 'value', pastDate );
 
@@ -121,7 +121,7 @@ test( 'Relative values applied correctly', function( assert ) {
         'Default trigger is "hover focus"'
     );
 
-    const futureDate = moment().add( 123456, 'minutes' ).toISOString();
+    const futureDate = window.moment().add( 123456, 'minutes' ).toISOString();
 
     this.set( 'value', futureDate );
 
@@ -144,7 +144,7 @@ test( 'Relative values applied correctly', function( assert ) {
 
 test( 'Date values applied correctly', function( assert ) {
 
-    const pastDate = moment().subtract( 3, 'months' ).toISOString();
+    const pastDate = window.moment().subtract( 3, 'months' ).toISOString();
 
     this.set( 'value', pastDate );
 
