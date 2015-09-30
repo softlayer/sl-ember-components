@@ -166,7 +166,10 @@ test( 'Closing of modal using close button works', function( assert ) {
         template: template,
         targetObject: {
             modalClosed() {
-                assert.ok( 'Modal was closed' );
+                assert.ok(
+                    true,
+                    'Modal was closed'
+                );
                 closeDone();
             }
         }

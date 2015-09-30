@@ -28,7 +28,8 @@ export default Ember.Route.extend({
                             }
                         }
                     ]
-                }, {
+                },
+                {
                     label: 'Numbers',
                     pages: [
                         {
@@ -70,7 +71,8 @@ export default Ember.Route.extend({
                                     }
                                 }
                             ]
-                        }, {
+                        },
+                        {
                             label: '6-10',
                             pages: [
                                 {
@@ -111,7 +113,8 @@ export default Ember.Route.extend({
                             ]
                         }
                     ]
-                }, {
+                },
+                {
                     label: 'Cities',
                     pages: [
                         {
@@ -139,7 +142,8 @@ export default Ember.Route.extend({
                             ]
                         }
                     ]
-                }, {
+                },
+                {
                     label: 'Routes',
                     pages: [
                         { label: 'Checkbox', route: 'sl-checkbox' },

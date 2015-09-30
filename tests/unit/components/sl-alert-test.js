@@ -5,7 +5,10 @@ moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
 });
 
 test( 'ARIA role is applied', function( assert ) {
-    assert.equal( this.$().attr( 'role' ), 'alert' );
+    assert.equal(
+        this.$().attr( 'role' ),
+        'alert'
+    );
 });
 
 test( 'Dismissable option allows dismissal', function( assert ) {

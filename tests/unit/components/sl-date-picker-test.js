@@ -200,7 +200,10 @@ test( 'setupDatepicker() - listens to correct event', function( assert ) {
         action: 'changeDate',
         targetObject: {
             changeDate() {
-                assert.ok( 'changeDate event fired' );
+                assert.ok(
+                    true,
+                    'changeDate event fired'
+                );
                 done();
             }
         }
@@ -419,4 +422,3 @@ test( 'options() - object contains the expected keys', function( assert ) {
         'The options object contains the expected keys'
     );
 });
-
