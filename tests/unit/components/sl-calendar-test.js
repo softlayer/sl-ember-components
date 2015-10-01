@@ -666,123 +666,136 @@ test( 'Years for decade view are assembled correctly', function( assert ) {
     );
 });
 
-test( 'yearsInDecadeView computed property is observing the correct properties', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.yearsInDecadeView._dependentKeys.join(),
-        'contentDates,decadeEnd,decadeStart',
-        'yearsInDecadeView computed property observes the correct properties'
-    );
-});
+    const contentDatesDependentKeys = [
+        'content',
+        'dateValuePath'
+    ];
 
-test( 'weeksInMonthView computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.weeksInMonthView._dependentKeys.join(),
-        'contentDates,currentMonth,currentYear,daysInMonth',
-        'weeksInMonthView computed property observes the correct properties'
-    );
-});
-
-test( 'viewingYears computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.viewingYears._dependentKeys.join(),
-        'viewMode',
-        'viewingYears computed property observes the correct properties'
-    );
-});
-
-test( 'viewingMonths computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.viewingMonths._dependentKeys.join(),
-        'viewMode',
-        'viewingMonths computed property observes the correct properties'
-    );
-});
-
-test( 'viewingDays computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.viewingDays._dependentKeys.join(),
-        'viewMode',
-        'viewingDays computed property observes the correct properties'
-    );
-});
-
-test( 'shortWeekDayNames computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.shortWeekDayNames._dependentKeys.join(),
-        'locale',
-        'shortWeekDayNames computed property observes the correct properties'
-    );
-});
-
-test( 'monthsInYearView computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.monthsInYearView._dependentKeys.join(),
-        'contentDates,currentYear',
-        'monthsInYearView computed property observes the correct properties'
-    );
-});
-
-test( 'decadeStart computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.decadeStart._dependentKeys.join(),
+    const currentMonthStringDependentKeys = [
+        'currentMonth',
         'currentYear',
-        'decadeStart computed property observes the correct properties'
+        'locale'
+    ];
+
+    const daysInMonthDependentKeys = [
+        'currentMonth',
+        'currentYear'
+    ];
+
+    const decadeEndDependentKeys = [
+        'decadeStart'
+    ];
+
+    const decadeStartDependentKeys = [
+        'currentYear'
+    ];
+
+    const monthsInYearViewDependentKeys = [
+        'contentDates',
+        'currentYear'
+    ];
+
+    const shortWeekDayNamesDependentKeys = [
+        'locale'
+    ];
+
+    const viewingDaysDependentKeys = [
+        'viewMode'
+    ];
+
+    const viewingMonthsDependentKeys = [
+        'viewMode'
+    ];
+
+    const viewingYearsDependentKeys = [
+        'viewMode'
+    ];
+
+    const weeksInMonthViewDependentKeys = [
+        'contentDates',
+        'currentMonth',
+        'currentYear',
+        'daysInMonth'
+    ];
+
+    const yearsInDecadeViewDependentKeys = [
+        'contentDates',
+        'decadeEnd',
+        'decadeStart'
+    ];
+
+    assert.deepEqual(
+        component.contentDates._dependentKeys,
+        contentDatesDependentKeys,
+        'Dependent keys are correct for contentDates()'
+    );
+
+    assert.deepEqual(
+        component.currentMonthString._dependentKeys,
+        currentMonthStringDependentKeys,
+        'Dependent keys are correct for currentMonthString()'
+    );
+
+    assert.deepEqual(
+        component.daysInMonth._dependentKeys,
+        daysInMonthDependentKeys,
+        'Dependent keys are correct for daysInMonth()'
+    );
+
+    assert.deepEqual(
+        component.decadeEnd._dependentKeys,
+        decadeEndDependentKeys,
+        'Dependent keys are correct for decadeEnd()'
+    );
+
+    assert.deepEqual(
+        component.decadeStart._dependentKeys,
+        decadeStartDependentKeys,
+        'Dependent keys are correct for decadeStart()'
+    );
+
+    assert.deepEqual(
+        component.monthsInYearView._dependentKeys,
+        monthsInYearViewDependentKeys,
+        'Dependent keys are correct for monthsInYearView()'
+    );
+
+    assert.deepEqual(
+        component.shortWeekDayNames._dependentKeys,
+        shortWeekDayNamesDependentKeys,
+        'Dependent keys are correct for shortWeekDayNames()'
+    );
+
+    assert.deepEqual(
+        component.viewingDays._dependentKeys,
+        viewingDaysDependentKeys,
+        'Dependent keys are correct for viewingDays()'
+    );
+
+    assert.deepEqual(
+        component.viewingMonths._dependentKeys,
+        viewingMonthsDependentKeys,
+        'Dependent keys are correct for viewingMonths()'
+    );
+
+    assert.deepEqual(
+        component.viewingYears._dependentKeys,
+        viewingYearsDependentKeys,
+        'Dependent keys are correct for viewingYears()'
+    );
+
+    assert.deepEqual(
+        component.weeksInMonthView._dependentKeys,
+        weeksInMonthViewDependentKeys,
+        'Dependent keys are correct for weeksInMonthView()'
+    );
+
+    assert.deepEqual(
+        component.yearsInDecadeView._dependentKeys,
+        yearsInDecadeViewDependentKeys,
+        'Dependent keys are correct for yearsInDecadeView()'
     );
 });
-
-test( 'decadeEnd computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.decadeEnd._dependentKeys.join(),
-        'decadeStart',
-        'decadeEnd computed property observes the correct properties'
-    );
-});
-
-test( 'daysInMonth computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.daysInMonth._dependentKeys.join(),
-        'currentMonth,currentYear',
-        'daysInMonth computed property observes the correct properties'
-    );
-});
-
-test( 'currentMonthString computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.currentMonthString._dependentKeys.join(),
-        'currentMonth,currentYear,locale',
-        'currentMonthString computed property observes the correct properties'
-    );
-});
-
-test( 'contentDates computed property is observing the correct properties', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.contentDates._dependentKeys.join(),
-        'content,dateValuePath',
-        'contentDates computed property observes the correct properties'
-    );
-});
-
