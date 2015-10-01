@@ -665,3 +665,124 @@ test( 'Years for decade view are assembled correctly', function( assert ) {
         'Twelve years were generated for the decade view'
     );
 });
+
+test( 'yearsInDecadeView computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.yearsInDecadeView._dependentKeys.join(),
+        'contentDates,decadeEnd,decadeStart',
+        'yearsInDecadeView computed property observes the correct properties'
+    );
+});
+
+test( 'weeksInMonthView computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.weeksInMonthView._dependentKeys.join(),
+        'contentDates,currentMonth,currentYear,daysInMonth',
+        'weeksInMonthView computed property observes the correct properties'
+    );
+});
+
+test( 'viewingYears computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.viewingYears._dependentKeys.join(),
+        'viewMode',
+        'viewingYears computed property observes the correct properties'
+    );
+});
+
+test( 'viewingMonths computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.viewingMonths._dependentKeys.join(),
+        'viewMode',
+        'viewingMonths computed property observes the correct properties'
+    );
+});
+
+test( 'viewingDays computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.viewingDays._dependentKeys.join(),
+        'viewMode',
+        'viewingDays computed property observes the correct properties'
+    );
+});
+
+test( 'shortWeekDayNames computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.shortWeekDayNames._dependentKeys.join(),
+        'locale',
+        'shortWeekDayNames computed property observes the correct properties'
+    );
+});
+
+test( 'monthsInYearView computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.monthsInYearView._dependentKeys.join(),
+        'contentDates,currentYear',
+        'monthsInYearView computed property observes the correct properties'
+    );
+});
+
+test( 'decadeStart computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.decadeStart._dependentKeys.join(),
+        'currentYear',
+        'decadeStart computed property observes the correct properties'
+    );
+});
+
+test( 'decadeEnd computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.decadeEnd._dependentKeys.join(),
+        'decadeStart',
+        'decadeEnd computed property observes the correct properties'
+    );
+});
+
+test( 'daysInMonth computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.daysInMonth._dependentKeys.join(),
+        'currentMonth,currentYear',
+        'daysInMonth computed property observes the correct properties'
+    );
+});
+
+test( 'currentMonthString computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.currentMonthString._dependentKeys.join(),
+        'currentMonth,currentYear,locale',
+        'currentMonthString computed property observes the correct properties'
+    );
+});
+
+test( 'contentDates computed property is observing the correct properties', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.contentDates._dependentKeys.join(),
+        'content,dateValuePath',
+        'contentDates computed property observes the correct properties'
+    );
+});
+
