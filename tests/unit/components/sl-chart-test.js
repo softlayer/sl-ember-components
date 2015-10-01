@@ -338,15 +338,20 @@ test( 'title property is not missing in highchartsOptions and set to null', func
     );
 });
 
-test( 'style computed property is observing the correct properties', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
     });
 
-    assert.strictEqual(
-        component.style._dependentKeys.join(),
-        'height,width',
-        'style property is observing the correct properties'
+    const styleDependentKeys = [
+        'height',
+        'width'
+    ];
+
+    assert.deepEqual(
+        component.style._dependentKeys,
+        styleDependentKeys,
+        'Dependent keys are correct for style()'
     );
 });
