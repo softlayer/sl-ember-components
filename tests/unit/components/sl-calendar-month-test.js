@@ -84,12 +84,16 @@ test( 'Short name property is defined with valid month', function( assert ) {
     );
 });
 
-test( 'shortName computed property is observing the correct properties', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.shortName._dependentKeys.join(),
-        'month',
-        'shortName computed property observes the correct properties'
+    const shortNameDependentKeys = [
+        'month'
+    ];
+
+    assert.deepEqual(
+        component.shortName._dependentKeys,
+        shortNameDependentKeys,
+        'Dependent keys are correct for shortName()'
     );
 });
