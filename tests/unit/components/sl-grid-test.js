@@ -110,7 +110,8 @@ test( 'Only primary columns remain visible when detail-pane is open', function( 
                 primary: true,
                 title: 'Name',
                 valuePath: 'name'
-            }, {
+            },
+            {
                 title: 'ID',
                 valuePath: 'id'
             }
