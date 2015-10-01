@@ -4,12 +4,16 @@ moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
 });
 
-test( 'themeClassName computed property is observing the correct properties', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.themeClassName._dependentKeys.join(),
+    const themeClassNameDependentKeys = [
         'theme',
-        'themeClassName computed property observes the correct properties'
+    ];
+
+    assert.deepEqual(
+        component.themeClassName._dependentKeys,
+        themeClassNameDependentKeys,
+        'Dependent keys are correct for themeClassName()'
     );
 });
