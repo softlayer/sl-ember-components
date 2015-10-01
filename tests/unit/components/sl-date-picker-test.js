@@ -435,4 +435,3 @@ test( 'options() - object contains the expected keys', function( assert ) {
         'The options object contains the expected keys'
     );
 });
-
