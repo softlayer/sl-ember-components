@@ -37,15 +37,7 @@ test( '"value" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).val(),
         this.get( 'value' ),
-        '"Value" property has expected value'
-    );
-
-    this.set( 'value', 'textInputValue' );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).val(),
-        this.get( 'value' ),
-        '"Value" property is settable'
+        '"value" property has expected value'
     );
 });
 
@@ -59,7 +51,7 @@ test( '"wrap" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'wrap' ),
         this.get( 'wrap' ),
-        '"Wrap" property has expected value'
+        '"wrap" property has expected value'
     );
 
     this.set( 'wrap', 'soft' );
@@ -67,7 +59,7 @@ test( '"wrap" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'wrap' ),
         this.get( 'wrap' ),
-        '"Wrap" property is settable'
+        '"wrap" property is settable'
     );
 });
 
@@ -81,7 +73,7 @@ test( '"tabindex" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'tabindex' ),
         this.get( 'tabindex' ),
-        '"Tabindex" property has expected value'
+        '"tabindex" property has expected value'
     );
 
     this.set( 'tabindex', 1 );
@@ -89,7 +81,7 @@ test( '"tabindex" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'tabindex' ),
         this.get( 'tabindex' ),
-        '"Tabindex" property is settable'
+        '"tabindex" property is settable'
     );
 });
 
@@ -103,7 +95,7 @@ test( '"autofocus" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'autofocus' ),
         this.get( 'autofocus' ),
-        '"Autofocus" property has expected value'
+        '"autofocus" property has expected value'
     );
 
     this.set( 'autofocus', false );
@@ -111,7 +103,7 @@ test( '"autofocus" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'autofocus' ),
         this.get( 'autofocus' ),
-        '"Autofocus" property is settable'
+        '"autofocus" property is settable'
     );
 });
 
@@ -125,7 +117,7 @@ test( '"cols" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'cols' ),
         this.get( 'cols' ),
-        '"Cols" property has expected value'
+        '"cols" property has expected value'
     );
 
     this.set( 'cols', 7 );
@@ -147,7 +139,7 @@ test( '"disabled" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'disabled' ),
         this.get( 'disabled' ),
-        '"Disabled" property has expected value'
+        '"disabled" property has expected value'
     );
 
     this.set( 'disabled', false );
@@ -155,7 +147,7 @@ test( '"disabled" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'disabled' ),
         this.get( 'disabled' ),
-        '"Disabled" property is settable'
+        '"disabled" property is settable'
     );
 });
 
@@ -169,7 +161,7 @@ test( '"maxlength" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'maxlength' ),
         this.get( 'maxlength' ),
-        '"Maxlength" property has expected value'
+        '"maxlength" property has expected value'
     );
 
     this.set( 'maxlength', 11 );
@@ -177,7 +169,7 @@ test( '"maxlength" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'maxlength' ),
         this.get( 'maxlength' ),
-        '"Maxlength" property is settable'
+        '"maxlength" property is settable'
     );
 });
 
@@ -191,7 +183,7 @@ test( '"placeholder" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'placeholder' ),
         this.get( 'placeholder' ),
-        '"Placeholder" property has expected value'
+        '"placeholder" property has expected value'
     );
 
     this.set( 'placeholder', 'placeholder text two' );
@@ -199,7 +191,7 @@ test( '"placeholder" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'placeholder' ),
         this.get( 'placeholder' ),
-        '"Placeholder" property is settable'
+        '"placeholder" property is settable'
     );
 });
 
@@ -213,7 +205,7 @@ test( '"readonly" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'readonly' ),
         this.get( 'readonly' ),
-        '"Readonly" property has expected value'
+        '"readonly" property has expected value'
     );
 
     this.set( 'readonly', false );
@@ -221,7 +213,7 @@ test( '"readonly" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'readonly' ),
         this.get( 'readonly' ),
-        '"Readonly" property is settable'
+        '"readonly" property is settable'
     );
 });
 
@@ -235,7 +227,7 @@ test( '"rows" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'rows' ),
         this.get( 'rows' ),
-        '"Rows" property has expected value'
+        '"rows" property has expected value'
     );
 
     this.set( 'rows', 5 );
@@ -243,7 +235,7 @@ test( '"rows" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).prop( 'rows' ),
         this.get( 'rows' ),
-        '"Readonly" property is settable'
+        '"rows" property is settable'
     );
 });
 
@@ -257,13 +249,13 @@ test( '"helpText" is rendered if populated', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.help-block' ).prop( 'tagName' ),
         'P',
-        'Help text block is rendered as a <p>'
+        '"helptext" block is rendered as a <p>'
     );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.help-block' ).text().trim(),
         this.get( 'helpText' ),
-        'Help text block text is expected value'
+        '"helptext" block text is expected value'
     );
 });
 
@@ -274,7 +266,7 @@ test( 'If "helpText" is not populated, it is not rendered', function( assert ) {
 
     assert.notOk(
         this.$( '>:first-child' ).hasClass( 'help-block' ),
-        'Help text block is not rendered'
+        '"helptext" block is not rendered'
     );
 });
 
@@ -325,7 +317,7 @@ test( 'If "label" property is not populated, label element is not rendered', fun
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'label' ).length,
         0,
-        'Label element is not rendered'
+        '"label" element is not rendered'
     );
 });
 
@@ -391,7 +383,7 @@ test( '"spellcheck" property is supported with bound values', function( assert )
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
         'true',
-        'Textarea spellcheck attribute is expected value'
+        '"spellcheck" property is expected value'
     );
 
     this.set( 'spellcheck', false );
@@ -399,7 +391,7 @@ test( '"spellcheck" property is supported with bound values', function( assert )
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
         'false',
-        'Textarea spellcheck attribute is expected value'
+        '"spellcheck" property is expected value'
     );
 });
 
@@ -411,7 +403,7 @@ test( '"spellcheck" property defaults correctly', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
         'false',
-        'Textarea spellcheck attribute default value is false'
+        '"spellcheck" property default value is false'
     );
 });
 
@@ -422,7 +414,7 @@ test( '"Title" capabilities are supported', function( assert ) {
 
     assert.notOk(
         this.$( '>:first-child' ).attr( 'data-original-title' ),
-        'Title capabilites are supported'
+        '"title" property is not rendered when title is not set'
     );
 
     this.set( 'title', 'test title' );
@@ -434,7 +426,7 @@ test( '"Title" capabilities are supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'data-original-title' ),
         this.get( 'title' ),
-        'Title prop supported'
+        '"title" property is rendered and supported'
     );
 });
 
@@ -445,7 +437,7 @@ test( '"Popover" capabilities are supported', function( assert ) {
 
     assert.notOk(
         this.$( '>:first-child' ).data( 'bs.popover' ),
-        'Title capabilites are supported'
+        '"popover" is not rendered when popover is not set'
     );
 
     this.set( 'popover', 'Test popover' );
@@ -457,7 +449,7 @@ test( '"Popover" capabilities are supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).data( 'bs.popover' ).options.content,
         this.get( 'popover' ),
-        'Popover capabilites are supported'
+        '"popover" property is rendered and supported'
     );
 });
 
