@@ -8,7 +8,7 @@ test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
     const themeClassNameDependentKeys = [
-        'theme',
+        'theme'
     ];
 
     assert.deepEqual(
