@@ -1,5 +1,5 @@
 {{#if label}}
-    <label for={{sl-select-view.elementId}} class="control-label">
+    <label class="control-label">
         {{label}}
 
         {{#if optional}}
@@ -13,11 +13,10 @@
 {{/if}}
 
 {{input
-    viewName="sl-select-view"
     type="hidden"
     class="form-control"
-    disabled=disabled
-    readonly=readonly
+    disabled=disabledString
+    readonly=readonlyString
     value=value
 }}
 

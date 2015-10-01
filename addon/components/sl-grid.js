@@ -7,11 +7,10 @@ import layout from '../templates/components/sl-grid';
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-const ColumnAlign = Object.freeze({
+export const ColumnAlign = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { ColumnAlign };
 
 /**
  * Valid values for the column definitions' `size` property
@@ -19,12 +18,11 @@ export { ColumnAlign };
  * @memberof module:components/sl-grid
  * @enum {String}
  */
-const ColumnSize = Object.freeze({
+export const ColumnSize = Object.freeze({
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
 });
-export { ColumnSize };
 
 /**
  * @module
@@ -98,6 +96,18 @@ export default Ember.Component.extend({
             this.updateHeight();
         },
 
+         /**
+         * Handles drop button selection
+         *
+         * @function actions:dropButtonSelect
+         * @param {Object} row - An object representing the row on which the drop button was selected
+         * @param {String} actionName - The action to be sent
+         * @returns {undefined}
+         */
+        dropButtonSelect( row, actionName ) {
+            this.sendAction( actionName, row );
+        },
+
         /**
          * Open the detail-pane with a specific row object
          *
@@ -163,7 +173,7 @@ export default Ember.Component.extend({
                 sortDirection = !sortDirection;
             } else {
                 if ( sortedColumn ) {
-                    Ember.set( sortedColumn, 'sortAscending' );
+                    Ember.set( sortedColumn, 'sortAscending', null );
                 }
 
                 this.set( 'sortedColumnTitle', columnTitle );
@@ -258,18 +268,18 @@ export default Ember.Component.extend({
     detailComponent: null,
 
     /**
-     * The path of a template to use for the detail-pane footer
+     * The name of the component to render for the detail-pane footer
      *
      * @type {?String}
      */
-    detailFooterPath: null,
+    detailFooterComponent: null,
 
     /**
-     * The path of a template to use for the detail-pane header
+     * The name of the component to render for the detail-pane header
      *
      * @type {?String}
      */
-    detailHeaderPath: null,
+    detailHeaderComponent: null,
 
     /**
      * Indicates when the detail-pane is open
@@ -339,13 +349,6 @@ export default Ember.Component.extend({
     pageSize: 25,
 
     /**
-     * The aliased grid's parent controller, used to trigger row actions
-     *
-     * @type {module:components/sl-grid~_parentView._controller}
-     */
-    rowActionContext: Ember.computed.alias( '_parentView._controller' ),
-
-    /**
      * An array of action definitions to use for individual row actions
      *
      * Each item in this array should have the following properties:
@@ -391,7 +394,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     handleNewContent: Ember.observer(
-        'content.@each',
+        'content.[]',
         function() {
             this.set( 'loading', false );
 
@@ -448,31 +451,7 @@ export default Ember.Component.extend({
             if ( renderedName ) {
                 const registry = this.get( 'container._registry' );
                 const root = renderedName.replace( '.', '/' ) + '/';
-                const detailFooterPath = root + 'detail-footer';
-                const detailHeaderPath = root + 'detail-header';
-                const filterPath = root + 'filter';
                 const footerPath = root + 'footer';
-
-                if (
-                    !this.get( 'detailFooterPath' ) &&
-                    registry.resolve( 'template:' + detailFooterPath )
-                ) {
-                    this.set( 'detailFooterPath', detailFooterPath );
-                }
-
-                if (
-                    !this.get( 'detailHeaderPath' ) &&
-                    registry.resolve( 'template:' + detailHeaderPath )
-                ) {
-                    this.set( 'detailHeaderPath', detailHeaderPath );
-                }
-
-                if (
-                    !this.get( 'filterPath' ) &&
-                    registry.resolve( 'template:' + filterPath )
-                ) {
-                    this.set( 'filterPath', filterPath );
-                }
 
                 if (
                     !this.get( 'footerPath' ) &&

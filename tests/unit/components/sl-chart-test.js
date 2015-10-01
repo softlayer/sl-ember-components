@@ -31,55 +31,6 @@ moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
     unit: true
 });
 
-test( 'Default classNames are present', function( assert ) {
-    this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.ok(
-        this.$().hasClass( 'panel' ),
-        'Default rendered component has class "panel"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'panel-default' ),
-        'Default rendered component has class "panel-default"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-chart' ),
-        'Default rendered component has class "sl-chart"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-panel' ),
-        'Default rendered component has class "sl-panel"'
-    );
-});
-
-test( 'Loading state adds loading class', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.strictEqual(
-        this.$().hasClass( 'sl-loading' ),
-        false,
-        'Default rendered component does not have "sl-loading" class'
-    );
-
-    Ember.run( () => {
-        component.set( 'isLoading', true );
-    });
-
-    assert.ok(
-        this.$().hasClass( 'sl-loading' ),
-        'Rendered component gains "sl-loading" class'
-    );
-});
-
 test( 'updateData() is called after series property is modified', function( assert ) {
     const component = this.subject({
         options: testOptions,
@@ -245,66 +196,6 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 });
 
-test( 'Chart div uses the correct style', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.equal(
-        component.get( 'style' ),
-        'height: auto; width: auto;'
-    );
-
-    assert.equal(
-        this.$( 'div.chart' ).attr( 'style' ),
-        component.get( 'style' ),
-        'Chart div has automatic height and width'
-    );
-
-    Ember.run( () => {
-        component.set( 'height', 10 );
-        component.set( 'width', 20 );
-    });
-
-    assert.equal(
-        component.get( 'style' ),
-        'height: 10; width: 20;'
-    );
-
-    assert.equal(
-        this.$( 'div.chart' ).attr( 'style' ),
-        component.get( 'style' ),
-        'Chart div has height 10 and width 20'
-    );
-});
-
-test( 'Title property is set', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.strictEqual(
-        this.$( '.panel-heading' )[0],
-        undefined,
-        'No chart title is rendered when title is not set'
-    );
-
-    const testTitle = 'Peak server hours';
-
-    Ember.run( () => {
-        component.set( 'title', testTitle );
-    });
-
-    assert.equal(
-        this.$( '.panel-heading' ).html(),
-        testTitle,
-        'Chart title is created with title value'
-    );
-});
-
-
 test( 'setupChart initializes chart and updates data upon render', function( assert ) {
     const chartTest = 'a test chart';
     const chartDivMock = {
@@ -328,7 +219,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     const updateSpy = sinon.spy( component, 'updateData' );
     const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         null,
         'Chart is null upon initilization'
@@ -361,7 +252,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
         'highcharts was called once with no parameters'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         chartTest,
         'chart is initialized'
@@ -444,5 +335,18 @@ test( 'title property is not missing in highchartsOptions and set to null', func
         component.get( 'highchartsOptions' ).title,
         null,
         'title property in highchartsOptions is set to null in order to supress default behavior for our usage'
+    );
+});
+
+test( 'style computed property is observing the correct properties', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    assert.strictEqual(
+        component.style._dependentKeys.join(),
+        'height,width',
+        'style property is observing the correct properties'
     );
 });

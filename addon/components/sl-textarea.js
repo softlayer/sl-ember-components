@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentInputId from '../mixins/sl-component-input-id';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-textarea';
@@ -9,25 +10,11 @@ import layout from '../templates/components/sl-textarea';
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-const Direction = Object.freeze({
+export const Direction = Object.freeze({
     BACKWARD: 'backward',
     FORWARD: 'forward',
     NONE: 'none'
 });
-export { Direction };
-
-/**
- * Valid values for `spellcheck` property
- *
- * @memberof module:components/sl-textarea
- * @enum {Boolean|String}
- */
-const Spellcheck = {
-    DEFAULT: 'default',
-    FALSE: false,
-    TRUE: true
-};
-export { Spellcheck };
 
 /**
  * Valid values for `wrap` property
@@ -35,11 +22,10 @@ export { Spellcheck };
  * @memberof module:components/sl-textarea
  * @enum {String}
  */
-const Wrap = {
+export const Wrap = {
     HARD: 'hard',
     SOFT: 'soft'
 };
-export { Wrap };
 
 /**
  * @module
@@ -47,7 +33,7 @@ export { Wrap };
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInputId, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -106,11 +92,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * The `spellcheck` HTML attribute value
      *
-     * Accepted values are true, false, "default" (default), "true", or "false".
-     *
-     * @type {Spellcheck}
+     * @type {Boolean}
      */
-    spellcheck: Spellcheck.Direction,
+    spellcheck: false,
 
     /**
      * The bound value of the textarea
@@ -133,5 +117,4 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Methods
-
 });

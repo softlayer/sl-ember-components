@@ -1,5 +1,5 @@
 
-[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-0.2.7-orange.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
+[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-1.13.8-blue.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
 
 [![Dependencies](https://img.shields.io/david/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components) [![Dev Dependencies](https://img.shields.io/david/dev/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components#info=devDependencies)
 
@@ -64,21 +64,6 @@ Provides state properties for input element based components.
 *sl-tooltip-enabled*
 
 Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.
-
-
-**Helpers**
-
-
-*get-key*
-
-arguments: objectKey string, pathKey string, context object
-
-Lookup a value on an object in the current context with passed-in objectKey and pathKey strings.
-
-
-*render-dynamic*
-
-Call the render handlebars helper with a key value for the template name lookup (render requires a string argument).
 
 
 **Utility Classes**
@@ -154,7 +139,7 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
     ember install sl-ember-components
     npm install --save-dev ember-cli-less
 
-Modify `Brocfile.js` file to add:
+Modify `ember-cli-build.js` file to add:
 
 ```
 app.import({

@@ -1,9 +1,17 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
+import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 
 moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
+});
+
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentInputId.detect( this.subject() ),
+        'sl-component-input-id mixin is present'
+    );
 });
 
 test( 'Default class names are present', function( assert ) {
@@ -86,12 +94,6 @@ test( 'Default properties are set correctly', function( assert ) {
         component.get( 'helpText' ),
         null,
         'The "helpText" default value is correct'
-    );
-
-    assert.equal(
-        component.get( 'inputElementId' ),
-        null,
-        'The "inputElementId" default value is correct'
     );
 
     assert.equal(
@@ -179,15 +181,26 @@ test( 'Default properties are set correctly', function( assert ) {
     );
 });
 
-test( 'setInputElementId() - sets inputElementId correctly', function( assert ) {
-    const component = this.subject();
-
-    const inputElementId = this.$( 'input.date-picker' ).prop( 'id' );
+test( 'label is accepted as a parameter', function( assert ) {
+    const labelText = 'lorem ipsum';
+    const component = this.subject({ label: labelText });
 
     assert.equal(
-        component.get( 'inputElementId' ),
-        inputElementId,
-        "'inputElementId' set correctly"
+        this.$( 'label' ).html(),
+        labelText,
+        'label element was created with label parameter text'
+    );
+
+    assert.equal(
+        this.$( 'label' ).prop( 'for' ),
+        component.get( 'inputId' ),
+        'label element has the correct for property'
+    );
+
+    assert.equal(
+        this.$( 'label' ).prop( 'for' ),
+        this.$( 'input' ).prop( 'id' ),
+        'label is used for date input'
     );
 });
 
@@ -200,7 +213,10 @@ test( 'setupDatepicker() - listens to correct event', function( assert ) {
         action: 'changeDate',
         targetObject: {
             changeDate() {
-                assert.ok( 'changeDate event fired' );
+                assert.ok(
+                    true,
+                    'changeDate event fired'
+                );
                 done();
             }
         }
