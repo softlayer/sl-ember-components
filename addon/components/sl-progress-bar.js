@@ -124,8 +124,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Element-specific class name for the Bootstrap "theme" style
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `theme` property value is
-     *         not included in the enum Theme
      * @returns {String}
      */
     themeClassName: Ember.computed(

@@ -97,8 +97,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The generated Bootstrap "theme" style class for the alert
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `theme` value is not one
-     *         defined in the enum Theme
      * @returns {String} Defaults to "alert-info"
      */
     themeClassName: Ember.computed(

@@ -211,8 +211,6 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * Converted size string to Bootstrap button class
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `size` value is not one
-     *         defined in the enum Size
      * @returns {?String}
      */
     sizeClass: Ember.computed(
@@ -247,8 +245,6 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * Converted theme string to Bootstrap button class
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `theme` value is one not
-     *         defined in the enum Theme
      * @returns {String} Defaults to "btn-default"
      */
     themeClass: Ember.computed(

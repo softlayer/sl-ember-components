@@ -92,8 +92,6 @@ export default Ember.Component.extend({
      * Class name string based on align property
      *
      * @function
-     * @throws {ember.assert} Thrown when supplied `align` is a value not
-     *         defined in enum ColumnAlign
      * @returns {?String}
      */
     alignmentClass: Ember.computed(
