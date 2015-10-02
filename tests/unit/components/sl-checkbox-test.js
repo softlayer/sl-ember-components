@@ -11,3 +11,31 @@ test( 'Expected Mixins are present', function( assert ) {
         'TooltipEnabled Mixin is present'
     );
 });
+
+test( 'Default values are correct', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'checked' ),
+        false,
+        '"checked" property false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'disabled' ),
+        false,
+        '"disabled" property is text by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'label' ),
+        null,
+        '"label" property false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'name' ),
+        null,
+        '"name" property is "name" by default'
+    );
+});
