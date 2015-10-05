@@ -665,3 +665,137 @@ test( 'Years for decade view are assembled correctly', function( assert ) {
         'Twelve years were generated for the decade view'
     );
 });
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const contentDatesDependentKeys = [
+        'content',
+        'dateValuePath'
+    ];
+
+    const currentMonthStringDependentKeys = [
+        'currentMonth',
+        'currentYear',
+        'locale'
+    ];
+
+    const daysInMonthDependentKeys = [
+        'currentMonth',
+        'currentYear'
+    ];
+
+    const decadeEndDependentKeys = [
+        'decadeStart'
+    ];
+
+    const decadeStartDependentKeys = [
+        'currentYear'
+    ];
+
+    const monthsInYearViewDependentKeys = [
+        'contentDates',
+        'currentYear'
+    ];
+
+    const shortWeekDayNamesDependentKeys = [
+        'locale'
+    ];
+
+    const viewingDaysDependentKeys = [
+        'viewMode'
+    ];
+
+    const viewingMonthsDependentKeys = [
+        'viewMode'
+    ];
+
+    const viewingYearsDependentKeys = [
+        'viewMode'
+    ];
+
+    const weeksInMonthViewDependentKeys = [
+        'contentDates',
+        'currentMonth',
+        'currentYear',
+        'daysInMonth'
+    ];
+
+    const yearsInDecadeViewDependentKeys = [
+        'contentDates',
+        'decadeEnd',
+        'decadeStart'
+    ];
+
+    assert.deepEqual(
+        component.contentDates._dependentKeys,
+        contentDatesDependentKeys,
+        'Dependent keys are correct for contentDates()'
+    );
+
+    assert.deepEqual(
+        component.currentMonthString._dependentKeys,
+        currentMonthStringDependentKeys,
+        'Dependent keys are correct for currentMonthString()'
+    );
+
+    assert.deepEqual(
+        component.daysInMonth._dependentKeys,
+        daysInMonthDependentKeys,
+        'Dependent keys are correct for daysInMonth()'
+    );
+
+    assert.deepEqual(
+        component.decadeEnd._dependentKeys,
+        decadeEndDependentKeys,
+        'Dependent keys are correct for decadeEnd()'
+    );
+
+    assert.deepEqual(
+        component.decadeStart._dependentKeys,
+        decadeStartDependentKeys,
+        'Dependent keys are correct for decadeStart()'
+    );
+
+    assert.deepEqual(
+        component.monthsInYearView._dependentKeys,
+        monthsInYearViewDependentKeys,
+        'Dependent keys are correct for monthsInYearView()'
+    );
+
+    assert.deepEqual(
+        component.shortWeekDayNames._dependentKeys,
+        shortWeekDayNamesDependentKeys,
+        'Dependent keys are correct for shortWeekDayNames()'
+    );
+
+    assert.deepEqual(
+        component.viewingDays._dependentKeys,
+        viewingDaysDependentKeys,
+        'Dependent keys are correct for viewingDays()'
+    );
+
+    assert.deepEqual(
+        component.viewingMonths._dependentKeys,
+        viewingMonthsDependentKeys,
+        'Dependent keys are correct for viewingMonths()'
+    );
+
+    assert.deepEqual(
+        component.viewingYears._dependentKeys,
+        viewingYearsDependentKeys,
+        'Dependent keys are correct for viewingYears()'
+    );
+
+    assert.deepEqual(
+        component.weeksInMonthView._dependentKeys,
+        weeksInMonthViewDependentKeys,
+        'Dependent keys are correct for weeksInMonthView()'
+    );
+
+    assert.deepEqual(
+        component.yearsInDecadeView._dependentKeys,
+        yearsInDecadeViewDependentKeys,
+        'Dependent keys are correct for yearsInDecadeView()'
+    );
+});
