@@ -103,13 +103,13 @@
 
 <div class="detail-pane">
     <header>
+        <button {{action "closeDetailPane"}} class="close">&times;</button>
+
         <span class="title">
             {{#if detailHeaderComponent}}
                 {{component detailHeaderComponent model=activeRecord}}
             {{/if}}
         </span>
-
-        <button {{action "closeDetailPane"}} class="close">&times;</button>
     </header>
 
     <div class="content">
