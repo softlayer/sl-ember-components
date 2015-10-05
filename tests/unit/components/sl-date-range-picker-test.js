@@ -23,15 +23,6 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
-test( 'Default classNames are present', function( assert ) {
-    this.subject();
-
-    assert.ok(
-        this.$().hasClass( 'sl-date-range-picker' ),
-        'Default rendered component has class "sl-date-range-picker"'
-    );
-});
-
 test( 'Change focus to end date input upon start date change', function( assert ) {
     const component = this.subject();
     this.render();
@@ -141,33 +132,15 @@ test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by defa
     );
 
     assert.strictEqual(
-        this.$( 'label' )[ 0 ],
-        undefined,
-        'No label is created when label is undefined'
-    );
-
-    assert.strictEqual(
         component.get( 'startDatePlaceholder' ),
         undefined,
         'startDatePlaceholder is undefined by default'
     );
 
     assert.strictEqual(
-        this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
-        '',
-        'Start date input placeholder is empty when startDatePlaceholder is undefined'
-    );
-
-    assert.strictEqual(
         component.get( 'endDatePlaceholder' ),
         undefined,
         'endDatePlaceholder is undefined by default'
-    );
-
-    assert.strictEqual(
-        this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
-        '',
-        'End date input placeholder is empty when endDatePlaceholder is undefined'
     );
 });
 
@@ -191,30 +164,6 @@ test( 'label is accepted as a parameter', function( assert ) {
         this.$( 'label' ).prop( 'for' ),
         this.$( '.sl-daterange-start-date input' ).prop( 'id' ),
         'label is used for start date input'
-    );
-});
-
-test( 'startDatePlaceholder is accepted as a parameter', function( assert ) {
-    const placeholderText = 'lorem ipsum';
-
-    this.subject({ startDatePlaceholder: placeholderText });
-
-    assert.equal(
-        this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
-        placeholderText,
-        'Start date input placeholder was passed through correctly'
-    );
-});
-
-test( 'endDatePlaceholder is accepted as a parameter', function( assert ) {
-    const placeholderText = 'lorem ipsum';
-
-    this.subject({ endDatePlaceholder: placeholderText });
-
-    assert.equal(
-        this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
-        placeholderText,
-        'End date input placeholder was passed through correctly'
     );
 });
 
