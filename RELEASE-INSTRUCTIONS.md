@@ -22,6 +22,7 @@ This document captures the steps a project maintainer should follow when releasi
     * `git push origin --tags`
     * `npm publish --registry http://registry.npmjs.org/`
         * Note: `--registry` flag is workaround for occasional issues with default SSL url
+* Copy the content of the additions made to the CHANGELOG.md file to the Release Notes of the just-released tag
 * Run `ember build`
 * Run `npm run docs`
 * Copy the following resources outside of the working directory so they can be retained between switching branches:
