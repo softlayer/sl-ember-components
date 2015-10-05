@@ -18,24 +18,24 @@ test( 'Default values are correct', function( assert ) {
     assert.strictEqual(
         component.get( 'checked' ),
         false,
-        '"checked" property false by default'
+        '"checked" property is false by default'
     );
 
     assert.strictEqual(
         component.get( 'disabled' ),
         false,
-        '"disabled" property is text by default'
+        '"disabled" property is false by default'
     );
 
     assert.strictEqual(
         component.get( 'label' ),
         null,
-        '"label" property false by default'
+        '"label" property is null by default'
     );
 
     assert.strictEqual(
         component.get( 'name' ),
         null,
-        '"name" property is "name" by default'
+        '"name" property is null by default'
     );
 });
