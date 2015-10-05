@@ -337,3 +337,22 @@ test( 'title property is not missing in highchartsOptions and set to null', func
         'title property in highchartsOptions is set to null in order to supress default behavior for our usage'
     );
 });
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    const styleDependentKeys = [
+        'height',
+        'width'
+    ];
+
+    assert.deepEqual(
+        component.style._dependentKeys,
+        styleDependentKeys,
+        'Dependent keys are correct for style()'
+    );
+});
+
