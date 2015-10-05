@@ -159,7 +159,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
         this.$( '>:first-child' ).trigger( 'shown.bs.modal' );
     });
 
-    assert.equal(
+    assert.strictEqual(
         this.get( 'isOpen' ),
         true,
         'isOpen was set to true when modal show event was triggered'
@@ -169,7 +169,7 @@ test( 'Property isOpen is set appropriately', function( assert ) {
         this.$( '>:first-child' ).trigger( 'hidden.bs.modal' );
     });
 
-    assert.equal(
+    assert.strictEqual(
         this.get( 'isOpen' ),
         false,
         'isOpen was set to false when modal close event was triggered'
@@ -226,7 +226,7 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
         this.$( '>:first-child' ).modal( 'show' );
     });
 
-    assert.equal(
+    assert.strictEqual(
         Ember.$( '>:first-child' ).find( '.modal-backdrop' ).length,
         0
     );
@@ -239,7 +239,7 @@ test( 'Backdrop is shown by default', function( assert ) {
         this.$( '>:first-child' ).modal( 'show' );
     });
 
-    assert.equal(
+    assert.strictEqual(
         Ember.$( '>:first-child' ).length,
         1
     );
@@ -304,7 +304,7 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
         {{/sl-modal}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).attr( 'aria-describedby' ),
         describedBy
     );
@@ -313,7 +313,7 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
 test( 'aria-hidden is true', function( assert ) {
     this.render( template );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).attr( 'aria-hidden' ),
         'true'
     );
@@ -322,7 +322,7 @@ test( 'aria-hidden is true', function( assert ) {
 test( 'aria-labelledby is set', function( assert ) {
     this.render( template );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).attr( 'aria-labelledby' ),
         this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
         '"aria-labelledby" points to correct element'
@@ -339,7 +339,7 @@ test( 'aria-labelledby can be bound in a custom header', function( assert ) {
         {{/sl-modal}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).attr( 'aria-labelledby' ),
         this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
         '"aria-labelledby" in custom header points to correct element'

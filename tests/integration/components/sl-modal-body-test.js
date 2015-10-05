@@ -12,7 +12,7 @@ test( 'Content is yielded', function( assert ) {
         {{/sl-modal-body}}`
     );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.test' ).length,
         1
     );
