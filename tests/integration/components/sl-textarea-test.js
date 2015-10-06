@@ -49,7 +49,7 @@ test( '"wrap" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).prop( 'wrap' ),
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'wrap' ),
         this.get( 'wrap' ),
         '"wrap" property has expected value'
     );
@@ -57,7 +57,7 @@ test( '"wrap" property is supported', function( assert ) {
     this.set( 'wrap', 'soft' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).prop( 'wrap' ),
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'wrap' ),
         this.get( 'wrap' ),
         '"wrap" property is settable'
     );
