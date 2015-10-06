@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import sinon from 'sinon';
 
 const template = hbs`
     {{#sl-tab-panel}}
@@ -20,6 +19,19 @@ test( 'Expected default classes are applied', function( assert ) {
 
     const wrapper = this.$( '>:first-child' );
 
+    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
+    const tabA = wrapper.find( '.sl-tab[data-tab-name="a"]' );
+
+    assert.ok(
+        tabPaneA.hasClass( 'active' ),
+        'First tab panel has the active class by default'
+    );
+
+    assert.ok(
+        tabA.hasClass( 'active' ),
+        'First tab has the active class by default'
+    );
+
     assert.ok(
         wrapper.hasClass( 'sl-tab-panel' ),
         'Has class "sl-tab-panel"'
@@ -31,10 +43,16 @@ test( 'Expected default classes are applied', function( assert ) {
     );
 });
 
-test( 'setupTabs() does so correctly', function( assert ) {
+test( 'setupTabs() sets up tabs correctly', function( assert ) {
     assert.expect( 5 );
 
-    this.render( template );
+    this.render( hbs`
+        {{#sl-tab-panel tabs=tabs}}
+            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
+            {{#sl-tab-pane label="B" name="b"}}B content {{/sl-tab-pane}}
+            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
+        {{/sl-tab-panel}}
+    ` );
 
     const wrapper = this.$( '>:first-child' );
     const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
@@ -94,11 +112,11 @@ test( 'ARIA roles are implemented', function( assert ) {
     );
 });
 
-test( '"initialTabName" property is respected', function( assert ) {
+test( 'initialTabName property is respected', function( assert ) {
     assert.expect( 2 );
 
     this.render( hbs`
-        {{#sl-tab-panel initialTabName='b'}}
+        {{#sl-tab-panel initialTabName="b"}}
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
             {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
             {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
@@ -126,7 +144,7 @@ test( '"initialTabName" property is respected', function( assert ) {
     });
 });
 
-test( 'Tabs display in expected order when "alignTabs" property is not specified', function( assert ) {
+test( 'Tabs display in expected order when alignTabs property is not specified', function( assert ) {
     this.render( template );
 
     const labels = [];
@@ -142,9 +160,9 @@ test( 'Tabs display in expected order when "alignTabs" property is not specified
     );
 });
 
-test( '"alignTabs" property is respected', function( assert ) {
+test( 'alignTabs property is respected', function( assert ) {
     this.render( hbs`
-        {{#sl-tab-panel alignTabs='right'}}
+        {{#sl-tab-panel alignTabs="right"}}
             {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
             {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}
             {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
@@ -152,15 +170,28 @@ test( '"alignTabs" property is respected', function( assert ) {
     ` );
 
     const wrapper = this.$( '>:first-child' );
+    const tabAOffset = wrapper.find( '.tab[data-tab-name="a"]' ).offset().left;
+    const tabBOffset = wrapper.find( '.tab[data-tab-name="b"]' ).offset().left;
+    const tabCOffset = wrapper.find( '.tab[data-tab-name="c"]' ).offset().left;
 
     assert.ok(
         wrapper.hasClass( 'sl-align-tabs-right' ),
         'Tab alignment class is applied'
     );
+
+    assert.ok(
+        tabAOffset > tabBOffset,
+        'Tab A is positioned to the right of tab B'
+    );
+
+    assert.ok(
+        tabBOffset > tabCOffset,
+        'Tab B is positioned to the right of tab C'
+    );
 });
 
 test( 'Clicking tab changes active tab', function( assert ) {
-    assert.expect( 2 );
+    assert.expect( 4 );
 
     this.render( template );
 
@@ -175,14 +206,31 @@ test( 'Clicking tab changes active tab', function( assert ) {
     // queue asserts after animation
     tabPaneA.queue( () => {
         tabPaneB.queue( () => {
+            const activeTab = wrapper.find( '.tab.active' );
+            const activePane = wrapper.find( '.sl-tab-pane.active' );
+
             assert.strictEqual(
-                wrapper.find( '.tab.active[data-tab-name="b"]' ).length,
-                1
+                activeTab.data( 'tab-name' ),
+                'b',
+                'Active tab is "b"'
             );
 
             assert.strictEqual(
-                wrapper.find( '.sl-tab-pane.active[data-tab-name="b"]' ).length,
-                1
+                activePane.data( 'tab-name' ),
+                'b',
+                'Active pane is "b"'
+            );
+
+            assert.strictEqual(
+                activeTab.length,
+                1,
+                "There's only one active tab'"
+            );
+
+            assert.strictEqual(
+                activePane.length,
+                1,
+                "There's only one active pane"
             );
 
             done();
@@ -216,64 +264,12 @@ test( 'Tab content height is adjusted after new tab selection', function( assert
     // queue assert after animation
     tabPaneA.queue( () => {
         tabPaneB.queue( () => {
-            assert.ok(
-                wrapper.find( '.tab-content' ).height() > initialHeight
+            assert.notEqual(
+                wrapper.find( '.tab-content' ).height(),
+                initialHeight
             );
 
             done();
         });
     });
-
-});
-
-test( '"activatePane" animates as expected', function( assert ) {
-    assert.expect( 1 );
-
-    this.render( template );
-
-    const spy = sinon.spy( Ember.$.prototype, 'fadeIn' );
-    const done = assert.async();
-    const wrapper = this.$( '>:first-child' );
-    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
-
-    wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
-
-    // queue assert after animation
-    tabPaneA.queue( () => {
-        assert.strictEqual(
-            spy.calledOnce,
-            true
-        );
-
-        done();
-        Ember.$.prototype.fadeIn.restore();
-    });
-});
-
-test( '"deactivatePane" animates as expected', function( assert ) {
-    assert.expect( 1 );
-
-    this.render( template );
-
-    const spy = sinon.spy( Ember.$.prototype, 'fadeOut' );
-    const done = assert.async();
-    const wrapper = this.$( '>:first-child' );
-    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
-    const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
-
-    wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
-
-    // queue assert after animation
-    tabPaneA.queue( () => {
-        tabPaneB.queue( () => {
-            assert.strictEqual(
-                spy.calledOnce,
-                true
-            );
-
-            done();
-            Ember.$.prototype.fadeOut.restore();
-        });
-    });
-
 });

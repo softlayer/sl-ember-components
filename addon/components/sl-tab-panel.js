@@ -112,32 +112,50 @@ export default Ember.Component.extend({
         'didInsertElement',
         function() {
             Ember.run.scheduleOnce( 'afterRender', this, function() {
-                let initialTabName = this.get( 'initialTabName' );
-                const tabs = Ember.A();
-
-                if ( !initialTabName ) {
-                    initialTabName = this
-                        .$( '.tab-pane:first' )
-                        .attr( 'data-tab-name' );
-                }
+                const initialTabName = this.getInitialTabName();
+                const tabs = this.getTabs( initialTabName );
 
                 this.setActiveTab( initialTabName );
                 this.activatePane( initialTabName );
-
-                this.$( '.tab-pane' ).each( function() {
-                    const tabName = this.getAttribute( 'data-tab-name' );
-
-                    tabs.push({
-                        active: tabName === initialTabName,
-                        label: this.getAttribute( 'data-tab-label' ),
-                        name: tabName
-                    });
-                });
-
                 this.set( 'tabs', tabs );
             });
         }
     ),
+
+    /**
+     * Creates an array of tab objects with tab properties
+     *
+     * @function
+     * @returns {array}
+     */
+    getTabs( initialTabName ) {
+        const tabs = Ember.A();
+        const panes = this.$( '.tab-pane' );
+
+        panes.each( function() {
+            const tabName = this.getAttribute( 'data-tab-name' );
+
+            tabs.push({
+                active: tabName === initialTabName,
+                label: this.getAttribute( 'data-tab-label' ),
+                name: tabName
+            });
+        });
+
+        return tabs;
+    },
+
+    /**
+     * Get initial tab name
+     *
+     * @function
+     * @returns {String}
+     */
+    getInitialTabName() {
+        return this.get( 'initialTabName' ) ||
+               this.$( '.tab-pane:first' )
+                   .attr( 'data-tab-name' );
+    },
 
     /**
      * Sets the tab-content div height based on current contentHeight value
