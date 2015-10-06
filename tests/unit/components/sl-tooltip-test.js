@@ -13,6 +13,15 @@ test( 'Expected Mixin is present', function( assert ) {
     );
 });
 
+test( 'Default values are correct', function( assert ) {
+    const component = this.subject( { title: 'test' } );
+
+    assert.equal(
+        component.get( 'tagName' ),
+        'span'
+    );
+});
+
 test( '"title" property needs to be a string', function( assert ) {
 
     const properties = Ember.Object.create();
