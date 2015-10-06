@@ -79,7 +79,8 @@ test( 'setupTabs() sets "tabs" property with correct data', function( assert ) {
         { label: 'Three', name: 'three', active: false }
     ];
 
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -110,9 +111,7 @@ test( 'getTabs() returns correct data', function( assert ) {
     ];
 
     this.registry
-        .register( 'template:test-template',
-            Ember.HTMLBars.compile( template )
-        );
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -133,11 +132,11 @@ test( 'getTabs() returns correct data', function( assert ) {
     );
 
     this.registry.unregister( 'template:test-template' );
-
 });
 
 test( 'setActiveTab() does so correctly', function( assert ) {
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -170,9 +169,7 @@ test( 'setActiveTab() does so correctly', function( assert ) {
 
 test( 'getInitialTabName() returns the correct tab name', function( assert ) {
     this.registry
-        .register( 'template:test-template',
-            Ember.HTMLBars.compile( template )
-        );
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -193,6 +190,8 @@ test( 'getInitialTabName() returns the correct tab name', function( assert ) {
         'two',
         'If initialTabName is set, it is returned'
     );
+
+    this.registry.unregister( 'template:test-template' );
 });
 
 test( 'updateContentHeight() updates tab content height when contentHeight changes', function( assert ) {
@@ -212,7 +211,8 @@ test( 'updateContentHeight() updates tab content height when contentHeight chang
 test( 'activatePane() activates pane as expected', function( assert ) {
     assert.expect( 2 );
 
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -237,12 +237,15 @@ test( 'activatePane() activates pane as expected', function( assert ) {
 
         done();
     });
+
+    this.registry.unregister( 'template:test-template' );
 });
 
 test( 'deactivatePane() deactivates pane as expected', function( assert ) {
     assert.expect( 3 );
 
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -268,10 +271,13 @@ test( 'deactivatePane() deactivates pane as expected', function( assert ) {
 
         done();
     });
+
+    this.registry.unregister( 'template:test-template' );
 });
 
 test( 'paneFor() returns the correct DOM element', function( assert ) {
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -290,7 +296,8 @@ test( 'paneFor() returns the correct DOM element', function( assert ) {
 });
 
 test( 'tabFor() returns the correct DOM element', function( assert ) {
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -341,7 +348,8 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
 });
 
 test( 'contentHeight is set to an integer value when activatePane() is called', function( assert ) {
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -355,10 +363,13 @@ test( 'contentHeight is set to an integer value when activatePane() is called', 
         Ember.typeOf( component.get( 'contentHeight' ) ),
         'number'
     );
+
+    this.registry.unregister( 'template:test-template' );
 });
 
 test( 'activeTabName is set to correct value when activatePane() is called', function( assert ) {
-    this.registry.register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+    this.registry
+        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -372,4 +383,6 @@ test( 'activeTabName is set to correct value when activatePane() is called', fun
         component.get( 'activeTabName' ),
         'b'
     );
+
+    this.registry.unregister( 'template:test-template' );
 });
