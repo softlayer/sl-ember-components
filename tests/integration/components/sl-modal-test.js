@@ -35,25 +35,6 @@ const template = hbs`
 `;
 
 moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
-
-    beforeEach() {
-        this.hideModal = true;
-    },
-
-    /**
-     * Hide modal after each test,
-     * this will prevent the bootstrap overlay from sticking around.
-     * The hideModal property can be overridden in a test.
-     **/
-    afterEach() {
-        if ( this.hideModal ) {
-            if ( this.$( '>:first-child' ) ) {
-                this.$( '>:first-child' ).modal( 'hide' );
-                Ember.$( '>:first-child' ).find( '.modal-backdrop' ).remove();
-            }
-        }
-    },
-
     integration: true
 });
 
@@ -235,13 +216,64 @@ test( 'Backdrop is hidden when backdrop property is set to false', function( ass
 test( 'Backdrop is shown by default', function( assert ) {
     this.render( template );
 
-    Ember.run( () => {
-        this.$( '>:first-child' ).modal( 'show' );
-    });
+    const $modal = this.$( '>:first-child' );
 
-    assert.equal(
-        Ember.$( '>:first-child' ).length,
-        1
+    const done = assert.async();
+    $modal.modal( 'show' );
+
+    window.setTimeout(
+        function() {
+            assert.strictEqual(
+                Ember.$( '.modal-backdrop' ).length,
+                1,
+                'exactly one backdrop was created when modal shown'
+            );
+            // clean up the test
+            $modal.modal( 'hide' );
+            window.setTimeout(
+              done,
+              2000
+            );
+        },
+        2000
+    );
+});
+
+test( 'Is modal properly visible above backdrop', function( assert ) {
+    this.render( template );
+
+    const $modal = this.$( '>:first-child' );
+
+    const done = assert.async();
+    $modal.modal( 'show' );
+
+    // allow time for animation
+    window.setTimeout(
+        function() {
+            assert.strictEqual(
+                this.$( '>:first-child' ).is( ':visible' ),
+                true,
+                'dialog is visible when modal shown'
+            );
+
+            assert.strictEqual(
+                Ember.$( '.modal-backdrop' ).is( ':visible' ),
+                true,
+                'backdrop is visible when modal shown'
+            );
+
+            assert.ok(
+                this.$( '>:first-child' ).css( 'zIndex' ) > Ember.$( '.modal-backdrop' ).css( 'zIndex' ),
+                'modal dialog should be above the backdrop'
+            );
+
+            $modal.modal( 'hide' );
+            window.setTimeout(
+              done,
+              2000
+            );
+        },
+        2000
     );
 });
 
