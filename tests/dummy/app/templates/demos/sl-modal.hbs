@@ -8,8 +8,8 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Simple usage</h6>
-            <pre>\{{#sl-modal streamName="demoModal"}}
-    \{{sl-modal-header title="Simple Example"}}
+            <pre>\{{#sl-modal streamName="demoModal" as |modal|}}
+    \{{sl-modal-header title="Simple Example" ariaLabelledBy=modal.ariaLabelledBy}}
 
     \{{#sl-modal-body}}
          &lt;p&gt;A simple modal example&lt;/p&gt;
@@ -17,8 +17,11 @@
 
     \{{sl-modal-footer}}
 \{{/sl-modal}} </pre>
-        {{#sl-modal streamName="demoModal"}}
-            {{sl-modal-header title="Simple Example"}}
+        {{#sl-modal streamName="demoModal" as |modal|}}
+            {{sl-modal-header
+                title="Simple Example"
+                ariaLabelledBy=modal.ariaLabelledBy
+            }}
 
             {{#sl-modal-body}}
                 <p>A simple modal example</p>
@@ -41,13 +44,13 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Custom header</h6>
-            <pre>\{{#sl-modal streamName="customHeader"}}
-    \{{#sl-modal-header as |ariaLabelledBy|}}
+            <pre>\{{#sl-modal streamName="customHeader" as |modal|}}
+    \{{#sl-modal-header}}
         &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
             &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
             &lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;
         &lt;/button&gt;
-        &lt;span class=&quot;modal-title&quot; id=\{{ariaLabelledBy}}&gt;Custom Header&lt;/span&gt;
+        &lt;span class=&quot;modal-title&quot; id=\{{modal.ariaLabelledBy}}&gt;Custom Header&lt;/span&gt;
     \{{/sl-modal-header}}
 
     \{{#sl-modal-body}}
@@ -57,13 +60,13 @@
     \{{sl-modal-footer}}
 \{{/sl-modal}}</pre>
 
-{{#sl-modal streamName="customHeader"}}
-    {{#sl-modal-header as |ariaLabelledBy|}}
+{{#sl-modal streamName="customHeader" as |modal|}}
+    {{#sl-modal-header}}
         <button class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true" class="fa fa-close"></span>
             <span class="sr-only">close</span>
         </button>
-        <span class="modal-title" id={{ariaLabelledBy}}>custom header</span>
+        <span class="modal-title" id={{modal.ariaLabelledBy}}>custom header</span>
     {{/sl-modal-header}}
 
     {{#sl-modal-body}}
@@ -190,19 +193,19 @@
 {{/property-text}}
 
 {{#property-text name="aria-labelledby"}}
-    <p> This attribute is automatically rendered as <code>aria-labelledby="X"</code>, where X is a string composed of the value modalTitle- followed by a random number.  If you pass in a title to the <code>sl-modal-header</code> component, no action is needed on your part, the <code>aria-labelledby</code> attribute will automatically point to the id of the title element. If you do not pass in a title and are <em>not</em> using a custom header, the <code>aria-labelledby</code> attribute will not be present.</p>
+    <p> This attribute is automatically rendered as <code>aria-labelledby="X"</code>, where X is a string composed of the value modalTitle- followed by a random number.  If you set the context <code>as |modal|</code> in the sl-modal opening handlebar statement and pass in <code>title="Simple Example"</code> and <code>ariaLabelledBy=modal.ariaLabelledBy</code>to the <code>sl-modal-header</code> component, the <code>aria-labelledby</code> attribute will automatically point to the id of the title element. If you do not pass in a title and are <em>not</em> using a custom header, the <code>aria-labelledby</code> attribute will not be present.</p>
 
-    <p>If you would like to use a custom header you will need to identify a section of text that servers as the label for this dialog and give it the same id value assigned to the <code>aria-labelledby</code> attribute.</p>
+    <p>If you would like to use a custom header you will need to identify a section of text that serves as the label for this dialog and give it the same id value assigned to the <code>aria-labelledby</code> attribute.</p>
 
-    <p>The example below illustrates how to bind the value of the <code>ariaLabelledBy</code> property to the id of a target element using <code>id=\{{ariaLabelledBy}}</code>.</p>
+    <p>The example below illustrates how to bind the value of the <code>ariaLabelledBy</code> property to the id of a target element using <code>id=\{{modal.ariaLabelledBy}}</code>.</p>
 
-<pre>\{{#sl-modal name="labelledbyDemo"}}
-    \{{#sl-modal-header as |ariaLabelledBy|}}
+<pre>\{{#sl-modal name="labelledbyDemo" as |modal|}}
+    \{{#sl-modal-header}}
         &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
             &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
             &lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;
         &lt;/button&gt;
-        &lt;span class=&quot;modal-title&quot; id=\{{ariaLabelledBy}}&gt;Custom Header&lt;/span&gt;
+        &lt;span class=&quot;modal-title&quot; id=\{{modal.ariaLabelledBy}}&gt;Custom Header&lt;/span&gt;
     \{{/sl-modal-header}}
 
     \{{#sl-modal-body}}

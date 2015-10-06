@@ -20,8 +20,11 @@ const mockStream = {
 };
 
 const template = hbs`
-    {{#sl-modal}}
-        {{sl-modal-header title="Simple Example"}}
+    {{#sl-modal as |modal|}}
+        {{sl-modal-header
+            title="Simple Example"
+            ariaLabelledBy=modal.ariaLabelledBy
+        }}
 
         {{#sl-modal-body}}
             <p>A simple modal example</p>
@@ -319,8 +322,27 @@ test( 'aria-hidden is true', function( assert ) {
 test( 'aria-labelledby is set', function( assert ) {
     this.render( template );
 
-    assert.ok(
-        this.$( '>:first-child' ).attr( 'aria-labelledby' )
+    assert.equal(
+        this.$( '>:first-child' ).attr( 'aria-labelledby' ),
+        this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
+        '"aria-labelledby" points to correct element'
+    );
+});
+
+test( 'aria-labelledby can be bound in a custom header', function( assert ) {
+
+    this.render( hbs`
+        {{#sl-modal as |modal|}}
+            {{#sl-modal-header}}
+                <span class="modal-title" id={{modal.ariaLabelledBy}}>Custom Title</span>
+            {{/sl-modal-header}}
+        {{/sl-modal}}
+    ` );
+
+    assert.equal(
+        this.$( '>:first-child' ).attr( 'aria-labelledby' ),
+        this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
+        '"aria-labelledby" in custom header points to correct element'
     );
 });
 

@@ -1,0 +1,14 @@
+{
+  "files": {
+    "included": [
+      "app/**/*.js",
+      "addon/**/*.js"
+    ],
+    "excluded": [
+      "addon/templates/**/*.hbs",
+      "app/styles/*",
+      "app/styles/**/*",
+      "app/templates/*.hbs"
+    ]
+  }
+}

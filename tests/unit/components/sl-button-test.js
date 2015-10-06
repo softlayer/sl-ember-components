@@ -1,6 +1,29 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
+import streamEnabled from 'ember-stream/mixins/stream-enabled';
+import tooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';
+import { Size as SizeEnum } from 'sl-ember-components/components/sl-button';
+import * as utils from 'sl-ember-components/utils/all';
+
+const Size = {
+    EXTRA_SMALL: 'extra-small',
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
+};
+
+const Theme = {
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    HOVER: 'hover',
+    INFO: 'info',
+    LINK: 'link',
+    PRIMARY: 'primary',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
 
 moduleForComponent( 'sl-button', 'Unit | Component | sl button', {
     unit: true
@@ -10,130 +33,85 @@ const mockStreamService = {
     send() {}
 };
 
-test( 'Label changes for pending state', function( assert ) {
-    const pendingText = 'Pending';
-    const staticText = 'Static';
-    const component = this.subject({
-        pendingLabel: pendingText,
-        label: staticText
-    });
-
-    assert.equal(
-        component.get( 'currentLabel' ),
-        staticText,
-        'Static text is set initially'
-    );
-
-    Ember.run( () => {
-        component.set( 'pending', true );
-    });
-
-    assert.equal(
-        component.get( 'currentLabel' ),
-        pendingText,
-        'Pending text is set while pending'
+test( 'Successfully mixed sl-stream-enabled', function( assert ) {
+    assert.ok(
+       streamEnabled.detect( this.subject() )
     );
 });
 
-test( 'The element fires event when clicked', function( assert ) {
-    this.subject({
-        action: 'externalAction',
-        targetObject: {
-            externalAction() {
-                assert.ok(
-                    true,
-                    'External action was called'
-                );
-            }
-        }
-    });
-
-    assert.expect( 1 );
-    this.$().click();
+test( 'Successfully mixed sl-tooltip-enabled', function( assert ) {
+    assert.ok(
+        tooltipEnabled.detect( this.subject() )
+    );
 });
 
-test( 'Button supports disabled state', function( assert ) {
+test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        this.$().is( ':disabled' ),
-        false,
-        'Component is disabled by default'
+        component.get( 'tagName' ),
+        'button',
+        'Default tagName is button'
     );
-
-    Ember.run( () => {
-        component.set( 'disabled', true );
-    });
 
     assert.strictEqual(
-        this.$().is( ':disabled' ),
+        component.get( 'bubbles' ),
         true,
-        'Component becomes disabled'
-    );
-});
-
-/**
- * While it appears that core Ember functionality is being tested this test is
- * ensuring that the implied contract about which DOM element is rendered is
- * adhered to.
- */
-
-test( 'Renders as a button tag', function( assert ) {
-    assert.ok(
-        this.$().is( 'button' ),
-        'Is a <button>'
-    );
-});
-
-test( 'Expected default classes are applied', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'btn' ),
-        'Has class "btn"'
+        'bubbles is true by default'
     );
 
-    assert.ok(
-        this.$().hasClass( 'sl-button' ),
-        'Has class "sl-button"'
-    );
-});
-
-test( 'Labels are correctly initialized', function( assert ) {
-    this.subject({ label: 'Test' });
-
-    assert.equal(
-        Ember.$.trim( this.$().text() ),
-        'Test',
-        'Expected label is present as text'
-    );
-});
-
-test( 'sizeClass() returns correct values', function( assert ) {
-    const component = this.subject({ size: 'large' });
-
-    assert.equal(
-        component.get( 'sizeClass' ),
-        'btn-lg',
-        'sizeClass is expected value'
+    assert.strictEqual(
+        component.get( 'disabled' ),
+        false,
+        'disabled is false by default'
     );
 
-    assert.ok(
-        this.$().hasClass( 'btn-lg' ),
-        'Has expected class "btn-lg"'
-    );
-});
-
-test( 'themeClass() returns correct value', function( assert ) {
-    const component = this.subject({ theme: 'success' });
-
-    assert.equal(
-        component.get( 'themeClass' ),
-        'btn-success',
-        'themeClass is expected value'
+    assert.strictEqual(
+        component.get( 'label' ),
+        null,
+        'label is null by default'
     );
 
-    assert.ok(
-        this.$().hasClass( 'btn-success' ),
-        'Has expected class "btn-success"'
+    assert.strictEqual(
+        component.get( 'pending' ),
+        false,
+        'pending is false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'pendingLabel' ),
+        null,
+        'pendingLabel is null by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'size' ),
+        'medium',
+        'size is medium by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'showModalWithStreamName' ),
+        null,
+        'showModalWithStreamName is null by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'theme' ),
+        'default',
+        'theme is "default" by default'
+    );
+
+    assert.deepEqual(
+        SizeEnum,
+        Size,
+        'Size enum values are correct'
+    );
+
+    assert.deepEqual(
+        ThemeEnum,
+        Theme,
+        'Theme enum values are correct'
     );
 });
 
@@ -155,18 +133,152 @@ test( 'Button supports click event bubbling', function( assert ) {
     );
 });
 
-test( 'showModalWithStreamName property triggers modal to open', function( assert ) {
-    this.subject({
-        showModalWithStreamName: 'test',
-        streamService: mockStreamService
+test( 'Label changes for pending state', function( assert ) {
+    const pendingText = 'Pending';
+    const staticText = 'Static';
+    const component = this.subject({
+        pendingLabel: pendingText,
+        label: staticText
     });
 
-    const sendSpy = sinon.spy( mockStreamService, 'send' );
+    assert.strictEqual(
+        component.get( 'currentLabel' ),
+        staticText,
+        'Static text is set initially'
+    );
 
-    this.$().trigger( 'click' );
+    Ember.run( () => component.set( 'pending', true ) );
+
+    assert.strictEqual(
+        component.get( 'currentLabel' ),
+        pendingText,
+        'Pending text is set while pending'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const currentLabelDependentKeys = [
+        'label',
+        'pending',
+        'pendingLabel'
+    ];
+
+    const sizeClassDependentKeys = [
+        'size'
+    ];
+
+    const themeClassDependentKeys = [
+        'theme'
+    ];
+
+    assert.deepEqual(
+        component.currentLabel._dependentKeys,
+        currentLabelDependentKeys,
+        'Dependent keys are correct for currentLabel()'
+    );
+
+    assert.deepEqual(
+        component.sizeClass._dependentKeys,
+        sizeClassDependentKeys,
+        'Dependent keys are correct for sizeClass()'
+    );
+
+    assert.deepEqual(
+        component.themeClass._dependentKeys,
+        themeClassDependentKeys,
+        'Dependent keys are correct for themeClass()'
+    );
+});
+
+test( 'themeClass() returns the correct class', function( assert ) {
+    const component = this.subject();
+
+    Object.keys( Theme ).forEach( ( key ) => {
+        const theme = Theme[ key ];
+
+        Ember.run( () => component.set( 'theme',  theme ) );
+
+        assert.strictEqual(
+            component.get( 'themeClass' ),
+            `btn-${theme}`
+        );
+    });
+
+    const spy = sinon.spy( utils, 'warn' );
+
+    component.set( 'theme', 'invalid value' );
+    component.get( 'themeClass' );
 
     assert.ok(
-        sendSpy.called,
-        'The send() method of the mock stream service was called'
+        spy.calledOnce,
+        'warn() was called when invalid theme was set'
     );
+
+    utils.warn.restore();
+});
+
+test( 'sizeClass() returns the correct class', function( assert ) {
+    // clone imported enum
+    const sizes = Ember.copy( SizeEnum );
+    const component = this.subject();
+
+    // Set class values on cloned enum, any new values added to imported
+    // enum will cause this test to fail if corresponding class is not set.
+    // This will ensure that this test does not give false positives
+    // for new enum values added.
+    sizes.EXTRA_SMALL = { size: sizes.EXTRA_SMALL, 'class': 'btn-xs' };
+    sizes.LARGE = { size: sizes.LARGE, 'class': 'btn-lg' };
+    sizes.MEDIUM = { size: sizes.MEDIUM, 'class': null };
+    sizes.SMALL = { size: sizes.SMALL, 'class': 'btn-sm' };
+
+    Object.keys( sizes ).forEach( ( key ) => {
+        const size = sizes[ key ].size;
+        const cls = sizes[ key ].class;
+
+        Ember.run( () => component.set( 'size', size ) );
+
+        assert.strictEqual(
+            component.get( 'sizeClass' ),
+            cls,
+            size + ' returned correct value of ' + cls
+        );
+    });
+
+    const spy = sinon.spy( utils, 'warn' );
+
+    component.set( 'size', 'invalid value' );
+    component.get( 'sizeClass' );
+
+    assert.ok(
+        spy.calledOnce,
+        'warn() was called when invalid size was set'
+    );
+
+    utils.warn.restore();
+});
+
+test( 'send() and sendAction() are called when component click() is invoked', function( assert ) {
+    const sendSpy = sinon.spy( mockStreamService, 'send' );
+
+    const component = this.subject( {
+        streamService: mockStreamService,
+        showModalWithStreamName: 'testStreamName',
+        sendAction: sinon.spy()
+    });
+
+    component.click();
+
+    assert.ok(
+        sendSpy.calledWith( 'testStreamName', 'show' ),
+        'send() called with correct arguments'
+    );
+
+    assert.ok(
+        component.sendAction.calledOnce,
+        'sendAction was called'
+    );
+
+    mockStreamService.send.restore();
 });

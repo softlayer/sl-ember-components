@@ -173,7 +173,7 @@ export default Ember.Component.extend({
                 sortDirection = !sortDirection;
             } else {
                 if ( sortedColumn ) {
-                    Ember.set( sortedColumn, 'sortAscending' );
+                    Ember.set( sortedColumn, 'sortAscending', null );
                 }
 
                 this.set( 'sortedColumnTitle', columnTitle );

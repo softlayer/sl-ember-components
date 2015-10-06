@@ -219,7 +219,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     const updateSpy = sinon.spy( component, 'updateData' );
     const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         null,
         'Chart is null upon initilization'
@@ -252,7 +252,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
         'highcharts was called once with no parameters'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         chartTest,
         'chart is initialized'
@@ -337,3 +337,22 @@ test( 'title property is not missing in highchartsOptions and set to null', func
         'title property in highchartsOptions is set to null in order to supress default behavior for our usage'
     );
 });
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    const styleDependentKeys = [
+        'height',
+        'width'
+    ];
+
+    assert.deepEqual(
+        component.style._dependentKeys,
+        styleDependentKeys,
+        'Dependent keys are correct for style()'
+    );
+});
+
