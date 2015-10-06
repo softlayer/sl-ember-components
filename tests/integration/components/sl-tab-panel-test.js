@@ -19,19 +19,6 @@ test( 'Expected default classes are applied', function( assert ) {
 
     const wrapper = this.$( '>:first-child' );
 
-    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
-    const tabA = wrapper.find( '.sl-tab[data-tab-name="a"]' );
-
-    assert.ok(
-        tabPaneA.hasClass( 'active' ),
-        'First tab panel has the active class by default'
-    );
-
-    assert.ok(
-        tabA.hasClass( 'active' ),
-        'First tab has the active class by default'
-    );
-
     assert.ok(
         wrapper.hasClass( 'sl-tab-panel' ),
         'Has class "sl-tab-panel"'
