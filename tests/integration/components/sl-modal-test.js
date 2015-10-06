@@ -251,7 +251,7 @@ test( 'Is modal properly visible above backdrop', function( assert ) {
     window.setTimeout(
         function() {
             assert.strictEqual(
-                this.$( '>:first-child' ).is( ':visible' ),
+                $modal.is( ':visible' ),
                 true,
                 'dialog is visible when modal shown'
             );
@@ -263,7 +263,7 @@ test( 'Is modal properly visible above backdrop', function( assert ) {
             );
 
             assert.ok(
-                this.$( '>:first-child' ).css( 'zIndex' ) > Ember.$( '.modal-backdrop' ).css( 'zIndex' ),
+                $modal.css( 'zIndex' ) > Ember.$( '.modal-backdrop' ).css( 'zIndex' ),
                 'modal dialog should be above the backdrop'
             );
 
