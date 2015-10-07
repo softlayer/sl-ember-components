@@ -122,11 +122,20 @@ export default Ember.Component.extend({
         }
     ),
 
+   /**
+    * @typedef TabsDefinition
+    * @type {Object}
+    * @property {String} active - Whether the tab is active
+    * @property {String} label - Tab label
+    * @property {String} name - Tab name
+    */
+
     /**
      * Creates an array of tab objects with tab properties
      *
+     * @param {String} initialTabName - A string indicating the initially selected tab
      * @function
-     * @returns {array}
+     * @returns {Array.<TabsDefinition>}
      */
     getTabs( initialTabName ) {
         const tabs = Ember.A();

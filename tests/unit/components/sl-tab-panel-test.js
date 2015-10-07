@@ -147,8 +147,8 @@ test( 'setActiveTab() does so correctly', function( assert ) {
     const tabOne = this.$( '.tab[data-tab-name="one"]' );
     const tabTwo = this.$( '.tab[data-tab-name="two"]' );
 
-    assert.ok(
-        !tabTwo.hasClass( 'active' ),
+    assert.notOk(
+        tabTwo.hasClass( 'active' ),
         'Second tab did not have active class'
     );
 
@@ -159,8 +159,8 @@ test( 'setActiveTab() does so correctly', function( assert ) {
         'Second tab now has active class'
     );
 
-    assert.ok(
-        !tabOne.hasClass( 'active' ),
+    assert.notOk(
+        tabOne.hasClass( 'active' ),
         'First tab does not have active class'
     );
 
@@ -264,8 +264,8 @@ test( 'deactivatePane() deactivates pane as expected', function( assert ) {
             'Active panel was hidden'
         );
 
-        assert.ok(
-            !tabPaneA.hasClass( 'active' ),
+        assert.notOk(
+            tabPaneA.hasClass( 'active' ),
             'Active panel no longer has active class'
         );
 
