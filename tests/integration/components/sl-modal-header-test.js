@@ -10,7 +10,7 @@ test( 'Modal header class exists on child element', function( assert ) {
         {{sl-modal-header}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.modal-header' ).length,
         1
     );
@@ -21,7 +21,7 @@ test( 'Close button exists', function( assert ) {
         {{sl-modal-header}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.close' ).length,
         1
     );
@@ -36,7 +36,7 @@ test( 'Setting title on header works', function( assert ) {
         {{sl-modal-header title=title}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.modal-title' ).text(),
         title
     );
@@ -49,7 +49,7 @@ test( 'Content is yielded', function( assert ) {
         {{/sl-modal-header}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.test' ).length,
         1
     );
@@ -63,7 +63,7 @@ test( 'Modal title\'s id is set to ariaLabelledBy property value', function( ass
         {{sl-modal-header title=title ariaLabelledBy=ariaLabelledBy}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
         this.get( 'ariaLabelledBy' )
     );
