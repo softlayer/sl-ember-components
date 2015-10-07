@@ -35,25 +35,6 @@ const template = hbs`
 `;
 
 moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
-
-    beforeEach() {
-        this.hideModal = true;
-    },
-
-    /**
-     * Hide modal after each test,
-     * this will prevent the bootstrap overlay from sticking around.
-     * The hideModal property can be overridden in a test.
-     **/
-    afterEach() {
-        if ( this.hideModal ) {
-            if ( this.$( '>:first-child' ) ) {
-                this.$( '>:first-child' ).modal( 'hide' );
-                Ember.$( '>:first-child' ).find( '.modal-backdrop' ).remove();
-            }
-        }
-    },
-
     integration: true
 });
 
