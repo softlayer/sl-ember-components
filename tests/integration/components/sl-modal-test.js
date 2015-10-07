@@ -323,23 +323,6 @@ test( 'aria-labelledby is set', function( assert ) {
     );
 });
 
-test( 'aria-labelledby can be bound in a custom header', function( assert ) {
-
-    this.render( hbs`
-        {{#sl-modal as |modal|}}
-            {{#sl-modal-header}}
-                <span class="modal-title" id={{modal.ariaLabelledBy}}>Custom Title</span>
-            {{/sl-modal-header}}
-        {{/sl-modal}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).attr( 'aria-labelledby' ),
-        this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
-        '"aria-labelledby" in custom header points to correct element'
-    );
-});
-
 test( 'Component responds to "hide" stream action', function( assert ) {
     this.set( 'stream', mockStream );
     this.set( 'hide', sinon.spy() );
