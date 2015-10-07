@@ -246,8 +246,6 @@ test( 'Backdrop is shown by default', function( assert ) {
 });
 
 test( 'Fade class is present when animated is set to true', function( assert ) {
-    this.render( template );
-
     this.render( hbs`
         {{#sl-modal animated=true}}
             {{sl-modal-header title="Simple Example"}}
@@ -266,8 +264,6 @@ test( 'Fade class is present when animated is set to true', function( assert ) {
 });
 
 test( 'Fade class is absent when animated is set to false', function( assert ) {
-    this.render( template );
-
     this.render( hbs`
         {{#sl-modal animated=false}}
             {{sl-modal-header title="Simple Example"}}
@@ -287,8 +283,6 @@ test( 'Fade class is absent when animated is set to false', function( assert ) {
 
 test( 'ariaDescribedBy attribute binding', function( assert ) {
     const describedBy = 'targetId';
-
-    this.render( template );
 
     this.set( 'ariaDescribedBy', describedBy );
 
