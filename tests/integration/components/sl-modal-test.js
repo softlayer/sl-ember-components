@@ -35,6 +35,11 @@ const template = hbs`
 `;
 
 moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
+    afterEach() {
+        this.$( '.modal' ).remove();
+        Ember.$( '.modal-backdrop' ).remove();
+    },
+
     integration: true
 });
 
@@ -397,4 +402,100 @@ test( 'Component responds to "show" stream action', function( assert ) {
         this.get( 'show' ).calledOnce,
         'hide() was triggered successfully'
     );
+});
+
+test( 'Components do not cross-contaminate', function( assert ) {
+    assert.expect( 6 );
+    const spyModal = sinon.spy( Ember.$.fn, 'modal' );
+    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+
+    const arrayOfJQtoArrayOfDom = function( arr ) {
+        let newArr = [];
+        $.each(
+            arr,
+            function( key, val ) {
+                newArr.push( val.get( 0 ) );
+            }
+        );
+        return newArr;
+    };
+
+    this.render( hbs`
+        {{#sl-modal}}
+            {{sl-modal-header title="Simple Example 1"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    ` );
+
+    const $first = this.$( '>:first-child' );
+
+    assert.deepEqual(
+        arrayOfJQtoArrayOfDom( spyModal.thisValues ),
+        new Array( spyModal.thisValues.length ).fill( $first.get(0) ),
+        'First modal attaches to the proper element ($.fn.modal)'
+    );
+
+    assert.deepEqual(
+        arrayOfJQtoArrayOfDom( spyOn.thisValues ),
+        new Array( spyOn.thisValues.length ).fill( $first.get(0) ),
+        'First modal attaches to the proper element ($.fn.on)'
+    );
+
+    spyModal.reset();
+    spyOn.reset();
+
+    this.render( hbs`
+        {{#sl-modal}}
+            {{sl-modal-header title="Simple Example 2"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    ` );
+
+    const $second = this.$( '>:first-child' );
+
+    assert.deepEqual(
+        arrayOfJQtoArrayOfDom( spyModal.thisValues ),
+        new Array( spyModal.thisValues.length ).fill( $second.get(0) ),
+        'Second modal attaches to the proper element ($.fn.modal)'
+    );
+
+    assert.deepEqual(
+        arrayOfJQtoArrayOfDom( spyOn.thisValues ),
+        new Array( spyOn.thisValues.length ).fill( $second.get(0) ),
+        'Second modal attaches to the proper element ($.fn.on)'
+    );
+
+    spyModal.reset();
+    spyOn.reset();
+
+    $second.modal( 'show' );
+
+    assert.deepEqual(
+        arrayOfJQtoArrayOfDom( spyModal.thisValues ),
+        new Array( spyModal.thisValues.length ).fill( $second.get(0) ),
+        'Second modal acts on the proper dom element (1/2)'
+    );
+
+    spyModal.reset();
+
+    $second.modal( 'hide' );
+
+    assert.deepEqual(
+        arrayOfJQtoArrayOfDom( spyModal.thisValues ),
+        new Array( spyModal.thisValues.length ).fill( $second.get(0) ),
+        'Second modal acts on the proper dom element (2/2)'
+    );
+
+    Ember.$.fn.modal.restore();
+    Ember.$.fn.on.restore();
 });
