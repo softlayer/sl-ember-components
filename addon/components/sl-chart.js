@@ -80,8 +80,8 @@ export default Ember.Component.extend({
      * Check passed parameters on initialization
      *
      * @function
-     * @throws {ember.assert} Series property must be an Array
-     * @throws {ember.assert} Options property must be an Object
+     * @throws {ember.error} Series property must be an Array
+     * @throws {ember.error} Options property must be an Object
      * @returns {undefined}
      */
     initialize: Ember.on(

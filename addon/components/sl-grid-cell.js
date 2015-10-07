@@ -138,8 +138,6 @@ export default Ember.Component.extend({
      * Class name string based on size string
      *
      * @function
-     * @throws {ember.assert} Thrown when supplied `size` value is one not
-     *         defined in enum ColumnSize
      * @returns {String}
      */
     sizeClass: Ember.computed(

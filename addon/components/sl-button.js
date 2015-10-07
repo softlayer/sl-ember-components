@@ -82,8 +82,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     // Events
 
     /**
-     * @function
-     * @throws {ember.assert} Thrown if the modal is not found in modal service
+     * @function                                                                
      * @returns {Boolean} - The `bubbles` property value
      */
     click() {
