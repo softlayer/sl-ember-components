@@ -79,9 +79,11 @@ expecting.  This addon leverages the [ember-cli-jsdoc](https://github.com/softla
 generate documentation.  Simply run either `ember ember-cli-jsdoc` or `npm run docs` (shortcut setup in this repo)
 and then visit *http://localhost:4200/docs*.
 
-7. Commit your changes. If your pull request fixes an issue specify it in the commit message. Here's an example:
+7. Commit your changes.
+    * If your pull request fixes an issue specify it in the commit message. Here's an example:
 `git commit -m "Close #12 Fix passing of context"`.
 [GitHub offers additional examples here.](https://help.github.com/articles/closing-issues-via-commit-messages/)
+    * Follow [these instructions](http://chris.beams.io/posts/git-commit/#imperative) on how to write a commit message, paying particular attention to [#5](http://chris.beams.io/posts/git-commit/#imperative) and [#7](http://chris.beams.io/posts/git-commit/#why-not-how).
 
 8. Push to your fork and submit a pull request againt the `master` branch. Please provide us with some explanation of why you made the changes you made. For new features make sure to explain a standard use case to us.
 
