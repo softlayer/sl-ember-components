@@ -82,7 +82,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     // Events
 
     /**
-     * @function                                                                
+     * @function
      * @returns {Boolean} - The `bubbles` property value
      */
     click() {
@@ -260,3 +260,4 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     )
 
 });
+
