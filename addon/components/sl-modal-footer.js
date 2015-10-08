@@ -20,6 +20,11 @@ export default Ember.Component.extend({
      */
     buttonText: 'Close',
 
+    /** @type {String[]} */
+    classNames: [
+        'modal-footer'
+    ],
+
     /** @type {Object} */
     layout: layout
 
