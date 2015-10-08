@@ -260,4 +260,3 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     )
 
 });
-
