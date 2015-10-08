@@ -436,13 +436,13 @@ test( 'Components do not cross-contaminate', function( assert ) {
 
     assert.deepEqual(
         arrayOfJQtoArrayOfDom( spyModal.thisValues ),
-        new Array( spyModal.thisValues.length ).fill( $first.get(0) ),
+        new Array( spyModal.thisValues.length ).fill( $first.get( 0 ) ),
         'First modal attaches to the proper element ($.fn.modal)'
     );
 
     assert.deepEqual(
         arrayOfJQtoArrayOfDom( spyOn.thisValues ),
-        new Array( spyOn.thisValues.length ).fill( $first.get(0) ),
+        new Array( spyOn.thisValues.length ).fill( $first.get( 0 ) ),
         'First modal attaches to the proper element ($.fn.on)'
     );
 
@@ -465,13 +465,13 @@ test( 'Components do not cross-contaminate', function( assert ) {
 
     assert.deepEqual(
         arrayOfJQtoArrayOfDom( spyModal.thisValues ),
-        new Array( spyModal.thisValues.length ).fill( $second.get(0) ),
+        new Array( spyModal.thisValues.length ).fill( $second.get( 0 ) ),
         'Second modal attaches to the proper element ($.fn.modal)'
     );
 
     assert.deepEqual(
         arrayOfJQtoArrayOfDom( spyOn.thisValues ),
-        new Array( spyOn.thisValues.length ).fill( $second.get(0) ),
+        new Array( spyOn.thisValues.length ).fill( $second.get( 0 ) ),
         'Second modal attaches to the proper element ($.fn.on)'
     );
 
@@ -482,7 +482,7 @@ test( 'Components do not cross-contaminate', function( assert ) {
 
     assert.deepEqual(
         arrayOfJQtoArrayOfDom( spyModal.thisValues ),
-        new Array( spyModal.thisValues.length ).fill( $second.get(0) ),
+        new Array( spyModal.thisValues.length ).fill( $second.get( 0 ) ),
         'Second modal acts on the proper dom element (1/2)'
     );
 
@@ -492,7 +492,7 @@ test( 'Components do not cross-contaminate', function( assert ) {
 
     assert.deepEqual(
         arrayOfJQtoArrayOfDom( spyModal.thisValues ),
-        new Array( spyModal.thisValues.length ).fill( $second.get(0) ),
+        new Array( spyModal.thisValues.length ).fill( $second.get( 0 ) ),
         'Second modal acts on the proper dom element (2/2)'
     );
 
