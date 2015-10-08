@@ -410,7 +410,7 @@ test( 'Components do not cross-contaminate', function( assert ) {
     const spyOn = sinon.spy( Ember.$.fn, 'on' );
 
     const arrayOfJQtoArrayOfDom = function( arr ) {
-        let newArr = [];
+        const newArr = [];
         $.each(
             arr,
             function( key, val ) {
