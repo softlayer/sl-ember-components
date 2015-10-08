@@ -2,7 +2,6 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { skip } from 'qunit';
-import sinon from 'sinon';
 
 moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date range picker', {
     integration: true
@@ -143,9 +142,8 @@ test( 'format is accepted as a parameter', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' )[ 0 ];
-    const evt = new window.Event( 'focus' );
-    datepicker.dispatchEvent( evt );
+    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' );
+    datepicker.triggerHandler( 'focus' );
 
     const activeDay = Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first();
     activeDay.click();
@@ -168,9 +166,8 @@ test( 'minDate is accepted as a parameter', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' )[ 0 ];
-    const evt = new window.Event( 'focus' );
-    datepicker.dispatchEvent( evt );
+    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' );
+    datepicker.triggerHandler( 'focus' );
 
     assert.strictEqual(
         Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.disabled' ).first().text(),
@@ -190,9 +187,8 @@ test( 'maxDate is accepted as a parameter', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( '.date-picker' )[ 0 ];
-    const evt = new window.Event( 'focus' );
-    datepicker.dispatchEvent( evt );
+    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( '.date-picker' );
+    datepicker.triggerHandler( 'focus' );
 
     assert.strictEqual(
         Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.disabled' ).last().text(),
@@ -211,9 +207,8 @@ test( 'Selected day is set in the start date input field', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' )[ 0 ];
-    const evt = new window.Event( 'focus' );
-    datepicker.dispatchEvent( evt );
+    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' );
+    datepicker.triggerHandler( 'focus' );
 
     const activeDay = Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first();
     activeDay.click();
@@ -235,9 +230,8 @@ test( 'Selected day is set in the end date input field', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( '.date-picker' )[ 0 ];
-    const evt = new window.Event( 'focus' );
-    datepicker.dispatchEvent( evt );
+    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( '.date-picker' );
+    datepicker.triggerHandler( 'focus' );
 
     const activeDay = Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first();
     activeDay.click();
@@ -318,47 +312,4 @@ skip( '"startDateValue" cannot be more than "endDateValue"', function( assert ) 
 // -------------------------------------------------------------------------
 // Start of Dual Component Tests
 
-skip( 'Dual instance: Change focus does not cause set value to bleed to other instance', function( assert ) {
-    assert.expect( 2 );
-    const done = assert.async();
-    const done2 = assert.async();
-
-    Ember.$( window ).focus();
-
-    Ember.run.later( () => {
-        this.render( hbs`
-            {{sl-date-range-picker}}
-            {{sl-date-range-picker
-                startDateValue="09/25/2015"
-            }}
-        ` );
-
-        const spy = sinon.spy();
-        const endDate1 = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' );
-        endDate1.on( 'focus', spy );
-
-        const endDate2 = this.$( '>:nth-child(2)' ).find( '.sl-daterange-end-date' ).find( 'input' );
-        endDate2.on( 'focus', function() {
-            assert.ok(
-                true,
-                'Instance two end date input was given focus on start date change'
-            );
-            done2();
-        });
-
-        const startDate2 = this.$( '>:nth-child(2)' ).find( '.sl-daterange-start-date' ).find( '.date-picker' )[ 0 ];
-        const evt = new window.Event( 'focus' );
-        startDate2.dispatchEvent( evt );
-
-        const activeDay = Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first();
-        activeDay.click();
-
-        assert.ok(
-            !spy.called,
-            '"focus" was not called on instance one'
-        );
-
-        $( '.datepicker' ).remove();
-        done();
-    }, 1000 );
-});
+skip( 'Dual instance: Change focus does not cause set value to bleed to other instance' );
