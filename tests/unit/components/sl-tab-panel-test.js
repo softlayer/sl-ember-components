@@ -3,8 +3,9 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-tab-panel';
 import * as utils from 'sl-ember-components/utils/all';
 import sinon from 'sinon';
+import hbs from 'htmlbars-inline-precompile';
 
-const template = `
+const template = hbs`
     {{#sl-tab-pane label="One" name="one"}}
         One
     {{/sl-tab-pane}}
@@ -65,10 +66,13 @@ test( 'Default values are set correctly', function( assert ) {
 
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
+    const tabAlignmentDependentKeys = [
+        'alignTabs'
+    ];
 
     assert.deepEqual(
         component.tabAlignmentClass._dependentKeys,
-        [ 'alignTabs' ]
+        tabAlignmentDependentKeys
     );
 });
 
@@ -80,7 +84,7 @@ test( 'setupTabs() sets "tabs" property with correct data', function( assert ) {
     ];
 
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -104,14 +108,8 @@ test( 'getTabs() returns correct data', function( assert ) {
         { label: 'Three', name: 'three', active: false }
     ];
 
-    const tabsTwo = [
-        { label: 'One', name: 'one', active: false },
-        { label: 'Two', name: 'two', active: true },
-        { label: 'Three', name: 'three', active: false }
-    ];
-
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -120,15 +118,9 @@ test( 'getTabs() returns correct data', function( assert ) {
     this.render();
 
     assert.deepEqual(
-        component.getTabs( 'one' ),
+        component.getTabs(),
         tabs,
         'Correct data returned when initialTabName "one" passed in as a parameter'
-    );
-
-    assert.deepEqual(
-        component.getTabs( 'two' ),
-        tabsTwo,
-        'Correct data returned when initialTabName "two" passed in as a parameter'
     );
 
     this.registry.unregister( 'template:test-template' );
@@ -136,7 +128,7 @@ test( 'getTabs() returns correct data', function( assert ) {
 
 test( 'setActiveTab() does so correctly', function( assert ) {
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -169,7 +161,7 @@ test( 'setActiveTab() does so correctly', function( assert ) {
 
 test( 'getInitialTabName() returns the correct tab name', function( assert ) {
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -212,7 +204,7 @@ test( 'activatePane() activates pane as expected', function( assert ) {
     assert.expect( 2 );
 
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -245,7 +237,7 @@ test( 'deactivatePane() deactivates pane as expected', function( assert ) {
     assert.expect( 3 );
 
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -277,7 +269,7 @@ test( 'deactivatePane() deactivates pane as expected', function( assert ) {
 
 test( 'paneFor() returns the correct DOM element', function( assert ) {
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -297,7 +289,7 @@ test( 'paneFor() returns the correct DOM element', function( assert ) {
 
 test( 'tabFor() returns the correct DOM element', function( assert ) {
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -349,7 +341,7 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
 
 test( 'contentHeight is set to an integer value when activatePane() is called', function( assert ) {
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'
@@ -369,7 +361,7 @@ test( 'contentHeight is set to an integer value when activatePane() is called', 
 
 test( 'activeTabName is set to correct value when activatePane() is called', function( assert ) {
     this.registry
-        .register( 'template:test-template', Ember.HTMLBars.compile( template ) );
+        .register( 'template:test-template', template );
 
     const component = this.subject({
         templateName: 'test-template'

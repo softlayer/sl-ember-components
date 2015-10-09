@@ -122,10 +122,13 @@ export default Ember.Component.extend({
         }
     ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
    /**
     * @typedef TabsDefinition
     * @type {Object}
-    * @property {String} active - Whether the tab is active
+    * @property {Boolean} active - Whether the tab is active
     * @property {String} label - Tab label
     * @property {String} name - Tab name
     */
@@ -133,13 +136,14 @@ export default Ember.Component.extend({
     /**
      * Creates an array of tab objects with tab properties
      *
-     * @param {String} initialTabName - A string indicating the initially selected tab
      * @function
+     * @param {String} initialTabName - A string indicating the initially selected tab
      * @returns {Array.<TabsDefinition>}
      */
-    getTabs( initialTabName ) {
+    getTabs() {
         const tabs = Ember.A();
         const panes = this.$( '.tab-pane' );
+        const initialTabName = this.getInitialTabName();
 
         panes.each( function() {
             const tabName = this.getAttribute( 'data-tab-name' );
@@ -161,9 +165,13 @@ export default Ember.Component.extend({
      * @returns {String}
      */
     getInitialTabName() {
-        return this.get( 'initialTabName' ) ||
-               this.$( '.tab-pane:first' )
-                   .attr( 'data-tab-name' );
+        let tabName = this.get( 'initialTabName' );
+
+        if ( Ember.isEmpty( tabName ) ) {
+            tabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
+        }
+
+        return tabName;
     },
 
     /**
@@ -178,9 +186,6 @@ export default Ember.Component.extend({
             this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
         }
     ),
-
-    // -------------------------------------------------------------------------
-    // Methods
 
     /**
      * Activate a tab pane, animating the transition
