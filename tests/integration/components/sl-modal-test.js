@@ -420,7 +420,7 @@ test( 'Components do not cross-contaminate', function( assert ) {
             {{sl-modal-footer}}
         {{/sl-modal}}
     ` );
-                             
+
     const $first = this.$( '>:first-child' );
 
     assert.deepEqual(
