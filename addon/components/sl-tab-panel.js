@@ -221,8 +221,6 @@ export default Ember.Component.extend({
      * The class determining how to align tabs
      *
      * @function
-     * @throws {ember.assert} Thrown if supplied `alignTabs` is a value not
-     *         defined in enum Alignment
      * @returns {?String}
      */
     tabAlignmentClass: Ember.computed(
