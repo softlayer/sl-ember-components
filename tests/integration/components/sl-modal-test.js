@@ -43,9 +43,9 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
     integration: true
 });
 
-test( 'Check setting of template properties', function( assert ) {
+test( 'backdrop property is passed thru to jquery correctly', function( assert ) {
     // we currently only pass thru the backdrop parameter
-    assert.expect( 6 );
+    assert.expect( 3 );
     const spy = sinon.spy( Ember.$.fn, 'modal' );
 
     // props passed to bootstrap modal that are not bound to template
@@ -56,51 +56,48 @@ test( 'Check setting of template properties', function( assert ) {
 
     // all props set one way
     const template1 = hbs`
-      {{#sl-modal
-          backdrop=false
-          animated=false
-      }}
-          {{sl-modal-header}}
+        {{#sl-modal
+            backdrop=false
+        }}
+            {{sl-modal-header}}
 
-          {{#sl-modal-body}}
-              <p>A simple modal example</p>
-          {{/sl-modal-body}}
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
-          {{sl-modal-footer}}
-      {{/sl-modal}}
+            {{sl-modal-footer}}
+        {{/sl-modal}}
     `;
 
     // all props set another way
     const template2 = hbs`
-      {{#sl-modal
-          backdrop=true
-          animated=true
-      }}
-          {{sl-modal-header}}
+        {{#sl-modal
+            backdrop=true
+        }}
+            {{sl-modal-header}}
 
-          {{#sl-modal-body}}
-              <p>A simple modal example</p>
-          {{/sl-modal-body}}
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
-          {{sl-modal-footer}}
-      {{/sl-modal}}
+            {{sl-modal-footer}}
+        {{/sl-modal}}
     `;
 
     // all props allowed to default
     const template3 = hbs`
-      {{#sl-modal}}
-          {{sl-modal-header}}
+        {{#sl-modal}}
+            {{sl-modal-header}}
 
-          {{#sl-modal-body}}
-              <p>A simple modal example</p>
-          {{/sl-modal-body}}
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
 
-          {{sl-modal-footer}}
-      {{/sl-modal}}
+            {{sl-modal-footer}}
+        {{/sl-modal}}
     `;
 
     this.render( template1 );
-    const $first = this.$( '>:first-child' );
 
     assert.deepEqual(
         spy.args[0][0],
@@ -110,11 +107,10 @@ test( 'Check setting of template properties', function( assert ) {
             },
             nonTemplateProps
         ),
-        'All parameters passed thru to jQuery.fn.modal (checking setting) 1/3'
+        'backdrop is false when set to false'
     );
 
     this.render( template2 );
-    const $second = this.$( '>:first-child' );
 
     assert.deepEqual(
         spy.args[1][0],
@@ -124,11 +120,10 @@ test( 'Check setting of template properties', function( assert ) {
             },
             nonTemplateProps
         ),
-        'All parameters passed thru to jQuery.fn.modal (checking setting) 2/3'
+        'backdrop is true when set to true'
     );
 
     this.render( template3 );
-    const $third = this.$( '>:first-child' );
 
     assert.deepEqual(
         spy.args[2][0],
@@ -138,8 +133,64 @@ test( 'Check setting of template properties', function( assert ) {
             },
             nonTemplateProps
         ),
-        'All parameters passed thru to jQuery.fn.modal (checking defaults) 3/3'
+        'backdrop is true by default'
     );
+
+    Ember.$.fn.modal.restore();
+});
+
+test( 'Animated property adds fade class', function( assert ) {
+    // all props set one way
+    const template1 = hbs`
+        {{#sl-modal
+            animated=false
+        }}
+            {{sl-modal-header}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `;
+
+    // all props set another way
+    const template2 = hbs`
+        {{#sl-modal
+            animated=true
+        }}
+            {{sl-modal-header}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `;
+
+    // all props allowed to default
+    const template3 = hbs`
+        {{#sl-modal}}
+            {{sl-modal-header}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    `;
+
+    this.render( template1 );
+    const $first = this.$( '>:first-child' );
+
+    this.render( template2 );
+    const $second = this.$( '>:first-child' );
+
+    this.render( template3 );
+    const $third = this.$( '>:first-child' );
 
     assert.strictEqual(
         $first.filter( ':not(.fade)' ).length,
@@ -158,8 +209,6 @@ test( 'Check setting of template properties', function( assert ) {
         1,
         'fade class present when animated not set'
     );
-
-    Ember.$.fn.modal.restore();
 });
 
 test( 'Classes are present', function( assert ) {
