@@ -45,7 +45,6 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
 
 test( 'backdrop property is passed thru to jquery correctly', function( assert ) {
     // we currently only pass thru the backdrop parameter
-    assert.expect( 3 );
     const spy = sinon.spy( Ember.$.fn, 'modal' );
 
     // props passed to bootstrap modal that are not bound to template
@@ -453,8 +452,7 @@ test( 'Component responds to "show" stream action', function( assert ) {
     );
 });
 
-test( 'Components do not cross-contaminate', function( assert ) {
-    assert.expect( 6 );
+test( 'Components do not cross-contaminate', function( assert ) {  
     const spyModal = sinon.spy( Ember.$.fn, 'modal' );
     const spyOn = sinon.spy( Ember.$.fn, 'on' );
 
