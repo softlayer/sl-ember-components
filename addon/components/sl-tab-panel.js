@@ -122,22 +122,34 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Sets the tab-content div height based on current contentHeight value
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateContentHeight: Ember.observer(
+        'contentHeight',
+        function() {
+            this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
-   /**
-    * @typedef TabsDefinition
-    * @type {Object}
-    * @property {Boolean} active - Whether the tab is active
-    * @property {String} label - Tab label
-    * @property {String} name - Tab name
-    */
+    /**
+     * @typedef TabsDefinition
+     * @type {Object}
+     * @property {Boolean} active - Whether the tab is active
+     * @property {String} label - Tab label
+     * @property {String} name - Tab name
+     */
 
     /**
      * Creates an array of tab objects with tab properties
      *
      * @function
-     * @param {String} initialTabName - A string indicating the initially selected tab
      * @returns {Array.<TabsDefinition>}
      */
     getTabs() {
@@ -173,19 +185,6 @@ export default Ember.Component.extend({
 
         return tabName;
     },
-
-    /**
-     * Sets the tab-content div height based on current contentHeight value
-     *
-     * @function
-     * @returns {undefined}
-     */
-    updateContentHeight: Ember.observer(
-        'contentHeight',
-        function() {
-            this.$( '.tab-content' ).height( this.get( 'contentHeight' ) );
-        }
-    ),
 
     /**
      * Activate a tab pane, animating the transition
