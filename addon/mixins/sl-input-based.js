@@ -46,6 +46,13 @@ export default Ember.Mixin.create({
     inputId: null,
 
     /**
+     * The name of the input element
+     *
+     * @type {?String}
+     */
+    name: null,
+
+    /**
      * Whether the input-based component should be displayed as optional
      *
      * @type {Boolean}

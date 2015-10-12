@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-checkbox';
 
@@ -7,24 +8,13 @@ import layout from '../templates/components/sl-checkbox';
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
 
     // -------------------------------------------------------------------------
     // Attributes
-
-    /** @type {String[]} */
-    attributeBindings: [
-        'checked',
-        'disabled'
-    ],
-
-    /** @type {String[]} */
-    classNameBindings: [
-        'disabled'
-    ],
 
     /** @type {String[]} */
     classNames: [
@@ -53,25 +43,11 @@ export default Ember.Component.extend( TooltipEnabled, {
     checked: false,
 
     /**
-     * Whether the input is disabled or not
-     *
-     * @type {Boolean}
-     */
-    disabled: false,
-
-    /**
      * The input's label text
      *
      * @type {?String}
      */
-    label: null,
-
-    /**
-     * The input's name property value
-     *
-     * @type {?String}
-     */
-    name: null
+    label: null
 
     // -------------------------------------------------------------------------
     // Observers
