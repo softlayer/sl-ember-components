@@ -58,13 +58,7 @@ test( 'backdrop property is passed thru to jquery correctly', function( assert )
         {{#sl-modal
             backdrop=false
         }}
-            {{sl-modal-header}}
 
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
         {{/sl-modal}}
     `;
 
@@ -73,26 +67,14 @@ test( 'backdrop property is passed thru to jquery correctly', function( assert )
         {{#sl-modal
             backdrop=true
         }}
-            {{sl-modal-header}}
 
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
         {{/sl-modal}}
     `;
 
     // all props allowed to default
     const template3 = hbs`
         {{#sl-modal}}
-            {{sl-modal-header}}
 
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
         {{/sl-modal}}
     `;
 
@@ -144,13 +126,7 @@ test( 'Animated property adds fade class', function( assert ) {
         {{#sl-modal
             animated=false
         }}
-            {{sl-modal-header}}
 
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
         {{/sl-modal}}
     `;
 
@@ -159,26 +135,14 @@ test( 'Animated property adds fade class', function( assert ) {
         {{#sl-modal
             animated=true
         }}
-            {{sl-modal-header}}
 
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
         {{/sl-modal}}
     `;
 
     // all props allowed to default
     const template3 = hbs`
         {{#sl-modal}}
-            {{sl-modal-header}}
 
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
         {{/sl-modal}}
     `;
 
