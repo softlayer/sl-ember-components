@@ -172,7 +172,7 @@ test( 'action is fired when date changes on datepicker', function( assert ) {
     });
 
     this.render( hbs`
-        {{sl-date-picker action='action'}}
+        {{sl-date-picker action="action"}}
     ` );
 
     this.$( '>:first-child' )
