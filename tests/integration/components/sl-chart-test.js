@@ -78,7 +78,7 @@ test( 'Title property is set', function( assert ) {
     );
 
     this.render( hbs`
-        {{#sl-chart title='Peak serve hours' series=testseries options=testoptions}}
+        {{#sl-chart title="Peak serve hours" series=testseries options=testoptions}}
         {{/sl-chart}}
     ` );
 

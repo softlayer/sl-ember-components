@@ -11,7 +11,7 @@ test( 'Modal header class exists on child element', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.modal-header' ).length,
+        this.$( '>:first-child' ).filter( '.modal-header' ).length,
         1
     );
 });

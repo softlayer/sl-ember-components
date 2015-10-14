@@ -13,6 +13,11 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
+    classNames: [
+        'modal-header'
+    ],
+
     /** @type {Object} */
     layout: layout,
 
