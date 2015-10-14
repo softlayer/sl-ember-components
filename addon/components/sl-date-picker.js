@@ -313,6 +313,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
                 inputs: this.get( 'inputs' ),
                 keyboardNavigation: this.get( 'keyboardNavigation' ),
                 language: this.get( 'language' ),
+                minViewMode: this.get( 'minViewMode' ),
                 multidate: this.get( 'multidate' ),
                 orientation: this.get( 'orientation' ),
                 startDate: this.get( 'startDate' ),
