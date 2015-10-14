@@ -452,7 +452,7 @@ test( 'Component responds to "show" stream action', function( assert ) {
     );
 });
 
-test( 'Components do not cross-contaminate', function( assert ) {  
+test( 'Components do not cross-contaminate', function( assert ) {
     const spyModal = sinon.spy( Ember.$.fn, 'modal' );
     const spyOn = sinon.spy( Ember.$.fn, 'on' );
 
