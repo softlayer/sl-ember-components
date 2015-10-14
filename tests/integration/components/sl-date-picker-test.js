@@ -189,12 +189,13 @@ test( 'updateDateRange() - clears input date when outside of startDate range', f
         {{sl-date-picker startDate=startDate }}
     ` );
 
-    const inputElement = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = inputElement.data( 'datepicker' );
+    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
+    const datePicker = input.data( 'datepicker' );
 
     datePicker.setDate( window.moment( '2015-06-08' ).toDate() );
 
     this.set( 'startDate', window.moment( '2015-07-08' ).toDate() );
+
 
     assert.equal(
         datePicker.getDate(),
@@ -203,7 +204,7 @@ test( 'updateDateRange() - clears input date when outside of startDate range', f
     );
 
     assert.equal(
-        inputElement.datepicker().val(),
+        input.datepicker().val(),
         '',
         'The datepicker input value was cleared successfully'
     );
@@ -216,8 +217,8 @@ test( 'updateDateRange() - clears input date when outside of endDate range', fun
         {{sl-date-picker endDate=endDate}}
     ` );
 
-    const inputElement = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = inputElement.data( 'datepicker' );
+    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
+    const datePicker = input.data( 'datepicker' );
 
     datePicker.setDate( window.moment( '2015-07-20' ).toDate() );
 
@@ -233,7 +234,7 @@ test( 'updateDateRange() - clears input date when outside of endDate range', fun
     );
 
     assert.equal(
-        inputElement.datepicker().val(),
+        input.datepicker().val(),
         '',
         'The datepicker input value was cleared successfully'
     );
@@ -250,8 +251,8 @@ test( 'updateDateRange() - when date outside startDate range we show placeholder
             {{sl-date-picker placeholder=placeholder startDate=startDate}}
         ` );
 
-        const inputElement = this.$( '>:first-child' ).find( 'input.date-picker' );
-        const datePicker = inputElement.data( 'datepicker' );
+        const input = this.$( '>:first-child' ).find( 'input.date-picker' );
+        const datePicker = input.data( 'datepicker' );
 
         datePicker.setDate( window.moment( '2015-06-08' ).toDate() );
 
@@ -261,7 +262,7 @@ test( 'updateDateRange() - when date outside startDate range we show placeholder
         );
 
         assert.equal(
-            inputElement.datepicker().attr( 'placeholder' ),
+            input.datepicker().attr( 'placeholder' ),
             placeHolder,
             'the "placeholder" value was displayed'
         );
@@ -279,8 +280,8 @@ test( 'updateDateRange() - when date outside endDate range we show placeholder t
             {{sl-date-picker placeholder=placeholder endDate=endDate}}
         ` );
 
-        const inputElement = this.$( '>:first-child' ).find( 'input.date-picker' );
-        const datePicker = inputElement.data( 'datepicker' );
+        const input = this.$( '>:first-child' ).find( 'input.date-picker' );
+        const datePicker = input.data( 'datepicker' );
 
         datePicker.setDate( window.moment( '2015-07-20' ).toDate() );
 
@@ -290,7 +291,7 @@ test( 'updateDateRange() - when date outside endDate range we show placeholder t
         );
 
         assert.equal(
-            inputElement.datepicker().attr( 'placeholder' ),
+            input.datepicker().attr( 'placeholder' ),
             placeHolder,
             'the "placeholder" value was displayed'
         );
@@ -307,8 +308,8 @@ test( 'End date is set on datepicker when endDate property is updated', function
         {{sl-date-picker endDate=endDate}}
     ` );
 
-    const inputElement = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = inputElement.data( 'datepicker' );
+    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
+    const datePicker = input.data( 'datepicker' );
     const spy = sinon.spy( Object.getPrototypeOf( datePicker ), 'setEndDate' );
 
     this.set( 'endDate', endDateTwo );
@@ -330,8 +331,8 @@ test( 'Start date is set on datepicker when startDate property is updated', func
         {{sl-date-picker startDate=startDate}}
     ` );
 
-    const inputElement = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = inputElement.data( 'datepicker' );
+    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
+    const datePicker = input.data( 'datepicker' );
     const spy = sinon.spy( Object.getPrototypeOf( datePicker ), 'setStartDate' );
 
     this.set( 'startDate', startDateTwo );
