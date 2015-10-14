@@ -30,6 +30,12 @@ test( 'Standard values are false by default', function( assert ) {
     );
 
     assert.strictEqual(
+        subject.get( 'name' ),
+        null,
+        'Name is null by default'
+    );
+
+    assert.strictEqual(
         subject.get( 'readonly' ),
         false,
         'Readonly is false by default'

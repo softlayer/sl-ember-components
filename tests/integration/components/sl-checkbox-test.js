@@ -86,3 +86,27 @@ test( 'Checked state applies property to input', function( assert ) {
         'Rendered input is checked'
     );
 });
+
+test( 'name applies property to input', function( assert ) {
+    this.render( hbs`
+        {{#sl-checkbox}}
+        {{/sl-checkbox}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        '',
+        'Rendered input has empty name'
+    );
+
+    this.render( hbs`
+        {{#sl-checkbox name="testname"}}
+        {{/sl-checkbox}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        'testname',
+        'Rendered input has name set'
+    );
+});

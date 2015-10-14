@@ -107,12 +107,6 @@ test( 'Default values are correct', function( assert ) {
         'name',
         'suggestionNamePath property is "name" by default'
     );
-
-    assert.strictEqual(
-        component.get( 'required' ),
-        false,
-        'required property is false by default'
-    );
 });
 
 test( 'Click to edit input has the correct class', function( assert ) {

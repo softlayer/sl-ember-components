@@ -453,6 +453,31 @@ test( '"Popover" capabilities are supported', function( assert ) {
     );
 });
 
+test( 'name applies property to textarea', function( assert ) {
+    this.render( hbs`
+        {{#sl-textarea}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'name' ),
+        '',
+        'Rendered textarea has empty name'
+    );
+
+    this.render( hbs`
+        {{#sl-textarea name="testname"}}
+        {{/sl-textarea}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).prop( 'name' ),
+        'testname',
+        'Rendered textarea has name set'
+    );
+});
+
+
 // This test requires full browser support, Issue #719 opened.
 skip( 'selectionDirection is supported' );
 

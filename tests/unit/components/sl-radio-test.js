@@ -9,27 +9,9 @@ test( 'Correct default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'name' ),
-        null,
-        'Default property "name" is null'
-    );
-
-    assert.strictEqual(
         component.get( 'label' ),
         null,
         'Default property "label" is null'
-    );
-
-    assert.strictEqual(
-        component.get( 'readonly' ),
-        false,
-        'Default property "readonly" is false'
-    );
-
-    assert.strictEqual(
-        component.get( 'disabled' ),
-        false,
-        'Default property "disabled" is false'
     );
 
     assert.strictEqual(
