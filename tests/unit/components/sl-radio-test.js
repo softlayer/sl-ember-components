@@ -1,8 +1,16 @@
 import Ember from 'ember';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import{ moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
     unit: true
+});
+
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
+    );
 });
 
 test( 'Correct default property values', function( assert ) {

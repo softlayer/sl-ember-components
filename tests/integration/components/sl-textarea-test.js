@@ -455,8 +455,7 @@ test( '"Popover" capabilities are supported', function( assert ) {
 
 test( 'name applies property to textarea', function( assert ) {
     this.render( hbs`
-        {{#sl-textarea}}
-        {{/sl-textarea}}
+        {{sl-textarea}}
     ` );
 
     assert.strictEqual(
@@ -466,8 +465,7 @@ test( 'name applies property to textarea', function( assert ) {
     );
 
     this.render( hbs`
-        {{#sl-textarea name="testname"}}
-        {{/sl-textarea}}
+        {{sl-textarea name="testname"}}
     ` );
 
     assert.strictEqual(

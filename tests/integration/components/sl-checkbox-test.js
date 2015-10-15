@@ -7,8 +7,7 @@ moduleForComponent( 'sl-checkbox', 'Integration | Component | sl checkbox', {
 
 test( 'Defaults applied correctly', function( assert ) {
     this.render( hbs`
-        {{#sl-checkbox}}
-        {{/sl-checkbox}}
+        {{sl-checkbox}}
     ` );
 
     assert.ok(
@@ -29,8 +28,7 @@ test( 'Defaults applied correctly', function( assert ) {
 
 test( 'Disabled state applies class and disables input', function( assert ) {
     this.render( hbs`
-        {{#sl-checkbox}}
-        {{/sl-checkbox}}
+        {{sl-checkbox}}
     ` );
 
     assert.strictEqual(
@@ -46,8 +44,7 @@ test( 'Disabled state applies class and disables input', function( assert ) {
     );
 
     this.render( hbs`
-        {{#sl-checkbox disabled=true}}
-        {{/sl-checkbox}}
+        {{sl-checkbox disabled=true}}
     ` );
 
     assert.strictEqual(
@@ -65,8 +62,7 @@ test( 'Disabled state applies class and disables input', function( assert ) {
 
 test( 'Checked state applies property to input', function( assert ) {
     this.render( hbs`
-        {{#sl-checkbox}}
-        {{/sl-checkbox}}
+        {{sl-checkbox}}
     ` );
 
     assert.strictEqual(
@@ -76,8 +72,7 @@ test( 'Checked state applies property to input', function( assert ) {
     );
 
     this.render( hbs`
-        {{#sl-checkbox checked=true}}
-        {{/sl-checkbox}}
+        {{sl-checkbox checked=true}}
     ` );
 
     assert.strictEqual(
@@ -89,8 +84,7 @@ test( 'Checked state applies property to input', function( assert ) {
 
 test( 'name applies property to input', function( assert ) {
     this.render( hbs`
-        {{#sl-checkbox}}
-        {{/sl-checkbox}}
+        {{sl-checkbox}}
     ` );
 
     assert.strictEqual(
@@ -100,8 +94,7 @@ test( 'name applies property to input', function( assert ) {
     );
 
     this.render( hbs`
-        {{#sl-checkbox name="testname"}}
-        {{/sl-checkbox}}
+        {{sl-checkbox name="testname"}}
     ` );
 
     assert.strictEqual(

@@ -5,6 +5,7 @@ import layout from '../templates/components/sl-radio';
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-input-based
  */
 export default Ember.Component.extend( InputBased, {
 

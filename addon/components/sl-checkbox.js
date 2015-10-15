@@ -6,6 +6,7 @@ import layout from '../templates/components/sl-checkbox';
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-enabled
  */
 export default Ember.Component.extend( InputBased, TooltipEnabled, {

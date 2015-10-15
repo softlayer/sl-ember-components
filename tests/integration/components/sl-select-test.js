@@ -7,23 +7,21 @@ moduleForComponent( 'sl-select', 'Integration | Component | sl select', {
 
 test( 'name applies property to input', function( assert ) {
     this.render( hbs`
-        {{#sl-select}}
-        {{/sl-select}}
+        {{sl-select}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        this.$( '>:first-child' ).find( 'input.form-control' ).prop( 'name' ),
         '',
         'Rendered input has empty name'
     );
 
     this.render( hbs`
-        {{#sl-select name="testname"}}
-        {{/sl-select}}
+        {{sl-select name="testname"}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        this.$( '>:first-child' ).find( 'input.form-control' ).prop( 'name' ),
         'testname',
         'Rendered input has name set'
     );
