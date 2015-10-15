@@ -11,7 +11,7 @@ test( 'Footer class exists', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.modal-footer' ).length,
+        this.$( '>:first-child' ).filter( '.modal-footer' ).length,
         1
     );
 });
