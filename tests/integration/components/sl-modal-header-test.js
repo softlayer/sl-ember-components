@@ -49,7 +49,7 @@ test( 'Content is yielded or not', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '[data-dismiss]' ).length > 0,
+        this.$( '>:first-child' ).find( '[data-dismiss="modal"]' ).length > 0,
         'Default header content and close button rendered when not yielded'
     );
 });
