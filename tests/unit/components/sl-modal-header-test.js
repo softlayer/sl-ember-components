@@ -10,6 +10,6 @@ test( 'Default property values are set correctly', function( assert ) {
     assert.strictEqual(
         component.get( 'tagName' ),
         'div',
-        'Default tabName is "div"'
+        'Default tagName is "div"'
     );
 });
