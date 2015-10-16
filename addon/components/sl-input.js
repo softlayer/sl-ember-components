@@ -7,6 +7,7 @@ import layout from '../templates/components/sl-input';
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-component-input-id
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-based
  */
