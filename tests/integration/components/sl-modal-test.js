@@ -43,108 +43,61 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
     integration: true
 });
 
-test( 'backdrop property is passed thru to jquery correctly', function( assert ) {
-    // we currently only pass thru the backdrop parameter
+test( 'Backdrop property is passed through to jQuery correctly', function( assert ) {
+    // we currently only pass through the backdrop parameter
     const spy = sinon.spy( Ember.$.fn, 'modal' );
 
     // props passed to bootstrap modal that are not bound to template
     const nonTemplateProps = {
-        'keyboard': true,
-        'show': false
+        keyboard: true,
+        show: false
     };
 
-    // all props set one way
-    const template1 = hbs`
-        {{#sl-modal
-            backdrop=false
-        }}
+    // setting property to first test value
+    const template1 = hbs`{{sl-modal backdrop=false}}`;
 
-        {{/sl-modal}}
-    `;
+    // setting property to second test value
+    const template2 = hbs`{{sl-modal backdrop=true}}`;
 
-    // all props set another way
-    const template2 = hbs`
-        {{#sl-modal
-            backdrop=true
-        }}
-
-        {{/sl-modal}}
-    `;
-
-    // all props allowed to default
-    const template3 = hbs`
-        {{#sl-modal}}
-
-        {{/sl-modal}}
-    `;
+    // defaulting property value
+    const template3 = hbs`{{sl-modal}}`;
 
     this.render( template1 );
 
     assert.deepEqual(
         spy.args[0][0],
-        Ember.$.extend(
-            {
-                'backdrop': false
-            },
-            nonTemplateProps
-        ),
-        'backdrop is false when set to false'
+        Ember.$.extend( { backdrop: false }, nonTemplateProps ),
+        'backdrop property is correctly set to false'
     );
 
     this.render( template2 );
 
     assert.deepEqual(
         spy.args[1][0],
-        Ember.$.extend(
-            {
-                'backdrop': true
-            },
-            nonTemplateProps
-        ),
-        'backdrop is true when set to true'
+        Ember.$.extend( { backdrop: true }, nonTemplateProps ),
+        'backdrop property is correctly set to true'
     );
 
     this.render( template3 );
 
     assert.deepEqual(
         spy.args[2][0],
-        Ember.$.extend(
-            {
-                'backdrop': true
-            },
-            nonTemplateProps
-        ),
-        'backdrop is true by default'
+        Ember.$.extend( { backdrop: true }, nonTemplateProps ),
+        'backdrop property is correctly defaulted to true'
     );
 
     Ember.$.fn.modal.restore();
 });
 
 test( 'Animated property adds fade class', function( assert ) {
-    // all props set one way
-    const template1 = hbs`
-        {{#sl-modal
-            animated=false
-        }}
+    // setting property to first test value
+    const template1 = hbs`{{sl-modal animated=false}}`;
 
-        {{/sl-modal}}
-    `;
+    // setting property to second test value
+    const template2 = hbs`{{sl-modal animated=true}}`;
 
-    // all props set another way
-    const template2 = hbs`
-        {{#sl-modal
-            animated=true
-        }}
-
-        {{/sl-modal}}
-    `;
-
-    // all props allowed to default
-    const template3 = hbs`
-        {{#sl-modal}}
-
-        {{/sl-modal}}
-    `;
+    // defaulting property value
+    const template3 = hbs`{{sl-modal}}`;
 
     this.render( template1 );
     const $first = this.$( '>:first-child' );
