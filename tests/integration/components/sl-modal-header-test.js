@@ -16,17 +16,6 @@ test( 'Modal header class exists on child element', function( assert ) {
     );
 });
 
-test( 'Close button exists', function( assert ) {
-    this.render( hbs`
-        {{sl-modal-header}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.close' ).length,
-        1
-    );
-});
-
 test( 'Setting title on header works', function( assert ) {
     const title = 'hello world';
 
@@ -42,16 +31,26 @@ test( 'Setting title on header works', function( assert ) {
     );
 });
 
-test( 'Content is yielded', function( assert ) {
+test( 'Content is yielded or not', function( assert ) {
     this.render( hbs`
-        {{#sl-modal-header title=title}}
+        {{#sl-modal-header}}
             <div class="test"></div>
         {{/sl-modal-header}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.test' ).length,
-        1
+        1,
+        'Content is yielded correctly'
+    );
+
+    this.render( hbs`
+        {{sl-modal-header}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '[data-dismiss="modal"]' ).length > 0,
+        'Default header content and close button rendered when not yielded'
     );
 });
 
