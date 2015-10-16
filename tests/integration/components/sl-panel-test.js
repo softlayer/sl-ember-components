@@ -7,8 +7,7 @@ moduleForComponent( 'sl-panel', 'Integration | Component | sl panel', {
 
 test( 'Default classes are present', function( assert ) {
     this.render( hbs`
-        {{#sl-panel}}
-        {{/sl-panel}}
+        {{sl-panel}}
     ` );
 
     assert.ok(
@@ -44,8 +43,7 @@ test( 'Default classes are present', function( assert ) {
 
 test( 'Valid structure rendered for sl-panel', function( assert ) {
     this.render( hbs`
-        {{#sl-panel}}
-        {{/sl-panel}}
+        {{sl-panel}}
     ` );
 
     const component = this.$( '>:first-child' );
@@ -71,8 +69,7 @@ test( 'Valid structure rendered for sl-panel', function( assert ) {
 
 test( 'Valid heading value renders panel-heading', function( assert ) {
     this.render( hbs`
-      {{#sl-panel}}
-      {{/sl-panel}}
+        {{sl-panel}}
     ` );
 
     assert.strictEqual(
@@ -82,8 +79,7 @@ test( 'Valid heading value renders panel-heading', function( assert ) {
     );
 
     this.render( hbs`
-      {{#sl-panel heading="Test"}}
-      {{/sl-panel}}
+        {{sl-panel heading="Test"}}
     ` );
 
     assert.strictEqual(
@@ -101,8 +97,7 @@ test( 'Valid heading value renders panel-heading', function( assert ) {
 
 test( 'Loading state applies class name', function( assert ) {
     this.render( hbs`
-      {{#sl-panel}}
-      {{/sl-panel}}
+        {{sl-panel}}
     ` );
 
     assert.strictEqual(
@@ -112,8 +107,7 @@ test( 'Loading state applies class name', function( assert ) {
     );
 
     this.render( hbs`
-      {{#sl-panel loading=true}}
-      {{/sl-panel}}
+        {{sl-panel loading=true}}
     ` );
 
     assert.ok(
