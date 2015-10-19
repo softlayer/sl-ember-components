@@ -127,7 +127,6 @@ export default Ember.Component.extend({
                 activeRecord: row,
                 detailPaneOpen: true
             });
-            this.updateHeight();
         },
 
         /**
@@ -200,6 +199,10 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Events
+
+    didUpdate() {
+        this.updateHeight();
+    },
 
     // -------------------------------------------------------------------------
     // Properties
