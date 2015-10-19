@@ -200,6 +200,15 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * Watch didUpdate ember event and adjust heights.
+     * Doesn't really matter which template updated, there's no drawback to updating the height
+     * This function is needed for the details pane since the footer would be empty when opened,
+     * then given data at a later time
+     *
+     * @function
+     * @returns {undefined}
+     */
     didUpdate() {
         this.updateHeight();
     },
