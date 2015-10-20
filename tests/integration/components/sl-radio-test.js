@@ -7,8 +7,7 @@ moduleForComponent( 'sl-radio', 'Integration | Component | sl radio', {
 
 test( 'Disabled state applies disabled class, and attribute to input', function( assert ) {
     this.render( hbs`
-        {{#sl-radio disabled=true}}
-        {{/sl-radio}}
+        {{sl-radio disabled=true}}
     ` );
 
     assert.ok(
@@ -24,8 +23,7 @@ test( 'Disabled state applies disabled class, and attribute to input', function(
 
 test( 'Inline property sets relevant class', function( assert ) {
     this.render( hbs`
-        {{#sl-radio inline=true}}
-        {{/sl-radio}}
+        {{sl-radio inline=true}}
     ` );
 
     assert.ok(
