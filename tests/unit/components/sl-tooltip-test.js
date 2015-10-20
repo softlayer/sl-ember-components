@@ -13,25 +13,12 @@ test( 'Expected Mixin is present', function( assert ) {
     );
 });
 
-/**
- * Ensures that the template is wrapping the content in a span tag and not in
- * any block-level tags. While it appears that core Ember functionality is being
- * tested this test is ensuring that the implied contract about how this UI
- * component is rendered into the DOM is adhered to.
- */
-test( 'Renders as a span tag with no classes', function( assert ) {
-    this.subject({
-        popover: 'Popover content',
-        title: 'Popover Text'
-    });
+test( 'Default values are correct', function( assert ) {
+    const component = this.subject( { title: 'test' } );
 
     assert.equal(
-        this.$().prop( 'tagName' ),
-        'SPAN'
-    );
-    assert.equal(
-        this.$().prop( 'class' ),
-        'ember-view'
+        component.get( 'tagName' ),
+        'span'
     );
 });
 

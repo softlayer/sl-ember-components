@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { module, test, skip } from 'qunit';
-import sinon from 'sinon';
 
 let temporaryData;
 const jQueryMock = function() {
@@ -205,5 +204,53 @@ test( 'enablePopover() - Title is reset', function( assert ) {
     assert.equal(
         temporaryData[ 'data-content' ],
         testContent
+    );
+});
+
+test( 'dataTrigger property supports "focus hover click" values', function( assert ) {
+    const testTitle = 'Popover Text';
+    const testContent = 'Popover Content';
+    const testDataTrigger = 'focus hover click';
+    const testObject = Ember.Object.extend( mixinUnderTest, {
+        title: testTitle,
+        popover: testContent,
+        dataTrigger: testDataTrigger,
+        $: jQueryMock
+    });
+    const subject = testObject.create();
+
+    subject.$().attr(
+        'data-original-title',
+        'to get past undefined check'
+    );
+
+    assert.strictEqual(
+        subject.get( 'dataTrigger' ),
+        testDataTrigger,
+        '"dataTrigger" is set to "focus hover click"'
+    );
+
+    subject.set( 'dataTrigger', 'focus' );
+
+    assert.strictEqual(
+        subject.get( 'dataTrigger' ),
+        'focus',
+        '"dataTrigger" is set to "focus"'
+    );
+
+    subject.set( 'dataTrigger', 'hover' );
+
+    assert.strictEqual(
+        subject.get( 'dataTrigger' ),
+        'hover',
+        '"dataTrigger" is set to "hover"'
+    );
+
+    subject.set( 'dataTrigger', 'click' );
+
+    assert.strictEqual(
+        subject.get( 'dataTrigger' ),
+        'click',
+        '"dataTrigger" is set to "click"'
     );
 });
