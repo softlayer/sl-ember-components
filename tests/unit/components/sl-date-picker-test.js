@@ -173,7 +173,7 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
         'changeDate handler is registered after didInsertElement'
     );
 
-    component.trigger( 'willClearRender' );
+    Ember.run( () => component.trigger( 'willClearRender' ) );
 
     assert.notOk(
         'changeDate' in events,
