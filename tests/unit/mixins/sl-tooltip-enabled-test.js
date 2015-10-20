@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { module, test, skip } from 'qunit';
+import sinon from 'sinon';
 
 let temporaryData;
 const jQueryMock = function() {
