@@ -155,7 +155,6 @@ test( 'Default properties are set correctly', function( assert ) {
     );
 
     assert.equal(
-
         component.get( 'weekStart' ),
         0,
         '"weekStart" default value is correct'

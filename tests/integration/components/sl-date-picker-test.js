@@ -3,7 +3,7 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-const template = hbs`
+const defaultTemplate = hbs`
     {{sl-date-picker}}
 `;
 
@@ -16,7 +16,7 @@ moduleForComponent( 'sl-date-picker', 'Integration | Component | sl date picker'
 });
 
 test( 'Defaults rendering of component is as expected', function( assert ) {
-    this.render( template );
+    this.render( defaultTemplate );
 
     const first = this.$( '>:first-child' );
     const input = first.find( 'input' );
@@ -41,10 +41,6 @@ test( 'Defaults rendering of component is as expected', function( assert ) {
         'Default rendered input has class "form-control"'
     );
 
-    assert.notOk(
-        input.prop( 'disabled' ),
-        'Default rendered input is not disabled'
-    );
 
     assert.strictEqual(
        first.find( 'label' ).length,
@@ -52,38 +48,41 @@ test( 'Defaults rendering of component is as expected', function( assert ) {
         'Default rendered component has no label present'
     );
 
+});
+
+test( 'disabled is accepted as a parameter', function( assert ) {
+    this.render( defaultTemplate );
+
+    let input = this.$( '>:first-child' ).find( 'input' );
+
+    assert.notOk(
+        input.prop( 'disabled' ),
+        'Default rendered date picker is not disabled'
+    );
+
+    this.render( `
+        {{sl-date-picker disabled=true}}
+    ` );
+
+    input = this.$( '>:first-child' ).find( 'input' );
+
+    assert.ok(
+        input.prop( 'disabled' ),
+        'Date picker is disabled when disabled property is true'
+    );
+});
+
+test( 'helpText is accepted as a parameter', function( assert ) {
+    this.render( defaultTemplate );
+
+    let first = this.$( '>:first-child' );
+
     assert.strictEqual(
         first.find( '.help-block' ).length,
         0,
         'Default rendered component does not have any help text'
     );
 
-    assert.notOk(
-        input.prop( 'placeholder' ),
-        'Default rendered component does not have a placeholder'
-    );
-
-    assert.strictEqual(
-        input.val().trim(),
-        '',
-        'Default rendered datepicker has no prefilled value'
-    );
-});
-
-test( 'disabled property works as expected', function( assert ) {
-    this.render( `
-        {{sl-date-picker disabled=true}}
-    ` );
-
-    const first = this.$( '>:first-child' );
-
-    assert.ok(
-        first.find( 'input' ).prop( 'disabled' ),
-        'Date picker is disabled when disabled property is true'
-    );
-});
-
-test( 'helpText property is accepted as a parameter', function( assert ) {
     const helpText = 'Please select a date';
 
     this.set( 'helpText', helpText );
@@ -92,7 +91,7 @@ test( 'helpText property is accepted as a parameter', function( assert ) {
         {{sl-date-picker helpText=helpText}}
     ` );
 
-    const first = this.$( '>:first-child' );
+    first = this.$( '>:first-child' );
 
     assert.strictEqual(
         first.find( '.help-block' ).text().trim(),
@@ -101,6 +100,16 @@ test( 'helpText property is accepted as a parameter', function( assert ) {
 });
 
 test( 'value is accepted as a parameter', function( assert ) {
+    this.render( defaultTemplate );
+
+    let input = this.$( '>:first-child' ).find( 'input' );
+
+    assert.strictEqual(
+        input.val().trim(),
+        '',
+        'Default rendered datepicker has no prefilled value'
+    );
+
     const value = '10/20/2010';
 
     this.set( 'value', value );
@@ -109,7 +118,7 @@ test( 'value is accepted as a parameter', function( assert ) {
         {{sl-date-picker value=value}}
     ` );
 
-    const input = this.$( '>:first-child' ).find( 'input' );
+    input = this.$( '>:first-child' ).find( 'input' );
 
     assert.strictEqual(
         input.val().trim(),
@@ -118,6 +127,14 @@ test( 'value is accepted as a parameter', function( assert ) {
 });
 
 test( 'label is accepted as a parameter', function( assert ) {
+    this.render( defaultTemplate );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'label' ).length,
+        0,
+        'Default rendered date picker does not have a label'
+    );
+
     const labeltext = 'lorem ipsum';
 
     this.set( 'label', labeltext );
@@ -128,13 +145,13 @@ test( 'label is accepted as a parameter', function( assert ) {
 
     const first = this.$( '>:first-child' );
 
-    assert.equal(
+    assert.strictEqual(
         first.find( 'label' ).html(),
         labeltext,
         'label element was created with label parameter text'
     );
 
-    assert.equal(
+    assert.strictEqual(
         first.find( 'label' ).prop( 'for' ),
         first.find( 'input' ).prop( 'id' ),
         'label is used for date input'
@@ -142,6 +159,15 @@ test( 'label is accepted as a parameter', function( assert ) {
 });
 
 test( 'placeholder is accepted as a parameter', function( assert ) {
+    this.render( defaultTemplate );
+
+    let input = this.$( '>:first-child' ).find( 'input' );
+
+    assert.notOk(
+        input.prop( 'placeholder' ),
+        'Default rendered component does not have a placeholder'
+    );
+
     const placeholder = 'Select a date';
 
     this.set( 'placeholder', placeholder );
@@ -150,7 +176,7 @@ test( 'placeholder is accepted as a parameter', function( assert ) {
         {{sl-date-picker placeholder=placeholder}}
     ` );
 
-    const input = this.$( '>:first-child' ).find( 'input' );
+    input = this.$( '>:first-child' ).find( 'input' );
 
     assert.strictEqual(
         input.prop( 'placeholder' ),
@@ -183,27 +209,21 @@ test( 'action is fired when date changes on datepicker', function( assert ) {
 });
 
 test( 'updateDateRange() - clears input date when outside of startDate range', function( assert ) {
-    this.set( 'startDate', window.moment().toDate() );
+    this.set( 'startDate' );
 
     this.render( hbs`
         {{sl-date-picker startDate=startDate }}
     ` );
 
     const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = input.data( 'datepicker' );
 
-    datePicker.setDate( window.moment( '2015-06-08' ).toDate() );
+    input.triggerHandler( 'focus' );
 
-    this.set( 'startDate', window.moment( '2015-07-08' ).toDate() );
+    Ember.$( '.day:first' ).click();
 
+    this.set( 'startDate', window.moment().add( 30, 'days' ).toDate() );
 
-    assert.equal(
-        datePicker.getDate(),
-        'Invalid Date',
-        'Setting a date before "startDate" results in an "Invalid Date"'
-    );
-
-    assert.equal(
+    assert.strictEqual(
         input.datepicker().val(),
         '',
         'The datepicker input value was cleared successfully'
@@ -211,92 +231,26 @@ test( 'updateDateRange() - clears input date when outside of startDate range', f
 });
 
 test( 'updateDateRange() - clears input date when outside of endDate range', function( assert ) {
-    this.set( 'endDate', window.moment().toDate() );
+    this.set( 'endDate' );
 
     this.render( hbs`
         {{sl-date-picker endDate=endDate}}
     ` );
 
     const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = input.data( 'datepicker' );
 
-    datePicker.setDate( window.moment( '2015-07-20' ).toDate() );
+    input.triggerHandler( 'focus' );
 
-    this.set(
-        'endDate',
-        window.moment( '2015-07-08' ).toDate()
-    );
+    Ember.$( '.day:first' ).click();
 
-    assert.equal(
-        datePicker.getDate(),
-        'Invalid Date',
-        'Setting a date after "endDate" results in an "Invalid Date"'
-    );
+    this.set( 'endDate', window.moment().subtract( 30, 'days' ).toDate() );
 
-    assert.equal(
+    assert.strictEqual(
         input.datepicker().val(),
         '',
         'The datepicker input value was cleared successfully'
     );
 });
-
-test( 'updateDateRange() - when date outside startDate range we show placeholder text when supplied',
-    function( assert ) {
-        const placeHolder = 'Enter a valid date';
-
-        this.set( 'startDate', window.moment().toDate() );
-        this.set( 'placeholder', placeHolder );
-
-        this.render( hbs`
-            {{sl-date-picker placeholder=placeholder startDate=startDate}}
-        ` );
-
-        const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-        const datePicker = input.data( 'datepicker' );
-
-        datePicker.setDate( window.moment( '2015-06-08' ).toDate() );
-
-        this.set(
-            'startDate',
-            window.moment( '2015-07-08' ).toDate()
-        );
-
-        assert.equal(
-            input.datepicker().attr( 'placeholder' ),
-            placeHolder,
-            'the "placeholder" value was displayed'
-        );
-    }
-);
-
-test( 'updateDateRange() - when date outside endDate range we show placeholder text when supplied',
-    function( assert ) {
-        const placeHolder = 'Enter a valid date';
-
-        this.set( 'endDate', window.moment().toDate() );
-        this.set( 'placeholder', placeHolder );
-
-        this.render( hbs`
-            {{sl-date-picker placeholder=placeholder endDate=endDate}}
-        ` );
-
-        const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-        const datePicker = input.data( 'datepicker' );
-
-        datePicker.setDate( window.moment( '2015-07-20' ).toDate() );
-
-        this.set(
-            'endDate',
-            window.moment( '2015-07-08' ).toDate()
-        );
-
-        assert.equal(
-            input.datepicker().attr( 'placeholder' ),
-            placeHolder,
-            'the "placeholder" value was displayed'
-        );
-    }
-);
 
 test( 'End date is set on datepicker when endDate property is updated', function( assert ) {
     const endDate = window.moment( '2016-01-01' ).toDate();
