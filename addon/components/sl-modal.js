@@ -42,31 +42,6 @@ export default Ember.Component.extend( StreamEnabled, {
     // -------------------------------------------------------------------------
     // Actions
 
-    /** @type {Object} */
-    actions: {
-
-        /**
-         * Trigger hiding the model
-         *
-         * @function actions:hide
-         * @returns {undefined}
-         */
-        hide() {
-            this.hide();
-        },
-
-         /**
-         * Trigger showing the model
-         *
-         * @function actions:show
-         * @returns {undefined}
-         */
-        show() {
-            this.show();
-        }
-
-    },
-
     // -------------------------------------------------------------------------
     // Events
 
