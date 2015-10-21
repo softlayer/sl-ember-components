@@ -43,25 +43,6 @@ test( 'The disabled state applies to sl-radio children', function( assert ) {
     );
 });
 
-test( 'The readonly state applies to sl-radio children', function( assert ) {
-    this.render( hbs`
-        {{#sl-radio-group readonly=true name="testName"}}
-            {{#sl-radio label="One" value="one"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Two" value="two"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Three" value="three"}}
-            {{/sl-radio}}
-        {{/sl-radio-group}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input[readonly]' ).length,
-        3,
-        'Rendered component has three readonly inputs'
-    );
-});
-
 test( "Inline true sets sl-radio children's inline property to true", function( assert ) {
     this.render( hbs`
         {{#sl-radio-group inline=true name="testName"}}
