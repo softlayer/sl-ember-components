@@ -75,6 +75,50 @@ test( 'Label text is not displayed', function( assert ) {
     );
 });
 
+test( 'Optional property displays optional label', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Optional" optional="true"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-info' ).text().trim(),
+        'Optional'
+    );
+});
+
+test( 'Optional property does not display Optional label', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Required" }}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-info' ).length,
+        0
+    );
+});
+
+test( 'Required property displays required label', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Required" required="true"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-danger' ).text().trim(),
+        'Required'
+    );
+});
+
+test( 'Required property does not display required label', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Required" }}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-danger' ).length,
+        0
+    );
+});
+
 test( 'Placeholder property sets the placeholder for the input', function( assert ) {
     this.set( 'placeholder', 'placeholder' );
 
