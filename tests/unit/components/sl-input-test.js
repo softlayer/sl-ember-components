@@ -60,27 +60,6 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     });
 });
 
-test( 'Blur action is triggered when input loses focus', function( assert ) {
-    assert.expect( 1 );
-
-    const done = assert.async();
-
-    this.subject({
-        blur: 'blur',
-        targetObject: {
-            blur() {
-                assert.ok(
-                    'blur was triggered'
-                );
-
-                done();
-            }
-        }
-    });
-
-    this.$( 'input' ).trigger( 'blur' );
-});
-
 test( 'Default values are correct', function( assert ) {
     const component = this.subject();
 
@@ -90,7 +69,7 @@ test( 'Default values are correct', function( assert ) {
         'clickToEdit property false by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'type' ),
         'text',
         'type property is text by default'
@@ -102,7 +81,7 @@ test( 'Default values are correct', function( assert ) {
         'isTypeaheadSetup property false by default'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'suggestionNamePath' ),
         'name',
         'suggestionNamePath property is "name" by default'
@@ -112,120 +91,6 @@ test( 'Default values are correct', function( assert ) {
         component.get( 'required' ),
         false,
         'required property is false by default'
-    );
-});
-
-test( 'Click to edit input has the correct class', function( assert ) {
-    this.subject({
-        clickToEdit: true
-    });
-
-    assert.ok(
-        this.$( 'input' ).hasClass( 'click-to-edit' )
-    );
-});
-
-test( 'Input can be disabled', function( assert ) {
-    this.subject({
-        disabled: true
-    });
-
-    assert.ok(
-        this.$( 'input' ).prop( 'disabled' )
-    );
-});
-
-test( 'Help text is displayed', function( assert ) {
-    const helpText = 'Testing help text is displayed';
-
-    this.subject({
-        helpText: helpText
-    });
-
-    assert.equal(
-        this.$( '.help-block' ).text().trim(),
-        helpText
-    );
-});
-
-test( 'Label text is displayed', function( assert ) {
-    const labelText = 'Test label text';
-
-    this.subject({
-        label: labelText
-    });
-
-    assert.equal(
-        this.$( '.control-label' ).text().trim(),
-        labelText
-    );
-});
-
-test( 'Label text is not displayed', function( assert ) {
-    this.subject();
-
-    assert.equal(
-        this.$( '.control-label' ).length,
-        0
-    );
-});
-
-test( 'Optional property displays optional label', function( assert ) {
-    this.subject({
-        label: 'Optional input',
-        optional: true
-    });
-
-    assert.equal(
-        this.$( '.text-info' ).text().trim(),
-        'Optional'
-    );
-});
-
-test( 'Required property displays required label', function( assert ) {
-    this.subject({
-        label: 'Required input',
-        required: true
-    });
-
-    assert.equal(
-        this.$( '.text-danger' ).text().trim(),
-        'Required'
-    );
-});
-
-test( 'Required property does not display required label', function( assert ) {
-    this.subject({
-        label: 'Required input',
-        required: false
-    });
-
-    assert.equal(
-        this.$( '.text-danger' ).length,
-        0
-    );
-});
-
-test( 'Placeholder property sets the placeholder for the input', function( assert ) {
-    const placeholderText = 'placeholder';
-
-    this.subject({
-        placeholder: 'placeholder'
-    });
-
-    assert.equal(
-        this.$( 'input' ).prop( 'placeholder' ),
-        placeholderText
-    );
-});
-
-test( 'Readonly property, makes the input readonly', function( assert ) {
-    this.subject({
-        readonly: true
-    });
-
-    assert.ok(
-        this.$( 'input' ).prop( 'readonly' )
     );
 });
 
@@ -247,13 +112,13 @@ test( 'Popover is initialized with the correct options', function( assert ) {
         'Popover is enabled'
     );
 
-    assert.equal(
+    assert.strictEqual(
         popoverData.options.trigger,
         'focus',
         'Popover trigger is "focus"'
     );
 
-    assert.equal(
+    assert.strictEqual(
         popoverData.options.content,
         popoverText,
         'Popover text is set correctly'
@@ -275,42 +140,6 @@ test( 'Typeahead is initialized and has the correct classes', function( assert )
     assert.ok(
         typeahead,
         'Typeahead is initialized'
-    );
-});
-
-test( 'Typeahead classes are present', function( assert ) {
-    const colors = [
-        'Black',
-        'Yellow'
-    ];
-
-    this.subject({
-        suggestions: colors
-    });
-
-    assert.ok(
-        this.$( '.twitter-typeahead' ),
-        'twitter-typeahead class exists'
-    );
-
-    assert.ok(
-        this.$( '.typeahead' ),
-        'typeahead class exists'
-    );
-
-    assert.ok(
-        this.$( '.tt-input' ),
-        'tt-input class exists'
-    );
-
-    assert.ok(
-        this.$( '.tt-menu' ),
-        'tt-menu class exists'
-    );
-
-    assert.ok(
-        this.$( '.tt-dataset' ),
-        'tt-dataset class exists'
     );
 });
 
@@ -341,8 +170,77 @@ test( 'Value is set correctly', function( assert ) {
 
     this.render();
 
-    assert.equal(
+    assert.strictEqual(
         component.getInput().val(),
         value
+    );
+});
+
+test( 'Blur action is triggered when input loses focus', function( assert ) {
+    assert.expect( 1 );
+
+    const done = assert.async();
+
+    this.subject({
+        blur: 'blur',
+        targetObject: {
+            blur() {
+                assert.ok(
+                    'blur was triggered'
+                );
+
+                done();
+            }
+        }
+    });
+
+    this.$( 'input' ).trigger( 'blur' );
+});
+
+test( 'Optional property displays optional label', function( assert ) {
+    this.subject({
+        label: 'Optional input',
+        optional: true
+    });
+
+    assert.strictEqual(
+        this.$( '.text-info' ).text().trim(),
+        'Optional'
+    );
+});
+
+test( 'Optional property does not display optional label', function( assert ) {
+    this.subject({
+        label: 'Optional input',
+        optional: false
+    });
+
+    assert.strictEqual(
+        this.$( '.text-info' ).length,
+        0
+    );
+});
+
+test( 'Required property displays required label', function( assert ) {
+    this.subject({
+        label: 'Required input',
+        required: true
+    });
+
+    assert.strictEqual(
+        this.$( '.text-danger' ).text().trim(),
+        'Required'
+    );
+});
+
+test( 'Required property does not display required label', function( assert ) {
+    this.subject({
+        label: 'Required input',
+        required: false
+    });
+
+    assert.strictEqual(
+        this.$( '.text-danger' ).length,
+        0
     );
 });
