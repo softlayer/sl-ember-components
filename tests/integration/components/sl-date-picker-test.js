@@ -40,14 +40,6 @@ test( 'Defaults rendering of component is as expected', function( assert ) {
         input.hasClass( 'form-control' ),
         'Default rendered input has class "form-control"'
     );
-
-
-    assert.strictEqual(
-       first.find( 'label' ).length,
-        0,
-        'Default rendered component has no label present'
-    );
-
 });
 
 test( 'disabled is accepted as a parameter', function( assert ) {
@@ -298,78 +290,23 @@ test( 'Start date is set on datepicker when startDate property is updated', func
     datePicker.setStartDate.restore();
 });
 
-test( 'Dual instances - datepicker instantiation and "on" event handler bound to correct element', function( assert ) {
-    const spyDatePicker = sinon.spy( Ember.$.fn, 'datepicker' );
-    const spyOn = sinon.spy( Ember.$.fn, 'on' );
-    const spyOff = sinon.spy( Ember.$.fn, 'off' );
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    const jQueryAliasSpy = sinon.spy( window, '$' );
+    const jQuerySpy = sinon.spy( window, 'jQuery' );
+    const emberSpy = sinon.spy( Ember, '$' );
+    const startDate = window.moment( '2016-01-01' ).toDate();
+
+    this.set( 'startDate' );
 
     this.render( hbs`
-        {{sl-date-picker}}
+        {{sl-date-picker startDate=startDate}}
     ` );
 
-    spyDatePicker.reset();
-    spyOn.reset();
+    this.set( 'startDate', startDate );
 
-    this.render( hbs`
-        {{sl-date-picker}}
-    ` );
+    const called = jQueryAliasSpy.called || jQuerySpy.called || emberSpy.called;
 
-    const secondInput = this.$( '>:first-child' ).find( 'input' );
-
-    // Check that datepicker was instantiated on correct element
-    assert.deepEqual(
-        spyDatePicker.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyDatePicker.thisValues.map( (   ) => secondInput.get( 0 ) ),
-        'Datepicker was instantiated on the correct element'
+    assert.notOk(
+        called
     );
-
-    // Check that .on was bound to correct element
-    assert.deepEqual(
-        spyOn.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyOn.thisValues.map( (   ) => secondInput.get( 0 ) ),
-        "'on' event bindings were attached to correct element"
-    );
-
-    Ember.$.fn.datepicker.restore();
-    Ember.$.fn.on.restore();
 });
-
-test( 'Dual instances - correct input is cleared when input date outside of endDate range',
-    function( assert ) {
-        const value = '01/01/2016';
-
-        this.set( 'value', value );
-
-        this.render( hbs`
-            {{sl-date-picker value=value}}
-        ` );
-
-        const firstInput = this.$( '>:first-child' ).find( 'input' );
-
-        this.set( 'endDate' );
-
-        this.render( hbs`
-            {{sl-date-picker endDate=endDate}}
-        ` );
-
-        const secondInput = this.$( '>:first-child' ).find( 'input' );
-
-        secondInput.triggerHandler( 'focus' );
-
-        Ember.$( '.day:first' ).click();
-
-        this.set( 'endDate', window.moment().subtract( 30, 'days' ).toDate() );
-
-        assert.strictEqual(
-            secondInput.val(),
-            '',
-            'Second input value was cleared'
-        );
-
-        assert.strictEqual(
-            firstInput.val(),
-            value,
-            'First input value was not cleared'
-        );
-    }
-);

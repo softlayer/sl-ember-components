@@ -181,36 +181,6 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     );
 });
 
-test( 'options() - object contains the expected keys and default values', function( assert ) {
-    const component = this.subject();
-
-    const options = {
-        autoclose: true,
-        calendarWeeks: false,
-        clearBtn: false,
-        daysOfWeekDisabled: [],
-        endDate: null,
-        forceParse: true,
-        format: 'mm/dd/yyyy',
-        inputs: null,
-        keyboardNavigation: true,
-        language: 'en',
-        minViewMode: 'days',
-        multidate: false,
-        orientation: 'auto',
-        startDate: null,
-        startView: 'month',
-        todayBtn: false,
-        todayHighlight: false,
-        weekStart: 0
-    };
-
-    assert.deepEqual(
-        component.get( 'options' ),
-        options
-    );
-});
-
 test( 'Changing "autoclose" to non default value works as expected', function( assert ) {
     const autoclose = false;
 
