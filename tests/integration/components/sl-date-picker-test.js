@@ -294,7 +294,6 @@ test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
     const jqueryAliasSpy = sinon.spy( window, '$' );
     const jquerySpy = sinon.spy( window, 'jQuery' );
     const emberJquery = sinon.spy( Ember, '$' );
-    const initSpy = sinon.spy( jQuery.fn, 'init' );
     const startDate = window.moment( '2016-01-01' ).toDate();
 
     this.set( 'startDate' );
