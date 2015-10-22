@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import TooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
@@ -449,4 +450,30 @@ test( 'Changing "weekStart" to a non default value works as expected', function(
         options.weekStart,
         weekStart
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    const jqueryAliasSpy = sinon.spy( window, '$' );
+    const jquerySpy = sinon.spy( window, 'jQuery' );
+    const emberJquery = sinon.spy( Ember, '$' );
+    const startDate = window.moment( '2016-01-01' ).toDate();
+
+    const component = this.subject();
+
+    this.render();
+
+    Ember.run( () => {
+        component.set( 'startDate', startDate );
+        component.trigger( 'willClearRender' );
+    });
+
+    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
+
+    assert.notOk(
+        called
+    );
+
+    window.$.restore();
+    window.jQuery.restore();
+    Ember.$.restore();
 });
