@@ -291,9 +291,10 @@ test( 'Start date is set on datepicker when startDate property is updated', func
 });
 
 test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
-    const jQueryAliasSpy = sinon.spy( window, '$' );
-    const jQuerySpy = sinon.spy( window, 'jQuery' );
-    const emberSpy = sinon.spy( Ember, '$' );
+    const jqueryAliasSpy = sinon.spy( window, '$' );
+    const jquerySpy = sinon.spy( window, 'jQuery' );
+    const emberJquery = sinon.spy( Ember, '$' );
+    const initSpy = sinon.spy( jQuery.fn, 'init' );
     const startDate = window.moment( '2016-01-01' ).toDate();
 
     this.set( 'startDate' );
@@ -304,7 +305,7 @@ test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
 
     this.set( 'startDate', startDate );
 
-    const called = jQueryAliasSpy.called || jQuerySpy.called || emberSpy.called;
+    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
 
     assert.notOk(
         called
