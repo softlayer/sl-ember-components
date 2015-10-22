@@ -309,4 +309,8 @@ test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
     assert.notOk(
         called
     );
+
+    window.$.restore();
+    window.jQuery.restore();
+    Ember.$.restore();
 });
