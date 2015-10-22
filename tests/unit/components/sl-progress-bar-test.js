@@ -1,11 +1,69 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-progress-bar';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl progress bar', {
     unit: true
 });
 
-test( 'isLowPercentage is only true when value < 50', function( assert ) {
+const Theme = {
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
+
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
+    );
+});
+
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.deepEqual(
+        ThemeEnum,
+        Theme,
+        'Theme enum values are correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'animated' ),
+        false,
+        'animated: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'label' ),
+        false,
+        'label: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'striped' ),
+        false,
+        'striped: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'theme' ),
+        Theme.DEFAULT,
+        `theme: ${Theme.DEFAULT}`
+    );
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        0,
+        'value: false'
+    );
+});
+
+test( 'isLowPercentage() is only true when value < 50', function( assert ) {
     const component = this.subject({ value: 49 });
 
     assert.ok(
@@ -24,55 +82,64 @@ test( 'isLowPercentage is only true when value < 50', function( assert ) {
     );
 });
 
-test( 'Has class for low percentage value', function( assert ) {
-    this.subject({ value: 40 });
+test( 'styleString() returns a HTML-safe string', function( assert ) {
+    const component = this.subject();
 
     assert.ok(
-        this.$().hasClass( 'sl-progress-bar-low-percentage' ),
-        'Has class "sl-progress-bar-low-percentage"'
+        component.get( 'styleString' ) instanceof Ember.Handlebars.SafeString,
+        'styleString() returns an instance of Ember.Handlebars.SafeString'
     );
 });
 
-test( 'Width style string is set equal to the percentage value', function( assert ) {
-    const randomValue = 100 * Math.random();
-    const component = this.subject({ value: randomValue });
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
 
-    assert.equal(
-        component.get( 'styleString' ),
-        'width: ' + randomValue + '%;',
-        'Style string has correct width value'
+    const isLowPercentageDependentKeys = [
+        'value'
+    ];
+
+    const styleStringDependentKeys = [
+        'value'
+    ];
+
+    const themeClassNameDependentKeys = [
+        'theme'
+    ];
+
+    assert.deepEqual(
+        component.isLowPercentage._dependentKeys,
+        isLowPercentageDependentKeys,
+        'Dependent keys are correct for isLowPercentage()'
+    );
+
+    assert.deepEqual(
+        component.styleString._dependentKeys,
+        styleStringDependentKeys,
+        'Dependent keys are correct for styleString()'
+    );
+
+    assert.deepEqual(
+        component.themeClassName._dependentKeys,
+        themeClassNameDependentKeys,
+        'Dependent keys are correct for themeClassName()'
     );
 });
 
-test( 'themeClass is set correctly by theme property', function( assert ) {
-    const component = this.subject({ theme: 'danger' });
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    const jqueryAliasSpy = sinon.spy( window, '$' );
+    const jquerySpy = sinon.spy( window, 'jQuery' );
+    const emberJquery = sinon.spy( Ember, '$' );
 
-    assert.equal(
-        component.get( 'themeClassName' ),
-        'progress-bar-danger',
-        'themeClassName has expected value'
+    this.subject();
+    this.render();
+
+    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
+
+    assert.notOk(
+        called
     );
 
-    assert.ok(
-        this.$( '.progress-bar' ).hasClass( 'progress-bar-danger' ),
-        'Has expected class on element'
-    );
-});
-
-test( 'Has class "active" when animated set to true', function( assert ) {
-    this.subject({ animated: true });
-
-    assert.ok(
-        this.$( '.progress-bar' ).hasClass( 'active' ),
-        'Is active'
-    );
-});
-
-test( 'Has class "progress-bar-striped" when striped set to true', function( assert ) {
-    this.subject({ striped: true });
-
-    assert.ok(
-        this.$( '.progress-bar' ).hasClass( 'progress-bar-striped' ),
-        'Progress bar has class "progress-bar-striped"'
-    );
+    window.$.restore();
+    window.jQuery.restore();
+    Ember.$.restore();
 });
