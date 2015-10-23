@@ -127,7 +127,10 @@ export default Ember.Component.extend({
                 activeRecord: row,
                 detailPaneOpen: true
             });
-            this.updateHeight();
+
+            Ember.run.scheduleOnce( 'afterRender', () => {
+                this.updateHeight();
+            });
         },
 
         /**
