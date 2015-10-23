@@ -53,77 +53,31 @@ test( 'Backdrop property is passed through to jQuery correctly', function( asser
         show: false
     };
 
-    // setting property to first test value
-    const template1 = hbs`{{sl-modal backdrop=false}}`;
+    this.render( hbs`{{sl-modal backdrop="__backdrop__"}}` );
 
-    // setting property to second test value
-    const template2 = hbs`{{sl-modal backdrop=true}}`;
-
-    // defaulting property value
-    const template3 = hbs`{{sl-modal}}`;
-
-    this.render( template1 );
-
-    assert.deepEqual(
-        spy.args[0][0],
-        Ember.$.extend( { backdrop: false }, nonTemplateProps ),
-        'backdrop property is correctly set to false'
-    );
-
-    this.render( template2 );
-
-    assert.deepEqual(
-        spy.args[1][0],
-        Ember.$.extend( { backdrop: true }, nonTemplateProps ),
-        'backdrop property is correctly set to true'
-    );
-
-    this.render( template3 );
-
-    assert.deepEqual(
-        spy.args[2][0],
-        Ember.$.extend( { backdrop: true }, nonTemplateProps ),
-        'backdrop property is correctly defaulted to true'
+    assert.ok(
+        spy.calledWith( Ember.$.extend( { backdrop: "__backdrop__" }, nonTemplateProps ) ),
+        'backdrop property is passed to jQuery.modal correctly'
     );
 
     Ember.$.fn.modal.restore();
 });
 
 test( 'Animated property adds fade class', function( assert ) {
-    // setting property to first test value
-    const template1 = hbs`{{sl-modal animated=false}}`;
+    this.render( hbs`{{sl-modal animated=false}}` );
+    const first = this.$( '>:first-child' );
 
-    // setting property to second test value
-    const template2 = hbs`{{sl-modal animated=true}}`;
+    this.render( hbs`{{sl-modal animated=true}}` );
+    const second = this.$( '>:first-child' );
 
-    // defaulting property value
-    const template3 = hbs`{{sl-modal}}`;
-
-    this.render( template1 );
-    const $first = this.$( '>:first-child' );
-
-    this.render( template2 );
-    const $second = this.$( '>:first-child' );
-
-    this.render( template3 );
-    const $third = this.$( '>:first-child' );
-
-    assert.strictEqual(
-        $first.filter( ':not(.fade)' ).length,
-        1,
+    assert.notOk(
+        first.hasClass( 'fade' ),
         'fade class not present when animated set to false'
     );
 
-    assert.strictEqual(
-        $second.filter( '.fade' ).length,
-        1,
+    assert.ok(
+        second.hasClass( 'fade' ),
         'fade class present when animated set to true'
-    );
-
-    assert.strictEqual(
-        $third.filter( '.fade' ).length,
-        1,
-        'fade class present when animated not set'
     );
 });
 
