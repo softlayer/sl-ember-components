@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import sinon from 'sinon';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
+import TooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
@@ -12,32 +13,12 @@ test( 'Expected Mixins are present', function( assert ) {
         ComponentInputId.detect( this.subject() ),
         'sl-component-input-id mixin is present'
     );
-});
-
-test( 'Default class names are present', function( assert ) {
-    this.subject();
 
     assert.ok(
-        this.$().hasClass( 'form-group' ),
-        'Default rendered component has class "form-group"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-date-picker' ),
-        'Default rendered component has class "sl-date-picker"'
-    );
-
-    assert.ok(
-        this.$( 'input' ).hasClass( 'date-picker' ),
-        'Default rendered input has class "date-picker"'
-    );
-
-    assert.ok(
-        this.$( 'input' ).hasClass( 'form-control' ),
-        'Default rendered input has class "form-control"'
+        TooltipEnabled.detect( this.subject() ),
+        'sl-tooltip-enabled mixin is present'
     );
 });
-
 
 test( 'Default properties are set correctly', function( assert ) {
     const component = this.subject();
@@ -45,393 +26,454 @@ test( 'Default properties are set correctly', function( assert ) {
     assert.equal(
         component.get( 'autoclose' ),
         true,
-        'The "autoclose" default vaue is correct'
+        '"autoclose" default vaue is correct'
     );
 
     assert.equal(
         component.get( 'calendarWeeks' ),
         false,
-        'The "calendarWeeks" default value is correct'
+        '"calendarWeeks" default value is correct'
     );
 
     assert.equal(
         component.get( 'clearBtn' ),
         false,
-        'The "clearBtn" default value is correct'
+        '"clearBtn" default value is correct'
     );
 
     assert.deepEqual(
         component.get( 'daysOfWeekDisabled' ),
         [],
-        'Thed "daysOfWeekDisabled" default value is correct'
+        '"daysOfWeekDisabled" default value is correct'
     );
 
     assert.equal(
         component.get( 'disabled' ),
         false,
-        'The "disabled" default value is correct'
+        '"disabled" default value is correct'
     );
 
     assert.equal(
         component.get( 'endDate' ),
         null,
-        'The "endDate" default value is correct'
+        '"endDate" default value is correct'
     );
 
     assert.equal(
         component.get( 'forceParse' ),
         true,
-        'The "forceParse" default value is correct'
+        '"forceParse" default value is correct'
     );
 
     assert.equal(
         component.get( 'format' ),
         'mm/dd/yyyy',
-        'The "forceParse" default value is correct'
+        '"forceParse" default value is correct'
     );
 
     assert.equal(
         component.get( 'helpText' ),
         null,
-        'The "helpText" default value is correct'
+        '"helpText" default value is correct'
     );
 
     assert.equal(
         component.get( 'inputs' ),
         null,
-        'The "inputs" default value is correct'
+        '"inputs" default value is correct'
     );
 
     assert.equal(
         component.get( 'keyboardNavigation' ),
         true,
-        'The "keyboardNavigation" default value is correct'
+        '"keyboardNavigation" default value is correct'
     );
 
     assert.equal(
         component.get( 'label' ),
         null,
-        'The "label" default value is correct'
+        '"label" default value is correct'
     );
 
     assert.equal(
         component.get( 'language' ),
         'en',
-        'The "language" default value is correct'
+        '"language" default value is correct'
     );
 
     assert.equal(
         component.get( 'minViewMode' ),
         'days',
-        'The "minViewMode" default value is correct'
+        '"minViewMode" default value is correct'
     );
 
     assert.equal(
         component.get( 'multidate' ),
         false,
-        'The "multidate" default value is correct'
+        '"multidate" default value is correct'
     );
 
     assert.equal(
         component.get( 'orientation' ),
         'auto',
-        'The "orientation" default value is correct'
+        '"orientation" default value is correct'
     );
 
     assert.equal(
         component.get( 'placeholder' ),
         null,
-        'The "placeholder" default value is correct'
+        '"placeholder" default value is correct'
     );
 
     assert.equal(
         component.get( 'startDate' ),
         null,
-        'The "startDate" default value is correct'
+        '"startDate" default value is correct'
     );
 
     assert.equal(
         component.get( 'startView' ),
         'month',
-        'The "startView" default value is correct'
+        '"startView" default value is correct'
     );
 
     assert.equal(
         component.get( 'todayBtn' ),
         false,
-        'The "todayBtn" default value is correct'
+        '"todayBtn" default value is correct'
     );
 
     assert.equal(
         component.get( 'todayHighlight' ),
         false,
-        'The "todayHighlight" default value is correct'
+        '"todayHighlight" default value is correct'
     );
 
     assert.equal(
         component.get( 'value' ),
         null,
-        'The "value" default value is correct'
+        '"value" default value is correct'
     );
 
     assert.equal(
         component.get( 'weekStart' ),
         0,
-        'The "weekStart" default value is correct'
+        '"weekStart" default value is correct'
     );
 });
 
-test( 'label is accepted as a parameter', function( assert ) {
-    const labelText = 'lorem ipsum';
-    const component = this.subject({ label: labelText });
-
-    assert.equal(
-        this.$( 'label' ).html(),
-        labelText,
-        'label element was created with label parameter text'
-    );
-
-    assert.equal(
-        this.$( 'label' ).prop( 'for' ),
-        component.get( 'inputId' ),
-        'label element has the correct for property'
-    );
-
-    assert.equal(
-        this.$( 'label' ).prop( 'for' ),
-        this.$( 'input' ).prop( 'id' ),
-        'label is used for date input'
-    );
-});
-
-test( 'setupDatepicker() - listens to correct event', function( assert ) {
-    assert.expect( 1 );
-
-    const done = assert.async();
-
-    this.subject({
-        action: 'changeDate',
-        targetObject: {
-            changeDate() {
-                assert.ok(
-                    true,
-                    'changeDate event fired'
-                );
-                done();
-            }
-        }
-    });
-
-    Ember.run( () => {
-        this.$( 'input.date-picker' )
-            .trigger( 'changeDate' );
-    });
-});
-
-test( 'updateDateRange() - listens to endDate event', function( assert ) {
-    assert.expect( 1 );
-
-    const component = this.subject({
-        endDate: window.moment().toDate()
-    });
-    const inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
-    const spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'setEndDate' );
-
-    Ember.run( () => {
-        component.set(
-            'endDate',
-            window.moment( '2013-02-08' ).toDate()
-        );
-    });
-
-    assert.ok(
-        spy.called
-    );
-
-    inputElement.setEndDate.restore();
-});
-
-test( 'updateDateRange() - listens to startDate event', function( assert ) {
-    assert.expect( 1 );
-
-    const component = this.subject({
-        startDate: window.moment().toDate()
-    });
-    const inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
-    const spy = sinon.spy( Object.getPrototypeOf( inputElement ), 'setStartDate' );
-
-    Ember.run( () => {
-        component.set(
-            'startDate',
-            window.moment( '2013-02-08' ).toDate()
-        );
-    });
-
-    assert.ok(
-        spy.called
-    );
-
-    inputElement.setStartDate.restore();
-});
-
-test( 'updateDateRange() - clears input date when outside of startDate range', function( assert ) {
-    assert.expect( 2 );
-
-    const component = this.subject({
-        startDate: window.moment().toDate()
-    });
-    const inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
-
-    inputElement.setDate( window.moment( '2015-06-08' ).toDate() );
-
-    Ember.run( () => {
-        component.set(
-            'startDate',
-            window.moment( '2015-07-08' ).toDate()
-        );
-    });
-
-    assert.equal(
-        inputElement.getDate(),
-        'Invalid Date',
-        'Setting a date before "startDate" results in an "Invalid Date"'
-    );
-
-    assert.equal(
-        this.$( 'input.date-picker' ).datepicker().val(),
-        '',
-        'The datepicker input value was cleared successfully'
-    );
-});
-
-test( 'updateDateRange() - clears input date when outside of endDate range', function( assert ) {
-    assert.expect( 2 );
-
-    const component = this.subject({
-        endDate: window.moment().toDate()
-    });
-    const inputElement = this.$( 'input.date-picker' ).data( 'datepicker' );
-
-    inputElement.setDate( window.moment( '2015-07-20' ).toDate() );
-
-    Ember.run( () => {
-        component.set(
-            'endDate',
-            window.moment( '2015-07-08' ).toDate()
-        );
-    });
-
-    assert.equal(
-        inputElement.getDate(),
-        'Invalid Date',
-        'Setting a date after "endDate" results in an "Invalid Date"'
-    );
-
-    assert.equal(
-        this.$( 'input.date-picker' ).datepicker().val(),
-        '',
-        'The datepicker input value was cleared successfully'
-    );
-});
-
-test(
-    'updateDateRange() - when date outside startDate range we show placeholder text when supplied',
-    function( assert ) {
-        assert.expect( 1 );
-
-        const component = this.subject({
-            startDate: window.moment().toDate(),
-            placeholder: 'Enter a valid date'
-        });
-
-        this.$( 'input.date-picker' ).data( 'datepicker' )
-            .setDate( window.moment( '2015-06-08' ).toDate() );
-
-        Ember.run( () => {
-            component.set(
-                'startDate',
-                window.moment( '2015-07-08' ).toDate()
-            );
-        });
-
-        assert.equal(
-            this.$( 'input.date-picker' ).datepicker().attr( 'placeholder' ),
-            'Enter a valid date',
-            'The "placeholder" value was displayed'
-        );
-    }
-);
-
-test( 'updateDateRange() - when date outside endDate range we show placeholder text when supplied', function( assert ) {
-    assert.expect( 1 );
-
-    const component = this.subject({
-        endDate: window.moment().toDate(),
-        placeholder: 'Enter a valid date'
-    });
-
-    this.$( 'input.date-picker' ).data( 'datepicker' )
-        .setDate( window.moment( '2015-07-20' ).toDate() );
-
-    Ember.run( () => {
-        component.set(
-            'endDate',
-            window.moment( '2015-07-08' ).toDate()
-        );
-    });
-
-    assert.equal(
-        this.$( 'input.date-picker' ).datepicker().attr( 'placeholder' ),
-        'Enter a valid date',
-        'The "placeholder" value was displayed'
-    );
-});
-
-test( 'unregisterEvents() - listens to correct event', function( assert ) {
+test( 'Event handlers are registered and unregistered', function( assert ) {
     const component = this.subject();
-    const inputElement = this.$( 'input.date-picker' )[ 0 ];
-    const jQueryData = Ember.get( Ember.$, '_data' );
 
-    assert.equal(
-        Ember.typeOf( jQueryData( inputElement, 'events' ).changeDate ),
-        'array',
-        'Datepicker has a changeDate event listener after render'
+    const input = this.$( 'input.date-picker' ).get( 0 );
+    const jQueryData = Ember.get( Ember.$, '_data' );
+    const events = jQueryData( input, 'events' );
+
+    assert.ok(
+        'changeDate' in events,
+        'changeDate handler is registered after didInsertElement'
     );
 
-    component.trigger( 'willClearRender' );
+    Ember.run( () => component.trigger( 'willClearRender' ) );
+
+    assert.notOk(
+        'changeDate' in events,
+        'changeDate event handler is unregistered after willClearRender'
+    );
+});
+
+test( 'Changing "autoclose" to non default value works as expected', function( assert ) {
+    const autoclose = false;
+
+    const component = this.subject({
+        autoclose: autoclose
+    });
+
+    const options = component.get( 'options' );
 
     assert.strictEqual(
-        jQueryData( inputElement, 'events' ),
-        undefined,
-        'Datepicker does not have event listeners after willClearRender'
+        options.autoclose,
+        autoclose
     );
 });
 
-test( 'options() - object contains the expected keys', function( assert ) {
-    const component = this.subject();
-    const optionsMockObject = Ember.Object.create({
-        autoclose: true,
-        calendarWeeks: false,
-        clearBtn: false,
-        daysOfWeekDisabled: [],
-        endDate: null,
-        forceParse: true,
-        format: 'mm/dd/yyyy',
-        inputs: null,
-        keyboardNavigation: true,
-        language: 'en',
-        multidate: false,
-        orientation: 'auto',
-        startDate: null,
-        startView: 'month',
-        todayBtn: false,
-        todayHighlight: false,
-        weekStart: 0
+test( 'Changing "calenderWeeks" to a non default value works as expected', function( assert ) {
+    const calendarWeeks = true;
+
+    const component = this.subject({
+        calendarWeeks: calendarWeeks
     });
 
-    assert.deepEqual(
-        Object.keys( component.get( 'options' ) ).sort(),
-        Object.keys( optionsMockObject ).sort(),
-        'The options object contains the expected keys'
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.calendarWeeks,
+        calendarWeeks
     );
+});
+
+test( 'Changing "clearBtn" to a non default value works as expected', function( assert ) {
+    const clearBtn = true;
+
+    const component = this.subject({
+        clearBtn: clearBtn
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.clearBtn,
+        clearBtn
+    );
+});
+
+test( 'Changing "daysOfWeekDisabled" to a non default value works as expected', function( assert ) {
+    const daysOfWeek = [ 1, 2, 3 ];
+
+    const component = this.subject({
+        daysOfWeekDisabled: daysOfWeek
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.daysOfWeekDisabled,
+        daysOfWeek
+    );
+});
+
+test( 'Changing "endDate" to a non default value works as expected', function( assert ) {
+    const endDate = window.moment( '2015-06-08' );
+
+    const component = this.subject({
+        endDate: endDate
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.endDate,
+        endDate
+    );
+});
+
+test( 'Changing "forceParse" to a non default value works as expected', function( assert ) {
+    const forceParse = false;
+
+    const component = this.subject({
+        forceParse: forceParse
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.forceParse,
+        forceParse
+    );
+});
+
+test( 'Changing "format" to a non default value works as expected', function( assert ) {
+    const format = 'dd/mm/yyyy';
+
+    const component = this.subject({
+        format: format
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.format,
+        format
+    );
+});
+
+test( 'Changing "inputs" to a non default value works as expected', function( assert ) {
+    const inputs = [ Ember.$( '<input />' ), Ember.$( '<input />' ) ];
+
+    const component = this.subject({
+        inputs: inputs
+    });
+
+    const options = component.get( 'options' );
+
+    assert.deepEqual(
+        options.inputs,
+        inputs
+    );
+});
+
+test( 'Changing "keyboardNavigation" to a non default value works as expected', function( assert ) {
+    const keyboardNavigation = false;
+
+    const component = this.subject({
+        keyboardNavigation: keyboardNavigation
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.keyboardNavigation,
+        keyboardNavigation
+    );
+});
+
+test( 'Changing "language" to a non default value works as expected', function( assert ) {
+    const language = 'eu';
+
+    const component = this.subject({
+        language: language
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.language,
+        language
+    );
+});
+
+test( 'Changing "minViewMode" to a non default value works as expected', function( assert ) {
+    const minViewMode = 'months';
+
+    const component = this.subject({
+        minViewMode: minViewMode
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.minViewMode,
+        minViewMode
+    );
+});
+
+test( 'Changing "multidate" to a non default value works as expected', function( assert ) {
+    const multidate = false;
+
+    const component = this.subject({
+        multidate: multidate
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.multidate,
+        multidate
+    );
+});
+
+test( 'Changing "orientation" to a non default value works as expected', function( assert ) {
+    const orientation = 'top';
+
+    const component = this.subject({
+        orientation: orientation
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.orientation,
+        orientation
+    );
+});
+
+test( 'Changing "startDate" to a non default value works as expected', function( assert ) {
+    const startDate = window.moment( '2015-01-01' );
+
+    const component = this.subject({
+        startDate: startDate
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.startDate,
+        startDate
+    );
+});
+
+test( 'Changing "startView" to a non default value works as expected', function( assert ) {
+    const startView = 'year';
+
+    const component = this.subject({
+        startView: startView
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.startView,
+        startView
+    );
+});
+
+test( 'Changing "todayBtn" to a non default value works as expected', function( assert ) {
+    const todayBtn = true;
+
+    const component = this.subject({
+        todayBtn: todayBtn
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.todayBtn,
+        todayBtn
+    );
+});
+
+test( 'Changing "todayHighlight" to a non default value works as expected', function( assert ) {
+    const todayHighlight = true;
+
+    const component = this.subject({
+        todayHighlight: todayHighlight
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.todayHighlight,
+        todayHighlight
+    );
+});
+
+test( 'Changing "weekStart" to a non default value works as expected', function( assert ) {
+    const weekStart = 1;
+
+    const component = this.subject({
+        weekStart: weekStart
+    });
+
+    const options = component.get( 'options' );
+
+    assert.strictEqual(
+        options.weekStart,
+        weekStart
+    );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    const jqueryAliasSpy = sinon.spy( window, '$' );
+    const jquerySpy = sinon.spy( window, 'jQuery' );
+    const emberJquery = sinon.spy( Ember, '$' );
+    const startDate = window.moment( '2016-01-01' ).toDate();
+
+    const component = this.subject();
+
+    this.render();
+
+    Ember.run( () => {
+        component.set( 'startDate', startDate );
+        component.trigger( 'willClearRender' );
+    });
+
+    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
+
+    assert.notOk(
+        called
+    );
+
+    window.$.restore();
+    window.jQuery.restore();
+    Ember.$.restore();
 });
