@@ -56,7 +56,7 @@ test( 'Backdrop property is passed through to jQuery correctly', function( asser
     this.render( hbs`{{sl-modal backdrop="__backdrop__"}}` );
 
     assert.ok(
-        spy.calledWith( Ember.$.extend( { backdrop: "__backdrop__" }, nonTemplateProps ) ),
+        spy.calledWith( Ember.$.extend( { backdrop: '__backdrop__' }, nonTemplateProps ) ),
         'backdrop property is passed to jQuery.modal correctly'
     );
 
@@ -323,86 +323,27 @@ test( 'Component responds to "show" stream action', function( assert ) {
     );
 });
 
-test( 'Components do not cross-contaminate', function( assert ) {
-    const spyModal = sinon.spy( Ember.$.fn, 'modal' );
-    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    const jqueryAliasSpy = sinon.spy( window, '$' );
+    const jquerySpy = sinon.spy( window, 'jQuery' );
+    const emberJquery = sinon.spy( Ember, '$' );
 
-    this.render( hbs`
-        {{#sl-modal}}
-            {{sl-modal-header title="Simple Example 1"}}
+    this.render( template );
 
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
+    const component = this.$( '>:first-child' );
 
-            {{sl-modal-footer}}
-        {{/sl-modal}}
-    ` );
+    Ember.run( () => {
+        component.modal( 'show' );
+        component.modal( 'hide' );
+    });
 
-    const $first = this.$( '>:first-child' );
+    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
 
-    assert.deepEqual(
-        spyModal.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyModal.thisValues.map( (   ) => $first.get( 0 ) ),
-        'First modal attaches to the proper element ($.fn.modal)'
+    assert.notOk(
+        called
     );
 
-    assert.deepEqual(
-        spyOn.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyOn.thisValues.map( (   ) => $first.get( 0 ) ),
-        'First modal attaches to the proper element ($.fn.on)'
-    );
-
-    spyModal.reset();
-    spyOn.reset();
-
-    this.render( hbs`
-        {{#sl-modal}}
-            {{sl-modal-header title="Simple Example 2"}}
-
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
-        {{/sl-modal}}
-    ` );
-
-    const $second = this.$( '>:first-child' );
-
-    assert.deepEqual(
-        spyModal.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyModal.thisValues.map( (   ) => $second.get( 0 ) ),
-        'Second modal attaches to the proper element ($.fn.modal)'
-    );
-
-    assert.deepEqual(
-        spyOn.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyOn.thisValues.map( (   ) => $second.get( 0 ) ),
-        'Second modal attaches to the proper element ($.fn.on)'
-    );
-
-    spyModal.reset();
-    spyOn.reset();
-
-    $second.modal( 'show' );
-
-    assert.deepEqual(
-        spyModal.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyModal.thisValues.map( (   ) => $second.get( 0 ) ),
-        'Second modal acts on the proper dom element (1/2)'
-    );
-
-    spyModal.reset();
-
-    $second.modal( 'hide' );
-
-    assert.deepEqual(
-        spyModal.thisValues.map( ( i ) => i.get( 0 ) ),
-        spyModal.thisValues.map( (   ) => $second.get( 0 ) ),
-        'Second modal acts on the proper dom element (2/2)'
-    );
-
-    Ember.$.fn.modal.restore();
-    Ember.$.fn.on.restore();
+    window.$.restore();
+    window.jQuery.restore();
+    Ember.$.restore();
 });
