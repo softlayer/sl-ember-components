@@ -19,10 +19,7 @@ export default Ember.Component.extend({
     ],
 
     /** @type {Object} */
-    layout: layout,
-
-    /** @type {String} */
-    tagName: 'div'
+    layout: layout
 
     // -------------------------------------------------------------------------
     // Actions
