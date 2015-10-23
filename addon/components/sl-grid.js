@@ -201,19 +201,6 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
-    /**
-     * Post-template insert hook to set column heading default widths
-     *
-     * @function
-     * @returns {undefined}
-     */
-    didInsertElement: function() {
-        const colHeaders = $( '.list-pane .column-headers tr:first th' );
-        this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
-            colHeaders.eq( index ).width( $( this ).width() );
-        });
-    },
-
     // -------------------------------------------------------------------------
     // Properties
 
@@ -431,6 +418,22 @@ export default Ember.Component.extend({
                     this.updateHeight();
                 });
             }
+        }
+    ),
+
+    /**
+     * Setup the widths for column headers that were not given widths
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupColumnHeaderWidths: Ember.on(
+        'didInsertElement',
+        function() {
+            const colHeaders = $( '.list-pane .column-headers tr:first th' );
+            this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
+                colHeaders.eq( index ).width( $( this ).width() );
+            });
         }
     ),
 
