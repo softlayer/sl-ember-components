@@ -457,32 +457,6 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Setup paths for the various sections within the split-grid
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupTemplates: Ember.on(
-        'init',
-        function() {
-            const renderedName = this.get( '_parentView.renderedName' );
-
-            if ( renderedName ) {
-                const registry = this.get( 'container._registry' );
-                const root = renderedName.replace( '.', '/' ) + '/';
-                const footerPath = root + 'footer';
-
-                if (
-                    !this.get( 'footerPath' ) &&
-                    registry.resolve( 'template:' + footerPath )
-                ) {
-                    this.set( 'footerPath', footerPath );
-                }
-            }
-        }
-    ),
-
-    /**
      * Update the panes' heights according to `height` property value
      *
      * @function
