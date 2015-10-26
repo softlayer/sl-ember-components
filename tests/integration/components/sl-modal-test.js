@@ -57,12 +57,12 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
     integration: true
 });
 
-test( 'Classes are present', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( template );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'modal' ),
-        'Has class modal'
+        'Has class "modal"'
     );
 });
 

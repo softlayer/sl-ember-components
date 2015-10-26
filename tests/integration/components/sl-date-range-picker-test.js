@@ -7,7 +7,7 @@ moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date r
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
 
     this.render( hbs`
         {{sl-date-range-picker}}

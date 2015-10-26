@@ -14,7 +14,7 @@ moduleForComponent( 'sl-tab-panel', 'Integration | Component | sl tab panel', {
     integration: true
 });
 
-test( 'Expected default classes are applied', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( template );
 
     const wrapper = this.$( '>:first-child' );

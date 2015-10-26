@@ -6,7 +6,7 @@ moduleForComponent( 'sl-textarea', 'Integration | Component | sl textarea', {
     integration: true
 });
 
-test( 'Default classes applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-textarea}}
     ` );

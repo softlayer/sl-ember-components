@@ -30,31 +30,7 @@ test( 'Default action is triggered when element is clicked', function( assert ) 
     this.$( '>:first-child' ).click();
 });
 
-test( 'Button is enabled by default', function( assert ) {
-    this.render( template );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).is( ':disabled' ),
-        false,
-        'Component is disabled by default'
-    );
-});
-
-test( 'Button is disabled when disabled is set to true', function( assert ) {
-    this.render( hbs`
-        {{#sl-button disabled=true}}
-            Default Text
-        {{/sl-button}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).is( ':disabled' ),
-        true,
-        'Component becomes disabled'
-    );
-});
-
-test( 'Expected default classes are applied', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( template );
 
     const element = this.$( '>:first-child' );
@@ -79,6 +55,26 @@ test( 'Expected default classes are applied', function( assert ) {
     assert.ok(
         noSizeClassByDefault,
         'No size class is applied by default'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).is( ':disabled' ),
+        false,
+        'Component is enabled by default'
+    );
+});
+
+test( 'Button is disabled when disabled is set to true', function( assert ) {
+    this.render( hbs`
+        {{#sl-button disabled=true}}
+            Default Text
+        {{/sl-button}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).is( ':disabled' ),
+        true,
+        'Component becomes disabled'
     );
 });
 

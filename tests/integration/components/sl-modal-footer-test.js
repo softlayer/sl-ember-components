@@ -5,14 +5,15 @@ moduleForComponent( 'sl-modal-footer', 'Integration | Component | sl modal foote
     integration: true
 });
 
-test( 'Footer class exists', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-modal-footer}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).filter( '.modal-footer' ).length,
-        1
+        1,
+        'Footer class exists'
     );
 });
 

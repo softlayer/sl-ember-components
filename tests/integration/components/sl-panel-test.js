@@ -5,7 +5,7 @@ moduleForComponent( 'sl-panel', 'Integration | Component | sl panel', {
     integration: true
 });
 
-test( 'Default classes are present', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-panel}}
     ` );

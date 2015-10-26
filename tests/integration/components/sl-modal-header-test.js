@@ -5,14 +5,15 @@ moduleForComponent( 'sl-modal-header', 'Integration | Component | sl modal heade
     integration: true
 });
 
-test( 'Modal header class exists on child element', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-modal-header}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).filter( '.modal-header' ).length,
-        1
+        1,
+        'Modal header class exists on child element'
     );
 });
 

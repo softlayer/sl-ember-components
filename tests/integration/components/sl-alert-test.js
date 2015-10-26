@@ -5,7 +5,7 @@ moduleForComponent( 'sl-alert', 'Integration | Component | sl alert', {
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
 
     this.render( hbs`
         {{#sl-alert}}

@@ -5,7 +5,7 @@ moduleForComponent( 'sl-drop-option', 'Integration | Component | sl drop option'
     integration: true
 });
 
-test( 'Has expected initial class name', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-drop-option}}
     ` );
