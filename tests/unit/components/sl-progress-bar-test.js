@@ -23,7 +23,7 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
-test( 'Default property values are set correctly', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.deepEqual(
@@ -59,7 +59,7 @@ test( 'Default property values are set correctly', function( assert ) {
     assert.strictEqual(
         component.get( 'value' ),
         0,
-        'value: false'
+        'value: 0'
     );
 });
 

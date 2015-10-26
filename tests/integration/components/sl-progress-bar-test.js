@@ -6,81 +6,81 @@ moduleForComponent( 'sl-progress-bar', 'Integration | Component | sl progress ba
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-progress-bar}}
     ` );
 
-    const element = this.$( '>:first-child' );
-    const childElement = this.$( '>:first-child' ).find( '>:first-child' );
+    const child = this.$( '>:first-child' );
+    const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.ok(
-        element.hasClass( 'progress' ),
+        child.hasClass( 'progress' ),
         'Has class "progress"'
     );
 
     assert.ok(
-        element.hasClass( 'sl-progress-bar' ),
+        child.hasClass( 'sl-progress-bar' ),
         'Has class "sl-progress-bar"'
     );
 
     assert.ok(
-        element.hasClass( 'sl-progress-bar-low-percentage' ),
+        child.hasClass( 'sl-progress-bar-low-percentage' ),
         'Has class "sl-progress-bar-low-percentage"'
     );
 
     assert.ok(
-        childElement.hasClass( 'progress-bar' ),
+        grandchild.hasClass( 'progress-bar' ),
         'Has class "progress-bar"'
     );
 
     assert.notOk(
-        childElement.hasClass( 'progress-bar-striped' ),
+        grandchild.hasClass( 'progress-bar-striped' ),
         'Does not have class "progress-bar-striped"'
     );
 
     assert.notOk(
-        childElement.hasClass( 'active' ),
+        grandchild.hasClass( 'active' ),
         'Does not have class "active"'
     );
 
     assert.ok(
-        childElement.hasClass( `progress-bar-${ThemeEnum.DEFAULT}` ),
+        grandchild.hasClass( `progress-bar-${ThemeEnum.DEFAULT}` ),
         `Has class "progress-bar-${ThemeEnum.DEFAULT}"`
     );
 
     assert.strictEqual(
-        childElement.attr( 'aria-valuemin' ),
+        grandchild.attr( 'aria-valuemin' ),
         '0',
         '"aria-valuemin" is 0'
     );
 
     assert.strictEqual(
-        childElement.attr( 'aria-valuemax' ),
+        grandchild.attr( 'aria-valuemax' ),
         '100',
         '"aria-valuemax" is 100'
     );
 
     assert.strictEqual(
-        childElement.attr( 'aria-valuenow' ),
+        grandchild.attr( 'aria-valuenow' ),
         '0',
         '"aria-valuenow" is 0'
     );
 
     assert.strictEqual(
-        childElement.attr( 'style' ),
+        grandchild.attr( 'style' ),
         'width: 0%;',
         '"style" is "width: 0%;"'
     );
 
     assert.strictEqual(
-        childElement.attr( 'role' ),
+        grandchild.attr( 'role' ),
         'progressbar',
         '"role" is "progressbar"'
     );
 
     assert.strictEqual(
-        childElement.find( '.sr-only' ).text().trim(),
+        grandchild.find( '.sr-only' ).text().trim(),
         '0% Complete',
         'Expected visual representation when "label" property is not provided'
     );
@@ -97,16 +97,16 @@ test( '"value" property is supported', function( assert ) {
         }}
     ` );
 
-    const childElement = this.$( '>:first-child' ).find( '>:first-child' );
+    const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.strictEqual(
-        childElement.attr( 'aria-valuenow' ),
+        grandchild.attr( 'aria-valuenow' ),
         '12',
         '"aria-valuenow" is 12'
     );
 
     assert.strictEqual(
-        childElement.find( '.sr-only' ).text().trim(),
+        grandchild.find( '.sr-only' ).text().trim(),
         '12% Complete',
         '"value" property displayed when "label" property is not provided'
     );
@@ -115,13 +115,13 @@ test( '"value" property is supported', function( assert ) {
     this.set( 'testLabel', 'test label' );
 
     assert.strictEqual(
-        childElement.attr( 'aria-valuenow' ),
+        grandchild.attr( 'aria-valuenow' ),
         '47',
         '"aria-valuenow" is 47'
     );
 
     assert.strictEqual(
-        childElement.find( '.sl-progress-bar-value' ).text().trim(),
+        grandchild.find( '.sl-progress-bar-value' ).text().trim(),
         '47%',
         '"value" property displayed when "label" property is provided'
     );
@@ -134,17 +134,17 @@ test( '"striped" property is supported', function( assert ) {
         {{sl-progress-bar striped=testStriped}}
     ` );
 
-    const childElement = this.$( '>:first-child' ).find( '>:first-child' );
+    const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.notOk(
-        childElement.hasClass( 'progress-bar-striped' ),
+        grandchild.hasClass( 'progress-bar-striped' ),
         '"progress-bar-striped" class is not applied'
     );
 
     this.set( 'testStriped', true );
 
     assert.ok(
-        childElement.hasClass( 'progress-bar-striped' ),
+        grandchild.hasClass( 'progress-bar-striped' ),
         '"progress-bar-striped" class is applied'
     );
 });
@@ -156,17 +156,17 @@ test( '"animated" property is supported', function( assert ) {
         {{sl-progress-bar animated=testAnimated}}
     ` );
 
-    const childElement = this.$( '>:first-child' ).find( '>:first-child' );
+    const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.notOk(
-        childElement.hasClass( 'active' ),
+        grandchild.hasClass( 'active' ),
         '"active" class is not applied'
     );
 
     this.set( 'testAnimated', true );
 
     assert.ok(
-        childElement.hasClass( 'active' ),
+        grandchild.hasClass( 'active' ),
         '"active" class is applied'
     );
 });
@@ -178,17 +178,17 @@ test( '"theme" property is supported', function( assert ) {
         {{sl-progress-bar theme=testTheme}}
     ` );
 
-    const childElement = this.$( '>:first-child' ).find( '>:first-child' );
+    const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.ok(
-        childElement.hasClass( `progress-bar-${ThemeEnum.DEFAULT}` ),
+        grandchild.hasClass( `progress-bar-${ThemeEnum.DEFAULT}` ),
         `"progress-bar-${ThemeEnum.DEFAULT}" class is applied`
     );
 
     this.set( 'testTheme', ThemeEnum.INFO );
 
     assert.ok(
-        childElement.hasClass( `progress-bar-${ThemeEnum.INFO}` ),
+        grandchild.hasClass( `progress-bar-${ThemeEnum.INFO}` ),
         `"progress-bar-${ThemeEnum.INFO}" class is applied`
     );
 });
@@ -200,10 +200,10 @@ test( '"style" string is updated', function( assert ) {
         {{sl-progress-bar value=testValue}}
     ` );
 
-    const childElement = this.$( '>:first-child' ).find( '>:first-child' );
+    const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.strictEqual(
-        childElement.attr( 'style' ),
+        grandchild.attr( 'style' ),
         'width: 12%;',
         '"style" is "width: 12%;"'
     );
@@ -211,7 +211,7 @@ test( '"style" string is updated', function( assert ) {
     this.set( 'testValue', 38 );
 
     assert.strictEqual(
-        childElement.attr( 'style' ),
+        grandchild.attr( 'style' ),
         'width: 38%;',
         '"style" is "width: 38%;"'
     );
@@ -224,16 +224,16 @@ test( '"label" property is supported', function( assert ) {
         {{sl-progress-bar label=testLabel}}
     ` );
 
-    const childElement = this.$( '>:first-child' ).find( '>:first-child' );
+    const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.strictEqual(
-        childElement.find( '.sr-only' ).text().trim(),
+        grandchild.find( '.sr-only' ).text().trim(),
         '0% Complete',
         'Part 1 - Expected visual representation when "label" property is not provided'
     );
 
     assert.strictEqual(
-        childElement.find( '.sl-progress-bar-value' ).length,
+        grandchild.find( '.sl-progress-bar-value' ).length,
         0,
         'Part 2 - Expected visual representation when "label" property is not provided'
     );
@@ -241,13 +241,13 @@ test( '"label" property is supported', function( assert ) {
     this.set( 'testLabel', 'test label' );
 
     assert.strictEqual(
-        childElement.find( '.sl-progress-bar-value' ).text().trim(),
+        grandchild.find( '.sl-progress-bar-value' ).text().trim(),
         '0%',
         'Part 1 - Expected visual representation when "label" property is provided'
     );
 
     assert.strictEqual(
-        childElement.find( '.sr-only' ).length,
+        grandchild.find( '.sr-only' ).length,
         0,
         'Part 2 - Expected visual representation when "label" property is provided'
     );
@@ -260,24 +260,24 @@ test( 'Threshold level affects rendered output', function( assert ) {
         {{sl-progress-bar value=testValue}}
     ` );
 
-    const element = this.$( '>:first-child' );
+    const child = this.$( '>:first-child' );
 
     assert.ok(
-        element.hasClass( 'sl-progress-bar-low-percentage' ),
+        child.hasClass( 'sl-progress-bar-low-percentage' ),
         '"sl-progress-bar-low-percentage" class is applied when "value" is less than 50'
     );
 
     this.set( 'testValue', 50 );
 
     assert.notOk(
-        element.hasClass( 'sl-progress-bar-low-percentage' ),
+        child.hasClass( 'sl-progress-bar-low-percentage' ),
         '"sl-progress-bar-low-percentage" class is not applied when "value" is greater than 49'
     );
 });
 
 test( '"title" property is supported', function( assert ) {
     this.render( hbs`
-        {{sl-textarea}}
+        {{sl-progress-bar}}
     ` );
 
     assert.notOk(
@@ -288,7 +288,7 @@ test( '"title" property is supported', function( assert ) {
     this.set( 'title', 'test title' );
 
     this.render( hbs`
-        {{sl-textarea title=title}}
+        {{sl-progress-bar title=title}}
     ` );
 
     assert.strictEqual(
@@ -300,7 +300,7 @@ test( '"title" property is supported', function( assert ) {
 
 test( '"popover" property is supported', function( assert ) {
     this.render( hbs`
-        {{sl-textarea}}
+        {{sl-progress-bar}}
     ` );
 
     assert.notOk(
@@ -311,7 +311,7 @@ test( '"popover" property is supported', function( assert ) {
     this.set( 'popover', 'Test popover' );
 
     this.render( hbs`
-        {{sl-textarea popover=popover}}
+        {{sl-progress-bar popover=popover}}
     ` );
 
     assert.strictEqual(
