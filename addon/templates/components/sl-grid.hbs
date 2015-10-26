@@ -36,8 +36,10 @@
                 {{/each}}
 
                 {{#if rowActions}}
-                    <th class="actions-cell"></th>
+                    <th class="actions-cell column-small"></th>
                 {{/if}}
+
+                <th class="fake-scrollbar"></th>
             </tr>
         </thead>
     </table>
@@ -56,7 +58,7 @@
                         {{/each}}
 
                         {{#if rowActions}}
-                            <td class="actions-cell">
+                            <td class="actions-cell column-small">
                                 {{#sl-drop-button
                                     align="right"
                                     label=actionsButtonLabel

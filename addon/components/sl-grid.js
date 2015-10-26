@@ -425,6 +425,22 @@ export default Ember.Component.extend({
     ),
 
     /**
+     * Setup the widths for column headers that were not given widths
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupColumnHeaderWidths: Ember.on(
+        'didInsertElement',
+        function() {
+            const colHeaders = $( '.list-pane .column-headers tr:first th' );
+            this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
+                colHeaders.eq( index ).width( $( this ).width() );
+            });
+        }
+    ),
+
+    /**
      * Setup the "continuous paging" functionality, if the data set is
      * not complete
      *
