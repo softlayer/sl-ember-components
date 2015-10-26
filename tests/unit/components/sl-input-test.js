@@ -53,8 +53,8 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     Ember.run( () => {
         component.trigger( 'willClearRender' );
 
-        assert.ok(
-            !( 'blur' in events ),
+        assert.notOk(
+            'blur' in events,
             'Blur event handler is unregistered after willClearRender'
         );
     });
