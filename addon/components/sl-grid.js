@@ -433,7 +433,7 @@ export default Ember.Component.extend({
     setupColumnHeaderWidths: Ember.on(
         'didInsertElement',
         function() {
-            const colHeaders = $( '.list-pane .column-headers tr:first th' );
+            const colHeaders = this.$( '.list-pane .column-headers tr:first th' );
             this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
                 colHeaders.eq( index ).width( $( this ).width() );
             });
