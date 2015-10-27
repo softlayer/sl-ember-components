@@ -50,6 +50,16 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'modal' ),
         'Has class modal'
     );
+
+    Ember.run( () => {
+        this.$( '>:first-child' ).modal( 'show' );
+    });
+
+    assert.strictEqual(
+        Ember.$( '.modal-backdrop' ).length,
+        1,
+        'backdrop is shown by default'
+    );
 });
 
 test( 'Backdrop property is passed through to jQuery correctly', function( assert ) {
@@ -73,19 +83,21 @@ test( 'Backdrop property is passed through to jQuery correctly', function( asser
 });
 
 test( 'Animated property adds fade class', function( assert ) {
-    this.render( hbs`{{sl-modal animated=false}}` );
-    const first = this.$( '>:first-child' );
+    this.set( 'animate', false );
 
-    this.render( hbs`{{sl-modal animated=true}}` );
-    const second = this.$( '>:first-child' );
+    this.render( hbs`
+        {{sl-modal animated=animate}}
+    ` );
 
     assert.notOk(
-        first.hasClass( 'fade' ),
+        this.$( '>:first-child' ).hasClass( 'fade' ),
         'fade class not present when animated set to false'
     );
 
+    this.set( 'animate', true );
+
     assert.ok(
-        second.hasClass( 'fade' ),
+        this.$( '>:first-child' ).hasClass( 'fade' ),
         'fade class present when animated set to true'
     );
 });
@@ -275,6 +287,23 @@ test( 'aria-labelledby is set', function( assert ) {
     );
 });
 
+test( 'aria-labelledby can be bound in a custom header', function( assert ) {
+
+    this.render( hbs`
+        {{#sl-modal as |modal|}}
+            {{#sl-modal-header}}
+                <span class="modal-title" id={{modal.ariaLabelledBy}}>Custom Title</span>
+            {{/sl-modal-header}}
+        {{/sl-modal}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'aria-labelledby' ),
+        this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
+        '"aria-labelledby" in custom header points to correct element'
+    );
+});
+
 test( 'Component responds to "hide" stream action', function( assert ) {
     this.set( 'stream', mockStream );
     this.set( 'hide', sinon.spy() );
@@ -321,29 +350,4 @@ test( 'Component responds to "show" stream action', function( assert ) {
         this.get( 'show' ).calledOnce,
         'hide() was triggered successfully'
     );
-});
-
-test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
-    const jqueryAliasSpy = sinon.spy( window, '$' );
-    const jquerySpy = sinon.spy( window, 'jQuery' );
-    const emberJquery = sinon.spy( Ember, '$' );
-
-    this.render( template );
-
-    const component = this.$( '>:first-child' );
-
-    Ember.run( () => {
-        component.modal( 'show' );
-        component.modal( 'hide' );
-    });
-
-    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
-
-    assert.notOk(
-        called
-    );
-
-    window.$.restore();
-    window.jQuery.restore();
-    Ember.$.restore();
 });
