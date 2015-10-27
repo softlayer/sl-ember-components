@@ -43,6 +43,15 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( template );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'modal' ),
+        'Has class modal'
+    );
+});
+
 test( 'Backdrop property is passed through to jQuery correctly', function( assert ) {
     // we currently only pass through the backdrop parameter
     const spy = sinon.spy( Ember.$.fn, 'modal' );
@@ -78,15 +87,6 @@ test( 'Animated property adds fade class', function( assert ) {
     assert.ok(
         second.hasClass( 'fade' ),
         'fade class present when animated set to true'
-    );
-});
-
-test( 'Classes are present', function( assert ) {
-    this.render( template );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'modal' ),
-        'Has class modal'
     );
 });
 
