@@ -58,13 +58,17 @@ test( 'optionType function returns expected values', function( assert ) {
     );
 });
 
-test( 'Check computed property "optionType" is observing the correct properties', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.optionType._dependentKeys.join(),
-        'label',
-        '"Optiontype" computed property is observing the correct properties'
+    const optionTypeDependentKeys = [
+        'label'
+    ];
+
+    assert.deepEqual(
+        component.optionType._dependentKeys,
+        optionTypeDependentKeys,
+        'Dependent keys are correct for optionType()'
     );
 });
 
