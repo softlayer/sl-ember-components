@@ -147,3 +147,50 @@ test( '"title" property is an alias to "datetime" value', function( assert ) {
         '"title" property is aliased to "datetime" property'
     );
 });
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const datetimeDependentKeys = [
+        'timezoneString',
+        'value'
+    ];
+
+    const formattedValueDependentKeys = [
+        'format',
+        'momentValue'
+    ];
+
+    const momentValueDependentKeys = [
+        'value'
+    ];
+
+    const timezoneStringDependentKeys = [
+        'timezone',
+        'momentValue'
+    ];
+
+    assert.deepEqual(
+        component.datetime._dependentKeys,
+        datetimeDependentKeys,
+        'Dependent keys are correct for datetime()'
+    );
+
+    assert.deepEqual(
+        component.formattedValue._dependentKeys,
+        formattedValueDependentKeys,
+        'Dependent keys are correct for formattedValue()'
+    );
+
+    assert.deepEqual(
+        component.momentValue._dependentKeys,
+        momentValueDependentKeys,
+        'Dependent keys are correct for momentValue()'
+    );
+
+    assert.deepEqual(
+        component.timezoneString._dependentKeys,
+        timezoneStringDependentKeys,
+        'Dependent keys are correct for timezoneString()'
+    );
+});
