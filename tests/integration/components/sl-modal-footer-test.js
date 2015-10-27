@@ -10,10 +10,9 @@ test( 'Default rendered state', function( assert ) {
         {{sl-modal-footer}}
     ` );
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).filter( '.modal-footer' ).length,
-        1,
-        'Footer class exists'
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'modal-footer' ),
+        'Component has class "modal-footer"'
     );
 });
 

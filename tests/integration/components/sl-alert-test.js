@@ -28,12 +28,6 @@ test( 'Default rendered state', function( assert ) {
         'alert',
         'ARIA role is applied'
     );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'button' ).length,
-        0,
-        'Dismissable button was not set on default component'
-    );
 });
 
 test( 'Theme properties applied correctly', function( assert ) {

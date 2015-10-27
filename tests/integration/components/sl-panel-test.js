@@ -25,59 +25,28 @@ test( 'Default rendered state', function( assert ) {
         'Default rendered component has class "sl-panel"'
     );
 
-    assert.ok(
-        this.$( '>:first-child' ).find( 'panel-body' ),
-        'Default rendered component has class "panel-body"'
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '> .panel-body' ).length,
+        1,
+        'Default rendered component has child with class "panel-body"'
     );
 
-    assert.ok(
-        this.$( '>:first-child' ).find( 'sl-maskable-content' ),
-        'Default rendered component has class "sl-maskable-content"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'sl-mask' ),
-        'Default rendered component has class "sl-mask"'
-    );
-});
-
-test( 'Valid structure rendered for sl-panel', function( assert ) {
-    this.render( hbs`
-        {{sl-panel}}
-    ` );
-
-    const component = this.$( '>:first-child' );
+    const panelBody = this.$( '>:first-child' ).find( '> .panel-body' );
 
     assert.strictEqual(
-      component.children()[0].className,
-      'panel-body',
-      'Parent node rendered is "panel-body"'
+        panelBody.find( '> .sl-maskable-content' ).length,
+        1,
+        'Default rendered component has child with class "sl-maskable-content"'
     );
 
     assert.strictEqual(
-      component.children().children()[0].className,
-      'sl-maskable-content',
-      'First child of Parent Node rendered is "sl-maskable-content"'
-    );
-
-    assert.strictEqual(
-      component.children().children()[1].className,
-      'sl-mask',
-      'Second child of Parent Node rendered is "sl-mask"'
+        panelBody.find( '> .sl-mask' ).length,
+        1,
+        'Default rendered component has child with class "sl-mask"'
     );
 });
 
 test( 'Valid heading value renders panel-heading', function( assert ) {
-    this.render( hbs`
-        {{sl-panel}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.panel-heading' ).length,
-        0,
-        'Default rendered component has no .panel-heading'
-    );
-
     this.render( hbs`
         {{sl-panel heading="Test"}}
     ` );
@@ -97,16 +66,6 @@ test( 'Valid heading value renders panel-heading', function( assert ) {
 
 test( 'Loading state applies class name', function( assert ) {
     this.render( hbs`
-        {{sl-panel}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'sl-loading' ),
-        false,
-        'Default rendered component does not have class "sl-loading"'
-    );
-
-    this.render( hbs`
         {{sl-panel loading=true}}
     ` );
 
@@ -119,12 +78,12 @@ test( 'Loading state applies class name', function( assert ) {
 test( 'Content is yielded', function( assert ) {
     this.render( hbs`
         {{#sl-panel}}
-            <div class="test"></div>
+            <div class="yield-test"></div>
         {{/sl-panel}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.test' ).length,
+        this.$( '>:first-child' ).find( '.yield-test' ).length,
         1,
         'Content yields successfully'
     );

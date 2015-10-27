@@ -15,17 +15,6 @@ test( 'Default rendered state', function( assert ) {
         'Rendered component has class "sl-drop-option"'
     );
 
-    assert.ok(
-        this.$( '>:first-child' ).find( 'li' ),
-        'Rendered componenet has the correct "li" tag'
-    );
-});
-
-test( 'Has expected aria-role property', function( assert ) {
-    this.render( hbs`
-        {{sl-drop-option}}
-    ` );
-
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),
         'menuitem',

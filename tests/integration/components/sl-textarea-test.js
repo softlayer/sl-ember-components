@@ -25,6 +25,12 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).find( 'textarea' ).hasClass( 'form-control' ),
         'Has class "form-control"'
     );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
+        'false',
+        '"spellcheck" property default value is false'
+    );
 });
 
 test( '"value" property is supported', function( assert ) {
@@ -259,17 +265,6 @@ test( '"helpText" is rendered if populated', function( assert ) {
     );
 });
 
-test( 'If "helpText" is not populated, it is not rendered', function( assert ) {
-    this.render( hbs`
-        {{sl-textarea}}
-    ` );
-
-    assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'help-block' ),
-        '"helptext" block is not rendered'
-    );
-});
-
 test( '"optional" and "required" elements are rendered if populated along with "label" property', function( assert ) {
     this.render( hbs`
         {{sl-textarea label="Test Label" optional=true required=true}}
@@ -392,18 +387,6 @@ test( '"spellcheck" property is supported with bound values', function( assert )
         this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
         'false',
         '"spellcheck" property is expected value'
-    );
-});
-
-test( '"spellcheck" property defaults correctly', function( assert ) {
-    this.render( hbs`
-        {{sl-textarea}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'textarea' ).attr( 'spellcheck' ),
-        'false',
-        '"spellcheck" property default value is false'
     );
 });
 

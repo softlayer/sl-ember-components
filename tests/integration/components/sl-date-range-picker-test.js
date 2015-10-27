@@ -19,21 +19,9 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' )[ 0 ],
-        undefined,
-        'No label is created when label is undefined'
-    );
-
-    assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' ).prop( 'placeholder' ),
         '',
         'Start date input placeholder is empty when startDatePlaceholder is undefined'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' ).prop( 'placeholder' ),
-        '',
-        'End date input placeholder is empty when endDatePlaceholder is undefined'
     );
 });
 
