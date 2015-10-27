@@ -87,6 +87,7 @@ test( 'Click triggers bound action with correct arguments', function( assert ) {
 
     this.$( 'a' ).trigger( 'click' );
 
+    // spy.calledWith() does a deepEquals on objects
     assert.ok(
         testActionSpy.calledWith( testDataObject, 'testActionContext' ),
         'Test action fired correctly with the correct arguments'
