@@ -97,9 +97,6 @@ test( 'Latest start date is the based on max date and end date', function( asser
 
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
     const component = this.subject();
-
-    this.render();
-
     const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
     const jQueryData = Ember.get( Ember.$, '_data' );
 
