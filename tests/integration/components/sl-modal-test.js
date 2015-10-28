@@ -35,34 +35,70 @@ const template = hbs`
 `;
 
 moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
-
-    beforeEach() {
-        this.hideModal = true;
-    },
-
-    /**
-     * Hide modal after each test,
-     * this will prevent the bootstrap overlay from sticking around.
-     * The hideModal property can be overridden in a test.
-     **/
     afterEach() {
-        if ( this.hideModal ) {
-            if ( this.$( '>:first-child' ) ) {
-                this.$( '>:first-child' ).modal( 'hide' );
-                Ember.$( '>:first-child' ).find( '.modal-backdrop' ).remove();
-            }
-        }
+        this.$( '.modal' ).remove();
+        Ember.$( '.modal-backdrop' ).remove();
     },
 
     integration: true
 });
 
-test( 'Classes are present', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( template );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'modal' ),
         'Has class modal'
+    );
+
+    Ember.run( () => {
+        this.$( '>:first-child' ).modal( 'show' );
+    });
+
+    assert.strictEqual(
+        Ember.$( '.modal-backdrop' ).length,
+        1,
+        'backdrop is shown by default'
+    );
+});
+
+test( 'Backdrop property is passed through to jQuery correctly', function( assert ) {
+    // we currently only pass through the backdrop parameter
+    const spy = sinon.spy( Ember.$.fn, 'modal' );
+
+    // props passed to bootstrap modal that are not bound to template
+    const nonTemplateProps = {
+        keyboard: true,
+        show: false
+    };
+
+    this.render( hbs`{{sl-modal backdrop="__backdrop__"}}` );
+
+    assert.ok(
+        spy.calledWith( Ember.$.extend( { backdrop: '__backdrop__' }, nonTemplateProps ) ),
+        'backdrop property is passed to jQuery.modal correctly'
+    );
+
+    Ember.$.fn.modal.restore();
+});
+
+test( 'Animated property adds fade class', function( assert ) {
+    this.set( 'animate', false );
+
+    this.render( hbs`
+        {{sl-modal animated=animate}}
+    ` );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'fade' ),
+        'fade class not present when animated set to false'
+    );
+
+    this.set( 'animate', true );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'fade' ),
+        'fade class present when animated set to true'
     );
 });
 
@@ -209,86 +245,8 @@ test( 'Closing of modal using close button works', function( assert ) {
 
 });
 
-test( 'Backdrop is hidden when backdrop property is set to false', function( assert ) {
-    this.render( hbs`
-        {{#sl-modal backdrop=false}}
-            {{sl-modal-header title="Simple Example"}}
-
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
-        {{/sl-modal}}
-    ` );
-
-    Ember.run( () => {
-        this.$( '>:first-child' ).modal( 'show' );
-    });
-
-    assert.strictEqual(
-        Ember.$( '>:first-child' ).find( '.modal-backdrop' ).length,
-        0
-    );
-});
-
-test( 'Backdrop is shown by default', function( assert ) {
-    this.render( template );
-
-    Ember.run( () => {
-        this.$( '>:first-child' ).modal( 'show' );
-    });
-
-    assert.strictEqual(
-        Ember.$( '>:first-child' ).length,
-        1
-    );
-});
-
-test( 'Fade class is present when animated is set to true', function( assert ) {
-    this.render( template );
-
-    this.render( hbs`
-        {{#sl-modal animated=true}}
-            {{sl-modal-header title="Simple Example"}}
-
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
-        {{/sl-modal}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'fade' )
-    );
-});
-
-test( 'Fade class is absent when animated is set to false', function( assert ) {
-    this.render( template );
-
-    this.render( hbs`
-        {{#sl-modal animated=false}}
-            {{sl-modal-header title="Simple Example"}}
-
-            {{#sl-modal-body}}
-                <p>A simple modal example</p>
-            {{/sl-modal-body}}
-
-            {{sl-modal-footer}}
-        {{/sl-modal}}
-    ` );
-
-    assert.ok(
-        !this.$( '>:first-child' ).hasClass( 'fade' )
-    );
-});
-
 test( 'ariaDescribedBy attribute binding', function( assert ) {
     const describedBy = 'targetId';
-
-    this.render( template );
 
     this.set( 'ariaDescribedBy', describedBy );
 

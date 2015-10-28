@@ -16,14 +16,26 @@ test( 'Footer class exists', function( assert ) {
     );
 });
 
-test( 'Close button exists', function( assert ) {
+test( 'Content is yielded', function( assert ) {
+    this.render( hbs`
+        {{#sl-modal-footer}}
+            <div class="test"></div>
+        {{/sl-modal-footer}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.test' ).length,
+        1,
+        'Content is yielded correctly'
+    );
+
     this.render( hbs`
         {{sl-modal-footer}}
     ` );
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'button[data-dismiss="modal"]' ).length,
-        1
+    assert.ok(
+        this.$( '>:first-child' ).find( '[data-dismiss="modal"]' ).length > 0,
+        'Default footer content and button rendered when not yielded'
     );
 });
 
@@ -39,18 +51,5 @@ test( 'Close button text is customizable', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'button[data-dismiss="modal"]' ).text().trim(),
         buttonText
-    );
-});
-
-test( 'Content is yielded', function( assert ) {
-    this.render( hbs`
-        {{#sl-modal-footer}}
-            <div class="test"></div>
-        {{/sl-modal-footer}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.test' ).length,
-        1
     );
 });

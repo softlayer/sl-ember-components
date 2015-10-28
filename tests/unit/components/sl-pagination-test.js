@@ -1,99 +1,225 @@
 import Ember from 'ember';
+import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-pagination', 'Unit | Component | sl pagination', {
     unit: true
 });
 
-test( 'Default classes are present', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'pagination' ),
-        'Default rendered component has class "pagination"'
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'ul',
+        'tagName is ul by default'
     );
 
-    assert.ok(
-        this.$().hasClass( 'sl-pagination' ),
-        'Default rendered component has class "sl-pagination"'
+    assert.strictEqual(
+        component.get( 'busy' ),
+        false,
+        'busy is false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'currentPage' ),
+        1,
+        'currentPage is 1 by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'totalPages' ),
+        null,
+        'totalPages is null by default'
     );
 });
 
-test( 'Property "onFirstPage" works correctly', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const onFirstPageDependentKeys = [
+        'currentPage'
+    ];
+
+    const onLastPageDependentKeys = [
+        'currentPage',
+        'totalPages'
+    ];
+
+    assert.deepEqual(
+        component.onFirstPage._dependentKeys,
+        onFirstPageDependentKeys,
+        'Dependent keys are correct for onFirstPage()'
+    );
+
+    assert.deepEqual(
+        component.onLastPage._dependentKeys,
+        onLastPageDependentKeys,
+        'Dependent keys are correct for onLastPage()'
+    );
+});
+
+test( 'nextPage action increments currentPage', function( assert ) {
+    const component = this.subject({ totalPages: 2 });
+
+    Ember.run( () => {
+        component.send( 'nextPage' );
+    });
+
+    assert.strictEqual(
+        component.get( 'currentPage' ),
+        2,
+        'currentPage was incremented'
+    );
+});
+
+test( 'previousPage action decrements currentPage', function( assert ) {
+    const component = this.subject({ totalPages: 2, currentPage: 2 });
+
+    Ember.run( () => {
+        component.send( 'previousPage' );
+    });
+
+    assert.strictEqual(
+        component.get( 'currentPage' ),
+        1,
+        'currentPage was decremented'
+    );
+});
+
+test( 'onFirstPage property returns the expected values', function( assert ) {
     const component = this.subject({ currentPage: 2 });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'onFirstPage' ),
         false,
-        'Rendered component is not initially "onFirstPage"'
+        'Returns false when not on the first page'
     );
 
     Ember.run( () => {
         component.set( 'currentPage', 1 );
     });
 
-    assert.ok(
+    assert.strictEqual(
         component.get( 'onFirstPage' ),
-        'Rendered component is "onFirstPage" when currentPage = 1'
+        true,
+        'Returns true when not on the first page'
     );
 });
 
-test( 'Changing to previous page behaves correctly', function( assert ) {
-    const component = this.subject({ currentPage: 1, totalPages: 3 });
+test( 'onLastPage property returns the expected values', function( assert ) {
+    const component = this.subject({
+        currentPage: 1,
+        totalPages: 2
+    });
 
-    this.$( '.previous-page-button' ).trigger( 'click' );
-    assert.equal(
+    assert.strictEqual(
+        component.get( 'onLastPage' ),
+        false,
+        'Returns false when not on the last page'
+    );
+
+    Ember.run( () => {
+        component.set( 'currentPage', 2 );
+    });
+
+    assert.strictEqual(
+        component.get( 'onLastPage' ),
+        true,
+        'Returns true when on the last page'
+    );
+
+    Ember.run( () => {
+        component.set( 'totalPages', 3 );
+    });
+
+    assert.strictEqual(
+        component.get( 'onLastPage' ),
+        false,
+        'Respects changes to the totalPages property'
+    );
+});
+
+test( 'changePageBy() adds to currentPage when positive', function( assert ) {
+    const component = this.subject({
+        totalPages: 2
+    });
+
+    Ember.run( () => {
+        component.changePageBy( 1 );
+    });
+
+    assert.strictEqual(
+        component.get( 'currentPage' ),
+        2,
+        'currentPage was increased by 1'
+    );
+});
+
+test( 'changePageBy() subtracts from currentPage when negative', function( assert ) {
+    const component = this.subject({
+        totalPages: 2,
+        currentPage: 2
+    });
+
+    Ember.run( () => {
+        component.changePageBy( -1 );
+    });
+
+    assert.strictEqual(
         component.get( 'currentPage' ),
         1,
-        'Current page is not decremented when on the first page'
+        'currentPage was decreased by 1'
     );
-
-    Ember.run( () => {
-        component.set( 'currentPage', 2 );
-
-        // These properties have to be set after currentPage is 2
-        component.setProperties({
-            pageChange: 'test',
-            targetObject: {
-                test( currentPage ) {
-                    assert.equal(
-                        currentPage,
-                        1,
-                        'Current page is decremented as expected'
-                    );
-                }
-            }
-        });
-    });
-
-    this.$( '.previous-page-button' ).trigger( 'click' );
 });
 
-test( 'Changing to next page behaves correctly', function( assert ) {
-    const component = this.subject({ currentPage: 3, totalPages: 3 });
+test( 'changePageBy() sends the changePage action', function( assert ) {
+    const targetObject = {
+        testAction: sinon.spy()
+    };
 
-    this.$( '.next-page-button' ).trigger( 'click' );
-    assert.equal(
-        component.get( 'currentPage' ),
-        3,
-        'Current page is not incremented when on the last page'
-    );
-
-    Ember.run( () => {
-        component.set( 'currentPage', 2 );
-
-        // These properties have to be set after currentPage is 2
-        component.setProperties({
-            pageChange: 'test',
-            targetObject: {
-                test( currentPage ) {
-                    assert.equal(
-                        currentPage,
-                        3,
-                        'Current page is incremented as expected'
-                    );
-                }
-            }
-        });
+    const component = this.subject({
+        totalPages: 2,
+        changePage: 'testAction',
+        targetObject: targetObject
     });
 
-    this.$( '.next-page-button' ).trigger( 'click' );
+    Ember.run( () => {
+        component.changePageBy( 1 );
+    });
+
+    assert.strictEqual(
+        targetObject.testAction.getCall( 0 ).args[ 0 ],
+        2,
+        'the changePage action was sent with the new currentPage value'
+    );
+});
+
+test( 'changePageBy() does nothing when busy is true', function( assert ) {
+    const targetObject = {
+        testAction: sinon.spy()
+    };
+
+    const component = this.subject({
+        totalPages: 2,
+        changePage: 'testAction',
+        targetObject: targetObject
+    });
+
+    Ember.run( () => {
+        component.set( 'busy', true );
+        component.changePageBy( 1 );
+    });
+
+    assert.strictEqual(
+        component.get( 'currentPage' ),
+        1,
+        'currentPage was not changed'
+    );
+
+    assert.strictEqual(
+        targetObject.testAction.calledOnce,
+        false,
+        'changePage action was not sent'
+    );
 });

@@ -27,12 +27,9 @@ test( 'The disabled state applies the disabled attribute and class', function( a
 test( 'The disabled state applies to sl-radio children', function( assert ) {
     this.render( hbs`
         {{#sl-radio-group disabled=true name="testName"}}
-            {{#sl-radio label="One" value="one"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Two" value="two"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Three" value="three"}}
-            {{/sl-radio}}
+            {{sl-radio label="One" value="one"}}
+            {{sl-radio label="Two" value="two"}}
+            {{sl-radio label="Three" value="three"}}
         {{/sl-radio-group}}
     ` );
 
@@ -46,12 +43,9 @@ test( 'The disabled state applies to sl-radio children', function( assert ) {
 test( "Inline true sets sl-radio children's inline property to true", function( assert ) {
     this.render( hbs`
         {{#sl-radio-group inline=true name="testName"}}
-            {{#sl-radio label="One" value="one"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Two" value="two"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Three" value="three"}}
-            {{/sl-radio}}
+            {{sl-radio label="One" value="one"}}
+            {{sl-radio label="Two" value="two"}}
+            {{sl-radio label="Three" value="three"}}
         {{/sl-radio-group}}
     ` );
 
@@ -71,12 +65,9 @@ test( "Inline true sets sl-radio children's inline property to true", function( 
 test( "Inline false sets sl-radio children's inline property to false", function( assert ) {
     this.render( hbs`
         {{#sl-radio-group inline=false name="testName"}}
-            {{#sl-radio label="One" value="one"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Two" value="two"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Three" value="three"}}
-            {{/sl-radio}}
+            {{sl-radio label="One" value="one"}}
+            {{sl-radio label="Two" value="two"}}
+            {{sl-radio label="Three" value="three"}}
         {{/sl-radio-group}}
     ` );
 
@@ -97,12 +88,9 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
     this.set( 'value', 'jeremy' );
     this.render( hbs`
         {{#sl-radio-group value=value name="testName"}}
-            {{#sl-radio label="One" value="eric"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Two" value="josh"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Three" value="michael"}}
-            {{/sl-radio}}
+            {{sl-radio label="One" value="eric"}}
+            {{sl-radio label="Two" value="josh"}}
+            {{sl-radio label="Three" value="michael"}}
         {{/sl-radio-group}}
     ` );
 
@@ -122,12 +110,9 @@ test( 'Default value gets selected by default', function( assert ) {
     this.set( 'value', 'josh' );
     this.render( hbs`
         {{#sl-radio-group value=value name="testName"}}
-            {{#sl-radio label="One" value="eric"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Two" value="josh"}}
-            {{/sl-radio}}
-            {{#sl-radio label="Three" value="michael"}}
-            {{/sl-radio}}
+            {{sl-radio label="One" value="eric"}}
+            {{sl-radio label="Two" value="josh"}}
+            {{sl-radio label="Three" value="michael"}}
         {{/sl-radio-group}}
     ` );
 
