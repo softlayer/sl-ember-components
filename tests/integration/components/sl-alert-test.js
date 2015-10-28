@@ -36,50 +36,17 @@ test( 'Defaults applied correctly', function( assert ) {
     );
 });
 
-test( 'Theme properties applied correctly', function( assert ) {
+test( 'Theme property is supported', function( assert ) {
 
     this.render( hbs`
-        {{#sl-alert theme="info"}}
-            Info alert
-        {{/sl-alert}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-info' ),
-        'Info theme class is applied'
-    );
-
-    this.render( hbs`
-        {{#sl-alert theme="success"}}
-            Success alert
-        {{/sl-alert}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-success' ),
-        'Success theme class is applied'
-    );
-
-    this.render( hbs`
-        {{#sl-alert theme="warning"}}
+        {{#sl-alert theme="testValue"}}
             Warning alert
         {{/sl-alert}}
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-warning' ),
+        this.$( '>:first-child' ).hasClass( 'alert-testValue' ),
         'Warning theme class is applied'
-    );
-
-    this.render( hbs`
-        {{#sl-alert theme="danger"}}
-            Danger alert
-        {{/sl-alert}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-danger' ),
-        'Danger theme class is applied'
     );
 });
 

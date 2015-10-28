@@ -12,6 +12,19 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
+test( 'themeClassName() returns expected value', function( assert ) {
+    const testThemeValue = 'testTheme';
+    const component = this.subject({
+        theme: testThemeValue
+    });
+
+    assert.strictEqual(
+        component.get( 'themeClassName' ),
+        `alert-${testThemeValue}`,
+        'themeClassName() returns expected value'
+    );
+});
+
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
