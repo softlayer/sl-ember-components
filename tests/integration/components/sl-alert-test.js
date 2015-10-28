@@ -34,6 +34,12 @@ test( 'Defaults applied correctly', function( assert ) {
         0,
         'Dismissable button was not set on default component'
     );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).hasClass( 'alert-dismissable' ),
+        false,
+        'Component does not indicate dismissable'
+    );
 });
 
 test( 'Theme properties applied correctly', function( assert ) {
@@ -122,25 +128,4 @@ test( 'Dismiss Action is called on button click', function( assert ) {
     const button = this.$( '>:first-child' ).find( 'button' );
     this.on( 'dismissAction', dismissAction );
     button.click();
-});
-
-test( 'Dismiss Action is not possible when dismissable is false', function( assert ) {
-
-    this.render( hbs`
-        {{#sl-alert dismiss="dismissAction"}}
-            Dismissable is false with dismiss action
-        {{/sl-alert}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'button' ).length,
-        0,
-        'Dismissable button was not rendered'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'alert-dismissable' ),
-        false,
-        'Component does not indicate dismissable'
-    );
 });
