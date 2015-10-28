@@ -1,5 +1,10 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { Align as alignEnum } from 'sl-ember-components/components/sl-drop-button';
+import {
+    Size as ButtonSize,
+    Theme as ButtonTheme
+} from 'sl-ember-components/components/sl-button';
 
 moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
     needs: [
@@ -9,57 +14,56 @@ moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
     unit: true
 });
 
-test( 'Default classes are present', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'btn-group' ),
-        'Has class "btn-group"'
-    );
+test( 'Align enum values are correct', function( assert ) {
+    const Align = {
+        LEFT: 'left',
+        RIGHT: 'right'
+    };
 
-    assert.ok(
-        this.$().hasClass( 'dropdown' ),
-        'Has class "dropdown"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-drop-button' ),
-        'Has class "sl-drop-button"'
+    assert.deepEqual(
+        alignEnum,
+        Align
     );
 });
 
-test( 'Theme property applies theme class', function( assert ) {
+test( 'Default properties are set correctly', function( assert ) {
     const component = this.subject();
 
-    assert.ok(
-        this.$().hasClass( 'dropdown-default' ),
-        'Default rendered drop-button has class "dropdown-default"'
+    assert.strictEqual(
+        component.get( 'align' ),
+        alignEnum.LEFT,
+        '"align" default vaue is correct'
     );
 
-    Ember.run( () => {
-        component.set( 'theme', 'danger' );
-    });
-
-    assert.ok(
-        this.$().hasClass( 'dropdown-danger' ),
-        'Rendered drop-button has new theme class'
+    assert.strictEqual(
+        component.get( 'content' ),
+        null,
+        '"content" default vaue is correct'
     );
-});
 
-test( 'Click action triggers bound action', function( assert ) {
-    const component = this.subject({
-        action: 'test',
-        targetObject: {
-            test() {
-                assert.ok(
-                    true,
-                    'Action was fired'
-                );
-            }
-        }
-    });
+    assert.strictEqual(
+        component.get( 'iconClass' ),
+        'caret',
+        '"iconClass" default vaue is correct'
+    );
 
-    assert.expect( 1 );
+    assert.strictEqual(
+        component.get( 'label' ),
+        null,
+        '"label" default vaue is correct'
+    );
 
-    component.send( 'click' );
+    assert.strictEqual(
+        component.get( 'size' ),
+        ButtonSize.MEDIUM,
+        '"size" default vaue is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'theme' ),
+        ButtonTheme.DEFAULT,
+        '"theme" default vaue is correct'
+    );
 });
 
 test( 'Alignment property is supported', function( assert ) {
@@ -81,7 +85,7 @@ test( 'Alignment property is supported', function( assert ) {
         component.set( 'align', 'right' );
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'align' ),
         'right',
         'Component is correctly set to "right" aligned'
@@ -93,28 +97,26 @@ test( 'Alignment property is supported', function( assert ) {
     );
 });
 
-test( 'Icon class property is supported', function( assert ) {
-    const component = this.subject({ label: 'Test' });
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
 
-    assert.equal(
-        component.get( 'iconClass' ),
-        'caret',
-        'Default component has iconClass "caret"'
+    const rightAlignedDependentKeys = [
+        'align'
+    ];
+
+    const themeClassDependentKeys = [
+        'theme'
+    ];
+
+    assert.deepEqual(
+        component.rightAligned._dependentKeys,
+        rightAlignedDependentKeys,
+        'Dependent keys are correct for rightAligned()'
     );
 
-    assert.equal(
-        this.$( 'span.caret' ).length,
-        1,
-        'Default rendered component includes caret icon span'
-    );
-
-    Ember.run( () => {
-        component.set( 'iconClass', 'test' );
-    });
-
-    assert.equal(
-        this.$( 'span.test' ).length,
-        1,
-        'Rendered component includes test icon span'
+    assert.deepEqual(
+        component.themeClass._dependentKeys,
+        themeClassDependentKeys,
+        'Dependent keys are correct for themeClass()'
     );
 });
