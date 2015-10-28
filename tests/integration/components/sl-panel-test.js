@@ -25,13 +25,13 @@ test( 'Default rendered state', function( assert ) {
         'Default rendered component has class "sl-panel"'
     );
 
+    const panelBody = this.$( '>:first-child' ).find( '> .panel-body' );
+
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '> .panel-body' ).length,
+        panelBody.length,
         1,
         'Default rendered component has child with class "panel-body"'
     );
-
-    const panelBody = this.$( '>:first-child' ).find( '> .panel-body' );
 
     assert.strictEqual(
         panelBody.find( '> .sl-maskable-content' ).length,

@@ -8,7 +8,6 @@ moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date r
 });
 
 test( 'Default rendered state', function( assert ) {
-
     this.render( hbs`
         {{sl-date-range-picker}}
     ` );
@@ -17,11 +16,27 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'sl-date-range-picker' ),
         'Has class "sl-date-range-picker"'
     );
+});
+
+test( 'placeholders are accepted', function( assert ) {
+    this.render( hbs`
+        {{sl-date-range-picker
+            label="Select date range"
+            startDatePlaceholder="__StartPlaceholder__"
+            endDatePlaceholder="__EndPlaceholder__"
+        }}
+    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' ).prop( 'placeholder' ),
-        '',
-        'Start date input placeholder is empty when startDatePlaceholder is undefined'
+        '__StartPlaceholder__',
+        'Start date input placeholder is set'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' ).prop( 'placeholder' ),
+        '__EndPlaceholder__',
+        'End date input placeholder is set'
     );
 });
 
@@ -296,8 +311,3 @@ skip( '"startDateValue" cannot be more than "endDateValue"', function( assert ) 
         'The "startDateValue" is not more than the "endDateValue"'
     );
 });
-
-// -------------------------------------------------------------------------
-// Start of Dual Component Tests
-
-skip( 'Dual instance: Change focus does not cause set value to bleed to other instance' );

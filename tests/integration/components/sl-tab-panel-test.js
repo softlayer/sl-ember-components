@@ -50,7 +50,7 @@ test( 'Default rendered state', function( assert ) {
     assert.deepEqual(
         labels,
         [ 'a', 'b', 'c' ],
-        'Tabs display in expected order when alignTabs property is not specified'
+        'Tabs display in expected order'
     );
 });
 
