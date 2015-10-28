@@ -56,6 +56,11 @@ is served from the *gh-pages* branch of this repository.
 
 **Mixins**
 
+*sl-component-input-id*
+
+Provides unique id that a component can assign to an input and a label's "for" attribute.
+
+
 *sl-input-based*
 
 Provides state properties for input element based components.
