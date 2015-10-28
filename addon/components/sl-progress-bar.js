@@ -111,7 +111,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Inline style string for progress bar element
      *
      * @function
-     * @returns {ember/String}
+     * @returns {ember/Handlebars/SafeString}
      */
     styleString: Ember.computed(
         'value',

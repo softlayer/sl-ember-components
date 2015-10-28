@@ -36,23 +36,9 @@ const template = hbs`
 `;
 
 moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
-
-    beforeEach() {
-        this.hideModal = true;
-    },
-
-    /**
-     * Hide modal after each test,
-     * this will prevent the bootstrap overlay from sticking around.
-     * The hideModal property can be overridden in a test.
-     **/
     afterEach() {
-        if ( this.hideModal ) {
-            if ( this.$( '>:first-child' ) ) {
-                this.$( '>:first-child' ).modal( 'hide' );
-                Ember.$( '>:first-child' ).find( '.modal-backdrop' ).remove();
-            }
-        }
+        this.$( '.modal' ).remove();
+        Ember.$( '.modal-backdrop' ).remove();
     },
 
     integration: true
@@ -90,6 +76,56 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).attr( 'aria-hidden' ),
         'true',
         'aria-hidden is "true" by default'
+    );
+
+    Ember.run( () => {
+        this.$( '>:first-child' ).modal( 'show' );
+    });
+
+    assert.strictEqual(
+        Ember.$( '.modal-backdrop' ).length,
+        1,
+        'backdrop is shown by default'
+    );
+});
+
+test( 'Backdrop property is passed through to jQuery correctly', function( assert ) {
+    // we currently only pass through the backdrop parameter
+    const spy = sinon.spy( Ember.$.fn, 'modal' );
+
+    // props passed to bootstrap modal that are not bound to template
+    const nonTemplateProps = {
+        keyboard: true,
+        show: false
+    };
+
+    this.render( hbs`{{sl-modal backdrop="__backdrop__"}}` );
+
+    assert.ok(
+        spy.calledWith( Ember.$.extend( { backdrop: '__backdrop__' }, nonTemplateProps ) ),
+        'backdrop property is passed to jQuery.modal correctly'
+    );
+
+    Ember.$.fn.modal.restore();
+});
+
+test( 'Animated property adds fade class', function( assert ) {
+    this.set( 'animate', false );
+
+    this.render( hbs`
+        {{sl-modal animated=animate}}
+    ` );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'fade' ),
+        'fade class not present when animated set to false'
+    );
+
+    this.set( 'animate', true );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'fade' ),
+        'fade class present when animated set to true'
     );
 });
 
@@ -281,8 +317,6 @@ test( 'Animated property adds fade class', function( assert ) {
 
 test( 'ariaDescribedBy attribute binding', function( assert ) {
     const describedBy = 'targetId';
-
-    this.render( template );
 
     this.set( 'ariaDescribedBy', describedBy );
 

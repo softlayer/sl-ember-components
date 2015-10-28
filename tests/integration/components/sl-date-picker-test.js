@@ -235,7 +235,7 @@ test( 'updateDateRange() - clears input date when outside of endDate range', fun
 
     Ember.$( '.day:first' ).click();
 
-    this.set( 'endDate', window.moment().subtract( 30, 'days' ).toDate() );
+    this.set( 'endDate', window.moment().subtract( 60, 'days' ).toDate() );
 
     assert.strictEqual(
         input.datepicker().val(),

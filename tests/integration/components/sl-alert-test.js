@@ -113,9 +113,9 @@ test( 'Dismiss Action is called on button click', function( assert ) {
         {{/sl-alert}}
     ` );
 
-    const $button = this.$( '>:first-child' ).find( 'button' );
+    const button = this.$( '>:first-child' ).find( 'button' );
     this.on( 'dismissAction', dismissAction );
-    $button.click();
+    button.click();
 });
 
 test( 'Dismiss Action is not possible when dismissable is false', function( assert ) {
