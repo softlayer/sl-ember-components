@@ -23,6 +23,40 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'endDateValue' ),
+        null,
+        'endDateValue: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'format' ),
+        'mm/dd/yyyy',
+        'format: "mm/dd/yyyy"'
+    );
+
+    assert.strictEqual(
+        component.get( 'maxDate' ),
+        null,
+        'maxDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'minDate' ),
+        null,
+        'minDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'startDateValue' ),
+        null,
+        'startDateValue: null'
+    );
+});
+
 test( 'Change focus to end date input upon start date change', function( assert ) {
     const component = this.subject();
     this.render();
