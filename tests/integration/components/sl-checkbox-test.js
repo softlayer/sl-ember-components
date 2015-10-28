@@ -81,3 +81,35 @@ test( 'Checked state applies property to input', function( assert ) {
         'Rendered input is checked'
     );
 });
+
+test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
+    const title = 'test title';
+
+    this.set( 'title', title );
+
+    this.render( hbs`
+        {{sl-checkbox title=title}}
+    ` );
+
+    const data = this.$( '>:first-child' ).data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
+
+    assert.strictEqual(
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    assert.strictEqual(
+        tooltipData.getTitle(),
+        title,
+        'Title text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
+    );
+});
