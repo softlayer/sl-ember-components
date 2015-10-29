@@ -14,7 +14,45 @@ moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
     unit: true
 });
 
-test( 'Align enum values are correct', function( assert ) {
+test( 'Default properties are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'align' ),
+        alignEnum.LEFT,
+        '"align" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'content' ),
+        null,
+        '"content" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'iconClass' ),
+        'caret',
+        '"iconClass" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'label' ),
+        null,
+        '"label" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'size' ),
+        ButtonSize.MEDIUM,
+        '"size" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'theme' ),
+        ButtonTheme.DEFAULT,
+        '"theme" default value is correct'
+    );
+
     const Align = {
         LEFT: 'left',
         RIGHT: 'right'
@@ -22,78 +60,8 @@ test( 'Align enum values are correct', function( assert ) {
 
     assert.deepEqual(
         alignEnum,
-        Align
-    );
-});
-
-test( 'Default properties are set correctly', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'align' ),
-        alignEnum.LEFT,
-        '"align" default vaue is correct'
-    );
-
-    assert.strictEqual(
-        component.get( 'content' ),
-        null,
-        '"content" default vaue is correct'
-    );
-
-    assert.strictEqual(
-        component.get( 'iconClass' ),
-        'caret',
-        '"iconClass" default vaue is correct'
-    );
-
-    assert.strictEqual(
-        component.get( 'label' ),
-        null,
-        '"label" default vaue is correct'
-    );
-
-    assert.strictEqual(
-        component.get( 'size' ),
-        ButtonSize.MEDIUM,
-        '"size" default vaue is correct'
-    );
-
-    assert.strictEqual(
-        component.get( 'theme' ),
-        ButtonTheme.DEFAULT,
-        '"theme" default vaue is correct'
-    );
-});
-
-test( 'Alignment property is supported', function( assert ) {
-    const component = this.subject();
-
-    assert.equal(
-        component.get( 'align' ),
-        'left',
-        'Default component is left-aligned'
-    );
-
-    assert.strictEqual(
-        component.get( 'rightAligned' ),
-        false,
-        'Default component does not have rightAligned set to true'
-    );
-
-    Ember.run( () => {
-        component.set( 'align', 'right' );
-    });
-
-    assert.strictEqual(
-        component.get( 'align' ),
-        'right',
-        'Component is correctly set to "right" aligned'
-    );
-
-    assert.ok(
-        component.get( 'rightAligned' ),
-        'Component is correctly rightAligned'
+        Align,
+        '"align" enum values are correct'
     );
 });
 
@@ -118,5 +86,35 @@ test( 'Dependent keys are correct', function( assert ) {
         component.themeClass._dependentKeys,
         themeClassDependentKeys,
         'Dependent keys are correct for themeClass()'
+    );
+});
+
+test( 'themeClass() returns expected interpolated string', function( assert ) {
+    const component = this.subject({ theme: 'hover' });
+
+    assert.strictEqual(
+        component.get( 'themeClass' ),
+        'dropdown-hover',
+        'themeClass() returns expected string'
+    );
+
+    Ember.run( () => {
+        component.set( 'theme', null );
+    });
+
+    assert.strictEqual(
+        component.get( 'themeClass' ),
+        null,
+        'themeClass() returns null upon empty "theme" property'
+    );
+});
+
+test( 'rightAligned() returns expected boolean', function( assert ) {
+    const component = this.subject({ align: 'right' });
+
+    assert.strictEqual(
+        component.get( 'rightAligned' ),
+        true,
+        'rightAligned() returns expected boolean'
     );
 });

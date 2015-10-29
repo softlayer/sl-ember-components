@@ -5,45 +5,105 @@ moduleForComponent( 'sl-drop-button', 'Integration | Component | sl drop button'
     integration: true
 });
 
-test( 'Default classes are present', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
       {{sl-drop-button}}
     ` );
 
     assert.ok(
-         this.$( '>:first-child' ).hasClass( 'btn-group' ),
+        this.$( '>:first-child' ).hasClass( 'btn-group' ),
         'Has class "btn-group"'
     );
 
     assert.ok(
-         this.$( '>:first-child' ).hasClass( 'dropdown' ),
+        this.$( '>:first-child' ).hasClass( 'dropdown' ),
         'Has class "dropdown"'
     );
 
     assert.ok(
-         this.$( '>:first-child' ).hasClass( 'sl-drop-button' ),
+        this.$( '>:first-child' ).hasClass( 'sl-drop-button' ),
         'Has class "sl-drop-button"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'button' ).hasClass( 'dropdown-toggle' ),
+        'Has Class "dropdown-toggle"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'button' ).hasClass( 'btn' ),
+        'Has Class "btn"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'button' ).hasClass( 'sl-button' ),
+        'Has Class "sl-button"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'button' ).hasClass( 'btn-default' ),
+        'Has Class "btn-default"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'dropdown-menu' ),
+        'Has Class "dropdown-menu"'
+    );
+
+    assert.ok(
+         this.$( '>:first-child' ).hasClass( 'dropdown-default' ),
+        'Has Class "dropdown-default"'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'ul' ).attr( 'role' ),
+        'menu',
+        'ARIA role is properly set to "menu"'
     );
 });
 
 test( 'Theme property applies theme class', function( assert ) {
     this.render( hbs`
-      {{sl-drop-button}}
+      {{sl-drop-button theme="hover"}}
     ` );
 
     assert.ok(
-         this.$( '>:first-child' ).hasClass( 'dropdown-default' ),
-        'Default rendered drop-button has class "dropdown-default"'
-    );
-
-    this.set( 'theme', 'danger' );
-    this.render( hbs`
-      {{sl-drop-button theme=theme}}
-    ` );
-
-    assert.ok(
-         this.$( '>:first-child' ).hasClass( 'dropdown-danger' ),
+        this.$( '>:first-child' ).hasClass( 'dropdown-hover' ),
         'Rendered drop-button has new theme class'
+    );
+});
+
+test( 'Label property is supported', function( assert ) {
+    this.render( hbs`
+      {{sl-drop-button label="test"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).text().trim(),
+        'test',
+        '"label" property is rendered correctly'
+    );
+});
+
+test( 'size property is supported', function( assert ) {
+    this.render( hbs`
+      {{sl-drop-button size="large"}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'button' ).hasClass( 'btn-lg' ),
+        '"size" property renders expected class "btn-lg"'
+    );
+});
+
+test( 'align property is supported', function( assert ) {
+    this.render( hbs`
+      {{sl-drop-button align="right"}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'dropdown-menu-right' ),
+        '"align" property renders expected class "dropdown-menu-right"'
     );
 });
 
@@ -75,6 +135,20 @@ test( 'Icon class property is supported', function( assert ) {
     );
 });
 
+test( 'label is set properly on "sl-drop-option"', function( assert ) {
+    this.render( hbs`
+        {{#sl-drop-button label="test"}}
+            {{sl-drop-option label="red"}}
+        {{/sl-drop-button}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'ul' ).text().trim(),
+        'red',
+        '"sl-drop-option" sets label properly'
+    );
+});
+
 test( 'Content is yielded when label is not set', function( assert ) {
     this.render( hbs`
         {{#sl-drop-button}}
@@ -94,16 +168,93 @@ test( 'Click action triggers bound action', function( assert ) {
     this.render( hbs`
         {{#sl-drop-button}}
             {{sl-drop-option action="testAction" label="red"}}
-            {{sl-drop-option action="testActionTwo" label="blue"}}
         {{/sl-drop-button}}
     ` );
 
     this.on( 'testAction', () => {
         assert.ok(
-            true,
             'The test action was called'
         );
     });
 
-    this.$( '>:first-child' ).find( 'a:contains("red")' ).click();
+    this.$( '>:first-child' ).find( 'a' ).click();
 });
+
+test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
+    const title = 'test title';
+
+    this.set( 'title', title );
+
+    this.render( hbs`
+        {{#sl-drop-button title=title}}
+            default text
+        {{/sl-drop-button}}
+    ` );
+
+    const element = this.$( '>:first-child' );
+    const data = element.data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
+
+    assert.strictEqual(
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    assert.strictEqual(
+        tooltipData.getTitle(),
+        title,
+        'Title text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
+    );
+});
+
+test( 'Popover properties are set correctly when popover parameter is set', function( assert ) {
+    const title = 'test title';
+    const popover = 'popover text';
+
+    this.set( 'title', title );
+    this.set( 'popover', popover );
+
+    this.render( hbs`
+        {{#sl-drop-button title=title popover=popover}}
+            default text
+        {{/sl-drop-button}}
+    ` );
+
+    const element = this.$( '>:first-child' );
+    const data = element.data();
+    const popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
+
+    assert.strictEqual(
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    assert.strictEqual(
+        popoverData.getTitle(),
+        title,
+        'Popover title was set correctly'
+    );
+
+    assert.strictEqual(
+        popoverData.getContent(),
+        popover,
+        'Popover text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'click',
+        'Default trigger is "click"'
+    );
+});
+
