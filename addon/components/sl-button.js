@@ -52,8 +52,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     attributeBindings: [
         'data-target',
         'dataToggle:data-toggle',
-        'disabled',
-        'type'
+        'disabled'
     ],
 
     /** @type {String[]} */
@@ -113,20 +112,6 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * @type {Boolean}
      */
     disabled: false,
-
-    /**
-     * Whether or not the button should be disabled during AJAX activity
-     *
-     * @type {Boolean}
-     */
-    disableOnAjax: false,
-
-    /**
-     * Whether or not the button should be hidden during AJAX activity
-     *
-     * @type {Boolean}
-     */
-    hideOnAjax: false,
 
     /**
      * Text to apply to the button label
