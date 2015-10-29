@@ -89,6 +89,29 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
+test( '"title" property is supported', function( assert ) {
+    const component = this.subject({ title: 'tooltip test' });
+
+    assert.strictEqual(
+        component.get( 'title' ),
+        'tooltip test',
+        '"title" property is set correctly'
+    );
+});
+
+test( '"dataTrigger" property is supported', function( assert ) {
+    const component = this.subject({
+        title: 'tooltip test',
+        dataTrigger: 'hover'
+    });
+
+    assert.strictEqual(
+        component.get( 'dataTrigger' ),
+        'hover',
+        '"dataTrigger" property is set correctly'
+    );
+});
+
 test( 'themeClass() returns expected interpolated string', function( assert ) {
     const component = this.subject({ theme: 'hover' });
 
