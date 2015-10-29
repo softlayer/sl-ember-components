@@ -5,7 +5,7 @@ moduleForComponent( 'sl-checkbox', 'Integration | Component | sl checkbox', {
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-checkbox}}
     ` );

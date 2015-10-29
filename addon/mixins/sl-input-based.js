@@ -93,19 +93,5 @@ export default Ember.Mixin.create({
         function() {
             return this.get( 'readonly' ) ? 'readonly' : null;
         }
-    ),
-
-    /**
-     * Returns a string value for the boolean disabled property
-     * which will get set on the input.
-     *
-     * @function
-     * @returns {?String}
-     */
-    disabledString: Ember.computed(
-        'disabled',
-        function() {
-            return this.get( 'disabled' ) ? 'disabled' : null;
-        }
     )
 });

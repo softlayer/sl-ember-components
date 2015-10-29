@@ -15,7 +15,7 @@ moduleForComponent( 'sl-date-picker', 'Integration | Component | sl date picker'
     }
 });
 
-test( 'Defaults rendering of component is as expected', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( defaultTemplate );
 
     const first = this.$( '>:first-child' );

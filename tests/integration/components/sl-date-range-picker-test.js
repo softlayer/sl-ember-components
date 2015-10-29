@@ -7,8 +7,7 @@ moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date r
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
-
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-date-range-picker}}
     ` );
@@ -17,23 +16,27 @@ test( 'Defaults applied correctly', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'sl-date-range-picker' ),
         'Has class "sl-date-range-picker"'
     );
+});
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' )[ 0 ],
-        undefined,
-        'No label is created when label is undefined'
-    );
+test( 'placeholders are accepted', function( assert ) {
+    this.render( hbs`
+        {{sl-date-range-picker
+            label="Select date range"
+            startDatePlaceholder="__StartPlaceholder__"
+            endDatePlaceholder="__EndPlaceholder__"
+        }}
+    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' ).prop( 'placeholder' ),
-        '',
-        'Start date input placeholder is empty when startDatePlaceholder is undefined'
+        '__StartPlaceholder__',
+        'Start date input placeholder is set'
     );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' ).prop( 'placeholder' ),
-        '',
-        'End date input placeholder is empty when endDatePlaceholder is undefined'
+        '__EndPlaceholder__',
+        'End date input placeholder is set'
     );
 });
 
@@ -308,8 +311,3 @@ skip( '"startDateValue" cannot be more than "endDateValue"', function( assert ) 
         'The "startDateValue" is not more than the "endDateValue"'
     );
 });
-
-// -------------------------------------------------------------------------
-// Start of Dual Component Tests
-
-skip( 'Dual instance: Change focus does not cause set value to bleed to other instance' );
