@@ -31,6 +31,50 @@ moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
     unit: true
 });
 
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    assert.strictEqual(
+        component.get( 'chart' ),
+        null,
+        'chart: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'height' ),
+        'auto',
+        'height: "auto"'
+    );
+
+    assert.strictEqual(
+        component.get( 'isLoading' ),
+        false,
+        'isLoading: false'
+    );
+
+    assert.deepEqual(
+        component.get( 'series' ),
+        testSeries,
+        'series: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'width' ),
+        'auto',
+        'width: "auto"'
+    );
+
+    assert.strictEqual(
+        component.get( 'highchartsOptions' ).title,
+        null,
+        `title property in highchartsOptions is set to null in order to
+            suppress default behavior for our usage`
+    );
+});
+
 test( 'updateData() is called after series property is modified', function( assert ) {
     const component = this.subject({
         options: testOptions,
@@ -322,19 +366,6 @@ test( 'highchartsOptions returns expected options', function( assert ) {
         options,
         component.get( 'highchartsOptions' ),
         'highchartsOptions returns expected options'
-    );
-});
-
-test( 'title property is not missing in highchartsOptions and set to null', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.strictEqual(
-        component.get( 'highchartsOptions' ).title,
-        null,
-        'title property in highchartsOptions is set to null in order to supress default behavior for our usage'
     );
 });
 

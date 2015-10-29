@@ -15,7 +15,7 @@ moduleForComponent( 'sl-date-picker', 'Integration | Component | sl date picker'
     }
 });
 
-test( 'Defaults rendering of component is as expected', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( defaultTemplate );
 
     const first = this.$( '>:first-child' );
@@ -235,7 +235,7 @@ test( 'updateDateRange() - clears input date when outside of endDate range', fun
 
     Ember.$( '.day:first' ).click();
 
-    this.set( 'endDate', window.moment().subtract( 30, 'days' ).toDate() );
+    this.set( 'endDate', window.moment().subtract( 60, 'days' ).toDate() );
 
     assert.strictEqual(
         input.datepicker().val(),

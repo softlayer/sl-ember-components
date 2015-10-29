@@ -38,12 +38,9 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     const component = this.subject({
         blur: 'blur'
     });
-
-    this.render();
-
-    const input = component.getInput().get( 0 );
+    const inputElement = this.$( 'input' ).get( 0 );
     const jQueryData = Ember.get( Ember.$, '_data' );
-    const events = jQueryData( input, 'events' );
+    const events = jQueryData( inputElement, 'events' );
 
     assert.ok(
         'blur' in events,
@@ -335,14 +332,10 @@ test( 'isTypeaheadSetup is true when suggestions are provided', function( assert
 test( 'Value is set correctly', function( assert ) {
     const value = 'set value';
 
-    const component = this.subject({
-        value: value
-    });
-
-    this.render();
+    this.subject({ value: value });
 
     assert.equal(
-        component.getInput().val(),
+        this.$( 'input' ).val(),
         value
     );
 });

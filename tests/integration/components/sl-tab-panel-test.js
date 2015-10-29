@@ -14,7 +14,7 @@ moduleForComponent( 'sl-tab-panel', 'Integration | Component | sl tab panel', {
     integration: true
 });
 
-test( 'Expected default classes are applied', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( template );
 
     const wrapper = this.$( '>:first-child' );
@@ -27,6 +27,30 @@ test( 'Expected default classes are applied', function( assert ) {
     assert.ok(
         wrapper.hasClass( 'sl-align-tabs-left' ),
         'Has class "sl-align-tabs-left"'
+    );
+
+    assert.strictEqual(
+        wrapper.find( '.nav-tabs[role="tablist"]' ).length,
+        1,
+        'Rendered component has "tablist" ARIA role'
+    );
+
+    assert.strictEqual(
+        wrapper.find( '.tab a[role="tab"]' ).length,
+        3,
+        'Rendered component has three <a> with "tab" ARIA role'
+    );
+
+    const labels = [];
+
+    wrapper.find( '.tab[data-tab-name]' ).each( function() {
+        labels.push( Ember.$( this ).attr( 'data-tab-name' ) );
+    });
+
+    assert.deepEqual(
+        labels,
+        [ 'a', 'b', 'c' ],
+        'Tabs display in expected order'
     );
 });
 
@@ -81,24 +105,6 @@ test( 'setupTabs() sets up tabs correctly', function( assert ) {
     });
 });
 
-test( 'ARIA roles are implemented', function( assert ) {
-    this.render( template );
-
-    const wrapper = this.$( '>:first-child' );
-
-    assert.strictEqual(
-        wrapper.find( '.nav-tabs[role="tablist"]' ).length,
-        1,
-        'Rendered component has "tablist" ARIA role'
-    );
-
-    assert.strictEqual(
-        wrapper.find( '.tab a[role="tab"]' ).length,
-        3,
-        'Rendered component has three <a> with "tab" ARIA role'
-    );
-});
-
 test( 'initialTabName property is respected', function( assert ) {
     assert.expect( 2 );
 
@@ -129,22 +135,6 @@ test( 'initialTabName property is respected', function( assert ) {
 
         done();
     });
-});
-
-test( 'Tabs display in expected order when alignTabs property is not specified', function( assert ) {
-    this.render( template );
-
-    const labels = [];
-    const wrapper = this.$( '>:first-child' );
-
-    wrapper.find( '.tab[data-tab-name]' ).each( function() {
-        labels.push( Ember.$( this ).attr( 'data-tab-name' ) );
-    });
-
-    assert.deepEqual(
-        labels,
-        [ 'a', 'b', 'c' ]
-    );
 });
 
 test( 'alignTabs property is respected', function( assert ) {
