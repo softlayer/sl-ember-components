@@ -13,6 +13,57 @@ moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     unit: true
 });
 
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.deepEqual(
+        component.get( 'content' ),
+        [],
+        'content: []'
+    );
+
+    const today = new Date();
+    const month = today.getMonth() + 1;
+
+    assert.deepEqual(
+        component.get( 'currentMonth' ),
+        month,
+        `currentMonth: ${month}`
+    );
+
+    const year = today.getFullYear();
+
+    assert.deepEqual(
+        component.get( 'currentYear' ),
+        year,
+        `currentYear: ${year}`
+    );
+
+    assert.strictEqual(
+        component.get( 'dateValuePath' ),
+        'date',
+        'dateValuePath: "date"'
+    );
+
+    assert.strictEqual(
+        component.get( 'locale' ),
+        'en',
+        'locale: "en"'
+    );
+
+    assert.strictEqual(
+        component.get( 'locked' ),
+        false,
+        'locked: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'days',
+        'viewMode: "days"'
+    );
+});
+
 test( 'Lock mode prevents changing state', function( assert ) {
     const component = this.subject({ locked: true });
 
