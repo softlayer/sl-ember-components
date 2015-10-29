@@ -5,7 +5,7 @@ moduleForComponent( 'sl-chart', 'Integration | Component | sl chart', {
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.set( 'testseries', [] );
     this.set( 'testoptions', {} );
 

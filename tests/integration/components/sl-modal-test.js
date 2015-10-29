@@ -20,7 +20,8 @@ const mockStream = {
 };
 
 const template = hbs`
-    {{#sl-modal as |modal|}}
+    {{#sl-modal ariaHidden="false" as |modal| }}
+
         {{sl-modal-header
             title="Simple Example"
             ariaLabelledBy=modal.ariaLabelledBy
@@ -44,11 +45,37 @@ moduleForComponent( 'sl-modal', 'Integration | Component | sl modal', {
 });
 
 test( 'Default rendered state', function( assert ) {
-    this.render( template );
+    this.render( hbs`
+        {{#sl-modal as |modal|}}
+            {{sl-modal-header}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    ` );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'modal' ),
-        'Has class modal'
+        'Has class "modal"'
+    );
+
+    Ember.run( () => {
+        this.$( '>:first-child' ).modal( 'show' );
+    });
+
+    assert.strictEqual(
+        Ember.$( '>:first-child' ).length,
+        1,
+        'Backdrop is shown by default'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'aria-hidden' ),
+        'true',
+        'aria-hidden is "true" by default'
     );
 
     Ember.run( () => {
@@ -245,6 +272,49 @@ test( 'Closing of modal using close button works', function( assert ) {
 
 });
 
+test( 'Backdrop is hidden when backdrop property is set to false', function( assert ) {
+    this.render( hbs`
+        {{#sl-modal backdrop=false}}
+            {{sl-modal-header title="Simple Example"}}
+
+            {{#sl-modal-body}}
+                <p>A simple modal example</p>
+            {{/sl-modal-body}}
+
+            {{sl-modal-footer}}
+        {{/sl-modal}}
+    ` );
+
+    Ember.run( () => {
+        this.$( '>:first-child' ).modal( 'show' );
+    });
+
+    assert.strictEqual(
+        Ember.$( '>:first-child' ).find( '.modal-backdrop' ).length,
+        0
+    );
+});
+
+test( 'Animated property adds fade class', function( assert ) {
+    this.set( 'animate', false );
+
+    this.render( hbs`
+        {{sl-modal animated=animate}}
+    ` );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'fade' ),
+        'fade class not present when animated set to false'
+    );
+
+    this.set( 'animate', true );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'fade' ),
+        'fade class present when animated set to true'
+    );
+});
+
 test( 'ariaDescribedBy attribute binding', function( assert ) {
     const describedBy = 'targetId';
 
@@ -268,16 +338,16 @@ test( 'ariaDescribedBy attribute binding', function( assert ) {
     );
 });
 
-test( 'aria-hidden is true', function( assert ) {
+test( 'aria-hidden can be bound in a custom header', function( assert ) {
     this.render( template );
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'aria-hidden' ),
-        'true'
+        'false'
     );
 });
 
-test( 'aria-labelledby is set', function( assert ) {
+test( 'aria-labelledBy is set', function( assert ) {
     this.render( template );
 
     assert.strictEqual(
