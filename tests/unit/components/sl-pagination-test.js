@@ -34,31 +34,6 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 });
 
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const onFirstPageDependentKeys = [
-        'currentPage'
-    ];
-
-    const onLastPageDependentKeys = [
-        'currentPage',
-        'totalPages'
-    ];
-
-    assert.deepEqual(
-        component.onFirstPage._dependentKeys,
-        onFirstPageDependentKeys,
-        'Dependent keys are correct for onFirstPage()'
-    );
-
-    assert.deepEqual(
-        component.onLastPage._dependentKeys,
-        onLastPageDependentKeys,
-        'Dependent keys are correct for onLastPage()'
-    );
-});
-
 test( 'nextPage action increments currentPage', function( assert ) {
     const component = this.subject({ totalPages: 2 });
 
