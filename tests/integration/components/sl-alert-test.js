@@ -44,13 +44,19 @@ test( 'Theme property is supported', function( assert ) {
     );
 });
 
-test( 'Dismissable Button is rendered when set', function( assert ) {
+test( '"dismissable" set to true', function( assert ) {
 
     this.render( hbs`
         {{#sl-alert dismissable=true}}
             Default info alert with dismissable
         {{/sl-alert}}
     ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).hasClass( 'alert-dismissable' ),
+        true,
+        'Component has alert-dismissable class'
+    );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'button' ).length,
@@ -66,12 +72,6 @@ test( 'Dismiss Action is called on button click', function( assert ) {
             true,
             'A dismiss action was called'
         );
-
-        assert.strictEqual(
-            this.$( '>:first-child' ).hasClass( 'alert-dismissable' ),
-            true,
-            'Component has alert-dismissable class'
-        );
     };
 
     this.render( hbs`
@@ -80,9 +80,8 @@ test( 'Dismiss Action is called on button click', function( assert ) {
         {{/sl-alert}}
     ` );
 
-    const button = this.$( '>:first-child' ).find( 'button' );
     this.on( 'dismissAction', dismissAction );
-    button.click();
+    this.$( '>:first-child' ).find( 'button' ).click();
 });
 
 test( 'Dismiss Action is not possible when dismissable is false', function( assert ) {
