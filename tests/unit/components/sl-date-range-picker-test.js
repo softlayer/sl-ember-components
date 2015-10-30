@@ -64,7 +64,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
     const daterangeEndDate = component.get( 'endDateInput' );
     const spy = sinon.spy( daterangeEndDate, 'trigger' );
 
-    component.get( 'startDateInput' ).trigger( 'change' );
+    component.get( 'startDateInput' ).trigger( 'changeDate' );
 
     assert.ok(
         spy.calledWithExactly( 'focus' ),
@@ -132,11 +132,20 @@ test( 'Latest start date is the based on max date and end date', function( asser
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
     const component = this.subject();
     const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
-    const jQueryData = Ember.get( Ember.$, '_data' );
+    const events = $._data( startDateInput, 'events' );
+
+    const filterEventsByGuid = function( events, guid ) {
+        const filtered = [].concat( events ).filter( ( obj ) => {
+            if( obj ) {
+                return obj.guid === guid;
+            }
+        } );
+        return filtered;
+    };
 
     assert.equal(
         Ember.typeOf(
-            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
+            Ember.get( $._data( startDateInput, 'events' ), 'changeDate' )
         ),
         'array',
         'Start date input has change event listener after render'
@@ -147,9 +156,9 @@ test( 'Events from start date input are removed upon willClearRender', function(
     });
 
     assert.strictEqual(
-        jQueryData( startDateInput, 'events' ),
-        undefined,
-        'Start date input has no event listeners after willClearRender'
+        filterEventsByGuid( events.changeDate, component.changeDateHandler.guid ).length,
+        0,
+        'changeDateHandler() unbound from start date input'
     );
 });
 
