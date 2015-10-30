@@ -1,5 +1,7 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-date-time', 'Integration | Component | sl date time', {
     integration: true
@@ -13,7 +15,14 @@ test( 'Defaults applied correctly', function( assert ) {
         }}
     ` );
 
-    const defaultRendered = this.$( '>:first-child' ).text().trim();
+    const element = this.$( '>:first-child' );
+
+    assert.ok(
+        element.hasClass( 'sl-datetime' ),
+        'Default rendered component has class "sl-datetime"'
+    );
+
+    const defaultRendered = element.text().trim();
     const defaultRegEx = /^[a-zA-Z]+[,]\s[a-zA-Z]+\s\d{1,2}[a-z]{2}\s\d{4}[,]\s\d{1,2}[:]\d{2}\s(AM|PM)\s[A-Z]+$/;
 
     assert.strictEqual(
@@ -22,8 +31,8 @@ test( 'Defaults applied correctly', function( assert ) {
         'Default datetime string matches default pattern'
     );
 
-    const datetimeAttr = this.$( '>:first-child' ).attr( 'datetime' );
-    const dataOriginalTitleAttr = this.$( '>:first-child' ).attr( 'data-original-title' );
+    const datetimeAttr = element.attr( 'datetime' );
+    const dataOriginalTitleAttr = element.attr( 'data-original-title' );
 
     assert.strictEqual(
         datetimeAttr,
@@ -31,13 +40,14 @@ test( 'Defaults applied correctly', function( assert ) {
         'Attributes datetime and data-original-title match'
     );
 
+    const datetimeTZRegex = /^\d{4}[-]\d{2}[-]\d{2}\s\d{1,2}[:]\d{2}\s[A-Z]+$/;
+
     assert.strictEqual(
-        /^\d{4}[-]\d{2}[-]\d{2}\s\d{1,2}[:]\d{2}\s[A-Z]+$/.test( this.$( '>:first-child' ).attr( 'datetime' ) ),
+        datetimeTZRegex.test( element.attr( 'datetime' ) ),
         true,
         'Attribute datetime matches ISO datetime format plus timezone code'
     );
 
-    const element = this.$( '>:first-child' );
     const data = element.data();
     const tooltipData = data[ 'bs.tooltip' ];
     const options = tooltipData.getOptions();
@@ -51,13 +61,13 @@ test( 'Defaults applied correctly', function( assert ) {
     assert.strictEqual(
         tooltipData.getTitle(),
         dataOriginalTitleAttr,
-        'Title text is set correctly'
+        'Tooltip title text is set correctly'
     );
 
     assert.strictEqual(
         options.trigger,
         'hover focus',
-        'Default trigger is "hover focus"'
+        'Default tooltip trigger is "hover focus"'
     );
 });
 
@@ -78,9 +88,9 @@ test( 'Relative values applied correctly', function( assert ) {
     const pastRendered = this.$( '>:first-child' ).text().trim();
 
     assert.strictEqual(
-        /^((\d+|a|an)\s[a-zA-Z]+|a few seconds)\s(ago)$/.test( pastRendered ),
-        true,
-        'Default datetime string matches default pattern'
+        pastRendered,
+        window.moment( pastDate ).fromNow(),
+        'Relative date is rendered correctly'
     );
 
     const datetimeAttr = this.$( '>:first-child' ).attr( 'datetime' );
@@ -93,32 +103,9 @@ test( 'Relative values applied correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        /^\d{4}[-]\d{2}[-]\d{2}\s\d{1,2}[:]\d{2}\s[A-Z]+$/.test( this.$( '>:first-child' ).attr( 'datetime' ) ),
+        /^\d{4}[-]\d{2}[-]\d{2}\s\d{1,2}[:]\d{2}\s[A-Z]+$/.test( datetimeAttr ),
         true,
         'Attribute datetime matches ISO datetime format plus timezone code'
-    );
-
-    const element = this.$( '>:first-child' );
-    const data = element.data();
-    const tooltipData = data[ 'bs.tooltip' ];
-    const options = tooltipData.getOptions();
-
-    assert.strictEqual(
-        tooltipData.enabled,
-        true,
-        'tooltip is enabled'
-    );
-
-    assert.strictEqual(
-        tooltipData.getTitle(),
-        dataOriginalTitleAttr,
-        'Title text is set correctly'
-    );
-
-    assert.strictEqual(
-        options.trigger,
-        'hover focus',
-        'Default trigger is "hover focus"'
     );
 
     const futureDate = window.moment().add( 123456, 'minutes' ).toISOString();
@@ -136,8 +123,8 @@ test( 'Relative values applied correctly', function( assert ) {
     const futureRendered = this.$( '>:first-child' ).text().trim();
 
     assert.strictEqual(
-        /^(in)\s(\d+\s[a-z]+|a few seconds)$/.test( futureRendered ),
-        true,
+        futureRendered,
+        'in 3 months',
         'Future datetime string matches default pattern'
     );
 });
@@ -178,27 +165,25 @@ test( 'Date values applied correctly', function( assert ) {
         true,
         'Attribute datetime matches ISO datetime format plus timezone code'
     );
+});
 
-    const element = this.$( '>:first-child' );
-    const data = element.data();
-    const tooltipData = data[ 'bs.tooltip' ];
-    const options = tooltipData.getOptions();
+test( 'tooltip mixin applied correctly', function( assert ) {
+    const spy = sinon.spy( Ember.$.fn, 'tooltip' );
 
-    assert.strictEqual(
-        tooltipData.enabled,
-        true,
-        'tooltip is enabled'
-    );
+    this.render( hbs`
+        {{sl-date-time
+            timezone="America/Chicago"
+        }}
+    ` );
 
-    assert.strictEqual(
-        tooltipData.getTitle(),
-        dataOriginalTitleAttr,
-        'Title text is set correctly'
-    );
+    this.$( '>:first-child' ).triggerHandler( 'hover' );
+
+    const datetimeValue = this.$( '>:first-child' ).attr( 'data-original-title' );
+    const tooltipValue = spy.args[0][0].title;
 
     assert.strictEqual(
-        options.trigger,
-        'hover focus',
-        'Default trigger is "hover focus"'
+        datetimeValue,
+        tooltipValue,
+        'Tooltip exists and value matches tooltip date pattern'
     );
 });

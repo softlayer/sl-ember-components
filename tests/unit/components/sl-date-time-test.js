@@ -5,15 +5,6 @@ moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
     unit: true
 });
 
-test( 'Default class names are present', function( assert ) {
-    this.subject({ timezone: 'America/Chicago' });
-
-    assert.ok(
-        this.$().hasClass( 'sl-datetime' ),
-        'Default rendered component has class "sl-datetime"'
-    );
-});
-
 test( 'Attribute "datetime" is properly set', function( assert ) {
     this.subject({
         timezone: 'America/Chicago',
