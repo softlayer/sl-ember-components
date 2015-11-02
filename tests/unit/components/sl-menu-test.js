@@ -524,3 +524,17 @@ test( 'selectPrevious() shows all when at the beginning of the context', functio
         'Component is now showing all'
     );
 });
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const selectedItemDependentKeys = [
+        'selections.@each.item'
+    ];
+
+    assert.deepEqual(
+        component.selectedItem._dependentKeys,
+        selectedItemDependentKeys,
+        'Dependent keys are correct for selectedItem()'
+    );
+});

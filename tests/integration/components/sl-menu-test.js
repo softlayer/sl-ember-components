@@ -45,7 +45,7 @@ moduleForComponent( 'sl-menu', 'Integration | Component | sl menu', {
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
 
     this.render( hbs`
         {{sl-menu}}
