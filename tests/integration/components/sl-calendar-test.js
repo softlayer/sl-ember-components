@@ -45,6 +45,16 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
+        this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'datepicker' ),
+        'First child of component has class "datepicker"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'datepicker-inline' ),
+        'First child of component has class "datepicker-inline"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).find( '> .datepicker > div:first-child' ).hasClass( 'datepicker-days' ),
         'Day view is visible'
     );
