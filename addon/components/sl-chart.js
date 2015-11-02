@@ -233,7 +233,7 @@ export default Ember.Component.extend({
      * Inline style containing height and width, required by Highcharts
      *
      * @function
-     * @returns {String}
+     * @returns {ember/Handlebars/SafeString}
      */
     style: Ember.computed(
         'height',
