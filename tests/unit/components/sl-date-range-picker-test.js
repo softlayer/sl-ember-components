@@ -64,7 +64,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
     const daterangeEndDate = component.get( 'endDateInput' );
     const spy = sinon.spy( daterangeEndDate, 'trigger' );
 
-    component.get( 'startDateInput' ).trigger( 'change' );
+    component.get( 'startDateInput' ).trigger( 'changeDate' );
 
     assert.ok(
         spy.calledWithExactly( 'focus' ),
@@ -130,27 +130,43 @@ test( 'Latest start date is the based on max date and end date', function( asser
 });
 
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
+    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+    const spyOff = sinon.spy( Ember.$.fn, 'off' );
+
     const component = this.subject();
-    const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
-    const jQueryData = Ember.get( Ember.$, '_data' );
 
-    assert.equal(
-        Ember.typeOf(
-            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
-        ),
-        'array',
-        'Start date input has change event listener after render'
+    this.render();
+
+    spyOn.reset();
+
+    component.trigger( 'didInsertElement' );
+
+    assert.ok(
+        spyOn.calledWith( 'changeDate' ),
+        'changeDate bootstrap date picker event bound'
     );
 
-    Ember.run( () => {
-        component.trigger( 'willClearRender' );
-    });
-
-    assert.strictEqual(
-        jQueryData( startDateInput, 'events' ),
-        undefined,
-        'Start date input has no event listeners after willClearRender'
+    assert.ok(
+        spyOn.alwaysCalledOn( component.get( 'startDateInput' ) ),
+        'changeDate bind was called on startDateInput'
     );
+
+    spyOff.reset();
+
+    component.trigger( 'willClearRender' );
+
+    assert.ok(
+        spyOff.calledWith( 'changeDate' ),
+        'changeDate bootstrap date picker event unbound'
+    );
+
+    assert.ok(
+        spyOff.alwaysCalledOn( component.get( 'startDateInput' ) ),
+        'changeDate unbind was called on startDateInput'
+    );
+
+    Ember.$.fn.on.restore();
+    Ember.$.fn.off.restore();
 });
 
 test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by default', function( assert ) {
