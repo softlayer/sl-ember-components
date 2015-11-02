@@ -25,7 +25,7 @@ test( 'Default property values are set correctly', function( assert ) {
     const today = new Date();
     const month = today.getMonth() + 1;
 
-    assert.deepEqual(
+    assert.strictEqual(
         component.get( 'currentMonth' ),
         month,
         `currentMonth: ${month}`
@@ -33,7 +33,7 @@ test( 'Default property values are set correctly', function( assert ) {
 
     const year = today.getFullYear();
 
-    assert.deepEqual(
+    assert.strictEqual(
         component.get( 'currentYear' ),
         year,
         `currentYear: ${year}`
