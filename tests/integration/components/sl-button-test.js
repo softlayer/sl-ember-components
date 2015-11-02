@@ -184,8 +184,7 @@ test( 'Tooltip properties are set correctly when title parameter is set', functi
         {{/sl-button}}
     ` );
 
-    const element = this.$( '>:first-child' );
-    const data = element.data();
+    const data = this.$( '>:first-child' ).data();
     const tooltipData = data[ 'bs.tooltip' ];
     const options = tooltipData.getOptions();
 
@@ -221,8 +220,7 @@ test( 'Popover properties are set correctly when popover parameter is set', func
         {{/sl-button}}
     ` );
 
-    const element = this.$( '>:first-child' );
-    const data = element.data();
+    const data = this.$( '>:first-child' ).data();
     const popoverData = data[ 'bs.popover' ];
     const options = popoverData.getOptions();
 
