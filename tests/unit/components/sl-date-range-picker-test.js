@@ -23,6 +23,40 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'endDateValue' ),
+        null,
+        'endDateValue: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'format' ),
+        'mm/dd/yyyy',
+        'format: "mm/dd/yyyy"'
+    );
+
+    assert.strictEqual(
+        component.get( 'maxDate' ),
+        null,
+        'maxDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'minDate' ),
+        null,
+        'minDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'startDateValue' ),
+        null,
+        'startDateValue: null'
+    );
+});
+
 test( 'Change focus to end date input upon start date change', function( assert ) {
     const component = this.subject();
     this.render();
@@ -97,9 +131,6 @@ test( 'Latest start date is the based on max date and end date', function( asser
 
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
     const component = this.subject();
-
-    this.render();
-
     const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
     const jQueryData = Ember.get( Ember.$, '_data' );
 

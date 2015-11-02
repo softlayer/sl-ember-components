@@ -127,7 +127,10 @@ export default Ember.Component.extend({
                 activeRecord: row,
                 detailPaneOpen: true
             });
-            this.updateHeight();
+
+            Ember.run.scheduleOnce( 'afterRender', () => {
+                this.updateHeight();
+            });
         },
 
         /**
@@ -384,6 +387,13 @@ export default Ember.Component.extend({
      */
     sortedColumnTitle: null,
 
+    /**
+     * The sort direction represented as boolean (true: asc; false: desc)
+     *
+     * @type {Boolean}
+     */
+    sortDirection: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
@@ -422,6 +432,23 @@ export default Ember.Component.extend({
     ),
 
     /**
+     * Setup the widths for column headers that were not given widths
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupColumnHeaderWidths: Ember.on(
+        'didInsertElement',
+        function() {
+            const context = this;
+            const colHeaders = this.$( '.list-pane .column-headers tr:first th' );
+            this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
+                colHeaders.eq( index ).width( context.$( this ).width() );
+            });
+        }
+    ),
+
+    /**
      * Setup the "continuous paging" functionality, if the data set is
      * not complete
      *
@@ -433,32 +460,6 @@ export default Ember.Component.extend({
         function() {
             if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
                 this.enableContinuousPaging();
-            }
-        }
-    ),
-
-    /**
-     * Setup paths for the various sections within the split-grid
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupTemplates: Ember.on(
-        'init',
-        function() {
-            const renderedName = this.get( '_parentView.renderedName' );
-
-            if ( renderedName ) {
-                const registry = this.get( 'container._registry' );
-                const root = renderedName.replace( '.', '/' ) + '/';
-                const footerPath = root + 'footer';
-
-                if (
-                    !this.get( 'footerPath' ) &&
-                    registry.resolve( 'template:' + footerPath )
-                ) {
-                    this.set( 'footerPath', footerPath );
-                }
             }
         }
     ),

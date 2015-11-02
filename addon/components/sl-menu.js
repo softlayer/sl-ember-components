@@ -29,9 +29,6 @@ export default Ember.Component.extend( StreamEnabled, {
     /** @type {Object} */
     layout,
 
-    /** @type {String} */
-    tagName: 'div',
-
     // -------------------------------------------------------------------------
     // Actions
 
