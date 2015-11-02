@@ -52,11 +52,13 @@ test( 'Default rendered state', function( assert ) {
 
 test( 'Check for classes set on items outside of range in picker', function( assert ) {
     this.set( 'currentYear', 2015 );
-
     this.set( 'currentMonth', 1 );
 
     this.render( hbs`
-        {{sl-calendar}}
+        {{sl-calendar
+            currentYear=currentYear
+            currentMonth=currentMonth
+        }}
     ` );
 
     let missingOld = false;
@@ -64,7 +66,7 @@ test( 'Check for classes set on items outside of range in picker', function( ass
 
     // test the days
 
-    const days = this.$( '>:first-child' ).find( '.datepicker-days > table > tbody > tr > td' );
+    const days = this.$( '>:first-child' ).find( '.datepicker-days .day' );
 
     let firstReached = false;
     let lastReached = false;
@@ -72,23 +74,24 @@ test( 'Check for classes set on items outside of range in picker', function( ass
     days.each( function() {
         const testDay = parseInt( $( this ).text() );
 
-        if( 1 === testDay ) {
+        if ( 1 === testDay ) {
             firstReached = true;
         }
-        if( 31 === testDay ) {
-            lastReached = true;
-        }
 
-        if( !firstReached ) {
-            if( !$( this ).hasClass( 'old' ) ) {
+        if ( !firstReached ) {
+            if ( !$( this ).hasClass( 'old' ) ) {
                 missingOld = true;
             }
         }
 
-        if( lastReached ) {
-            if( !$( this ).hasClass( 'new' ) ) {
+        if ( lastReached ) {
+            if ( !$( this ).hasClass( 'new' ) ) {
                 missingNew = true;
             }
+        }
+
+        if ( 31 === testDay && firstReached ) {
+            lastReached = true;
         }
     });
 
@@ -116,14 +119,14 @@ test( 'Check for classes set on items outside of range in picker', function( ass
     years.each( function() {
         const testYear = parseInt( $( this ).text() );
 
-        if( testYear > parseInt( yearSpan[1] ) ) {
-            if( !$( this ).hasClass( 'new' ) ) {
+        if ( testYear > parseInt( yearSpan[1] ) ) {
+            if ( !$( this ).hasClass( 'new' ) ) {
                 missingNew = true;
             }
         }
 
-        if( testYear < parseInt( yearSpan[0] ) ) {
-            if( !$( this ).hasClass( 'old' ) ) {
+        if ( testYear < parseInt( yearSpan[0] ) ) {
+            if ( !$( this ).hasClass( 'old' ) ) {
                 missingOld = true;
             }
         }
@@ -893,6 +896,25 @@ test( 'Navigating Backward by Month Crosses to Previous Year', function( assert 
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
         'December ' + ( currentYear - 1 ),
         'The previous month is in the previous year'
+    );
+});
+
+test( 'All Days are Displayed in Order', function( assert ) {
+    this.set( 'currentYear', 2015 );
+    this.set( 'currentMonth', 1 );
+
+    this.render( hbs`
+        {{sl-calendar
+            viewMode="days"
+            currentYear=currentYear
+            currentMonth=currentMonth
+        }}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.day' ).text().trim(),
+        '28293031123456789101112131415161718192021222324252627282930311234567',
+        'All days listed in order for specified month as expected'
     );
 });
 
