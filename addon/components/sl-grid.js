@@ -387,6 +387,13 @@ export default Ember.Component.extend({
      */
     sortedColumnTitle: null,
 
+    /**
+     * The sort direction represented as boolean (true: asc; false: desc)
+     *
+     * @type {Boolean}
+     */
+    sortDirection: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
