@@ -67,12 +67,17 @@ test( 'RadioType property sets relevant class', function( assert ) {
     );
 });
 
-test( 'Correct properties are being observed by RadioType', function( assert ) {
+
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.radioType._dependentKeys.join(),
-        'inline',
-        'RadioType is observing the correct property "inline"'
+    const radioTypeDependentKeys = [
+        'inline'
+    ];
+
+    assert.deepEqual(
+        component.radioType._dependentKeys,
+        radioTypeDependentKeys,
+        'Dependent keys are correct for radioType()'
     );
 });
