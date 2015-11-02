@@ -106,6 +106,7 @@ export default Ember.Component.extend( ComponentInputId, {
      * Callback for bootstrap datepicker changeDate event
      *
      * @function
+     * @param {Event} event - A standard event object
      * @returns {undefined}
      */
     changeDateHandler: function( ev ) {

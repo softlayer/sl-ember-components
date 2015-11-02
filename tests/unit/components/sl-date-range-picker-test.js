@@ -130,36 +130,43 @@ test( 'Latest start date is the based on max date and end date', function( asser
 });
 
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
+    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+    const spyOff = sinon.spy( Ember.$.fn, 'off' );
+
     const component = this.subject();
-    const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
-    const events = $._data( startDateInput, 'events' );
 
-    const filterEventsByGuid = function( events, guid ) {
-        const filtered = [].concat( events ).filter( ( obj ) => {
-            if( obj ) {
-                return obj.guid === guid;
-            }
-        } );
-        return filtered;
-    };
+    this.render();
 
-    assert.equal(
-        Ember.typeOf(
-            Ember.get( $._data( startDateInput, 'events' ), 'changeDate' )
-        ),
-        'array',
-        'Start date input has change event listener after render'
+    spyOn.reset();
+
+    component.trigger( 'didInsertElement' );
+
+    assert.ok(
+        spyOn.calledWith( 'changeDate' ),
+        'changeDate bootstrap date picker event bound'
     );
 
-    Ember.run( () => {
-        component.trigger( 'willClearRender' );
-    });
-
-    assert.strictEqual(
-        filterEventsByGuid( events.changeDate, component.changeDateHandler.guid ).length,
-        0,
-        'changeDateHandler() unbound from start date input'
+    assert.ok(
+        spyOn.alwaysCalledOn( component.get( 'startDateInput' ) ),
+        'changeDate bind was called on startDateInput'
     );
+
+    spyOff.reset();
+
+    component.trigger( 'willClearRender' );
+
+    assert.ok(
+        spyOff.calledWith( 'changeDate' ),
+        'changeDate bootstrap date picker event unbound'
+    );
+
+    assert.ok(
+        spyOff.alwaysCalledOn( component.get( 'startDateInput' ) ),
+        'changeDate unbind was called on startDateInput'
+    );
+
+    Ember.$.fn.on.restore();
+    Ember.$.fn.off.restore();
 });
 
 test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by default', function( assert ) {
