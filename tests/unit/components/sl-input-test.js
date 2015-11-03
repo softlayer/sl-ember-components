@@ -228,8 +228,10 @@ test( 'Readonly property, makes the input readonly', function( assert ) {
 
 test( 'Popover is initialized with the correct options', function( assert ) {
     const popoverText = 'Popover text';
+    const testTitle = 'Title text';
 
     this.subject({
+        title: testTitle,
         popover: popoverText
     });
 

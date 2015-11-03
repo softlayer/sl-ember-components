@@ -309,9 +309,10 @@ test( '"popover" property is supported', function( assert ) {
     );
 
     this.set( 'popover', 'Test popover' );
+    this.set( 'title', 'Test title' );
 
     this.render( hbs`
-        {{sl-progress-bar popover=popover}}
+        {{sl-progress-bar title=title popover=popover}}
     ` );
 
     assert.strictEqual(

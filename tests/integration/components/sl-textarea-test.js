@@ -424,9 +424,10 @@ test( '"Popover" capabilities are supported', function( assert ) {
     );
 
     this.set( 'popover', 'Test popover' );
+    this.set( 'title', 'Test title' );
 
     this.render( hbs`
-        {{sl-textarea popover=popover}}
+        {{sl-textarea title=title popover=popover}}
     ` );
 
     assert.strictEqual(
