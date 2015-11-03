@@ -63,10 +63,25 @@ export default Ember.Mixin.create({
         Ember.on(
             'didInsertElement',
             function() {
-                if ( this.get( 'popover' ) ) {
-                    this.enablePopover();
-                } else if ( this.get( 'title' ) ) {
+                if ( this.get( 'popover' ) && !this.get( 'title' ) ) {
+                    throw new Ember.Error( '"title" property must be set' );
+                }
+
+                if ( this.get( 'title' ) && !this.get( 'popover' ) ) {
+                    if ( 'string' !== Ember.typeOf( this.get( 'title' ) ) ) {
+                        throw new Ember.Error( 'enableTooltip() expect the parameter "title" to be type string' );
+                    }
                     this.enableTooltip();
+                }
+
+                if ( this.get( 'popover' ) && this.get( 'title' ) ) {
+                    if ( 'string' !== Ember.typeOf( this.get( 'popover' ) ) &&
+                         'string' !== Ember.typeOf( this.get( 'title' ) ) ) {
+                        throw new Ember.Error(
+                            'enablePopover() expects the parameter "popover" and "title" to be of type string'
+                        );
+                    }
+                    this.enablePopover();
                 }
             }
         )
@@ -98,6 +113,7 @@ export default Ember.Mixin.create({
             this.$().attr( 'data-original-title', this.get( 'title' ) );
             this.$().attr( 'data-content', popover );
         }
+        return true;
     },
 
     /**
@@ -122,6 +138,7 @@ export default Ember.Mixin.create({
         } else {
             this.$().attr( 'data-original-title', title );
         }
+        return true;
     }
 
 });

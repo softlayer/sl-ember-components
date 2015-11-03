@@ -64,8 +64,70 @@ skip( 'enable() - listens to correct event', function() {
     // Waiting to see if an easier way in 2.0
 });
 
+test( 'enable() - if only title set, it must be of type string', function( assert ) {
+    const typesToTestArray = [
+        {},
+        2,
+        function() {},
+        []
+    ];
+    $.each( typesToTestArray, function( index, value ) {
+        const testObject = Ember.Object.extend( mixinUnderTest, { title: value } );
+        const subject = testObject.create();
+        assert.throws(
+            function() {
+                subject.enable();
+            },
+            'error thrown, wrong type of ' + value + ' provided'
+        );
+    });
+});
+
+test( 'enable() - if title and popover set, both must be of type string', function( assert ) {
+    const typesToTestArray = [
+        {},
+        2,
+        function() {},
+        []
+    ];
+    $.each( typesToTestArray, function( index, value ) {
+        const testObject = Ember.Object.extend(
+            mixinUnderTest,
+            {
+                title: value,
+                popover: value
+            }
+        );
+        const subject = testObject.create();
+        assert.throws(
+            function() {
+                subject.enable();
+            },
+            'error thrown, wrong type of ' +
+            value + ' provided'
+        );
+    });
+});
+
+test( 'enable() - if popover is set without title, error is thrown', function( assert ) {
+    const testObject = Ember.Object.extend(
+        mixinUnderTest,
+        {
+            popover: 'Popover text'
+        }
+    );
+    const subject = testObject.create();
+    assert.throws(
+        function() {
+            subject.enable();
+        },
+        'error thrown'
+    );
+});
+
 test( 'enable() - popover defined calls enablePopover()', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest, {
+        title: 'Title text',
         popover: 'Popover Text'
     });
     const subject = testObject.create();
@@ -80,8 +142,8 @@ test( 'enable() - popover defined calls enablePopover()', function( assert ) {
         'enablePopover() was called'
     );
 
-    assert.ok(
-        !subject.enableTooltip.calledOnce,
+    assert.notOk(
+        subject.enableTooltip.calledOnce,
         'enableTooltip() was not called'
     );
 
@@ -91,7 +153,8 @@ test( 'enable() - popover defined calls enablePopover()', function( assert ) {
 
 test( 'enable() - title defined calls enableTooltip()', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest, {
-        title: 'Tooltip Text'
+        title: 'Tooltip Text',
+        $: jQueryMock
     });
     const subject = testObject.create();
 
@@ -100,14 +163,14 @@ test( 'enable() - title defined calls enableTooltip()', function( assert ) {
 
     subject.enable();
 
-    assert.ok(
-        !subject.enablePopover.calledOnce,
-        'enablePopover() was not called'
+    assert.notOk(
+        subject.enablePopover.calledOnce,
+        'enablePopover() was called'
     );
 
     assert.ok(
         subject.enableTooltip.calledOnce,
-        'enableTooltip() was called'
+        'enableTooltip() was not called'
     );
 
     subject.enablePopover.reset();
@@ -159,8 +222,10 @@ test( 'enabledTooltip() - Title is reset', function( assert ) {
 });
 
 test( 'enablePopover() - Renders popover', function( assert ) {
+    const testTitle = 'Popover Text';
     const testContent = 'Popover Text';
     const testObject = Ember.Object.extend( mixinUnderTest, {
+        title: testTitle,
         popover: testContent,
         $: jQueryMock
     });
