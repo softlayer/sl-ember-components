@@ -105,6 +105,20 @@ test( 'Correct size class is applied', function( assert ) {
     );
 });
 
+test( 'Content is yielded', function( assert ) {
+    this.render( hbs`
+        {{#sl-button}}
+            Some yielded text
+        {{/sl-button}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).text().trim(),
+        'Some yielded text',
+        'Content yields successfully'
+    );
+});
+
 test( 'Theme class is applied correctly', function( assert ) {
     this.render( hbs`
         {{#sl-button theme="success"}}
