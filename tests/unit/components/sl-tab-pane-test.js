@@ -18,55 +18,30 @@ moduleForComponent( 'sl-tab-pane', 'Unit | Component | sl tab pane', {
     unit: true
 });
 
-test( 'Expected default classes are applied', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'sl-tab-pane' ),
-        'Default rendered component has class "sl-tab-pane"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'tab-pane' ),
-        'Default rendered component has class "tab-pane"'
-    );
-});
-
-test( '"data-tab-label" attribute gets set as expected', function( assert ) {
-    const label = 'Test Label';
-
-    this.subject({ label });
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
 
     assert.strictEqual(
-        this.$().attr( 'data-tab-label' ),
-        label,
-        'Data tab label is set properly'
+        component.get( 'label' ),
+        null,
+        '"label" is "null"'
     );
-});
 
-test( '"data-tab-name" attribute gets set as expected', function( assert ) {
-    const name = 'Test Name';
-
-    this.subject({ name });
-
-    assert.equal(
-        this.$().attr( 'data-tab-name' ),
-        name,
-        'Data tab name is set properly'
+    assert.strictEqual(
+        component.get( 'name' ),
+        null,
+        '"name" is "null"'
     );
-});
 
-test( 'Can provide content in block form', function( assert ) {
-    this.subject({
-        layout: Ember.HTMLBars.compile(
-            '{{#sl-tab-panel}}' +
-            '    {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}' +
-            '    {{#sl-tab-pane label="B" name="b"}}B content{{/sl-tab-pane}}' +
-            '{{/sl-tab-panel}}'
-        )
-    });
+    assert.strictEqual(
+        component.get( 'data-tab-label' ),
+        null,
+        '"data-tab-label" is "null"'
+    );
 
-    assert.equal(
-        Ember.$.trim( this.$( '.sl-tab-pane[data-tab-name="b"]' ).text() ),
-        'B content',
-        'Expected content is present'
+    assert.strictEqual(
+        component.get( 'data-tab-name' ),
+        null,
+        '"data-tab-name" is "null"'
     );
 });
