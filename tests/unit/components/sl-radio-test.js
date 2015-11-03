@@ -5,7 +5,7 @@ moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
     unit: true
 });
 
-test( 'Correct default property values', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
