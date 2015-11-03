@@ -131,9 +131,9 @@ test( 'Relative values applied correctly', function( assert ) {
 
 test( 'Date values applied correctly', function( assert ) {
 
-    const pastDate = window.moment().subtract( 3, 'months' ).toISOString();
+    const pastDateISO = window.moment().subtract( 3, 'months' ).toISOString();
 
-    this.set( 'value', pastDate );
+    this.set( 'value', pastDateISO );
 
     this.render( hbs`
         {{sl-date-time
@@ -144,11 +144,12 @@ test( 'Date values applied correctly', function( assert ) {
     ` );
 
     const pastRendered = this.$( '>:first-child' ).text().trim();
+    const pastDate = window.moment().subtract( 3, 'months' );
 
     assert.strictEqual(
-        /^\d{4}[-]\d{2}[-]\d{2}$/.test( pastRendered ),
-        true,
-        'Default date string matches default ISO date pattern'
+        pastRendered,
+        pastDate.format( 'YYYY-MM-DD' ),
+        'Default date string matches default date pattern'
     );
 
     const datetimeAttr = this.$( '>:first-child' ).attr( 'datetime' );
