@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-checkbox', 'Unit | Component | sl checkbox', {
@@ -6,6 +7,10 @@ moduleForComponent( 'sl-checkbox', 'Unit | Component | sl checkbox', {
 });
 
 test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
+    );
     assert.ok(
         TooltipEnabledMixin.detect( this.subject() ),
         'TooltipEnabled Mixin is present'
@@ -22,20 +27,8 @@ test( 'Default values are correct', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'disabled' ),
-        false,
-        '"disabled" property is false by default'
-    );
-
-    assert.strictEqual(
         component.get( 'label' ),
         null,
         '"label" property is null by default'
-    );
-
-    assert.strictEqual(
-        component.get( 'name' ),
-        null,
-        '"name" property is null by default'
     );
 });

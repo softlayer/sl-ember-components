@@ -31,3 +31,25 @@ test( 'Inline property sets relevant class', function( assert ) {
         'has class "radio-inline"'
     );
 });
+
+test( 'name applies property to input', function( assert ) {
+    this.render( hbs`
+        {{sl-radio}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        '',
+        'Rendered input has empty name'
+    );
+
+    this.render( hbs`
+        {{sl-radio name="testname"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        'testname',
+        'Rendered input has name set'
+    );
+});

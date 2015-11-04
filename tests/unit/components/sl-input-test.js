@@ -106,9 +106,9 @@ test( 'Default values are correct', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'required' ),
-        false,
-        'required property is false by default'
+        component.get( 'value' ),
+        null,
+        'value property is null by default'
     );
 });
 

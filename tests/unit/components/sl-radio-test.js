@@ -1,35 +1,25 @@
 import Ember from 'ember';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import{ moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
+    );
+});
+
 test( 'Correct default property values', function( assert ) {
     const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'name' ),
-        null,
-        'Default property "name" is null'
-    );
 
     assert.strictEqual(
         component.get( 'label' ),
         null,
         'Default property "label" is null'
-    );
-
-    assert.strictEqual(
-        component.get( 'readonly' ),
-        false,
-        'Default property "readonly" is false'
-    );
-
-    assert.strictEqual(
-        component.get( 'disabled' ),
-        false,
-        'Default property "disabled" is false'
     );
 
     assert.strictEqual(
