@@ -4,7 +4,7 @@ moduleForComponent( 'sl-modal-footer', 'Unit | Component | sl modal footer', {
     unit: true
 });
 
-test( 'Default property values are set correctly', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
