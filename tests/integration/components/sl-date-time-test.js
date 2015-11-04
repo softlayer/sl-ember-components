@@ -1,7 +1,5 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import sinon from 'sinon';
 
 moduleForComponent( 'sl-date-time', 'Integration | Component | sl date time', {
     integration: true
@@ -169,22 +167,33 @@ test( 'Date values applied correctly', function( assert ) {
 });
 
 test( 'tooltip mixin applied correctly', function( assert ) {
-    const spy = sinon.spy( Ember.$.fn, 'tooltip' );
-
     this.render( hbs`
         {{sl-date-time
             timezone="America/Chicago"
         }}
     ` );
 
-    this.$( '>:first-child' ).triggerHandler( 'hover' );
-
-    const datetimeValue = this.$( '>:first-child' ).attr( 'data-original-title' );
-    const tooltipValue = spy.args[0][0].title;
+    const data = this.$( '>:first-child' ).data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
 
     assert.strictEqual(
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    const datetimeValue = this.$( '>:first-child' ).attr( 'data-original-title' );
+
+    assert.strictEqual(
+        tooltipData.getTitle(),
         datetimeValue,
-        tooltipValue,
-        'Tooltip exists and value matches tooltip date pattern'
+        'Title text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
     );
 });
