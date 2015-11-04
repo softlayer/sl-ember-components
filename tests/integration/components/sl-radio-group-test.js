@@ -267,7 +267,7 @@ test( 'Default value gets selected by default', function( assert ) {
 test( 'Yielded content passes through', function( assert ) {
 
     this.render( hbs`
-        {{#sl-radio-group value=value name="testName"}}
+        {{#sl-radio-group name="testName"}}
             A content
         {{/sl-radio-group}}
     ` );
