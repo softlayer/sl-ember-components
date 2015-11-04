@@ -27,12 +27,6 @@ test( 'Correct default property values', function( assert ) {
         null,
         'Default property "value" is null'
     );
-
-    assert.strictEqual(
-        component.get( 'tagName' ),
-        'div',
-        'Default property "tagName" is string "div"'
-    );
 });
 
 test( 'RadioType property sets relevant class', function( assert ) {

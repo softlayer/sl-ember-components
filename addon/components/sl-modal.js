@@ -33,9 +33,6 @@ export default Ember.Component.extend( StreamEnabled, {
         'animated:fade'
     ],
 
-    /** @type {String} */
-    tagName: 'div',
-
     /** @type {Object} */
     layout: layout,
 
