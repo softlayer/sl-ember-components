@@ -27,32 +27,17 @@ test( 'Default rendered state', function( assert ) {
 
     assert.ok(
         this.$( '>:first-child' ).find( 'button' ).hasClass( 'dropdown-toggle' ),
-        'Has Class "dropdown-toggle"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'button' ).hasClass( 'btn' ),
-        'Has Class "btn"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'button' ).hasClass( 'sl-button' ),
-        'Has Class "sl-button"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'button' ).hasClass( 'btn-default' ),
-        'Has Class "btn-default"'
+        'Has class "dropdown-toggle"'
     );
 
     assert.ok(
         this.$( '>:first-child' ).find( 'ul' ).hasClass( 'dropdown-menu' ),
-        'Has Class "dropdown-menu"'
+        'Has class "dropdown-menu"'
     );
 
     assert.ok(
          this.$( '>:first-child' ).hasClass( 'dropdown-default' ),
-        'Has Class "dropdown-default"'
+        'Has class "dropdown-default"'
     );
 
     assert.strictEqual(
@@ -162,6 +147,43 @@ test( 'Content is yielded when label is not set', function( assert ) {
     );
 });
 
+test( 'sl-drop-option icon is supported', function( assert ) {
+    const testContent = {
+        label : 'test',
+        icon : 'caret'
+    };
+
+    this.set( 'content', [ testContent ] );
+
+    this.render( hbs`
+        {{sl-drop-button content=content}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( ':first-child' ).find( 'img' ).attr( 'src' ),
+        'caret',
+        '"icon" property on sl-drop-option is supported'
+    );
+});
+
+test( 'sl-drop-option label is supported', function( assert ) {
+    const testContent = {
+        label : 'test'
+    };
+
+    this.set( 'content', [ testContent ] );
+
+    this.render( hbs`
+        {{sl-drop-button content=content}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'ul' ).text().trim(),
+        'test',
+        '"label" property on sl-drop-option is supported'
+    );
+});
+
 test( 'Click action triggers bound action', function( assert ) {
     assert.expect( 1 );
 
@@ -173,6 +195,7 @@ test( 'Click action triggers bound action', function( assert ) {
 
     this.on( 'testAction', () => {
         assert.ok(
+            true,
             'The test action was called'
         );
     });

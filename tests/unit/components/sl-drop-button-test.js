@@ -18,6 +18,18 @@ test( 'Default properties are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
+        component.get( 'title' ),
+        null,
+        '"title" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'dataTrigger' ),
+        null,
+        '"dataTrigger" default value is correct'
+    );
+
+    assert.strictEqual(
         component.get( 'align' ),
         alignEnum.LEFT,
         '"align" default value is correct'
@@ -89,29 +101,6 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
-test( '"title" property is supported', function( assert ) {
-    const component = this.subject({ title: 'tooltip test' });
-
-    assert.strictEqual(
-        component.get( 'title' ),
-        'tooltip test',
-        '"title" property is set correctly'
-    );
-});
-
-test( '"dataTrigger" property is supported', function( assert ) {
-    const component = this.subject({
-        title: 'tooltip test',
-        dataTrigger: 'hover'
-    });
-
-    assert.strictEqual(
-        component.get( 'dataTrigger' ),
-        'hover',
-        '"dataTrigger" property is set correctly'
-    );
-});
-
 test( 'themeClass() returns expected interpolated string', function( assert ) {
     const component = this.subject({ theme: 'hover' });
 
@@ -122,22 +111,32 @@ test( 'themeClass() returns expected interpolated string', function( assert ) {
     );
 
     Ember.run( () => {
-        component.set( 'theme', null );
+        component.set( 'theme', 'invalidTheme' );
     });
 
     assert.strictEqual(
         component.get( 'themeClass' ),
         null,
-        'themeClass() returns null upon empty "theme" property'
+        'themeClass() returns null upon invalid "theme" property'
     );
 });
 
-test( 'rightAligned() returns expected boolean', function( assert ) {
+test( 'rightAligned() returns expected boolean based on right and left alignment', function( assert ) {
     const component = this.subject({ align: 'right' });
 
     assert.strictEqual(
         component.get( 'rightAligned' ),
         true,
+        'rightAligned() returns expected boolean'
+    );
+
+    Ember.run( () => {
+        component.set( 'align', 'left' );
+    });
+
+    assert.strictEqual(
+        component.get( 'rightAligned' ),
+        false,
         'rightAligned() returns expected boolean'
     );
 });
