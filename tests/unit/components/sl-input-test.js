@@ -78,7 +78,7 @@ test( 'Blur action is triggered when input loses focus', function( assert ) {
     this.$( 'input' ).trigger( 'blur' );
 });
 
-test( 'Default values are correct', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(

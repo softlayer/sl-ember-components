@@ -1,11 +1,19 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
     unit: true
 });
 
-test( 'Default class names are present', function( assert ) {
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
+    );
+});
+
+test( 'Default property values', function( assert ) {
     this.subject({ timezone: 'America/Chicago' });
 
     assert.ok(
