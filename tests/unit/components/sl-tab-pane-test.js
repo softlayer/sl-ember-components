@@ -19,29 +19,20 @@ moduleForComponent( 'sl-tab-pane', 'Unit | Component | sl tab pane', {
 });
 
 test( 'Default property values', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'label' ),
-        null,
-        '"label" is "null"'
-    );
-
-    assert.strictEqual(
-        component.get( 'name' ),
-        null,
-        '"name" is "null"'
-    );
+    const component = this.subject( {
+        label: 'Test Label',
+        name: 'Test Name'
+    } );
 
     assert.strictEqual(
         component.get( 'data-tab-label' ),
-        null,
-        '"data-tab-label" is "null"'
+        'Test Label',
+        '"data-tab-label" is set to the value of "label"'
     );
 
     assert.strictEqual(
         component.get( 'data-tab-name' ),
-        null,
-        '"data-tab-name" is "null"'
+        'Test Name',
+        '"data-tab-name" is set to the value of "name"'
     );
 });

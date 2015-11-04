@@ -7,8 +7,17 @@ moduleForComponent( 'sl-tab-pane', 'Integration | Component | sl tab pane', {
 
 test( 'Default rendered state', function( assert ) {
 
+    const label = 'Test Label';
+    this.set( 'labelTest', label );
+
+    const name = 'Test Name';
+    this.set( 'nameTest', name );
+
     this.render( hbs`
-        {{sl-tab-pane}}
+        {{sl-tab-pane
+            label=labelTest
+            name=nameTest
+        }}
     ` );
 
     assert.ok(
@@ -20,36 +29,12 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'tab-pane' ),
         'Has class "tab-pane"'
     );
-});
-
-test( '"data-tab-label" attribute gets set as expected', function( assert ) {
-
-    const label = 'Test Label';
-    this.set( 'labelTest', label );
-
-    this.render( hbs`
-        {{sl-tab-pane
-            label=labelTest
-        }}
-    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'data-tab-label' ),
         label,
         'Data tab label is set properly'
     );
-});
-
-test( '"data-tab-name" attribute gets set as expected', function( assert ) {
-
-    const name = 'Test Name';
-    this.set( 'nameTest', name );
-
-    this.render( hbs`
-        {{sl-tab-pane
-            name=nameTest
-        }}
-    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'data-tab-name' ),
