@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 
 const template = hbs`
     {{sl-radio label="Red" value="red"}}
@@ -214,7 +215,7 @@ test( 'initalize() - "inline" property on `sl-radio-group` sets `sl-radio` class
     this.registry.unregister( 'template:test-template' );
 });
 
-test( 'unregisterEvents() - ', function( assert ) {
+test( 'unregisterEvents() - input radio event unregisters on willClearRender', function( assert ) {
     const spyOff = sinon.spy( Ember.$.fn, 'off' );
 
     const component = this.subject( {
@@ -227,7 +228,7 @@ test( 'unregisterEvents() - ', function( assert ) {
 
     assert.ok(
         spyOff.calledOnce,
-        'input radio event '
+        'input radio event is unregistered on willClearRender'
     );
 
     Ember.$.fn.off.restore();
