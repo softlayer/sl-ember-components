@@ -44,13 +44,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // Properties
 
     /**
-     * Whether the radio buttons should be disabled
-     *
-     * @type {Boolean}
-     */
-    disabled: false,
-
-    /**
      * Whether the radio buttons should be put inline together
      *
      * This value is null by default, which means that the sl-radio-group will
@@ -61,24 +54,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @type {?Boolean}
      */
     inline: null,
-
-    /**
-     * The "name" attribute for the children radio buttons
-     *
-     * Similar to the `inline` property; the default value is null, so the
-     * children buttons will not be overridden. Any string value will overwrite
-     * the children buttons' name property.
-     *
-     * @type {?String}
-     */
-    name: null,
-
-    /**
-     * Whether the radio buttons should be readonly
-     *
-     * @type {Boolean}
-     */
-    readonly: false,
 
     /**
      * The component's current value property
@@ -110,12 +85,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             const value = this.get( 'value' );
             const isDisabled = this.get( 'disabled' );
             const isInline = this.get( 'inline' );
-            const isReadonly = this.get( 'readonly' );
 
             /**
              * To each sl-radio component apply...
              *
-             * - Attributes: name, disabled, readonly
+             * - Attributes: name, disabled
              * - Classes: radio, radio-inline
              */
             this.$( '.sl-radio' ).each( function() {
@@ -127,11 +101,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 if ( isDisabled ) {
                     input.prop( 'disabled', true );
                     radio.addClass( 'disabled' );
-                }
-
-                if ( isReadonly ) {
-                    input.prop( 'readonly', true );
-                    radio.addClass( 'readonly' );
                 }
 
                 if ( true === isInline ) {
