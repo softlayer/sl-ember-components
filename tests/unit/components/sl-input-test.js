@@ -115,7 +115,6 @@ test( 'Default values are correct', function( assert ) {
     );
 });
 
-
 test( 'Popover is initialized with the correct options', function( assert ) {
     const popoverText = 'Popover text';
 
@@ -184,14 +183,14 @@ test( 'isTypeaheadSetup is true when suggestions are provided', function( assert
 });
 
 test( 'Value is set correctly', function( assert ) {
-     const value = 'set value';
- 
-     const component = this.subject({
-         value: value
-     });
- 
-     this.render();
- 
+    const value = 'set value';
+
+    const component = this.subject( {
+        value: value
+    });
+
+    this.render();
+
     assert.strictEqual(
         component.getInput().val(),
         value
