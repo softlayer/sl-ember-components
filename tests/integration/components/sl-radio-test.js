@@ -1,14 +1,16 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
+const defaultTemplate = hbs`
+    {{sl-radio}}
+`;
+
 moduleForComponent( 'sl-radio', 'Integration | Component | sl radio', {
     integration: true
 });
 
 test( 'Default rendered state', function( assert ) {
-    this.render( hbs`
-        {{sl-radio}}
-    ` );
+    this.render( defaultTemplate );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'sl-radio' ),
@@ -54,9 +56,7 @@ test( 'Inline property sets relevant class', function( assert ) {
 });
 
 test( 'name applies property to input', function( assert ) {
-    this.render( hbs`
-        {{sl-radio}}
-    ` );
+    this.render( defaultTemplate );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
@@ -76,6 +76,14 @@ test( 'name applies property to input', function( assert ) {
 });
 
 test( '"value" property is supported', function( assert ) {
+    this.render( defaultTemplate );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).val(),
+        'on',
+        'input value set to default value of "on"'
+    );
+
     this.set( 'valueTest', 'testValue' );
 
     this.render( hbs`
@@ -85,11 +93,19 @@ test( '"value" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'input' ).val(),
         'testValue',
-        'input value gets set'
+        '"value" is set'
     );
 });
 
 test( '"label" property is supported', function( assert ) {
+    this.render( defaultTemplate );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'label' ).text().trim(),
+        '',
+        '"label" text is not set'
+    );
+
     this.set( 'labelTest', 'testLabel' );
 
     this.render( hbs`
@@ -99,6 +115,6 @@ test( '"label" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'label' ).text().trim(),
         'testLabel',
-        '"label" value gets set'
+        '"label" text gets set'
     );
 });
