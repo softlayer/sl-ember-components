@@ -33,9 +33,9 @@ test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'disabled' ),
-        false,
-        'disabled: false'
+        component.get( 'tagName' ),
+        'fieldset',
+        'tagName: fieldset'
     );
 
     assert.strictEqual(
@@ -45,45 +45,15 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'name' ),
-        null,
-        'theme: null'
-    );
-
-    assert.strictEqual(
-        component.get( 'readonly' ),
-        false,
-        'readyonly: false'
-    );
-
-    assert.strictEqual(
-        component.get( 'value' ),
-        null,
-        'value: null'
-    );
-
-    assert.strictEqual(
-        component.get( 'tagName' ),
-        'fieldset',
-        'tagName: fieldset'
-    );
-
-    assert.strictEqual(
-        component.get( 'optional' ),
-        false,
-        'optional: false'
-    );
-
-    assert.strictEqual(
         component.get( 'label' ),
         null,
         'label: null'
     );
 
     assert.strictEqual(
-        component.get( 'required' ),
-        false,
-        'required: false'
+        component.get( 'value' ),
+        null,
+        'value: null'
     );
 });
 
@@ -141,33 +111,6 @@ test( 'initalize() - "disabled" property on `sl-radio-group` sets `sl-radio` to 
         component.$( 'input' ).prop( 'disabled' ),
         true,
         'input is disabled based on `sl-radio-group`'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'initalize() - "readonly" property on `sl-radio-group` sets `sl-radio` to disabled', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject( {
-        name: 'test',
-        readonly: true,
-        templateName: 'test-template'
-    } );
-
-    this.render();
-
-    assert.strictEqual(
-        component.$( '.sl-radio' ).hasClass( 'readonly' ),
-        true,
-        '`sl-radio` readonly class added based on `sl-radio-group`'
-    );
-
-    assert.strictEqual(
-        component.$( 'input' ).prop( 'readonly' ),
-        true,
-        'input is readonly based on `sl-radio-group`'
     );
 
     this.registry.unregister( 'template:test-template' );
