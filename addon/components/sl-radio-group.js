@@ -63,38 +63,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     label: null,
 
     /**
-     * The "name" attribute for the children radio buttons
-     *
-     * Similar to the `inline` property; the default value is null, so the
-     * children buttons will not be overridden. Any string value will overwrite
-     * the children buttons' name property.
-     *
-     * @type {?String}
-     */
-    name: null,
-
-    /**
-     * To style the component to reflect that it has optional status.
-     *
-     * @type {Boolean}
-     */
-    optional: false,
-
-    /**
-     * Whether the radio buttons should be readonly
-     *
-     * @type {Boolean}
-     */
-    readonly: false,
-
-    /**
-     * To style the component to reflect that it has required status.
-     *
-     * @type {Boolean}
-     */
-    required: false,
-
-    /**
      * The component's current value property
      *
      * @type {?String}
