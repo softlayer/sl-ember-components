@@ -60,6 +60,27 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     });
 });
 
+test( 'Blur action is triggered when input loses focus', function( assert ) {
+    assert.expect( 1 );
+
+    const done = assert.async();
+
+    this.subject({
+        blur: 'blur',
+        targetObject: {
+            blur() {
+                assert.ok(
+                    'blur was triggered'
+                );
+
+                done();
+            }
+        }
+    });
+
+    this.$( 'input' ).trigger( 'blur' );
+});
+
 test( 'Default values are correct', function( assert ) {
     const component = this.subject();
 
@@ -88,11 +109,12 @@ test( 'Default values are correct', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'required' ),
-        false,
-        'required property is false by default'
+        component.get( 'value' ),
+        null,
+        'value property is null by default'
     );
 });
+
 
 test( 'Popover is initialized with the correct options', function( assert ) {
     const popoverText = 'Popover text';
@@ -162,37 +184,16 @@ test( 'isTypeaheadSetup is true when suggestions are provided', function( assert
 });
 
 test( 'Value is set correctly', function( assert ) {
-    const value = 'set value';
-
-    const component = this.subject({
-        value: value
-    });
-
-    this.render();
-
+     const value = 'set value';
+ 
+     const component = this.subject({
+         value: value
+     });
+ 
+     this.render();
+ 
     assert.strictEqual(
         component.getInput().val(),
         value
     );
-});
-
-test( 'Blur action is triggered when input loses focus', function( assert ) {
-    assert.expect( 1 );
-
-    const done = assert.async();
-
-    this.subject({
-        blur: 'blur',
-        targetObject: {
-            blur() {
-                assert.ok(
-                    'blur was triggered'
-                );
-
-                done();
-            }
-        }
-    });
-
-    this.$( 'input' ).trigger( 'blur' );
 });

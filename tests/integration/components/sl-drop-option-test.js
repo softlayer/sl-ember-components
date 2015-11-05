@@ -5,7 +5,7 @@ moduleForComponent( 'sl-drop-option', 'Integration | Component | sl drop option'
     integration: true
 });
 
-test( 'Has expected initial class name', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-drop-option}}
     ` );
@@ -14,17 +14,6 @@ test( 'Has expected initial class name', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'sl-drop-option' ),
         'Rendered component has class "sl-drop-option"'
     );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'li' ),
-        'Rendered componenet has the correct "li" tag'
-    );
-});
-
-test( 'Has expected aria-role property', function( assert ) {
-    this.render( hbs`
-        {{sl-drop-option}}
-    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),

@@ -5,7 +5,7 @@ moduleForComponent( 'sl-loading-icon', 'Integration | Component | sl loading ico
     integration: true
 });
 
-test( 'Default classes are set', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-loading-icon}}
     ` );

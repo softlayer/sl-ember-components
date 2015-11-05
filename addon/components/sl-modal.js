@@ -33,39 +33,11 @@ export default Ember.Component.extend( StreamEnabled, {
         'animated:fade'
     ],
 
-    /** @type {String} */
-    tagName: 'div',
-
     /** @type {Object} */
     layout: layout,
 
     // -------------------------------------------------------------------------
     // Actions
-
-    /** @type {Object} */
-    actions: {
-
-        /**
-         * Trigger hiding the model
-         *
-         * @function actions:hide
-         * @returns {undefined}
-         */
-        hide() {
-            this.hide();
-        },
-
-         /**
-         * Trigger showing the model
-         *
-         * @function actions:show
-         * @returns {undefined}
-         */
-        show() {
-            this.show();
-        }
-
-    },
 
     // -------------------------------------------------------------------------
     // Events

@@ -39,7 +39,7 @@ test( 'Successfully mixed', function( assert ) {
     );
 });
 
-test( 'Default values are set correctly', function( assert ) {
+test( 'Default property values', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest );
 
     const subject = testObject.create();

@@ -285,8 +285,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
             datepicker.setEndDate( this.get( 'endDate' ) );
 
             if ( 'Invalid Date' === datepicker.getDate().toString() ) {
-                input.datepicker().val( '' );
-                input.attr( 'placeholder', this.get( 'placeholder' ) );
+                input.val( '' );
             }
         }
     ),
@@ -313,6 +312,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
                 inputs: this.get( 'inputs' ),
                 keyboardNavigation: this.get( 'keyboardNavigation' ),
                 language: this.get( 'language' ),
+                minViewMode: this.get( 'minViewMode' ),
                 multidate: this.get( 'multidate' ),
                 orientation: this.get( 'orientation' ),
                 startDate: this.get( 'startDate' ),

@@ -11,6 +11,25 @@ const template = hbs`
     {{/sl-button}}
 `;
 
+test( 'Default rendered state', function( assert ) {
+    this.render( template );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'btn' ),
+        'Has class "btn"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-button' ),
+        'Has class "sl-button"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'btn-default' ),
+        'Has default theme class'
+    );
+});
+
 test( 'Default action is triggered when element is clicked', function( assert ) {
     assert.expect( 1 );
 
@@ -30,16 +49,6 @@ test( 'Default action is triggered when element is clicked', function( assert ) 
     this.$( '>:first-child' ).click();
 });
 
-test( 'Button is enabled by default', function( assert ) {
-    this.render( template );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).is( ':disabled' ),
-        false,
-        'Component is disabled by default'
-    );
-});
-
 test( 'Button is disabled when disabled is set to true', function( assert ) {
     this.render( hbs`
         {{#sl-button disabled=true}}
@@ -51,34 +60,6 @@ test( 'Button is disabled when disabled is set to true', function( assert ) {
         this.$( '>:first-child' ).is( ':disabled' ),
         true,
         'Component becomes disabled'
-    );
-});
-
-test( 'Expected default classes are applied', function( assert ) {
-    this.render( template );
-
-    const element = this.$( '>:first-child' );
-    const classes = [ 'btn-xs', 'btn-sm', 'btn-lg' ];
-    const noSizeClassByDefault = classes.every( cls => !element.hasClass( cls ) );
-
-    assert.ok(
-        element.hasClass( 'btn' ),
-        'Has class "btn"'
-    );
-
-    assert.ok(
-        element.hasClass( 'sl-button' ),
-        'Has class "sl-button"'
-    );
-
-    assert.ok(
-        element.hasClass( 'btn-default' ),
-        'Has default theme class'
-    );
-
-    assert.ok(
-        noSizeClassByDefault,
-        'No size class is applied by default'
     );
 });
 

@@ -1,5 +1,10 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { Align as alignEnum } from 'sl-ember-components/components/sl-drop-button';
+import {
+    Size as ButtonSize,
+    Theme as ButtonTheme
+} from 'sl-ember-components/components/sl-button';
 
 moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
     needs: [
@@ -9,112 +14,129 @@ moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
     unit: true
 });
 
-test( 'Default classes are present', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'btn-group' ),
-        'Has class "btn-group"'
+test( 'Default properties are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'title' ),
+        null,
+        '"title" default value is correct'
     );
 
-    assert.ok(
-        this.$().hasClass( 'dropdown' ),
-        'Has class "dropdown"'
+    assert.strictEqual(
+        component.get( 'dataTrigger' ),
+        null,
+        '"dataTrigger" default value is correct'
     );
 
-    assert.ok(
-        this.$().hasClass( 'sl-drop-button' ),
-        'Has class "sl-drop-button"'
+    assert.strictEqual(
+        component.get( 'align' ),
+        alignEnum.LEFT,
+        '"align" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'content' ),
+        null,
+        '"content" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'iconClass' ),
+        'caret',
+        '"iconClass" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'label' ),
+        null,
+        '"label" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'size' ),
+        ButtonSize.MEDIUM,
+        '"size" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'theme' ),
+        ButtonTheme.DEFAULT,
+        '"theme" default value is correct'
+    );
+
+    const Align = {
+        LEFT: 'left',
+        RIGHT: 'right'
+    };
+
+    assert.deepEqual(
+        alignEnum,
+        Align,
+        '"align" enum values are correct'
     );
 });
 
-test( 'Theme property applies theme class', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    assert.ok(
-        this.$().hasClass( 'dropdown-default' ),
-        'Default rendered drop-button has class "dropdown-default"'
+    const rightAlignedDependentKeys = [
+        'align'
+    ];
+
+    const themeClassDependentKeys = [
+        'theme'
+    ];
+
+    assert.deepEqual(
+        component.rightAligned._dependentKeys,
+        rightAlignedDependentKeys,
+        'Dependent keys are correct for rightAligned()'
+    );
+
+    assert.deepEqual(
+        component.themeClass._dependentKeys,
+        themeClassDependentKeys,
+        'Dependent keys are correct for themeClass()'
+    );
+});
+
+test( 'themeClass() returns expected interpolated string', function( assert ) {
+    const component = this.subject({ theme: 'hover' });
+
+    assert.strictEqual(
+        component.get( 'themeClass' ),
+        'dropdown-hover',
+        'themeClass() returns expected string'
     );
 
     Ember.run( () => {
-        component.set( 'theme', 'danger' );
+        component.set( 'theme', 'invalidTheme' );
     });
 
-    assert.ok(
-        this.$().hasClass( 'dropdown-danger' ),
-        'Rendered drop-button has new theme class'
+    assert.strictEqual(
+        component.get( 'themeClass' ),
+        null,
+        'themeClass() returns null upon invalid "theme" property'
     );
 });
 
-test( 'Click action triggers bound action', function( assert ) {
-    const component = this.subject({
-        action: 'test',
-        targetObject: {
-            test() {
-                assert.ok(
-                    true,
-                    'Action was fired'
-                );
-            }
-        }
-    });
+test( 'rightAligned() returns expected boolean based on right and left alignment', function( assert ) {
+    const component = this.subject({ align: 'right' });
 
-    assert.expect( 1 );
-
-    component.send( 'click' );
-});
-
-test( 'Alignment property is supported', function( assert ) {
-    const component = this.subject();
-
-    assert.equal(
-        component.get( 'align' ),
-        'left',
-        'Default component is left-aligned'
+    assert.strictEqual(
+        component.get( 'rightAligned' ),
+        true,
+        'rightAligned() returns expected boolean'
     );
+
+    Ember.run( () => {
+        component.set( 'align', 'left' );
+    });
 
     assert.strictEqual(
         component.get( 'rightAligned' ),
         false,
-        'Default component does not have rightAligned set to true'
-    );
-
-    Ember.run( () => {
-        component.set( 'align', 'right' );
-    });
-
-    assert.equal(
-        component.get( 'align' ),
-        'right',
-        'Component is correctly set to "right" aligned'
-    );
-
-    assert.ok(
-        component.get( 'rightAligned' ),
-        'Component is correctly rightAligned'
-    );
-});
-
-test( 'Icon class property is supported', function( assert ) {
-    const component = this.subject({ label: 'Test' });
-
-    assert.equal(
-        component.get( 'iconClass' ),
-        'caret',
-        'Default component has iconClass "caret"'
-    );
-
-    assert.equal(
-        this.$( 'span.caret' ).length,
-        1,
-        'Default rendered component includes caret icon span'
-    );
-
-    Ember.run( () => {
-        component.set( 'iconClass', 'test' );
-    });
-
-    assert.equal(
-        this.$( 'span.test' ).length,
-        1,
-        'Rendered component includes test icon span'
+        'rightAligned() returns expected boolean'
     );
 });

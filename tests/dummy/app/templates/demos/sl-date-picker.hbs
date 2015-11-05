@@ -42,6 +42,10 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="action" type="Function"}}
+        Action to call when the date is changed.
+    {{/property-text}}
+
     {{#property-text name="autoclose" type="Boolean" default="true"}}
         Whether or not to close the datepicker immediately when a date is selected.
     {{/property-text}}

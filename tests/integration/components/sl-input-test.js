@@ -5,6 +5,22 @@ moduleForComponent( 'sl-input', 'Integration | Component | sl input', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( hbs`
+        {{sl-input}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'Has class "form-group"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-input' ),
+        'Has class "sl-input"'
+    );
+});
+
 test( 'for attribute value on label matches id of input', function( assert ) {
     this.render( hbs`
         {{sl-input label="test label"}}
@@ -176,5 +192,27 @@ test( 'Typeahead classes are present', function( assert ) {
     assert.ok(
         this.$( '.tt-dataset' ),
         'tt-dataset class exists'
+    );
+});
+
+test( 'name applies property to input', function( assert ) {
+    this.render( hbs`
+        {{sl-input}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        '',
+        'Rendered input has empty name'
+    );
+
+    this.render( hbs`
+        {{sl-input name="testname"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        'testname',
+        'Rendered input has name set'
     );
 });

@@ -5,7 +5,7 @@ moduleForComponent( 'sl-checkbox', 'Integration | Component | sl checkbox', {
     integration: true
 });
 
-test( 'Defaults applied correctly', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-checkbox}}
     ` );
@@ -79,5 +79,99 @@ test( 'Checked state applies property to input', function( assert ) {
         this.$( '>:first-child' ).find( 'input' ).prop( 'checked' ),
         true,
         'Rendered input is checked'
+    );
+});
+
+test( 'name applies property to input', function( assert ) {
+    this.render( hbs`
+        {{sl-checkbox}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        '',
+        'Rendered input has empty name'
+    );
+
+    this.render( hbs`
+        {{sl-checkbox name="testname"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        'testname',
+        'Rendered input has name set'
+    );
+});
+
+test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
+    const title = 'test title';
+
+    this.set( 'title', title );
+
+    this.render( hbs`
+        {{sl-checkbox title=title}}
+    ` );
+
+    const data = this.$( '>:first-child' ).data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
+
+    assert.strictEqual(
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    assert.strictEqual(
+        tooltipData.getTitle(),
+        title,
+        'Title text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
+    );
+});
+
+test( 'Popover properties are set correctly when popover parameter is set', function( assert ) {
+    const title = 'test title';
+    const popover = 'popover text';
+
+    this.set( 'title', title );
+    this.set( 'popover', popover );
+
+    this.render( hbs`
+        {{sl-checkbox title=title popover=popover}}
+    ` );
+
+    const data = this.$( '>:first-child' ).data();
+    const popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
+
+    assert.strictEqual(
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    assert.strictEqual(
+        popoverData.getTitle(),
+        title,
+        'Popover title was set correctly'
+    );
+
+    assert.strictEqual(
+        popoverData.getContent(),
+        popover,
+        'Popover text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'click',
+        'Default trigger is "click"'
     );
 });
