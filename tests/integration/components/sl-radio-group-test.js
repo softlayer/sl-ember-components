@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import waitForPendingRunLoops from 'ember-test-helpers/wait';
 
 moduleForComponent( 'sl-radio-group', 'Integration | Component | sl radio group', {
     integration: true
@@ -99,11 +100,13 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
         radioButton.click();
     });
 
-    assert.strictEqual(
-        this.get( 'value' ),
-        'eric',
-        '"eric" value is selected'
-    );
+    return waitForPendingRunLoops().then( () => {
+        assert.strictEqual(
+            this.get( 'value' ),
+            'eric',
+            '"eric" value is selected'
+        );
+    });
 });
 
 test( 'Default value gets selected by default', function( assert ) {
