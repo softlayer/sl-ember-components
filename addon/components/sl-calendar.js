@@ -411,8 +411,8 @@ export default Ember.Component.extend({
     shortWeekDayNames: Ember.computed(
         'locale',
         function() {
-            const locale = this.get( 'locale' ) || '',
-                  m = window.moment().locale( locale );
+            const locale = this.get( 'locale' ) || '';
+            const m = window.moment().locale( locale );
 
             return Ember.A([
                 m.day( 0 ).format( 'dd' ),
