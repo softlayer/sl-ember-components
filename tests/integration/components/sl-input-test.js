@@ -10,6 +10,48 @@ test( 'Default rendered state', function( assert ) {
         {{sl-input}}
     ` );
 
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'data-trigger' ),
+        'focus',
+        'dataTrigger defaults to focus'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'type' ),
+        'text',
+        'type defaults to text'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'disabled' ),
+        false,
+        'disabled defaults to false'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        '',
+        'name defaults to empty string'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'placeholder' ),
+        '',
+        'placeholder defaults to empty string'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'readonly' ),
+        false,
+        'readonly defaults to false'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'value' ),
+        '',
+        'value defaults to empty string'
+    );
+
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'form-group' ),
         'Has class "form-group"'
@@ -21,16 +63,92 @@ test( 'Default rendered state', function( assert ) {
     );
 });
 
+test( 'Label is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input}}
+    ` );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( '.control-label' ),
+        'control-label class is not rendered if label is not set'
+    );
+
+    this.render( hbs`
+        {{sl-input label="Test label"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.control-label' ).text().trim(),
+        'Test label',
+        'control-label is rendered when label is set'
+    );
+});
+
 test( 'for attribute value on label matches id of input', function( assert ) {
     this.render( hbs`
         {{sl-input label="test label"}}
     ` );
 
-    const wrapper = this.$( '>:first-child' );
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'label' ).attr( 'for' ),
+        this.$( '>:first-child' ).find( 'input' ).attr( 'id' ),
+        'for value matches id of input'
+    );
+});
+
+test( 'Optional property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Required" }}
+    ` );
 
     assert.strictEqual(
-        wrapper.find( 'label' ).attr( 'for' ),
-        wrapper.find( 'input' ).attr( 'id' )
+        this.$( '>:first-child' ).find( '.text-info' ).length,
+        0,
+        'text-info is not rendered if optional is not set'
+    );
+
+    this.render( hbs`
+        {{sl-input label="Optional" optional="true"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-info' ).text().trim(),
+        'Optional',
+        'text-info renders optional when optional is set'
+    );
+});
+
+test( 'Required property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Required" }}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-danger' ).length,
+        0,
+        'text-danger is not rendered if required is not set'
+    );
+
+    this.render( hbs`
+        {{sl-input label="Required" required="true"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-danger' ).text().trim(),
+        'Required',
+        'text-danger renders required when required is set'
+    );
+});
+
+test( 'type property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input type="email"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'type' ),
+        'email',
+        'type property is supported'
     );
 });
 
@@ -40,121 +158,64 @@ test( 'Click to edit input has the correct class', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'input' ).hasClass( 'click-to-edit' )
+        this.$( '>:first-child' ).find( 'input' ).hasClass( 'click-to-edit' ),
+        'click-to-edit class is present upon clickToEdit set to true'
     );
 });
 
-test( 'Input can be disabled', function( assert ) {
+test( 'disabled property is supported', function( assert ) {
     this.render( hbs`
         {{sl-input disabled="true"}}
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'disabled' )
+        this.$( '>:first-child' ).find( 'input' ).prop( 'disabled' ),
+        'disabled property is supported'
     );
 });
 
 test( 'Help text is displayed', function( assert ) {
-    this.set( 'helpText', 'Testing help text is displayed' );
-
-    this.render( hbs`
-        {{sl-input helpText=helpText}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.help-block' ).text().trim(),
-        'Testing help text is displayed'
-    );
-});
-
-test( 'Label text is displayed', function( assert ) {
-    this.set( 'labelText', 'Testing test label text is displayed' );
-
-    this.render( hbs`
-        {{sl-input label=labelText}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.control-label' ).text().trim(),
-        'Testing test label text is displayed'
-    );
-});
-
-test( 'Label text is not displayed', function( assert ) {
     this.render( hbs`
         {{sl-input}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.control-label' ).length,
-        0
+        this.$( '>:first-child' ).find( '.help-block' ).length,
+        0,
+        'help-block is not rendered if required is not set'
     );
-});
 
-test( 'Optional property displays optional label', function( assert ) {
     this.render( hbs`
-        {{sl-input label="Optional" optional="true"}}
+        {{sl-input helpText="help text"}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.text-info' ).text().trim(),
-        'Optional'
+        this.$( '>:first-child' ).find( '.help-block' ).text().trim(),
+        'help text',
+        'help-block renders helpText when helpText is set'
     );
 });
 
-test( 'Optional property does not display Optional label', function( assert ) {
+test( 'Placeholder property is supported', function( assert ) {
     this.render( hbs`
-        {{sl-input label="Required" }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.text-info' ).length,
-        0
-    );
-});
-
-test( 'Required property displays required label', function( assert ) {
-    this.render( hbs`
-        {{sl-input label="Required" required="true"}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.text-danger' ).text().trim(),
-        'Required'
-    );
-});
-
-test( 'Required property does not display required label', function( assert ) {
-    this.render( hbs`
-        {{sl-input label="Required" }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.text-danger' ).length,
-        0
-    );
-});
-
-test( 'Placeholder property sets the placeholder for the input', function( assert ) {
-    this.set( 'placeholder', 'placeholder' );
-
-    this.render( hbs`
-        {{sl-input placeholder=placeholder}}
+        {{sl-input placeholder="placeholder"}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'input' ).prop( 'placeholder' ),
-        this.$( '>:first-child' ).find( 'input' ).prop( 'placeholder' )
+        'placeholder',
+        'placeholder is rendered if placeholder is set'
     );
 });
 
-test( 'Readonly property, makes the input readonly', function( assert ) {
+test( 'Readonly property is supported', function( assert ) {
     this.render( hbs`
         {{sl-input readonly="true"}}
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'input' ).prop( 'readonly' )
+        this.$( '>:first-child' ).find( 'input' ).prop( 'readonly' ),
+        'readonly is set when readonly is true'
     );
 });
 
@@ -195,7 +256,7 @@ test( 'Typeahead classes are present', function( assert ) {
     );
 });
 
-test( 'name applies property to input', function( assert ) {
+test( 'name property is supported', function( assert ) {
     this.render( hbs`
         {{sl-input}}
     ` );
