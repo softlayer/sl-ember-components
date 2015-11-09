@@ -6,7 +6,7 @@ moduleForComponent( 'sl-drop-option', 'Unit | Component | sl drop option', {
     unit: true
 });
 
-test( 'Properties have correct default values', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
