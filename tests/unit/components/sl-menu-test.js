@@ -55,11 +55,6 @@ test( 'Default property values', function( assert ) {
     this.subject();
 
     assert.ok(
-        this.$().hasClass( 'sl-menu' ),
-        'Has class "sl-menu"'
-    );
-
-    assert.ok(
         this.$().is( 'div' ),
         'Element is a <div>'
     );
@@ -109,7 +104,7 @@ test( 'allowShowAll property enables the show-all menu item', function( assert )
     });
 
     assert.ok(
-        this.$( 'li' ).last().hasClass( 'show-all' ),
+        this.$( 'li' ).last().hasClass( 'sl-menu-show-all' ),
         'show-all menu item is rendered'
     );
 });

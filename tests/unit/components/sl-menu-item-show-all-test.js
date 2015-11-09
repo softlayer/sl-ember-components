@@ -4,15 +4,6 @@ moduleForComponent( 'sl-menu-item-show-all', 'Unit | Component | sl menu item sh
     unit: true
 });
 
-test( 'Default class name is present', function( assert ) {
-    this.subject();
-
-    assert.ok(
-        this.$().hasClass( 'show-all' ),
-        'Rendered element has class "show-all"'
-    );
-});
-
 test( 'Bound action onMouseEnter is sent on mouseenter', function( assert ) {
     this.subject({
         onMouseEnter: 'test',
