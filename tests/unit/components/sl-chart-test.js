@@ -369,6 +369,18 @@ test( 'highchartsOptions returns expected options', function( assert ) {
     );
 });
 
+test( 'style() returns a HTML-safe string', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    assert.ok(
+        component.get( 'style' ) instanceof Ember.Handlebars.SafeString,
+        'style() returns an instance of Ember.Handlebars.SafeString'
+    );
+});
+
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject({
         options: testOptions,

@@ -33,19 +33,19 @@ const mockStreamService = {
     send() {}
 };
 
-test( 'Successfully mixed sl-stream-enabled', function( assert ) {
+test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-       streamEnabled.detect( this.subject() )
+       streamEnabled.detect( this.subject() ),
+       'Successfully mixed sl-stream-enabled'
+    );
+
+    assert.ok(
+        tooltipEnabled.detect( this.subject() ),
+        'Successfully mixed sl-tooltip-enabled'
     );
 });
 
-test( 'Successfully mixed sl-tooltip-enabled', function( assert ) {
-    assert.ok(
-        tooltipEnabled.detect( this.subject() )
-    );
-});
-
-test( 'Default property values are set correctly', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(

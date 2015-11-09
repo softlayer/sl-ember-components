@@ -82,9 +82,7 @@ export default Ember.Component.extend( ComponentInputId, {
         function() {
             this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
             this.set( 'endDateInput', this.$( '.sl-daterange-end-date input' ) );
-            this.get( 'startDateInput' ).on( 'change', () => {
-                this.get( 'endDateInput' ).trigger( 'focus' );
-            });
+            this.get( 'startDateInput' ).on( 'changeDate', this, this.changeDateHandler );
         }
     ),
 
@@ -97,13 +95,27 @@ export default Ember.Component.extend( ComponentInputId, {
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.get( 'startDateInput' ).off();
-            this.get( 'endDateInput' ).off();
+            this.get( 'startDateInput' ).off( 'changeDate', this.changeDateHandler );
         }
     ),
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Callback for bootstrap datepicker changeDate event
+     *
+     * @function
+     * @param {Event} event - A standard event object
+     * @returns {undefined}
+     */
+    changeDateHandler: function( ev ) {
+        const component = ev.data;
+
+        if ( component.get( 'startDateInput' ).get( 0 ) === ev.target ) {
+            component.get( 'endDateInput' ).trigger( 'focus' );
+        }
+    },
 
     /**
      * The earliest selectable endDate, based on minDate and

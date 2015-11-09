@@ -9,7 +9,7 @@ module.exports = function( defaults ) {
         babel: {
           includePolyfill: true
         },
-        
+
         fingerprint: {
             enabled: true,
             exclude: [],

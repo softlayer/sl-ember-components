@@ -82,6 +82,28 @@ test( 'Checked state applies property to input', function( assert ) {
     );
 });
 
+test( 'name applies property to input', function( assert ) {
+    this.render( hbs`
+        {{sl-checkbox}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        '',
+        'Rendered input has empty name'
+    );
+
+    this.render( hbs`
+        {{sl-checkbox name="testname"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        'testname',
+        'Rendered input has name set'
+    );
+});
+
 test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
     const title = 'test title';
 

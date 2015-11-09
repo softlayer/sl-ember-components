@@ -34,12 +34,6 @@ test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'tagName' ),
-        'div',
-        'Default tagName is "div"'
-    );
-
-    assert.strictEqual(
         component.get( 'animated' ),
         true,
         'animated is true by default'

@@ -34,6 +34,125 @@ moduleForComponent( 'sl-calendar', 'Integration | Component | sl calendar', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( hbs`
+        {{sl-calendar}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-calendar' ),
+        'Has class "sl-calendar"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'datepicker' ),
+        'First child of component has class "datepicker"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'datepicker-inline' ),
+        'First child of component has class "datepicker-inline"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '> .datepicker > div:first-child' ).hasClass( 'datepicker-days' ),
+        'Day view is visible'
+    );
+});
+
+test( 'Check for classes set on items outside of range in picker', function( assert ) {
+    this.set( 'currentYear', 2015 );
+    this.set( 'currentMonth', 1 );
+
+    this.render( hbs`
+        {{sl-calendar
+            currentYear=currentYear
+            currentMonth=currentMonth
+        }}
+    ` );
+
+    let missingOld = false;
+    let missingNew = false;
+
+    // test the days
+
+    const days = this.$( '>:first-child' ).find( '.datepicker-days .day' );
+
+    let firstReached = false;
+    let lastReached = false;
+
+    days.each( function() {
+        const testDay = parseInt( $( this ).text() );
+
+        if ( 1 === testDay ) {
+            firstReached = true;
+        }
+
+        if ( !firstReached ) {
+            if ( !$( this ).hasClass( 'old' ) ) {
+                missingOld = true;
+            }
+        }
+
+        if ( lastReached ) {
+            if ( !$( this ).hasClass( 'new' ) ) {
+                missingNew = true;
+            }
+        }
+
+        if ( 31 === testDay && firstReached ) {
+            lastReached = true;
+        }
+    });
+
+    assert.notOk(
+        missingOld,
+        'All days prior to the first have class "old"'
+    );
+
+    assert.notOk(
+        missingNew,
+        'All days after the 31st have class "new"'
+    );
+
+    // test the years
+
+    this.$( '>:first-child' ).find( '.datepicker-switch' ).trigger( 'click' ); // open month picker
+    this.$( '>:first-child' ).find( '.datepicker-switch' ).trigger( 'click' ); // open year picker
+    const yearSpan = this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim().split( '-' );
+
+    const years = this.$( '>:first-child' ).find( '.datepicker-years > table > tbody > tr > td > *' );
+
+    missingOld = false;
+    missingNew = false;
+
+    years.each( function() {
+        const testYear = parseInt( $( this ).text() );
+
+        if ( testYear > parseInt( yearSpan[1] ) ) {
+            if ( !$( this ).hasClass( 'new' ) ) {
+                missingNew = true;
+            }
+        }
+
+        if ( testYear < parseInt( yearSpan[0] ) ) {
+            if ( !$( this ).hasClass( 'old' ) ) {
+                missingOld = true;
+            }
+        }
+    });
+
+    assert.notOk(
+        missingOld,
+        'Years prior to range have class "old"'
+    );
+
+    assert.notOk(
+        missingNew,
+        'Years after selected ranged have class "new"'
+    );
+});
+
 test( 'Setting currentYear and currentMonth modifies the view correctly', function( assert ) {
 
     const currentYear = 2025;
@@ -787,6 +906,25 @@ test( 'Navigating Backward by Month Crosses to Previous Year', function( assert 
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
         'December ' + ( currentYear - 1 ),
         'The previous month is in the previous year'
+    );
+});
+
+test( 'All Days are Displayed in Order', function( assert ) {
+    this.set( 'currentYear', 2015 );
+    this.set( 'currentMonth', 1 );
+
+    this.render( hbs`
+        {{sl-calendar
+            viewMode="days"
+            currentYear=currentYear
+            currentMonth=currentMonth
+        }}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.day' ).text().trim(),
+        '28293031123456789101112131415161718192021222324252627282930311234567',
+        'All days listed in order for specified month as expected'
     );
 });
 
