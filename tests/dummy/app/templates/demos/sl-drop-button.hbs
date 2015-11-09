@@ -56,12 +56,20 @@
         Text label for button text.
     {{/property-text}}
 
+    {{#property-text name="popover" type="String"}}
+        Popover content text.
+    {{/property-text}}
+
     {{#property-text name="size" type="String" default="\"medium\""}}
         Suffix string for the Bootstrap button size; "extra-small", "small", "medium" (default), or "large".
     {{/property-text}}
 
     {{#property-text name="theme" type="String" default="\"default\""}}
         The theme style string to use for the button; "default" or "hover".
+    {{/property-text}}
+
+    {{#property-text name="title" type="String"}}
+        Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 </div>
 
