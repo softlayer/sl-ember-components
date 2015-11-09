@@ -77,10 +77,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         function() {
             const name = this.get( 'name' );
 
-            Ember.assert(
-                'The name property must be set on the sl-radio-group component',
-                name
-            );
+            if ( !name ) {
+                throw new Ember.Error( 'The name property must be set on the sl-radio-group component' );
+            }
 
             const value = this.get( 'value' );
             const isDisabled = this.get( 'disabled' );
