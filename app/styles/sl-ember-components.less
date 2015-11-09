@@ -1,6 +1,100 @@
+
+// -------------------------------------------------------------------------
+// Font Awesome
+
 @import 'bower_components/fontawesome/less/font-awesome';
-@import 'bower_components/sl-bootstrap/less/bootstrap';
+
+
+// -------------------------------------------------------------------------
+// Twitter Bootstrap (with overrides)
+
+
+// Core variables and mixins
+
+// "optional" used so that default fonts are not included if user specifies fonts to use
+@import (optional) 'overrides/font-@{default-sans-serif-font}';
+@import 'bower_components/bootstrap/less/variables';
+@import 'overrides/variables';
+@import 'bower_components/bootstrap/less/mixins';
+@import 'overrides/mixins';
+
+
+// Reset and dependencies
+
+@import 'bower_components/bootstrap/less/normalize';
+@import 'bower_components/bootstrap/less/print';
+@import 'bower_components/bootstrap/less/glyphicons';
+
+
+// Core CSS
+
+@import 'bower_components/bootstrap/less/scaffolding';
+@import 'bower_components/bootstrap/less/type';
+@import 'overrides/type';
+@import 'bower_components/bootstrap/less/code';
+@import 'bower_components/bootstrap/less/grid';
+@import 'bower_components/bootstrap/less/tables';
+@import 'overrides/tables';
+@import 'bower_components/bootstrap/less/forms';
+@import 'overrides/forms';
+@import 'bower_components/bootstrap/less/buttons';
+@import 'overrides/buttons';
+
+
+// Components
+@import 'bower_components/bootstrap/less/component-animations';
+@import 'bower_components/bootstrap/less/dropdowns';
+@import 'overrides/dropdowns';
+@import 'bower_components/bootstrap/less/button-groups';
+@import 'bower_components/bootstrap/less/input-groups';
+@import 'bower_components/bootstrap/less/navs';
+@import 'overrides/navs';
+@import 'bower_components/bootstrap/less/navbar';
+@import 'bower_components/bootstrap/less/breadcrumbs';
+@import 'bower_components/bootstrap/less/pagination';
+@import 'overrides/pagination';
+@import 'bower_components/bootstrap/less/pager';
+@import 'bower_components/bootstrap/less/labels';
+@import 'bower_components/bootstrap/less/badges';
+@import 'bower_components/bootstrap/less/jumbotron';
+@import 'bower_components/bootstrap/less/thumbnails';
+@import 'bower_components/bootstrap/less/alerts';
+@import 'overrides/alerts';
+@import 'bower_components/bootstrap/less/progress-bars';
+@import 'overrides/progress-bars';
+@import 'bower_components/bootstrap/less/media';
+@import 'bower_components/bootstrap/less/list-group';
+@import 'bower_components/bootstrap/less/panels';
+@import 'overrides/panels';
+@import 'bower_components/bootstrap/less/responsive-embed';
+@import 'bower_components/bootstrap/less/wells';
+@import 'bower_components/bootstrap/less/close';
+@import 'overrides/close';
+
+
+// Components w/ JavaScript
+@import 'bower_components/bootstrap/less/modals';
+@import 'overrides/modals';
+@import 'bower_components/bootstrap/less/tooltip';
+@import 'overrides/tooltip';
+@import 'bower_components/bootstrap/less/popovers';
+@import 'overrides/popovers';
+@import 'bower_components/bootstrap/less/carousel';
+
+
+// Utility classes
+@import 'bower_components/bootstrap/less/utilities';
+@import 'bower_components/bootstrap/less/responsive-utilities';
+
+
+// -------------------------------------------------------------------------
+// Bootstrap Date Picker
+
 @import 'bower_components/bootstrap-datepicker/less/datepicker3';
+
+
+// -------------------------------------------------------------------------
+// sl-ember-components
 
 @import 'sl-calendar';
 @import 'sl-date-picker';
@@ -17,4 +111,3 @@
 @import 'sl-radio';
 @import 'sl-select';
 @import 'sl-tab-panel';
-@import 'overrides/variables.less';

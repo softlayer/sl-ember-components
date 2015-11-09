@@ -1,0 +1,42 @@
+// Tabs
+
+.nav-tabs {
+  border: 0;
+  > li {
+    margin-bottom: 0;
+
+    > a {
+      background-color: darken(@gray-lighter, 5%);
+      border: 0;
+      color: @gray;
+      margin-right: 4px;
+      padding: @padding-base-vertical @padding-base-horizontal;
+      &:hover,
+      &:focus {
+        background-color: darken(@gray-lighter, 5%);
+        color: @brand-primary;
+      }
+    }
+
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: @gray-lighter;
+        border: 0;
+        color: @text-color;
+        cursor: default;
+      }
+    }
+  }
+}
+
+.tab-content {
+  background-color: @gray-lighter;
+  border: 0;
+  border-bottom: 1px solid fade(@gray-light, 50%);
+  border-radius: 0 @panel-border-radius @panel-border-radius @panel-border-radius;
+  .box-shadow(none);
+  margin-bottom: @panel-margin-bottom;
+  padding: @padding-base-horizontal;
+}

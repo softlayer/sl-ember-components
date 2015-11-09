@@ -1,6 +1,298 @@
-// Override the fontawesome font path
-@fa-font-path: '../sl-ember-components/assets/fonts';
+// Close
 
-// Override the sl-bootstrap font/glyph paths
-@bs-font-path: "../sl-ember-components/assets/fonts";
-@icon-font-path: "../sl-ember-components/assets/fonts/";
+@close-font-weight: normal;
+@close-color:       @gray;
+@close-text-shadow: none;
+
+
+// Colors
+
+@gray-darkest:  #272a2d;
+@gray-darker:   #3b3e42;
+@gray-dark:     #616469;
+@gray:          #9ca0a6;
+@gray-light:    #d6d9dd;
+@gray-lighter:  #e0e3e7;
+@gray-lightest: #eff1f3;
+@gray-white:    #f9fafb;
+
+@brand-inert:   @gray-dark;
+@brand-primary: #298fce;
+@brand-success: #00a14b;
+@brand-info:    #fadb00;
+@brand-warning: #f29c1e;
+@brand-danger:  #94302e;
+
+
+// Buttons
+
+@btn-font-weight:         normal;
+
+@btn-default-color:       @brand-primary;
+@btn-default-bg:          @gray-white;
+@btn-default-border:      @gray-light;
+
+@btn-primary-color:       #fff;
+@btn-primary-bg:          @brand-primary;
+@btn-primary-border:      darken(@btn-primary-bg, 8%);
+
+@btn-success-color:       #fff;
+@btn-success-bg:          @brand-success;
+@btn-success-border:      darken(@btn-success-bg, 8%);
+
+@btn-info-color:          #fff;
+@btn-info-bg:             @brand-info;
+@btn-info-border:         darken(@btn-info-bg, 8%);
+
+@btn-warning-color:       #fff;
+@btn-warning-bg:          @brand-warning;
+@btn-warning-border:      darken(@btn-warning-bg, 8%);
+
+@btn-danger-color:        #fff;
+@btn-danger-bg:           @brand-danger;
+@btn-danger-border:       darken(@btn-danger-bg, 8%);
+
+@btn-link-disabled-color: @gray-light;
+
+
+// Forms
+
+@input-border:       @gray-light;
+@input-border-focus: @brand-primary;
+@input-color:        @gray-dark;
+
+
+// Grid system
+
+@grid-columns:      12;
+@grid-gutter-width: @padding-base-horizontal * 2;
+
+
+// Alerts
+
+@alert-padding:        @padding-base-horizontal;
+
+@state-success-text:   #3c763d;
+@state-success-bg:     #dff0d8;
+@state-success-border: darken(spin(@state-success-bg, -10), 5%);
+
+@state-info-text:      #31708f;
+@state-info-bg:        #d9edf7;
+@state-info-border:    darken(spin(@state-info-bg, -10), 7%);
+
+@state-warning-text:   #8a6d3b;
+@state-warning-bg:     #fcf8e3;
+@state-warning-border: darken(spin(@state-warning-bg, -10), 5%);
+
+@state-danger-text:    #a94442;
+@state-danger-bg:      #f2dede;
+@state-danger-border:  darken(spin(@state-danger-bg, -10), 5%);
+
+
+// Typography
+
+@default-sans-serif-font: Lato;
+@font-family-sans-serif: @default-sans-serif-font, "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-serif:      Georgia, "Times New Roman", Times, serif;
+@font-family-monospace:  Menlo, Monaco, Consolas, "Courier New", monospace;
+@font-family-base:       @font-family-sans-serif;
+
+@font-size-base:  14px;
+@font-size-large: 18px;
+@font-size-small: 12px;
+
+@font-size-h1: 28px;
+@font-size-h2: 20px;
+@font-size-h3: 18px;
+@font-size-h4: 16px;
+@font-size-h5: 14px;
+@font-size-h6: 12px;
+
+// Unit-less `line-height` for use in components like buttons.
+@line-height-base: 1.428571429; // 20/14
+
+// Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed: floor((@font-size-base * @line-height-base)); // ~20px
+
+// By default, this inherits from the `<body>`.
+@headings-font-family: inherit;
+@headings-font-weight: 500;
+@headings-line-height: 1.1;
+@headings-color:       inherit;
+
+
+// Components
+
+@border-radius-base:  2px;
+@border-radius-large: 4px;
+@border-radius-small: 1px;
+
+
+// Dropdowns
+
+// Background for the dropdown menu.
+@dropdown-bg: @gray-dark;
+
+// Dropdown menu `border-color`.
+@dropdown-border: @dropdown-bg;
+
+// Dropdown menu `border-color` **for IE8**.
+@dropdown-fallback-border: @dropdown-bg;
+
+// Divider color for between dropdown items.
+@dropdown-divider-bg: darken(@dropdown-bg, 8%);
+
+// Dropdown link text color.
+@dropdown-link-color: #fff;
+
+// Hover color for dropdown links.
+@dropdown-link-hover-color: #fff;
+
+// Hover background for dropdown links.
+@dropdown-link-hover-bg: darken(@dropdown-bg, 8%);
+
+// Active dropdown menu item text color.
+@dropdown-link-active-color: @component-active-color;
+
+// Active dropdown menu item background color.
+@dropdown-link-active-bg: @component-active-bg;
+
+// Disabled dropdown menu item background color.
+@dropdown-link-disabled-color: @gray-dark;
+
+// Text color for headers within dropdown menus.
+@dropdown-header-color: @gray;
+
+// Deprecated `@dropdown-caret-color` as of v3.1.0
+@dropdown-caret-color: #fff;
+
+
+// Modals
+
+@modal-inner-padding: @padding-base-horizontal;
+
+@modal-title-padding: @padding-base-horizontal;
+@modal-title-padding-vertical: @padding-base-vertical;
+
+@modal-title-line-height: @line-height-base;
+
+// Background color of modal content area
+@modal-content-bg: #fff;
+
+// Modal content border color
+@modal-content-border-color: @gray-dark;
+
+// Modal content border color **for IE8**
+@modal-content-fallback-border-color: @gray;
+
+// Modal backdrop background color
+@modal-backdrop-bg: #000;
+
+// Modal backdrop opacity
+@modal-backdrop-opacity: .5;
+
+// Modal header border color
+@modal-header-border-color: @gray-light;
+
+// Modal footer border color
+@modal-footer-border-color:  @modal-header-border-color;
+
+@modal-lg: 900px;
+@modal-md: 600px;
+@modal-sm: 300px;
+
+
+// Pagination
+
+@pagination-color:           @btn-default-color;
+@pagination-bg:              @btn-default-bg;
+@pagination-border:          @btn-default-border;
+
+@pagination-hover-color:     @btn-default-color;
+@pagination-hover-bg:        darken(@btn-default-bg, 4%);
+@pagination-hover-border:    @btn-default-border;
+
+@pagination-active-color:    @btn-default-color;
+@pagination-active-bg:       darken(@btn-default-bg, 4%);
+@pagination-active-border:   darken(@pagination-border, 8%);
+
+@pagination-disabled-color:  @gray;
+@pagination-disabled-bg:     @btn-default-bg;
+@pagination-disabled-border: @btn-default-border;
+
+
+// Panels
+
+@panel-bg:                 #fff;
+@panel-body-padding:       @padding-base-horizontal;
+@panel-heading-padding:    @padding-base-vertical @padding-base-horizontal;
+@panel-footer-padding:     @padding-base-vertical @padding-base-horizontal;
+@panel-border-radius:      @border-radius-base;
+
+@panel-inner-border:       @gray-light;
+@panel-footer-bg:          @gray-lighter;
+
+@panel-default-text:       @text-color;
+@panel-default-border:     @gray-light;
+@panel-default-heading-bg: @gray-lighter;
+
+@panel-margin-bottom:      @grid-gutter-width * 3/4;
+
+
+// Popovers
+
+@popover-bg:                         white;
+@popover-max-width:                  276px;
+@popover-border-color:               @gray-lighter;
+@popover-fallback-border-color:      @gray-lighter;
+@popover-title-bg:                   white;
+@popover-arrow-width:                12px;
+@popover-arrow-color:                white;
+
+@popover-arrow-outer-width:          (@popover-arrow-width + 1);
+@popover-arrow-outer-color:          @gray-lighter;
+@popover-arrow-outer-fallback-color: @gray-lighter;
+
+
+// Progress bars
+
+@progress-bg: @gray-lightest;
+
+
+// Scaffolding
+
+@text-color:       @gray-dark;
+
+@link-color:       @brand-primary;
+@link-hover-color: darken(@link-color, 15%);
+
+
+// Tables
+
+@table-cell-padding:           @padding-base-vertical @padding-base-horizontal;
+@table-condensed-cell-padding: @padding-base-vertical/2 @padding-base-horizontal;
+
+@table-bg:                     transparent;
+@table-bg-accent:              @gray-white;
+@table-bg-hover:               @gray-lightest;
+@table-bg-active:              @table-bg-hover;
+
+@table-border-color:           @gray-lightest;
+
+
+// Tooltips
+
+@tooltip-color:       @gray-white;
+@tooltip-bg:          fade(@gray-darkest, 80%);
+@tooltip-opacity:     1;
+
+@tooltip-arrow-width: 6px;
+@tooltip-arrow-color: @tooltip-bg;
+
+
+// Fonts
+
+@base_font_path: '../sl-ember-components/assets/fonts';
+@fa-font-path:   @base_font_path;   // Font Awesome path used in bower_components/fontawesome/less files
+@bs-font-path:   @base_font_path;   // Bootstrap font path
+@icon-font-path: "@{base_font_path}/";   // Bootstrap Glyphicon path
