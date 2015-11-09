@@ -392,13 +392,13 @@ test( 'dropButtonSelect action sends an action to the targetObject', function( a
 test( 'Observer keys are correct', function( assert ) {
     const component = this.subject();
 
-    const handleNewContent = [
+    const handleNewContentKeys = [
         'content.[]'
     ];
 
     assert.deepEqual(
         component.handleNewContent.__ember_observes__,
-        handleNewContent,
+        handleNewContentKeys,
         'Observer keys are correct for handleNewContent()'
     );
 });
