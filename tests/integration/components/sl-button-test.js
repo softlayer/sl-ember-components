@@ -20,8 +20,8 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-button' ),
-        'Has class "sl-button"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
+        'Has class "alert"'
     );
 
     assert.ok(

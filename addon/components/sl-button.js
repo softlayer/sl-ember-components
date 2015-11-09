@@ -65,7 +65,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     /** @type {String[]} */
     classNames: [
         'btn',
-        'sl-button'
+        'sl-ember-components'
     ],
 
     /** @type {Object} */
