@@ -1,0 +1,17 @@
+.pagination {
+  > li {
+    > a,
+    > span {
+      background-color: @pagination-bg;
+      border-color: @pagination-border;
+      .box-shadow(inset 0 -1px 1px rgba(39,42,45,.05));
+      color: @pagination-color;
+      text-decoration: none;
+
+      &:active,
+      &.active {
+        .box-shadow(inset 0 2px 16px rgba(39,42,45,.25));
+      }
+    }
+  }
+}
