@@ -22,8 +22,9 @@ test( 'Default rendered state', function( assert ) {
         'Has class "radio"'
     );
 
-    assert.ok(
-        this.$( '>:first-child' ).find( 'input[type="radio"]' ),
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input[type="radio"]' ).length,
+        1,
         'input type is set to "radio"'
     );
 });
