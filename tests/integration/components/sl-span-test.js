@@ -22,7 +22,7 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-loading-icon' ).length,
+        this.$( '>:first-child' ).find( '.loading-icon' ).length,
         0,
         'Loading icon is not present initially'
     );
@@ -32,7 +32,7 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-loading-icon' ).length,
+        this.$( '>:first-child' ).find( '.loading-icon' ).length,
         1,
         'Loading icon is present while span is loading'
     );
@@ -44,7 +44,7 @@ test( 'Inverse property applies to loading-icon', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-loading-icon-dark' ).length,
+        this.$( '>:first-child' ).find( '.loading-icon-dark' ).length,
         1,
         'Loading icon is dark initially'
     );
@@ -54,7 +54,7 @@ test( 'Inverse property applies to loading-icon', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-loading-icon-light' ).length,
+        this.$( '>:first-child' ).find( '.loading-icon-light' ).length,
         1,
         'Loading icon is light when inverse'
     );

@@ -1,0 +1,60 @@
+@-moz-keyframes sl-spin {
+    0% {
+        -moz-transform: translate3d(0, 0, 0) rotate(-0.001deg);
+    }
+    100% {
+        -moz-transform: translate3d(0, 0, 0) rotate(358.999deg) ;
+    }
+}
+
+@-webkit-keyframes sl-spin {
+    0% {
+        padding-top: 2px;
+        -webkit-transform: rotate3d(0, 0, 1, 0.001deg);
+    }
+    100% {
+        padding-top: 2px;
+        -webkit-transform: rotate3d(0, 0, 1, 360.001deg);
+    }
+}
+
+@-o-keyframes sl-spin {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(359deg);
+    }
+}
+
+@keyframes sl-spin {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(-0.001deg);
+    }
+    100% {
+        transform: translate3d(0, 0, 0) rotate(360.001deg);
+    }
+}
+
+.sl-ember-components.loading-icon {
+    -webkit-animation: sl-spin 1s infinite linear;
+    -moz-animation: sl-spin 1s infinite linear;
+    -o-animation: sl-spin 1s infinite linear;
+    animation: sl-spin 1s infinite linear;
+    background-image: url(/sl-ember-components/assets/images/spinner-dark.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1em 1em;
+    display: inline-block;
+    height: 1em;
+    vertical-align: -0.175em;
+    width: 1em;
+}
+
+.loading-icon-dark {
+    background-image: url(/sl-ember-components/assets/images/spinner-dark.png);
+}
+
+.loading-icon-light {
+    background-image: url(/sl-ember-components/assets/images/spinner-light.png);
+}

@@ -14,12 +14,13 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'inverse:sl-loading-icon-light:sl-loading-icon-dark'
+        'inverse:loading-icon-light:loading-icon-dark'
     ],
 
     /** @type {String[]} */
     classNames: [
-        'sl-loading-icon'
+        'loading-icon',
+        'sl-ember-components'
     ],
 
     /** @type {String} */

@@ -11,12 +11,17 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-loading-icon' ),
+        this.$( '>:first-child' ).hasClass( 'loading-icon' ),
         'Has class "sl-loading-icon"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-dark' ),
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
+        'Has class "sl-loading-icon"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'loading-icon-dark' ),
         'Has class "sl-loading-icon-dark"'
     );
 });
@@ -27,13 +32,13 @@ test( 'Inverse property renders light icon scheme', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-dark' ),
-        'Inverse renders default scheme "sl-loading-icon-dark" icon'
+        this.$( '>:first-child' ).hasClass( 'loading-icon-dark' ),
+        'Inverse renders default scheme "loading-icon-dark" icon'
     );
 
     assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-light' ),
-        'Inverse true renders scheme "sl-loading-icon-light" icon'
+        this.$( '>:first-child' ).hasClass( 'loading-icon-light' ),
+        'Inverse true renders scheme "loading-icon-light" icon'
     );
 
     this.render( hbs`
@@ -41,12 +46,12 @@ test( 'Inverse property renders light icon scheme', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-light' ),
-        'Inverse true renders scheme "sl-loading-icon-light" icon'
+        this.$( '>:first-child' ).hasClass( 'loading-icon-light' ),
+        'Inverse true renders scheme "loading-icon-light" icon'
     );
 
     assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'sl-loading-icon-dark' ),
-        'Inverse renders default scheme "sl-loading-icon-dark" icon'
+        this.$( '>:first-child' ).hasClass( 'loading-icon-dark' ),
+        'Inverse renders default scheme "loading-icon-dark" icon'
     );
 });
