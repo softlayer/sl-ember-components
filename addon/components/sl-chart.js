@@ -23,7 +23,8 @@ export default Ember.Component.extend({
         'panel',
         'panel-default',
         'sl-chart',
-        'sl-panel'
+        'sl-panel',
+        'sl-ember-components'
     ],
 
     /** @type {Object} */
