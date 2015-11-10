@@ -51,24 +51,5 @@ module.exports = {
             development: 'bower_components/typeahead.js/dist/typeahead.bundle.js',
             production: 'bower_components/typeahead.js/dist/typeahead.bundle.min.js'
         });
-    },
-
-    postprocessTree: function( type, tree ) {
-        var fontPath = this.name + '/assets/fonts';
-
-        return mergeTrees(
-            [
-                tree,
-
-                pickFiles( 'bower_components/fontawesome/fonts', {
-                    srcDir: '/',
-                    files: [ 'fontawesome-webfont.*' ],
-                    destDir: fontPath
-                })
-            ],
-            {
-                overwrite: true
-            }
-        );
     }
 };
