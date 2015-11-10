@@ -1,12 +1,135 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { ColumnAlign as ColumnAlignEnum } from 'sl-ember-components/components/sl-grid-cell';
+import { ColumnSize as ColumnSizeEnum } from 'sl-ember-components/components/sl-grid-cell';
+import * as utils from 'sl-ember-components/utils/all';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-grid-cell', 'Unit | Component | sl grid cell', {
     unit: true
 });
 
+const ColumnAlign = Object.freeze({
+    LEFT: 'left',
+    RIGHT: 'right'
+});
+
+const ColumnSize = Object.freeze({
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
+});
+
 const defaultColumn = { valuePath: 'value' };
 const defaultRow = { value: 'Test' };
+
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'td',
+        'tagName is td'
+    );
+
+    assert.strictEqual(
+        component.get( 'column' ),
+        null,
+        'column is null'
+    );
+
+    assert.strictEqual(
+        component.get( 'row' ),
+        null,
+        'row is null'
+    );
+});
+
+test( 'alignmentClass() returns correct alignment value', function( assert ) {
+    const column = Ember.Object.extend().create();
+    const component = this.subject({
+        column: column
+    });
+
+    assert.strictEqual(
+        component.get( 'alignmentClass' ),
+        null,
+        'alignment value is null when "align" property is not set on row'
+    );
+
+    column.set( 'align', ColumnAlignEnum.RIGHT );
+
+    assert.strictEqual(
+        component.get( 'alignmentClass' ),
+        'text-right',
+        'text-right is returned when alignment is set to right'
+    );
+
+    column.set( 'align', ColumnAlignEnum.LEFT );
+
+    assert.strictEqual(
+        component.get( 'alignmentClass' ),
+        null,
+        'null is returned when alignment is set to left'
+    );
+
+    const spy = sinon.spy( utils, 'warn' );
+    column.set( 'align', 'invalidValue' );
+
+    assert.strictEqual(
+        component.get( 'alignmentClass' ),
+        null,
+        'null was returned when invalid alignment value provided'
+    );
+
+    assert.ok(
+        spy.called,
+        'warn was called when invalid value provided'
+    );
+
+    utils.warn.restore();
+});
+
+test( 'sizeClass() returns correct size value', function( assert ) {
+    const column = Ember.Object.extend().create();
+    const component = this.subject({
+        column: column
+    });
+
+    assert.strictEqual(
+        component.get( 'sizeClass' ),
+        null,
+        'size value is null when "size" property is not set on column'
+    );
+
+    for( const size in ColumnSizeEnum ) {
+        const sizeValue = ColumnSizeEnum[ size ];
+        column.set( 'size', sizeValue );
+
+        assert.strictEqual(
+            component.get( 'sizeClass' ),
+            `column-${sizeValue}`,
+            `Setting a size of ${sizeValue} returns column-${sizeValue}`
+        );
+    }
+
+    const spy = sinon.spy( utils, 'warn' );
+    column.set( 'size', 'invalidValue' );
+
+    assert.strictEqual(
+        component.get( 'sizeClass' ),
+        'column-invalidValue',
+        'size value is "column-invalidValue" when "size" property is set to an invalid value'
+    );
+
+    assert.ok(
+        spy.called,
+        'warn was called when invalid value provided'
+    );
+
+    utils.warn.restore();
+});
+
 
 test( 'Column alignment class is applied', function( assert ) {
     const column = Object.create( defaultColumn );
@@ -26,6 +149,20 @@ test( 'Column alignment class is applied', function( assert ) {
     assert.ok(
         this.$().hasClass( 'text-right' ),
         'Component has expected class "text-right" with right-aligned column'
+    );
+});
+
+test( 'ColumnSize and ColumnAlign values are correct', function( assert ) {
+    assert.deepEqual(
+        ColumnSizeEnum,
+        ColumnSize,
+        'Column size enum has correct values'
+    );
+
+    assert.deepEqual(
+        ColumnAlignEnum,
+        ColumnAlign,
+        'Column align enum has correct values'
     );
 });
 

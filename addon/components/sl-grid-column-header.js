@@ -25,6 +25,11 @@ export default SlGridCell.extend({
         'sortedClass'
     ],
 
+    /** @type {String[]} */
+    classNames: [
+        'sl-grid-column-header'
+    ],
+
     /** @type {Object} */
     layout,
 
