@@ -1,0 +1,30 @@
+.sl-tab-panel {
+    .nav-tabs {
+        > .tab {
+            &.active > a {
+                &:hover,
+                &:focus {
+                    cursor: default;
+                }
+            }
+
+            > a {
+                &:hover,
+                &:focus {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    &.sl-align-tabs-right {
+        .tab {
+            float: right;
+
+            a {
+                margin-left: 4px;
+                margin-right: 0;
+            }
+        }
+    }
+}
