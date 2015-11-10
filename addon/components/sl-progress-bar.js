@@ -38,7 +38,7 @@ export default Ember.Component.extend( TooltipEnabled, {
     /** @type {String[]} */
     classNames: [
         'progress',
-        'sl-progress-bar'
+        'sl-ember-components'
     ],
 
     /** @type {Object} */
