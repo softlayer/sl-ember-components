@@ -13,11 +13,13 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /** @type {Object} */
-    layout: layout,
+    /** @type {String[]} */
+    classNames: [
+        'modal-header'
+    ],
 
-    /** @type {String} */
-    tagName: 'div',
+    /** @type {Object} */
+    layout: layout
 
     // -------------------------------------------------------------------------
     // Actions
@@ -33,25 +35,4 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * ariaLabelledBy computed property, the value
-     * of this property will be set as
-     * the value to the aria-labelledby attribute
-     *
-     * @function
-     * @returns {String}
-     */
-    ariaLabelledBy: Ember.computed(
-        'elementId',
-        function() {
-            const elementId = this.get( 'elementId' );
-
-            if ( elementId ) {
-                return 'modalTitle' + elementId;
-            }
-
-            return null;
-        }
-    )
 });

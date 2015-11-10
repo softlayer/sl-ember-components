@@ -29,9 +29,6 @@ export default Ember.Component.extend( StreamEnabled, {
     /** @type {Object} */
     layout,
 
-    /** @type {String} */
-    tagName: 'div',
-
     // -------------------------------------------------------------------------
     // Actions
 
@@ -140,7 +137,7 @@ export default Ember.Component.extend( StreamEnabled, {
     initialize: Ember.on(
         'init',
         function() {
-            this.set( 'selections', new Ember.A() );
+            this.set( 'selections', Ember.A() );
         }
     ),
 
@@ -240,7 +237,7 @@ export default Ember.Component.extend( StreamEnabled, {
             Ember.set( selection.item, 'selected', false );
         });
 
-        this.set( 'selections', new Ember.A() );
+        this.set( 'selections', Ember.A() );
     },
 
     /**

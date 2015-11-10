@@ -2,10 +2,9 @@
     class="dropdown-toggle"
     dataToggle="dropdown"
     size=size
-    type="button"
 }}
-    {{#if view.label}}
-        {{view.label}}
+    {{#if label}}
+        {{label}}
         <span class={{iconClass}}></span>
     {{else}}
         {{#if content}}
@@ -14,7 +13,7 @@
     {{/if}}
 {{/sl-button}}
 
-<ul class="dropdown-menu {{if rightAligned 'dropdown-menu-right'}}" role="menu">
+<ul class="dropdown-menu {{if rightAligned "dropdown-menu-right"}}" role="menu">
     {{#if content}}
         {{#each content as |option|}}
             {{sl-drop-option

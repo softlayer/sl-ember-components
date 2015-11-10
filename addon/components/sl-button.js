@@ -10,13 +10,12 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const Size = Object.freeze({
+export const Size = Object.freeze({
     EXTRA_SMALL: 'extra-small',
     LARGE: 'large',
     MEDIUM: 'medium',
     SMALL: 'small'
 });
-export { Size };
 
 /**
  * Valid Bootstrap theme values for buttons
@@ -24,7 +23,7 @@ export { Size };
  * @memberof module:components/sl-button
  * @enum {String}
  */
-const Theme = Object.freeze({
+export const Theme = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     HOVER: 'hover',
@@ -34,7 +33,6 @@ const Theme = Object.freeze({
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { Theme };
 
 /**
  * @module
@@ -53,9 +51,8 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     /** @type {String[]} */
     attributeBindings: [
         'data-target',
-        'data-toggle',
-        'disabled',
-        'type'
+        'dataToggle:data-toggle',
+        'disabled'
     ],
 
     /** @type {String[]} */
@@ -85,7 +82,6 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
 
     /**
      * @function
-     * @throws {ember.assert} Thrown if the modal is not found in modal service
      * @returns {Boolean} - The `bubbles` property value
      */
     click() {
@@ -111,18 +107,11 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     bubbles: true,
 
     /**
-     * Whether or not the button should be disabled during AJAX activity
+     * Whether or not the button is disabled
      *
      * @type {Boolean}
      */
-    disableOnAjax: false,
-
-    /**
-     * Whether or not the button should be hidden during AJAX activity
-     *
-     * @type {Boolean}
-     */
-    hideOnAjax: false,
+    disabled: false,
 
     /**
      * Text to apply to the button label
@@ -206,8 +195,6 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * Converted size string to Bootstrap button class
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `size` value is not one
-     *         defined in the enum Size
      * @returns {?String}
      */
     sizeClass: Ember.computed(
@@ -242,8 +229,6 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
      * Converted theme string to Bootstrap button class
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `theme` value is one not
-     *         defined in the enum Theme
      * @returns {String} Defaults to "btn-default"
      */
     themeClass: Ember.computed(

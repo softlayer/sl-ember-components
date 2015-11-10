@@ -18,7 +18,7 @@ const mockStream = {
     }
 };
 
-const testItems = new Ember.A([
+const testItems = Ember.A([
     {
         action: 'firstTest',
         data: 'first',
@@ -588,12 +588,12 @@ test( 'Stream action "hideAll" triggers hideAll()', function( assert ) {
         items: testItems,
         stream: mockStream
     });
-    const doActionSpy = sinon.spy( component, 'doAction' );
+    const hideAllSpy = sinon.spy( component, 'hideAll' );
 
-    mockStream.actions[ 'doAction' ]();
+    mockStream.actions[ 'hideAll' ]();
     assert.ok(
-        doActionSpy.called,
-        'doAction method was called'
+        hideAllSpy.called,
+        'hideAll method was called'
     );
 });
 

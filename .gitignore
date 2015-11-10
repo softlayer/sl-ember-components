@@ -4,6 +4,7 @@
 /dist
 /tmp
 /docs
+coverage.json
 
 # dependencies
 /node_modules

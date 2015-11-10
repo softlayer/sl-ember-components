@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import sinon from 'sinon';
+import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 
 moduleForComponent(
     'sl-date-range-picker',
@@ -15,12 +16,44 @@ moduleForComponent(
     }
 );
 
-test( 'Default classNames are present', function( assert ) {
-    this.subject();
-
+test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        this.$().hasClass( 'sl-date-range-picker' ),
-        'Default rendered component has class "sl-date-range-picker"'
+        ComponentInputId.detect( this.subject() ),
+        'sl-component-input-id mixin is present'
+    );
+});
+
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'endDateValue' ),
+        null,
+        'endDateValue: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'format' ),
+        'mm/dd/yyyy',
+        'format: "mm/dd/yyyy"'
+    );
+
+    assert.strictEqual(
+        component.get( 'maxDate' ),
+        null,
+        'maxDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'minDate' ),
+        null,
+        'minDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'startDateValue' ),
+        null,
+        'startDateValue: null'
     );
 });
 
@@ -31,7 +64,7 @@ test( 'Change focus to end date input upon start date change', function( assert 
     const daterangeEndDate = component.get( 'endDateInput' );
     const spy = sinon.spy( daterangeEndDate, 'trigger' );
 
-    component.get( 'startDateInput' ).trigger( 'change' );
+    component.get( 'startDateInput' ).trigger( 'changeDate' );
 
     assert.ok(
         spy.calledWithExactly( 'focus' ),
@@ -97,30 +130,43 @@ test( 'Latest start date is the based on max date and end date', function( asser
 });
 
 test( 'Events from start date input are removed upon willClearRender', function( assert ) {
+    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+    const spyOff = sinon.spy( Ember.$.fn, 'off' );
+
     const component = this.subject();
 
     this.render();
 
-    const startDateInput = this.$( '.sl-daterange-start-date input' )[ 0 ];
-    const jQueryData = Ember.get( Ember.$, '_data' );
+    spyOn.reset();
 
-    assert.equal(
-        Ember.typeOf(
-            Ember.get( jQueryData( startDateInput, 'events' ), 'change' )
-        ),
-        'array',
-        'Start date input has change event listener after render'
+    component.trigger( 'didInsertElement' );
+
+    assert.ok(
+        spyOn.calledWith( 'changeDate' ),
+        'changeDate bootstrap date picker event bound'
     );
 
-    Ember.run( () => {
-        component.trigger( 'willClearRender' );
-    });
-
-    assert.strictEqual(
-        jQueryData( startDateInput, 'events' ),
-        undefined,
-        'Start date input has no event listeners after willClearRender'
+    assert.ok(
+        spyOn.alwaysCalledOn( component.get( 'startDateInput' ) ),
+        'changeDate bind was called on startDateInput'
     );
+
+    spyOff.reset();
+
+    component.trigger( 'willClearRender' );
+
+    assert.ok(
+        spyOff.calledWith( 'changeDate' ),
+        'changeDate bootstrap date picker event unbound'
+    );
+
+    assert.ok(
+        spyOff.alwaysCalledOn( component.get( 'startDateInput' ) ),
+        'changeDate unbind was called on startDateInput'
+    );
+
+    Ember.$.fn.on.restore();
+    Ember.$.fn.off.restore();
 });
 
 test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by default', function( assert ) {
@@ -133,33 +179,15 @@ test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by defa
     );
 
     assert.strictEqual(
-        this.$( 'label' )[ 0 ],
-        undefined,
-        'No label is created when label is undefined'
-    );
-
-    assert.strictEqual(
         component.get( 'startDatePlaceholder' ),
         undefined,
         'startDatePlaceholder is undefined by default'
     );
 
     assert.strictEqual(
-        this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
-        '',
-        'Start date input placeholder is empty when startDatePlaceholder is undefined'
-    );
-
-    assert.strictEqual(
         component.get( 'endDatePlaceholder' ),
         undefined,
         'endDatePlaceholder is undefined by default'
-    );
-
-    assert.strictEqual(
-        this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
-        '',
-        'End date input placeholder is empty when endDatePlaceholder is undefined'
     );
 });
 
@@ -175,7 +203,7 @@ test( 'label is accepted as a parameter', function( assert ) {
 
     assert.equal(
         this.$( 'label' ).prop( 'for' ),
-        component.get( 'inputElementId' ),
+        component.get( 'inputId' ),
         'label element has the correct for property'
     );
 
@@ -183,30 +211,6 @@ test( 'label is accepted as a parameter', function( assert ) {
         this.$( 'label' ).prop( 'for' ),
         this.$( '.sl-daterange-start-date input' ).prop( 'id' ),
         'label is used for start date input'
-    );
-});
-
-test( 'startDatePlaceholder is accepted as a parameter', function( assert ) {
-    const placeholderText = 'lorem ipsum';
-
-    this.subject({ startDatePlaceholder: placeholderText });
-
-    assert.equal(
-        this.$( '.sl-daterange-start-date input' ).prop( 'placeholder' ),
-        placeholderText,
-        'Start date input placeholder was passed through correctly'
-    );
-});
-
-test( 'endDatePlaceholder is accepted as a parameter', function( assert ) {
-    const placeholderText = 'lorem ipsum';
-
-    this.subject({ endDatePlaceholder: placeholderText });
-
-    assert.equal(
-        this.$( '.sl-daterange-end-date input' ).prop( 'placeholder' ),
-        placeholderText,
-        'End date input placeholder was passed through correctly'
     );
 });
 

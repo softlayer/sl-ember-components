@@ -31,52 +31,47 @@ moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
     unit: true
 });
 
-test( 'Default classNames are present', function( assert ) {
-    this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.ok(
-        this.$().hasClass( 'panel' ),
-        'Default rendered component has class "panel"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'panel-default' ),
-        'Default rendered component has class "panel-default"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-chart' ),
-        'Default rendered component has class "sl-chart"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-panel' ),
-        'Default rendered component has class "sl-panel"'
-    );
-});
-
-test( 'Loading state adds loading class', function( assert ) {
+test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
     });
 
     assert.strictEqual(
-        this.$().hasClass( 'sl-loading' ),
-        false,
-        'Default rendered component does not have "sl-loading" class'
+        component.get( 'chart' ),
+        null,
+        'chart: null'
     );
 
-    Ember.run( () => {
-        component.set( 'isLoading', true );
-    });
+    assert.strictEqual(
+        component.get( 'height' ),
+        'auto',
+        'height: "auto"'
+    );
 
-    assert.ok(
-        this.$().hasClass( 'sl-loading' ),
-        'Rendered component gains "sl-loading" class'
+    assert.strictEqual(
+        component.get( 'isLoading' ),
+        false,
+        'isLoading: false'
+    );
+
+    assert.deepEqual(
+        component.get( 'series' ),
+        testSeries,
+        'series: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'width' ),
+        'auto',
+        'width: "auto"'
+    );
+
+    assert.strictEqual(
+        component.get( 'highchartsOptions' ).title,
+        null,
+        `title property in highchartsOptions is set to null in order to
+            suppress default behavior for our usage`
     );
 });
 
@@ -245,66 +240,6 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 });
 
-test( 'Chart div uses the correct style', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.equal(
-        component.get( 'style' ),
-        'height: auto; width: auto;'
-    );
-
-    assert.equal(
-        this.$( 'div.chart' ).attr( 'style' ),
-        component.get( 'style' ),
-        'Chart div has automatic height and width'
-    );
-
-    Ember.run( () => {
-        component.set( 'height', 10 );
-        component.set( 'width', 20 );
-    });
-
-    assert.equal(
-        component.get( 'style' ),
-        'height: 10; width: 20;'
-    );
-
-    assert.equal(
-        this.$( 'div.chart' ).attr( 'style' ),
-        component.get( 'style' ),
-        'Chart div has height 10 and width 20'
-    );
-});
-
-test( 'Title property is set', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.strictEqual(
-        this.$( '.panel-heading' )[0],
-        undefined,
-        'No chart title is rendered when title is not set'
-    );
-
-    const testTitle = 'Peak server hours';
-
-    Ember.run( () => {
-        component.set( 'title', testTitle );
-    });
-
-    assert.equal(
-        this.$( '.panel-heading' ).html(),
-        testTitle,
-        'Chart title is created with title value'
-    );
-});
-
-
 test( 'setupChart initializes chart and updates data upon render', function( assert ) {
     const chartTest = 'a test chart';
     const chartDivMock = {
@@ -328,7 +263,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     const updateSpy = sinon.spy( component, 'updateData' );
     const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         null,
         'Chart is null upon initilization'
@@ -361,7 +296,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
         'highcharts was called once with no parameters'
     );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'chart' ),
         chartTest,
         'chart is initialized'
@@ -434,15 +369,33 @@ test( 'highchartsOptions returns expected options', function( assert ) {
     );
 });
 
-test( 'title property is not missing in highchartsOptions and set to null', function( assert ) {
+test( 'style() returns a HTML-safe string', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
     });
 
-    assert.strictEqual(
-        component.get( 'highchartsOptions' ).title,
-        null,
-        'title property in highchartsOptions is set to null in order to supress default behavior for our usage'
+    assert.ok(
+        component.get( 'style' ) instanceof Ember.Handlebars.SafeString,
+        'style() returns an instance of Ember.Handlebars.SafeString'
     );
 });
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    const styleDependentKeys = [
+        'height',
+        'width'
+    ];
+
+    assert.deepEqual(
+        component.style._dependentKeys,
+        styleDependentKeys,
+        'Dependent keys are correct for style()'
+    );
+});
+

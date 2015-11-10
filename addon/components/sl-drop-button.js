@@ -13,11 +13,10 @@ import {
  * @memberof module:components/sl-drop-button
  * @enum {String}
  */
-const Align = Object.freeze({
+export const Align = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { Align };
 
 /**
  * @module
@@ -137,8 +136,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The class value for the drop-button based on the current "theme"
      *
      * @function
-     * @throws {ember.assert} Thrown when supplied `theme` is not a value
-     *         defined in enum ButtonTheme
      * @returns {?String}
      */
     themeClass: Ember.computed(

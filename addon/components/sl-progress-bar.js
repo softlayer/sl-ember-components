@@ -9,14 +9,13 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-progress-bar
  * @enum {String}
  */
-const Theme = Object.freeze({
+export const Theme = Object.freeze({
     DANGER: 'danger',
     DEFAULT: 'default',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { Theme };
 
 /**
  * @module
@@ -112,7 +111,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Inline style string for progress bar element
      *
      * @function
-     * @returns {ember/String}
+     * @returns {ember/Handlebars/SafeString}
      */
     styleString: Ember.computed(
         'value',
@@ -125,8 +124,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Element-specific class name for the Bootstrap "theme" style
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `theme` property value is
-     *         not included in the enum Theme
      * @returns {String}
      */
     themeClassName: Ember.computed(

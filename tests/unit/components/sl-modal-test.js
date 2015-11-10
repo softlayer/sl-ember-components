@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
-
-let component;
+import streamEnabled from 'ember-stream/mixins/stream-enabled';
 
 const mockStream = {
     actions: {},
@@ -20,290 +19,191 @@ const mockStream = {
     }
 };
 
-const template = Ember.Handlebars.compile(
-    '{{sl-modal-header title="Simple Example"}}' +
-    '{{#sl-modal-body}}' +
-    '<p>A simple modal example</p>' +
-    '{{/sl-modal-body}}' +
-    '{{sl-modal-footer}}'
-);
-
 moduleForComponent( 'sl-modal', 'Unit | Component | sl modal', {
-    needs: [
-        'component:sl-modal-header',
-        'component:sl-modal-body',
-        'component:sl-modal-footer'
-    ],
-
-    /**
-     * Reset hideModal property before each test.
-     */
-    beforeEach() {
-        this.hideModal = true;
-    },
-
-    /**
-     * Hide modal after each test,
-     * this will prevent the bootstrap overlay from sticking around.
-     * The hideModal property can be overridden in a test.
-     **/
-    afterEach() {
-        if ( !component.isDestroyed ) {
-            Ember.run( () => {
-                if( this.hideModal ) {
-                    component.hide();
-                }
-            });
-        }
-    },
-
     unit: true
 });
 
-test( 'Classes are present', function( assert ) {
-    component = this.subject();
-
-    this.render();
-
+test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        this.$().hasClass( 'modal' ),
-        'Has class modal'
+        streamEnabled.detect( this.subject() ),
+        'StreamEnabled Mixin is present'
     );
 });
 
-test( 'Listeners are setup and firing appropriately', function( assert ) {
-    assert.expect( 4 );
+test( 'Default property values are set correctly', function( assert ) {
+    const component = this.subject();
 
-    const beforeShowDone = assert.async();
-    const afterShowDone = assert.async();
-    const beforeHideDone = assert.async();
-    const afterHideDone = assert.async();
-
-    component = this.subject({
-        beforeShow: 'beforeShow',
-        afterShow: 'afterShow',
-        beforeHide: 'beforeHide',
-        afterHide: 'afterHide',
-        template: template,
-        targetObject: {
-            beforeShow() {
-                assert.ok(
-                    true,
-                    'beforeShow was triggered'
-                );
-
-                beforeShowDone();
-            },
-
-            afterShow() {
-                assert.ok(
-                    true,
-                   'afterShow was triggered'
-                );
-
-                afterShowDone();
-            },
-
-            beforeHide() {
-                assert.ok(
-                    true,
-                    'beforeHide was triggered'
-                );
-
-                beforeHideDone();
-            },
-
-            afterHide() {
-                assert.ok(
-                    true,
-                    'afterHide was triggered'
-                );
-
-                afterHideDone();
-            }
-        }
-    });
-
-    this.render();
-
-    Ember.run( () => {
-        component.show();
-        component.hide();
-    });
-
-
-    this.hideModal = false;
-});
-
-test( 'Property isOpen is set appropriately', function( assert ) {
-    component = this.subject({ template });
-
-    this.$().trigger( 'shown.bs.modal' );
-
-    assert.equal(
-        component.get( 'isOpen' ),
+    assert.strictEqual(
+        component.get( 'animated' ),
         true,
-        'isOpen was set to true when modal show event was triggered'
+        'animated is true by default'
     );
 
-    this.$().trigger( 'hidden.bs.modal' );
+    assert.strictEqual(
+        component.get( 'ariaDescribedBy' ),
+        null,
+        'ariaDescribedBy is null by default'
+    );
 
-    assert.equal(
+    assert.strictEqual(
+        component.get( 'ariaHidden' ),
+        'true',
+        'ariaHidden is "true" by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'ariaRole' ),
+        'dialog',
+        'ariaRole is "dialog" by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'backdrop' ),
+        true,
+        'backdrop is true by default'
+    );
+
+    assert.strictEqual(
         component.get( 'isOpen' ),
         false,
-        'isOpen was set to false when modal close event was triggered'
+        'isOpen is false by default'
     );
 
-});
-
-test( 'Closing of modal using close button works', function( assert ) {
-    assert.expect( 1 );
-
-    const closeDone = assert.async();
-
-    component = this.subject({
-        afterHide: 'modalClosed',
-        template: template,
-        targetObject: {
-            modalClosed() {
-                assert.ok(
-                    true,
-                    'Modal was closed'
-                );
-                closeDone();
-            }
-        }
-    });
-
-    this.render();
-
-    Ember.run( () => {
-        component.show();
-    });
-
-    this.$( '.close' ).click();
-});
-
-test( 'Backdrop is hidden when backdrop property is set to false', function( assert ) {
-    assert.expect( 1 );
-
-    const openDone = assert.async();
-
-    component = this.subject({
-        afterShow: 'modalOpen',
-        backdrop: false,
-        targetObject: {
-            modalOpen() {
-                assert.equal(
-                    Ember.$( '.modal-backdrop' ).length,
-                    0
-                );
-                openDone();
-            }
-        }
-    });
-
-    this.render();
-
-    Ember.run( () => {
-        component.show();
-    });
-});
-
-test( 'Backdrop is shown by default', function( assert ) {
-    component = this.subject();
-
-    this.render();
-
-    Ember.run( () => {
-        component.show();
-    });
-
-    assert.equal(
-        Ember.$( '.modal-backdrop' ).length,
-        1
+    assert.strictEqual(
+        component.get( 'tabindex' ),
+        '-1',
+        'tabindex is "-1" by default'
     );
 });
 
-test( 'Fade class is present when animated is set to true', function( assert ) {
-    component = this.subject();
+test( 'hide() calls bootstrap modal hide', function( assert ) {
+    const spyModal = sinon.spy( Ember.$.fn, 'modal' );
+
+    const component = this.subject();
+
+    this.render();
+
+    component.hide();
 
     assert.ok(
-        this.$().hasClass( 'fade' )
+        spyModal.calledWithExactly( 'hide' ),
+        'Bootstrap jQuery modal plugin correctly called with "hide" parameter'
     );
+
+    Ember.$.fn.modal.restore();
 });
 
-test( 'Fade class is absent when animated is set to false', function( assert ) {
-    component = this.subject({
-        animated: false
+test( 'show() calls bootstrap modal show', function( assert ) {
+    const spyModal = sinon.spy( Ember.$.fn, 'modal' );
+
+    const component = this.subject();
+
+    this.render();
+
+    component.show();
+
+    assert.ok(
+        spyModal.calledWithExactly( 'show' ),
+        'Bootstrap jQuery modal plugin correctly called with "show" parameter'
+    );
+
+    // clean up
+    component.hide();
+    Ember.$.fn.modal.restore();
+});
+
+test( 'Event handlers are registered and unregistered', function( assert ) {
+    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+    const spyOff = sinon.spy( Ember.$.fn, 'off' );
+
+    const component = this.subject();
+
+    this.render();
+
+    spyOn.reset();
+
+    component.trigger( 'didInsertElement' );
+
+    assert.ok(
+        spyOn.calledWith( 'show.bs.modal' ),
+        'show event binded'
+    );
+
+    assert.ok(
+        spyOn.calledWith( 'shown.bs.modal' ),
+        'shown event binded'
+    );
+
+    assert.ok(
+        spyOn.calledWith( 'hide.bs.modal' ),
+        'hide event binded'
+    );
+
+    assert.ok(
+        spyOn.calledWith( 'hidden.bs.modal' ),
+        'hidden event binded'
+    );
+
+    spyOff.reset();
+
+    component.trigger( 'willClearRender' );
+
+    assert.ok(
+        spyOff.calledWith( 'show.bs.modal' ),
+        'show event unbinded'
+    );
+
+    assert.ok(
+        spyOff.calledWith( 'shown.bs.modal' ),
+        'shown event unbinded'
+    );
+
+    assert.ok(
+        spyOff.calledWith( 'hide.bs.modal' ),
+        'hide event unbinded'
+    );
+
+    assert.ok(
+        spyOff.calledWith( 'hidden.bs.modal' ),
+        'hidden event unbinded'
+    );
+
+    Ember.$.fn.on.restore();
+    Ember.$.fn.off.restore();
+});
+
+test( 'Stream action "show" triggers show()', function( assert ) {
+    const component = this.subject({
+        stream: mockStream
     });
-
-    assert.ok(
-        !this.$().hasClass( 'fade' )
-    );
-
-});
-
-test( 'ariaDescribedBy attribute binding', function( assert ) {
-    const describedBy = 'targetId';
-
-    component = this.subject({
-        ariaDescribedBy: describedBy
-    });
-
-    assert.equal(
-        this.$().attr( 'aria-describedby' ),
-        describedBy
-    );
-});
-
-test( 'aria-hidden is true', function( assert ) {
-    component = this.subject();
-
-    this.render();
-
-    assert.equal(
-        this.$().attr( 'aria-hidden' ),
-        'true'
-    );
-});
-
-test( 'aria-labelledby is set', function( assert ) {
-    component = this.subject({ template });
-
-    this.render();
-
-    assert.ok(
-        this.$().attr( 'aria-labelledby' )
-    );
-});
-
-test( 'Component responds to "hide" stream action', function( assert ) {
-    component = this.subject({ stream: mockStream });
-
-    this.render();
-
-    const hideSpy = sinon.spy( component, 'hide' );
-
-    mockStream.actions[ 'hide' ]();
-
-    assert.ok(
-        hideSpy.called,
-        'hide() was triggered successfully'
-    );
-});
-
-test( 'Component responds to "show" stream action', function( assert ) {
-    component = this.subject({ stream: mockStream });
-
-    this.render();
-
     const showSpy = sinon.spy( component, 'show' );
 
-    mockStream.actions[ 'show' ]();
+    this.render();
 
+    mockStream.actions[ 'show' ]();
     assert.ok(
         showSpy.called,
-        'show() was triggered successfully'
+        'show method was called'
     );
+
+    // clean up
+    component.hide();
+    component.show.restore();
+});
+
+test( 'Stream action "hide" triggers hide()', function( assert ) {
+    const component = this.subject({
+        stream: mockStream
+    });
+    const hideSpy = sinon.spy( component, 'hide' );
+
+    this.render();
+
+    mockStream.actions[ 'hide' ]();
+    assert.ok(
+        hideSpy.called,
+        'hide method was called'
+    );
+
+    component.hide.restore();
 });

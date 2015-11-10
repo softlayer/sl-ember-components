@@ -81,7 +81,7 @@ export default Ember.Controller.extend( StreamEnabled, {
         }
     ),
 
-    menuItems: new Ember.A([
+    menuItems: Ember.A([
         {
             label: 'Main One',
             items: [
@@ -93,22 +93,14 @@ export default Ember.Controller.extend( StreamEnabled, {
                 {
                     label: 'Sub 2',
                     items: [
-                        {
-                            label: 'Sub 1 - 1'
-                        },
-                        {
-                            label: 'Sub 1 - 2'
-                        }
+                        { label: 'Sub 1 - 1' },
+                        { label: 'Sub 1 - 2' }
                     ]
                 }
             ]
         },
-        {
-            label: 'Main Two'
-        },
-        {
-            label: 'Main Three'
-        }
+        { label: 'Main Two' },
+        { label: 'Main Three' }
     ]),
 
     menuStreamName: 'demoMenu'

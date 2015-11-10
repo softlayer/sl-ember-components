@@ -33,39 +33,11 @@ export default Ember.Component.extend( StreamEnabled, {
         'animated:fade'
     ],
 
-    /** @type {String} */
-    tagName: 'div',
-
     /** @type {Object} */
     layout: layout,
 
     // -------------------------------------------------------------------------
     // Actions
-
-    /** @type {Object} */
-    actions: {
-
-        /**
-         * Trigger hiding the model
-         *
-         * @function actions:hide
-         * @returns {undefined}
-         */
-        hide() {
-            this.hide();
-        },
-
-         /**
-         * Trigger showing the model
-         *
-         * @function actions:show
-         * @returns {undefined}
-         */
-        show() {
-            this.show();
-        }
-
-    },
 
     // -------------------------------------------------------------------------
     // Events
@@ -138,15 +110,15 @@ export default Ember.Component.extend( StreamEnabled, {
     // Observers
 
     /**
-     * Get ariaLabelledBy target element id
+     * Set ariaLabelledBy target element id
      *
      * @function
      * @returns {undefined}
      */
-    getLabelledby: Ember.on(
-        'willInsertElement',
+    setLabelledby: Ember.on(
+        'init',
         function() {
-            this.set( 'ariaLabelledBy', this.$( '[id^="modalTitle"]' ).attr( 'id' ) );
+            this.set( 'ariaLabelledBy', 'modalTitle-' + this.get( 'elementId' ) );
         }
     ),
 

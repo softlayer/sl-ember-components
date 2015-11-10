@@ -39,6 +39,20 @@ export default Ember.Mixin.create({
     disabled: false,
 
     /**
+     * Unique input id that will get generated and set on init of component
+     *
+     * @type {?String}
+     */
+    inputId: null,
+
+    /**
+     * The name of the input element
+     *
+     * @type {?String}
+     */
+    name: null,
+
+    /**
      * Whether the input-based component should be displayed as optional
      *
      * @type {Boolean}
@@ -59,7 +73,7 @@ export default Ember.Mixin.create({
      *
      * @type {Boolean}
      */
-    required: false
+    required: false,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -67,4 +81,17 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Methods
 
+    /**
+     * Returns a string value for the boolean readonly property
+     * which will get set on the input.
+     *
+     * @function
+     * @returns {?String}
+     */
+    readonlyString: Ember.computed(
+        'readonly',
+        function() {
+            return this.get( 'readonly' ) ? 'readonly' : null;
+        }
+    )
 });

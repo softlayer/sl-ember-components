@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 
 moduleForComponent( 'sl-input', 'Unit | Component | sl input', {
     unit: true
@@ -16,6 +17,11 @@ test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
         TooltipEnabledMixin.detect( this.subject() ),
         'TooltipEnabled Mixin is present'
+    );
+
+    assert.ok(
+        ComponentInputId.detect( this.subject() ),
+        'ComponentInputId Mixin is present'
     );
 });
 
@@ -32,12 +38,9 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     const component = this.subject({
         blur: 'blur'
     });
-
-    this.render();
-
-    const input = component.getInput().get( 0 );
+    const inputElement = this.$( 'input' ).get( 0 );
     const jQueryData = Ember.get( Ember.$, '_data' );
-    const events = jQueryData( input, 'events' );
+    const events = jQueryData( inputElement, 'events' );
 
     assert.ok(
         'blur' in events,
@@ -47,8 +50,8 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     Ember.run( () => {
         component.trigger( 'willClearRender' );
 
-        assert.ok(
-            !( 'blur' in events ),
+        assert.notOk(
+            'blur' in events,
             'Blur event handler is unregistered after willClearRender'
         );
     });
@@ -75,7 +78,7 @@ test( 'Blur action is triggered when input loses focus', function( assert ) {
     this.$( 'input' ).trigger( 'blur' );
 });
 
-test( 'Default values are correct', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
@@ -103,26 +106,9 @@ test( 'Default values are correct', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'required' ),
-        false,
-        'required property is false by default'
-    );
-
-    assert.equal(
-        component.get( 'inputElementId' ),
+        component.get( 'value' ),
         null,
-        'inputElementId property is null by default'
-    );
-});
-
-test( 'setInputElementId() - sets inputElementId correctly', function( assert ) {
-    const component = this.subject();
-
-    const inputElementId = this.$( 'input.form-control' ).prop( 'id' );
-
-    assert.equal(
-        component.get( 'inputElementId' ),
-        inputElementId
+        'value property is null by default'
     );
 });
 
@@ -346,14 +332,10 @@ test( 'isTypeaheadSetup is true when suggestions are provided', function( assert
 test( 'Value is set correctly', function( assert ) {
     const value = 'set value';
 
-    const component = this.subject({
-        value: value
-    });
-
-    this.render();
+    this.subject({ value: value });
 
     assert.equal(
-        component.getInput().val(),
+        this.$( 'input' ).val(),
         value
     );
 });

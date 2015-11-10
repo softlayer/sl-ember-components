@@ -1,11 +1,19 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
     unit: true
 });
 
-test( 'Default class names are present', function( assert ) {
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
+    );
+});
+
+test( 'Default property values', function( assert ) {
     this.subject({ timezone: 'America/Chicago' });
 
     assert.ok(
@@ -145,5 +153,52 @@ test( '"title" property is an alias to "datetime" value', function( assert ) {
         component.get( 'title' ),
         component.get( 'datetime' ),
         '"title" property is aliased to "datetime" property'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const datetimeDependentKeys = [
+        'timezoneString',
+        'value'
+    ];
+
+    const formattedValueDependentKeys = [
+        'format',
+        'momentValue'
+    ];
+
+    const momentValueDependentKeys = [
+        'value'
+    ];
+
+    const timezoneStringDependentKeys = [
+        'timezone',
+        'momentValue'
+    ];
+
+    assert.deepEqual(
+        component.datetime._dependentKeys,
+        datetimeDependentKeys,
+        'Dependent keys are correct for datetime()'
+    );
+
+    assert.deepEqual(
+        component.formattedValue._dependentKeys,
+        formattedValueDependentKeys,
+        'Dependent keys are correct for formattedValue()'
+    );
+
+    assert.deepEqual(
+        component.momentValue._dependentKeys,
+        momentValueDependentKeys,
+        'Dependent keys are correct for momentValue()'
+    );
+
+    assert.deepEqual(
+        component.timezoneString._dependentKeys,
+        timezoneStringDependentKeys,
+        'Dependent keys are correct for timezoneString()'
     );
 });

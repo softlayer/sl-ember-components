@@ -53,6 +53,7 @@
 
 <div class="list-group">
     <div class="list-group-item">
+        <p>sl-component-input-id</p>
         <p>sl-input-based</p>
         <p>sl-tooltip-enabled</p>
     </div>
@@ -85,6 +86,10 @@
 
     {{#property-text name="maxlength" type="Number/String"}}
         <code>maxlength</code> attribute value.
+    {{/property-text}}
+
+    {{#property-text name="name" type="String"}}
+        <code>name</code> attribute value for the textarea.
     {{/property-text}}
 
     {{#property-text name="optional" type="Boolean" default="false"}}
@@ -123,8 +128,8 @@
         The <code>selectionStart</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;.
     {{/property-text}}
 
-    {{#property-text name="spellcheck" type="Boolean/String" default="\"default\""}}
-        The <code>spellcheck</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;. Can be true, false, or "default".
+    {{#property-text name="spellcheck" type="Boolean" default="false"}}
+        The <code>spellcheck</code> HTML attribute value, passed directly to the underlying &lt;textarea&gt;.
     {{/property-text}}
 
     {{#property-text name="tabindex" type="String"}}

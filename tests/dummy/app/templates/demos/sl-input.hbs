@@ -155,6 +155,7 @@
 
 <div class="list-group">
     <div class="list-group-item">
+        <p>sl-component-input-id</p>
         <p>sl-input-based</p>
         <p>sl-tooltip-enabled</p>
     </div>
@@ -184,6 +185,10 @@
 
     {{#property-text name="label" type="String"}}
         String for label text above the input.
+    {{/property-text}}
+
+    {{#property-text name="name" type="String"}}
+        <code>name</code> attribute value for the input.
     {{/property-text}}
 
     {{#property-text name="optional" type="Boolean" default="false"}}

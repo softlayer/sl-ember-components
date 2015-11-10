@@ -1,73 +1,34 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-checkbox', 'Unit | Component | sl checkbox', {
     unit: true
 });
 
-test( 'Has expected initial classes', function( assert ) {
+test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        this.$().hasClass( 'checkbox' ),
-        'Has class "checkbox"'
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
     );
-
     assert.ok(
-        this.$().hasClass( 'form-group' ),
-        'Has class "form-group"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-checkbox' ),
-        'Has class "sl-checkbox"'
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
     );
 });
 
-test( 'Disabled state applies class and disables input', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
-    const $input = this.$( 'input' );
 
     assert.strictEqual(
-        this.$().hasClass( 'disabled' ),
+        component.get( 'checked' ),
         false,
-        'Initially does not have class "disabled"'
+        '"checked" property is false by default'
     );
-    assert.strictEqual(
-        $input.prop( 'disabled' ),
-        false,
-        'Rendered input is initially enabled'
-    );
-
-    Ember.run( () => {
-        component.set( 'disabled', true );
-    });
-
-    assert.ok(
-        this.$().hasClass( 'disabled' ),
-        'Has class "disabled"'
-    );
-
-    assert.ok(
-        $input.prop( 'disabled' ),
-        'Rendered input is disabled'
-    );
-});
-
-test( 'Checked state applies property to input', function( assert ) {
-    const component = this.subject();
-    const $input = this.$( 'input' );
 
     assert.strictEqual(
-        $input.prop( 'checked' ),
-        false,
-        'Rendered input is not checked'
-    );
-
-    Ember.run( () => {
-        component.set( 'checked', true );
-    });
-
-    assert.ok(
-        $input.prop( 'checked' ),
-        'Rendered input is checked'
+        component.get( 'label' ),
+        null,
+        '"label" property is null by default'
     );
 });

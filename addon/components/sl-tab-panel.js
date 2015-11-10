@@ -8,11 +8,10 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-tab-panel
  * @enum {String}
  */
-const Alignment = Object.freeze({
+export const Alignment = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
 });
-export { Alignment };
 
 /**
  * @module
@@ -112,29 +111,14 @@ export default Ember.Component.extend({
     setupTabs: Ember.on(
         'didInsertElement',
         function() {
-            let initialTabName = this.get( 'initialTabName' );
-            const tabs = new Ember.A();
+            Ember.run.scheduleOnce( 'afterRender', this, function() {
+                const initialTabName = this.getInitialTabName();
+                const tabs = this.getTabs( initialTabName );
 
-            if ( !initialTabName ) {
-                initialTabName = this
-                    .$( '.tab-pane:first' )
-                    .attr( 'data-tab-name' );
-            }
-
-            this.setActiveTab( initialTabName );
-            this.activatePane( initialTabName );
-
-            this.$( '.tab-pane' ).each( function() {
-                const tabName = this.getAttribute( 'data-tab-name' );
-
-                tabs.push({
-                    active: tabName === initialTabName,
-                    label: this.getAttribute( 'data-tab-label' ),
-                    name: tabName
-                });
+                this.setActiveTab( initialTabName );
+                this.activatePane( initialTabName );
+                this.set( 'tabs', tabs );
             });
-
-            this.set( 'tabs', tabs );
         }
     ),
 
@@ -153,6 +137,54 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * @typedef TabsDefinition
+     * @type {Object}
+     * @property {Boolean} active - Whether the tab is active
+     * @property {String} label - Tab label
+     * @property {String} name - Tab name
+     */
+
+    /**
+     * Creates an array of tab objects with tab properties
+     *
+     * @function
+     * @returns {Array.<TabsDefinition>}
+     */
+    getTabs() {
+        const tabs = Ember.A();
+        const panes = this.$( '.tab-pane' );
+        const initialTabName = this.getInitialTabName();
+
+        panes.each( function() {
+            const tabName = this.getAttribute( 'data-tab-name' );
+
+            tabs.push({
+                active: tabName === initialTabName,
+                label: this.getAttribute( 'data-tab-label' ),
+                name: tabName
+            });
+        });
+
+        return tabs;
+    },
+
+    /**
+     * Get initial tab name
+     *
+     * @function
+     * @returns {String}
+     */
+    getInitialTabName() {
+        let tabName = this.get( 'initialTabName' );
+
+        if ( Ember.isEmpty( tabName ) ) {
+            tabName = this.$( '.tab-pane:first' ).attr( 'data-tab-name' );
+        }
+
+        return tabName;
+    },
 
     /**
      * Activate a tab pane, animating the transition
@@ -220,8 +252,6 @@ export default Ember.Component.extend({
      * The class determining how to align tabs
      *
      * @function
-     * @throws {ember.assert} Thrown if supplied `alignTabs` is a value not
-     *         defined in enum Alignment
      * @returns {?String}
      */
     tabAlignmentClass: Ember.computed(

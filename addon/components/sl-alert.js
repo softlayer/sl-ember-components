@@ -9,13 +9,12 @@ import { containsValue, warn } from '../utils/all';
  * @memberof module:components/sl-alert
  * @enum {String}
  */
-const Theme = Object.freeze({
+export const Theme = Object.freeze({
     DANGER: 'danger',
     INFO: 'info',
     SUCCESS: 'success',
     WARNING: 'warning'
 });
-export { Theme };
 
 /**
  * @module
@@ -98,8 +97,6 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The generated Bootstrap "theme" style class for the alert
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `theme` value is not one
-     *         defined in the enum Theme
      * @returns {String} Defaults to "alert-info"
      */
     themeClassName: Ember.computed(

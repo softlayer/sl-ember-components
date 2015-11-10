@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ArrayController.extend({
+export default Ember.Controller.extend({
     actions: {
         logOptions() {
             window.console.log( 'Chart options:', this.get( 'chartOptions' ) );

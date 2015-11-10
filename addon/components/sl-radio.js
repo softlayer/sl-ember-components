@@ -1,11 +1,13 @@
 import Ember from 'ember';
+import InputBased from '../mixins/sl-input-based';
 import layout from '../templates/components/sl-radio';
 
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-input-based
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( InputBased, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -14,13 +16,7 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [
-        'disabled'
-    ],
-
-    /** @type {String[]} */
     classNameBindings: [
-        'disabled',
         'radioType'
     ],
 
@@ -32,9 +28,6 @@ export default Ember.Component.extend({
     /** @type {Object} */
     layout,
 
-    /** @type {String} */
-    tagName: 'div',
-
     // -------------------------------------------------------------------------
     // Actions
 
@@ -45,11 +38,11 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * Whether the component is in the disabled state or not
+     * Text label for the component
      *
-     * @type {Boolean}
+     * @type {?String}
      */
-    disabled: false,
+    label: null,
 
     /**
      * Bound value for the radio button

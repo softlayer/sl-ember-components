@@ -1,11 +1,13 @@
 import Ember from 'ember';
+import ComponentInputId from '../mixins/sl-component-input-id';
 import layout from '../templates/components/sl-date-range-picker';
 
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-component-input-id
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ComponentInputId, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -45,13 +47,6 @@ export default Ember.Component.extend({
     format: 'mm/dd/yyyy',
 
     /**
-     * Bound value of Start Date input element's id
-     *
-     * @type {?String}
-     */
-    inputElementId: null,
-
-    /**
      * The last valid date for the date range
      *
      * @type {?Date|String}
@@ -87,9 +82,7 @@ export default Ember.Component.extend({
         function() {
             this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
             this.set( 'endDateInput', this.$( '.sl-daterange-end-date input' ) );
-            this.get( 'startDateInput' ).on( 'change', () => {
-                this.get( 'endDateInput' ).trigger( 'focus' );
-            });
+            this.get( 'startDateInput' ).on( 'changeDate', this, this.changeDateHandler );
         }
     ),
 
@@ -102,13 +95,27 @@ export default Ember.Component.extend({
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.get( 'startDateInput' ).off();
-            this.get( 'endDateInput' ).off();
+            this.get( 'startDateInput' ).off( 'changeDate', this.changeDateHandler );
         }
     ),
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Callback for bootstrap datepicker changeDate event
+     *
+     * @function
+     * @param {Event} event - A standard event object
+     * @returns {undefined}
+     */
+    changeDateHandler: function( ev ) {
+        const component = ev.data;
+
+        if ( component.get( 'startDateInput' ).get( 0 ) === ev.target ) {
+            component.get( 'endDateInput' ).trigger( 'focus' );
+        }
+    },
 
     /**
      * The earliest selectable endDate, based on minDate and

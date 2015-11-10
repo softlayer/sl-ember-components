@@ -1,96 +1,77 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import { Theme } from 'sl-ember-components/components/sl-alert';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
 });
 
-test( 'ARIA role is applied', function( assert ) {
-    assert.equal(
-        this.$().attr( 'role' ),
-        'alert'
-    );
-});
-
-test( 'Dismissable option allows dismissal', function( assert ) {
-    const component = this.subject({ dismissable: true });
-
-    assert.strictEqual(
-        component.get( 'dismissable' ),
-        true,
-        'Component is dismissable'
-    );
-
+test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        this.$( 'button.close' ),
-        'Close button is rendered'
-    );
-
-    assert.strictEqual(
-        this.$().hasClass( 'alert-dismissable' ),
-        true,
-        'Dismissable indicator class is applied'
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
     );
 });
 
-test( 'Dismiss action is handled', function( assert ) {
-    this.subject({
-        dismiss: 'dismiss',
-        dismissable: true,
-
-        targetObject: {
-            dismiss: function() {
-                assert.ok(
-                    true,
-                    'Bound dismiss action fired'
-                );
-            }
-        }
-    });
-
-    this.$( 'button.close' ).trigger( 'click' );
-});
-
-test( 'Theme class is applied', function( assert ) {
-    this.subject({ theme: 'success' });
-
-    assert.ok(
-        this.$().hasClass( 'alert-success' ),
-        'Theme class is applied'
-    );
-});
-
-test( 'Default classes are applied', function( assert ) {
-    this.subject();
-
-    assert.ok(
-        this.$().hasClass( 'alert' ),
-        'Has class "alert"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'sl-alert' ),
-        'Has class "sl-alert"'
-    );
-});
-
-test( 'Not dismissable by default', function( assert ) {
+test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'dismissable' ),
-        false,
-        'Component is not dismissable'
-    );
-
-    assert.equal(
-        this.$( 'button.close' ).length,
-        0,
-        'Close button is not present'
+        component.get( 'ariaRole' ),
+        'alert',
+        'ariaRole: "alert"'
     );
 
     assert.strictEqual(
-        this.$().hasClass( 'alert-dismissable' ),
+        component.get( 'dismissable' ),
         false,
-        'Component does not indicate dismissable'
+        'dismissable: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'theme' ),
+        Theme.INFO,
+        `theme: "${Theme.INFO}"`
+    );
+});
+
+test( 'Bound "dismiss" action is triggered when dismiss action is triggered', function( assert ) {
+    const component = this.subject();
+    const spy = sinon.spy( component, 'sendAction' );
+
+    component.send( 'dismiss' );
+
+    assert.strictEqual(
+        spy.args[0].join(),
+        'dismiss',
+        'Bound "dismiss" action is triggered when dismiss action is triggered'
+    );
+});
+
+test( 'themeClassName() returns expected value', function( assert ) {
+    const testThemeValue = 'testTheme';
+    const component = this.subject({
+        theme: testThemeValue
+    });
+
+    assert.strictEqual(
+        component.get( 'themeClassName' ),
+        `alert-${testThemeValue}`,
+        'themeClassName() returns expected value'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const themeClassNameDependentKeys = [
+        'theme'
+    ];
+
+    assert.deepEqual(
+        component.themeClassName._dependentKeys,
+        themeClassNameDependentKeys,
+        'Dependent keys are correct for themeClassName()'
     );
 });

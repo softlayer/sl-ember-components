@@ -36,8 +36,10 @@
                 {{/each}}
 
                 {{#if rowActions}}
-                    <th class="actions-cell"></th>
+                    <th class="actions-cell column-small"></th>
                 {{/if}}
+
+                <th class="fake-scrollbar"></th>
             </tr>
         </thead>
     </table>
@@ -56,7 +58,7 @@
                         {{/each}}
 
                         {{#if rowActions}}
-                            <td class="actions-cell">
+                            <td class="actions-cell column-small">
                                 {{#sl-drop-button
                                     align="right"
                                     label=actionsButtonLabel
@@ -65,10 +67,10 @@
                                 }}
                                     {{#each rowActions as |rowAction|}}
                                         {{sl-drop-option
-                                            action=rowAction.action
+                                            action="dropButtonSelect"
+                                            actionContext=rowAction.action
                                             data=row
                                             label=rowAction.label
-                                            targetObject=rowActionContext
                                         }}
                                     {{/each}}
                                 {{/sl-drop-button}}
@@ -103,13 +105,13 @@
 
 <div class="detail-pane">
     <header>
+        <button {{action "closeDetailPane"}} class="close">&times;</button>
+
         <span class="title">
-            {{#if detailHeaderPath}}
-                {{render-dynamic detailHeaderPath activeRecord}}
+            {{#if detailHeaderComponent}}
+                {{component detailHeaderComponent model=activeRecord}}
             {{/if}}
         </span>
-
-        <button {{action "closeDetailPane"}} class="close">&times;</button>
     </header>
 
     <div class="content">
@@ -121,8 +123,8 @@
     </div>
 
     <footer>
-        {{#if detailFooterPath}}
-            {{render-dynamic detailFooterPath activeRecord}}
+        {{#if detailFooterComponent}}
+            {{component detailFooterComponent model=activeRecord}}
         {{/if}}
     </footer>
 </div>

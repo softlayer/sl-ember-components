@@ -1,28 +1,77 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import Ember from 'ember';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
+import{ moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
     unit: true
 });
 
-test( 'Disabled state applies disabled class, and attribute to input', function( assert ) {
-    this.subject({ disabled: true });
-
+test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        this.$( 'input' ).prop( 'disabled' ),
-        'has attribute "disabled"'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'disabled' ),
-        'has class "disabled"'
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
     );
 });
 
-test( 'Inline property sets relevant class', function( assert ) {
-    this.subject({ inline: true });
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
 
-    assert.ok(
-        this.$().hasClass( 'radio-inline' ),
-        'has class "radio-inline"'
+    assert.strictEqual(
+        component.get( 'label' ),
+        null,
+        'Default property "label" is null'
+    );
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        null,
+        'Default property "value" is null'
+    );
+});
+
+test( 'RadioType property sets relevant class', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'radioType' ),
+        'radio',
+        'RadioType defaults to "radio"'
+    );
+
+    assert.notStrictEqual(
+        component.get( 'radioType' ),
+        'radio-inline',
+        'RadioType is not inline'
+    );
+
+    Ember.run( () => {
+        component.set( 'inline', true );
+    });
+
+    assert.strictEqual(
+        component.get( 'radioType' ),
+        'radio-inline',
+        'RadioType is inline'
+    );
+
+    assert.notStrictEqual(
+        component.get( 'radioType' ),
+        'radio',
+        'RadioType is not inline'
+    );
+});
+
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const radioTypeDependentKeys = [
+        'inline'
+    ];
+
+    assert.deepEqual(
+        component.radioType._dependentKeys,
+        radioTypeDependentKeys,
+        'Dependent keys are correct for radioType()'
     );
 });

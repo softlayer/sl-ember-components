@@ -1,24 +1,30 @@
 import Ember from 'ember';
 
-export default Ember.ArrayController.extend({
+export default Ember.Controller.extend({
+    sortProperties: [ 'fruit' ],
+    sortedModel: Ember.computed.sort( 'model', 'sortProperties' ),
+
     actions: {
         rowClick( row ) {
             window.console.log( 'Clicked', row );
         },
 
-        sendLog( row ) {
+        logName( row ) {
             window.console.log( 'Record:', Ember.get( row, 'name' ) );
         },
 
         sortColumn( column, sortAscending ) {
-            this.setProperties({
-                sortAscending,
-                'sortProperties': [ Ember.get( column, 'valuePath' ) ]
-            });
+            let columnString = column[ 'valuePath' ];
+
+            if ( !sortAscending ) {
+                columnString = `${columnString}:desc`;
+            }
+
+            this.set( 'sortProperties', [ columnString ] );
         }
     },
 
-    columns: new Ember.A([
+    columns: Ember.A([
         {
             primary: true,
             size: 'small',
@@ -39,12 +45,12 @@ export default Ember.ArrayController.extend({
         }
     ]),
 
-    rowActions: new Ember.A([
+    rowActions: [
         {
             label: 'Log',
             action: 'sendLog'
         }
-    ]),
+    ],
 
     totalCount: 6
 });

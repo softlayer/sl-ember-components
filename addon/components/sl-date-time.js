@@ -8,12 +8,11 @@ import layout from '../templates/components/sl-date-time';
  * @memberof module:components/sl-date-time
  * @enum {String}
  */
-const Format = Object.freeze({
+export const Format = Object.freeze({
     DATE: 'date',
     DATETIME: 'datetime',
     RELATIVE: 'relative'
 });
-export { Format };
 
 /**
  * @module
@@ -85,7 +84,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The bound value of the component's date value
      *
      * @default new Date()
-     * @type {Array|Date|moment|Number|Object|String|undefined}
+     * @type {Array|Date|moment|Number|Object|String}
      */
     value: new Date(),
 
