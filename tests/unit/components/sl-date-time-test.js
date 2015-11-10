@@ -8,7 +8,7 @@ moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        TooltipEnabledMixin.detect( this.subject() ),
+        TooltipEnabledMixin.detect( this.subject({ timezone: 'America/Chicago' }) ),
         'TooltipEnabled Mixin is present'
     );
 });
@@ -157,7 +157,7 @@ test( '"title" property is an alias to "datetime" value', function( assert ) {
 });
 
 test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
+    const component = this.subject({ timezone: 'America/Chicago' });
 
     const datetimeDependentKeys = [
         'timezoneString',
