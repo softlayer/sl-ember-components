@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import layout from '../templates/components/sl-date-range-picker';
+import { warn } from '../utils/all';
 
 /**
  * @module
@@ -69,6 +70,62 @@ export default Ember.Component.extend( ComponentInputId, {
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Check passed parameters on initialization
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            const minDate = this.get( 'minDate' );
+            const startDateValue = this.get( 'startDateValue' );
+            const endDateValue = this.get( 'endDateValue' );
+            const maxDate = this.get( 'maxDate' );
+            const minDateMoment = window.moment( new Date( minDate ) );
+            const startDateValueMoment = window.moment( new Date( startDateValue ) );
+            const endDateValueMoment = window.moment( new Date( endDateValue ) );
+            const maxDateMoment = window.moment( new Date( maxDate ) );
+
+            // essentially does maxDate - minDate
+            if ( minDate &&
+                 maxDate &&
+                 maxDateMoment.diff( minDateMoment ) < 0 ) {
+                this.set( 'maxDate', null );
+                warn( '"maxDate" must be greater than "minDate". "maxDate" has been set to "null"' );
+            }
+
+            if ( minDate &&
+                 startDateValue &&
+                 startDateValueMoment.diff( minDateMoment ) < 0 ) {
+                this.set( 'startDateValue', this.get( 'minDate' ) );
+                warn( '"startDateValue" must be greater than "minDate". "startDateValue" has been set to "minDate"' );
+            }
+
+            if ( startDateValue &&
+                 maxDate &&
+                 maxDateMoment.diff( startDateValueMoment ) < 0 ) {
+                this.set( 'startDateValue', this.get( 'minDate' ) );
+                warn( '"maxDate" must be greater than "startDateValue". "startDateValue" has been set to "minDate"' );
+            }
+
+            if ( endDateValue &&
+                 maxDate &&
+                 maxDateMoment.diff( endDateValueMoment ) < 0 ) {
+                this.set( 'endDateValue', this.get( 'maxDate' ) );
+                warn( '"maxDate" must be greater than "endDateValue". "endDateValue" has been set to "maxDate"' );
+            }
+
+            if ( startDateValue &&
+                 endDateValue &&
+                 endDateValueMoment.diff( startDateValueMoment ) < 0 ) {
+                this.set( 'endDateValue', this.get( 'null' ) );
+                warn( '"endDateValue" must be greater than "startDateValue". "endDateValue" has been set to "null"' );
+            }
+        }
+    ),
 
     /**
      * Set up a transition that moves focus to the endDate input when the
