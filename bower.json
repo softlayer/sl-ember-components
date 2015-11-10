@@ -10,7 +10,6 @@
     "ember-qunit": "0.4.14",
     "ember-qunit-notifications": "0.0.7",
     "ember-resolver": "~0.1.18",
-    "fontawesome": "~4.3.0",
     "highcharts": "~4.1.5",
     "jquery": "^1.11.3",
     "jquery-mousewheel": "^3.1.12",
@@ -18,10 +17,10 @@
     "moment": "~2.10.3",
     "moment-timezone": "~0.4.0",
     "qunit": "~1.18.0",
-    "select2": "~3.5.2",
-    "typeahead.js": "~0.11.1",
     "rxjs": "~2.5.2",
-    "sinonjs": "~1.14.1"
+    "select2": "~3.5.2",
+    "sinonjs": "~1.14.1",
+    "typeahead.js": "~0.11.1"
   },
   "devDependencies": {
     "blanket": "~1.1.5"

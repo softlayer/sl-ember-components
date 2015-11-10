@@ -2,14 +2,17 @@ module.exports = {
     afterInstall: function() {
         return this.addBowerPackagesToProject([
             {
+                name: 'bootstrap',
+                target: '~3.2.0'
+            }, {
                 name: 'bootstrap-datepicker',
                 target: '~1.3.0'
             }, {
-                name: 'fontawesome',
-                target: '~4.3.0'
-            }, {
                 name: 'highcharts',
                 target: '~4.1.5'
+            }, {
+                name: 'jquery-mousewheel',
+                target: '^3.1.12'
             }, {
                 name: 'moment',
                 target: '~2.10.3'
@@ -25,13 +28,6 @@ module.exports = {
             }, {
                 name: 'typeahead.js',
                 target: '~0.11.1'
-            }, {
-                name: 'bootstrap',
-                source: 'bootstrap',
-                target: '3.2.0'
-            }, {
-                name: 'jquery-mousewheel',
-                target: '^3.1.12'
             }
         ]);
     },
