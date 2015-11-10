@@ -6,7 +6,7 @@ moduleForComponent( 'sl-pagination', 'Unit | Component | sl pagination', {
     unit: true
 });
 
-test( 'Default property values are set correctly', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(

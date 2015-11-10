@@ -6,14 +6,14 @@ moduleForComponent( 'sl-tooltip', 'Unit | Component | sl tooltip', {
     unit: true
 });
 
-test( 'Expected Mixin is present', function( assert ) {
+test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
         TooltipEnabledMixin.detect( this.subject( { title: 'Tooltip Text' } ) ),
         'Expected Mixin is present'
     );
 });
 
-test( 'Default values are correct', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject( { title: 'test' } );
 
     assert.equal(

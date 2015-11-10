@@ -50,9 +50,6 @@ export default Ember.Component.extend({
     /** @type {Object} */
     layout,
 
-    /** @type {String} */
-    tagName: 'div',
-
     // -------------------------------------------------------------------------
     // Actions
 
@@ -386,6 +383,13 @@ export default Ember.Component.extend({
      * @type {?Object}
      */
     sortedColumnTitle: null,
+
+    /**
+     * The sort direction represented as boolean (true: asc; false: desc)
+     *
+     * @type {Boolean}
+     */
+    sortDirection: null,
 
     // -------------------------------------------------------------------------
     // Observers
