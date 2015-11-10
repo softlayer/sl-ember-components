@@ -20,8 +20,8 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        child.hasClass( 'sl-progress-bar' ),
-        'Has class "sl-progress-bar"'
+        child.hasClass( 'sl-ember-components' ),
+        'Has class "sl-ember-components"'
     );
 
     assert.ok(
