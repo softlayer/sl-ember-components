@@ -162,8 +162,6 @@ export default Ember.Component.extend({
         function() {
             const chartStyle = {
                 fontFamily: [
-                    '"Benton Sans"',
-                    '"Helvetica Neue"',
                     'Helvetica',
                     'Arial',
                     'sans-serif'
