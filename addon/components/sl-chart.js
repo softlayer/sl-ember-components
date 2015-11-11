@@ -23,7 +23,8 @@ export default Ember.Component.extend({
         'panel',
         'panel-default',
         'sl-chart',
-        'sl-panel'
+        'sl-panel',
+        'sl-ember-components'
     ],
 
     /** @type {Object} */
@@ -162,8 +163,6 @@ export default Ember.Component.extend({
         function() {
             const chartStyle = {
                 fontFamily: [
-                    '"Benton Sans"',
-                    '"Helvetica Neue"',
                     'Helvetica',
                     'Arial',
                     'sans-serif'
