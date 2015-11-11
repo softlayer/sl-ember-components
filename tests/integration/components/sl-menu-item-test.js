@@ -64,14 +64,14 @@ test( 'Mouse enter/leave events toggles setting of "active" class', function( as
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'active' ),
-        'Rendered element has class "active" by default'
+        'Rendered element has class "active" after mouseenter'
     );
 
     this.$( '>:first-child' ).find( '.has-sub-menu' ).find( 'a' ).first().trigger( 'mouseleave' );
 
     assert.notOk(
         this.$( '>:first-child' ).hasClass( 'active' ),
-        'Rendered element does not have class "active" by default'
+        'Rendered element does not have class "active" after mouseleave'
     );
 });
 
@@ -157,7 +157,7 @@ test( 'handleAction() action is fired from sub menu (Sub 1) item', function( ass
     });
 
     // Sub 1
-    this.$( '>:first-child' ).find( '.sub-menu' ).first().find( 'li' ).first().find( 'a' ).first().click();
+    this.$( '>:first-child' ).find( '.sub-menu:first li:first a:first' ).click();
 });
 
 test( 'handleAction() action is fired from sub sub menu (Sub 2-1) item', function( assert ) {
@@ -192,5 +192,5 @@ test( 'handleAction() action is fired from sub sub menu (Sub 2-1) item', functio
     });
 
     // Sub 2-1
-    this.$( '>:first-child' ).find( '.sub-menu' ).last().find( 'li' ).first().find( 'a' ).first().click();
+    this.$( '>:first-child' ).find( '.sub-menu:last li:first a:first' ).click();
 });

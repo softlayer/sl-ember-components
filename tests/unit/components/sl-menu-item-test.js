@@ -111,13 +111,6 @@ test( 'Bound item.action is triggered when link is clicked', function( assert ) 
     this.$( 'a' ).trigger( 'click' );
 });
 
-test( 'Rendered element is correct element type', function( assert ) {
-    assert.ok(
-        this.$().is( 'li' ),
-        'Element is an <li>'
-    );
-});
-
 test( '`subItems` computed property is a wrapped `item.items` array', function( assert ) {
     const component = this.subject({
         item: {
@@ -128,6 +121,16 @@ test( '`subItems` computed property is a wrapped `item.items` array', function( 
     assert.ok(
         component.get( 'subItems' ).objectAt( 0 ).okay,
         'Parsed `subItems` correctly'
+    );
+});
+
+test( '`subItems` computed property is null when `item.items` does not exist', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'subItems' ),
+        null,
+        '"subItems" is null'
     );
 });
 

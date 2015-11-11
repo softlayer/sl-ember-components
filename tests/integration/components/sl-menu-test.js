@@ -96,7 +96,7 @@ test( '"allowShowAll" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.show-all' ).length,
         0,
-        '"allowShowAll" property does not have the class ".show-all"'
+        'menu item with class ".show-all" is not included by default'
     );
 
     this.set( 'testAllowShowAll', true );
@@ -104,7 +104,7 @@ test( '"allowShowAll" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.show-all' ).length,
         1,
-        '"allowShowAll" property has class ".show-all"'
+        'menu item with class ".show-all" is included when "allowShowAll" is true'
     );
 });
 
@@ -194,11 +194,16 @@ test( 'Component responds to "select" stream action', function( assert ) {
     ` );
 
     const streamService = this.container.lookup( 'service:stream' );
-    streamService.send( 'testStreamName', 'select' );
+    streamService.send( 'testStreamName', 'select', 0 );
 
     assert.ok(
         this.get( 'testAction' ).calledOnce,
         'select() was triggered successfully'
+    );
+
+    assert.ok(
+        this.get( 'testAction' ).calledWithExactly( 0 ),
+        'select() was called with "0"'
     );
 });
 
@@ -341,7 +346,6 @@ test( 'Component responds to "selectSubMenu" stream action', function( assert ) 
         'selectSubMenu() was triggered successfully'
     );
 });
-
 
 test( 'Component responds to "selectUp" stream action', function( assert ) {
 
