@@ -7,17 +7,12 @@ moduleForComponent( 'sl-drop-button', 'Integration | Component | sl drop button'
 
 test( 'Default rendered state', function( assert ) {
     this.render( hbs`
-      {{sl-drop-button}}
+        {{sl-drop-button}}
     ` );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'btn-group' ),
         'Has class "btn-group"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'dropdown' ),
-        'Has class "dropdown"'
     );
 
     assert.ok(
@@ -31,13 +26,13 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'dropdown-menu' ),
-        'Has class "dropdown-menu"'
+        this.$( '>:first-child' ).find( 'button' ).hasClass( 'btn-default' ),
+        'Button has class "btn-default"'
     );
 
     assert.ok(
-         this.$( '>:first-child' ).hasClass( 'dropdown-default' ),
-        'Has class "dropdown-default"'
+        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'dropdown-menu' ),
+        'Has class "dropdown-menu"'
     );
 
     assert.strictEqual(
@@ -49,18 +44,18 @@ test( 'Default rendered state', function( assert ) {
 
 test( 'Theme property applies theme class', function( assert ) {
     this.render( hbs`
-      {{sl-drop-button theme="hover"}}
+        {{sl-drop-button theme="hover"}}
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'dropdown-hover' ),
+        this.$( '>:first-child' ).find( 'button' ).hasClass( 'btn-hover' ),
         'Rendered drop-button has new theme class'
     );
 });
 
 test( 'Label property is supported', function( assert ) {
     this.render( hbs`
-      {{sl-drop-button label="test"}}
+        {{sl-drop-button label="test"}}
     ` );
 
     assert.strictEqual(
@@ -72,7 +67,7 @@ test( 'Label property is supported', function( assert ) {
 
 test( 'size property is supported', function( assert ) {
     this.render( hbs`
-      {{sl-drop-button size="large"}}
+        {{sl-drop-button size="large"}}
     ` );
 
     assert.ok(
@@ -83,7 +78,7 @@ test( 'size property is supported', function( assert ) {
 
 test( 'align property is supported', function( assert ) {
     this.render( hbs`
-      {{sl-drop-button align="right"}}
+        {{sl-drop-button align="right"}}
     ` );
 
     assert.ok(
@@ -94,7 +89,7 @@ test( 'align property is supported', function( assert ) {
 
 test( 'Icon class property is supported', function( assert ) {
     this.render( hbs`
-      {{sl-drop-button label="test"}}
+        {{sl-drop-button label="test"}}
     ` );
 
     assert.strictEqual(
@@ -110,7 +105,7 @@ test( 'Icon class property is supported', function( assert ) {
     );
 
     this.render( hbs`
-      {{sl-drop-button label="test" iconClass="test"}}
+        {{sl-drop-button label="test" iconClass="test"}}
     ` );
 
     assert.strictEqual(
