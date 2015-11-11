@@ -25,8 +25,18 @@ export default Ember.Component.extend( InputBased, {
         'sl-radio'
     ],
 
+    /** @type {String} */
+    dynamicTagName: null,
+
     /** @type {Object} */
     layout,
+
+    /**
+     * Alias to `dynamicTagName`
+     *
+     * @type {String}
+    */
+    tagName: Ember.computed.alias( 'dynamicTagName' ),
 
     // -------------------------------------------------------------------------
     // Actions
@@ -53,6 +63,19 @@ export default Ember.Component.extend( InputBased, {
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Initialize any computed properties that need setup
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            this.set( 'dynamicTagName', this.get( 'inline' ) ? 'label' : 'div' );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
