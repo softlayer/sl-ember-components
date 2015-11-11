@@ -28,6 +28,9 @@ export default Ember.Component.extend( InputBased, {
     /** @type {String} */
     dynamicTagName: null,
 
+    /** @type {Boolean} */
+    inline: false,
+
     /** @type {Object} */
     layout,
 
