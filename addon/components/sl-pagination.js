@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNames: [
         'pagination',
-        'sl-pagination'
+        'sl-ember-components'
     ],
 
     /** @type {Object} */

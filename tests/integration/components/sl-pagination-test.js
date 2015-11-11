@@ -17,8 +17,8 @@ test( 'Default classes are applied', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-pagination' ),
-        'Default rendered component has class "sl-pagination"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
+        'Default rendered component has class "sl-ember-components"'
     );
 });
 
