@@ -5,6 +5,42 @@ moduleForComponent( 'sl-span', 'Integration | Component | sl span', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( hbs`
+        {{sl-span}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).hasClass( '.sl-loading-icon-dark' ),
+        false,
+        'sl-loading-icon-dark is not rendered intially with default inverse property'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).hasClass( '.sl-loading-icon-light' ),
+        false,
+        'sl-loading-icon-light is not rendered intially with default inverse property'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).hasClass( '.sl-loading-icon' ),
+        false,
+        'sl-loading-icon is not rendered intially with default loading property'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).text().trim(),
+        '',
+        'Value defaults to null'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).prop( 'tagName' ),
+        'SPAN',
+        'tagName propety defaults to "span"'
+    );
+});
+
 test( '"value" property is supported', function( assert ) {
     this.render( hbs`
         {{sl-span value="Test content"}}
@@ -16,17 +52,7 @@ test( '"value" property is supported', function( assert ) {
     );
 });
 
-test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
-    this.render( hbs`
-        {{sl-span}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-loading-icon' ).length,
-        0,
-        'Loading icon is not present initially'
-    );
-
+test( '"loading" property is supported', function( assert ) {
     this.render( hbs`
         {{sl-span loading=true}}
     ` );
@@ -38,7 +64,7 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
     );
 });
 
-test( 'Inverse property applies to loading-icon', function( assert ) {
+test( '"Inverse" property is supported', function( assert ) {
     this.render( hbs`
         {{sl-span loading=true}}
     ` );
