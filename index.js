@@ -51,5 +51,24 @@ module.exports = {
             development: 'bower_components/typeahead.js/dist/typeahead.bundle.js',
             production: 'bower_components/typeahead.js/dist/typeahead.bundle.min.js'
         });
+    },
+
+    postprocessTree: function( type, tree ) {
+        var fontPath = this.name + '/assets/fonts';
+
+        return mergeTrees(
+            [
+                tree,
+
+                pickFiles( 'bower_components/bootstrap/fonts', {
+                    srcDir: '/',
+                    files: [ 'glyphicons-halflings-regular.*' ],
+                    destDir: fontPath
+                })
+            ],
+            {
+                overwrite: true
+            }
+        );
     }
 };

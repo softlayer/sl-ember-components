@@ -309,7 +309,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
         series: testSeries
     });
     const chartStyle = {
-        fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+        fontFamily: 'Helvetica, Arial, sans-serif',
         fontSize: '13px'
     };
     const options = Ember.$.extend( true, {
