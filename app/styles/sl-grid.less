@@ -1,0 +1,42 @@
+.sl-grid .list-pane {
+    float: left;
+    padding-bottom: 33px;
+    position: relative;
+    width: 100%;
+}
+
+.sl-grid .list-pane .content {
+	overflow-y: scroll;
+}
+
+.sl-grid.details-open .list-pane {
+    width: 20%;
+}
+
+.sl-grid.details-open .list-pane tr th:nth-child(n+2), .sl-grid.details-open .list-pane tr td:nth-child(n+2) {
+    display: none;
+}
+
+.sl-grid .detail-pane {
+    background-color: #f9fafb;
+    border-left: 1px solid #d6d9dd;
+    display: none;
+    position: relative;
+}
+
+.sl-grid.details-open .detail-pane {
+    display: inline-block;
+    width: 80%;
+}
+
+.sl-grid .list-pane footer {
+    border-top: 1px solid #d6d9dd;
+    bottom: 0;
+    height: 33px;
+    line-height: 33px;
+    overflow: hidden;
+    padding: 0 1em;
+    position: absolute;
+    text-overflow: ellipsis;
+    width: 100%;
+}
