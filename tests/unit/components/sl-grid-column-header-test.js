@@ -5,113 +5,118 @@ moduleForComponent( 'sl-grid-column-header', 'Unit | Component | sl grid column 
     unit: true
 });
 
-test( 'Sortable column class is present when column is sortable', function( assert ) {
-    const column = {};
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
 
-    this.subject({ column });
-
-    assert.equal(
-        this.$().hasClass( 'sortable-column' ),
-        false,
-        'Default component with non-sortable column does not have "sortable-column" class'
-    );
-
-    Ember.run( () => {
-        Ember.set( column, 'sortable', true );
-    });
-
-    assert.ok(
-        this.$().hasClass( 'sortable-column' ),
-        true,
-        'Component has class "sortable-column" with sortable column'
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'th',
+        'Tag name is th'
     );
 });
 
-test( 'Sorted class is present when column is in sorted state', function( assert ) {
-    const column = {};
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
 
-    this.subject({ column });
+    const sortedClassDependentKeys = [
+        'column.sortAscending',
+        'column.sortable'
+    ];
 
-    assert.equal(
-        this.$().hasClass( 'column-ascending' ),
-        false,
-        'Class "column-ascending" is not present with non-sorted column'
+    const sortIconClassDependentKeys = [
+        'column.sortAscending',
+        'column.sortable'
+    ];
+
+    assert.deepEqual(
+        component.sortedClass._dependentKeys,
+        sortedClassDependentKeys
     );
 
-    assert.equal(
-        this.$().hasClass( 'column-descending' ),
-        false,
-        'Class "column-descending" is not present with non-sorted column'
-    );
-
-    Ember.run( () => {
-        Ember.set( column, 'sortable', true );
-        Ember.set( column, 'sortAscending', true );
-    });
-
-    assert.equal(
-        this.$().hasClass( 'column-descending' ),
-        false,
-        'Class "column-descending" is not present with ascending-sorted column'
-    );
-
-    assert.equal(
-        this.$().hasClass( 'column-ascending' ),
-        true,
-        'Class "column-ascending" is present with ascending-sorted column'
-    );
-
-    Ember.run( () => {
-        Ember.set( column, 'sortAscending', false );
-    });
-
-    assert.equal(
-        this.$().hasClass( 'column-ascending' ),
-        false,
-        'Class "column-ascending" is not present with descending-sorted column'
-    );
-
-    assert.equal(
-        this.$().hasClass( 'column-descending' ),
-        true,
-        'Class "column-descending" is present with descending-sorted column'
+    assert.deepEqual(
+        component.sortIconClass._dependentKeys,
+        sortIconClassDependentKeys
     );
 });
 
-test( 'Sort icon is set correctly for sortable columns', function( assert ) {
-    const column = { sortable: true };
-    const component = this.subject({ column });
+test( 'sortedClass() returns the correct value', function( assert ) {
+    const column = Ember.Object.extend().create();
+    const component = this.subject({
+        column: column
+    });
 
-    assert.equal(
+    assert.strictEqual(
+        component.get( 'sortedClass' ),
+        null,
+        'sortedClass returns null when column.sortable is not set'
+    );
+
+    column.set( 'sortable', true );
+
+    assert.strictEqual(
+        component.get( 'sortedClass' ),
+        null,
+        'sortedClass returns null when sortAscending is not set '
+    );
+
+    column.set( 'sortAscending', true );
+
+    assert.strictEqual(
+        component.get( 'sortedClass' ),
+        'column-ascending',
+        'sortedClass returns column-ascending'
+    );
+
+    column.set( 'sortAscending', false );
+
+    assert.strictEqual(
+        component.get( 'sortedClass' ),
+        'column-descending',
+        'sortedClass returns column-descending'
+    );
+});
+
+test( 'sortedIconClass() returns the correct value', function( assert ) {
+    const column = Ember.Object.extend().create();
+    const component = this.subject({
+        column: column
+    });
+
+    assert.strictEqual(
+        component.get( 'sortIconClass' ),
+        null,
+        'sortIconClass returns null when column.sortable is not set'
+    );
+
+    column.set( 'sortable', true );
+
+    assert.strictEqual(
         component.get( 'sortIconClass' ),
         'fa-sort',
-        'Component has expected class "fa-sort" with sortable column'
+        'sortIconClass returns fa-sort when sortAscending is not set '
     );
 
-    Ember.run( () => {
-        Ember.set( column, 'sortAscending', true );
-    });
+    column.set( 'sortAscending', true );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'sortIconClass' ),
         'fa-sort-asc',
-        'Component has expected class "fa-sort-asc" with ascending sorted column'
+        'sortIconClass returns column-asc'
     );
 
-    Ember.run( () => {
-        Ember.set( column, 'sortAscending', false );
-    });
+    column.set( 'sortAscending', false );
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'sortIconClass' ),
         'fa-sort-desc',
-        'Component has expected class "fa-sort-desc" with descending sorted column'
+        'sortIconClass returns column-desc'
     );
 });
 
 test( 'Click event returns column with sortable column', function( assert ) {
-    const column = {};
+    assert.expect( 2 );
 
+    const column = {};
     const targetObject = {
         test() {
             assert.ok(
@@ -127,7 +132,6 @@ test( 'Click event returns column with sortable column', function( assert ) {
         targetObject
     });
 
-    assert.expect( 1 );
 
     // This click should not cause the initial assertion to run
     this.$().trigger( 'click' );
@@ -136,7 +140,12 @@ test( 'Click event returns column with sortable column', function( assert ) {
         Ember.set( column, 'sortable', true );
 
         targetObject.test = function( passedColumn ) {
-            assert.equal(
+            assert.ok(
+                true,
+                'onClick action handler was called'
+            );
+
+            assert.deepEqual(
                 passedColumn,
                 column,
                 'onClick passed expected column definition'

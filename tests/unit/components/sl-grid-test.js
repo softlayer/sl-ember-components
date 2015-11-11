@@ -31,12 +31,6 @@ test( 'Default values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'tagName' ),
-        'div',
-        'tagName is div'
-    );
-
-    assert.strictEqual(
         component.get( 'actionsButtonLabel' ),
         'Actions',
         'actionsButtonLabel is set to "Actions"'
@@ -614,10 +608,9 @@ test( 'getHeights() returns correct height values', function( assert ) {
     this.render();
 
     elements.gridHeader =  {
-        element: this.$( '.grid-header' ).height( 26 ),
-        height: 26
+        element: this.$( '.grid-header' ).height( 31 ),
+        height: 31
     };
-
 
     elements.detailHeader = {
         element: this.$( '.detail-pane header' ).height( 50 ),
