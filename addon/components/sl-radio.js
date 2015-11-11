@@ -17,12 +17,13 @@ export default Ember.Component.extend( InputBased, {
 
     /** @type {String[]} */
     classNameBindings: [
-        'radioType'
+        'inline:radio-inline'
     ],
 
     /** @type {String[]} */
     classNames: [
-        'sl-radio'
+        'sl-radio',
+        'radio'
     ],
 
     /** @type {Object} */
@@ -49,25 +50,12 @@ export default Ember.Component.extend( InputBased, {
      *
      * @type {?String}
      */
-    value: null,
+    value: null
 
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * Type of radio button; "radio-inline" when inline, "radio" default
-     *
-     * @function
-     * @returns {String}
-     */
-    radioType: Ember.computed(
-        'inline',
-        function() {
-            return this.get( 'inline' ) ? 'radio-inline' : 'radio';
-        }
-    )
 
 });
