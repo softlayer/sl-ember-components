@@ -11,44 +11,27 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( '.sl-loading-icon-dark' ),
-        false,
-        'sl-loading-icon-dark is not rendered intially with default inverse property'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( '.sl-loading-icon-light' ),
-        false,
-        'sl-loading-icon-light is not rendered intially with default inverse property'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( '.sl-loading-icon' ),
-        false,
-        'sl-loading-icon is not rendered intially with default loading property'
-    );
-
-    assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
         '',
-        'Value defaults to null'
+        '"value" defaults to null'
     );
 
     assert.strictEqual(
         this.$( '>:first-child' ).prop( 'tagName' ),
         'SPAN',
-        'tagName propety defaults to "span"'
+        '"tagName" property defaults to "span"'
     );
 });
 
 test( '"value" property is supported', function( assert ) {
     this.render( hbs`
-        {{sl-span value="Test content"}}
+        {{sl-span value="value text"}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
-        'Test content'
+        'value text',
+        '"value" text is displayed'
     );
 });
 
