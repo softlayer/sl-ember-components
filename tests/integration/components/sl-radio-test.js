@@ -5,6 +5,27 @@ moduleForComponent( 'sl-radio', 'Integration | Component | sl radio', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( hbs`
+        {{sl-radio}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'radio' ),
+        'Has class "radio"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'Has class "form-group"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-radio' ),
+        'Has class "sl-radio"'
+    );
+});
+
 test( 'Disabled state applies disabled class, and attribute to input', function( assert ) {
     this.render( hbs`
         {{sl-radio disabled=true}}
@@ -29,6 +50,11 @@ test( 'Inline property sets relevant class', function( assert ) {
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'radio-inline' ),
         'has class "radio-inline"'
+    );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'inline radio does not have class "form-group"'
     );
 });
 
