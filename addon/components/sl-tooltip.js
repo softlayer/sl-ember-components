@@ -33,21 +33,20 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Check passed parameters on initialization
      *
      * @function
-     * @throws {ember.assert} Thrown if 'title' is not a string
-     * @throws {ember.assert} Thrown if 'popover' is provided and not a string
+     * @throws {Ember.Error} Thrown if 'title' or 'popover' is invalid
      * @returns {undefined}
      */
     initialize: Ember.on(
         'init',
         function() {
-            if ( Ember.typeOf( this.get( 'title' ) ) !== 'string' ) {
+            if ( 'string' !== Ember.typeOf( this.get( 'title' ) ) ) {
                 throw new Ember.Error(
                     'enableTooltip() and enablePopover() expect the parameter "title" and for it to be a string'
                 );
             }
 
-            if ( Ember.typeOf( this.get( 'popover' ) ) !== 'string' &&
-                 Ember.typeOf( this.get( 'popover' ) ) !== 'undefined' ) {
+            if ( 'string' !== Ember.typeOf( this.get( 'popover' ) ) &&
+                 'undefined' !== Ember.typeOf( this.get( 'popover' ) ) ) {
                 throw new Ember.Error(
                     'enablePopover() expects the parameter "popover" and for it to be a string'
                 );
