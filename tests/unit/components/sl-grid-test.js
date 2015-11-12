@@ -609,34 +609,27 @@ test( 'getHeights() returns correct height values', function( assert ) {
     this.render();
 
     elements.gridHeader =  {
-        element: this.$( '.grid-header' ).css( 'height', 31 ),
-        height: 31
+        height: parseInt( this.$( '.grid-header' ).css( 'height' ) )
     };
 
     elements.detailHeader = {
-        element: this.$( '.detail-pane header' ).css( 'height', 50 ),
-        height: 50
+        height: parseInt( this.$( '.detail-pane header' ).css( 'height' ) )
     };
 
-
     elements.detailFooter = {
-        element: this.$( '.detail-pane footer' ).css( 'height', 100 ),
-        height: 100
+        height: parseInt( this.$( '.detail-pane footer' ).css( 'height' ) ),
     };
 
     elements.listHeader = {
-        element: this.$( '.list-pane .column-headers' ).css( 'height', 38 ),
-        height: 38
+        height: parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) ),
     };
 
     elements.listFooter = {
-        element: this.$( '.list-pane footer' ).css( 'height', 51 ),
-        height: 51
+        height: parseInt( this.$( '.list-pane footer' ).css( 'height' ) ),
     };
 
     elements.filterPane = {
-        element: this.$( '.filter-pane' ).css( 'height', 220 ),
-        height: 220
+        height: parseInt( this.$( '.filter-pane' ).css( 'height' ) )
     };
 
     const heights = component.getHeights();
