@@ -227,7 +227,7 @@ test( 'Action requestData is fired with correct arguments in paging mode', funct
 
     const first = $( '>:first-child' );
 
-    first.find( '.sl-pagination :nth-child(3) a' ).click(),
+    first.find( '.sl-pagination :nth-child(3) a' ).click();
 
     assert.ok(
         spy.calledOnce,
@@ -402,10 +402,10 @@ test( 'Setting height property gives the grid a fixed height', function( assert 
 
     const first = this.$( '>:first-child' );
     const totalHeight = (
-        first.find( '.grid-header' ).height() +
-        first.find( '.list-pane .column-headers' ).height() +
-        first.find( '.list-pane .content' ).height() +
-        first.find( '.list-pane footer' ).height()
+        parseInt( first.find( '.grid-header' ).css( 'height' ) ) +
+        parseInt( first.find( '.list-pane .column-headers' ).css( 'height' ) ) +
+        parseInt( first.find( '.list-pane .content' ).css( 'height' ) ) +
+        parseInt( first.find( '.list-pane footer' ).css( 'height' ) )
     );
 
     assert.equal(

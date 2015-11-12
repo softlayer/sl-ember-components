@@ -26,7 +26,7 @@ test( 'Active row class is supported', function( assert ) {
 
     this.render( hbs`
         {{sl-grid-row row=row}}
-    `);
+    ` );
 
     assert.equal(
         this.$( '>:first-child' ).hasClass( 'active' ),
@@ -44,22 +44,20 @@ test( 'Active row class is supported', function( assert ) {
     );
 });
 
-test( 'rowClick action handler is called when row is clicked',
-    function( assert ) {
-        const row = { active: true };
-        const spy = sinon.spy();
+test( 'rowClick action handler is called when row is clicked', function( assert ) {
+    const row = { active: true };
+    const spy = sinon.spy();
 
-        this.set( 'row', row );
-        this.on( 'rowClick', spy );
+    this.set( 'row', row );
+    this.on( 'rowClick', spy );
 
-        this.render( hbs`
-            {{sl-grid-row row=row rowClick='rowClick'}}
-        ` );
+    this.render( hbs`
+        {{sl-grid-row row=row rowClick="rowClick"}}
+    ` );
 
-        this.$( '>:first-child' ).click();
+    this.$( '>:first-child' ).click();
 
-        assert.ok(
-            spy.called
-        );
-    }
-);
+    assert.ok(
+        spy.called
+    );
+});

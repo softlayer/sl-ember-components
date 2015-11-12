@@ -542,10 +542,12 @@ export default Ember.Component.extend({
         elements.listFooter = this.$( '.list-pane footer' );
         elements.filterPane = this.$( '.filter-pane' );
 
-        for( let key in elements ) {
+        for( const key in elements ) {
             const element = elements[ key ];
             const keyName = `${ key }Height`;
-            heights[ keyName ] = element.height();
+            const height = parseInt( element.css( 'height' ) );
+
+            heights[ keyName ] = isNaN( height ) ? 0 : height;
         }
 
         return heights;

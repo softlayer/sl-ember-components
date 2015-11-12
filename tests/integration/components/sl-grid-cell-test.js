@@ -99,7 +99,7 @@ test( 'Clicking on grid-cell invokes onClick handler', function( assert ) {
     this.on( 'onClick', spyOnClick );
 
     this.render( hbs`
-        {{sl-grid-cell column=column row=row onClick='onClick'}}
+        {{sl-grid-cell column=column row=row onClick="onClick"}}
     ` );
 
     this.$( '>:first-child' ).click();

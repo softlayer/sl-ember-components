@@ -580,8 +580,8 @@ test( 'updateHeight() sets correct height on content elements', function( assert
 
     this.render();
 
-    this.$( '.detail-pane .content' ).height( 0 ),
-    this.$( '.list-pane .content' ).height( 0 ),
+    this.$( '.detail-pane .content' ).height( 0 );
+    this.$( '.list-pane .content' ).height( 0 );
 
     component.updateHeight();
 
@@ -608,33 +608,33 @@ test( 'getHeights() returns correct height values', function( assert ) {
     this.render();
 
     elements.gridHeader =  {
-        element: this.$( '.grid-header' ).height( 31 ),
+        element: this.$( '.grid-header' ).css( 'height', 31 ),
         height: 31
     };
 
     elements.detailHeader = {
-        element: this.$( '.detail-pane header' ).height( 50 ),
+        element: this.$( '.detail-pane header' ).css( 'height', 50 ),
         height: 50
     };
 
 
     elements.detailFooter = {
-        element: this.$( '.detail-pane footer' ).height( 100 ),
+        element: this.$( '.detail-pane footer' ).css( 'height', 100 ),
         height: 100
     };
 
     elements.listHeader = {
-        element: this.$( '.list-pane .column-headers' ).height( 38 ),
+        element: this.$( '.list-pane .column-headers' ).css( 'height', 38 ),
         height: 38
     };
 
     elements.listFooter = {
-        element: this.$( '.list-pane footer' ).height( 50 ),
-        height: 50
+        element: this.$( '.list-pane footer' ).css( 'height', 51 ),
+        height: 51
     };
 
     elements.filterPane = {
-        element: this.$( '.filter-pane' ).height( 220 ),
+        element: this.$( '.filter-pane' ).css( 'height', 220 ),
         height: 220
     };
 
@@ -715,8 +715,9 @@ test( 'getContentHeights() returns correct value for content heights', function(
         `listContentHeight is ${ maxHeight }`
     );
 
-    // Test detailContentHeight is computed correctly
-    // when detailContentHeight is set
+    /* jshint ignore:start */
+
+    // Test detailContentHeight is computed correctly when detailContentHeight is set
 
     heights.detailHeaderHeight = 100;
 
@@ -728,8 +729,7 @@ test( 'getContentHeights() returns correct value for content heights', function(
         `detailContentHeight is ${ maxHeight - 100 } when detailHeaderHeight is set`
     );
 
-    // Test detailContentHeight is computed correctly
-    // when detaiFooterHeight is set
+    // Test detailContentHeight is computed correctly when detaiFooterHeight is set
 
     resetHeights();
     heights.detailFooterHeight = 100;
@@ -807,6 +807,8 @@ test( 'getContentHeights() returns correct value for content heights', function(
         maxHeight - 100,
         `listContentHeight is ${ maxHeight - 100 } when listFooterHeight is set`
     );
+
+    /* jshint ignore:end */
 });
 
 test( 'enableContinuousPaging() binds scroll event', function( assert ) {
