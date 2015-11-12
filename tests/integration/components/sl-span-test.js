@@ -15,12 +15,6 @@ test( 'Default rendered state', function( assert ) {
         '',
         '"value" defaults to null'
     );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).prop( 'tagName' ),
-        'SPAN',
-        '"tagName" property defaults to "span"'
-    );
 });
 
 test( '"value" property is supported', function( assert ) {
