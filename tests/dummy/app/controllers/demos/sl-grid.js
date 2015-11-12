@@ -21,17 +21,7 @@ export default Ember.Controller.extend({
             }
 
             this.set( 'sortProperties', [ columnString ] );
-        },
-        requestData(){
-            this.set( 'model', Ember.A([
-            {
-                name: 'Red',
-                fruit: 'Apple',
-                hexCode: '#FF0000'
-            }
-            ]));
         }
-
     },
 
     columns: Ember.A([
@@ -39,8 +29,7 @@ export default Ember.Controller.extend({
             primary: true,
             size: 'small',
             title: 'Color',
-            valuePath: 'name',
-            align: 'right'
+            valuePath: 'name'
         },
         {
             size: 'small',
