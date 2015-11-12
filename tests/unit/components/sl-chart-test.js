@@ -399,7 +399,7 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
-test( 'Observer Keys are correct', function( assert ) {
+test( 'Observer keys are correct', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
