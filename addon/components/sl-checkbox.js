@@ -19,7 +19,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /** @type {String[]} */
     classNameBindings: [
-        'checkboxType'
+        'checkboxType',
+        'inline::form-group'
     ],
 
     /** @type {String[]} */

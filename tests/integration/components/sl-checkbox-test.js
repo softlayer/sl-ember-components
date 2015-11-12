@@ -82,6 +82,22 @@ test( 'Checked state applies property to input', function( assert ) {
     );
 });
 
+test( 'Inline property sets relevant class', function( assert ) {
+    this.render( hbs`
+        {{sl-checkbox inline=true}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'checkbox-inline' ),
+        'has class "checkbox-inline"'
+    );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'inline checkbox does not have class "form-group"'
+    );
+});
+
 test( 'name applies property to input', function( assert ) {
     this.render( hbs`
         {{sl-checkbox}}
