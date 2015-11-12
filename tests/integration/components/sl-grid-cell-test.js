@@ -16,26 +16,14 @@ const defaultRow = Ember.Object.extend({
 });
 
 const defaultTemplate = hbs`
-    {{sl-grid-cell column=column row=row}}
+    {{sl-grid-cell column=column}}
 `;
 
 test( 'Column alignment class is applied', function( assert ) {
-    let column = defaultColumn.create();
-    const row = defaultRow.create();
+    const column = defaultColumn.create({
+        align: 'right'
+    });
 
-    this.set( 'column', column );
-    this.set( 'row', row );
-
-    this.render( defaultTemplate );
-
-    assert.equal(
-        this.$( '>:first-child' ).hasClass( 'text-right' ),
-        false,
-        'Default component does not have right-alignment class'
-    );
-
-    column = defaultColumn.create();
-    column.set( 'align', 'right' );
     this.set( 'column', column );
 
     this.render( defaultTemplate );
@@ -47,23 +35,11 @@ test( 'Column alignment class is applied', function( assert ) {
 });
 
 test( 'Primary column class is applied', function( assert ) {
-    let column = defaultColumn.create();
-    const row = defaultRow.create();
+    const column = defaultColumn.create({
+        primary: true
+    });
 
     this.set( 'column', column );
-    this.set( 'row', row );
-
-    this.render( defaultTemplate );
-
-    assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'primary-column' ),
-        'Default component does not have primary column class'
-    );
-
-    column = defaultColumn.create();
-    column.set( 'primary', true );
-    this.set( 'column', column );
-
     this.render( defaultTemplate );
 
     assert.ok(
@@ -79,7 +55,9 @@ test( 'Content value is handled for valuePath', function( assert ) {
     this.set( 'column', column );
     this.set( 'row', row );
 
-    this.render( defaultTemplate );
+    this.render( hbs`
+        {{sl-grid-cell column=column row=row}}
+    ` );
 
     assert.equal(
         this.$( '>:first-child' ).text().trim(),

@@ -428,6 +428,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Cleanup bound events
+     *
+     * @function
+     * @returns {undefined}
+     */
     clearEvents: Ember.on(
         'willClearRender',
         function() {
@@ -470,7 +476,7 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Update pane heights
+     * Update panes' heights
      *
      * @function
      * @returns {undefined}
