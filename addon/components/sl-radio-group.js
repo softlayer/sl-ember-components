@@ -78,7 +78,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             const name = this.get( 'name' );
 
             if ( !name ) {
-                throw new Ember.Error( 'The name property must be set on the sl-radio-group component' );
+                throw new Ember.Error(
+                    'The name property must be set on the sl-radio-group component'
+                );
             }
 
             const value = this.get( 'value' );
