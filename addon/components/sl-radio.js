@@ -26,7 +26,7 @@ export default Ember.Component.extend( InputBased, {
         'sl-radio'
     ],
 
-    /** @type {String} */
+    /** @type {?String} */
     dynamicTagName: null,
 
     /** @type {Boolean} */
