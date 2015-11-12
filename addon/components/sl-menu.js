@@ -203,10 +203,6 @@ export default Ember.Component.extend( StreamEnabled, {
             stream.on( 'showAll', () => {
                 this.showAll();
             });
-
-            stream.on( 'clearSelections', () => {
-                this.clearSelections();
-            });
         }
     ),
 
