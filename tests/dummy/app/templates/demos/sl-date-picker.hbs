@@ -121,12 +121,20 @@
         The <code>placeholder</code> attribute text for the date input.
     {{/property-text}}
 
+    {{#property-text name="popover" type="String"}}
+        Popover content text.
+    {{/property-text}}
+
     {{#property-text name="startDate" type="Date/String"}}
         The earliest date that may be selected. All earlier dates will be disabled.
     {{/property-text}}
 
     {{#property-text name="startView" type="String" default="\"month\""}}
         The view that the calendar's datepicker should show when created.
+    {{/property-text}}
+
+    {{#property-text name="title" type="String"}}
+        Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 
     {{#property-text name="todayBtn" type="Boolean/String" default="false"}}
