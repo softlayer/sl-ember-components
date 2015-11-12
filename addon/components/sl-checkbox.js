@@ -28,7 +28,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         'sl-checkbox'
     ],
 
-    /** @type {String} */
+    /** @type {?String} */
     dynamicTagName: null,
 
     /** @type {Boolean} */
