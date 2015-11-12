@@ -41,13 +41,16 @@ export default Ember.Component.extend( TooltipEnabled, {
         'init',
         function() {
             if ( Ember.typeOf( this.get( 'title' ) ) !== 'string' ) {
-                throw new Ember.Error( 'enableTooltip() and enablePopover()' +
-                            ' expect the parameter "title" and for it to be a string' );
+                throw new Ember.Error(
+                    'enableTooltip() and enablePopover() expect the parameter "title" and for it to be a string'
+                );
             }
 
             if ( Ember.typeOf( this.get( 'popover' ) ) !== 'string' &&
                  Ember.typeOf( this.get( 'popover' ) ) !== 'undefined' ) {
-                throw new Ember.Error( 'enablePopover() expects the parameter "popover" and for it to be a string' );
+                throw new Ember.Error(
+                    'enablePopover() expects the parameter "popover" and for it to be a string'
+                );
             }
         }
     )
