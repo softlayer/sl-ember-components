@@ -1,8 +1,9 @@
 /* jshint node: true */
 'use strict';
 
+var Funnel = require( 'broccoli-funnel' );
+var compileLess = require( 'broccoli-less-single' );
 var mergeTrees = require( 'broccoli-merge-trees' );
-var pickFiles = require( 'broccoli-static-compiler' );
 
 module.exports = {
     name: 'sl-ember-components',
@@ -54,17 +55,23 @@ module.exports = {
     },
 
     postprocessTree: function( type, tree ) {
-        var fontPath = this.name + '/assets/fonts';
+        var fonts = new Funnel( 'bower_components/bootstrap', {
+            srcDir: 'fonts',
+            destDir: this.name + '/assets/fonts',
+            include: [ 'glyphicons-halflings-regular.*' ]
+        });
+
+        var less = compileLess(
+            new Funnel( 'app/styles' ),
+            this.name + '.less',
+            this.name + '/assets/css/' + this.name + '.css'
+        );
 
         return mergeTrees(
             [
                 tree,
-
-                pickFiles( 'bower_components/bootstrap/fonts', {
-                    srcDir: '/',
-                    files: [ 'glyphicons-halflings-regular.*' ],
-                    destDir: fontPath
-                })
+                fonts,
+                less
             ],
             {
                 overwrite: true
