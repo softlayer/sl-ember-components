@@ -378,3 +378,17 @@ test( 'activeTabName is set to correct value when activatePane() is called', fun
 
     this.registry.unregister( 'template:test-template' );
 });
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const updateContentHeightKeys = [
+        'contentHeight'
+    ];
+
+    assert.deepEqual(
+        component.updateContentHeight.__ember_observes__,
+        updateContentHeightKeys,
+        'Observer keys are correct for updateContentHeight()'
+    );
+});

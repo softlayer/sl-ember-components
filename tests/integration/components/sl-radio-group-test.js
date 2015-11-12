@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import waitForPendingRunLoops from 'ember-test-helpers/wait';
 
 moduleForComponent( 'sl-radio-group', 'Integration | Component | sl radio group', {
     integration: true
@@ -99,11 +100,13 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
         radioButton.click();
     });
 
-    assert.strictEqual(
-        this.get( 'value' ),
-        'eric',
-        '"eric" value is selected'
-    );
+    return waitForPendingRunLoops().then( () => {
+        assert.strictEqual(
+            this.get( 'value' ),
+            'eric',
+            '"eric" value is selected'
+        );
+    });
 });
 
 test( 'Default value gets selected by default', function( assert ) {
@@ -120,5 +123,90 @@ test( 'Default value gets selected by default', function( assert ) {
         this.$( '>:first-child' ).find( 'input[name="testName"]:checked' ).val(),
         'josh',
         'The value "josh" that is set is selected by default'
+    );
+});
+
+test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
+    const title = 'test title';
+
+    this.set( 'title', title );
+
+    this.render( hbs`
+        {{#sl-alert title=title}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    const data = this.$( '>:first-child' ).data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
+
+    assert.strictEqual(
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    assert.strictEqual(
+        tooltipData.getTitle(),
+        title,
+        'Title text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
+    );
+});
+
+test( 'Popover properties are set correctly when popover parameter is set', function( assert ) {
+    const title = 'test title';
+    const popover = 'popover text';
+
+    this.set( 'title', title );
+    this.set( 'popover', popover );
+
+    this.render( hbs`
+        {{#sl-alert popover=popover}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    let data = this.$( '>:first-child' ).data();
+    let popoverData = data[ 'bs.popover' ];
+
+    assert.strictEqual(
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    this.render( hbs`
+        {{#sl-alert title=title popover=popover}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    data = this.$( '>:first-child' ).data();
+    popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
+
+    assert.strictEqual(
+        popoverData.getTitle(),
+        title,
+        'Popover title was set correctly'
+    );
+
+    assert.strictEqual(
+        popoverData.getContent(),
+        popover,
+        'Popover text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'click',
+        'Default trigger is "click"'
     );
 });

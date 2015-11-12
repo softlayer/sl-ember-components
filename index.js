@@ -1,8 +1,9 @@
 /* jshint node: true */
 'use strict';
 
+var Funnel = require( 'broccoli-funnel' );
+var compileLess = require( 'broccoli-less-single' );
 var mergeTrees = require( 'broccoli-merge-trees' );
-var pickFiles = require( 'broccoli-static-compiler' );
 
 module.exports = {
     name: 'sl-ember-components',
@@ -11,60 +12,66 @@ module.exports = {
         this._super.included( app );
 
         app.import({
-            development: 'bower_components/bootstrap/dist/js/bootstrap.js',
-            production: 'bower_components/bootstrap/dist/js/bootstrap.min.js'
+            development: app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js',
+            production: app.bowerDirectory + '/bootstrap/dist/js/bootstrap.min.js'
         });
 
-        app.import( 'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js' );
+        app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
         app.import({
-            development: 'bower_components/highcharts/highcharts.src.js',
-            production: 'bower_components/highcharts/highcharts.js'
-        });
-
-        app.import({
-            development: 'bower_components/jquery-mousewheel/jquery.mousewheel.js',
-            production: 'bower_components/jquery-mousewheel/jquery.mousewheel.min.js'
+            development: app.bowerDirectory + '/highcharts/highcharts.src.js',
+            production: app.bowerDirectory + '/highcharts/highcharts.js'
         });
 
         app.import({
-            development: 'bower_components/moment/min/moment-with-locales.js',
-            production: 'bower_components/moment/min/moment-with-locales.min.js'
+            development: app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js',
+            production: app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.min.js'
         });
 
         app.import({
-            development: 'bower_components/moment-timezone/builds/moment-timezone-with-data.js',
-            production: 'bower_components/moment-timezone/builds/moment-timezone-with-data.min.js'
+            development: app.bowerDirectory + '/moment/min/moment-with-locales.js',
+            production: app.bowerDirectory + '/moment/min/moment-with-locales.min.js'
         });
 
         app.import({
-            development: 'bower_components/rxjs/dist/rx.all.js',
-            production: 'bower_components/rxjs/dist/rx.all.min.js'
+            development: app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.js',
+            production: app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.min.js'
         });
 
         app.import({
-            development: 'bower_components/select2/select2.js',
-            production: 'bower_components/select2/select2.min.js'
+            development: app.bowerDirectory + '/rxjs/dist/rx.all.js',
+            production: app.bowerDirectory + '/rxjs/dist/rx.all.min.js'
         });
 
         app.import({
-            development: 'bower_components/typeahead.js/dist/typeahead.bundle.js',
-            production: 'bower_components/typeahead.js/dist/typeahead.bundle.min.js'
+            development: app.bowerDirectory + '/select2/select2.js',
+            production: app.bowerDirectory + '/select2/select2.min.js'
+        });
+
+        app.import({
+            development: app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.js',
+            production: app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.min.js'
         });
     },
 
     postprocessTree: function( type, tree ) {
-        var fontPath = this.name + '/assets/fonts';
+        var fonts = new Funnel( 'bower_components/bootstrap', {
+            srcDir: 'fonts',
+            destDir: this.name + '/assets/fonts',
+            include: [ 'glyphicons-halflings-regular.*' ]
+        });
+
+        var less = compileLess(
+            new Funnel( 'app/styles' ),
+            this.name + '.less',
+            this.name + '/assets/css/' + this.name + '.css'
+        );
 
         return mergeTrees(
             [
                 tree,
-
-                pickFiles( 'bower_components/bootstrap/fonts', {
-                    srcDir: '/',
-                    files: [ 'glyphicons-halflings-regular.*' ],
-                    destDir: fontPath
-                })
+                fonts,
+                less
             ],
             {
                 overwrite: true
