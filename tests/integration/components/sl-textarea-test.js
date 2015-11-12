@@ -390,49 +390,82 @@ test( '"spellcheck" property is supported with bound values', function( assert )
     );
 });
 
-test( '"Title" capabilities are supported', function( assert ) {
-    this.render( hbs`
-        {{sl-textarea}}
-    ` );
+test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
+    const title = 'test title';
 
-    assert.notOk(
-        this.$( '>:first-child' ).attr( 'data-original-title' ),
-        '"title" property is not rendered when title is not set'
-    );
-
-    this.set( 'title', 'test title' );
+    this.set( 'title', title );
 
     this.render( hbs`
         {{sl-textarea title=title}}
     ` );
 
+    const data = this.$( '>:first-child' ).data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
+
     assert.strictEqual(
-        this.$( '>:first-child' ).attr( 'data-original-title' ),
-        this.get( 'title' ),
-        '"title" property is rendered and supported'
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    assert.strictEqual(
+        tooltipData.getTitle(),
+        title,
+        'Title text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
     );
 });
 
-test( '"Popover" capabilities are supported', function( assert ) {
-    this.render( hbs`
-        {{sl-textarea}}
-    ` );
+test( 'Popover properties are set correctly when popover parameter is set', function( assert ) {
+    const title = 'test title';
+    const popover = 'popover text';
 
-    assert.notOk(
-        this.$( '>:first-child' ).data( 'bs.popover' ),
-        '"popover" is not rendered when popover is not set'
-    );
-
-    this.set( 'popover', 'Test popover' );
+    this.set( 'title', title );
+    this.set( 'popover', popover );
 
     this.render( hbs`
         {{sl-textarea popover=popover}}
     ` );
 
+    let data = this.$( '>:first-child' ).data();
+    let popoverData = data[ 'bs.popover' ];
+
     assert.strictEqual(
-        this.$( '>:first-child' ).data( 'bs.popover' ).options.content,
-        this.get( 'popover' ),
-        '"popover" property is rendered and supported'
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    this.render( hbs`
+        {{sl-textarea title=title popover=popover}}
+    ` );
+
+    data = this.$( '>:first-child' ).data();
+    popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
+
+    assert.strictEqual(
+        popoverData.getTitle(),
+        title,
+        'Popover title was set correctly'
+    );
+
+    assert.strictEqual(
+        popoverData.getContent(),
+        popover,
+        'Popover text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'click',
+        'Default trigger is "click"'
     );
 });
 
