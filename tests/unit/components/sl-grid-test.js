@@ -617,15 +617,15 @@ test( 'getHeights() returns correct height values', function( assert ) {
     };
 
     elements.detailFooter = {
-        height: parseInt( this.$( '.detail-pane footer' ).css( 'height' ) ),
+        height: parseInt( this.$( '.detail-pane footer' ).css( 'height' ) )
     };
 
     elements.listHeader = {
-        height: parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) ),
+        height: parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) )
     };
 
     elements.listFooter = {
-        height: parseInt( this.$( '.list-pane footer' ).css( 'height' ) ),
+        height: parseInt( this.$( '.list-pane footer' ).css( 'height' ) )
     };
 
     elements.filterPane = {
