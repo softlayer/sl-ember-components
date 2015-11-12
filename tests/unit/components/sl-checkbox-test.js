@@ -32,3 +32,49 @@ test( 'Default property values', function( assert ) {
         '"label" property is null by default'
     );
 });
+
+test( 'checkboxType property sets relevant class', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'checkboxType' ),
+        'checkbox',
+        'checkboxType defaults to "checkbox"'
+    );
+
+    assert.notStrictEqual(
+        component.get( 'checkboxType' ),
+        'checkbox-inline',
+        'checkboxType is not inline'
+    );
+
+    Ember.run( () => {
+        component.set( 'inline', true );
+    });
+
+    assert.strictEqual(
+        component.get( 'checkboxType' ),
+        'checkbox-inline',
+        'checkboxType is inline'
+    );
+
+    assert.notStrictEqual(
+        component.get( 'checkboxType' ),
+        'checkbox',
+        'checkboxType is not inline'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const checkboxTypeDependentKeys = [
+        'inline'
+    ];
+
+    assert.deepEqual(
+        component.checkboxType._dependentKeys,
+        checkboxTypeDependentKeys,
+        'Dependent keys are correct for checkboxType()'
+    );
+});
