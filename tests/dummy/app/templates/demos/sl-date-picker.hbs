@@ -55,7 +55,7 @@
     {{/property-text}}
 
     {{#property-text name="clearBtn" type="Boolean" default="false"}}
-        When true, displays a "Clear" button at the bottom of the datepicker to clear the input value. If <code>autoclose</code> is also set te true, this button will also close the datepicker.
+        When true, displays a "Clear" button at the bottom of the datepicker to clear the input value. If <code>autoclose</code> is also set to true, this button will also close the datepicker.
     {{/property-text}}
 
     {{#property-text name="daysOfWeekDisabled" type="Array"}}
@@ -121,12 +121,20 @@
         The <code>placeholder</code> attribute text for the date input.
     {{/property-text}}
 
+    {{#property-text name="popover" type="String"}}
+        Popover content text.
+    {{/property-text}}
+
     {{#property-text name="startDate" type="Date/String"}}
         The earliest date that may be selected. All earlier dates will be disabled.
     {{/property-text}}
 
     {{#property-text name="startView" type="String" default="\"month\""}}
         The view that the calendar's datepicker should show when created.
+    {{/property-text}}
+
+    {{#property-text name="title" type="String"}}
+        Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 
     {{#property-text name="todayBtn" type="Boolean/String" default="false"}}

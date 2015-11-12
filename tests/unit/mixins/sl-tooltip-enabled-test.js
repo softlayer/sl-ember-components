@@ -255,3 +255,20 @@ test( 'dataTrigger property supports "focus hover click" values', function( asse
         '"dataTrigger" is set to "click"'
     );
 });
+
+test( 'Observer keys are correct', function( assert ) {
+    const testObject = Ember.Object.extend( mixinUnderTest );
+
+    const subject = testObject.create();
+
+    const enableKeys = [
+        'popover',
+        'title'
+    ];
+
+    assert.deepEqual(
+        subject.enable.__ember_observes__,
+        enableKeys,
+        'Observer keys are correct for enable()'
+    );
+});
