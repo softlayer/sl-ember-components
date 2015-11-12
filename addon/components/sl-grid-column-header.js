@@ -36,6 +36,13 @@ export default SlGridCell.extend({
     /** @type {String} */
     tagName: 'th',
 
+    /**
+     * The column record
+     *
+     * @type {?Object}
+     */
+    column: null,
+
     // -------------------------------------------------------------------------
     // Actions
 

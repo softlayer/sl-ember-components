@@ -13,6 +13,12 @@ test( 'Default property values', function( assert ) {
         'th',
         'Tag name is th'
     );
+
+    assert.strictEqual(
+        component.get( 'column' ),
+        null,
+        'column is null'
+    );
 });
 
 test( 'Dependent keys are correct', function( assert ) {

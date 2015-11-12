@@ -132,7 +132,7 @@ test( 'Sorted icon class is applied correctly', function( assert ) {
     );
 });
 
-test( 'column title is rendered when provided', function( assert ) {
+test( 'Column title is rendered when provided', function( assert ) {
     let column = {
         title: 'column title'
     };
