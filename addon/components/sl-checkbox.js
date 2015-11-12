@@ -18,14 +18,30 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
+    classNameBindings: [
+        'checkboxType'
+    ],
+
+    /** @type {String[]} */
     classNames: [
-        'checkbox',
-        'form-group',
         'sl-checkbox'
     ],
 
+    /** @type {String} */
+    dynamicTagName: null,
+
+    /** @type {Boolean} */
+    inline: false,
+
     /** @type {Object} */
     layout,
+
+    /**
+     * Alias to `dynamicTagName`
+     *
+     * @type {String}
+    */
+    tagName: Ember.computed.alias( 'dynamicTagName' ),
 
     // -------------------------------------------------------------------------
     // Actions
@@ -48,12 +64,38 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      *
      * @type {?String}
      */
-    label: null
+    label: null,
 
     // -------------------------------------------------------------------------
     // Observers
 
+    /**
+     * Initialize any computed properties that need setup
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            this.set( 'dynamicTagName', this.get( 'inline' ) ? 'label' : 'div' );
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Type of checkbox; "checkbox-inline" when inline, "checkbox" default
+     *
+     * @function
+     * @returns {String}
+     */
+    checkboxType: Ember.computed(
+        'inline',
+        function() {
+            return this.get( 'inline' ) ? 'checkbox-inline' : 'checkbox';
+        }
+    )
 
 });
