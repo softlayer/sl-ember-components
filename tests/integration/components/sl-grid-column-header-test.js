@@ -21,26 +21,14 @@ test( 'Default rendered state', function( assert ) {
 });
 
 test( 'Sorted class is present when column is in sorted state', function( assert ) {
-    let column = {};
+    let column = {
+        sortable: true,
+        sortAscending: true
+    };
 
     this.set( 'column', column );
 
     this.render( template );
-
-    assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'column-ascending' ),
-        'column-ascending class is not present'
-    );
-
-    assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'column-descending' ),
-        'column-descending class is not present'
-    );
-
-    column = {
-        sortable: true,
-        sortAscending: true
-    };
 
     this.set( 'column', column );
 
@@ -63,21 +51,13 @@ test( 'Sorted class is present when column is in sorted state', function( assert
 });
 
 test( 'Sortable column class is present when column is sortable', function( assert ) {
-    let column = {};
-
-    this.render( template );
-
-    assert.equal(
-        this.$( '>:first-child' ).hasClass( 'sortable-column' ),
-        false,
-        'Default component with non-sortable column does not have "sortable-column" class'
-    );
-
-    column = {
+    const column = {
         sortable: true
     };
 
     this.set( 'column', column );
+
+    this.render( template );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'sortable-column' ),
@@ -87,18 +67,11 @@ test( 'Sortable column class is present when column is sortable', function( asse
 });
 
 test( 'Sorted icon class is applied correctly', function( assert ) {
-    let column = {};
-
-    this.render( template );
-
-    assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'fa-sort' ),
-        'Class fa-sort is not present by default'
-    );
-
-    column = {
+    let column = {
         sortable: true
     };
+
+    this.render( template );
 
     this.set( 'column', column );
 

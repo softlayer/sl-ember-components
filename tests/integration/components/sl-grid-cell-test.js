@@ -61,7 +61,7 @@ test( 'Content value is handled for valuePath', function( assert ) {
     assert.equal(
         this.$( '>:first-child' ).text().trim(),
         row.get( 'value' ),
-        'content text is expected value'
+        'row value matches content value'
     );
 });
 
