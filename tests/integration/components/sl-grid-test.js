@@ -138,8 +138,6 @@ test( 'Only primary column remains visible when detail-pane is open', function( 
 });
 
 test( 'Action requestData is fired in continuous mode when user scrolls to the bottom of the grid', function( assert ) {
-    assert.expect( 1 );
-
     this.set( 'columns', columns );
     this.set( 'content', content );
     this.set( 'totalCount', content.length + 10 );
@@ -534,7 +532,7 @@ test( 'sortColumn action was fired with correct arguments when a sortable column
 
         assert.strictEqual(
              row.id,
-             columns[1].id,
+             columns[ 1 ].id,
              'sortColumn action handler received correct row'
         );
 

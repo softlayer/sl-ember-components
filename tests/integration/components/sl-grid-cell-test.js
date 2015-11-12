@@ -25,7 +25,6 @@ test( 'Column alignment class is applied', function( assert ) {
     });
 
     this.set( 'column', column );
-
     this.render( defaultTemplate );
 
     assert.ok(

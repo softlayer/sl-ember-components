@@ -600,6 +600,7 @@ test( 'updateHeight() sets correct height on content elements', function( assert
 
 test( 'getHeights() returns correct height values', function( assert ) {
     const elements = {};
+
     const component = this.subject({
         columns,
         content

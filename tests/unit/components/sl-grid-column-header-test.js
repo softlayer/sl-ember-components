@@ -46,18 +46,13 @@ test( 'Dependent keys are correct', function( assert ) {
 });
 
 test( 'sortedClass() returns the correct value', function( assert ) {
-    const column = Ember.Object.extend().create();
+    const column = Ember.Object.extend().create({
+        sortable: true
+    });
+
     const component = this.subject({
         column: column
     });
-
-    assert.strictEqual(
-        component.get( 'sortedClass' ),
-        null,
-        'sortedClass returns null when column.sortable is not set'
-    );
-
-    column.set( 'sortable', true );
 
     assert.strictEqual(
         component.get( 'sortedClass' ),
@@ -83,23 +78,18 @@ test( 'sortedClass() returns the correct value', function( assert ) {
 });
 
 test( 'sortedIconClass() returns the correct value', function( assert ) {
-    const column = Ember.Object.extend().create();
+    const column = Ember.Object.extend().create({
+        sortable: true
+    });
+
     const component = this.subject({
         column: column
     });
 
     assert.strictEqual(
         component.get( 'sortIconClass' ),
-        null,
-        'sortIconClass returns null when column.sortable is not set'
-    );
-
-    column.set( 'sortable', true );
-
-    assert.strictEqual(
-        component.get( 'sortIconClass' ),
         'fa-sort',
-        'sortIconClass returns fa-sort when sortAscending is not set '
+        'sortIconClass returns fa-sort when sortAscending is set to true'
     );
 
     column.set( 'sortAscending', true );
