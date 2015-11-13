@@ -33,7 +33,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Check passed parameters on initialization
      *
      * @function
-     * @throws {Ember.Error} Thrown if 'title' or 'popover' is invalid
+     * @throws {ember/Error} Thrown if 'title' or 'popover' is invalid
      * @returns {undefined}
      */
     initialize: Ember.on(
