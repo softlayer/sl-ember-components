@@ -1,30 +1,12 @@
-.sl-tab-panel {
-    .nav-tabs {
-        > .tab {
-            &.active > a {
-                &:hover,
-                &:focus {
-                    cursor: default;
-                }
-            }
+.sl-tab-panel > .nav > li {
+    float: none;
+    display: inline-block;
+}
 
-            > a {
-                &:hover,
-                &:focus {
-                    cursor: pointer;
-                }
-            }
-        }
-    }
+.sl-tab-panel.sl-align-tabs-right > .nav {
+    text-align: right;
+}
 
-    &.sl-align-tabs-right {
-        .tab {
-            float: right;
-
-            a {
-                margin-left: 4px;
-                margin-right: 0;
-            }
-        }
-    }
+.sl-tab-panel.sl-align-tabs-right > .nav > li {
+    text-align: left;
 }
