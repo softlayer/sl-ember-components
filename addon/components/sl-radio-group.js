@@ -69,7 +69,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Initialize the group-wide options and setup child radio buttons
      *
      * @function
-     * @throws {Ember.Error} Thrown if the `name` property is not set
+     * @throws {ember/Error} Thrown if the `name` property is not set
      * @returns {undefined}
      */
     initialize: Ember.on(
