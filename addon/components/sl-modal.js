@@ -3,6 +3,18 @@ import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
 
 /**
+ * Valid size values for the sl-modal component
+ *
+ * @memberof module:components/sl-modal
+ * @enum {String}
+ */
+export const Size = Object.freeze({
+    LARGE: 'modal-lg',
+    MEDIUM: 'modal-md',
+    SMALL: 'modal-sm'
+});
+
+/**
  * @module
  * @augments ember/Component
  * @augments ember-stream/mixins/stream-enabled
@@ -98,6 +110,13 @@ export default Ember.Component.extend( StreamEnabled, {
      * @type {Boolean}
      */
     isOpen: false,
+
+    /**
+     * The size of the modal
+     *
+     * @type {Size}
+     */
+    size: Size.MEDIUM,
 
     /**
      * tabindex attribute value
