@@ -78,37 +78,6 @@ test( 'Sorted class is present when column is in sorted state', function( assert
     );
 });
 
-test( 'Sort icon is set correctly for sortable columns', function( assert ) {
-    const column = { sortable: true };
-    const component = this.subject({ column });
-
-    assert.equal(
-        component.get( 'sortIconClass' ),
-        'fa-sort',
-        'Component has expected class "fa-sort" with sortable column'
-    );
-
-    Ember.run( () => {
-        Ember.set( column, 'sortAscending', true );
-    });
-
-    assert.equal(
-        component.get( 'sortIconClass' ),
-        'fa-sort-asc',
-        'Component has expected class "fa-sort-asc" with ascending sorted column'
-    );
-
-    Ember.run( () => {
-        Ember.set( column, 'sortAscending', false );
-    });
-
-    assert.equal(
-        component.get( 'sortIconClass' ),
-        'fa-sort-desc',
-        'Component has expected class "fa-sort-desc" with descending sorted column'
-    );
-});
-
 test( 'Click event returns column with sortable column', function( assert ) {
     const column = {};
 
