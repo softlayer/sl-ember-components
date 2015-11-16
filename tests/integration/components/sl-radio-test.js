@@ -77,18 +77,8 @@ test( 'name applies property to input', function( assert ) {
 });
 
 test( '"value" property is supported', function( assert ) {
-    this.render( defaultTemplate );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input' ).val(),
-        'on',
-        'input value set to default value of "on"'
-    );
-
-    this.set( 'valueTest', 'testValue' );
-
     this.render( hbs`
-        {{sl-radio value=valueTest}}
+        {{sl-radio value="testValue"}}
     ` );
 
     assert.strictEqual(
@@ -99,18 +89,8 @@ test( '"value" property is supported', function( assert ) {
 });
 
 test( '"label" property is supported', function( assert ) {
-    this.render( defaultTemplate );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' ).text().trim(),
-        '',
-        '"label" text is not set'
-    );
-
-    this.set( 'labelTest', 'testLabel' );
-
     this.render( hbs`
-        {{sl-radio label=labelTest}}
+        {{sl-radio label="testLabel"}}
     ` );
 
     assert.strictEqual(
