@@ -204,13 +204,12 @@ test( 'Tooltip properties are set correctly when title parameter is set', functi
     this.set( 'title', title );
 
     this.render( hbs`
-        {{#sl-drop-button title=title}}
-            default text
-        {{/sl-drop-button}}
+        {{#sl-alert title=title}}
+            Default info alert
+        {{/sl-alert}}
     ` );
 
-    const element = this.$( '>:first-child' );
-    const data = element.data();
+    const data = this.$( '>:first-child' ).data();
     const tooltipData = data[ 'bs.tooltip' ];
     const options = tooltipData.getOptions();
 
@@ -241,21 +240,29 @@ test( 'Popover properties are set correctly when popover parameter is set', func
     this.set( 'popover', popover );
 
     this.render( hbs`
-        {{#sl-drop-button title=title popover=popover}}
-            default text
-        {{/sl-drop-button}}
+        {{#sl-alert popover=popover}}
+            Default info alert
+        {{/sl-alert}}
     ` );
 
-    const element = this.$( '>:first-child' );
-    const data = element.data();
-    const popoverData = data[ 'bs.popover' ];
-    const options = popoverData.getOptions();
+    let data = this.$( '>:first-child' ).data();
+    let popoverData = data[ 'bs.popover' ];
 
     assert.strictEqual(
         popoverData.enabled,
         true,
         'Popover is enabled'
     );
+
+    this.render( hbs`
+        {{#sl-alert title=title popover=popover}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    data = this.$( '>:first-child' ).data();
+    popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
 
     assert.strictEqual(
         popoverData.getTitle(),
@@ -275,4 +282,3 @@ test( 'Popover properties are set correctly when popover parameter is set', func
         'Default trigger is "click"'
     );
 });
-

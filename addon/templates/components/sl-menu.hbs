@@ -1,7 +1,8 @@
-<ul class="list-inline">
+<ul class="btn-group list-unstyled">
     {{#each items as |item|}}
         {{sl-menu-item
             action="handleAction"
+            isTop=true
             item=item
         }}
     {{/each}}

@@ -399,3 +399,19 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    const updateDataKeys = [
+        'series'
+    ];
+
+    assert.deepEqual(
+        component.updateData.__ember_observes__,
+        updateDataKeys,
+        'Observer keys are correct for updateData()'
+    );
+});

@@ -339,3 +339,17 @@ test( 'Value is set correctly', function( assert ) {
         value
     );
 });
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const setupTypeaheadKeys = [
+        'suggestions'
+    ];
+
+    assert.deepEqual(
+        component.setupTypeahead.__ember_observes__,
+        setupTypeaheadKeys,
+        'Observer keys are correct for setupTypeahead()'
+    );
+});

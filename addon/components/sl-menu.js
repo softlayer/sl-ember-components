@@ -23,7 +23,8 @@ export default Ember.Component.extend( StreamEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'sl-ember-components'
+        'sl-ember-components',
+        'sl-menu'
     ],
 
     /** @type {Object} */
