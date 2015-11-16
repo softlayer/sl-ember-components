@@ -8,14 +8,46 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{#sl-panel heading="Test Panel"}}
+        <pre>\{{#sl-panel heading="Test Panel" theme="primary"}}
     &lt;p&gt;Hello world!&lt;/p&gt;
 \{{/sl-panel}}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Template</h6>
-        {{#sl-panel heading="Test Panel"}}
+        {{#sl-panel heading="Test Panel" theme="primary"}}
+            <p>Hello world!</p>
+        {{/sl-panel}}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{#sl-panel footer="Test Panel"}}
+    &lt;p&gt;Hello world!&lt;/p&gt;
+\{{/sl-panel}}</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Template</h6>
+        {{#sl-panel footer="Test Panel"}}
+            <p>Hello world!</p>
+        {{/sl-panel}}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{#sl-panel heading="Test Panel" loading=true}}
+    &lt;p&gt;Hello world!&lt;/p&gt;
+\{{/sl-panel}}</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Template</h6>
+        {{#sl-panel heading="Test Panel" loading=true}}
             <p>Hello world!</p>
         {{/sl-panel}}
     </div>
@@ -26,11 +58,19 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="footer" type="String"}}
+        Text for the panel footer.
+    {{/property-text}}
+
     {{#property-text name="heading" type="String"}}
         Text for the panel heading.
     {{/property-text}}
 
     {{#property-text name="loading" type="Boolean" default="false"}}
         When true, the panel body becomes masked and a loading icon appears.
+    {{/property-text}}
+
+    {{#property-text name="theme" type="String" default="\"default\""}}
+        The Bootstrap contextual theme string to style the panel with.
     {{/property-text}}
 </div>

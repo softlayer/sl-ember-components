@@ -1,5 +1,9 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-panel';
+import { containsValue, warn } from '../utils/all';
+import {
+    Theme as TWBSTheme
+} from '../utils/bootstrap-naming';
 
 /**
  * @module
@@ -14,13 +18,13 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'loading:sl-loading'
+        'loading:sl-loading',
+        'themeClassName'
     ],
 
     /** @type {String[]} */
     classNames: [
         'panel',
-        'panel-default',
         'sl-ember-components'
     ],
 
@@ -37,6 +41,13 @@ export default Ember.Component.extend({
     // Properties
 
     /**
+     * Footer text to display in the footer section of the panel
+     *
+     * @type {?String}
+     */
+    footer: null,
+
+    /**
      * Heading text to display in the header section of the panel
      *
      * @type {?String}
@@ -48,12 +59,38 @@ export default Ember.Component.extend({
      *
      * @type {Boolean}
      */
-    loading: false
+    loading: false,
+
+    /**
+     * The Bootstrap "theme" style name
+     *
+     * @type {TWBSTheme}
+     */
+    theme: TWBSTheme.DEFAULT,
 
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Element-specific class name for the Bootstrap "theme" style
+     *
+     * @function
+     * @returns {String}
+     */
+    themeClassName: Ember.computed(
+        'theme',
+        function() {
+            const theme = this.get( 'theme' );
+
+            if ( !containsValue( theme, TWBSTheme ) ) {
+                warn( `Invalid theme property value "${theme}"` );
+            }
+
+            return `panel-${theme}`;
+        }
+    )
 
 });

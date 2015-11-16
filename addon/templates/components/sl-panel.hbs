@@ -2,9 +2,10 @@
     <div class="panel-heading">{{heading}}</div>
 {{/if}}
 
-<div class="panel-body">
-    <div class="sl-maskable-content">
-        {{yield}}
-    </div>
-    <div class="sl-mask"></div>
+<div class="panel-body {{if loading "loading"}}">
+    {{yield}}
 </div>
+
+{{#if footer}}
+    <div class="panel-footer">{{footer}}</div>
+{{/if}}
