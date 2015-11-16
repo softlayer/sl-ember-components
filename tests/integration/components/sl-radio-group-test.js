@@ -103,28 +103,23 @@ test( '"optional" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label small' ).length,
+        this.$( '>:first-child' ).find( '.text-info' ).length,
         0,
-        '"optional" property does not add HTML small tag'
+        '"optional" property does not set class "text-info"'
     );
 
     this.set( 'optionalTest', true );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label small' ).length,
+        this.$( '>:first-child' ).find( '.text-info' ).length,
         1,
-        '"optional" property adds HTML small tag'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'label small' ).hasClass( 'text-info' ),
-        '"optional" property sets class "text-info" on HTML small tag'
+        '"optional" property sets class "text-info"'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label small' ).text().trim(),
+        this.$( '>:first-child' ).find( '.text-info' ).text().trim(),
         'Optional',
-        '"optional" property sets correct text inside HTML small tag'
+        '"optional" property sets correct text inside HTML tag'
     );
 });
 
@@ -141,28 +136,23 @@ test( '"required" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label small' ).length,
+        this.$( '>:first-child' ).find( '.text-danger' ).length,
         0,
-        '"required" property does not add HTML small tag'
+        '"required" property does not set class "text-danger"'
     );
 
     this.set( 'requiredTest', true );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label small' ).length,
+        this.$( '>:first-child' ).find( '.text-danger' ).length,
         1,
-        '"required" property adds HTML small tag'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'label small' ).hasClass( 'text-danger' ),
-        '"required" property sets class "text-danger" on HTML small tag'
+        '"required" property sets class "text-danger"'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label small' ).text().trim(),
+        this.$( '>:first-child' ).find( '.text-danger' ).text().trim(),
         'Required',
-        '"required" property sets correct text inside HTML small tag'
+        '"required" property sets correct text inside HTML tag'
     );
 });
 
