@@ -28,14 +28,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         'sl-checkbox'
     ],
 
-    /** @type {Boolean} */
-    inline: false,
-
     /** @type {Object} */
     layout,
 
-    /** @type {?String} */
-    tagName: null,
+    /** @type {String} */
+    tagName: 'div',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -52,6 +49,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @type {Boolean}
      */
     checked: false,
+
+    /**
+     * Whether to show the component in-line
+     *
+     * @type {Boolean}
+     */
+    inline: false,
 
     /**
      * The input's label text
@@ -72,7 +76,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     initialize: Ember.on(
         'init',
         function() {
-            this.set( 'tagName', this.get( 'inline' ) ? 'label' : 'div' );
+            if ( this.get( 'inline' ) ) {
+                this.set( 'tagName', 'label' );
+            }
         }
     ),
 
