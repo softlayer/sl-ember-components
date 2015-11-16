@@ -1,7 +1,7 @@
-<a {{action "clickLink"}}>{{item.label}}</a>
-
 {{#if subItems}}
-    <ul class="sub-menu">
+    <a {{action "clickLink"}} class="dropdown-toggle">{{item.label}}</a>
+
+    <ul class="dropdown-menu">
         {{#each subItems as |item|}}
             {{sl-menu-item
                 action="handleAction"
@@ -9,4 +9,6 @@
             }}
         {{/each}}
     </ul>
+{{else}}
+    <a {{action "clickLink"}}>{{item.label}}</a>
 {{/if}}
