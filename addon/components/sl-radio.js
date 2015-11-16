@@ -26,21 +26,14 @@ export default Ember.Component.extend( InputBased, {
         'sl-radio'
     ],
 
-    /** @type {?String} */
-    dynamicTagName: null,
-
     /** @type {Boolean} */
     inline: false,
 
     /** @type {Object} */
     layout,
 
-    /**
-     * Alias to `dynamicTagName`
-     *
-     * @type {String}
-    */
-    tagName: Ember.computed.alias( 'dynamicTagName' ),
+    /** @type {?String} */
+    tagName: null,
 
     // -------------------------------------------------------------------------
     // Actions
@@ -77,7 +70,7 @@ export default Ember.Component.extend( InputBased, {
     initialize: Ember.on(
         'init',
         function() {
-            this.set( 'dynamicTagName', this.get( 'inline' ) ? 'label' : 'div' );
+            this.set( 'tagName', this.get( 'inline' ) ? 'label' : 'div' );
         }
     ),
 
