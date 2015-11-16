@@ -16,14 +16,18 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNameBindings: [
         'active',
-        'hasSubItems:has-sub-menu',
-        'item.selected:active'
+        'hasSubItems:contains-dropdown',
+        'item.selected:active',
+        'isTop:btn',
+        'isTop:btn-default'
     ],
 
     /** @type {String[]} */
     classNames: [
-        'sl-menu-item'
     ],
+
+    /** @type {Boolean} */
+    isTop: false,
 
     /** @type {Object} */
     layout,

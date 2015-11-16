@@ -16,7 +16,9 @@ export default SlMenuItem.extend({
 
     /** @type {String[]} */
     classNames: [
-        'sl-menu-show-all'
+        'sl-menu-show-all',
+        'btn',
+        'btn-default'
     ],
 
     /** @type {Object} */
