@@ -81,35 +81,6 @@ export default SlGridCell.extend({
 
             return className;
         }
-    ),
-
-    /**
-     * Class name string for the icon on a sortable column
-     *
-     * @function
-     * @returns {?String}
-     */
-    sortIconClass: Ember.computed(
-        'column.sortAscending',
-        'column.sortable',
-        function() {
-            if ( !this.get( 'column.sortable' ) ) {
-                return null;
-            }
-
-            const sortAscending = this.get( 'column.sortAscending' );
-            let iconClass;
-
-            if ( true === sortAscending ) {
-                iconClass = 'fa-sort-asc';
-            } else if ( false === sortAscending ) {
-                iconClass = 'fa-sort-desc';
-            } else {
-                iconClass = 'fa-sort';
-            }
-
-            return iconClass;
-        }
     )
 
 });

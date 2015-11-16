@@ -40,3 +40,20 @@
     text-overflow: ellipsis;
     width: 100%;
 }
+
+.sl-grid .sortable-column {
+    cursor: pointer;
+}
+
+.sl-grid .sl-icon-sortable:after {
+    content: "\e150";
+    font-size: .85em;
+}
+
+.sl-grid .column-ascending .sl-icon-sortable:after {
+    content: "\e093";
+}
+
+.sl-grid .column-descending .sl-icon-sortable:after {
+    content: "\e094";
+}
