@@ -5,15 +5,6 @@ moduleForComponent( 'sl-menu-item', 'Unit | Component | sl menu item', {
     unit: true
 });
 
-test( 'Initial class names are present', function( assert ) {
-    this.subject();
-
-    assert.ok(
-        this.$().hasClass( 'sl-menu-item' ),
-        'Rendered element has class "sl-menu-item"'
-    );
-});
-
 test( 'Active state applies class', function( assert ) {
     const component = this.subject();
 
@@ -39,12 +30,12 @@ test( 'Active state applies class', function( assert ) {
     );
 });
 
-test( 'Class "has-sub-menu" is present when bound item has items array', function( assert ) {
+test( 'Class "contains-dropdown" is present when bound item has items array', function( assert ) {
     const component = this.subject();
 
     assert.ok(
-        false === this.$().hasClass( 'has-sub-menu' ),
-        'Rendered element does not have class "has-sub-menu" by default'
+        false === this.$().hasClass( 'contains-dropdown' ),
+        'Rendered element does not have class "contains-dropdown" by default'
     );
 
     Ember.run( () => {
@@ -52,8 +43,8 @@ test( 'Class "has-sub-menu" is present when bound item has items array', functio
     });
 
     assert.ok(
-        this.$().hasClass( 'has-sub-menu' ),
-        'Rendered element has class "has-sub-menu"'
+        this.$().hasClass( 'contains-dropdown' ),
+        'Rendered element has class "contains-dropdown"'
     );
 });
 
