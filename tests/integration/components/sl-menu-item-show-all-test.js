@@ -13,18 +13,13 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'a' ).hasClass( 'fa' ),
-        'Has class "fa"'
+        this.$( '>:first-child' ).find( 'a' ).hasClass( 'sl-icon-show-all' ),
+        'Has class "sl-icon-show-all"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'a' ).hasClass( 'fa-chevron-circle-down' ),
-        'Has class "fa-chevron-circle-down"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'show-all' ),
-        'Has class "show-all"'
+        this.$( '>:first-child' ).hasClass( 'sl-menu-show-all' ),
+        'Has class "sl-menu-show-all"'
     );
 });
 

@@ -57,8 +57,18 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'list-inline' ),
-        'Has class "list-inline"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
+        'Has class "sl-ember-components"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'list-unstyled' ),
+        'Has class "list-unstyled"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'btn-group' ),
+        'Has class "btn-group"'
     );
 });
 
@@ -72,7 +82,7 @@ test( '"items" property is supported', function( assert ) {
         }}
     ` );
 
-    const menuItem = this.$( '>:first-child' ).find( '.sl-menu-item' );
+    const menuItem = this.$( '>:first-child' ).find( 'li' );
 
     assert.strictEqual(
         menuItem.find( 'a' ).text().trim(),
@@ -94,17 +104,17 @@ test( '"allowShowAll" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.show-all' ).length,
+        this.$( '>:first-child' ).find( '.sl-menu-show-all' ).length,
         0,
-        'menu item with class ".show-all" is not included by default'
+        'menu item with class ".sl-menu-show-all" is not included by default'
     );
 
     this.set( 'testAllowShowAll', true );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.show-all' ).length,
+        this.$( '>:first-child' ).find( '.sl-menu-show-all' ).length,
         1,
-        'menu item with class ".show-all" is included when "allowShowAll" is true'
+        'menu item with class ".sl-menu-show-all" is included when "allowShowAll" is true'
     );
 });
 
@@ -139,7 +149,7 @@ test( 'Actions are handled properly from menu items', function( assert ) {
         );
     });
 
-    this.$( '>:first-child' ).find( '.sub-menu' ).find( 'a' ).first().click();
+    this.$( '>:first-child' ).find( '> ul > li:first > ul > li:first > a' ).trigger( 'click' );
 });
 
 test( 'Component responds to "doAction" stream action', function( assert ) {
