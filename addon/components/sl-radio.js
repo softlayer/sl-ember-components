@@ -26,14 +26,11 @@ export default Ember.Component.extend( InputBased, {
         'sl-radio'
     ],
 
-    /** @type {Boolean} */
-    inline: false,
-
     /** @type {Object} */
     layout,
 
-    /** @type {?String} */
-    tagName: null,
+    /** @type {String} */
+    tagName: 'div',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -43,6 +40,13 @@ export default Ember.Component.extend( InputBased, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Whether to show the component in-line
+     *
+     * @type {Boolean}
+     */
+    inline: false,
 
     /**
      * Text label for the component
@@ -70,7 +74,9 @@ export default Ember.Component.extend( InputBased, {
     initialize: Ember.on(
         'init',
         function() {
-            this.set( 'tagName', this.get( 'inline' ) ? 'label' : 'div' );
+            if ( this.get( 'inline' ) ) {
+                this.set( 'tagName', 'label' );
+            }
         }
     ),
 

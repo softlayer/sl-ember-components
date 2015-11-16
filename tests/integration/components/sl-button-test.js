@@ -105,6 +105,20 @@ test( 'Correct size class is applied', function( assert ) {
     );
 });
 
+test( 'Content is yielded', function( assert ) {
+    this.render( hbs`
+        {{#sl-button}}
+            Some yielded text
+        {{/sl-button}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).text().trim(),
+        'Some yielded text',
+        'Content yields successfully'
+    );
+});
+
 test( 'Theme class is applied correctly', function( assert ) {
     this.render( hbs`
         {{#sl-button theme="success"}}
@@ -184,8 +198,7 @@ test( 'Tooltip properties are set correctly when title parameter is set', functi
         {{/sl-button}}
     ` );
 
-    const element = this.$( '>:first-child' );
-    const data = element.data();
+    const data = this.$( '>:first-child' ).data();
     const tooltipData = data[ 'bs.tooltip' ];
     const options = tooltipData.getOptions();
 
@@ -216,21 +229,29 @@ test( 'Popover properties are set correctly when popover parameter is set', func
     this.set( 'popover', popover );
 
     this.render( hbs`
-        {{#sl-button title=title popover=popover}}
+        {{#sl-button popover=popover}}
             default text
         {{/sl-button}}
     ` );
 
-    const element = this.$( '>:first-child' );
-    const data = element.data();
-    const popoverData = data[ 'bs.popover' ];
-    const options = popoverData.getOptions();
+    let data = this.$( '>:first-child' ).data();
+    let popoverData = data[ 'bs.popover' ];
 
     assert.strictEqual(
         popoverData.enabled,
         true,
         'Popover is enabled'
     );
+
+    this.render( hbs`
+        {{#sl-button title=title popover=popover}}
+            default text
+        {{/sl-button}}
+    ` );
+
+    data = this.$( '>:first-child' ).data();
+    popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
 
     assert.strictEqual(
         popoverData.getTitle(),

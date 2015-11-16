@@ -152,20 +152,29 @@ test( 'Popover properties are set correctly when popover parameter is set', func
     this.set( 'popover', popover );
 
     this.render( hbs`
-        {{#sl-alert title=title popover=popover}}
+        {{#sl-alert popover=popover}}
             Default info alert
         {{/sl-alert}}
     ` );
 
-    const data = this.$( '>:first-child' ).data();
-    const popoverData = data[ 'bs.popover' ];
-    const options = popoverData.getOptions();
+    let data = this.$( '>:first-child' ).data();
+    let popoverData = data[ 'bs.popover' ];
 
     assert.strictEqual(
         popoverData.enabled,
         true,
         'Popover is enabled'
     );
+
+    this.render( hbs`
+        {{#sl-alert title=title popover=popover}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    data = this.$( '>:first-child' ).data();
+    popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
 
     assert.strictEqual(
         popoverData.getTitle(),

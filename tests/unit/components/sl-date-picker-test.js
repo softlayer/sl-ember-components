@@ -477,3 +477,18 @@ test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
     window.jQuery.restore();
     Ember.$.restore();
 });
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const updateDateRangeKeys = [
+        'endDate',
+        'startDate'
+    ];
+
+    assert.deepEqual(
+        component.updateDateRange.__ember_observes__,
+        updateDateRangeKeys,
+        'Observer keys are correct for updateDateRange()'
+    );
+});

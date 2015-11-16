@@ -5,12 +5,25 @@ moduleForComponent( 'sl-menu-item', 'Unit | Component | sl menu item', {
     unit: true
 });
 
-test( 'Initial class names are present', function( assert ) {
-    this.subject();
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
 
-    assert.ok(
-        this.$().hasClass( 'sl-menu-item' ),
-        'Rendered element has class "sl-menu-item"'
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'li',
+        'Default tagName is "li"'
+    );
+
+    assert.strictEqual(
+        component.get( 'active' ),
+        false,
+        '"active" is "false"'
+    );
+
+    assert.strictEqual(
+        component.get( 'item' ),
+        null,
+        '"item" is "null"'
     );
 });
 
@@ -39,12 +52,12 @@ test( 'Active state applies class', function( assert ) {
     );
 });
 
-test( 'Class "has-sub-menu" is present when bound item has items array', function( assert ) {
+test( 'Class "contains-dropdown" is present when bound item has items array', function( assert ) {
     const component = this.subject();
 
     assert.ok(
-        false === this.$().hasClass( 'has-sub-menu' ),
-        'Rendered element does not have class "has-sub-menu" by default'
+        false === this.$().hasClass( 'contains-dropdown' ),
+        'Rendered element does not have class "contains-dropdown" by default'
     );
 
     Ember.run( () => {
@@ -52,8 +65,8 @@ test( 'Class "has-sub-menu" is present when bound item has items array', functio
     });
 
     assert.ok(
-        this.$().hasClass( 'has-sub-menu' ),
-        'Rendered element has class "has-sub-menu"'
+        this.$().hasClass( 'contains-dropdown' ),
+        'Rendered element has class "contains-dropdown"'
     );
 });
 
@@ -72,33 +85,6 @@ test( 'Class "active" is present when bound item is selected', function( assert 
     assert.ok(
         this.$().hasClass( 'active' ),
         'Rendered element has class "active"'
-    );
-});
-
-test( 'Component responds to mouse enter/leave events', function( assert ) {
-    const component = this.subject();
-
-    assert.ok(
-        false === component.get( 'active' ),
-        'Component is not active by default'
-    );
-
-    Ember.run( () => {
-        this.$().trigger( 'mouseenter' );
-    });
-
-    assert.ok(
-        true === component.get( 'active' ),
-        'Component is active after mouseenter event'
-    );
-
-    Ember.run( () => {
-        this.$().trigger( 'mouseleave' );
-    });
-
-    assert.ok(
-        false === component.get( 'active' ),
-        'Component is inactive after mouseleave event'
     );
 });
 
@@ -125,13 +111,6 @@ test( 'Bound item.action is triggered when link is clicked', function( assert ) 
     this.$( 'a' ).trigger( 'click' );
 });
 
-test( 'Rendered element is correct element type', function( assert ) {
-    assert.ok(
-        this.$().is( 'li' ),
-        'Element is an <li>'
-    );
-});
-
 test( '`subItems` computed property is a wrapped `item.items` array', function( assert ) {
     const component = this.subject({
         item: {
@@ -142,6 +121,16 @@ test( '`subItems` computed property is a wrapped `item.items` array', function( 
     assert.ok(
         component.get( 'subItems' ).objectAt( 0 ).okay,
         'Parsed `subItems` correctly'
+    );
+});
+
+test( '`subItems` computed property is null when `item.items` does not exist', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'subItems' ),
+        null,
+        '"subItems" is null'
     );
 });
 
@@ -169,5 +158,29 @@ test( '`hasSubItems` represents the presence of `item.items`', function( assert 
     assert.ok(
         true === component.get( 'hasSubItems' ),
         '`hasSubItems` is true when `item.items` is present and not empty'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const hasSubItemsDependentKeys = [
+        'item'
+    ];
+
+    assert.deepEqual(
+        component.hasSubItems._dependentKeys,
+        hasSubItemsDependentKeys,
+        'Dependent keys are correct for hasSubItems()'
+    );
+
+    const subItemsDependentKeys = [
+        'item'
+    ];
+
+    assert.deepEqual(
+        component.subItems._dependentKeys,
+        subItemsDependentKeys,
+        'Dependent keys are correct for subItems()'
     );
 });

@@ -91,6 +91,22 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Observers
 
+    /**
+     * Check passed parameters on initialization
+     *
+     * @function
+     * @throws {ember/Error} timezone property must be a string
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            if ( 'string' !== Ember.typeOf( this.get( 'timezone' ) ) ) {
+                throw new Ember.Error( 'timezone property must be a string' );
+            }
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
