@@ -142,7 +142,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
         'willClearRender',
         function() {
             this.$( `input[name=${this.get( 'name' )}]:radio` )
-                .off( this.namespaceEvent( 'change' ));
+                .off( this.namespaceEvent( 'change' ) );
         }
     )
 
