@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import waitForPendingRunLoops from 'ember-test-helpers/wait';
 
 moduleForComponent( 'sl-radio-group', 'Integration | Component | sl radio group', {
     integration: true
@@ -102,7 +103,7 @@ test( '"optional" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).length,
+        this.$( '>:first-child' ).find( 'label small' ).length,
         0,
         '"optional" property does not add HTML small tag'
     );
@@ -110,18 +111,18 @@ test( '"optional" property is supported', function( assert ) {
     this.set( 'optionalTest', true );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).length,
+        this.$( '>:first-child' ).find( 'label small' ).length,
         1,
         '"optional" property adds HTML small tag'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).hasClass( 'text-info' ),
+        this.$( '>:first-child' ).find( 'label small' ).hasClass( 'text-info' ),
         '"optional" property sets class "text-info" on HTML small tag'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).text().trim(),
+        this.$( '>:first-child' ).find( 'label small' ).text().trim(),
         'Optional',
         '"optional" property sets correct text inside HTML small tag'
     );
@@ -140,7 +141,7 @@ test( '"required" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).length,
+        this.$( '>:first-child' ).find( 'label small' ).length,
         0,
         '"required" property does not add HTML small tag'
     );
@@ -148,18 +149,18 @@ test( '"required" property is supported', function( assert ) {
     this.set( 'requiredTest', true );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).length,
+        this.$( '>:first-child' ).find( 'label small' ).length,
         1,
         '"required" property adds HTML small tag'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).hasClass( 'text-danger' ),
+        this.$( '>:first-child' ).find( 'label small' ).hasClass( 'text-danger' ),
         '"required" property sets class "text-danger" on HTML small tag'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'label' ).find( 'small' ).text().trim(),
+        this.$( '>:first-child' ).find( 'label small' ).text().trim(),
         'Required',
         '"required" property sets correct text inside HTML small tag'
     );
@@ -224,11 +225,13 @@ test( 'Value changes when sl-radio child selected', function( assert ) {
         radioButton.click();
     });
 
-    assert.strictEqual(
-        this.get( 'value' ),
-        'eric',
-        '"eric" value is selected'
-    );
+    return waitForPendingRunLoops().then( () => {
+        assert.strictEqual(
+            this.get( 'value' ),
+            'eric',
+            '"eric" value is selected'
+        );
+    });
 });
 
 test( 'Default value gets selected by default', function( assert ) {
@@ -260,5 +263,90 @@ test( 'Yielded content passes through', function( assert ) {
         this.$( '>:first-child' ).text().trim(),
         'A content',
         'Expected content is present'
+    );
+});
+
+test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {
+    const title = 'test title';
+
+    this.set( 'title', title );
+
+    this.render( hbs`
+        {{#sl-alert title=title}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    const data = this.$( '>:first-child' ).data();
+    const tooltipData = data[ 'bs.tooltip' ];
+    const options = tooltipData.getOptions();
+
+    assert.strictEqual(
+        tooltipData.enabled,
+        true,
+        'tooltip is enabled'
+    );
+
+    assert.strictEqual(
+        tooltipData.getTitle(),
+        title,
+        'Title text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'hover focus',
+        'Default trigger is "hover focus"'
+    );
+});
+
+test( 'Popover properties are set correctly when popover parameter is set', function( assert ) {
+    const title = 'test title';
+    const popover = 'popover text';
+
+    this.set( 'title', title );
+    this.set( 'popover', popover );
+
+    this.render( hbs`
+        {{#sl-alert popover=popover}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    let data = this.$( '>:first-child' ).data();
+    let popoverData = data[ 'bs.popover' ];
+
+    assert.strictEqual(
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    this.render( hbs`
+        {{#sl-alert title=title popover=popover}}
+            Default info alert
+        {{/sl-alert}}
+    ` );
+
+    data = this.$( '>:first-child' ).data();
+    popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
+
+    assert.strictEqual(
+        popoverData.getTitle(),
+        title,
+        'Popover title was set correctly'
+    );
+
+    assert.strictEqual(
+        popoverData.getContent(),
+        popover,
+        'Popover text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'click',
+        'Default trigger is "click"'
     );
 });

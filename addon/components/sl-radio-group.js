@@ -76,7 +76,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Initialize the group-wide options and setup child radio buttons
      *
      * @function
-     * @throws {ember.assert} Thrown if the `name` property is not set
+     * @throws {ember/Error} Thrown if the `name` property is not set
      * @returns {undefined}
      */
     initialize: Ember.on(
@@ -84,10 +84,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         function() {
             const name = this.get( 'name' );
 
-            Ember.assert(
-                'The name property must be set on the sl-radio-group component',
-                name
-            );
+            if ( Ember.isEmpty( name ) ) {
+                throw new Ember.Error(
+                    'The name property must be set on the sl-radio-group component'
+                );
+            }
 
             const value = this.get( 'value' );
             const isDisabled = this.get( 'disabled' );
