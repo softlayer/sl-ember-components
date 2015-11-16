@@ -129,22 +129,22 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
 
     assert.ok(
         spyOn.calledWith( component.namespaceEvent( 'show.bs.modal' ) ),
-        'show event bound'
+        'on() was called with namespaced show.bs.modal event'
     );
 
     assert.ok(
         spyOn.calledWith( component.namespaceEvent( 'shown.bs.modal' ) ),
-        'shown event bound'
+        'on() was called with namespaced shown.bs.modal event'
     );
 
     assert.ok(
         spyOn.calledWith( component.namespaceEvent( 'hide.bs.modal' ) ),
-        'hide event bound'
+        'on() was called with namespaced hide.bs.modal event'
     );
 
     assert.ok(
         spyOn.calledWith( component.namespaceEvent( 'hidden.bs.modal' ) ),
-        'hidden event bound'
+        'on() was called with namespaced hidden.bs.modal event'
     );
 
     assert.ok(
@@ -158,22 +158,22 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
 
     assert.ok(
         spyOff.calledWith( component.namespaceEvent( 'show.bs.modal' ) ),
-        'show event unbound'
+        'off() was called with namespaced show.bs.modal event'
     );
 
     assert.ok(
         spyOff.calledWith( component.namespaceEvent( 'shown.bs.modal' ) ),
-        'shown event unbound'
+        'off() was called with namespaced shown.bs.modal event'
     );
 
     assert.ok(
         spyOff.calledWith( component.namespaceEvent( 'hide.bs.modal' ) ),
-        'hide event unbound'
+        'off() was called with namespaced hide.bs.modal event'
     );
 
     assert.ok(
         spyOff.calledWith( component.namespaceEvent( 'hidden.bs.modal' ) ),
-        'hidden event unbound'
+        'off() was called with namespaced hidden.bs.modal event'
     );
 
     assert.ok(
