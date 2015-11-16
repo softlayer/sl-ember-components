@@ -38,6 +38,13 @@ export default Ember.Component.extend( InputBased, {
     // Properties
 
     /**
+     * Whether to show the component in-line
+     *
+     * @type {Boolean}
+     */
+    inline: false,
+
+    /**
      * Text label for the component
      *
      * @type {?String}

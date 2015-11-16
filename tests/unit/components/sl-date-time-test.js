@@ -8,7 +8,7 @@ moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        TooltipEnabledMixin.detect( this.subject() ),
+        TooltipEnabledMixin.detect( this.subject({ timezone: 'America/Chicago' }) ),
         'TooltipEnabled Mixin is present'
     );
 });
@@ -157,7 +157,7 @@ test( '"title" property is an alias to "datetime" value', function( assert ) {
 });
 
 test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
+    const component = this.subject({ timezone: 'America/Chicago' });
 
     const datetimeDependentKeys = [
         'timezoneString',
@@ -200,5 +200,91 @@ test( 'Dependent keys are correct', function( assert ) {
         component.timezoneString._dependentKeys,
         timezoneStringDependentKeys,
         'Dependent keys are correct for timezoneString()'
+    );
+});
+
+test( 'init() - "timezone" property needs to be a string', function( assert ) {
+    const properties = Ember.Object.create();
+
+    const callSubject = () => this.subject( properties );
+
+    // Empty Property
+
+    assert.throws(
+        callSubject,
+        'Property was empty'
+    );
+
+    // Null Property
+
+    properties.set( 'timezone', null );
+
+    assert.throws(
+        callSubject,
+        'Property was null'
+    );
+
+
+    // Number Property
+
+    properties.set( 'timezone', 3 );
+
+    assert.throws(
+        callSubject,
+        'Property was a number'
+    );
+
+    // Boolean Property
+
+    properties.set( 'timezone', true );
+
+    assert.throws(
+        callSubject,
+        'Property was a boolean'
+    );
+
+    // Array Property
+
+    properties.set( 'timezone', [] );
+
+    assert.throws(
+        callSubject,
+        'Property was an array'
+    );
+
+    // Function Property
+
+    properties.set( 'timezone', function() { } );
+
+    assert.throws(
+        callSubject,
+        'Property was a function'
+    );
+
+    // Object Property
+
+    properties.set( 'timezone', {} );
+
+    assert.throws(
+        callSubject,
+        'Property was an object'
+    );
+
+    // Undefined Property
+
+    properties.set( 'timezone', undefined );
+
+    assert.throws(
+        callSubject,
+        'Property was undefined'
+    );
+
+    // String Property
+
+    properties.set( 'timezone', 'Test title' );
+
+    assert.ok(
+        callSubject(),
+        'Property was a string'
     );
 });
