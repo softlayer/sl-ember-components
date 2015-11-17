@@ -58,8 +58,8 @@ test( 'Loading state applies class name', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-loading' ),
-        'Rendered component has class "sl-loading"'
+        this.$( '>:first-child' ).find( '> .panel-body' ).hasClass( 'sl-loading' ),
+        'Rendered component body has class "sl-loading"'
     );
 });
 

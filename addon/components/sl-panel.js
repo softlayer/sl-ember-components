@@ -18,7 +18,6 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'loading:sl-loading',
         'themeClassName'
     ],
 
