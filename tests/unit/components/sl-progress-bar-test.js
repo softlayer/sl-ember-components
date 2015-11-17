@@ -5,6 +5,8 @@ import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-progress-b
 import sinon from 'sinon';
 
 moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl progress bar', {
+    needs: [ 'component:sl-progress-bar-indicator' ],
+
     unit: true
 });
 
@@ -82,23 +84,10 @@ test( 'isLowPercentage() is only true when value < 50', function( assert ) {
     );
 });
 
-test( 'styleString() returns a HTML-safe string', function( assert ) {
-    const component = this.subject();
-
-    assert.ok(
-        component.get( 'styleString' ) instanceof Ember.Handlebars.SafeString,
-        'styleString() returns an instance of Ember.Handlebars.SafeString'
-    );
-});
-
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
     const isLowPercentageDependentKeys = [
-        'value'
-    ];
-
-    const styleStringDependentKeys = [
         'value'
     ];
 
@@ -110,12 +99,6 @@ test( 'Dependent keys are correct', function( assert ) {
         component.isLowPercentage._dependentKeys,
         isLowPercentageDependentKeys,
         'Dependent keys are correct for isLowPercentage()'
-    );
-
-    assert.deepEqual(
-        component.styleString._dependentKeys,
-        styleStringDependentKeys,
-        'Dependent keys are correct for styleString()'
     );
 
     assert.deepEqual(

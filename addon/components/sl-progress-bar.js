@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-progress-bar';
 import { containsValue, warn } from '../utils/all';
+import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 
 /**
  * Valid Bootstrap theme class names for progress bars
@@ -31,14 +31,14 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [
-        'isLowPercentage:sl-progress-bar-low-percentage'
-    ],
-
-    /** @type {String[]} */
     classNames: [
         'progress',
         'sl-progress-bar'
+    ],
+
+    /** @type {String[]} */
+    classNameBindings: [
+        'isLowPercentage:sl-progress-bar-low-percentage'
     ],
 
     /** @type {Object} */
@@ -108,19 +108,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     ),
 
     /**
-     * Inline style string for progress bar element
-     *
-     * @function
-     * @returns {ember/Handlebars/SafeString}
-     */
-    styleString: Ember.computed(
-        'value',
-        function() {
-            return Ember.String.htmlSafe( `width: ${this.get( 'value' )}%;` );
-        }
-    ),
-
-    /**
      * Element-specific class name for the Bootstrap "theme" style
      *
      * @function
@@ -138,5 +125,4 @@ export default Ember.Component.extend( TooltipEnabled, {
             return `progress-bar-${theme}`;
         }
     )
-
 });
