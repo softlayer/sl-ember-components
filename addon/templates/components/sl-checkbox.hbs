@@ -1,4 +1,17 @@
-<label>
-    {{input checked=checked disabled=disabled name=name type="checkbox"}}
+{{#if inline}}
+    {{input
+        type="checkbox"
+        checked=checked
+        disabled=disabled
+        name=name}}
     {{label}}
-</label>
+{{else}}
+    <label>
+        {{input
+            type="checkbox"
+            checked=checked
+            disabled=disabled
+            name=name}}
+        {{label}}
+    </label>
+{{/if}}

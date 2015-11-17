@@ -12,12 +12,13 @@
     checked=checkboxValue
     label="Checkbox"
     name="checkbox"
+    inline=true
 }}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{sl-checkbox checked=checkboxValue label="Checkbox" name="checkbox"}}
+        {{sl-checkbox checked=checkboxValue label="Checkbox" name="checkbox" inline=true}}
 
         {{#if checkboxValue}}
             <span class="label label-success">Checked!</span>
@@ -62,6 +63,10 @@
 
     {{#property-text name="disabled" type="Boolean" default="false"}}
         When true, the checkbox is disabled.
+    {{/property-text}}
+
+    {{#property-text name="inline" type="Boolean" default="false"}}
+        Display the checkbox inline with others.
     {{/property-text}}
 
     {{#property-text name="label" type="String"}}

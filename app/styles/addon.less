@@ -14,6 +14,45 @@
     margin-right: 2em;
 }
 
+.sl-loading {
+    position: relative;
+    overflow: hidden;
+
+    &:before, &:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+    }
+
+    &:before {
+        background-color: fade(@gray-light, 75%);
+    }
+
+    &:after {
+        -webkit-animation: sl-spin 1s infinite linear;
+        -moz-animation: sl-spin 1s infinite linear;
+        -o-animation: sl-spin 1s infinite linear;
+        animation: sl-spin 1s infinite linear;
+        background-image: url('/sl-ember-components/assets/images/spinner-dark-sm.png');
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-size: contain;
+    }
+}
+
+.sl-loading > * {
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    filter: blur(4px);
+}
+
 // -------------------------------------------------------------------------
 // Animations
 
