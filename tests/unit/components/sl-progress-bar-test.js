@@ -71,6 +71,8 @@ test( 'isLowPercentage() is only true when value < 50', function( assert ) {
         'Value < 50 is low percentage'
     );
 
+    this.render();
+
     Ember.run( function() {
         component.set( 'value', 50 );
     });
@@ -82,12 +84,31 @@ test( 'isLowPercentage() is only true when value < 50', function( assert ) {
     );
 });
 
-test( 'styleString() returns a HTML-safe string', function( assert ) {
-    const component = this.subject();
+test( 'Event listener on "willInsertElement" calls "setCssWidth()"', function( assert ) {
+    const spy = sinon.spy();
+    const component = this.subject({
+        setCssWidth: spy
+    });
+
+    Ember.run( () => component.trigger( 'willInsertElement' ) );
 
     assert.ok(
-        component.get( 'styleString' ) instanceof Ember.Handlebars.SafeString,
-        'styleString() returns an instance of Ember.Handlebars.SafeString'
+        spy.called,
+        '"setCssWidth()" called when "willInsertElement" event occurs'
+    );
+});
+
+test( '"setWidth()" calls the correct methods', function( assert ) {
+    const spy = sinon.spy();
+    const component = this.subject({
+        setCssWidth: spy
+    });
+
+    component.setWidth();
+
+    assert.ok(
+        spy.called,
+        '"setCssWidth()" called inside "setWidth()"'
     );
 });
 
@@ -95,10 +116,6 @@ test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
     const isLowPercentageDependentKeys = [
-        'value'
-    ];
-
-    const styleStringDependentKeys = [
         'value'
     ];
 
@@ -113,15 +130,23 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 
     assert.deepEqual(
-        component.styleString._dependentKeys,
-        styleStringDependentKeys,
-        'Dependent keys are correct for styleString()'
-    );
-
-    assert.deepEqual(
         component.themeClassName._dependentKeys,
         themeClassNameDependentKeys,
         'Dependent keys are correct for themeClassName()'
+    );
+});
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const setWidthKeys = [
+        'value'
+    ];
+
+    assert.deepEqual(
+        component.setWidth.__ember_observes__,
+        setWidthKeys,
+        'Observer keys are correct for setWidth()'
     );
 });
 

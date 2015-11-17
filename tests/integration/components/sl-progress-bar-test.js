@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-progress-bar';
@@ -68,7 +69,7 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.strictEqual(
-        grandchild.attr( 'style' ),
+        Ember.$.trim( grandchild.attr( 'style' ) ),
         'width: 0%;',
         '"style" is "width: 0%;"'
     );
@@ -203,7 +204,7 @@ test( '"style" string is updated', function( assert ) {
     const grandchild = this.$( '>:first-child' ).find( '>:first-child' );
 
     assert.strictEqual(
-        grandchild.attr( 'style' ),
+        Ember.$.trim( grandchild.attr( 'style' ) ),
         'width: 12%;',
         '"style" is "width: 12%;"'
     );
@@ -211,7 +212,7 @@ test( '"style" string is updated', function( assert ) {
     this.set( 'testValue', 38 );
 
     assert.strictEqual(
-        grandchild.attr( 'style' ),
+        Ember.$.trim( grandchild.attr( 'style' ) ),
         'width: 38%;',
         '"style" is "width: 38%;"'
     );
