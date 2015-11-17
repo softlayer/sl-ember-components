@@ -62,6 +62,11 @@ test( 'Default rendered state', function( assert ) {
         'Has class "modal"'
     );
 
+    assert.ok(
+        this.$( '>:first-child' ).find( '>div' ).hasClass( 'modal-md' ),
+        'Has class "modal-md"'
+    );
+
     Ember.run( () => {
         this.$( '>:first-child' ).modal( 'show' );
     });
@@ -126,6 +131,26 @@ test( 'Animated property adds fade class', function( assert ) {
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'fade' ),
         'fade class present when animated set to true'
+    );
+});
+
+test( 'Size property changes size class', function( assert ) {
+    this.set( 'size', 'large' );
+
+    this.render( hbs`
+        {{sl-modal size=size}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '>div' ).hasClass( 'modal-lg' ),
+        'Has class "modal-lg"'
+    );
+
+    this.set( 'size', 'small' );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '>div' ).hasClass( 'modal-sm' ),
+        'Has class "modal-sm"'
     );
 });
 
