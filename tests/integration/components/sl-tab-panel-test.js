@@ -36,14 +36,14 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.strictEqual(
-        wrapper.find( '.tab a[role="tab"]' ).length,
+        wrapper.find( '> ul > li a[role="tab"]' ).length,
         3,
         'Rendered component has three <a> with "tab" ARIA role'
     );
 
     const labels = [];
 
-    wrapper.find( '.tab[data-tab-name]' ).each( function() {
+    wrapper.find( '> ul > li[data-tab-name]' ).each( function() {
         labels.push( Ember.$( this ).attr( 'data-tab-name' ) );
     });
 
@@ -70,7 +70,7 @@ test( 'setupTabs() sets up tabs correctly', function( assert ) {
     const done = assert.async();
 
     assert.strictEqual(
-        wrapper.find( '.tab[data-tab-name]' ).length,
+        wrapper.find( '> ul > li[data-tab-name]' ).length,
         3,
         'Three tabs are rendered'
     );
@@ -90,7 +90,7 @@ test( 'setupTabs() sets up tabs correctly', function( assert ) {
     // queue asserts after animation
     tabPaneA.queue( () => {
         assert.strictEqual(
-            wrapper.find( '.tab.active[data-tab-name="a"]' ).length,
+            wrapper.find( '> ul > li.active[data-tab-name="a"]' ).length,
             1,
             'Rendered component has tab "a" as its active tab'
         );
@@ -123,7 +123,7 @@ test( 'initialTabName property is respected', function( assert ) {
     // queue asserts after animation
     tabPaneB.queue( () => {
         assert.strictEqual(
-            wrapper.find( '.tab.active[data-tab-name="b"]' ).length,
+            wrapper.find( '> ul > li.active[data-tab-name="b"]' ).length,
             1,
             'Initial tab is expected "b"'
         );
@@ -147,23 +147,10 @@ test( 'alignTabs property is respected', function( assert ) {
     ` );
 
     const wrapper = this.$( '>:first-child' );
-    const tabAOffset = wrapper.find( '.tab[data-tab-name="a"]' ).offset().left;
-    const tabBOffset = wrapper.find( '.tab[data-tab-name="b"]' ).offset().left;
-    const tabCOffset = wrapper.find( '.tab[data-tab-name="c"]' ).offset().left;
 
     assert.ok(
         wrapper.hasClass( 'sl-align-tabs-right' ),
         'Tab alignment class is applied'
-    );
-
-    assert.ok(
-        tabAOffset > tabBOffset,
-        'Tab A is positioned to the right of tab B'
-    );
-
-    assert.ok(
-        tabBOffset > tabCOffset,
-        'Tab B is positioned to the right of tab C'
     );
 });
 
@@ -178,22 +165,22 @@ test( 'Clicking tab changes active tab', function( assert ) {
 
     const done = assert.async();
 
-    wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
+    wrapper.find( '> ul > li[data-tab-name="b"] a' ).trigger( 'click' );
 
     // queue asserts after animation
     tabPaneA.queue( () => {
         tabPaneB.queue( () => {
-            const activeTab = wrapper.find( '.tab.active' );
+            const activeTab = wrapper.find( '> ul > li.active' );
             const activePane = wrapper.find( '.sl-tab-pane.active' );
 
             assert.strictEqual(
-                activeTab.data( 'tab-name' ),
+                activeTab.attr( 'data-tab-name' ),
                 'b',
                 'Active tab is "b"'
             );
 
             assert.strictEqual(
-                activePane.data( 'tab-name' ),
+                activePane.attr( 'data-tab-name' ),
                 'b',
                 'Active pane is "b"'
             );
@@ -208,42 +195,6 @@ test( 'Clicking tab changes active tab', function( assert ) {
                 activePane.length,
                 1,
                 "There's only one active pane"
-            );
-
-            done();
-        });
-    });
-});
-
-test( 'Tab content height is adjusted after new tab selection', function( assert ) {
-    assert.expect( 1 );
-
-    const done = assert.async();
-
-    this.render( hbs`
-        {{#sl-tab-panel}}
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}
-                B content<br><br>Taller content
-            {{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        {{/sl-tab-panel}}
-    ` );
-
-    const wrapper = this.$( '>:first-child' );
-    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
-    const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
-
-    const initialHeight = wrapper.find( '.tab-content' ).height();
-
-    wrapper.find( '.tab[data-tab-name="b"] a' ).trigger( 'click' );
-
-    // queue assert after animation
-    tabPaneA.queue( () => {
-        tabPaneB.queue( () => {
-            assert.notEqual(
-                wrapper.find( '.tab-content' ).height(),
-                initialHeight
             );
 
             done();

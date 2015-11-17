@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-tab-panel';
 import * as utils from 'sl-ember-components/utils/all';
@@ -40,21 +39,9 @@ test( 'Default values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'activeTabName' ),
-        null,
-        'activeTabName is null'
-    );
-
-    assert.strictEqual(
         component.get( 'alignTabs' ),
         AlignmentEnum.LEFT,
         'alignmentTabs is left by default'
-    );
-
-    assert.strictEqual(
-        component.get( 'contentHeight' ),
-        0,
-        'contentHeight is 0 by default'
     );
 
     assert.strictEqual(
@@ -92,35 +79,24 @@ test( 'setupTabs() sets "tabs" property with correct data', function( assert ) {
 
     this.render();
 
+    const componentTabs = component.get( 'tabs' );
+
     assert.deepEqual(
-        tabs,
-        component.get( 'tabs' ),
-       '"tabs" property is set with the correct data'
+        tabs.map( ( i ) => i.label ),
+        componentTabs.map( ( i ) => i.label ),
+        '"tabs" property has proper labels'
     );
 
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'getTabs() returns correct data', function( assert ) {
-    const tabs = [
-        { label: 'One', name: 'one', active: true },
-        { label: 'Two', name: 'two', active: false },
-        { label: 'Three', name: 'three', active: false }
-    ];
-
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
+    assert.deepEqual(
+        tabs.map( ( i ) => i.name ),
+        componentTabs.map( ( i ) => i.name ),
+        '"tabs" property has proper names'
+    );
 
     assert.deepEqual(
-        component.getTabs(),
-        tabs,
-        'Correct data returned when initialTabName "one" passed in as a parameter'
+        tabs.map( ( i ) => i.active ),
+        componentTabs.map( ( i ) => i.active ),
+        '"tabs" property has proper active states'
     );
 
     this.registry.unregister( 'template:test-template' );
@@ -136,8 +112,8 @@ test( 'setActiveTab() does so correctly', function( assert ) {
 
     this.render();
 
-    const tabOne = this.$( '.tab[data-tab-name="one"]' );
-    const tabTwo = this.$( '.tab[data-tab-name="two"]' );
+    const tabOne = this.$( '> .nav-tabs > li[data-tab-name="one"]' );
+    const tabTwo = this.$( '> .nav-tabs > li[data-tab-name="two"]' );
 
     assert.notOk(
         tabTwo.hasClass( 'active' ),
@@ -186,127 +162,6 @@ test( 'getInitialTabName() returns the correct tab name', function( assert ) {
     this.registry.unregister( 'template:test-template' );
 });
 
-test( 'updateContentHeight() updates tab content height when contentHeight changes', function( assert ) {
-    const component = this.subject();
-
-    const initialHeight = this.$( '.tab-content' ).height();
-    const newHeight = initialHeight + 300;
-
-    component.set( 'contentHeight', newHeight );
-
-    assert.strictEqual(
-        this.$( '.tab-content' ).height(),
-        newHeight
-    );
-});
-
-test( 'activatePane() activates pane as expected', function( assert ) {
-    assert.expect( 2 );
-
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    const done = assert.async();
-    const tabPaneA = this.$( '.sl-tab-pane[data-tab-name="one"]' );
-
-    component.activatePane( 'one' );
-
-    // queue assert after animation
-    tabPaneA.queue( () => {
-        assert.ok(
-            tabPaneA.is( ':visible' ),
-            'Tab panel is visible after animation'
-        );
-
-        assert.ok(
-            tabPaneA.hasClass( 'active' ),
-            'Tab panel has active class'
-        );
-
-        done();
-    });
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'deactivatePane() deactivates pane as expected', function( assert ) {
-    assert.expect( 3 );
-
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    const done = assert.async();
-    const tabPaneA = this.$( '.sl-tab-pane[data-tab-name="one"]' );
-
-    component.deactivatePane( () => {
-        assert.ok(
-            'Callback passed to deactivatePane was called'
-        );
-
-        assert.ok(
-            tabPaneA.is( ':hidden' ),
-            'Active panel was hidden'
-        );
-
-        assert.notOk(
-            tabPaneA.hasClass( 'active' ),
-            'Active panel no longer has active class'
-        );
-
-        done();
-    });
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'paneFor() returns the correct DOM element', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    const tab = 'two';
-    const pane = component.paneFor( tab );
-
-    assert.ok(
-        pane.is( $( `.tab-pane[data-tab-name="${ tab }"]` ) )
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'tabFor() returns the correct DOM element', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    const tab = 'two';
-    const pane = component.tabFor( tab );
-
-    assert.ok(
-        pane.is( $( `.tab[data-tab-name="${ tab }"]` ) )
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
 test( 'tabAlignmentClass() returns the correct value', function( assert ) {
     const component = this.subject();
 
@@ -339,7 +194,7 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
     utils.warn.restore();
 });
 
-test( 'contentHeight is set to an integer value when activatePane() is called', function( assert ) {
+test( 'getActiveTabName returns the correct value after setActiveTab() is called', function( assert ) {
     this.registry
         .register( 'template:test-template', template );
 
@@ -349,46 +204,12 @@ test( 'contentHeight is set to an integer value when activatePane() is called', 
 
     this.render();
 
-    component.activatePane( 'b' );
+    component.setActiveTab( 'two' );
 
     assert.equal(
-        Ember.typeOf( component.get( 'contentHeight' ) ),
-        'number'
+        component.getActiveTabName(),
+        'two'
     );
 
     this.registry.unregister( 'template:test-template' );
-});
-
-test( 'activeTabName is set to correct value when activatePane() is called', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    component.activatePane( 'b' );
-
-    assert.equal(
-        component.get( 'activeTabName' ),
-        'b'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'Observer keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const updateContentHeightKeys = [
-        'contentHeight'
-    ];
-
-    assert.deepEqual(
-        component.updateContentHeight.__ember_observes__,
-        updateContentHeightKeys,
-        'Observer keys are correct for updateContentHeight()'
-    );
 });
