@@ -1,6 +1,23 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
+import sinon from 'sinon';
+
+const mockStream = {
+    actions: {},
+
+    on( actionName, handler ) {
+        this.actions[ actionName ] = handler;
+    },
+
+    subject: {
+        dispose() {
+            mockStream.actions = {};
+        },
+
+        onCompleted() {}
+    }
+};
 
 const testItems = Ember.A([
     {
@@ -553,7 +570,7 @@ test( 'Stream action "clearSelections" triggers clearSelections()', function( as
     );
 });
 
-test( 'clearSelections() - sets selecions to empty array', function( assert ) {
+test( 'clearSelections() - sets selections to empty array', function( assert ) {
     const component = this.subject({
         items: testItems,
         stream: mockStream
@@ -582,6 +599,20 @@ test( 'selectedItem() - returns expected selected item', function( assert ) {
     );
 });
 
+test( 'Stream action "doAction" triggers doAction()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const doActionSpy = sinon.spy( component, 'doAction' );
+
+    mockStream.actions[ 'doAction' ]();
+    assert.ok(
+        doActionSpy.called,
+        'doAction method was called'
+    );
+});
+
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject({
         items: testItems,
@@ -596,19 +627,5 @@ test( 'Dependent keys are correct', function( assert ) {
         component.selectedItem._dependentKeys,
         selectedItemKeys,
         'Dependent keys are correct for selectedItem()'
-    );
-});
-
-test( 'Stream action "doAction" triggers doAction()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const doActionSpy = sinon.spy( component, 'doAction' );
-
-    mockStream.actions[ 'doAction' ]();
-    assert.ok(
-        doActionSpy.called,
-        'doAction method was called'
     );
 });
