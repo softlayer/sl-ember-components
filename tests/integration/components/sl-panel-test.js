@@ -32,18 +32,6 @@ test( 'Default rendered state', function( assert ) {
         1,
         'Default rendered component has child with class "panel-body"'
     );
-
-    assert.strictEqual(
-        panelBody.find( '> .sl-maskable-content' ).length,
-        1,
-        'Default rendered component has child with class "sl-maskable-content"'
-    );
-
-    assert.strictEqual(
-        panelBody.find( '> .sl-mask' ).length,
-        1,
-        'Default rendered component has child with class "sl-mask"'
-    );
 });
 
 test( 'Valid heading value renders panel-heading', function( assert ) {
