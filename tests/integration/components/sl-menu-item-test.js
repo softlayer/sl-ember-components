@@ -33,18 +33,6 @@ moduleForComponent( 'sl-menu-item', 'Integration | Component | sl menu item', {
     integration: true
 });
 
-test( 'Default rendered state', function( assert ) {
-
-    this.render( hbs`
-        {{sl-menu-item}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-menu-item' ),
-        'Has class "sl-menu-item"'
-    );
-});
-
 test( 'Mouse enter/leave events toggles setting of "active" class', function( assert ) {
 
     this.set( 'menuItems', menuItems );
@@ -60,14 +48,14 @@ test( 'Mouse enter/leave events toggles setting of "active" class', function( as
         'Rendered element does not have class "active" by default'
     );
 
-    this.$( '>:first-child' ).find( '.has-sub-menu' ).find( 'a' ).first().trigger( 'mouseenter' );
+    this.$( '>:first-child' ).find( '>a' ).first().trigger( 'mouseenter' );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'active' ),
         'Rendered element has class "active" after mouseenter'
     );
 
-    this.$( '>:first-child' ).find( '.has-sub-menu' ).find( 'a' ).first().trigger( 'mouseleave' );
+    this.$( '>:first-child' ).find( '>a' ).first().trigger( 'mouseleave' );
 
     assert.notOk(
         this.$( '>:first-child' ).hasClass( 'active' ),
@@ -75,7 +63,7 @@ test( 'Mouse enter/leave events toggles setting of "active" class', function( as
     );
 });
 
-test( '"has-sub-menu" and "sub-menu" classes are set when menu has sub menus', function( assert ) {
+test( '"contains-dropdown" and "dropdown-toggle" classes are set when menu has sub menus', function( assert ) {
 
     this.set( 'menuItem', menuItem );
 
@@ -86,20 +74,30 @@ test( '"has-sub-menu" and "sub-menu" classes are set when menu has sub menus', f
     ` );
 
     assert.notOk(
-        this.$( '>:first-child' ).hasClass( 'has-sub-menu' ),
-        'Rendered element does not have class "has-sub-menu"'
+        this.$( '>:first-child' ).hasClass( 'contains-dropdown' ),
+        'Rendered element does not have class "contains-dropdown"'
+    );
+
+    assert.notOk(
+        this.$( '>:first-child' ).find( '>a' ).hasClass( 'dropdown-toggle' ),
+        'Rendered element does not have class "dropdown-toggle"'
     );
 
     this.set( 'menuItem', menuItems );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'has-sub-menu' ),
-        'Rendered element has class "has-sub-menu"'
+        this.$( '>:first-child' ).hasClass( 'contains-dropdown' ),
+        'Rendered element has class "contains-dropdown"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'li' ).find( 'ul' ).hasClass( 'sub-menu' ),
-        'Rendered element has class "sub-menu"'
+        this.$( '>:first-child' ).find( '>a' ).hasClass( 'dropdown-toggle' ),
+        'Rendered element has class "dropdown-toggle"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'ul' ).hasClass( 'dropdown-menu' ),
+        'Rendered element has class "dropdown-menu"'
     );
 });
 
@@ -157,7 +155,7 @@ test( 'handleAction() action is fired from sub menu (Sub 1) item', function( ass
     });
 
     // Sub 1
-    this.$( '>:first-child' ).find( '.sub-menu:first li:first a:first' ).click();
+    this.$( '>:first-child' ).find( '> ul > li:first > a' ).click();
 });
 
 test( 'handleAction() action is fired from sub sub menu (Sub 2-1) item', function( assert ) {
@@ -192,5 +190,5 @@ test( 'handleAction() action is fired from sub sub menu (Sub 2-1) item', functio
     });
 
     // Sub 2-1
-    this.$( '>:first-child' ).find( '.sub-menu:last li:first a:first' ).click();
+    this.$( '>:first-child' ).find( '> ul > li:last > ul > li:first > a' ).click();
 });

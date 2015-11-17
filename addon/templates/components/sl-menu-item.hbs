@@ -1,5 +1,5 @@
 {{#if subItems}}
-    <a {{action "clickLink"}} class="dropdown-toggle">{{item.label}}</a>
+    <a href="#" {{action "clickLink"}} class="dropdown-toggle">{{item.label}}</a>
 
     <ul class="dropdown-menu">
         {{#each subItems as |item|}}
@@ -10,5 +10,5 @@
         {{/each}}
     </ul>
 {{else}}
-    <a {{action "clickLink"}}>{{item.label}}</a>
+    <a href="#" {{action "clickLink"}}>{{item.label}}</a>
 {{/if}}
