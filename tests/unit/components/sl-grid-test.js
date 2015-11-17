@@ -1209,3 +1209,17 @@ test( 'Only required references to Ember.$, $ or jQuery exist', function( assert
     window.jQuery.restore();
     Ember.$.restore();
 });
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const handleNewContentKeys = [
+        'content.[]'
+    ];
+
+    assert.deepEqual(
+        component.handleNewContent.__ember_observes__,
+        handleNewContentKeys,
+        'Observer keys are correct for handleNewContent()'
+    );
+});
