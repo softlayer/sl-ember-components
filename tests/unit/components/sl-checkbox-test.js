@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
@@ -30,5 +31,57 @@ test( 'Default property values', function( assert ) {
         component.get( 'label' ),
         null,
         '"label" property is null by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'div',
+        'tagName is "div" in default state'
+    );
+});
+
+test( 'checkboxType property sets relevant class', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'checkboxType' ),
+        'checkbox',
+        'checkboxType defaults to "checkbox"'
+    );
+
+    Ember.run( () => {
+        component.set( 'inline', true );
+    });
+
+    assert.strictEqual(
+        component.get( 'checkboxType' ),
+        'checkbox-inline',
+        'checkboxType is inline'
+    );
+});
+
+test( 'Inline property changes tagName', function( assert ) {
+    const component = this.subject({
+        inline: true
+    });
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'label',
+        'tagName is "label" when component is inline'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const checkboxTypeDependentKeys = [
+        'inline'
+    ];
+
+    assert.deepEqual(
+        component.checkboxType._dependentKeys,
+        checkboxTypeDependentKeys,
+        'Dependent keys are correct for checkboxType()'
     );
 });
