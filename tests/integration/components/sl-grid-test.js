@@ -313,12 +313,12 @@ test( `detailComponent, detailHeaderComponent, detailFooterComponent
 
         assert.strictEqual(
             detailHeaderH1.text(),
-            `header:${firstModelId}`
+            `header:${ firstModelId }`
         );
 
         assert.strictEqual(
             detailContentH1.text(),
-            `content:${firstModelId}`
+            `content:${ firstModelId }`
         );
 
         assert.strictEqual(
@@ -331,8 +331,8 @@ test( `detailComponent, detailHeaderComponent, detailFooterComponent
             'detail-component',
             'detail-footer-component'
         ].forEach( ( name ) => {
-            this.registry.unregister( `component:${name}` );
-            this.registry.unregister( `template:${name}` );
+            this.registry.unregister( `component:${ name }` );
+            this.registry.unregister( `template:${ name }` );
         });
     }
 );

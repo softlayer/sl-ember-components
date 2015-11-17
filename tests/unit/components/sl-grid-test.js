@@ -821,12 +821,10 @@ test( 'enableContinuousPaging() binds scroll event', function( assert ) {
 
     this.$( '.list-pane .content' ).trigger( 'scroll' );
 
-    Ember.run.later( () => {
-        assert.ok(
-            handleListContentSpy.called,
-            'handleListContentScroll was called when scroll event was triggered'
-        );
-    });
+    assert.ok(
+        handleListContentSpy.called,
+        'handleListContentScroll was called when scroll event was triggered'
+    );
 });
 
 test( 'handleListContentScroll() requests data as expected', function( assert ) {
