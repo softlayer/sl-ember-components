@@ -23,25 +23,25 @@ test( 'Default property values', function( assert ) {
     );
 
     assert.strictEqual(
+        component.get( 'tagName' ),
+        'div',
+        'tagName is "div" in default state'
+    );
+
+    assert.strictEqual(
         component.get( 'value' ),
         null,
         'Default property "value" is null'
     );
 });
 
-test( 'RadioType property sets relevant class', function( assert ) {
+test( 'radioType property sets relevant class', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
         component.get( 'radioType' ),
         'radio',
         'RadioType defaults to "radio"'
-    );
-
-    assert.notStrictEqual(
-        component.get( 'radioType' ),
-        'radio-inline',
-        'RadioType is not inline'
     );
 
     Ember.run( () => {
@@ -53,14 +53,19 @@ test( 'RadioType property sets relevant class', function( assert ) {
         'radio-inline',
         'RadioType is inline'
     );
-
-    assert.notStrictEqual(
-        component.get( 'radioType' ),
-        'radio',
-        'RadioType is not inline'
-    );
 });
 
+test( 'inline property changes tagName', function( assert ) {
+    const component = this.subject({
+        inline: true
+    });
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'label',
+        'tagName is "label" when component is inline'
+    );
+});
 
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();

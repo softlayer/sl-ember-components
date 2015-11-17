@@ -18,6 +18,11 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'Has class "form-group"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'radio' ),
         'Has class "radio"'
     );
@@ -53,6 +58,11 @@ test( 'Inline property sets relevant class', function( assert ) {
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'radio-inline' ),
         'has class "radio-inline"'
+    );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'inline radio does not have class "form-group"'
     );
 });
 

@@ -17,7 +17,8 @@ export default Ember.Component.extend( InputBased, {
 
     /** @type {String[]} */
     classNameBindings: [
-        'radioType'
+        'radioType',
+        'inline::form-group'
     ],
 
     /** @type {String[]} */
@@ -27,6 +28,9 @@ export default Ember.Component.extend( InputBased, {
 
     /** @type {Object} */
     layout,
+
+    /** @type {String} */
+    tagName: 'div',
 
     // -------------------------------------------------------------------------
     // Actions
@@ -60,6 +64,21 @@ export default Ember.Component.extend( InputBased, {
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Initialize any computed properties that need setup
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            if ( this.get( 'inline' ) ) {
+                this.set( 'tagName', 'label' );
+            }
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods

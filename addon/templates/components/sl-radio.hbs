@@ -1,8 +1,17 @@
-<label>
+{{#if inline}}
     {{input
         type="radio"
         disabled=disabled
         name=name
         value=value}}
     {{label}}
-</label>
+{{else}}
+    <label>
+        {{input
+            type="radio"
+            disabled=disabled
+            name=name
+            value=value}}
+        {{label}}
+    </label>
+{{/if}}
