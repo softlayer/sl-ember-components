@@ -1,15 +1,17 @@
 import Ember from 'ember';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import Namespace from '../mixins/sl-namespace';
 import layout from '../templates/components/sl-date-picker';
 
 /**
  * @module
  * @augments ember/Component
  * @augments module:mixins/sl-component-input-id
+ * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
+export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -249,7 +251,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
             const datepicker = this.$( 'input.date-picker' )
                 .datepicker( this.get( 'options' ) );
 
-            datepicker.on( 'changeDate', () => {
+            datepicker.on( this.namespaceEvent( 'changeDate' ), () => {
                 this.sendAction();
             });
         }
@@ -264,7 +266,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, {
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.$( 'input.date-picker' ).off();
+            this.$( 'input.date-picker' ).off( this.namespaceEvent( 'changeDate' ) );
         }
     ),
 

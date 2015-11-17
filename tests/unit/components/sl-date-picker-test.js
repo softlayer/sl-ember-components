@@ -163,23 +163,47 @@ test( 'Default properties are set correctly', function( assert ) {
 });
 
 test( 'Event handlers are registered and unregistered', function( assert ) {
+    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+    const spyOff = sinon.spy( Ember.$.fn, 'off' );
     const component = this.subject();
+    const input = this.$( 'input.date-picker' );
 
-    const input = this.$( 'input.date-picker' ).get( 0 );
-    const jQueryData = Ember.get( Ember.$, '_data' );
-    const events = jQueryData( input, 'events' );
+    const matchElement = sinon.match( ( value ) => {
+        return value.get( 0 ) === input.get( 0 );
+    });
+
+    this.render();
+
+    spyOn.reset();
+
+    component.trigger( 'didInsertElement' );
 
     assert.ok(
-        'changeDate' in events,
-        'changeDate handler is registered after didInsertElement'
+        spyOn.calledWith( component.namespaceEvent( 'changeDate' ) ),
+        'on() was called with namespaced changeDate event'
     );
 
-    Ember.run( () => component.trigger( 'willClearRender' ) );
-
-    assert.notOk(
-        'changeDate' in events,
-        'changeDate event handler is unregistered after willClearRender'
+    assert.ok(
+        spyOn.calledOn( matchElement ),
+        'on() was called on expected input'
     );
+
+    spyOff.reset();
+
+    component.trigger( 'willClearRender' );
+
+    assert.ok(
+        spyOff.calledWith( component.namespaceEvent( 'changeDate' ) ),
+        'off() was called with namespaced changeDate event'
+    );
+
+    assert.ok(
+        spyOff.calledOn( matchElement ),
+        'off() was called on expected input'
+    );
+
+    Ember.$.fn.on.restore();
+    Ember.$.fn.off.restore();
 });
 
 test( 'Changing "autoclose" to non default value works as expected', function( assert ) {
