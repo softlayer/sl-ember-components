@@ -1,6 +1,19 @@
 import Ember from 'ember';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
+import { containsValue, warn } from '../utils/all';
+
+/**
+ * Valid size values for the sl-modal component
+ *
+ * @memberof module:components/sl-modal
+ * @enum {String}
+ */
+export const Size = Object.freeze({
+    LARGE: 'large',
+    MEDIUM: 'medium',
+    SMALL: 'small'
+});
 
 /**
  * @module
@@ -98,6 +111,13 @@ export default Ember.Component.extend( StreamEnabled, {
      * @type {Boolean}
      */
     isOpen: false,
+
+    /**
+     * The size of the modal
+     *
+     * @type {Size}
+     */
+    size: Size.MEDIUM,
 
     /**
      * tabindex attribute value
@@ -219,6 +239,40 @@ export default Ember.Component.extend( StreamEnabled, {
      */
     show() {
         this.$().modal( 'show' );
-    }
+    },
+
+    /**
+     * Converted size string to Bootstrap modal class
+     *
+     * @function
+     * @returns {?String}
+     */
+    sizeClass: Ember.computed(
+        'size',
+        function() {
+            const size = this.get( 'size' );
+
+            if ( !containsValue( size, Size ) ) {
+                warn( `Invalid size value "${size}"` );
+            }
+
+            let sizeClass = null;
+            switch ( size ) {
+                case Size.SMALL:
+                    sizeClass = 'modal-sm';
+                    break;
+
+                case Size.MEDIUM:
+                    sizeClass = 'modal-md';
+                    break;
+
+                case Size.LARGE:
+                    sizeClass = 'modal-lg';
+                    break;
+            }
+
+            return sizeClass;
+        }
+    )
 
 });
