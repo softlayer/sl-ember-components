@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Simple usage</h6>
-            <pre>\{{#sl-modal streamName="demoModal" as |modal|}}
+            <pre>\{{#sl-modal streamName="demoModal" size="small" as |modal|}}
     \{{sl-modal-header title="Simple Example" ariaLabelledBy=modal.ariaLabelledBy}}
 
     \{{#sl-modal-body}}
@@ -17,7 +17,7 @@
 
     \{{sl-modal-footer}}
 \{{/sl-modal}} </pre>
-        {{#sl-modal streamName="demoModal" as |modal|}}
+        {{#sl-modal streamName="demoModal" size="small" as |modal|}}
             {{sl-modal-header
                 title="Simple Example"
                 ariaLabelledBy=modal.ariaLabelledBy
@@ -44,7 +44,7 @@
     <div class="row">
         <div class="col-lg-8">
             <h6>Custom header</h6>
-            <pre>\{{#sl-modal streamName="customHeader" as |modal|}}
+            <pre>\{{#sl-modal streamName="customHeader" size="large" as |modal|}}
     \{{#sl-modal-header}}
         &lt;button class=&quot;close&quot; data-dismiss=&quot;modal&quot; type=&quot;button&quot;&gt;
             &lt;span aria-hidden=&quot;true&quot; class=&quot;fa fa-close&quot;&gt;&lt;/span&gt;
@@ -60,7 +60,7 @@
     \{{sl-modal-footer}}
 \{{/sl-modal}}</pre>
 
-{{#sl-modal streamName="customHeader" as |modal|}}
+{{#sl-modal streamName="customHeader" size="large" as |modal|}}
     {{#sl-modal-header}}
         <button class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true" class="fa fa-close"></span>
