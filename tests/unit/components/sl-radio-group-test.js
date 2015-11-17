@@ -1,6 +1,6 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
-import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
