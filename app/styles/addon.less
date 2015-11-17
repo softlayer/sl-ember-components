@@ -52,3 +52,44 @@
     -ms-filter: blur(4px);
     filter: blur(4px);
 }
+
+// -------------------------------------------------------------------------
+// Animations
+
+@-moz-keyframes sl-spin {
+    0% {
+        -moz-transform: translate3d(0, 0, 0) rotate(-0.001deg);
+    }
+    100% {
+        -moz-transform: translate3d(0, 0, 0) rotate(358.999deg) ;
+    }
+}
+
+@-webkit-keyframes sl-spin {
+    0% {
+        padding-top: 2px;
+        -webkit-transform: rotate3d(0, 0, 1, 0.001deg);
+    }
+    100% {
+        padding-top: 2px;
+        -webkit-transform: rotate3d(0, 0, 1, 360.001deg);
+    }
+}
+
+@-o-keyframes sl-spin {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(359deg);
+    }
+}
+
+@keyframes sl-spin {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(-0.001deg);
+    }
+    100% {
+        transform: translate3d(0, 0, 0) rotate(360.001deg);
+    }
+}
