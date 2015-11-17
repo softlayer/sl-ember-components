@@ -115,8 +115,11 @@ test( 'show() calls bootstrap modal show', function( assert ) {
 test( 'Event handlers are registered and unregistered', function( assert ) {
     const spyOn = sinon.spy( Ember.$.fn, 'on' );
     const spyOff = sinon.spy( Ember.$.fn, 'off' );
-
     const component = this.subject();
+
+    const matchElement = sinon.match( ( value ) => {
+        return value.get( 0 ) === component.$().get( 0 );
+    });
 
     this.render();
 
@@ -125,23 +128,28 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     component.trigger( 'didInsertElement' );
 
     assert.ok(
-        spyOn.calledWith( 'show.bs.modal' ),
-        'show event binded'
+        spyOn.calledWith( component.namespaceEvent( 'show.bs.modal' ) ),
+        'on() was called with namespaced show.bs.modal event'
     );
 
     assert.ok(
-        spyOn.calledWith( 'shown.bs.modal' ),
-        'shown event binded'
+        spyOn.calledWith( component.namespaceEvent( 'shown.bs.modal' ) ),
+        'on() was called with namespaced shown.bs.modal event'
     );
 
     assert.ok(
-        spyOn.calledWith( 'hide.bs.modal' ),
-        'hide event binded'
+        spyOn.calledWith( component.namespaceEvent( 'hide.bs.modal' ) ),
+        'on() was called with namespaced hide.bs.modal event'
     );
 
     assert.ok(
-        spyOn.calledWith( 'hidden.bs.modal' ),
-        'hidden event binded'
+        spyOn.calledWith( component.namespaceEvent( 'hidden.bs.modal' ) ),
+        'on() was called with namespaced hidden.bs.modal event'
+    );
+
+    assert.ok(
+        spyOn.alwaysCalledOn( matchElement ),
+        'on() was called on expected element'
     );
 
     spyOff.reset();
@@ -149,23 +157,28 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     component.trigger( 'willClearRender' );
 
     assert.ok(
-        spyOff.calledWith( 'show.bs.modal' ),
-        'show event unbinded'
+        spyOff.calledWith( component.namespaceEvent( 'show.bs.modal' ) ),
+        'off() was called with namespaced show.bs.modal event'
     );
 
     assert.ok(
-        spyOff.calledWith( 'shown.bs.modal' ),
-        'shown event unbinded'
+        spyOff.calledWith( component.namespaceEvent( 'shown.bs.modal' ) ),
+        'off() was called with namespaced shown.bs.modal event'
     );
 
     assert.ok(
-        spyOff.calledWith( 'hide.bs.modal' ),
-        'hide event unbinded'
+        spyOff.calledWith( component.namespaceEvent( 'hide.bs.modal' ) ),
+        'off() was called with namespaced hide.bs.modal event'
     );
 
     assert.ok(
-        spyOff.calledWith( 'hidden.bs.modal' ),
-        'hidden event unbinded'
+        spyOff.calledWith( component.namespaceEvent( 'hidden.bs.modal' ) ),
+        'off() was called with namespaced hidden.bs.modal event'
+    );
+
+    assert.ok(
+        spyOff.alwaysCalledOn( matchElement ),
+        'off() was called on expected element'
     );
 
     Ember.$.fn.on.restore();
