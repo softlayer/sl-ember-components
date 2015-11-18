@@ -25,11 +25,23 @@ export default SlGridCell.extend({
         'sortedClass'
     ],
 
+    /** @type {String[]} */
+    classNames: [
+        'sl-grid-column-header'
+    ],
+
     /** @type {Object} */
     layout,
 
     /** @type {String} */
     tagName: 'th',
+
+    /**
+     * The column record
+     *
+     * @type {?Object}
+     */
+    column: null,
 
     // -------------------------------------------------------------------------
     // Actions

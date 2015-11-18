@@ -5,25 +5,19 @@ moduleForComponent( 'sl-grid-column-header', 'Unit | Component | sl grid column 
     unit: true
 });
 
-test( 'Sortable column class is present when column is sortable', function( assert ) {
-    const column = {};
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
 
-    this.subject({ column });
-
-    assert.equal(
-        this.$().hasClass( 'sortable-column' ),
-        false,
-        'Default component with non-sortable column does not have "sortable-column" class'
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'th',
+        'Tag name is th'
     );
 
-    Ember.run( () => {
-        Ember.set( column, 'sortable', true );
-    });
-
-    assert.ok(
-        this.$().hasClass( 'sortable-column' ),
-        true,
-        'Component has class "sortable-column" with sortable column'
+    assert.strictEqual(
+        component.get( 'column' ),
+        null,
+        'column is null'
     );
 });
 
@@ -114,4 +108,28 @@ test( 'Click event returns column with sortable column', function( assert ) {
     });
 
     this.$().trigger( 'click' );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const sortedClassDependentKeys = [
+        'column.sortAscending',
+        'column.sortable'
+    ];
+
+    const sortIconClassDependentKeys = [
+        'column.sortAscending',
+        'column.sortable'
+    ];
+
+    assert.deepEqual(
+        component.sortedClass._dependentKeys,
+        sortedClassDependentKeys
+    );
+
+    assert.deepEqual(
+        component.sortIconClass._dependentKeys,
+        sortIconClassDependentKeys
+    );
 });

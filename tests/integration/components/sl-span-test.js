@@ -5,14 +5,27 @@ moduleForComponent( 'sl-span', 'Integration | Component | sl span', {
     integration: true
 });
 
-test( '"value" property is supported', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
-        {{sl-span value="Test content"}}
+        {{sl-span}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
-        'Test content'
+        '',
+        '"value" defaults to null'
+    );
+});
+
+test( '"value" property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-span value="value text"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).text().trim(),
+        'value text',
+        '"value" text is displayed'
     );
 });
 

@@ -1,29 +1,22 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-grid-row', 'Unit | Component | sl grid row', {
     unit: true
 });
 
-test( 'Active row class is supported', function( assert ) {
-    const row = {};
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
 
-    this.subject({ row });
-
-    assert.equal(
-        this.$().hasClass( 'active' ),
-        false,
-        'Component with non-active row does not have "active" class'
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'tr',
+        'tagName is tr'
     );
 
-    Ember.run( () => {
-        Ember.set( row, 'active', true );
-    });
-
-    assert.equal(
-        this.$().hasClass( 'active' ),
-        true,
-        'Component with active row has "active" class'
+    assert.strictEqual(
+        component.get( 'row' ),
+        null,
+        'row is null'
     );
 });
 
