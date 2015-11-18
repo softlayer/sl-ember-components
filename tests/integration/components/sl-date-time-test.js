@@ -166,7 +166,7 @@ test( 'Date values applied correctly', function( assert ) {
     );
 });
 
-test( 'tooltip mixin applied correctly', function( assert ) {
+test( 'tooltip properties are set correctly', function( assert ) {
     this.render( hbs`
         {{sl-date-time
             timezone="America/Chicago"
@@ -195,5 +195,59 @@ test( 'tooltip mixin applied correctly', function( assert ) {
         options.trigger,
         'hover focus',
         'Default trigger is "hover focus"'
+    );
+});
+
+test( 'Popover properties are set correctly when popover parameter is set', function( assert ) {
+    const title = 'test title';
+    const popover = 'popover text';
+
+    this.set( 'title', title );
+    this.set( 'popover', popover );
+
+    this.render( hbs`
+        {{sl-date-time
+            timezone="America/Chicago"
+            popover=popover
+        }}
+    ` );
+
+    let data = this.$( '>:first-child' ).data();
+    let popoverData = data[ 'bs.popover' ];
+
+    assert.strictEqual(
+        popoverData.enabled,
+        true,
+        'Popover is enabled'
+    );
+
+    this.render( hbs`
+        {{sl-date-time
+            timezone="America/Chicago"
+            title=title
+            popover=popover
+        }}
+    ` );
+
+    data = this.$( '>:first-child' ).data();
+    popoverData = data[ 'bs.popover' ];
+    const options = popoverData.getOptions();
+
+    assert.strictEqual(
+        popoverData.getTitle(),
+        title,
+        'Popover title was set correctly'
+    );
+
+    assert.strictEqual(
+        popoverData.getContent(),
+        popover,
+        'Popover text is set correctly'
+    );
+
+    assert.strictEqual(
+        options.trigger,
+        'click',
+        'Default trigger is "click"'
     );
 });
