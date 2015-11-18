@@ -1,3 +1,4 @@
+/*
 .sl-grid .list-pane {
     float: left;
     padding-bottom: 33px;
@@ -40,25 +41,109 @@
     text-overflow: ellipsis;
     width: 100%;
 }
+*/
 
-.sl-grid th.fake-scrollbar {
-    width: 17px;
-    padding: 0;
-}
+.grid.sl-ember-components {
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
 
-.sl-grid .sortable-column {
-    cursor: pointer;
-}
+    & > * {
+        flex: 1 100%;
+    }
 
-.sl-grid .sl-icon-sortable:after {
-    content: "\e150";
-    font-size: .85em;
-}
+    &.details-open > div {
+        flex: 1 auto;
 
-.sl-grid .column-ascending .sl-icon-sortable:after {
-    content: "\e093";
-}
+        & + div.panel {
+            flex: 9 0px;
+            width: auto;
+            display: block;
+        }
 
-.sl-grid .column-descending .sl-icon-sortable:after {
-    content: "\e094";
+        & > table > thead th:not(.primary-column), & > table > tbody td:not(.primary-column), & > table > tbody th:not(.primary-column) {
+            width: 0;
+            overflow: hidden;
+        }
+    }
+
+    & > div {
+        overflow: auto;
+
+        & > table {
+            width: 100%;
+            border-collapse: inherit;
+
+            & > thead {
+                .sortable-column {
+                    cursor: pointer;
+                }
+
+                .sl-icon-sortable:after {
+                    content: "\e150";
+                    font-size: .85em;
+                }
+
+                .column-descending .sl-icon-sortable:after {
+                    content: "\e094";
+                }
+
+                .column-ascending .sl-icon-sortable:after {
+                    content: "\e093";
+                }
+            }
+
+            /* the fake header */
+            & > tbody tr:first-child {
+                display: none;
+            }
+
+            &.fixed-header {
+                &> tbody > tr:first-child {
+                    display: table-row;
+                }
+
+                &> thead {
+                    position: absolute;
+                    z-index: 2;
+                }
+            }
+        }
+    }
+
+    &> div + div.panel {
+        display: none;
+        box-sizing: border-box;
+        overflow: visible;
+        position: relative;
+        margin-bottom: 0;
+
+        &> * {
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+
+        &> div {
+            overflow: auto;
+            top: 0;
+            bottom: 0;
+        }
+
+        &> footer {
+            bottom: 0;
+        }
+
+        &> header + div {
+            top: 1.75em;
+
+            &:nth-last-child(2) {
+                bottom: 1.75em;
+            }
+        }
+    }
+
+    &> footer {
+        clear: left;
+    }
 }
