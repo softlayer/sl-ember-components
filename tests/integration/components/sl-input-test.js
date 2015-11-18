@@ -10,6 +10,18 @@ test( 'Default rendered state', function( assert ) {
         {{sl-input}}
     ` );
 
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'data-trigger' ),
+        'focus',
+        'dataTrigger defaults to focus'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'type' ),
+        'text',
+        'type defaults to text'
+    );
+
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'form-group' ),
         'Has class "form-group"'
@@ -18,6 +30,44 @@ test( 'Default rendered state', function( assert ) {
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'sl-input' ),
         'Has class "sl-input"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'input' ).hasClass( 'form-control' ),
+        'Has class "form-control"'
+    );
+});
+
+test( 'Label is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input}}
+    ` );
+
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( '.control-label' ),
+        'control-label class is not rendered if label is not set'
+    );
+
+    this.render( hbs`
+        {{sl-input label="Test label"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.control-label' ).text().trim(),
+        'Test label',
+        'control-label is rendered when label is set'
+    );
+});
+
+test( 'for attribute value on label matches id of input', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="test label"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'label' ).attr( 'for' ),
+        this.$( '>:first-child' ).find( 'input' ).attr( 'id' ),
+        'for value matches id of input'
     );
 });
 
@@ -31,6 +81,216 @@ test( 'for attribute value on label matches id of input', function( assert ) {
     assert.equal(
         wrapper.find( 'label' ).attr( 'for' ),
         wrapper.find( 'input' ).attr( 'id' )
+    );
+});
+
+test( 'Optional property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Optional" optional="true"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'small' ).hasClass( 'text-info' ),
+        true,
+        'Has class "text-info"'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-info' ).text().trim(),
+        'Optional',
+        'text-info renders optional when optional is set'
+    );
+});
+
+test( 'Required property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input label="Required" required="true"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'small' ).hasClass( 'text-danger' ),
+        true,
+        'Has class "text-info"'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.text-danger' ).text().trim(),
+        'Required',
+        'text-danger renders required when required is set'
+    );
+});
+
+test( 'type property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input type="email"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'type' ),
+        'email',
+        'type property is supported'
+    );
+});
+
+test( 'Click to edit input has the correct class', function( assert ) {
+    this.render( hbs`
+        {{sl-input clickToEdit="true"}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'input' ).hasClass( 'click-to-edit' ),
+        'click-to-edit class is present upon clickToEdit set to true'
+    );
+});
+
+test( 'disabled property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input disabled="true"}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'disabled' ),
+        'disabled property is supported'
+    );
+});
+
+test( 'Help text is displayed', function( assert ) {
+    this.render( hbs`
+        {{sl-input helpText="help text"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'p' ).hasClass( 'help-block' ),
+        true,
+        'Has class "text-info"'
+    );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.help-block' ).text().trim(),
+        'help text',
+        'help-block renders helpText when helpText is set'
+    );
+});
+
+test( 'Placeholder property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input placeholder="placeholder"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'placeholder' ),
+        'placeholder',
+        'Placeholder text is rendered'
+    );
+});
+
+test( 'Readonly property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input readonly="true"}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'readonly' ),
+        'readonly is set when readonly is true'
+    );
+});
+
+test( 'Typeahead classes are present', function( assert ) {
+    const colors = [
+        'Black',
+        'Yellow'
+    ];
+
+    this.set( 'suggestions', colors );
+
+    this.render( hbs`
+        {{sl-input suggestions=suggestions}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.twitter-typeahead' ),
+        'twitter-typeahead class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.typeahead' ),
+        'typeahead class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.tt-input' ),
+        'tt-input class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.tt-menu' ),
+        'tt-menu class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.tt-dataset' ),
+        'tt-dataset class exists'
+    );
+});
+
+test( 'Typeahead suggestionNamePath classes are present', function( assert ) {
+    const colors = [
+        { id : 'Black' },
+        { id :'Yellow' }
+    ];
+
+    this.set( 'suggestions', colors );
+    this.set( 'suggestionNamePath', 'id' );
+
+    this.render( hbs`
+        {{sl-input suggestions=suggestions suggestionNamePath=suggestionNamePath}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.twitter-typeahead' ),
+        'twitter-typeahead class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.typeahead' ),
+        'typeahead class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.tt-input' ),
+        'tt-input class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.tt-menu' ),
+        'tt-menu class exists'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).find( '.tt-dataset' ),
+        'tt-dataset class exists'
+    );
+});
+
+test( 'name property is supported', function( assert ) {
+    this.render( hbs`
+        {{sl-input}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        '',
+        'Rendered input has empty name'
+    );
+
+    this.render( hbs`
+        {{sl-input name="testname"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'input' ).prop( 'name' ),
+        'testname',
+        'Rendered input has name set'
     );
 });
 
