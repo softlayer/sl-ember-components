@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-drop-button';
-import { containsValue, warn } from '../utils/all';
 import {
     Size as ButtonSize,
     Theme as ButtonTheme
@@ -32,14 +31,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [
-        'themeClass'
-    ],
-
-    /** @type {String[]} */
     classNames: [
         'btn-group',
-        'dropdown',
         'sl-drop-button'
     ],
 
@@ -129,27 +122,6 @@ export default Ember.Component.extend( TooltipEnabled, {
         'align',
         function() {
             return this.get( 'align' ) === Align.RIGHT;
-        }
-    ),
-
-    /**
-     * The class value for the drop-button based on the current "theme"
-     *
-     * @function
-     * @returns {?String}
-     */
-    themeClass: Ember.computed(
-        'theme',
-        function() {
-            const theme = this.get( 'theme' );
-
-            if ( !containsValue( theme, ButtonTheme ) ) {
-                warn( `Invalid sl-drop-button theme value "${theme}"` );
-
-                return null;
-            }
-
-            return `dropdown-${theme}`;
         }
     )
 

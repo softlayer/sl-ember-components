@@ -84,40 +84,10 @@ test( 'Dependent keys are correct', function( assert ) {
         'align'
     ];
 
-    const themeClassDependentKeys = [
-        'theme'
-    ];
-
     assert.deepEqual(
         component.rightAligned._dependentKeys,
         rightAlignedDependentKeys,
         'Dependent keys are correct for rightAligned()'
-    );
-
-    assert.deepEqual(
-        component.themeClass._dependentKeys,
-        themeClassDependentKeys,
-        'Dependent keys are correct for themeClass()'
-    );
-});
-
-test( 'themeClass() returns expected interpolated string', function( assert ) {
-    const component = this.subject({ theme: 'hover' });
-
-    assert.strictEqual(
-        component.get( 'themeClass' ),
-        'dropdown-hover',
-        'themeClass() returns expected string'
-    );
-
-    Ember.run( () => {
-        component.set( 'theme', 'invalidTheme' );
-    });
-
-    assert.strictEqual(
-        component.get( 'themeClass' ),
-        null,
-        'themeClass() returns null upon invalid "theme" property'
     );
 });
 
