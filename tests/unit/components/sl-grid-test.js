@@ -396,9 +396,9 @@ test( 'totalPages() returns the correct value', function( assert ) {
     });
 
     assert.strictEqual(
-        100,
+        10,
         component.get( 'totalPages' ),
-        'Total pages is computed as 100'
+        'Total pages is computed as 10'
     );
 });
 
