@@ -563,7 +563,7 @@ export default Ember.Component.extend({
      * Compute and return max height
      *
      * @function
-     * @returns {Integer}
+     * @returns {Number}
      */
     getMaxHeight() {
         const componentHeight = this.get( 'height' );

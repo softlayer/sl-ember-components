@@ -37,20 +37,20 @@ moduleForComponent( 'sl-grid', 'Integration | Component | sl grid', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( hbs`{{sl-grid}}` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-grid' )
+    );
+});
+
 test( 'Content is yielded', function( assert ) {
     this.render( defaultTemplate );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'h1' ).text(),
         'Header'
-    );
-});
-
-test( 'Default rendered state', function( assert ) {
-    this.render( hbs`{{sl-grid}}` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-grid' )
     );
 });
 

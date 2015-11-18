@@ -21,30 +21,6 @@ test( 'Default property values', function( assert ) {
     );
 });
 
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const sortedClassDependentKeys = [
-        'column.sortAscending',
-        'column.sortable'
-    ];
-
-    const sortIconClassDependentKeys = [
-        'column.sortAscending',
-        'column.sortable'
-    ];
-
-    assert.deepEqual(
-        component.sortedClass._dependentKeys,
-        sortedClassDependentKeys
-    );
-
-    assert.deepEqual(
-        component.sortIconClass._dependentKeys,
-        sortIconClassDependentKeys
-    );
-});
-
 test( 'sortedClass() returns the correct value', function( assert ) {
     const column = Ember.Object.extend().create({
         sortable: true
@@ -150,4 +126,28 @@ test( 'Click event returns column with sortable column', function( assert ) {
     });
 
     this.$().trigger( 'click' );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const sortedClassDependentKeys = [
+        'column.sortAscending',
+        'column.sortable'
+    ];
+
+    const sortIconClassDependentKeys = [
+        'column.sortAscending',
+        'column.sortable'
+    ];
+
+    assert.deepEqual(
+        component.sortedClass._dependentKeys,
+        sortedClassDependentKeys
+    );
+
+    assert.deepEqual(
+        component.sortIconClass._dependentKeys,
+        sortIconClassDependentKeys
+    );
 });

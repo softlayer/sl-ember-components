@@ -1,7 +1,7 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import Ember from 'ember';
 
 moduleForComponent( 'sl-grid-cell', 'Integration | Component | sl grid cell', {
     integration: true

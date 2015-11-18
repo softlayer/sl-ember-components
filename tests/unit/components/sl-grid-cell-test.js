@@ -42,40 +42,17 @@ test( 'Default property values', function( assert ) {
         null,
         'row is null'
     );
-});
-
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const alignmentClassDependentKeys = [
-        'column.align'
-    ];
-
-    const contentValueDependentKeys = [
-        'column',
-        'row'
-    ];
-
-    const sizeClassDependentKeys = [
-        'column.size'
-    ];
 
     assert.deepEqual(
-        component.alignmentClass._dependentKeys,
-        alignmentClassDependentKeys,
-        'Dependent keys are correct for alignmentClass()'
+        ColumnSizeEnum,
+        ColumnSize,
+        'Column size enum has correct values'
     );
 
     assert.deepEqual(
-        component.contentValue._dependentKeys,
-        contentValueDependentKeys,
-        'Dependent keys are correct for contentValue()'
-    );
-
-    assert.deepEqual(
-        component.sizeClass._dependentKeys,
-        sizeClassDependentKeys,
-        'Dependent keys are correct for sizeClass()'
+        ColumnAlignEnum,
+        ColumnAlign,
+        'Column align enum has correct values'
     );
 });
 
@@ -230,20 +207,6 @@ test( 'contentValue() returns the correct value', function( assert ) {
     );
 });
 
-test( 'ColumnSize and ColumnAlign values are correct', function( assert ) {
-    assert.deepEqual(
-        ColumnSizeEnum,
-        ColumnSize,
-        'Column size enum has correct values'
-    );
-
-    assert.deepEqual(
-        ColumnAlignEnum,
-        ColumnAlign,
-        'Column align enum has correct values'
-    );
-});
-
 test( 'Click event action is supported', function( assert ) {
     const defaultColumn = { valuePath: 'value' };
     const defaultRow = { value: 'Test' };
@@ -265,4 +228,39 @@ test( 'Click event action is supported', function( assert ) {
     });
 
     this.$().trigger( 'click' );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const alignmentClassDependentKeys = [
+        'column.align'
+    ];
+
+    const contentValueDependentKeys = [
+        'column',
+        'row'
+    ];
+
+    const sizeClassDependentKeys = [
+        'column.size'
+    ];
+
+    assert.deepEqual(
+        component.alignmentClass._dependentKeys,
+        alignmentClassDependentKeys,
+        'Dependent keys are correct for alignmentClass()'
+    );
+
+    assert.deepEqual(
+        component.contentValue._dependentKeys,
+        contentValueDependentKeys,
+        'Dependent keys are correct for contentValue()'
+    );
+
+    assert.deepEqual(
+        component.sizeClass._dependentKeys,
+        sizeClassDependentKeys,
+        'Dependent keys are correct for sizeClass()'
+    );
 });

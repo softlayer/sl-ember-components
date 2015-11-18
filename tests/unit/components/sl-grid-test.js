@@ -163,41 +163,6 @@ test( 'Default values are set correctly', function( assert ) {
     );
 });
 
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const showPaginationDependentKeys = [
-        'continuous',
-        'totalPages'
-    ];
-
-    const sortedColumnDependentKeys = [
-        'columns',
-        'sortedColumnTitle'
-    ];
-
-    const totalPagesDependentKeys = [
-        'continuous',
-        'pageSize',
-        'totalCount'
-    ];
-
-    assert.deepEqual(
-        component.showPagination._dependentKeys,
-        showPaginationDependentKeys
-    );
-
-    assert.deepEqual(
-        component.sortedColumn._dependentKeys,
-        sortedColumnDependentKeys
-    );
-
-    assert.deepEqual(
-        component.totalPages._dependentKeys,
-        totalPagesDependentKeys
-    );
-});
-
 test( 'changePage() triggers requestData action with correct arguments', function( assert ) {
     const spy = sinon.spy();
     const pageSize = 10;
@@ -430,11 +395,10 @@ test( 'totalPages() returns the correct value', function( assert ) {
         component.set( 'pageSize', pageSize );
     });
 
-    const totalPages = Math.ceil( totalCount / pageSize );
-
     assert.strictEqual(
-        totalPages,
-        component.get( 'totalPages' )
+        100,
+        component.get( 'totalPages' ),
+        'Total pages is computed as 100'
     );
 });
 
@@ -1219,5 +1183,40 @@ test( 'Observer keys are correct', function( assert ) {
         component.handleNewContent.__ember_observes__,
         handleNewContentKeys,
         'Observer keys are correct for handleNewContent()'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const showPaginationDependentKeys = [
+        'continuous',
+        'totalPages'
+    ];
+
+    const sortedColumnDependentKeys = [
+        'columns',
+        'sortedColumnTitle'
+    ];
+
+    const totalPagesDependentKeys = [
+        'continuous',
+        'pageSize',
+        'totalCount'
+    ];
+
+    assert.deepEqual(
+        component.showPagination._dependentKeys,
+        showPaginationDependentKeys
+    );
+
+    assert.deepEqual(
+        component.sortedColumn._dependentKeys,
+        sortedColumnDependentKeys
+    );
+
+    assert.deepEqual(
+        component.totalPages._dependentKeys,
+        totalPagesDependentKeys
     );
 });
