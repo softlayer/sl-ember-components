@@ -29,9 +29,6 @@ export default Ember.Component.extend( StreamEnabled, {
     /** @type {Object} */
     layout,
 
-    /** @type {String} */
-    tagName: 'div',
-
     // -------------------------------------------------------------------------
     // Actions
 
@@ -205,6 +202,10 @@ export default Ember.Component.extend( StreamEnabled, {
 
             stream.on( 'showAll', () => {
                 this.showAll();
+            });
+
+            stream.on( 'clearSelections', () => {
+                this.clearSelections();
             });
         }
     ),

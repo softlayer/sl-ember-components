@@ -1,13 +1,15 @@
 import Ember from 'ember';
 import ComponentInputId from '../mixins/sl-component-input-id';
+import Namespace from '../mixins/sl-namespace';
 import layout from '../templates/components/sl-date-range-picker';
 
 /**
  * @module
  * @augments ember/Component
  * @augments module:mixins/sl-component-input-id
+ * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend( ComponentInputId, {
+export default Ember.Component.extend( ComponentInputId, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -82,7 +84,7 @@ export default Ember.Component.extend( ComponentInputId, {
         function() {
             this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
             this.set( 'endDateInput', this.$( '.sl-daterange-end-date input' ) );
-            this.get( 'startDateInput' ).on( 'change', () => {
+            this.get( 'startDateInput' ).on( this.namespaceEvent( 'changeDate' ), () => {
                 this.get( 'endDateInput' ).trigger( 'focus' );
             });
         }
@@ -97,8 +99,7 @@ export default Ember.Component.extend( ComponentInputId, {
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.get( 'startDateInput' ).off();
-            this.get( 'endDateInput' ).off();
+            this.get( 'startDateInput' ).off( this.namespaceEvent( 'changeDate' ) );
         }
     ),
 

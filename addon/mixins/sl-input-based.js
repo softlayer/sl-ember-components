@@ -46,6 +46,13 @@ export default Ember.Mixin.create({
     inputId: null,
 
     /**
+     * The name of the input element
+     *
+     * @type {?String}
+     */
+    name: null,
+
+    /**
      * Whether the input-based component should be displayed as optional
      *
      * @type {Boolean}
@@ -85,20 +92,6 @@ export default Ember.Mixin.create({
         'readonly',
         function() {
             return this.get( 'readonly' ) ? 'readonly' : null;
-        }
-    ),
-
-    /**
-     * Returns a string value for the boolean disabled property
-     * which will get set on the input.
-     *
-     * @function
-     * @returns {?String}
-     */
-    disabledString: Ember.computed(
-        'disabled',
-        function() {
-            return this.get( 'disabled' ) ? 'disabled' : null;
         }
     )
 });

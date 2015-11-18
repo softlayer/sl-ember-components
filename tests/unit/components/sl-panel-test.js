@@ -4,7 +4,7 @@ moduleForComponent( 'sl-panel', 'Unit | Component | sl panel', {
     unit: true
 });
 
-test( 'Default properties are correct', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(

@@ -36,8 +36,10 @@
                 {{/each}}
 
                 {{#if rowActions}}
-                    <th class="actions-cell"></th>
+                    <th class="actions-cell column-small"></th>
                 {{/if}}
+
+                <th class="fake-scrollbar"></th>
             </tr>
         </thead>
     </table>
@@ -56,7 +58,7 @@
                         {{/each}}
 
                         {{#if rowActions}}
-                            <td class="actions-cell">
+                            <td class="actions-cell column-small">
                                 {{#sl-drop-button
                                     align="right"
                                     label=actionsButtonLabel
@@ -103,13 +105,13 @@
 
 <div class="detail-pane">
     <header>
+        <button {{action "closeDetailPane"}} class="close">&times;</button>
+
         <span class="title">
             {{#if detailHeaderComponent}}
                 {{component detailHeaderComponent model=activeRecord}}
             {{/if}}
         </span>
-
-        <button {{action "closeDetailPane"}} class="close">&times;</button>
     </header>
 
     <div class="content">

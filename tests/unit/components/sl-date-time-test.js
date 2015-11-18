@@ -1,8 +1,25 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 
 moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
     unit: true
+});
+
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        TooltipEnabledMixin.detect( this.subject({ timezone: 'America/Chicago' }) ),
+        'TooltipEnabled Mixin is present'
+    );
+});
+
+test( 'Default property values', function( assert ) {
+    this.subject({ timezone: 'America/Chicago' });
+
+    assert.ok(
+        this.$().hasClass( 'sl-datetime' ),
+        'Default rendered component has class "sl-datetime"'
+    );
 });
 
 test( 'Attribute "datetime" is properly set', function( assert ) {
@@ -136,5 +153,138 @@ test( '"title" property is an alias to "datetime" value', function( assert ) {
         component.get( 'title' ),
         component.get( 'datetime' ),
         '"title" property is aliased to "datetime" property'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject({ timezone: 'America/Chicago' });
+
+    const datetimeDependentKeys = [
+        'timezoneString',
+        'value'
+    ];
+
+    const formattedValueDependentKeys = [
+        'format',
+        'momentValue'
+    ];
+
+    const momentValueDependentKeys = [
+        'value'
+    ];
+
+    const timezoneStringDependentKeys = [
+        'timezone',
+        'momentValue'
+    ];
+
+    assert.deepEqual(
+        component.datetime._dependentKeys,
+        datetimeDependentKeys,
+        'Dependent keys are correct for datetime()'
+    );
+
+    assert.deepEqual(
+        component.formattedValue._dependentKeys,
+        formattedValueDependentKeys,
+        'Dependent keys are correct for formattedValue()'
+    );
+
+    assert.deepEqual(
+        component.momentValue._dependentKeys,
+        momentValueDependentKeys,
+        'Dependent keys are correct for momentValue()'
+    );
+
+    assert.deepEqual(
+        component.timezoneString._dependentKeys,
+        timezoneStringDependentKeys,
+        'Dependent keys are correct for timezoneString()'
+    );
+});
+
+test( 'init() - "timezone" property needs to be a string', function( assert ) {
+    const properties = Ember.Object.create();
+
+    const callSubject = () => this.subject( properties );
+
+    // Empty Property
+
+    assert.throws(
+        callSubject,
+        'Property was empty'
+    );
+
+    // Null Property
+
+    properties.set( 'timezone', null );
+
+    assert.throws(
+        callSubject,
+        'Property was null'
+    );
+
+
+    // Number Property
+
+    properties.set( 'timezone', 3 );
+
+    assert.throws(
+        callSubject,
+        'Property was a number'
+    );
+
+    // Boolean Property
+
+    properties.set( 'timezone', true );
+
+    assert.throws(
+        callSubject,
+        'Property was a boolean'
+    );
+
+    // Array Property
+
+    properties.set( 'timezone', [] );
+
+    assert.throws(
+        callSubject,
+        'Property was an array'
+    );
+
+    // Function Property
+
+    properties.set( 'timezone', function() { } );
+
+    assert.throws(
+        callSubject,
+        'Property was a function'
+    );
+
+    // Object Property
+
+    properties.set( 'timezone', {} );
+
+    assert.throws(
+        callSubject,
+        'Property was an object'
+    );
+
+    // Undefined Property
+
+    properties.set( 'timezone', undefined );
+
+    assert.throws(
+        callSubject,
+        'Property was undefined'
+    );
+
+    // String Property
+
+    properties.set( 'timezone', 'Test title' );
+
+    assert.ok(
+        callSubject(),
+        'Property was a string'
     );
 });

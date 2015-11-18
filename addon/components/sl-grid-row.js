@@ -17,6 +17,11 @@ export default Ember.Component.extend({
         'row.active:active'
     ],
 
+    /** @type {String[]} */
+    classNames: [
+        'sl-grid-row'
+    ],
+
     /** @type {String} */
     tagName: 'tr',
 

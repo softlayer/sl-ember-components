@@ -50,9 +50,6 @@ export default Ember.Component.extend({
     /** @type {Object} */
     layout,
 
-    /** @type {String} */
-    tagName: 'div',
-
     // -------------------------------------------------------------------------
     // Actions
 
@@ -127,7 +124,10 @@ export default Ember.Component.extend({
                 activeRecord: row,
                 detailPaneOpen: true
             });
-            this.updateHeight();
+
+            Ember.run.scheduleOnce( 'afterRender', () => {
+                this.updateHeight();
+            });
         },
 
         /**
@@ -384,6 +384,13 @@ export default Ember.Component.extend({
      */
     sortedColumnTitle: null,
 
+    /**
+     * The sort direction represented as boolean (true: asc; false: desc)
+     *
+     * @type {Boolean}
+     */
+    sortDirection: null,
+
     // -------------------------------------------------------------------------
     // Observers
 
@@ -414,10 +421,41 @@ export default Ember.Component.extend({
         'didInsertElement',
         function() {
             if ( 'auto' === this.get( 'height' ) ) {
-                Ember.$( window ).bind( 'resize', () => {
+                Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
                     this.updateHeight();
                 });
             }
+        }
+    ),
+
+    /**
+     * Cleanup bound events
+     *
+     * @function
+     * @returns {undefined}
+     */
+    clearEvents: Ember.on(
+        'willClearRender',
+        function() {
+            Ember.$( window ).off( this.namespaceEvent( 'resize' ) );
+            this.$( '.list-pane .content' ).off( this.namespaceEvent( 'scroll' ) );
+        }
+    ),
+
+    /**
+     * Setup the widths for column headers that were not given widths
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupColumnHeaderWidths: Ember.on(
+        'didInsertElement',
+        function() {
+            const context = this;
+            const colHeaders = this.$( '.list-pane .column-headers tr:first th' );
+            this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
+                colHeaders.eq( index ).width( context.$( this ).width() );
+            });
         }
     ),
 
@@ -438,33 +476,7 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Setup paths for the various sections within the split-grid
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupTemplates: Ember.on(
-        'init',
-        function() {
-            const renderedName = this.get( '_parentView.renderedName' );
-
-            if ( renderedName ) {
-                const registry = this.get( 'container._registry' );
-                const root = renderedName.replace( '.', '/' ) + '/';
-                const footerPath = root + 'footer';
-
-                if (
-                    !this.get( 'footerPath' ) &&
-                    registry.resolve( 'template:' + footerPath )
-                ) {
-                    this.set( 'footerPath', footerPath );
-                }
-            }
-        }
-    ),
-
-    /**
-     * Update the panes' heights according to `height` property value
+     * Update panes' heights
      *
      * @function
      * @returns {undefined}
@@ -472,52 +484,10 @@ export default Ember.Component.extend({
     updateHeight: Ember.on(
         'didInsertElement',
         function() {
-            if ( !this.$() ) {
-                return;
-            }
-
-            const componentHeight = this.get( 'height' );
-            const gridHeader = this.$( '.grid-header' );
-            const detailHeader = this.$( '.detail-pane header' );
-            const detailFooter = this.$( '.detail-pane footer' );
-            const listHeader = this.$( '.list-pane .column-headers' );
-            const listFooter = this.$( '.list-pane footer' );
-
-            const detailHeaderHeight = detailHeader ?
-                parseInt( detailHeader.css( 'height' ) ) : 0;
-
-            const detailFooterHeight = detailFooter ?
-                parseInt( detailFooter.css( 'height' ) ) : 0;
-
-            const gridHeaderHeight = gridHeader ?
-                parseInt( gridHeader.css( 'height' ) ) : 0;
-
-            const listHeaderHeight = listHeader ?
-                parseInt( listHeader.css( 'height' ) ) : 0;
-
-            const listFooterHeight = listFooter ?
-                parseInt( listFooter.css( 'height' ) ) : 0;
-
-            let maxHeight = componentHeight;
-            if ( 'auto' === componentHeight ) {
-                maxHeight = Ember.$( window ).innerHeight() -
-                    this.$().position().top;
-            }
-
-            let detailContentHeight = maxHeight - gridHeaderHeight -
-                detailHeaderHeight - detailFooterHeight;
-
-            let listContentHeight = maxHeight - gridHeaderHeight -
-                listHeaderHeight - listFooterHeight;
-
-            if ( this.get( 'filterPaneOpen' ) ) {
-                const filterPaneHeight = parseInt(
-                    this.$( '.filter-pane' ).css( 'height' )
-                );
-
-                detailContentHeight -= filterPaneHeight;
-                listContentHeight -= filterPaneHeight;
-            }
+            const {
+                detailContentHeight,
+                listContentHeight
+            } = this.getContentHeights();
 
             this.$( '.detail-pane .content' ).height( detailContentHeight );
             this.$( '.list-pane .content' ).height( listContentHeight );
@@ -526,6 +496,96 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Calculate and return content heights
+     *
+     * @function
+     * @returns {Object}
+     */
+    getContentHeights() {
+        const maxHeight = this.getMaxHeight();
+        const {
+            detailHeaderHeight,
+            detailFooterHeight,
+            filterPaneHeight,
+            listHeaderHeight,
+            listFooterHeight,
+            gridHeaderHeight
+        } = this.getHeights();
+
+        let detailContentHeight = maxHeight - gridHeaderHeight -
+            detailHeaderHeight - detailFooterHeight;
+
+        let listContentHeight = maxHeight - gridHeaderHeight -
+            listHeaderHeight - listFooterHeight;
+
+        if ( this.get( 'filterPaneOpen' ) ) {
+            detailContentHeight -= filterPaneHeight;
+            listContentHeight -= filterPaneHeight;
+        }
+
+        return {
+            detailContentHeight,
+            listContentHeight
+        };
+    },
+
+    /**
+     * Return element heights
+     *
+     * @function
+     * @returns {Object}
+     */
+    getHeights() {
+        const elements = {};
+        const heights = {};
+
+        elements.gridHeader =  this.$( '.grid-header' );
+        elements.detailHeader = this.$( '.detail-pane header' );
+        elements.detailFooter = this.$( '.detail-pane footer' );
+        elements.listHeader = this.$( '.list-pane .column-headers' );
+        elements.listFooter = this.$( '.list-pane footer' );
+        elements.filterPane = this.$( '.filter-pane' );
+
+        for( const key in elements ) {
+            const element = elements[ key ];
+            const keyName = `${ key }Height`;
+            const height = parseInt( element.css( 'height' ) );
+
+            heights[ keyName ] = isNaN( height ) ? 0 : height;
+        }
+
+        return heights;
+    },
+
+    /**
+     * Compute and return max height
+     *
+     * @function
+     * @returns {Number}
+     */
+    getMaxHeight() {
+        const componentHeight = this.get( 'height' );
+
+        if ( 'auto' === componentHeight ) {
+            return Ember.$( window ).innerHeight() -
+                this.$().position().top;
+        }
+
+        return componentHeight;
+    },
+
+    /**
+     * Namespace event per instance
+     *
+     * @function
+     * @param {String} - event name
+     * @returns {String}
+     */
+    namespaceEvent( eventName ) {
+        return `${ eventName }.${ this.get( 'elementId' ) }`;
+    },
 
     /**
      * Whether to show the pagination in the list-pane footer
@@ -539,7 +599,7 @@ export default Ember.Component.extend({
         function() {
             const totalPages = this.get( 'totalPages' );
 
-            return !this.get( 'continuous' ) && totalPages && totalPages > 1;
+            return Boolean( !this.get( 'continuous' ) && totalPages && totalPages > 1 );
         }
     ),
 
@@ -603,7 +663,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     disableContinuousPaging() {
-        this.$( '.list-pane .content' ).unbind( 'scroll' );
+        this.$( '.list-pane .content' ).off( this.namespaceEvent( 'scroll' ) );
     },
 
     /**
@@ -613,7 +673,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     enableContinuousPaging() {
-        this.$( '.list-pane .content' ).bind( 'scroll', ( event ) => {
+        this.$( '.list-pane .content' ).on( this.namespaceEvent( 'scroll' ), ( event ) => {
             this.handleListContentScroll( event );
         });
     },

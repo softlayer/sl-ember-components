@@ -84,12 +84,28 @@ export default Ember.Component.extend( TooltipEnabled, {
      * The bound value of the component's date value
      *
      * @default new Date()
-     * @type {Array|Date|moment|Number|Object|String|undefined}
+     * @type {Array|Date|moment|Number|Object|String}
      */
     value: new Date(),
 
     // -------------------------------------------------------------------------
     // Observers
+
+    /**
+     * Check passed parameters on initialization
+     *
+     * @function
+     * @throws {ember/Error} timezone property must be a string
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'init',
+        function() {
+            if ( 'string' !== Ember.typeOf( this.get( 'timezone' ) ) ) {
+                throw new Ember.Error( 'timezone property must be a string' );
+            }
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods

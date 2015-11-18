@@ -80,13 +80,16 @@
         When true, the component is styled to reflect optional status.  This styling will only be in effect if the <code>label</code> property has also been set.
     {{/property-text}}
 
-    {{#property-text name="readonly" type="Boolean" default="false"}}
-        <p>Shared <code>readonly</code> attribute value for the child radio inputs.</p>
-        <p>NOTE: When true, this property overrides all child <em>sl-radio</em>s' <code>readonly</code> values.</p>
+    {{#property-text name="popover" type="String"}}
+        Popover content text.
     {{/property-text}}
 
     {{#property-text name="required" type="Boolean" default="false"}}
         When true, the component is styled to reflect required status.  This styling will only be in effect if the <code>label</code> property has also been set.
+    {{/property-text}}
+
+    {{#property-text name="title" type="String"}}
+        Tooltip text string, or becomes popover title with supplied popover property.
     {{/property-text}}
 
     {{#property-text name="value" type="String"}}

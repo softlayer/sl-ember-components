@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 
 module( 'Unit | Mixin | sl component input id' );
 
-test( 'Successfully mixed', function( assert ) {
+test( 'Can be successfully mixed', function( assert ) {
     const testObject = Ember.Object.extend( mixinUnderTest );
     const subject = testObject.create();
 
@@ -16,7 +16,7 @@ test( 'Successfully mixed', function( assert ) {
 test( 'inputId is set on component', function( assert ) {
     const component = Ember.Component.extend( mixinUnderTest ).create();
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'inputId' ),
         component.get( 'elementId' ) + '-input'
     );
@@ -28,7 +28,7 @@ test( 'inputId value is preserved if it is already set', function( assert ) {
         inputId: id
     });
 
-    assert.equal(
+    assert.strictEqual(
         component.get( 'inputId' ),
         id
     );

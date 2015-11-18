@@ -1,13 +1,14 @@
 import Ember from 'ember';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
-
+import Namespace from '../mixins/sl-namespace';
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-namespace
  * @augments ember-stream/mixins/stream-enabled
  */
-export default Ember.Component.extend( StreamEnabled, {
+export default Ember.Component.extend( StreamEnabled, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -33,39 +34,11 @@ export default Ember.Component.extend( StreamEnabled, {
         'animated:fade'
     ],
 
-    /** @type {String} */
-    tagName: 'div',
-
     /** @type {Object} */
     layout: layout,
 
     // -------------------------------------------------------------------------
     // Actions
-
-    /** @type {Object} */
-    actions: {
-
-        /**
-         * Trigger hiding the model
-         *
-         * @function actions:hide
-         * @returns {undefined}
-         */
-        hide() {
-            this.hide();
-        },
-
-         /**
-         * Trigger showing the model
-         *
-         * @function actions:show
-         * @returns {undefined}
-         */
-        show() {
-            this.show();
-        }
-
-    },
 
     // -------------------------------------------------------------------------
     // Events
@@ -190,20 +163,20 @@ export default Ember.Component.extend( StreamEnabled, {
                 backdrop: this.get( 'backdrop' )
             });
 
-            modal.on( 'show.bs.modal', () => {
+            modal.on( this.namespaceEvent( 'show.bs.modal' ), () => {
                 this.sendAction( 'beforeShow' );
             });
 
-            modal.on( 'shown.bs.modal', () => {
+            modal.on( this.namespaceEvent( 'shown.bs.modal' ), () => {
                 this.set( 'isOpen', true );
                 this.sendAction( 'afterShow' );
             });
 
-            modal.on( 'hide.bs.modal', () => {
+            modal.on( this.namespaceEvent( 'hide.bs.modal' ), () => {
                 this.sendAction( 'beforeHide' );
             });
 
-            modal.on( 'hidden.bs.modal', () => {
+            modal.on( this.namespaceEvent( 'hidden.bs.modal' ), () => {
                 this.set( 'isOpen', false );
                 this.sendAction( 'afterHide' );
             });
@@ -219,10 +192,10 @@ export default Ember.Component.extend( StreamEnabled, {
     unbindHandlers: Ember.on(
         'willClearRender',
         function() {
-            this.$().off( 'show.bs.modal' );
-            this.$().off( 'shown.bs.modal' );
-            this.$().off( 'hide.bs.modal' );
-            this.$().off( 'hidden.bs.modal' );
+            this.$().off( this.namespaceEvent( 'show.bs.modal' ) );
+            this.$().off( this.namespaceEvent( 'shown.bs.modal' ) );
+            this.$().off( this.namespaceEvent( 'hide.bs.modal' ) );
+            this.$().off( this.namespaceEvent( 'hidden.bs.modal' ) );
         }
     ),
 

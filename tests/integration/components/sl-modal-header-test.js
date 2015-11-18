@@ -5,25 +5,19 @@ moduleForComponent( 'sl-modal-header', 'Integration | Component | sl modal heade
     integration: true
 });
 
-test( 'Modal header class exists on child element', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-modal-header}}
     ` );
 
-    assert.equal(
-        this.$( '>:first-child' ).find( '.modal-header' ).length,
-        1
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'modal-header' ),
+        'Component has class "modal-header"'
     );
-});
 
-test( 'Close button exists', function( assert ) {
-    this.render( hbs`
-        {{sl-modal-header}}
-    ` );
-
-    assert.equal(
-        this.$( '>:first-child' ).find( '.close' ).length,
-        1
+    assert.ok(
+        this.$( '>:first-child' ).find( '[data-dismiss="modal"]' ).length > 0,
+        'Default header content and close button rendered'
     );
 });
 
@@ -36,22 +30,23 @@ test( 'Setting title on header works', function( assert ) {
         {{sl-modal-header title=title}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.modal-title' ).text(),
         title
     );
 });
 
-test( 'Content is yielded', function( assert ) {
+test( 'Component may be used as block', function( assert ) {
     this.render( hbs`
-        {{#sl-modal-header title=title}}
+        {{#sl-modal-header}}
             <div class="test"></div>
         {{/sl-modal-header}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.test' ).length,
-        1
+        1,
+        'Content is yielded correctly'
     );
 });
 
@@ -63,7 +58,7 @@ test( 'Modal title\'s id is set to ariaLabelledBy property value', function( ass
         {{sl-modal-header title=title ariaLabelledBy=ariaLabelledBy}}
     ` );
 
-    assert.equal(
+    assert.strictEqual(
         this.$( '>:first-child' ).find( '.modal-title' ).prop( 'id' ),
         this.get( 'ariaLabelledBy' )
     );

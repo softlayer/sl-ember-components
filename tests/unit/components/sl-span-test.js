@@ -4,8 +4,14 @@ moduleForComponent( 'sl-span', 'Unit | Component | sl span', {
     unit: true
 });
 
-test( 'Correct default property values', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'tagName' ),
+        'span',
+        'Default property "tagName" is "span"'
+    );
 
     assert.strictEqual(
         component.get( 'inverse' ),

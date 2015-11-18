@@ -4,7 +4,7 @@ moduleForComponent( 'sl-loading-icon', 'Unit | Component | sl loading icon', {
     unit: true
 });
 
-test( 'Default property values are set', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(

@@ -6,6 +6,10 @@ const packageConfig = require( './package.json' );
 
 module.exports = function( defaults ) {
     const app = new EmberApp( defaults, {
+        babel: {
+          includePolyfill: true
+        },
+
         fingerprint: {
             enabled: true,
             exclude: [],

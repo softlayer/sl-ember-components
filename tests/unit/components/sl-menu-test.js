@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import sinon from 'sinon';
 
 const mockStream = {
@@ -51,66 +52,38 @@ moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
     ]
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        StreamEnabledMixin.detect( this.subject() ),
+        'StreamEnabled Mixin is present'
+    );
+});
+
 test( 'Default property values', function( assert ) {
-    this.subject();
+    const component = this.subject();
 
-    assert.ok(
-        this.$().hasClass( 'sl-menu' ),
-        'Has class "sl-menu"'
+    assert.strictEqual(
+        component.get( 'allowShowAll' ),
+        false,
+        '"allowShowAll" is "false"'
     );
 
-    assert.ok(
-        this.$().is( 'div' ),
-        'Element is a <div>'
+    assert.strictEqual(
+        component.get( 'items' ),
+        null,
+        '"items" is "null"'
     );
-});
 
-test( 'Items are rendered', function( assert ) {
-    this.subject({
-        items: testItems
-    });
-
-    assert.equal(
-        this.$( 'li' ).length,
-        5,
-        'Has 4 children list items'
+    assert.deepEqual(
+        component.get( 'selections' ),
+        [],
+        '"selections" is "[]"'
     );
-});
 
-test( 'Actions are handled properly from menu items', function( assert ) {
-    this.subject({
-        action: 'test',
-        items: testItems,
-
-        targetObject: {
-            test( actionName, data ) {
-                assert.equal(
-                    actionName,
-                    'firstTest',
-                    'Given action name is expected value'
-                );
-
-                assert.equal(
-                    data,
-                    'first',
-                    'Given data is expected value'
-                );
-            }
-        }
-    });
-
-    this.$( 'li a' ).first().trigger( 'click' );
-});
-
-test( 'allowShowAll property enables the show-all menu item', function( assert ) {
-    this.subject({
-        allowShowAll: true,
-        items: testItems
-    });
-
-    assert.ok(
-        this.$( 'li' ).last().hasClass( 'show-all' ),
-        'show-all menu item is rendered'
+    assert.strictEqual(
+        component.get( 'showingAll' ),
+        false,
+        '"showingAll" is "false"'
     );
 });
 
@@ -569,6 +542,63 @@ test( 'selectPrevious() shows all when at the beginning of the context', functio
     );
 });
 
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const selectedItemDependentKeys = [
+        'selections.@each.item'
+    ];
+
+    assert.deepEqual(
+        component.selectedItem._dependentKeys,
+        selectedItemDependentKeys,
+        'Dependent keys are correct for selectedItem()'
+    );
+});
+
+test( 'Stream action "clearSelections" triggers clearSelections()', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+    const clearSelectionsSpy = sinon.spy( component, 'clearSelections' );
+
+    mockStream.actions[ 'clearSelections' ]();
+    assert.ok(
+        clearSelectionsSpy.called,
+        'clearSelections method was called'
+    );
+});
+
+test( 'clearSelections() - sets selections to empty array', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+
+    // execute select to have a selection to clear from
+    mockStream.actions[ 'select' ]( 0 );
+    mockStream.actions[ 'clearSelections' ]();
+    assert.deepEqual(
+        component.get( 'selections' ),
+        [],
+        'clearSelections sets selections to empty array'
+    );
+});
+
+test( 'selectedItem() - returns expected selected item', function( assert ) {
+    const component = this.subject({
+        items: testItems,
+        stream: mockStream
+    });
+
+    assert.strictEqual(
+        component.get( 'selectedItem' ),
+        null,
+        'selectedItem() returns selected item'
+    );
+});
+
 test( 'Stream action "doAction" triggers doAction()', function( assert ) {
     const component = this.subject({
         items: testItems,
@@ -583,163 +613,19 @@ test( 'Stream action "doAction" triggers doAction()', function( assert ) {
     );
 });
 
-test( 'Stream action "hideAll" triggers hideAll()', function( assert ) {
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject({
         items: testItems,
         stream: mockStream
     });
-    const doActionSpy = sinon.spy( component, 'doAction' );
 
-    mockStream.actions[ 'doAction' ]();
-    assert.ok(
-        doActionSpy.called,
-        'doAction method was called'
-    );
-});
+    const selectedItemKeys = [
+        'selections.@each.item'
+    ];
 
-test( 'Stream action "select" triggers select()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectSpy = sinon.spy( component, 'select' );
-
-    mockStream.actions[ 'select' ]( 0 );
-    assert.ok(
-        selectSpy.called,
-        'select method was called'
-    );
-});
-
-test( 'Stream action "selectDown" triggers selectDown()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectDownSpy = sinon.spy( component, 'selectDown' );
-
-    mockStream.actions[ 'selectDown' ]();
-    assert.ok(
-        selectDownSpy.called,
-        'selectDown method was called'
-    );
-});
-
-test( 'Stream action "selectLeft" triggers selectLeft()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectLeftSpy = sinon.spy( component, 'selectLeft' );
-
-    mockStream.actions[ 'selectLeft' ]();
-    assert.ok(
-        selectLeftSpy.called,
-        'selectLeft method was called'
-    );
-});
-
-test( 'Stream action "selectNext" triggers selectNext()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectNextSpy = sinon.spy( component, 'selectNext' );
-
-    mockStream.actions[ 'selectNext' ]();
-    assert.ok(
-        selectNextSpy.called,
-        'selectNext method was called'
-    );
-});
-
-test( 'Stream action "selectParent" triggers selectParent()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectParentSpy = sinon.spy( component, 'selectParent' );
-
-    Ember.run( () => {
-        // An error occurs if selectParent() is triggered without any parent
-        // context, so we need to descend into the first sub-menu first
-        component.select( 0 );
-        component.selectSubMenu();
-    });
-
-    mockStream.actions[ 'selectParent' ]();
-    assert.ok(
-        selectParentSpy.called,
-        'selectParent method was called'
-    );
-});
-
-test( 'Stream action "selectPrevious" triggers selectPrevious()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectPreviousSpy = sinon.spy( component, 'selectPrevious' );
-
-    mockStream.actions[ 'selectPrevious' ]();
-    assert.ok(
-        selectPreviousSpy.called,
-        'selectPrevious method was called'
-    );
-});
-
-test( 'Stream action "selectRight" triggers selectRight()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectRightSpy = sinon.spy( component, 'selectRight' );
-
-    mockStream.actions[ 'selectRight' ]();
-    assert.ok(
-        selectRightSpy.called,
-        'selectRight method was called'
-    );
-});
-
-test( 'Stream action "selectSubMenu" triggers selectSubMenu()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectSubMenuSpy = sinon.spy( component, 'selectSubMenu' );
-
-    mockStream.actions[ 'selectSubMenu' ]();
-    assert.ok(
-        selectSubMenuSpy.called,
-        'selectSubMenu method was called'
-    );
-});
-
-test( 'Stream action "selectUp" triggers selectUp()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const selectUpSpy = sinon.spy( component, 'selectUp' );
-
-    mockStream.actions[ 'selectUp' ]();
-    assert.ok(
-        selectUpSpy.called,
-        'selectUp method was called'
-    );
-});
-
-test( 'Stream action "showAll" triggers showAll()', function( assert ) {
-    const component = this.subject({
-        items: testItems,
-        stream: mockStream
-    });
-    const showAllSpy = sinon.spy( component, 'showAll' );
-
-    mockStream.actions[ 'showAll' ]();
-    assert.ok(
-        showAllSpy.called,
-        'showAll method was called'
+    assert.deepEqual(
+        component.selectedItem._dependentKeys,
+        selectedItemKeys,
+        'Dependent keys are correct for selectedItem()'
     );
 });

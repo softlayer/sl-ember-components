@@ -2,15 +2,18 @@ import Ember from 'ember';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import Namespace from '../mixins/sl-namespace';
 import layout from '../templates/components/sl-input';
 
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-component-input-id
  * @augments module:mixins/sl-input-based
+ * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInputId, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInputId, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -102,7 +105,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
         'didInsertElement',
         function() {
             if ( this.get( 'blur' ) ) {
-                this.getInput().on( 'blur', () => {
+                this.getInput().on( this.namespaceEvent( 'blur' ), () => {
                     this.sendAction( 'blur' );
                 });
             }
@@ -189,7 +192,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.getInput().off();
+            this.getInput().off( this.namespaceEvent( 'blur' ) );
         }
     ),
 

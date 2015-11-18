@@ -5,33 +5,33 @@ moduleForComponent( 'sl-span', 'Integration | Component | sl span', {
     integration: true
 });
 
-test( '"value" property is supported', function( assert ) {
+test( 'Default rendered state', function( assert ) {
     this.render( hbs`
-        {{#sl-span value="Test content"}}
-        {{/sl-span}}
+        {{sl-span}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
-        'Test content'
+        '',
+        '"value" defaults to null'
     );
 });
 
-test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
+test( '"value" property is supported', function( assert ) {
     this.render( hbs`
-        {{#sl-span}}
-        {{/sl-span}}
+        {{sl-span value="value text"}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-loading-icon' ).length,
-        0,
-        'Loading icon is not present initially'
+        this.$( '>:first-child' ).text().trim(),
+        'value text',
+        '"value" text is displayed'
     );
+});
 
+test( '"loading" property is supported', function( assert ) {
     this.render( hbs`
-        {{#sl-span loading=true}}
-        {{/sl-span}}
+        {{sl-span loading=true}}
     ` );
 
     assert.strictEqual(
@@ -41,10 +41,9 @@ test( 'If "loading" is true, sl-loading-icon component is displayed', function( 
     );
 });
 
-test( 'Inverse property applies to loading-icon', function( assert ) {
+test( '"Inverse" property is supported', function( assert ) {
     this.render( hbs`
-        {{#sl-span loading=true}}
-        {{/sl-span}}
+        {{sl-span loading=true}}
     ` );
 
     assert.strictEqual(
@@ -54,8 +53,7 @@ test( 'Inverse property applies to loading-icon', function( assert ) {
     );
 
     this.render( hbs`
-        {{#sl-span inverse=true loading=true}}
-        {{/sl-span}}
+        {{sl-span inverse=true loading=true}}
     ` );
 
     assert.strictEqual(

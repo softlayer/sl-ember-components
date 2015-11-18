@@ -83,3 +83,18 @@ test( 'Short name property is defined with valid month', function( assert ) {
         'Valid shortName with valid month'
     );
 });
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const shortNameDependentKeys = [
+        'month'
+    ];
+
+    assert.deepEqual(
+        component.shortName._dependentKeys,
+        shortNameDependentKeys,
+        'Dependent keys are correct for shortName()'
+    );
+});
+

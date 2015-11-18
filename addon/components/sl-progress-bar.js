@@ -91,6 +91,32 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Observers
 
+    /**
+     * Setup initial width on the progress bar
+     *
+     * @function
+     * @returns {undefined}
+     */
+    initialize: Ember.on(
+        'willInsertElement',
+        function() {
+            this.setCssWidth();
+        }
+    ),
+
+    /**
+     * Update the width on the progress bar when value updates
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setWidth: Ember.observer(
+        'value',
+        function() {
+            this.setCssWidth();
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
@@ -108,24 +134,19 @@ export default Ember.Component.extend( TooltipEnabled, {
     ),
 
     /**
-     * Inline style string for progress bar element
+     * Dynamically sets the width on the style of the progress bar
      *
      * @function
-     * @returns {ember/String}
+     * @returns {undefined}
      */
-    styleString: Ember.computed(
-        'value',
-        function() {
-            return Ember.String.htmlSafe( `width: ${this.get( 'value' )}%;` );
-        }
-    ),
+    setCssWidth() {
+        this.$( 'div' ).css( 'width', this.get( 'value' ) + '%' );
+    },
 
     /**
      * Element-specific class name for the Bootstrap "theme" style
      *
      * @function
-     * @throws {ember.assert} Thrown if the supplied `theme` property value is
-     *         not included in the enum Theme
      * @returns {String}
      */
     themeClassName: Ember.computed(

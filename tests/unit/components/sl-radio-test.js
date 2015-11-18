@@ -1,18 +1,20 @@
 import Ember from 'ember';
+import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import{ moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
     unit: true
 });
 
-test( 'Correct default property values', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'name' ),
-        null,
-        'Default property "name" is null'
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        InputBasedMixin.detect( this.subject() ),
+        'InputBased Mixin is present'
     );
+});
+
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
 
     assert.strictEqual(
         component.get( 'label' ),
@@ -21,27 +23,9 @@ test( 'Correct default property values', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'readonly' ),
-        false,
-        'Default property "readonly" is false'
-    );
-
-    assert.strictEqual(
-        component.get( 'disabled' ),
-        false,
-        'Default property "disabled" is false'
-    );
-
-    assert.strictEqual(
         component.get( 'value' ),
         null,
         'Default property "value" is null'
-    );
-
-    assert.strictEqual(
-        component.get( 'tagName' ),
-        'div',
-        'Default property "tagName" is string "div"'
     );
 });
 
@@ -77,12 +61,17 @@ test( 'RadioType property sets relevant class', function( assert ) {
     );
 });
 
-test( 'Correct properties are being observed by RadioType', function( assert ) {
+
+test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.radioType._dependentKeys.join(),
-        'inline',
-        'RadioType is observing the correct property "inline"'
+    const radioTypeDependentKeys = [
+        'inline'
+    ];
+
+    assert.deepEqual(
+        component.radioType._dependentKeys,
+        radioTypeDependentKeys,
+        'Dependent keys are correct for radioType()'
     );
 });

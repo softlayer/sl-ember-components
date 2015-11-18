@@ -2,14 +2,16 @@ import Ember from 'ember';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-radio-group';
+import Namespace from '../mixins/sl-namespace';
 
 /**
  * @module
  * @augments ember/Component
  * @augments module:mixins/sl-input-based
+ * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -44,13 +46,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     // Properties
 
     /**
-     * Whether the radio buttons should be disabled
-     *
-     * @type {Boolean}
-     */
-    disabled: false,
-
-    /**
      * Whether the radio buttons should be put inline together
      *
      * This value is null by default, which means that the sl-radio-group will
@@ -63,22 +58,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     inline: null,
 
     /**
-     * The "name" attribute for the children radio buttons
-     *
-     * Similar to the `inline` property; the default value is null, so the
-     * children buttons will not be overridden. Any string value will overwrite
-     * the children buttons' name property.
+     * The component's text label
      *
      * @type {?String}
      */
-    name: null,
-
-    /**
-     * Whether the radio buttons should be readonly
-     *
-     * @type {Boolean}
-     */
-    readonly: false,
+    label: null,
 
     /**
      * The component's current value property
@@ -94,7 +78,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * Initialize the group-wide options and setup child radio buttons
      *
      * @function
-     * @throws {ember.assert} Thrown if the `name` property is not set
+     * @throws {ember/Error} Thrown if the `name` property is not set
      * @returns {undefined}
      */
     initialize: Ember.on(
@@ -102,20 +86,20 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         function() {
             const name = this.get( 'name' );
 
-            Ember.assert(
-                'The name property must be set on the sl-radio-group component',
-                name
-            );
+            if ( Ember.isEmpty( name ) ) {
+                throw new Ember.Error(
+                    'The name property must be set on the sl-radio-group component'
+                );
+            }
 
             const value = this.get( 'value' );
             const isDisabled = this.get( 'disabled' );
             const isInline = this.get( 'inline' );
-            const isReadonly = this.get( 'readonly' );
 
             /**
              * To each sl-radio component apply...
              *
-             * - Attributes: name, disabled, readonly
+             * - Attributes: name, disabled
              * - Classes: radio, radio-inline
              */
             this.$( '.sl-radio' ).each( function() {
@@ -127,11 +111,6 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
                 if ( isDisabled ) {
                     input.prop( 'disabled', true );
                     radio.addClass( 'disabled' );
-                }
-
-                if ( isReadonly ) {
-                    input.prop( 'readonly', true );
-                    radio.addClass( 'readonly' );
                 }
 
                 if ( true === isInline ) {
@@ -155,7 +134,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
             // Apply change() listener to keep group value in sync with select
             // sl-radio option
             const radios = this.$( `input[name=${name}]:radio` );
-            radios.change( () => {
+            radios.on( this.namespaceEvent( 'change' ), () => {
                 this.set( 'value', radios.filter( ':checked' ).val() );
             });
         }
@@ -170,7 +149,8 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     unregisterEvents: Ember.on(
         'willClearRender',
         function() {
-            this.$( `input[name=${this.get( 'name' )}]:radio` ).off();
+            this.$( `input[name=${this.get( 'name' )}]:radio` )
+                .off( this.namespaceEvent( 'change' ) );
         }
     )
 

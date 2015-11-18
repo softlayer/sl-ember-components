@@ -1,17 +1,77 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-progress-bar';
+import sinon from 'sinon';
 
 moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl progress bar', {
     unit: true
 });
 
-test( 'isLowPercentage is only true when value < 50', function( assert ) {
+const Theme = {
+    DANGER: 'danger',
+    DEFAULT: 'default',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
+
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
+    );
+});
+
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
+
+    assert.deepEqual(
+        ThemeEnum,
+        Theme,
+        'Theme enum values are correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'animated' ),
+        false,
+        'animated: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'label' ),
+        false,
+        'label: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'striped' ),
+        false,
+        'striped: false'
+    );
+
+    assert.strictEqual(
+        component.get( 'theme' ),
+        Theme.DEFAULT,
+        `theme: ${Theme.DEFAULT}`
+    );
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        0,
+        'value: 0'
+    );
+});
+
+test( 'isLowPercentage() is only true when value < 50', function( assert ) {
     const component = this.subject({ value: 49 });
 
     assert.ok(
         component.get( 'isLowPercentage' ),
         'Value < 50 is low percentage'
     );
+
+    this.render();
 
     Ember.run( function() {
         component.set( 'value', 50 );
@@ -24,55 +84,87 @@ test( 'isLowPercentage is only true when value < 50', function( assert ) {
     );
 });
 
-test( 'Has class for low percentage value', function( assert ) {
-    this.subject({ value: 40 });
+test( 'Event listener on "willInsertElement" calls "setCssWidth()"', function( assert ) {
+    const spy = sinon.spy();
+    const component = this.subject({
+        setCssWidth: spy
+    });
+
+    Ember.run( () => component.trigger( 'willInsertElement' ) );
 
     assert.ok(
-        this.$().hasClass( 'sl-progress-bar-low-percentage' ),
-        'Has class "sl-progress-bar-low-percentage"'
+        spy.called,
+        '"setCssWidth()" called when "willInsertElement" event occurs'
     );
 });
 
-test( 'Width style string is set equal to the percentage value', function( assert ) {
-    const randomValue = 100 * Math.random();
-    const component = this.subject({ value: randomValue });
+test( '"setWidth()" calls the correct methods', function( assert ) {
+    const spy = sinon.spy();
+    const component = this.subject({
+        setCssWidth: spy
+    });
 
-    assert.equal(
-        component.get( 'styleString' ),
-        'width: ' + randomValue + '%;',
-        'Style string has correct width value'
+    component.setWidth();
+
+    assert.ok(
+        spy.called,
+        '"setCssWidth()" called inside "setWidth()"'
     );
 });
 
-test( 'themeClass is set correctly by theme property', function( assert ) {
-    const component = this.subject({ theme: 'danger' });
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
 
-    assert.equal(
-        component.get( 'themeClassName' ),
-        'progress-bar-danger',
-        'themeClassName has expected value'
+    const isLowPercentageDependentKeys = [
+        'value'
+    ];
+
+    const themeClassNameDependentKeys = [
+        'theme'
+    ];
+
+    assert.deepEqual(
+        component.isLowPercentage._dependentKeys,
+        isLowPercentageDependentKeys,
+        'Dependent keys are correct for isLowPercentage()'
     );
 
-    assert.ok(
-        this.$( '.progress-bar' ).hasClass( 'progress-bar-danger' ),
-        'Has expected class on element'
+    assert.deepEqual(
+        component.themeClassName._dependentKeys,
+        themeClassNameDependentKeys,
+        'Dependent keys are correct for themeClassName()'
     );
 });
 
-test( 'Has class "active" when animated set to true', function( assert ) {
-    this.subject({ animated: true });
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
 
-    assert.ok(
-        this.$( '.progress-bar' ).hasClass( 'active' ),
-        'Is active'
+    const setWidthKeys = [
+        'value'
+    ];
+
+    assert.deepEqual(
+        component.setWidth.__ember_observes__,
+        setWidthKeys,
+        'Observer keys are correct for setWidth()'
     );
 });
 
-test( 'Has class "progress-bar-striped" when striped set to true', function( assert ) {
-    this.subject({ striped: true });
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    const jqueryAliasSpy = sinon.spy( window, '$' );
+    const jquerySpy = sinon.spy( window, 'jQuery' );
+    const emberJquery = sinon.spy( Ember, '$' );
 
-    assert.ok(
-        this.$( '.progress-bar' ).hasClass( 'progress-bar-striped' ),
-        'Progress bar has class "progress-bar-striped"'
+    this.subject();
+    this.render();
+
+    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
+
+    assert.notOk(
+        called
     );
+
+    window.$.restore();
+    window.jQuery.restore();
+    Ember.$.restore();
 });
