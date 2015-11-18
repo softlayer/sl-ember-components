@@ -142,7 +142,7 @@ test( 'Events from start date input are removed upon willClearRender', function(
     component.trigger( 'didInsertElement' );
 
     assert.ok(
-        spyOn.calledWith( 'changeDate' ),
+        spyOn.calledWith( component.namespaceEvent( 'changeDate' ) ),
         'changeDate bootstrap date picker event bound'
     );
 
@@ -156,7 +156,7 @@ test( 'Events from start date input are removed upon willClearRender', function(
     component.trigger( 'willClearRender' );
 
     assert.ok(
-        spyOff.calledWith( 'changeDate' ),
+        spyOff.calledWith( component.namespaceEvent( 'changeDate' ) ),
         'changeDate bootstrap date picker event unbound'
     );
 
