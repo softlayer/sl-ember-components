@@ -53,7 +53,8 @@
     }
 
     &.details-open > div {
-        flex: 1 auto;
+        flex: .01 auto;
+        overflow-x: hidden;
 
         & + div.panel {
             flex: 9 0px;
@@ -61,9 +62,22 @@
             display: block;
         }
 
-        & > table > thead th:not(.primary-column), & > table > tbody td:not(.primary-column), & > table > tbody th:not(.primary-column) {
-            width: 0;
-            overflow: hidden;
+        & > table {
+            float: left;
+            width: auto;
+            table-layout: fixed;
+
+            & > thead th, & > tbody td, & > tbody th {
+                padding-right: 25px; /* need twbs var */
+            }
+
+            & > thead th:not(.primary-column), & > tbody td:not(.primary-column), & > tbody th:not(.primary-column) {
+                max-width: 0;
+                overflow: hidden;
+                padding-left: 0;
+                padding-right: 0;
+                font-size: 0;
+            }
         }
     }
 
@@ -145,5 +159,25 @@
 
     &> footer {
         clear: left;
+    }
+
+    /* internal div heights based on having component header/footer */
+    div.component > div {
+        height: 100%;
+    }
+
+    /* header only */
+    & > header ~ div {
+        height: calc(100% - 2em);
+    }
+
+    /* footer only */
+    & > div:nth-last-child(3), & > div:nth-last-child(3) + div {
+        height: calc(100% - 1.75em);
+    }
+
+    /* header and footer */
+    & > header + div:nth-last-child(3), & > header + div:nth-last-child(3) + div {
+        height: calc(100% - 3.75em);
     }
 }
