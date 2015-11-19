@@ -172,6 +172,7 @@ module.exports = {
     /**
      * Delete generated CSS file from addon's temp folder
      *
+     * @param {Object} result
      * @returns {undefined}
      */
     postBuild: function( result ) {
