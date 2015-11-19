@@ -30,6 +30,17 @@ module.exports = {
     },
 
     /**
+     * Whether this module is being access by an addon or an app
+     *
+     * @returns {Boolean}
+     */
+    isAddon: function() {
+        var keywords = this.project.pkg.keywords;
+
+        return ( keywords && keywords.indexOf( 'ember-addon' ) !== -1 ) ? true : false;
+    },
+
+    /**
      * Pre-compiling LESS files and placing result into file in addon's temp folder
      * for use by treeForVendor()
      *
@@ -38,7 +49,20 @@ module.exports = {
     preBuild: function() {
         this._super.included();
 
-        var lessSourceLocation = path.resolve( this.project.root, 'app', 'styles', this.name + '.less' );
+        var resolvePaths = [
+            this.project.root
+        ];
+
+        if ( !this.isAddon() ) {
+            resolvePaths.push( 'node_modules' );
+            resolvePaths.push( this.name );
+        }
+
+        resolvePaths.push( 'app' );
+        resolvePaths.push( 'styles' );
+        resolvePaths.push( this.name + '.less' );
+
+        var lessSourceLocation = path.resolve.apply( undefined, resolvePaths );
         var lessSourceString = fs.readFileSync( lessSourceLocation ).toString();
         var lessCompiledLocation = path.resolve( this.getTempPath(), this.getCssFileName() );
 
@@ -68,7 +92,9 @@ module.exports = {
             include: [ this.getCssFileName() ]
         });
 
-        return mergeTrees([ tree, compiledLessTree ]);
+        return ( this.isAddon() ) ?
+            mergeTrees([ tree, compiledLessTree ]) :
+            compiledLessTree;
     },
 
     included: function( app ) {
