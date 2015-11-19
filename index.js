@@ -121,7 +121,7 @@ module.exports = {
     },
 
     /**
-     * Adds LESS-generated CSS into vendor tree to be imported included()
+     * Adds LESS-generated CSS into vendor tree to be imported in included()
      *
      * @param {Object} tree
      * @returns {Object}
