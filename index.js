@@ -7,12 +7,48 @@ var less = require( 'less' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
 var compileLess = require( 'broccoli-less-single' );
+var existsSync = require( 'exists-sync' );
 
 module.exports = {
     name: 'sl-ember-components',
 
     /**
-     * Name used for LESS-generated CSS file placed in addon's temp folder
+     * Create subdirectory in temp folder
+     *
+     * @returns {undefined}
+     */
+    createTempPath: function() {
+        var tempRoot = path.join( this.project.root, 'tmp' );
+        var tempPath = this.getTempPath();
+
+        if ( !existsSync( tempRoot ) ) {
+            fs.mkdirSync( tempRoot );
+        }
+
+        if ( !existsSync( tempPath ) ) {
+            fs.mkdirSync( tempPath );
+        }
+    },
+
+    /**
+     * Remove subdirectory in temp folder
+     *
+     * @returns {undefined}
+     */
+    removeTempPath: function() {
+        var cssFilePath = path.join( this.getTempPath(), this.getCssFileName() );
+
+        if ( existsSync( cssFilePath ) ) {
+            fs.unlinkSync( path.resolve( cssFilePath ) );
+        }
+
+        if ( existsSync( this.getTempPath() ) ) {
+            fs.rmdirSync( this.getTempPath() );
+        }
+    },
+
+    /**
+     * Name used for LESS-generated CSS file placed in temp folder
      *
      * @returns {String}
      */
@@ -21,12 +57,14 @@ module.exports = {
     },
 
     /**
-     * Path to addon's temp folder
+     * Path to temp folder
      *
      * @returns {String}
      */
     getTempPath: function() {
-        return path.resolve( this.project.root, 'tmp' );
+        var tempRoot = path.join( this.project.root, 'tmp' );
+
+        return path.resolve( path.join( tempRoot, this.name ) );
     },
 
     /**
@@ -41,8 +79,8 @@ module.exports = {
     },
 
     /**
-     * Pre-compiling LESS files and placing result into file in addon's temp folder
-     * for use by treeForVendor()
+     * Pre-compiling LESS files and placing result into file in temp folder for
+     * use by treeForVendor()
      *
      * @returns {undefined}
      */
@@ -64,6 +102,9 @@ module.exports = {
 
         var lessSourceLocation = path.resolve.apply( undefined, resolvePaths );
         var lessSourceString = fs.readFileSync( lessSourceLocation ).toString();
+
+        this.createTempPath();
+
         var lessCompiledLocation = path.resolve( this.getTempPath(), this.getCssFileName() );
 
         less.render(
@@ -151,6 +192,13 @@ module.exports = {
         });
     },
 
+    /**
+     * Copy Twitter Bootstrap fonts into namespaced assets folder
+     *
+     * @param {String} type
+     * @param {Object} tree
+     * @returns {Object}
+     */
     postprocessTree: function( type, tree ) {
         var fonts = new Funnel( 'bower_components/bootstrap', {
             srcDir: 'fonts',
@@ -170,12 +218,12 @@ module.exports = {
     },
 
     /**
-     * Delete generated CSS file from addon's temp folder
+     * Delete generated CSS file from temp folder
      *
      * @param {Object} result
      * @returns {undefined}
      */
     postBuild: function( result ) {
-        fs.unlinkSync( path.resolve( this.getTempPath(), this.getCssFileName() ) );
+        this.removeTempPath();
     }
 };
