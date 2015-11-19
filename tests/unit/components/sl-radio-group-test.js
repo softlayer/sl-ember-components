@@ -28,8 +28,8 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     const radioButtonsArray = this.$( 'input:radio' ).toArray();
 
     const matchElements = sinon.match( ( elements ) => {
-        return elements.toArray().every( function( element ) {
-            const found = radioButtonsArray.find( ( radioElement )  => {
+        return radioButtonsArray.every( function( element ) {
+            const found = elements.toArray().find( ( radioElement )  => {
                 return element === radioElement;
             });
 
