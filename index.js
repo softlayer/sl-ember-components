@@ -30,7 +30,7 @@ module.exports = {
     },
 
     /**
-     * Whether this module is being access by an addon or an app
+     * Whether this module is being accessed by an addon or an app
      *
      * @returns {Boolean}
      */
