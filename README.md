@@ -165,6 +165,54 @@ then create a `app/styles/app.less` file and add this to it:
 
 
 
+### Namespaces
+
+Each component has its own CSS namespacing so that it is easy to target specific components
+for styling.  Refer to each component's respective documenation at
+[http://softlayer.github.io/sl-ember-components](http://softlayer.github.io/sl-ember-components)
+for these values.
+
+
+
+### Icons
+
+If you wish to use different Glyphicons than the defaut ones, you simply only need to redefine
+the `content` definition for the appropriate styles.  For example, to replace the "Show All" icon
+used for the `sl-menu` component, use the following declaration:
+
+```
+.sl-menu .sl-icon-show-all:before {
+    content: "\e011";
+}
+```
+
+If you wish to use a font library other than Glyphicons Halflings you will need to take a few
+extra steps but it is still very easy to do.  The first step is to make sure you have properly
+installed, and are including, your desired font library.  Next, you need to redefine the
+`[class*=sl-ember-components-icon]` declaration.  The example below demonstrates this,
+replacing Glyphicons Halflings with Font Awesome:
+
+```
+[class*=sl-ember-components-icon] {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+```
+
+Then you only need to redefine the `content` definition in the appropriate styles, as
+previously explained above:
+
+```
+.sl-menu .sl-icon-show-all:before {
+    content: "\f270";
+}
+```
+
+
+
 
 ## Examples and documentation on how to use each component
 
