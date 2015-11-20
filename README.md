@@ -168,7 +168,7 @@ then create a `app/styles/app.less` file and add this to it:
 ### Namespaces
 
 Each component has its own CSS namespacing so that it is easy to target specific components
-for styling.  Refer to each component's respective documenation at
+for styling.  Refer to each component's respective documentation at
 [http://softlayer.github.io/sl-ember-components](http://softlayer.github.io/sl-ember-components)
 for these values.
 
