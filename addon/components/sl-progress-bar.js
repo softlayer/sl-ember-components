@@ -6,7 +6,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid Bootstrap theme class names for progress bars
  *
- * @memberof module:components/sl-progress-bar
+ * @readonly
  * @enum {String}
  */
 export const Theme = Object.freeze({

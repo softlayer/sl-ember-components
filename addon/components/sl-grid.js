@@ -4,7 +4,7 @@ import layout from '../templates/components/sl-grid';
 /**
  * Valid values for the column definitions' `align` property
  *
- * @memberof module:components/sl-grid
+ * @readonly
  * @enum {String}
  */
 export const ColumnAlign = Object.freeze({
@@ -15,7 +15,7 @@ export const ColumnAlign = Object.freeze({
 /**
  * Valid values for the column definitions' `size` property
  *
- * @memberof module:components/sl-grid
+ * @readonly
  * @enum {String}
  */
 export const ColumnSize = Object.freeze({

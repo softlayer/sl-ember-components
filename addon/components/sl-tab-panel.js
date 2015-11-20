@@ -5,7 +5,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid `align` property values
  *
- * @memberof module:components/sl-tab-panel
+ * @readonly
  * @enum {String}
  */
 export const Alignment = Object.freeze({

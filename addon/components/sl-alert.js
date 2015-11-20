@@ -6,7 +6,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Bootstrap theme names for alert components
  *
- * @memberof module:components/sl-alert
+ * @readonly
  * @enum {String}
  */
 export const Theme = Object.freeze({

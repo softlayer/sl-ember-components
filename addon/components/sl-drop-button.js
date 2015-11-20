@@ -10,7 +10,7 @@ import {
 /**
  * Values for the sl-drop-button's `align` property
  *
- * @memberof module:components/sl-drop-button
+ * @readonly
  * @enum {String}
  */
 export const Align = Object.freeze({

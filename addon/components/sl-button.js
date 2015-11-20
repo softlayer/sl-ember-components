@@ -7,7 +7,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid size values for the sl-button component
  *
- * @memberof module:components/sl-button
+ * @readonly
  * @enum {String}
  */
 export const Size = Object.freeze({
@@ -20,7 +20,7 @@ export const Size = Object.freeze({
 /**
  * Valid Bootstrap theme values for buttons
  *
- * @memberof module:components/sl-button
+ * @readonly
  * @enum {String}
  */
 export const Theme = Object.freeze({

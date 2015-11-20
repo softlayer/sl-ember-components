@@ -5,7 +5,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid alignment values for columns
  *
- * @memberof module:components/sl-grid-cell
+ * @readonly
  * @enum {String}
  */
 export const ColumnAlign = Object.freeze({
@@ -16,7 +16,7 @@ export const ColumnAlign = Object.freeze({
 /**
  * Valid size values for columns
  *
- * @memberof module:components/sl-grid-cell
+ * @readonly
  * @enum {String}
  */
 export const ColumnSize = Object.freeze({

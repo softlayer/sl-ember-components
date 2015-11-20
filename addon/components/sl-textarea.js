@@ -7,7 +7,7 @@ import layout from '../templates/components/sl-textarea';
 /**
  * Valid values for `selectionDirection` property
  *
- * @memberof module:components/sl-textarea
+ * @readonly
  * @enum {String}
  */
 export const Direction = Object.freeze({
@@ -19,7 +19,7 @@ export const Direction = Object.freeze({
 /**
  * Valid values for `wrap` property
  *
- * @memberof module:components/sl-textarea
+ * @readonly
  * @enum {String}
  */
 export const Wrap = {
