@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-grid';
+import Namespace from '../mixins/sl-namespace';
 
 /**
  * Valid values for the column definitions' `align` property
@@ -27,8 +28,9 @@ export const ColumnSize = Object.freeze({
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -574,17 +576,6 @@ export default Ember.Component.extend({
         }
 
         return componentHeight;
-    },
-
-    /**
-     * Namespace event per instance
-     *
-     * @function
-     * @param {String} - event name
-     * @returns {String}
-     */
-    namespaceEvent( eventName ) {
-        return `${ eventName }.${ this.get( 'elementId' ) }`;
     },
 
     /**
