@@ -126,7 +126,7 @@ See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softla
 
 ### Running
 
-* `ember server`
+* `ember serve`
 * View the demo at *http://localhost:4200*
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
@@ -141,31 +141,35 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
 # How to use this addon in your application
 
+## Installation
+
     ember install sl-ember-components
+
+
+## Styling
+
+If you wish to modify the styling of the components you have two options for doing so.
+
+The first is to define your CSS declarations in your application's *app/styles* folder.
+
+The second is to build the CSS declarations from the LESS source files.  This will layer
+any of your LESS values on top of this addon's LESS values which are then in turn laid
+on top of Twitter Bootstrap's.  This does require you though to use LESS for your
+entire application's CSS generation.  To use LESS, run
+
     npm install --save-dev ember-cli-less
 
-Modify `ember-cli-build.js` file to add:
+then create a `app/styles/app.less` file and add this to it:
 
-```
-app.import({
-    development : 'bower_components/bootstrap/dist/js/bootstrap.js',
-    production  : 'bower_components/bootstrap/dist/js/bootstrap.min.js'
-});
-```
+    @import 'sl-ember-components';
 
-Create `app/styles/app.less` file. Then add to it:
-
-```
-@import 'sl-ember-components';
-```
 
 
 
 ## Examples and documentation on how to use each component
 
-Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components
-
-
+Examples and documentation on how to use each component can be viewed at
+[http://softlayer.github.io/sl-ember-components](http://softlayer.github.io/sl-ember-components)
 
 
 
