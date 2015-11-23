@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'row.active:active'
+        'active:active'
     ],
 
     /** @type {String[]} */
@@ -37,20 +37,25 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     click( event ) {
+        console.log( 'row click fired' );
         if ( this.$( event.target ).closest( '.sl-drop-button' ).length < 1 ) {
-            this.sendAction( 'rowClick', this.get( 'row' ) );
+            console.log( 'from row: ' );
+            console.log( this );
+            this.sendAction( 'onClick', this );
         }
     },
 
     // -------------------------------------------------------------------------
     // Properties
 
+    active: false,
+
     /**
      * The row record model instance
      *
      * @type {?Object}
      */
-    row: null
+    record: null
 
     // -------------------------------------------------------------------------
     // Observers

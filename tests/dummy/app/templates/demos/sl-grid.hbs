@@ -65,14 +65,14 @@ rowActions: [
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{#sl-grid
+        {{#sl-grid style='height: 300px'
             columns=columns
             content=sortedModel
             detailComponent="demos/sl-grid-detail"
             detailFooterComponent="demos/sl-grid-detail-footer"
             detailHeaderComponent="demos/sl-grid-detail-header"
+            fixedHeader=true
             footerPath="demos/sl-grid/footer"
-            height=300
             rowActions=rowActions
             sendLog=(action "logName")
             sortColumn="sortColumn"

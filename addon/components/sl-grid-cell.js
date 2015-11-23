@@ -61,8 +61,16 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * @function
+     * @returns {undefined}
+     */
     click() {
-        this.sendAction( 'onClick', this.get( 'row' ) );
+        console.log( 'from cell: ' );
+        console.log( this.get( 'record' ) );
+        // this.sendAction( 'cellClicked', this );
+        // this does not go to row
+        this.sendAction( 'onClick', this.get( 'record' ) );
     },
 
     // -------------------------------------------------------------------------
@@ -76,11 +84,11 @@ export default Ember.Component.extend({
     column: null,
 
     /**
-     * The row object, passed in through the sl-grid-component
+     * The row record model instance, passed in through the sl-grid-component
      *
      * @type {?Object}
      */
-    row: null,
+    record: null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -118,17 +126,17 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * The value for the row's content, based on column's `valuePath` setting
+     * The value for the cell's content, based on column's `valuePath` setting
      *
      * @function
      * @returns {String|undefined}
      */
     contentValue: Ember.computed(
         'column',
-        'row',
+        'record',
         function() {
             return Ember.get(
-                this.get( 'row.model' ) || this.get( 'row' ),
+                this.get( 'record.model' ) || this.get( 'record' ),
                 this.get( 'column.valuePath' )
             );
         }

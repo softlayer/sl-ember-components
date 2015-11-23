@@ -43,6 +43,13 @@
 }
 */
 
+@panel-heading-padding-top: extract(@panel-heading-padding, 1);
+@panel-heading-padding-bottom: extract(@panel-heading-padding, 1);
+@panel-footer-padding-top: extract(@panel-footer-padding, 1);
+@panel-footer-padding-bottom: extract(@panel-footer-padding, 1);
+
+
+
 .grid.sl-ember-components {
     display: flex;
     flex-flow: row wrap;
@@ -53,7 +60,7 @@
     }
 
     &.details-open > div {
-        flex: .01 auto;
+        flex: 1 auto;
         overflow-x: hidden;
 
         & + div.panel {
@@ -63,12 +70,8 @@
         }
 
         & > table {
-            float: left;
-            width: auto;
-            table-layout: fixed;
 
             & > thead th, & > tbody td, & > tbody th {
-                padding-right: 25px; /* need twbs var */
             }
 
             & > thead th:not(.primary-column), & > tbody td:not(.primary-column), & > tbody th:not(.primary-column) {
@@ -89,6 +92,10 @@
             border-collapse: inherit;
 
             & > thead {
+                th {
+                    background-color: #FFF;
+                }
+
                 .sortable-column {
                     cursor: pointer;
                 }
@@ -105,6 +112,11 @@
                 .column-ascending .sl-icon-sortable:after {
                     content: "\e093";
                 }
+            }
+
+            tr.active td {
+                background-color: @component-active-bg;
+                color: @component-active-color;
             }
 
             /* the fake header */
@@ -131,6 +143,7 @@
         overflow: visible;
         position: relative;
         margin-bottom: 0;
+        min-height: 15em;
 
         &> * {
             position: absolute;
@@ -149,10 +162,10 @@
         }
 
         &> header + div {
-            top: 1.75em;
+            top: calc(1.5em ~"+" @panel-heading-padding-top ~"+" @panel-heading-padding-bottom);
 
             &:nth-last-child(2) {
-                bottom: 1.75em;
+                bottom: calc(1.5em ~"+" @panel-footer-padding-top ~"+" @panel-footer-padding-bottom);
             }
         }
     }

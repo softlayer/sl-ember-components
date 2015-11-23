@@ -52,12 +52,11 @@
                 {{/if}}
             </tr>
             {{#each content as |row|}}
-                {{#sl-grid-row}}
+                {{#sl-grid-row record=row onClick="rowClick"}}
                     {{#each columns as |column|}}
                         {{sl-grid-cell
                             column=column
-                            onClick="rowClick"
-                            row=row
+                            record=row
                         }}
                     {{/each}}
 
@@ -92,20 +91,20 @@
 
         <span class="title">
             {{#if detailHeaderComponent}}
-                {{component detailHeaderComponent model=activeRecord}}
+                {{component detailHeaderComponent model=activeRow.record}}
             {{/if}}
         </span>
     </header>
 
     <div class="panel-body">
         {{#if detailComponent}}
-            {{component detailComponent model=activeRecord}}
+            {{component detailComponent model=activeRow.record}}
         {{/if}}
     </div>
 
     <footer class="panel-footer">
         {{#if detailFooterComponent}}
-            {{component detailFooterComponent model=activeRecord}}
+            {{component detailFooterComponent model=activeRow.record}}
         {{/if}}
     </footer>
 </div>

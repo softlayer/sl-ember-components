@@ -82,14 +82,48 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         closeDetailPane() {
-            const activeRecord = this.get( 'activeRecord' );
-
-            if ( activeRecord ) {
-                Ember.set( activeRecord, 'active', false );
-                this.set( 'activeRecord', null );
+            if ( !this.get( 'detailPaneOpen' ) ) {
+                return;
             }
 
             this.set( 'detailPaneOpen', false );
+            Ember.run.next( this, () => {
+                this.resetFixedHeaderWidths();
+            });
+        },
+
+        deselectRow() {
+            const activeRow = this.get( 'activeRow' );
+            if ( activeRow ) {
+                Ember.set( activeRow, 'active', false );
+                this.set( 'activeRow', null );
+            }
+
+            this.send( 'closeDetailPane' );
+        },
+
+        /**
+         * Select a row and possibly open the detail panel
+         *
+         * @function
+         * @param {Object} row - An object representing the row to make active
+         * @returns {undefined}
+         */
+        selectRow( row ) {
+            const activeRow = this.get( 'activeRow' );
+
+            if ( activeRow ) {
+                if ( activeRow === row ) {
+                    this.send( 'deselectRow' );
+                    return;
+                }
+                Ember.set( activeRow, 'active', false );
+            }
+
+            Ember.set( row, 'active', true );
+            this.set( 'activeRow', row );
+
+            this.send( 'openDetailPane' );
         },
 
          /**
@@ -104,24 +138,15 @@ export default Ember.Component.extend({
             this.sendAction( actionName, row );
         },
 
-        /**
-         * Open the detail-pane with a specific row object
-         *
-         * @function
-         * @param {Object} row - An object representing the row to make active
-         * @returns {undefined}
-         */
-        openDetailPane( row ) {
-            const activeRecord = this.get( 'activeRecord' );
-
-            if ( activeRecord ) {
-                Ember.set( activeRecord, 'active', false );
+        openDetailPane() {
+            if ( this.get( 'detailPaneOpen' ) ) {
+                return;
             }
+            // should check if we should be able to open details
+            this.set( 'detailPaneOpen', true );
 
-            Ember.set( row, 'active', true );
-            this.setProperties({
-                activeRecord: row,
-                detailPaneOpen: true
+            Ember.run.next( this, () => {
+                this.resetFixedHeaderWidths();
             });
         },
 
@@ -134,14 +159,16 @@ export default Ember.Component.extend({
          * defined.
          *
          * @function actions:rowClick
-         * @param {Object} row - The object that the clicked row represents
+         * @param {Object} row - The instance of the sl-grid-row component
          * @returns {undefined}
          */
         rowClick( row ) {
+            console.log( 'from grid: ' );
+            console.log( row );
             if ( this.get( 'rowClick' ) ) {
                 this.sendAction( 'rowClick', row );
             } else if ( this.get( 'detailComponent' ) ) {
-                this.send( 'openDetailPane', row );
+                this.send( 'selectRow', row );
             }
         },
 
@@ -206,11 +233,11 @@ export default Ember.Component.extend({
     actionsButtonLabel: 'Actions',
 
     /**
-     * The row record that is currently active in the detail pane
+     * The row that is currently active in the detail pane
      *
      * @type {?Object}
      */
-    activeRecord: null,
+    activeRow: null,
 
     /**
      * @typedef ColumnDefinition
@@ -303,6 +330,8 @@ export default Ember.Component.extend({
      */
     filterComponent: null,
 
+    fixedHeader: false,
+
     /**
      * The path for the template to use for the footer of the list pane
      *
@@ -387,7 +416,7 @@ export default Ember.Component.extend({
         'footerPath',
         'showPagination',
         function() {
-            return footerPath || showPagination;
+            return this.get( 'footerPath' ) || this.get( 'showPagination' );
         }
     ),
 
@@ -455,6 +484,18 @@ export default Ember.Component.extend({
         }
     ),
 
+    setupFixedHeader: Ember.on(
+        'didInsertElement',
+        function() {
+            if ( this.get( 'fixedHeader' ) ) {
+                this.resetFixedHeaderWidths();
+                Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+                    this.resetFixedHeaderWidths();
+                });
+            }
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
@@ -467,6 +508,21 @@ export default Ember.Component.extend({
      */
     namespaceEvent( eventName ) {
         return `${ eventName }.${ this.get( 'elementId' ) }`;
+    },
+
+    resetFixedHeaderWidths() {
+        if ( !this.get( 'fixedHeader' ) ) {
+            return;
+        }
+
+        const context = this;
+        const table = this.$( '> div > table' );
+        table.removeClass( 'fixed-header' );
+        table.find( 'thead th' ).width( '' );
+        table.find( 'thead th' ).width( function() {
+            return context.$( this ).width();
+        });
+        table.addClass( 'fixed-header' );
     },
 
     /**
