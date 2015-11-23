@@ -163,8 +163,6 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         rowClick( row ) {
-            console.log( 'from grid: ' );
-            console.log( row );
             if ( this.get( 'rowClick' ) ) {
                 this.sendAction( 'rowClick', row );
             } else if ( this.get( 'detailComponent' ) ) {

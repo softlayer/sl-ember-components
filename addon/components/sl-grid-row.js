@@ -37,10 +37,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     click( event ) {
-        console.log( 'row click fired' );
         if ( this.$( event.target ).closest( '.sl-drop-button' ).length < 1 ) {
-            console.log( 'from row: ' );
-            console.log( this );
             this.sendAction( 'onClick', this );
         }
     },

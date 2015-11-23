@@ -66,10 +66,6 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     click() {
-        console.log( 'from cell: ' );
-        console.log( this.get( 'record' ) );
-        // this.sendAction( 'cellClicked', this );
-        // this does not go to row
         this.sendAction( 'onClick', this.get( 'record' ) );
     },
 
