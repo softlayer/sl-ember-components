@@ -16,14 +16,14 @@
         {{/if}}
     </div>
 
-    {{#if filterPaneOpen}}
-        <div class="row">
-            <div class="col-sm-12 filter-content">
-                {{#if filterComponent}}
+    {{#if filterComponent}}
+        {{#if filterPaneOpen}}
+            <div class="row">
+                <div class="col-sm-12 filter-content">
                     {{component filterComponent}}
-                {{/if}}
+                </div>
             </div>
-        </div>
+        {{/if}}
     {{/if}}
 </header>
 
@@ -85,7 +85,7 @@
     </table>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default {{if detailPaneOpen "show"}} {{unless detailPaneOpen "hidden"}}">
     <header class="panel-heading">
         <button {{action "closeDetailPane"}} type="button" class="close" aria-label="Close">&times;</button>
 

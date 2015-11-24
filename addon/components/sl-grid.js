@@ -38,7 +38,8 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'detailPaneOpen:details-open'
+        'detailPaneOpen:details-open',
+        'detailComponent:hasDetails'
     ],
 
     /** @type {String[]} */
@@ -92,6 +93,14 @@ export default Ember.Component.extend({
             });
         },
 
+        /**
+         * Deselect the currently selected row
+         *
+         * Will also close the details pane since nothing will be selected.
+         *
+         * @function
+         * @returns {undefined}
+         */
         deselectRow() {
             const activeRow = this.get( 'activeRow' );
             if ( activeRow ) {
@@ -100,6 +109,57 @@ export default Ember.Component.extend({
             }
 
             this.send( 'closeDetailPane' );
+        },
+
+        /**
+         * Handles drop button selection
+         *
+         * @function actions:dropButtonSelect
+         * @param {Object} row - An object representing the row on which the drop button was selected
+         * @param {String} actionName - The action to be sent
+         * @returns {undefined}
+         */
+        dropButtonSelect( row, actionName ) {
+            this.sendAction( actionName, row );
+        },
+
+        /**
+         * Open the detail-pane
+         *
+         * @function
+         * @returns {undefined}
+         */
+        openDetailPane() {
+            if ( this.get( 'detailPaneOpen' ) || !this.get( 'detailComponent' ) || !this.get( 'activeRow' ) ) {
+                return;
+            }
+
+            this.set( 'detailPaneOpen', true );
+
+            Ember.run.next( this, () => {
+                this.resetFixedHeaderWidths();
+            });
+        },
+
+        /**
+         * Handle a list item's row click
+         *
+         * If an action is bound to the `rowClick` property, then it will be
+         * called when this is triggered. Otherwise, the row will be selected and
+         * the detail-pane will be opened for the triggering row's model record,
+         * unless no detailPath is defined.
+         *
+         * @function actions:rowClick
+         * @param {Object} row - The instance of the sl-grid-row component
+         * @returns {undefined}
+         */
+        rowClick( row ) {
+            if ( this.get( 'rowClick' ) ) {
+                this.sendAction( 'rowClick', row );
+            } else if ( this.get( 'detailComponent' ) ) {
+                this.send( 'selectRow', row );
+                this.send( 'openDetailPane' );
+            }
         },
 
         /**
@@ -122,52 +182,6 @@ export default Ember.Component.extend({
 
             Ember.set( row, 'active', true );
             this.set( 'activeRow', row );
-
-            this.send( 'openDetailPane' );
-        },
-
-         /**
-         * Handles drop button selection
-         *
-         * @function actions:dropButtonSelect
-         * @param {Object} row - An object representing the row on which the drop button was selected
-         * @param {String} actionName - The action to be sent
-         * @returns {undefined}
-         */
-        dropButtonSelect( row, actionName ) {
-            this.sendAction( actionName, row );
-        },
-
-        openDetailPane() {
-            if ( this.get( 'detailPaneOpen' ) ) {
-                return;
-            }
-            // should check if we should be able to open details
-            this.set( 'detailPaneOpen', true );
-
-            Ember.run.next( this, () => {
-                this.resetFixedHeaderWidths();
-            });
-        },
-
-        /**
-         * Handle a list item's row click
-         *
-         * If an action is bound to the `rowClick` property, then it will be
-         * called when this is triggered. Otherwise, the detail-pane will be
-         * opened for the triggering row's model record, unless no detailPath is
-         * defined.
-         *
-         * @function actions:rowClick
-         * @param {Object} row - The instance of the sl-grid-row component
-         * @returns {undefined}
-         */
-        rowClick( row ) {
-            if ( this.get( 'rowClick' ) ) {
-                this.sendAction( 'rowClick', row );
-            } else if ( this.get( 'detailComponent' ) ) {
-                this.send( 'selectRow', row );
-            }
         },
 
         /**
@@ -214,6 +228,7 @@ export default Ember.Component.extend({
          */
         toggleFilterPane() {
             this.toggleProperty( 'filterPaneOpen' );
+            this.updateHeight();
         }
     },
 
@@ -328,6 +343,11 @@ export default Ember.Component.extend({
      */
     filterComponent: null,
 
+    /**
+     * Whether or not the table headers should be fixed
+     *
+     * @type {Boolean}
+     */
     fixedHeader: false,
 
     /**
@@ -336,6 +356,16 @@ export default Ember.Component.extend({
      * @type {?String}
      */
     footerPath: null,
+
+    /**
+     * The height of the overall grid component
+     *
+     * This height will be passed through to the component.
+     * You may set it to any CSS measurement/value.
+     *
+     * @type {Number|String}
+     */
+    height: '',
 
     /**
      * When true, the split-grid is in a loading state
@@ -482,6 +512,14 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Setup fixed position table header
+     *
+     * Also creates a window resize event to ensure grid acts fluid.
+     *
+     * @function
+     * @returns {undefined}
+     */
     setupFixedHeader: Ember.on(
         'didInsertElement',
         function() {
@@ -491,6 +529,29 @@ export default Ember.Component.extend({
                     this.resetFixedHeaderWidths();
                 });
             }
+        }
+    ),
+
+    /**
+     * Assigns the table part of the grid a calculated height
+     *
+     * This will not be needed in the future, but right now we don't have enough
+     * control over what can exist in the header and footer.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateHeight: Ember.on(
+        'didInsertElement',
+        function() {
+            const height = this.get( 'height' );
+            let total = 0;
+
+            this.$().css( 'height', height );
+            this.$( '> :not(div)' ).each( function() {
+                total += $( this ).height();
+            });
+            this.$( '> div:not(.panel)' ).height( this.$().height() - total );
         }
     ),
 
@@ -508,6 +569,14 @@ export default Ember.Component.extend({
         return `${ eventName }.${ this.get( 'elementId' ) }`;
     },
 
+    /**
+     * Assign widths to the column headers based on their natural layout
+     *
+     * Table headers must be fixed with for fixed positioning to work.
+     *
+     * @function
+     * @returns {undefined}
+     */
     resetFixedHeaderWidths() {
         if ( !this.get( 'fixedHeader' ) ) {
             return;

@@ -14,8 +14,9 @@
     detailComponent="demos/sl-grid-detail"
     detailFooterComponent="demos/sl-grid-detail-footer"
     detailHeaderComponent="demos/sl-grid-detail-header"
+    fixedHeader=true
     footerPath="demos/sl-grid/footer"
-    height=300
+    height="21em"
     rowActions=rowActions
     sendLog=(action "logName")
     sortColumn="sortColumn"
@@ -65,7 +66,7 @@ rowActions: [
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{#sl-grid style='height: 300px'
+        {{#sl-grid
             columns=columns
             content=sortedModel
             detailComponent="demos/sl-grid-detail"
@@ -73,6 +74,7 @@ rowActions: [
             detailHeaderComponent="demos/sl-grid-detail-header"
             fixedHeader=true
             footerPath="demos/sl-grid/footer"
+            height="21em"
             rowActions=rowActions
             sendLog=(action "logName")
             sortColumn="sortColumn"
@@ -133,12 +135,16 @@ rowActions: [
         The name of a component to render in the filter pane. If this property is omitted, the filter button and pane will be disabled.
     {{/property-text}}
 
+    {{#property-text name="fixedHeader" type="Boolean" default="false"}}
+        Determines if the table headers should be fixed position when the table is scrolled.
+    {{/property-text}}
+
     {{#property-text name="footerPath" type="String"}}
         The application path to a template to use for list-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
     {{/property-text}}
 
-    {{#property-text name="height" type="Number/String" default="\"auto\""}}
-        Determines the overall height of the sl-grid component. When the value is "auto" (the default), then the component will responsively size its own height to the allowed space in the viewport. Setting it to a number will lock the height to that many pixels high.
+    {{#property-text name="height" type="Number/String" default="\"\""}}
+        Determines the overall height of the sl-grid component. This can be any CSS sizing value.
     {{/property-text}}
 
     {{#property-text name="pageSize" type="Number" default="25"}}
@@ -203,14 +209,19 @@ rowActions: [
     {{/property-text}}
 
     {{#property-text name="rowClick" type="String"}}
-        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record. If no valid detailPath is defined, then nothing will happen when a list-pane row is clicked.
+        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the row will
+        be selected and the detail-pane will open with the model context of the clicked row's record. If no valid
+        detailPath is defined, then nothing will happen when a list-pane row is clicked.
     {{/property-text}}
 
     {{#property-text name="sortColumn" type="String"}}
-        The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and a boolean for whether the column is sorted ascending (true) or descending (false).
+        The name of an action to trigger when a sortable column is selected for sorting. This action should accept two
+        arguments: the column definition to sort on, and a boolean for whether the column is sorted ascending (true)
+        or descending (false).
     {{/property-text}}
 
     {{#property-text name="totalCount" type="Number"}}
-        The total number of records for the content. This value is used to determine when new pages in a <code>continuous</code> grid should be requested, and the interface text in a non-<code>continuous</code> grid.
+        The total number of records for the content. This value is used to determine when new pages in a
+        <code>continuous</code> grid should be requested, and the interface text in a non-<code>continuous</code> grid.
     {{/property-text}}
 </div>
