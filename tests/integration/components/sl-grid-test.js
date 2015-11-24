@@ -41,7 +41,11 @@ test( 'Default rendered state', function( assert ) {
     this.render( hbs`{{sl-grid}}` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-grid' )
+        this.$( '>:first-child' ).hasClass( 'grid' )
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components' )
     );
 });
 
@@ -63,13 +67,13 @@ test( 'Header columns and row counts match data passed in', function( assert ) {
     const first = this.$( '>:first-child' );
 
     assert.strictEqual(
-        first.find( '.sl-grid-row' ).length,
-        content.length,
-        'rendered row count matches content row count'
+        first.find( 'table tbody tr' ).length,
+        content.length + 1,
+        'rendered row count matches content row count (plus one for duplicated header)'
     );
 
     assert.strictEqual(
-        first.find( '.sl-grid-column-header' ).length,
+        first.find( 'table thead th' ).length,
         columns.length,
         'header column count matches columns count of columns passed in'
     );
@@ -95,7 +99,7 @@ test( 'Setting "sortable" property within the columns property to true applies t
     }
 );
 
-test( 'Only primary column remains visible when detail-pane is open', function( assert ) {
+test( 'Primary column header and cells all get class "primary-column"', function( assert ) {
     const columns = Ember.A([
         { title: 'Name', valuePath: 'name' },
         { title: 'ID', valuePath: 'id', primary: true }
@@ -122,18 +126,17 @@ test( 'Only primary column remains visible when detail-pane is open', function( 
     ` );
 
     const first = this.$( '>:first-child' );
-    first.find( '.sl-grid-row:first td:first' ).trigger( 'click' );
 
     assert.strictEqual(
-        first.find( 'th:visible' ).length,
+        first.find( 'table thead th.primary-column' ).length,
         1,
-        'Only one column is visible when detail pane is open'
+        'Exactly one column header gets class "primary-column"'
     );
 
     assert.strictEqual(
-        first.find( 'th:visible' ).text().trim(),
-        columns[ 1 ].title,
-        'Visible column is expected primary column'
+        first.find( 'table tbody tr td.primary-column' ).length,
+        content.length,
+        'Exactly one cell in each content row gets class "primary-column"'
     );
 });
 
@@ -153,11 +156,12 @@ test( 'Action requestData is fired in continuous mode when user scrolls to the b
             totalCount=totalCount
             content=content
             continuous=true
+            height="10px"
         }}
     ` );
 
     Ember.run( () => {
-        this.$( '>:first-child' ).find( '.list-pane .content' ).trigger( 'scroll' );
+        this.$( '>:first-child' ).find( '> div > table' ).parent().trigger( 'scroll' );
     });
 
     assert.ok(
@@ -255,7 +259,7 @@ test( 'Clicking on a row fires the rowClick action', function( assert ) {
         }}
     ` );
 
-    this.$( '>:first-child' ).find( 'td:first' ).trigger( 'click' );
+    this.$( '>:first-child' ).find( 'tbody tr + tr' ).first().trigger( 'click' );
 
     assert.ok(
         spy.calledOnce,
@@ -263,7 +267,7 @@ test( 'Clicking on a row fires the rowClick action', function( assert ) {
     );
 
     assert.strictEqual(
-        spy.getCall( 0 ).args[ 0 ].id,
+        spy.getCall( 0 ).args[ 0 ].record.id,
         firstRowId,
         'rowClick action was called with correct row'
     );
@@ -305,9 +309,9 @@ test( `detailComponent, detailHeaderComponent, detailFooterComponent
         ` );
 
         const first = this.$( '>:first-child' );
-        const detailHeaderH1 = first.find( 'header' ).find( 'h1' );
-        const detailContentH1 = first.find( '.detail-content' ).find( 'h1' );
-        const detailFooterH1 = first.find( 'footer' ).find( 'h1' );
+        const detailHeaderH1 = first.find( '.panel-heading' ).find( 'h1' );
+        const detailContentH1 = first.find( '.panel-body' ).find( 'h1' );
+        const detailFooterH1 = first.find( '.panel-footer' ).find( 'h1' );
 
         first.find( 'td:first' ).trigger( 'click' );
 
@@ -355,12 +359,12 @@ test( 'Filter component is displayed when filterComponent property is set', func
     first.find( 'button:contains(Filter)' ).click();
 
     assert.ok(
-        first.find( '.filter-pane' ).is( ':visible' ),
+        first.find( '.filter-content' ).is( ':visible' ),
         'Filter pane is visible'
     );
 
     assert.strictEqual(
-        first.find( '.filter-pane' ).find( 'h1:contains(FilterComponent)' ).length,
+        first.find( '.filter-content' ).find( 'h1:contains(FilterComponent)' ).length,
         1,
         'Filter pane component passed in was rendered'
     );
@@ -385,31 +389,33 @@ test( 'Setting filterButtonLabel changes filter button text', function( assert )
     const first = this.$( '>:first-child' );
 
     assert.strictEqual(
-        first.find( '.grid-header button' ).text().trim(),
+        first.find( '> header button' ).text().trim(),
         label
     );
 });
 
 test( 'Setting height property gives the grid a fixed height', function( assert ) {
+    const height = '25em';
+
     this.set( 'columns', columns );
     this.set( 'content', content );
+    this.set( 'height', height );
 
     this.render( hbs`
-        {{sl-grid columns=columns content=content height=1000}}
+        {{sl-grid columns=columns content=content height=height}}
     ` );
 
     const first = this.$( '>:first-child' );
-    const totalHeight = (
-        parseInt( first.find( '.grid-header' ).css( 'height' ) ) +
-        parseInt( first.find( '.list-pane .column-headers' ).css( 'height' ) ) +
-        parseInt( first.find( '.list-pane .content' ).css( 'height' ) ) +
-        parseInt( first.find( '.list-pane footer' ).css( 'height' ) )
-    );
 
-    assert.equal(
-        totalHeight,
-        1000,
-        'Total calculated height is expected value'
+    const total = $( '<p>' ).css( {
+        'height': '1em',
+        'display': 'block'
+    } ).appendTo( first ).height() * 25;
+
+    assert.strictEqual(
+        first.height(),
+        total,
+        'Height style was correctly set'
     );
 });
 
@@ -432,7 +438,7 @@ test( 'Row actions are rendered and actions are triggered as expected', function
     ` );
 
     const first = this.$( '>:first-child' );
-    const firstRow = first.find( '.content tr:first' );
+    const firstRow = first.find( '> div > table tbody tr + tr' ).first();
 
     assert.strictEqual(
         firstRow.find( '.sl-drop-option:first a' ).text().trim(),

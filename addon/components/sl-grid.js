@@ -480,23 +480,6 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Setup the widths for column headers that were not given widths
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupColumnHeaderWidths: Ember.on(
-        'didInsertElement',
-        function() {
-            const context = this;
-            const colHeaders = this.$( '.list-pane .column-headers tr:first th' );
-            this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
-                colHeaders.eq( index ).width( context.$( this ).width() );
-            });
-        }
-    ),
-
-    /**
      * Setup the "continuous paging" functionality, if the data set is
      * not complete
      *
@@ -533,25 +516,20 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Assigns the table part of the grid a calculated height
+     * Setup height of the grid table
      *
-     * This will not be needed in the future, but right now we don't have enough
-     * control over what can exist in the header and footer.
+     * Also creates a window resize event to ensure grid acts fluid.
      *
      * @function
      * @returns {undefined}
      */
-    updateHeight: Ember.on(
+    setupCalculatedHeight: Ember.on(
         'didInsertElement',
         function() {
-            const height = this.get( 'height' );
-            let total = 0;
-
-            this.$().css( 'height', height );
-            this.$( '> :not(div)' ).each( function() {
-                total += $( this ).height();
+            this.updateHeight();
+            Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+                this.updateHeight();
             });
-            this.$( '> div:not(.panel)' ).height( this.$().height() - total );
         }
     ),
 
@@ -678,7 +656,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     enableContinuousPaging() {
-        this.$( '> header + div' ).on( this.namespaceEvent( 'scroll' ), ( event ) => {
+        this.$( '> div > table' ).parent().on( this.namespaceEvent( 'scroll' ), ( event ) => {
             this.handleListContentScroll( event );
         });
     },
@@ -732,7 +710,7 @@ export default Ember.Component.extend({
      */
     requestMoreData() {
         if ( this.get( 'hasMoreData' ) ) {
-            const nextPageScrollPoint = this.$( '.list-pane .content' )[ 0 ]
+            const nextPageScrollPoint = this.$( '> div > table' ).parent()[ 0 ]
                 .scrollHeight;
 
             this.setProperties({
@@ -742,6 +720,31 @@ export default Ember.Component.extend({
 
             this.sendAction( 'requestData' );
         }
+    },
+
+    /**
+     * Assigns the table part of the grid a calculated height
+     *
+     * This will not be needed in the future, but right now we don't have enough
+     * control over what can exist in the header and footer.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateHeight() {
+        const height = this.get( 'height' );
+        let total = 0;
+
+        this.$().css( 'height', height );
+
+        if ( !parseInt( height ) ) {
+            return;
+        }
+
+        this.$( '> :not(div)' ).each( function() {
+            total += $( this ).height();
+        });
+        this.$( '> div:not(.panel)' ).height( this.$().height() - total );
     }
 
 });

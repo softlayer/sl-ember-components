@@ -38,9 +38,9 @@ test( 'Default property values', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'row' ),
+        component.get( 'record' ),
         null,
-        'row is null'
+        'record is null'
     );
 
     assert.deepEqual(
@@ -175,52 +175,52 @@ test( 'contentValue() returns the correct value', function( assert ) {
         valuePath: 'name'
     });
 
-    let row = Ember.Object.extend().create({
+    let record = Ember.Object.extend().create({
         name: 'test'
     });
 
     const component = this.subject({
         column,
-        row
+        record
     });
 
     assert.strictEqual(
         component.get( 'contentValue' ),
-        row.name,
+        record.name,
         'contentValue() returned correct result for row'
     );
 
-    row = Ember.Object.extend().create({
+    record = Ember.Object.extend().create({
         model: {
             name: 'anotherTest'
         }
     });
 
     Ember.run( () => {
-        component.set( 'row', row );
+        component.set( 'record', record );
     });
 
     assert.strictEqual(
         component.get( 'contentValue' ),
-        row.get( 'model.name' ),
+        record.get( 'model.name' ),
         'contentValue() returns model data when row model is set'
     );
 });
 
 test( 'Click event action is supported', function( assert ) {
     const defaultColumn = { valuePath: 'value' };
-    const defaultRow = { value: 'Test' };
+    const defaultRecord = { value: 'Test' };
 
     this.subject({
         column: defaultColumn,
         onClick: 'test',
-        row: defaultRow,
+        record: defaultRecord,
 
         targetObject: {
-            test( row ) {
+            test( record ) {
                 assert.equal(
-                    row,
-                    defaultRow,
+                    record,
+                    defaultRecord,
                     'Click event sent expected value'
                 );
             }
@@ -239,7 +239,7 @@ test( 'Dependent keys are correct', function( assert ) {
 
     const contentValueDependentKeys = [
         'column',
-        'row'
+        'record'
     ];
 
     const sizeClassDependentKeys = [

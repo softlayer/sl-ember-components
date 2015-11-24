@@ -55,7 +55,7 @@ test( 'Content value is handled for valuePath', function( assert ) {
     this.set( 'row', row );
 
     this.render( hbs`
-        {{sl-grid-cell column=column row=row}}
+        {{sl-grid-cell column=column record=row}}
     ` );
 
     assert.equal(
@@ -76,7 +76,7 @@ test( 'Clicking on grid-cell invokes onClick handler', function( assert ) {
     this.on( 'onClick', spyOnClick );
 
     this.render( hbs`
-        {{sl-grid-cell column=column row=row onClick="onClick"}}
+        {{sl-grid-cell column=column record=row onClick="onClick"}}
     ` );
 
     this.$( '>:first-child' ).click();
