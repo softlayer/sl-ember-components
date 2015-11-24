@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { skip } from 'qunit';
 
 moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date range picker', {
     integration: true
@@ -248,8 +247,7 @@ test( 'Selected day is set in the end date input field', function( assert ) {
     $( '.datepicker' ).remove();
 });
 
-skip( '"startDateValue" cannot be less than "minDate"', function( assert ) {
-
+test( '"startDateValue" cannot be less than "minDate"', function( assert ) {
     this.render( hbs`
         {{sl-date-range-picker
             minDate="09/28/2015"
@@ -264,7 +262,7 @@ skip( '"startDateValue" cannot be less than "minDate"', function( assert ) {
     );
 });
 
-skip( '"endDateValue" cannot be more than "maxDate"', function( assert ) {
+test( '"endDateValue" cannot be more than "maxDate"', function( assert ) {
 
     this.render( hbs`
         {{sl-date-range-picker
@@ -280,7 +278,7 @@ skip( '"endDateValue" cannot be more than "maxDate"', function( assert ) {
     );
 });
 
-skip( '"endDateValue" cannot be less than "startDateValue"', function( assert ) {
+test( '"endDateValue" cannot be less than "startDateValue"', function( assert ) {
 
     this.render( hbs`
         {{sl-date-range-picker
@@ -289,25 +287,38 @@ skip( '"endDateValue" cannot be less than "startDateValue"', function( assert ) 
         }}
     ` );
 
-    assert.notEqual(
+    assert.notOk(
         this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' ).val(),
-        '09/20/2015',
         'The "endDateValue" is not less than the "startDateValue"'
     );
 });
 
-skip( '"startDateValue" cannot be more than "endDateValue"', function( assert ) {
+test( '"maxDate" cannot be less than "minDate"', function( assert ) {
+
+    this.render( hbs`
+        {{sl-date-range-picker
+            minDate="09/25/2015"
+            maxDate="09/20/2015"
+        }}
+    ` );
+
+    assert.notOk(
+        this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' ).val(),
+        'The "maxDate" is not more than the "minDate"'
+    );
+});
+
+test( '"maxDate" cannot be less than "startDateValue"', function( assert ) {
 
     this.render( hbs`
         {{sl-date-range-picker
             startDateValue="09/25/2015"
-            endDateValue="09/20/2015"
+            maxDate="09/20/2015"
         }}
     ` );
 
-    assert.notEqual(
+    assert.notOk(
         this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' ).val(),
-        '09/25/2015',
-        'The "startDateValue" is not more than the "endDateValue"'
+        'The "maxDate" is not more than the "startDateValue"'
     );
 });
