@@ -1,3 +1,6 @@
+// -------------------------------------------------------------------------
+// Utilities
+
 [class*=sl-icon] {
     font-family: 'Glyphicons Halflings';
     font-style: normal;
@@ -8,10 +11,10 @@
     display: inline-block;
     width: 1em;
     overflow: hidden;
-}
 
-[class*=sl-icon]::before {
-    margin-right: 2em;
+    &::before {
+        margin-right: 2em;
+    }
 }
 
 .sl-loading {
@@ -43,14 +46,14 @@
         background-position: 50%;
         background-size: contain;
     }
-}
 
-.sl-loading > * {
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px);
-    -o-filter: blur(4px);
-    -ms-filter: blur(4px);
-    filter: blur(4px);
+    & > * {
+        -webkit-filter: blur(4px);
+        -moz-filter: blur(4px);
+        -o-filter: blur(4px);
+        -ms-filter: blur(4px);
+        filter: blur(4px);
+    }
 }
 
 // -------------------------------------------------------------------------
