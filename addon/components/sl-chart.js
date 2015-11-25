@@ -14,16 +14,10 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    classNameBindings: [
-        'isLoading:sl-loading'
-    ],
-
-    /** @type {String[]} */
     classNames: [
         'panel',
         'panel-default',
-        'sl-chart',
-        'sl-panel',
+        'chart',
         'sl-ember-components'
     ],
 
@@ -58,7 +52,7 @@ export default Ember.Component.extend({
      *
      * @type {Boolean}
      */
-    isLoading: false,
+    loading: false,
 
     /**
      * The collection of series data for the chart
@@ -116,7 +110,7 @@ export default Ember.Component.extend({
     setupChart: Ember.on(
         'didInsertElement',
         function() {
-            const chartDiv = this.$( 'div.chart' );
+            const chartDiv = this.$( '> .panel-body > div' );
 
             chartDiv.highcharts( this.get( 'highchartsOptions' ) );
             this.set( 'chart', chartDiv.highcharts() );
