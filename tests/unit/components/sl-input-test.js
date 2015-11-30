@@ -73,9 +73,9 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
         blur: 'blur'
     });
 
-    const input = this.$( 'input' ).get( 0 );
+    const inputElement = this.$( 'input' ).get( 0 );
     const jQueryData = Ember.get( Ember.$, '_data' );
-    const events = jQueryData( input, 'events' );
+    const events = jQueryData( inputElement, 'events' );
 
     assert.ok(
         'blur' in events,
@@ -190,5 +190,19 @@ test( 'Value is set correctly', function( assert ) {
     assert.strictEqual(
         this.$( 'input' ).val(),
         value
+    );
+});
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const setupTypeaheadKeys = [
+        'suggestions'
+    ];
+
+    assert.deepEqual(
+        component.setupTypeahead.__ember_observes__,
+        setupTypeaheadKeys,
+        'Observer keys are correct for setupTypeahead()'
     );
 });
