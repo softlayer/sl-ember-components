@@ -19,7 +19,7 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-      this.$( '>:first-child' ).hasClass( 'chart' ),
+      this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
       'has class "sl-ember-components"'
     );
 
