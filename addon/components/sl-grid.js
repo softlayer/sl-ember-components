@@ -732,6 +732,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     updateHeight() {
+        const context = this;
         const height = this.get( 'height' );
         let total = 0;
 
@@ -742,7 +743,7 @@ export default Ember.Component.extend({
         }
 
         this.$( '> :not(div)' ).each( function() {
-            total += $( this ).height();
+            total += context.$( this ).height();
         });
         this.$( '> div:not(.panel)' ).height( this.$().height() - total );
     }
