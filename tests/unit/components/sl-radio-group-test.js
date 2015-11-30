@@ -60,10 +60,8 @@ test( 'intialize() - assert that name must be set on sl-radio-group', function( 
     const component = this.subject();
 
     assert.throws(
-    function() {
-        component.initialize();
-    },
-    '"name" property must be set on component'
+        () => component.initialize(),
+        '"name" property must be set on component'
     );
 });
 
