@@ -45,6 +45,21 @@
     }
 }
 
+span.sl-loading {
+    display: inline-block;
+    min-height: @line-height-computed;
+    min-width: @line-height-computed;
+    vertical-align: bottom;
+
+    &:before {
+        background-color: transparent;
+    }
+
+    &:after {
+        background-size: 200%;
+    }
+}
+
 .sl-loading > * {
     -webkit-filter: blur(4px);
     -moz-filter: blur(4px);

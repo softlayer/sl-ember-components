@@ -1,5 +1,7 @@
-{{#if loading}}
-    {{sl-loading-icon inverse=inverse}}
-{{else}}
-    {{value}}
-{{/if}}
+{{#unless loading}}
+    {{#if value}}
+        {{value}}
+    {{else}}
+        {{yield}}
+    {{/if}}
+{{/unless}}

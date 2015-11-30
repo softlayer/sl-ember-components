@@ -13,6 +13,11 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    classNameBindings: [
+        'inverse',
+        'loading:sl-loading'
+    ],
+
     /** @type {Object} */
     layout,
 
