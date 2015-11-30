@@ -30,7 +30,7 @@
     }
 
     &:before {
-        background-color: fade(@gray-light, 75%);
+        background-color: fade(@gray-dark, 75%);
     }
 
     &:after {
@@ -38,10 +38,18 @@
         -moz-animation: sl-spin 1s infinite linear;
         -o-animation: sl-spin 1s infinite linear;
         animation: sl-spin 1s infinite linear;
-        background-image: url('/sl-ember-components/assets/images/spinner-dark-sm.png');
+        background-image: url('/sl-ember-components/assets/images/spinner-light-sm.png');
         background-repeat: no-repeat;
         background-position: 50%;
         background-size: contain;
+    }
+
+    &.inverse:before {
+        background-color: fade(@gray-lighter, 75%);
+    }
+
+    &.inverse:after {
+        background-image: url('/sl-ember-components/assets/images/spinner-dark-sm.png');
     }
 }
 
