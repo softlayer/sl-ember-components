@@ -6,12 +6,6 @@ import NamespaceMixin from 'sl-ember-components/mixins/sl-namespace';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-const template = hbs`
-    {{sl-radio label="Red" value="red"}}
-    {{sl-radio label="Green" value="green"}}
-    {{sl-radio label="Blue" value="blue"}}
-`;
-
 moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
     needs: [ 'component:sl-radio' ],
     unit: true
@@ -71,96 +65,6 @@ test( 'intialize() - assert that name must be set on sl-radio-group', function( 
     },
     '"name" property must be set on component'
     );
-});
-
-test( 'intialize() - "checked" property is set to true if value is set', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject( {
-        name: 'test',
-        value: 'red',
-        templateName: 'test-template'
-    } );
-
-    this.render();
-
-    assert.strictEqual(
-        component.$( 'input[name=test]:radio[value=red]' ).prop( 'checked' ),
-        true,
-        'pre-selected radio button when value is set'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'initalize() - "disabled" property on `sl-radio-group` sets `sl-radio` to disabled', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject( {
-        name: 'test',
-        disabled: true,
-        templateName: 'test-template'
-    } );
-
-    this.render();
-
-    assert.strictEqual(
-        component.$( '.sl-radio' ).hasClass( 'disabled' ),
-        true,
-        '`sl-radio` disabled class added based on `sl-radio-group`'
-    );
-
-    assert.strictEqual(
-        component.$( 'input' ).prop( 'disabled' ),
-        true,
-        'input is disabled based on `sl-radio-group`'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'initalize() - "inline" property on `sl-radio-group` sets `sl-radio` class to radio-inline', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject( {
-        name: 'test',
-        inline: true,
-        templateName: 'test-template'
-    } );
-
-    this.render();
-
-    assert.strictEqual(
-        component.$( '.sl-radio' ).hasClass( 'radio-inline' ),
-        true,
-        '`sl-radio` radio-inline class added based on `sl-radio-group`'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
-test( 'initalize() - "inline" property set to false adds `sl-radio` class to radio', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject( {
-        name: 'test',
-        inline: false,
-        templateName: 'test-template'
-    } );
-
-    this.render();
-
-    assert.strictEqual(
-        component.$( '.sl-radio' ).hasClass( 'radio' ),
-        true,
-        '`sl-radio` radio class added based on `sl-radio-group`'
-    );
-
-    this.registry.unregister( 'template:test-template' );
 });
 
 test( 'Event handlers are registered and unregistered', function( assert ) {
@@ -224,26 +128,4 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
 
     Ember.$.fn.on.restore();
     Ember.$.fn.off.restore();
-});
-
-test( 'initalize() - change listner keeps group value in sync', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject( {
-        name: 'test',
-        templateName: 'test-template'
-    } );
-
-    this.render();
-
-    component.$( 'input[name=test]:radio[value=red]' ).trigger( 'click' );
-
-    assert.strictEqual(
-        component.get( 'value' ),
-        'red',
-        'change listner successfully syncs group value'
-    );
-
-    this.registry.unregister( 'template:test-template' );
 });
