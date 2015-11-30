@@ -17,6 +17,20 @@ test( 'Default rendered state', function( assert ) {
     );
 });
 
+test( 'Content is yielded', function( assert ) {
+    this.render( hbs`
+        {{#sl-span}}
+            Some yielded text
+        {{/sl-span}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).text().trim(),
+        'Some yielded text',
+        'Content yields successfully'
+    );
+});
+
 test( '"value" property is supported', function( assert ) {
     this.render( hbs`
         {{sl-span value="value text"}}
@@ -29,46 +43,42 @@ test( '"value" property is supported', function( assert ) {
     );
 });
 
-test( 'If "loading" is true, sl-loading-icon component is displayed', function( assert ) {
+test( 'loading property applies loading class', function( assert ) {
     this.render( hbs`
         {{sl-span}}
     ` );
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.loading-icon' ).length,
-        0,
-        'Loading icon is not present initially'
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'sl-loading' ),
+        'Component does not have class "sl-loading"'
     );
 
     this.render( hbs`
         {{sl-span loading=true}}
     ` );
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.loading-icon' ).length,
-        1,
-        'Loading icon is present while span is loading'
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-loading' ),
+        'Component has class "sl-loading"'
     );
 });
 
-test( 'Inverse property applies to loading-icon', function( assert ) {
+test( 'inverse property applies inverse class', function( assert ) {
     this.render( hbs`
-        {{sl-span loading=true}}
+        {{sl-span}}
     ` );
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.loading-icon-dark' ).length,
-        1,
-        'Loading icon is dark initially'
+    assert.notOk(
+        this.$( '>:first-child' ).hasClass( 'inverse' ),
+        'Component does not have class "inverse"'
     );
 
     this.render( hbs`
-        {{sl-span inverse=true loading=true}}
+        {{sl-span inverse=true}}
     ` );
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.loading-icon-light' ).length,
-        1,
-        'Loading icon is light when inverse'
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'inverse' ),
+        'Component has class "inverse"'
     );
 });
