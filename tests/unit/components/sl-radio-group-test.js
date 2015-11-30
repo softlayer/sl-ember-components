@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import NamespaceMixin from 'sl-ember-components/mixins/sl-namespace';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -10,7 +11,6 @@ const template = hbs`
     {{sl-radio label="Green" value="green"}}
     {{sl-radio label="Blue" value="blue"}}
 `;
-
 
 moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
     needs: [ 'component:sl-radio' ],
@@ -27,9 +27,14 @@ test( 'Expected Mixins are present', function( assert ) {
         TooltipEnabledMixin.detect( this.subject() ),
         'TooltipEnabled Mixin is present'
     );
+
+    assert.ok(
+        NamespaceMixin.detect( this.subject() ),
+        'Namespace Mixin is present'
+    );
 });
 
-test( 'Default property values are set correctly', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
@@ -137,7 +142,7 @@ test( 'initalize() - "inline" property on `sl-radio-group` sets `sl-radio` class
     this.registry.unregister( 'template:test-template' );
 });
 
-test( 'initalize() - "inline" property on `sl-radio-group` sets `sl-radio` class to radio', function( assert ) {
+test( 'initalize() - "inline" property set to false adds `sl-radio` class to radio', function( assert ) {
     this.registry
         .register( 'template:test-template', template );
 
@@ -156,25 +161,6 @@ test( 'initalize() - "inline" property on `sl-radio-group` sets `sl-radio` class
     );
 
     this.registry.unregister( 'template:test-template' );
-});
-
-test( 'unregisterEvents() - input radio event unregisters on willClearRender', function( assert ) {
-    const spyOff = sinon.spy( Ember.$.fn, 'off' );
-
-    const component = this.subject( {
-        name: 'test'
-    } );
-
-    this.render();
-
-    component.trigger( 'willClearRender' );
-
-    assert.ok(
-        spyOff.calledOnce,
-        'input radio event is unregistered on willClearRender'
-    );
-
-    Ember.$.fn.off.restore();
 });
 
 test( 'Event handlers are registered and unregistered', function( assert ) {
@@ -238,4 +224,26 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
 
     Ember.$.fn.on.restore();
     Ember.$.fn.off.restore();
+});
+
+test( 'initalize() - change listner keeps group value in sync', function( assert ) {
+    this.registry
+        .register( 'template:test-template', template );
+
+    const component = this.subject( {
+        name: 'test',
+        templateName: 'test-template'
+    } );
+
+    this.render();
+
+    component.$( 'input[name=test]:radio[value=red]' ).trigger( 'click' );
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        'red',
+        'change listner successfully syncs group value'
+    );
+
+    this.registry.unregister( 'template:test-template' );
 });
