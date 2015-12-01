@@ -295,7 +295,6 @@ test( 'init() - "timezone" property needs to be valid', function( assert ) {
     const callSubject = () => this.subject( properties );
 
     // non-valid timezone property
-
     properties.set( 'timezone', 'HammerTime/MiddleEarth' );
 
     assert.throws(
@@ -304,7 +303,6 @@ test( 'init() - "timezone" property needs to be valid', function( assert ) {
     );
 
     // valid timezone property
-
     properties.set( 'timezone', 'America/Chicago' );
 
     assert.ok(

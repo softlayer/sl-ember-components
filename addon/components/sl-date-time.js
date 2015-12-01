@@ -107,16 +107,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
             const validTimeZonesArray = window.moment.tz.names();
 
-            let isValidTimeZoneFlag = false;
-
-            for ( const validTimeZone of validTimeZonesArray ) {
-                if ( this.get( 'timezone' ) === validTimeZone ) {
-                    isValidTimeZoneFlag = true;
-                    break;
-                }
-            }
-
-            if ( false === isValidTimeZoneFlag ) {
+            if ( !validTimeZonesArray.includes( this.get( 'timezone' ) ) ) {
                 throw new Ember.Error( 'timezone property provided is not valid' );
             }
         }
