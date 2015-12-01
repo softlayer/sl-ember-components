@@ -96,6 +96,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember/Error} timezone property must be a string
+     * @throws {ember/Error} timezone property provided is not valid
      * @returns {undefined}
      */
     initialize: Ember.on(
