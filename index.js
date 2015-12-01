@@ -8,6 +8,7 @@ var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
 var compileLess = require( 'broccoli-less-single' );
 var existsSync = require( 'exists-sync' );
+var unwatched = require( 'broccoli-unwatched-tree' );
 
 module.exports = {
     name: 'sl-ember-components',
@@ -85,20 +86,17 @@ module.exports = {
      * @returns {undefined}
      */
     preBuild: function() {
-        this._super.included();
+        //this._super.included();
 
         var resolvePaths = [
             this.project.root
         ];
 
         if ( !this.isAddon() ) {
-            resolvePaths.push( 'node_modules' );
-            resolvePaths.push( this.name );
+            resolvePaths.push( 'node_modules', this.name );
         }
 
-        resolvePaths.push( 'app' );
-        resolvePaths.push( 'styles' );
-        resolvePaths.push( this.name + '.less' );
+        resolvePaths.push( 'app', 'styles', this.name + '.less' );
 
         var lessSourceLocation = path.resolve.apply( undefined, resolvePaths );
         var lessSourceString = fs.readFileSync( lessSourceLocation ).toString();
@@ -127,7 +125,8 @@ module.exports = {
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
-        var compiledLessTree = new Funnel( this.getTempPath(), {
+        var tempTree = new unwatched( this.getTempPath() );
+        var compiledLessTree = new Funnel( tempTree, {
             srcDir: '/',
             destDir: this.name,
             include: [ this.getCssFileName() ]
@@ -224,6 +223,6 @@ module.exports = {
      * @returns {undefined}
      */
     postBuild: function( result ) {
-        this.removeTempPath();
+        //this.removeTempPath();
     }
 };
