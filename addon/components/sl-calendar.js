@@ -340,12 +340,6 @@ export default Ember.Component.extend({
     decadeEnd: Ember.computed(
         'decadeStart',
         function() {
-            const decadeStart = this.get( 'decadeStart' );
-
-            if ( !decadeStart ) {
-                return null;
-            }
-
             return this.get( 'decadeStart' ) + 9;
         }
     ),
@@ -360,10 +354,6 @@ export default Ember.Component.extend({
         'currentYear',
         function() {
             const currentYear = this.get( 'currentYear' );
-
-            if ( !currentYear ) {
-                return null;
-            }
 
             return currentYear - ( currentYear % 10 );
         }
@@ -411,8 +401,7 @@ export default Ember.Component.extend({
     shortWeekDayNames: Ember.computed(
         'locale',
         function() {
-            const locale = this.get( 'locale' ) || '';
-            const m = window.moment().locale( locale );
+            const m = window.moment().locale( this.get( 'locale' ) );
 
             return Ember.A([
                 m.day( 0 ).format( 'dd' ),
