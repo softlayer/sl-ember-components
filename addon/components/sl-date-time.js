@@ -62,7 +62,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /**
      * The locale string to use for moment date formats.
-     * 
+     *
      * @type {String}
      */
     locale: 'en',
