@@ -104,6 +104,21 @@ export default Ember.Component.extend( TooltipEnabled, {
             if ( 'string' !== Ember.typeOf( this.get( 'timezone' ) ) ) {
                 throw new Ember.Error( 'timezone property must be a string' );
             }
+
+            const validTimeZonesArray = window.moment.tz.names();
+
+            let isValidTimeZoneFlag = false;
+
+            for ( const validTimeZone of validTimeZonesArray ) {
+                if ( this.get( 'timezone' ) === validTimeZone ) {
+                    isValidTimeZoneFlag = true;
+                    break;
+                }
+            }
+
+            if ( false === isValidTimeZoneFlag ) {
+                throw new Ember.Error( 'timezone property provided is not valid' );
+            }
         }
     ),
 
