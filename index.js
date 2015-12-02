@@ -6,9 +6,9 @@ var path = require( 'path' );
 var less = require( 'less' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
-var compileLess = require( 'broccoli-less-single' );
 var existsSync = require( 'exists-sync' );
 var unwatched = require( 'broccoli-unwatched-tree' );
+var Promise = require('rsvp').Promise;
 
 module.exports = {
     name: 'sl-ember-components',
@@ -28,23 +28,6 @@ module.exports = {
 
         if ( !existsSync( tempPath ) ) {
             fs.mkdirSync( tempPath );
-        }
-    },
-
-    /**
-     * Remove subdirectory in temp folder
-     *
-     * @returns {undefined}
-     */
-    removeTempPath: function() {
-        var cssFilePath = path.join( this.getTempPath(), this.getCssFileName() );
-
-        if ( existsSync( cssFilePath ) ) {
-            fs.unlinkSync( path.resolve( cssFilePath ) );
-        }
-
-        if ( existsSync( this.getTempPath() ) ) {
-            fs.rmdirSync( this.getTempPath() );
         }
     },
 
@@ -86,8 +69,6 @@ module.exports = {
      * @returns {undefined}
      */
     preBuild: function() {
-        //this._super.included();
-
         var resolvePaths = [
             this.project.root
         ];
@@ -105,17 +86,23 @@ module.exports = {
 
         var lessCompiledLocation = path.resolve( this.getTempPath(), this.getCssFileName() );
 
-        less.render(
-            lessSourceString,
-            {
-                filename: lessSourceLocation
-            },
-            function( error, output ) {
-                var fd = fs.openSync( lessCompiledLocation, 'w' );
-                fs.writeSync( fd, output.css );
-                fs.closeSync( fd );
-            }
-        );
+        return new Promise( function( resolve, reject ) {
+            less.render(
+                lessSourceString,
+                {
+                    filename: lessSourceLocation
+                },
+                function( error, output ) {
+                    if ( error ) {
+                        reject( error );
+                    }
+                    var fd = fs.openSync( lessCompiledLocation, 'w' );
+                    fs.writeSync( fd, output.css );
+                    fs.closeSync( fd );
+                    resolve( true );
+                }
+            );
+        });
     },
 
     /**
@@ -223,6 +210,22 @@ module.exports = {
      * @returns {undefined}
      */
     postBuild: function( result ) {
-        //this.removeTempPath();
+        var tempPath = this.getTempPath();
+        var cssFileName = this.getCssFileName();
+        return new Promise( function( resolve, reject ) {
+            var cssFilePath = path.join( tempPath, cssFileName );
+
+            if ( existsSync( cssFilePath ) ) {
+                fs.unlink( path.resolve( cssFilePath ), function( error ) {
+                    if( !error ) {
+                        fs.rmdir( tempPath, function( error ) {
+                            resolve( true );
+                        });
+                    } else {
+                        resolve( true );
+                    }
+                });
+            }
+        });
     }
 };
