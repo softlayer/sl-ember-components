@@ -52,12 +52,13 @@
     "ember-cli-htmlbars": "1.0.0",
     "ember-stream": "^0.7.3",
     "exists-sync": "0.0.3",
+    "rsvp": "^3.1.0",
+    "broccoli-unwatched-tree": "^0.1.1",
     "less": "^2.5.3"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.1.2",
     "broccoli-string-replace": "0.1.0",
-    "broccoli-unwatched-tree": "^0.1.1",
     "ember-cli": "1.13.8",
     "ember-cli-app-version": "0.5.0",
     "ember-cli-blanket": "0.6.2",
@@ -76,7 +77,6 @@
     "ember-sinon": "0.2.1",
     "ember-try": "0.0.6",
     "phantomjs": "1.9.18",
-    "rsvp": "^3.1.0",
     "sl-eslint": "0.4.0"
   }
 }
