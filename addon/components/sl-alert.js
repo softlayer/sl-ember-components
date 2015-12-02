@@ -6,11 +6,11 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Bootstrap theme names for alert components
  *
+ * @enum {String}
  * @property {String} DANGER 'danger'
  * @property {String} INFO 'info'
  * @property {String} SUCCESS 'success'
  * @property {String} WARNING 'warning'
- * @enum {String}
  */
 export const Theme = Object.freeze({
     DANGER: 'danger',

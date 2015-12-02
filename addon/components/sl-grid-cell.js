@@ -5,9 +5,9 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid alignment values for columns
  *
+ * @enum {String}
  * @property LEFT 'left'
  * @property RIGHT 'right'
- * @enum {String}
  */
 export const ColumnAlign = Object.freeze({
     LEFT: 'left',
@@ -17,10 +17,10 @@ export const ColumnAlign = Object.freeze({
 /**
  * Valid size values for columns
  *
+ * @enum {String}
  * @property LARGE 'large'
  * @property MEDIUM 'medium'
  * @property SMALL 'small'
- * @enum {String}
  */
 export const ColumnSize = Object.freeze({
     LARGE: 'large',

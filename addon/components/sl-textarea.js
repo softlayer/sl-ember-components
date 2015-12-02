@@ -7,10 +7,10 @@ import layout from '../templates/components/sl-textarea';
 /**
  * Valid values for `selectionDirection` property
  *
+ * @enum {String}
  * @property BACKWARD 'backward'
  * @property FORWARD 'forward'
  * @property NONE 'none'
- * @enum {String}
  */
 export const Direction = Object.freeze({
     BACKWARD: 'backward',
@@ -21,9 +21,9 @@ export const Direction = Object.freeze({
 /**
  * Valid values for `wrap` property
  *
+ * @enum {String}
  * @property HARD 'hard'
  * @property SOFT 'soft'
- * @enum {String}
  */
 export const Wrap = {
     HARD: 'hard',

@@ -5,10 +5,10 @@ import layout from '../templates/components/sl-date-time';
 /**
  * Valid date format strings
  *
+ * @enum {String}
  * @property {String} DATE 'date'
  * @property {String} DATETIME 'datetime'
  * @property {String} RELATIVE 'relative'
- * @enum {String}
  */
 export const Format = Object.freeze({
     DATE: 'date',

@@ -5,9 +5,9 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid `align` property values
  *
+ * @enum {String}
  * @property LEFT 'left'
  * @property RIGHT 'right'
- * @enum {String}
  */
 export const Alignment = Object.freeze({
     LEFT: 'left',
