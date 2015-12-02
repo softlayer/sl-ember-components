@@ -7,7 +7,10 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid size values for the sl-button component
  *
- * @readonly
+ * @property {String} EXTRA_SMALL 'extra-small',
+ * @property {String} LARGE 'large',
+ * @property {String} MEDIUM 'medium',
+ * @property {String} SMALL 'small'
  * @enum {String}
  */
 export const Size = Object.freeze({
@@ -20,7 +23,14 @@ export const Size = Object.freeze({
 /**
  * Valid Bootstrap theme values for buttons
  *
- * @readonly
+ * @property {String} DANGER 'danger'
+ * @property {String} DEFAULT 'default'
+ * @property {String} HOVER 'hover'
+ * @property {String} INFO 'info'
+ * @property {String} LINK 'link'
+ * @property {String} PRIMARY 'primary'
+ * @property {String} SUCCESS 'success'
+ * @property {String} WARNING 'warning'
  * @enum {String}
  */
 export const Theme = Object.freeze({

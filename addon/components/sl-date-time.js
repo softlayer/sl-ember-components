@@ -5,7 +5,9 @@ import layout from '../templates/components/sl-date-time';
 /**
  * Valid date format strings
  *
- * @readonly
+ * @property {String} DATE 'date'
+ * @property {String} DATETIME 'datetime'
+ * @property {String} RELATIVE 'relative'
  * @enum {String}
  */
 export const Format = Object.freeze({

@@ -5,7 +5,8 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid `align` property values
  *
- * @readonly
+ * @property LEFT 'left'
+ * @property RIGHT 'right'
  * @enum {String}
  */
 export const Alignment = Object.freeze({
