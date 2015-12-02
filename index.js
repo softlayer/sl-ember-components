@@ -79,7 +79,7 @@ module.exports = {
                     function( error, output ) {
                         if ( error ) {
                             reject( error );
-                        } else {
+                        } else { // this else is magically important
                             var fd = fs.openSync( lessCompiledLocation, 'w' );
                             fs.writeSync( fd, output.css );
                             fs.closeSync( fd );
