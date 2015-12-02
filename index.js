@@ -7,29 +7,11 @@ var less = require( 'less' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
 var existsSync = require( 'exists-sync' );
-var unwatched = require( 'broccoli-unwatched-tree' );
-var Promise = require('rsvp').Promise;
+var unwatchedTree = require( 'broccoli-unwatched-tree' );
+var Promise = require( 'rsvp' ).Promise;
 
 module.exports = {
     name: 'sl-ember-components',
-
-    /**
-     * Create subdirectory in temp folder
-     *
-     * @returns {undefined}
-     */
-    createTempPath: function() {
-        var tempRoot = path.join( this.project.root, 'tmp' );
-        var tempPath = this.getTempPath();
-
-        if ( !existsSync( tempRoot ) ) {
-            fs.mkdirSync( tempRoot );
-        }
-
-        if ( !existsSync( tempPath ) ) {
-            fs.mkdirSync( tempPath );
-        }
-    },
 
     /**
      * Name used for LESS-generated CSS file placed in temp folder
@@ -82,26 +64,55 @@ module.exports = {
         var lessSourceLocation = path.resolve.apply( undefined, resolvePaths );
         var lessSourceString = fs.readFileSync( lessSourceLocation ).toString();
 
-        this.createTempPath();
-
         var lessCompiledLocation = path.resolve( this.getTempPath(), this.getCssFileName() );
 
+        var tempRoot = path.join( this.project.root, 'tmp' );
+        var tempPath = this.getTempPath();
+
         return new Promise( function( resolve, reject ) {
-            less.render(
-                lessSourceString,
-                {
-                    filename: lessSourceLocation
-                },
-                function( error, output ) {
-                    if ( error ) {
-                        reject( error );
+            var buildLess = function() {
+                less.render(
+                    lessSourceString,
+                    {
+                        filename: lessSourceLocation
+                    },
+                    function( error, output ) {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            var fd = fs.openSync( lessCompiledLocation, 'w' );
+                            fs.writeSync( fd, output.css );
+                            fs.closeSync( fd );
+                            resolve();
+                        }
                     }
-                    var fd = fs.openSync( lessCompiledLocation, 'w' );
-                    fs.writeSync( fd, output.css );
-                    fs.closeSync( fd );
-                    resolve( true );
+                );
+            };
+
+            // add sub-folder
+            var addSubFolder = function() {
+                if ( !existsSync( tempPath ) ) {
+                    fs.mkdir( tempPath, function( error ) {
+                        buildLess();
+                    });
+                } else {
+                    buildLess();
                 }
-            );
+            };
+
+            // add /tmp/ folder
+            if ( !existsSync( tempRoot ) ) {
+                fs.mkdir( tempRoot, function( error ) {
+                    if ( !error ) {
+                        addSubFolder();
+                    } else {
+                        //buildLess();
+                        reject();
+                    }
+                });
+            } else {
+                addSubFolder();
+            }
         });
     },
 
@@ -112,7 +123,7 @@ module.exports = {
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
-        var tempTree = new unwatched( this.getTempPath() );
+        var tempTree = new unwatchedTree( this.getTempPath() );
         var compiledLessTree = new Funnel( tempTree, {
             srcDir: '/',
             destDir: this.name,
@@ -215,16 +226,29 @@ module.exports = {
         return new Promise( function( resolve, reject ) {
             var cssFilePath = path.join( tempPath, cssFileName );
 
+            // remove the folder
+            var removeFolder = function() {
+                if ( existsSync( tempPath ) ) {
+                    fs.rmdir( tempPath, function( error ) {
+                        resolve();
+                    });
+                } else {
+                    resolve();
+                }
+            };
+
+            // remove the file
             if ( existsSync( cssFilePath ) ) {
                 fs.unlink( path.resolve( cssFilePath ), function( error ) {
-                    if( !error ) {
-                        fs.rmdir( tempPath, function( error ) {
-                            resolve( true );
-                        });
+                    if ( !error ) {
+                        removeFolder();
                     } else {
-                        resolve( true );
+                        //resolve();
+                        reject();
                     }
                 });
+            } else {
+                removeFolder();
             }
         });
     }
