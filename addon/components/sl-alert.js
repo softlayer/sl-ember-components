@@ -6,6 +6,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Bootstrap theme names for alert components
  *
+ * @memberof module:addon/components/sl-alert
  * @enum {String}
  * @property {String} DANGER 'danger'
  * @property {String} INFO 'info'

@@ -5,6 +5,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid alignment values for columns
  *
+ * @memberof module:addon/components/sl-grid-cell
  * @enum {String}
  * @property LEFT 'left'
  * @property RIGHT 'right'
@@ -17,6 +18,7 @@ export const ColumnAlign = Object.freeze({
 /**
  * Valid size values for columns
  *
+ * @memberof module:addon/components/sl-grid-cell
  * @enum {String}
  * @property LARGE 'large'
  * @property MEDIUM 'medium'

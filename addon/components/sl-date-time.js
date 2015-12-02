@@ -5,6 +5,7 @@ import layout from '../templates/components/sl-date-time';
 /**
  * Valid date format strings
  *
+ * @memberof module:addon/components/sl-date-time
  * @enum {String}
  * @property {String} DATE 'date'
  * @property {String} DATETIME 'datetime'

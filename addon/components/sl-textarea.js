@@ -7,6 +7,7 @@ import layout from '../templates/components/sl-textarea';
 /**
  * Valid values for `selectionDirection` property
  *
+ * @memberof module:addon/components/sl-textarea
  * @enum {String}
  * @property BACKWARD 'backward'
  * @property FORWARD 'forward'
@@ -21,6 +22,7 @@ export const Direction = Object.freeze({
 /**
  * Valid values for `wrap` property
  *
+ * @memberof module:addon/components/sl-textarea
  * @enum {String}
  * @property HARD 'hard'
  * @property SOFT 'soft'

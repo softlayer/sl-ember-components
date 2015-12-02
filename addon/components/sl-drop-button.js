@@ -10,6 +10,7 @@ import {
 /**
  * Values for the sl-drop-button's `align` property
  *
+ * @memberof module:addon/components/sl-drop-button
  * @enum {String}
  * @property LEFT 'left'
  * @property RIGHT 'right'

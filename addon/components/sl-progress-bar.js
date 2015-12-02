@@ -6,6 +6,7 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid Bootstrap theme class names for progress bars
  *
+ * @memberof module:addon/components/sl-progress-bar
  * @enum {String}
  * @property DANGER 'danger'
  * @property DEFAULT 'default'
