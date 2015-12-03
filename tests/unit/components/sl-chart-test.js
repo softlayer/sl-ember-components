@@ -241,19 +241,11 @@ test( '"Series" property needs to be an array', function( assert ) {
 });
 
 test( 'setupChart initializes chart and updates data upon render', function( assert ) {
-    const chartTest = 'a test chart';
-    const chartDivMock = {
-        highcharts( options ) {
-            return ( 'undefined' === Ember.typeOf( options ) ) ? chartTest : null;
-        }
-    };
+    const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
 
     const component = this.subject({
         options: testOptions,
         series: testSeries,
-        $: function() {
-            return chartDivMock;
-        },
         updateData: function() {
             return;
         }
@@ -261,7 +253,6 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
 
     const setupSpy = sinon.spy( component, 'setupChart' );
     const updateSpy = sinon.spy( component, 'updateData' );
-    const highchartsSpy = sinon.spy( chartDivMock, 'highcharts' );
 
     assert.strictEqual(
         component.get( 'chart' ),
@@ -282,24 +273,18 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     );
 
     assert.ok(
-        highchartsSpy.calledTwice,
+        spyHighcharts.calledTwice,
         'highcharts was called twice upon render'
     );
 
     assert.ok(
-        highchartsSpy.calledWithExactly( component.get( 'highchartsOptions' ) ),
+        spyHighcharts.calledWithExactly( component.get( 'highchartsOptions' ) ),
         'highcharts was called once with options'
     );
 
     assert.ok(
-        highchartsSpy.calledWithExactly(),
+        spyHighcharts.calledWithExactly(),
         'highcharts was called once with no parameters'
-    );
-
-    assert.strictEqual(
-        component.get( 'chart' ),
-        chartTest,
-        'chart is initialized'
     );
 });
 
@@ -369,36 +354,6 @@ test( 'highchartsOptions returns expected options', function( assert ) {
     );
 });
 
-test( 'style() returns a HTML-safe string', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    assert.ok(
-        component.get( 'style' ) instanceof Ember.Handlebars.SafeString,
-        'style() returns an instance of Ember.Handlebars.SafeString'
-    );
-});
-
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    const styleDependentKeys = [
-        'height',
-        'width'
-    ];
-
-    assert.deepEqual(
-        component.style._dependentKeys,
-        styleDependentKeys,
-        'Dependent keys are correct for style()'
-    );
-});
-
 test( 'Observer keys are correct', function( assert ) {
     const component = this.subject({
         options: testOptions,
@@ -413,5 +368,25 @@ test( 'Observer keys are correct', function( assert ) {
         component.updateData.__ember_observes__,
         updateDataKeys,
         'Observer keys are correct for updateData()'
+    );
+
+    const setHeightKeys = [
+        'height'
+    ];
+
+    assert.deepEqual(
+        component.setHeight.__ember_observes__,
+        setHeightKeys,
+        'Observer keys are correct for setHeight()'
+    );
+
+    const setWidthKeys = [
+        'width'
+    ];
+
+    assert.deepEqual(
+        component.setWidth.__ember_observes__,
+        setWidthKeys,
+        'Observer keys are correct for setWidth()'
     );
 });
