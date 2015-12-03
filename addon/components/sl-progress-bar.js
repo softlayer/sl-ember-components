@@ -6,8 +6,13 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid Bootstrap theme class names for progress bars
  *
- * @memberof module:components/sl-progress-bar
+ * @memberof module:addon/components/sl-progress-bar
  * @enum {String}
+ * @property DANGER 'danger'
+ * @property DEFAULT 'default'
+ * @property INFO 'info'
+ * @property SUCCESS 'success'
+ * @property WARNING 'warning'
  */
 export const Theme = Object.freeze({
     DANGER: 'danger',

@@ -26,13 +26,13 @@ export default Ember.Controller.extend({
 
     columns: Ember.A([
         {
-            primary: true,
             size: 'small',
             title: 'Color',
             valuePath: 'name'
         },
         {
             size: 'small',
+            primary: true,
             sortable: true,
             title: 'Fruit',
             valuePath: 'fruit'
