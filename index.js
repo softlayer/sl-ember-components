@@ -106,8 +106,7 @@ module.exports = {
                     if ( !error ) {
                         addSubFolder();
                     } else {
-                        //buildLess();
-                        reject();
+                        reject( error );
                     }
                 });
             } else {
@@ -243,8 +242,7 @@ module.exports = {
                     if ( !error ) {
                         removeFolder();
                     } else {
-                        //resolve();
-                        reject();
+                        reject( error );
                     }
                 });
             } else {
