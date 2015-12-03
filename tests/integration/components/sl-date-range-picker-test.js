@@ -4,6 +4,10 @@ import hbs from 'htmlbars-inline-precompile';
 import { skip } from 'qunit';
 
 moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date range picker', {
+    afterEach() {
+        Ember.$( '.datepicker' ).remove();
+    },
+
     integration: true
 });
 
@@ -156,8 +160,6 @@ test( 'format is accepted as a parameter', function( assert ) {
         '9/1/2015',
         'The selected date was formatted based on the "format" property'
     );
-
-    $( '.datepicker' ).remove();
 });
 
 test( 'minDate is accepted as a parameter', function( assert ) {
@@ -177,8 +179,6 @@ test( 'minDate is accepted as a parameter', function( assert ) {
         '15',
         'The "minDate" was set correctly'
     );
-
-    $( '.datepicker' ).remove();
 });
 
 test( 'maxDate is accepted as a parameter', function( assert ) {
@@ -198,8 +198,6 @@ test( 'maxDate is accepted as a parameter', function( assert ) {
         '28',
         'The "maxDate" was set correctly'
     );
-
-    $( '.datepicker' ).remove();
 });
 
 test( 'Selected day is set in the start date input field', function( assert ) {
@@ -221,8 +219,6 @@ test( 'Selected day is set in the start date input field', function( assert ) {
         '09/01/2015',
         'The selected day is set in the input field'
     );
-
-    $( '.datepicker' ).remove();
 });
 
 test( 'Selected day is set in the end date input field', function( assert ) {
@@ -244,8 +240,6 @@ test( 'Selected day is set in the end date input field', function( assert ) {
         '09/01/2015',
         'The selected day is set in the input field'
     );
-
-    $( '.datepicker' ).remove();
 });
 
 skip( '"startDateValue" cannot be less than "minDate"', function( assert ) {
