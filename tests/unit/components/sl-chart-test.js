@@ -50,7 +50,7 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'isLoading' ),
+        component.get( 'loading' ),
         false,
         'isLoading: false'
     );
