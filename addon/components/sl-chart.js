@@ -110,7 +110,7 @@ export default Ember.Component.extend({
     setHeight: Ember.observer(
         'height',
         function() {
-            this.$( '> .panel-body > .chart' ).height( this.get( 'height' ) );
+            this.$( '> .panel-body > div' ).height( this.get( 'height' ) );
         }
     ),
 
@@ -143,7 +143,7 @@ export default Ember.Component.extend({
     setWidth: Ember.observer(
         'width',
         function() {
-            this.$( '> .panel-body > .chart' ).width( this.get( 'width' ) );
+            this.$( '> .panel-body > div' ).width( this.get( 'width' ) );
         }
     ),
 
