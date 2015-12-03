@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
-import streamEnabled from 'ember-stream/mixins/stream-enabled';
-import tooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';
 import { Size as SizeEnum } from 'sl-ember-components/components/sl-button';
 import * as utils from 'sl-ember-components/utils/all';
@@ -35,13 +35,13 @@ const mockStreamService = {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-       streamEnabled.detect( this.subject() ),
-       'Successfully mixed sl-stream-enabled'
+       StreamEnabledMixin.detect( this.subject() ),
+       'StreamEnabled Mixin is present'
     );
 
     assert.ok(
-        tooltipEnabled.detect( this.subject() ),
-        'Successfully mixed sl-tooltip-enabled'
+        TooltipEnabledMixin.detect( this.subject() ),
+        'TooltipEnabled Mixin is present'
     );
 });
 

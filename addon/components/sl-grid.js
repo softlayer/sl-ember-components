@@ -1,11 +1,14 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-grid';
+import Namespace from '../mixins/sl-namespace';
 
 /**
  * Valid values for the column definitions' `align` property
  *
- * @memberof module:components/sl-grid
+ * @memberof module:addon/components/sl-grid
  * @enum {String}
+ * @property LEFT 'left'
+ * @property RIGHT 'right'
  */
 export const ColumnAlign = Object.freeze({
     LEFT: 'left',
@@ -15,8 +18,11 @@ export const ColumnAlign = Object.freeze({
 /**
  * Valid values for the column definitions' `size` property
  *
- * @memberof module:components/sl-grid
+ * @memberof module:addon/components/sl-grid
  * @enum {String}
+ * @property LARGE 'large'
+ * @property MEDIUM 'medium'
+ * @property SMALL 'small'
  */
 export const ColumnSize = Object.freeze({
     LARGE: 'large',
@@ -27,8 +33,9 @@ export const ColumnSize = Object.freeze({
 /**
  * @module
  * @augments ember/Component
+ * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
