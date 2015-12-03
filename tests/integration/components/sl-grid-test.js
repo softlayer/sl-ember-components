@@ -186,12 +186,12 @@ test( 'Pagination is displayed at the bottom of the grid and page count is corre
     const first = this.$( '>:first-child' );
 
     assert.strictEqual(
-        first.find( '.sl-pagination' ).length,
+        first.find( '.sl-ember-components.pagination' ).length,
         1,
         'Pagination is displayed'
     );
 
-    const text = first.find( '.sl-pagination :nth-child(2) a' ).text().replace( /\s+/g, '' );
+    const text = first.find( '.sl-ember-components.pagination :nth-child(2) a' ).text().replace( /\s+/g, '' );
 
     assert.strictEqual(
         text,
@@ -225,7 +225,7 @@ test( 'Action requestData is fired with correct arguments in paging mode', funct
 
     const first = $( '>:first-child' );
 
-    first.find( '.sl-pagination :nth-child(3) a' ).click();
+    first.find( '.sl-ember-components.pagination :nth-child(3) a' ).click();
 
     assert.ok(
         spy.calledOnce,

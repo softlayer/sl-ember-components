@@ -1,3 +1,6 @@
+// -------------------------------------------------------------------------
+// Icons
+
 [class*=sl-icon] {
     font-family: 'Glyphicons Halflings';
     font-style: normal;
@@ -8,11 +11,14 @@
     display: inline-block;
     width: 1em;
     overflow: hidden;
+
+    &::before {
+        margin-right: 2em;
+    }
 }
 
-[class*=sl-icon]::before {
-    margin-right: 2em;
-}
+// -------------------------------------------------------------------------
+// Loading States
 
 .sl-loading {
     position: relative;
@@ -51,14 +57,14 @@
     &.inverse:after {
         background-image: url('/sl-ember-components/assets/images/spinner-dark-sm.png');
     }
-}
 
-.sl-loading > * {
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px);
-    -o-filter: blur(4px);
-    -ms-filter: blur(4px);
-    filter: blur(4px);
+    & > * {
+        -webkit-filter: blur(4px);
+        -moz-filter: blur(4px);
+        -o-filter: blur(4px);
+        -ms-filter: blur(4px);
+        filter: blur(4px);
+    }
 }
 
 // -------------------------------------------------------------------------

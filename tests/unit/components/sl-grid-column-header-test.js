@@ -118,18 +118,8 @@ test( 'Dependent keys are correct', function( assert ) {
         'column.sortable'
     ];
 
-    const sortIconClassDependentKeys = [
-        'column.sortAscending',
-        'column.sortable'
-    ];
-
     assert.deepEqual(
         component.sortedClass._dependentKeys,
         sortedClassDependentKeys
-    );
-
-    assert.deepEqual(
-        component.sortIconClass._dependentKeys,
-        sortIconClassDependentKeys
     );
 });
