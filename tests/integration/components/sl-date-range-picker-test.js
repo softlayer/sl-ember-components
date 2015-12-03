@@ -149,14 +149,13 @@ test( 'format is accepted as a parameter', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' );
-    datepicker.triggerHandler( 'focus' );
+    const input = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' );
+    input.triggerHandler( 'focus' );
 
-    const activeDay = Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first();
-    activeDay.click();
+    Ember.$( '.datepicker' ).last().find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first().trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' ).val(),
+        input.val(),
         '9/1/2015',
         'The selected date was formatted based on the "format" property'
     );
@@ -171,11 +170,10 @@ test( 'minDate is accepted as a parameter', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' );
-    datepicker.triggerHandler( 'focus' );
+    this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' ).triggerHandler( 'focus' );
 
     assert.strictEqual(
-        Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.disabled' ).first().text(),
+        Ember.$( '.datepicker' ).last().find( '.datepicker-days' ).find( 'td' ).not( '.disabled' ).first().text(),
         '15',
         'The "minDate" was set correctly'
     );
@@ -190,11 +188,10 @@ test( 'maxDate is accepted as a parameter', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( '.date-picker' );
-    datepicker.triggerHandler( 'focus' );
+    this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' ).triggerHandler( 'focus' );
 
     assert.strictEqual(
-        Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.disabled' ).last().text(),
+        Ember.$( '.datepicker' ).last().find( '.datepicker-days' ).find( 'td' ).not( '.disabled' ).last().text(),
         '28',
         'The "maxDate" was set correctly'
     );
@@ -208,35 +205,32 @@ test( 'Selected day is set in the start date input field', function( assert ) {
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( '.date-picker' );
-    datepicker.triggerHandler( 'focus' );
+    const input = this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' );
+    input.triggerHandler( 'focus' );
 
-    const activeDay = Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first();
-    activeDay.click();
+    Ember.$( '.datepicker' ).last().find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first().trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-daterange-start-date' ).find( 'input' ).val(),
+        input.val(),
         '09/01/2015',
         'The selected day is set in the input field'
     );
 });
 
 test( 'Selected day is set in the end date input field', function( assert ) {
-
     this.render( hbs`
         {{sl-date-range-picker
             endDateValue="09/25/2015"
         }}
     ` );
 
-    const datepicker = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( '.date-picker' );
-    datepicker.triggerHandler( 'focus' );
+    const input = this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' );
+    input.triggerHandler( 'focus' );
 
-    const activeDay = Ember.$( '.datepicker' ).find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first();
-    activeDay.click();
+    Ember.$( '.datepicker' ).last().find( '.datepicker-days' ).find( 'td' ).not( '.old' ).first().trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-daterange-end-date' ).find( 'input' ).val(),
+        input.val(),
         '09/01/2015',
         'The selected day is set in the input field'
     );
