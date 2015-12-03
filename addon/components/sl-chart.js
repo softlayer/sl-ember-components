@@ -48,7 +48,7 @@ export default Ember.Component.extend({
     /**
      * Height value used for inline style
      *
-     * @type {String}
+     * @type {Number|String}
      */
     height: 'auto',
 
@@ -107,6 +107,19 @@ export default Ember.Component.extend({
     ),
 
     /**
+     * Updates the chart's height
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setHeight: Ember.observer(
+        'height',
+        function() {
+            this.$( '> .panel-body > .chart' ).height( this.get( 'height' ) );
+        }
+    ),
+
+    /**
      * Sets up Highcharts initialization
      *
      * @function
@@ -117,9 +130,25 @@ export default Ember.Component.extend({
         function() {
             const chartDiv = this.$( 'div.chart' );
 
+            this.setHeight();
+            this.setWidth();
+
             chartDiv.highcharts( this.get( 'highchartsOptions' ) );
             this.set( 'chart', chartDiv.highcharts() );
             this.updateData();
+        }
+    ),
+
+    /**
+     * Updates the chart's width
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setWidth: Ember.observer(
+        'width',
+        function() {
+            this.$( '> .panel-body > .chart' ).width( this.get( 'width' ) );
         }
     ),
 
@@ -226,25 +255,6 @@ export default Ember.Component.extend({
             options.title = null;
 
             return options;
-        }
-    ),
-
-    /**
-     * Inline style containing height and width, required by Highcharts
-     *
-     * @function
-     * @returns {ember/Handlebars/SafeString}
-     */
-    style: Ember.computed(
-        'height',
-        'width',
-        function() {
-            const height = this.get( 'height' );
-            const width = this.get( 'width' );
-
-            return Ember.String.htmlSafe(
-                `height: ${height}; width: ${width};`
-            );
         }
     )
 
