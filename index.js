@@ -28,9 +28,16 @@ module.exports = {
      * @returns {String}
      */
     getTempPath: function() {
-        var tempRoot = path.join( this.project.root, 'tmp' );
+        return path.join( this.project.root, 'tmp' );
+    },
 
-        return path.resolve( path.join( tempRoot, this.name ) );
+    /**
+     * Path to temp sub-folder
+     *
+     * @returns {String}
+     */
+    getTempSubPath: function() {
+        return path.resolve( path.join( this.getTempPath(), this.name ) );
     },
 
     /**
@@ -48,7 +55,7 @@ module.exports = {
      * Pre-compiling LESS files and placing result into file in temp folder for
      * use by treeForVendor()
      *
-     * @returns {undefined}
+     * @returns {Promise}
      */
     preBuild: function() {
         var resolvePaths = [
@@ -66,8 +73,8 @@ module.exports = {
 
         var lessCompiledLocation = path.resolve( this.getTempPath(), this.getCssFileName() );
 
-        var tempRoot = path.join( this.project.root, 'tmp' );
-        var tempPath = this.getTempPath();
+        var tempRoot = this.getTempPath();
+        var tempPath = this.getTempSubPath();
 
         return new Promise( function( resolve, reject ) {
             var buildLess = function() {
@@ -79,7 +86,7 @@ module.exports = {
                     function( error, output ) {
                         if ( error ) {
                             reject( error );
-                        } else { // this else is magically important
+                        } else {
                             var fd = fs.openSync( lessCompiledLocation, 'w' );
                             fs.writeSync( fd, output.css );
                             fs.closeSync( fd );
@@ -93,7 +100,11 @@ module.exports = {
             var addSubFolder = function() {
                 if ( !existsSync( tempPath ) ) {
                     fs.mkdir( tempPath, function( error ) {
-                        buildLess();
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            buildLess();
+                        }
                     });
                 } else {
                     buildLess();
@@ -217,11 +228,12 @@ module.exports = {
      * Delete generated CSS file from temp folder
      *
      * @param {Object} result
-     * @returns {undefined}
+     * @returns {Promise}
      */
     postBuild: function( result ) {
-        var tempPath = this.getTempPath();
+        var tempPath = this.getTempSubPath();
         var cssFileName = this.getCssFileName();
+
         return new Promise( function( resolve, reject ) {
             var cssFilePath = path.join( tempPath, cssFileName );
 
@@ -229,7 +241,11 @@ module.exports = {
             var removeFolder = function() {
                 if ( existsSync( tempPath ) ) {
                     fs.rmdir( tempPath, function( error ) {
-                        resolve();
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            resolve();
+                        }
                     });
                 } else {
                     resolve();
