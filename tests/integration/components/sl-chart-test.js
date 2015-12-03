@@ -94,12 +94,7 @@ test( 'Width property is set on the internal chart', function( assert ) {
     ` );
 
     assert.strictEqual(
-<<<<<<< HEAD
-        this.$( '>:first-child' ).find( '> .panel-body > div' ).attr( 'style' ),
-        'height: auto; width: auto;',
-        'Chart div has automatic height and width'
-=======
-        this.$( '>:first-child' ).find( 'div.chart' ).width(),
+        this.$( '>:first-child' ).find( '> .panel-body > div' ).width(),
         width,
         'Chart div has correct width by default'
     );
@@ -108,10 +103,9 @@ test( 'Width property is set on the internal chart', function( assert ) {
     this.set( 'width', width );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'div.chart' ).width(),
+        this.$( '>:first-child' ).find( '> .panel-body > div' ).width(),
         width,
         'Chart div width updates correctly'
->>>>>>> EmberCli-1.13.8
     );
 });
 
@@ -127,12 +121,7 @@ test( 'Height property is set on the internal chart', function( assert ) {
     ` );
 
     assert.strictEqual(
-<<<<<<< HEAD
-        this.$( '>:first-child' ).find( '> .panel-body > div' ).attr( 'style' ),
-        'height: 10; width: 20;',
-        'Chart div has height 10 and width 20'
-=======
-        this.$( '>:first-child' ).find( 'div.chart' ).height(),
+        this.$( '>:first-child' ).find( '> .panel-body > div' ).height(),
         height,
         'Chart div has correct height by default'
     );
@@ -141,9 +130,8 @@ test( 'Height property is set on the internal chart', function( assert ) {
     this.set( 'height', height );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'div.chart' ).height(),
+        this.$( '>:first-child' ).find( '> .panel-body > div' ).height(),
         height,
         'Chart div height updates correctly'
->>>>>>> EmberCli-1.13.8
     );
 });
