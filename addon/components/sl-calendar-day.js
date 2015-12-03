@@ -13,11 +13,17 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    ariaRole: 'button',
+
+    attributeBindings: [
+        'tabindex'
+    ],
+
     /** @type {String[]} */
     classNameBindings: [
         'active',
         'new',
-        'old'
+        'old',
     ],
 
     /** @type {String[]} */
@@ -27,6 +33,8 @@ export default Ember.Component.extend({
 
     /** @type {Object} */
     layout,
+
+    tabindex: 0,
 
     /** @type {String} */
     tagName: 'td',
