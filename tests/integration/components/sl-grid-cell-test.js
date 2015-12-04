@@ -27,6 +27,7 @@ test( 'Column alignment class is applied', function( assert ) {
 
     this.set( 'column', column );
     this.set( 'row', row );
+
     this.render( defaultTemplate );
 
     assert.ok(
@@ -43,6 +44,7 @@ test( 'Primary column class is applied', function( assert ) {
 
     this.set( 'column', column );
     this.set( 'row', row );
+    
     this.render( defaultTemplate );
 
     assert.ok(
