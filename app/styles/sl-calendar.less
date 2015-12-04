@@ -1,7 +1,7 @@
 .sl-ember-components.calendar {
     .common-icon-properties() {
         font-family: serif;
-        margin: 0;
+        margin-left: .4em;
     }
 
     .sl-icon-prev:before {
@@ -10,8 +10,14 @@
     }
 
     .sl-icon-next:before {
-        content: "»";
+       content: "»";
         .common-icon-properties
+    }
+
+    .datepicker-months,
+    .datepicker-days,
+    .datepicker-years {
+        display: block;
     }
 }
 

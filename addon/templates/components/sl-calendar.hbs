@@ -1,17 +1,17 @@
 <div class="datepicker datepicker-inline">
     {{#if viewingDays}}
-        <div class="datepicker-days" style="display: block;">
+        <div class="datepicker-days">
             <table class="table-condensed">
                 <thead>
                     <tr>
                         <th {{action "changeMonth" -1}} class="sl-icon-prev">
-                            <span class="sr-only">previous</span>
+                            previous month
                         </th>
-                        <th {{action "setView" "months"}} colspan="5" class="datepicker-switch">
+                        <th {{action "setView" "months"}} class="datepicker-switch" colspan="5">
                             {{currentMonthString}} {{currentYear}}
                         </th>
                         <th {{action "changeMonth" 1}} class="sl-icon-next">
-                            <span class="sr-only">next</span>
+                            next month
                         </th>
                     </tr>
                     <tr>
@@ -41,18 +41,18 @@
     {{/if}}
 
     {{#if viewingMonths}}
-        <div class="datepicker-months" style="display: block;">
+        <div class="datepicker-months">
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeYear" -1}} class="sl-icon-prev" style="visibility: visible;">
-                            <span class="sr-only">previous</span>
+                        <th {{action "changeYear" -1}} class="sl-icon-prev">
+                            previous year
                         </th>
                         <th {{action "setView" "years"}} class="datepicker-switch" colspan="5">
                             {{currentYear}}
                         </th>
-                        <th {{action "changeYear" 1}} class="sl-icon-next" style="visibility: visible;">
-                            <span class="sr-only">next</span>
+                        <th {{action "changeYear" 1}} class="sl-icon-next">
+                            next year
                         </th>
                     </tr>
                 </thead>
@@ -75,18 +75,18 @@
     {{/if}}
 
     {{#if viewingYears}}
-        <div class="datepicker-years" style="display: block;">
+        <div class="datepicker-years">
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeDecade" -1}} class="sl-icon-prev" style="visibility: visible;">
-                            <span class="sr-only">previous</span>
+                        <th {{action "changeDecade" -1}} class="sl-icon-prev">
+                            previous decade
                         </th>
                         <th class="datepicker-switch" colspan="5">
                             {{decadeStart}}-{{decadeEnd}}
                         </th>
-                        <th {{action "changeDecade" 1}} class="sl-icon-next" style="visibility: visible;">
-                            <span class="sr-only">next</span>
+                        <th {{action "changeDecade" 1}} class="sl-icon-next">
+                            next decade
                         </th>
                     </tr>
                 </thead>
