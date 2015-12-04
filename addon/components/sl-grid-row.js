@@ -45,6 +45,11 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Properties
 
+    /**
+     * Whether the row is selected
+     *
+     * @type {Boolean}
+     */
     active: false,
 
     /**

@@ -95,6 +95,7 @@ export default Ember.Component.extend( Namespace, {
             }
 
             this.set( 'detailPaneOpen', false );
+
             Ember.run.next( this, () => {
                 this.resetFixedHeaderWidths();
             });
@@ -110,6 +111,7 @@ export default Ember.Component.extend( Namespace, {
          */
         deselectRow() {
             const activeRow = this.get( 'activeRow' );
+
             if ( activeRow ) {
                 Ember.set( activeRow, 'active', false );
                 this.set( 'activeRow', null );

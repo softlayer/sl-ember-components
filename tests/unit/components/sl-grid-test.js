@@ -908,10 +908,21 @@ test( 'Observer keys are correct', function( assert ) {
         'content.[]'
     ];
 
+    const displayFooterKeys = [
+        'footerPath',
+        'showPagination'
+    ];
+
     assert.deepEqual(
         component.handleNewContent.__ember_observes__,
         handleNewContentKeys,
         'Observer keys are correct for handleNewContent()'
+    );
+
+    assert.deepEqual(
+        component.displayFooter.__ember_observes__,
+        displayFooterKeys,
+        'Observer keys are correct for displayFooter()'
     );
 });
 
@@ -934,6 +945,11 @@ test( 'Dependent keys are correct', function( assert ) {
         'totalCount'
     ];
 
+    const hasMoreDataDependentKeys = [
+        'content.length',
+        'totalCount'
+    ];
+
     assert.deepEqual(
         component.showPagination._dependentKeys,
         showPaginationDependentKeys
@@ -947,5 +963,10 @@ test( 'Dependent keys are correct', function( assert ) {
     assert.deepEqual(
         component.totalPages._dependentKeys,
         totalPagesDependentKeys
+    );
+
+    assert.deepEqual(
+        component.hasMoreData._dependentKeys,
+        hasMoreDataDependentKeys
     );
 });
