@@ -20,15 +20,25 @@ test( 'Default rendered state', function( assert ) {
     );
 });
 
-test( 'Sorted class is present when column is in sorted state', function( assert ) {
+test( 'Sorted icon class is applied correctly', function( assert ) {
     let column = {
-        sortable: true,
-        sortAscending: true
+        sortable: true
     };
+
+    this.render( template );
 
     this.set( 'column', column );
 
-    this.render( template );
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sortable-column' ),
+        true,
+        'Component has class "sortable-column" with sortable column'
+    );
+
+    column = {
+        sortable: true,
+        sortAscending: true
+    };
 
     this.set( 'column', column );
 
@@ -47,61 +57,6 @@ test( 'Sorted class is present when column is in sorted state', function( assert
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'column-descending' ),
         'column-descending class is present when sortAscending is false'
-    );
-});
-
-test( 'Sortable column class is present when column is sortable', function( assert ) {
-    const column = {
-        sortable: true
-    };
-
-    this.set( 'column', column );
-
-    this.render( template );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sortable-column' ),
-        true,
-        'Component has class "sortable-column" with sortable column'
-    );
-});
-
-test( 'Sorted icon class is applied correctly', function( assert ) {
-    let column = {
-        sortable: true
-    };
-
-    this.render( template );
-
-    this.set( 'column', column );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'i' ).hasClass( 'fa-sort' ),
-        'Class fa-sort is present when column is sortable'
-    );
-
-    column = {
-        sortable: true,
-        sortAscending: true
-    };
-
-    this.set( 'column', column );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'i' ).hasClass( 'fa-sort-asc' ),
-        'Class fa-sort is present when column is sortable'
-    );
-
-    column = {
-        sortable: true,
-        sortAscending: false
-    };
-
-    this.set( 'column', column );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( 'i' ).hasClass( 'fa-sort-desc' ),
-        'Class fa-sort is present when column is sortable'
     );
 });
 
