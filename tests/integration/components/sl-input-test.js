@@ -1,5 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { skip } from 'qunit';
 
 moduleForComponent( 'sl-input', 'Integration | Component | sl input', {
     integration: true
@@ -43,9 +44,8 @@ test( 'Label is supported', function( assert ) {
         {{sl-input label="Test label"}}
     ` );
 
-    assert.strictEqual(
+    assert.ok(
         this.$( '>:first-child' ).find( 'label' ).hasClass( 'control-label' ),
-        true,
         'Has class "control-label"'
     );
 
@@ -192,66 +192,27 @@ test( 'Typeahead classes are present', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.twitter-typeahead' ),
+        this.$( '>:first-child' ).find( 'span' ).hasClass( 'twitter-typeahead' ),
         'twitter-typeahead class exists'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.typeahead' ),
+        this.$( '>:first-child' ).find( 'input' ).hasClass( 'typeahead' ),
         'typeahead class exists'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.tt-input' ),
+        this.$( '>:first-child' ).find( 'input' ).hasClass( 'tt-input' ),
         'tt-input class exists'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.tt-menu' ),
+        this.$( '>:first-child' ).find( 'div' ).hasClass( 'tt-menu' ),
         'tt-menu class exists'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.tt-dataset' ),
-        'tt-dataset class exists'
-    );
-});
-
-test( 'Typeahead suggestionNamePath classes are present', function( assert ) {
-    const colors = [
-        { id: 'Black' },
-        { id: 'Yellow' }
-    ];
-
-    this.set( 'suggestions', colors );
-    this.set( 'suggestionNamePath', 'id' );
-
-    this.render( hbs`
-        {{sl-input suggestions=suggestions suggestionNamePath=suggestionNamePath}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( '.twitter-typeahead' ),
-        'twitter-typeahead class exists'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( '.typeahead' ),
-        'typeahead class exists'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( '.tt-input' ),
-        'tt-input class exists'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( '.tt-menu' ),
-        'tt-menu class exists'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( '.tt-dataset' ),
+        this.$( '>:first-child' ).find( 'div' ).hasClass( 'tt-dataset' ),
         'tt-dataset class exists'
     );
 });
@@ -357,4 +318,10 @@ test( 'Popover properties are set correctly when popover parameter is set', func
         'focus',
         'Default trigger is "focus"'
     );
+});
+
+skip( 'Typeahead "suggestionNamePath" sets key for suggestions object', function() {
+});
+
+skip( 'Typeahead "value" prop is set upon selection of typeahead results', function() {
 });

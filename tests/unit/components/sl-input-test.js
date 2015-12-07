@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
+import { skip } from 'qunit';
 
 moduleForComponent( 'sl-input', 'Unit | Component | sl input', {
     unit: true
@@ -69,27 +70,46 @@ test( 'getInput() returns correct element', function( assert ) {
 });
 
 test( 'Event handlers are registered and unregistered', function( assert ) {
+    const spyOn = sinon.spy( Ember.$.fn, 'on' );
+    const spyOff = sinon.spy( Ember.$.fn, 'off' );
     const component = this.subject({
-        blur: 'blur'
+        blur: function() { }
     });
 
-    const inputElement = this.$( 'input' ).get( 0 );
-    const jQueryData = Ember.get( Ember.$, '_data' );
-    const events = jQueryData( inputElement, 'events' );
+    const matchElement = sinon.match( ( value ) => {
+        return value.get( 0 ) === component.$( 'input' ).get( 0 );
+    });
+
+    this.render();
+
+    spyOn.reset();
+
+    component.trigger( 'didInsertElement' );
 
     assert.ok(
-        'blur' in events,
-        'Blur event handler is registered after didInsertElement'
+        spyOn.calledWith( component.namespaceEvent( 'blur' ) ),
+        'on() was called with namespaced blur event'
     );
 
-    Ember.run( () => {
-        component.trigger( 'willClearRender' );
+    assert.ok(
+        spyOn.alwaysCalledOn( matchElement ),
+        'on() was called on expected input'
+    );
 
-        assert.notOk(
-            'blur' in events,
-            'Blur event handler is unregistered after willClearRender'
-        );
-    });
+    Ember.run( () => component.trigger( 'willClearRender' ) );
+
+    assert.ok(
+        spyOff.calledWith( component.namespaceEvent( 'blur' ) ),
+        'off() was called with namespaced blur event'
+    );
+
+    assert.ok(
+        spyOff.alwaysCalledOn( matchElement ),
+        'off() was called on expected input'
+    );
+
+    Ember.$.fn.on.restore();
+    Ember.$.fn.off.restore();
 });
 
 test( 'Blur action is triggered when input loses focus', function( assert ) {
@@ -144,24 +164,6 @@ test( 'Popover is initialized with the correct options', function( assert ) {
     );
 });
 
-test( 'Typeahead is initialized and has the correct classes', function( assert ) {
-    const colors = [
-        'Black',
-        'Yellow'
-    ];
-
-    this.subject({
-        suggestions: colors
-    });
-
-    const typeahead = this.$( '.tt-input' ).data().ttTypeahead;
-
-    assert.ok(
-        typeahead,
-        'Typeahead is initialized'
-    );
-});
-
 test( 'isTypeaheadSetup is true when suggestions are provided', function( assert ) {
     const colors = [
         'Black',
@@ -180,16 +182,25 @@ test( 'isTypeaheadSetup is true when suggestions are provided', function( assert
     );
 });
 
-test( 'Value is set correctly', function( assert ) {
-    const value = 'set value';
+test( 'setupTypeahead() "typeahead:select" action is fired', function( assert ) {
+    const colors = [
+        { id: 'Black' }
+    ];
 
-    this.subject({
-        value: value
+    const component = this.subject({
+        suggestions: colors,
+        suggestionNamePath: 'id'
+    });
+
+    Ember.run( () => {
+        this.$( '.typeahead.tt-input' ).typeahead( 'val', 'b' ).blur();
+        this.$( '.tt-suggestion.tt-selectable' ).click();
     });
 
     assert.strictEqual(
-        this.$( 'input' ).val(),
-        value
+        component.get( 'value' ),
+        'Black',
+        '"typeahead:select" action sets value when suggestion selected'
     );
 });
 
@@ -205,4 +216,13 @@ test( 'Observer keys are correct', function( assert ) {
         setupTypeaheadKeys,
         'Observer keys are correct for setupTypeahead()'
     );
+});
+
+skip( 'setupTypeahead() - typeahead "displayKey" initialization is correct', function() {
+});
+
+skip( 'setupTypeahead() - typeahead "source" initialization is correct', function() {
+});
+
+skip( 'setupTypeahead() - "typeahead:autocomplete" action sets value', function() {
 });
