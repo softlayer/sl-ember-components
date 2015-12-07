@@ -64,6 +64,8 @@ export default Ember.Component.extend( TooltipEnabled, {
     format: Format.DATETIME,
 
     /**
+     * The locale string to use for moment date formats.
+     *
      * @type {String}
      */
     locale: 'en',
@@ -99,6 +101,7 @@ export default Ember.Component.extend( TooltipEnabled, {
      *
      * @function
      * @throws {ember/Error} timezone property must be a string
+     * @throws {ember/Error} timezone property provided is not valid
      * @returns {undefined}
      */
     initialize: Ember.on(
@@ -106,6 +109,12 @@ export default Ember.Component.extend( TooltipEnabled, {
         function() {
             if ( 'string' !== Ember.typeOf( this.get( 'timezone' ) ) ) {
                 throw new Ember.Error( 'timezone property must be a string' );
+            }
+
+            const validTimeZonesArray = window.moment.tz.names();
+
+            if ( !validTimeZonesArray.includes( this.get( 'timezone' ) ) ) {
+                throw new Ember.Error( 'timezone property provided is not valid' );
             }
         }
     ),
