@@ -30,21 +30,16 @@
         <h6>Template</h6>
         <pre>\{{sl-input
     label="Input with typeahead suggestions"
-    placeholder="Enter a color"
-    suggestions=colors
-    suggestionNamePath="id"
-    value=colorValue
+    placeholder="Enter a Name"
+    suggestions=name
 }}</pre>
         <h6>Controller</h6>
         <pre>model: [
-    colors: [
-        { id: 'Red' },
-        { id: 'Orange' },
-        { id: 'Yellow' },
-        { id: 'Green' }
-    ],
-
-    colorValue: null
+    names: [
+        "Jeff",
+        "Michael",
+        "Jeremy"
+    ]
 ]</pre>
     </div>
 
@@ -52,6 +47,41 @@
         <h6>Rendered Component</h6>
         {{sl-input
             label="Input with typeahead suggestions"
+            placeholder="Enter a Name"
+            suggestions=names
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
+    label="Input with typeahead suggestions using suggestionNamePath"
+    placeholder="Enter a color"
+    suggestions=colors
+    suggestionNamePath="id"
+}}</pre>
+        <h6>Controller</h6>
+        <pre>model: [
+    colors: [
+        { id: 'Black' },
+        { id: 'Blue' },
+        { id: 'Gray' },
+        { id: 'Green' },
+        { id: 'Orange' },
+        { id: 'Purple' },
+        { id: 'Red' },
+        { id: 'White' },
+        { id: "Yellow" }
+    ]
+]</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-input
+            label="Input with typeahead suggestions using suggestionNamePath"
             placeholder="Enter a color"
             suggestions=colors
             suggestionNamePath="id"

@@ -2,11 +2,20 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     colors: [
-        { id: 'Red' },
+        { id: 'Black' },
+        { id: 'Blue' },
+        { id: 'Gray' },
+        { id: 'Green' },
         { id: 'Orange' },
-        { id: 'Yellow' },
-        { id: 'Green' }
+        { id: 'Purple' },
+        { id: 'Red' },
+        { id: 'White' },
+        { id: 'Yellow' }
     ],
 
-    colorValue: null
+    names: [
+        'Jeff',
+        'Michael',
+        'Jeremy'
+    ]
 });
