@@ -70,12 +70,23 @@
 
 ### 0.7.0
 
-* [#159](https://github.com/softlayer/sl-ember-components/pull/159) [BREAKING ENHANCEMENT] Upgrade to Ember CLI 0.1.5
-* [#152](https://github.com/softlayer/sl-ember-components/pull/152) [BREAKING ENHANCEMENT] Upgrade dependencies
-* [#145](https://github.com/softlayer/sl-ember-components/pull/145) [INTERNAL] Installed ember-cli-es5-shim to faciliate running of tests via TravisCI
-* [#140](https://github.com/softlayer/sl-ember-components/pull/140) [ENHANCEMENT] Close grid action menu on mouseLeave
-* [#147](https://github.com/softlayer/sl-ember-components/pull/147) [DOCUMENTATION] Change demo application link
-* [#155](https://github.com/softlayer/sl-ember-components/pull/155) [DOCUMENTATION] Update installation instructions
+**BREAKING ENHANCEMENT**
+
+* [#159](https://github.com/softlayer/sl-ember-components/pull/159) Upgrade to Ember CLI 0.1.5
+* [#152](https://github.com/softlayer/sl-ember-components/pull/152) Upgrade dependencies
+
+**ENHANCEMENT**
+
+* [#140](https://github.com/softlayer/sl-ember-components/pull/140) Close grid action menu on mouseLeave
+
+**DOCUMENTATION**
+
+* [#147](https://github.com/softlayer/sl-ember-components/pull/147) Change demo application link
+* [#155](https://github.com/softlayer/sl-ember-components/pull/155) Update installation instructions
+
+**INTERNAL**
+
+* [#145](https://github.com/softlayer/sl-ember-components/pull/145) Installed ember-cli-es5-shim to faciliate running of tests via TravisCI
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.6.0...v0.7.0)
 
