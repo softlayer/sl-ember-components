@@ -46,7 +46,7 @@ export default Ember.Component.extend({
                 return;
             }
 
-            this.incrementProperty( 'decadeStart', 10 * decadeMod );
+            this.incrementProperty( 'currentYear', 10 * decadeMod );
         },
 
         /**

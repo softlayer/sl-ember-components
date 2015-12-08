@@ -84,27 +84,56 @@ test( 'Title property is set', function( assert ) {
     );
 });
 
-test( 'Chart div uses the correct style', function( assert ) {
+test( 'Width property is set on the internal chart', function( assert ) {
+    let width = 100;
+
     this.set( 'testseries', [] );
     this.set( 'testoptions', {} );
+    this.set( 'width', width );
 
     this.render( hbs`
-        {{sl-chart series=testseries options=testoptions}}
+        {{sl-chart series=testseries options=testoptions width=width}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'div.chart' ).attr( 'style' ),
-        'height: auto; width: auto;',
-        'Chart div has automatic height and width'
+        this.$( '>:first-child' ).find( 'div.chart' ).width(),
+        width,
+        'Chart div has correct width by default'
     );
 
+    width = 50;
+    this.set( 'width', width );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'div.chart' ).width(),
+        width,
+        'Chart div width updates correctly'
+    );
+});
+
+test( 'Height property is set on the internal chart', function( assert ) {
+    let height = 100;
+
+    this.set( 'testseries', [] );
+    this.set( 'testoptions', {} );
+    this.set( 'height', height );
+
     this.render( hbs`
-        {{sl-chart series=testseries options=testoptions height=10 width=20}}
+        {{sl-chart series=testseries options=testoptions height=height}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'div.chart' ).attr( 'style' ),
-        'height: 10; width: 20;',
-        'Chart div has height 10 and width 20'
+        this.$( '>:first-child' ).find( 'div.chart' ).height(),
+        height,
+        'Chart div has correct height by default'
+    );
+
+    height = 50;
+    this.set( 'height', height );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( 'div.chart' ).height(),
+        height,
+        'Chart div height updates correctly'
     );
 });

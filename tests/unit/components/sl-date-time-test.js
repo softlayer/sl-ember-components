@@ -281,10 +281,32 @@ test( 'init() - "timezone" property needs to be a string', function( assert ) {
 
     // String Property
 
-    properties.set( 'timezone', 'Test title' );
+    properties.set( 'timezone', 'America/Chicago' );
 
     assert.ok(
         callSubject(),
         'Property was a string'
+    );
+});
+
+test( 'init() - "timezone" property needs to be valid', function( assert ) {
+    const properties = Ember.Object.create();
+
+    const callSubject = () => this.subject( properties );
+
+    // non-valid timezone property
+    properties.set( 'timezone', 'HammerTime/MiddleEarth' );
+
+    assert.throws(
+        callSubject,
+        'timezone property is not valid'
+    );
+
+    // valid timezone property
+    properties.set( 'timezone', 'America/Chicago' );
+
+    assert.ok(
+        callSubject(),
+        'timezone property is valid'
     );
 });
