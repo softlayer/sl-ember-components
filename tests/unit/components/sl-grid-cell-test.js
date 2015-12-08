@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { ColumnAlign as ColumnAlignEnum } from 'sl-ember-components/components/sl-grid-cell';
-import { ColumnSize as ColumnSizeEnum } from 'sl-ember-components/components/sl-grid-cell';
 import * as utils from 'sl-ember-components/utils/all';
 import sinon from 'sinon';
 
@@ -12,12 +11,6 @@ moduleForComponent( 'sl-grid-cell', 'Unit | Component | sl grid cell', {
 const ColumnAlign = Object.freeze({
     LEFT: 'left',
     RIGHT: 'right'
-});
-
-const ColumnSize = Object.freeze({
-    LARGE: 'large',
-    MEDIUM: 'medium',
-    SMALL: 'small'
 });
 
 const defaultColumn = Ember.Object.extend();

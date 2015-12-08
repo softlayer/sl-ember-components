@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNameBindings: [
         'alignmentClass',
-        'column.primary:primary-column',
+        'column.primary:primary-column'
     ],
 
     /** @type {Object} */
