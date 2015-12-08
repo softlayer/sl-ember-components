@@ -269,8 +269,8 @@ test( 'Clicking on a row fires the rowClick action', function( assert ) {
     );
 });
 
-test( `detailComponent, detailHeaderComponent, detailFooterComponent
-        is rendered and correct data is displayed on row click`,
+test( 'detailComponent, detailHeaderComponent, detailFooterComponent' +
+        'is rendered and correct data is displayed on row click',
     function( assert ) {
         const headerTemplate = hbs`<h1>header:{{model.id}}</h1>`;
         const contentTemplate = hbs`<h1>content:{{model.id}}</h1>`;

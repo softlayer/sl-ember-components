@@ -1,3 +1,6 @@
+// -------------------------------------------------------------------------
+// Icons
+
 [class*=sl-icon] {
     font-family: 'Glyphicons Halflings';
     font-style: normal;
@@ -9,11 +12,14 @@
     display: inline-block;
     width: 1em;
     overflow: hidden;
+
+    &::before {
+        margin-right: 2em;
+    }
 }
 
-[class*=sl-icon]::before {
-    margin-right: 2em;
-}
+// -------------------------------------------------------------------------
+// Loading States
 
 .sl-loading {
     position: relative;
@@ -31,7 +37,7 @@
     }
 
     &:before {
-        background-color: fade(@gray-light, 75%);
+        background-color: fade(@gray-dark, 75%);
     }
 
     &:after {
@@ -39,19 +45,27 @@
         -moz-animation: sl-spin 1s infinite linear;
         -o-animation: sl-spin 1s infinite linear;
         animation: sl-spin 1s infinite linear;
-        background-image: url('/sl-ember-components/assets/images/spinner-dark-sm.png');
+        background-image: url('/sl-ember-components/assets/images/spinner-light-sm.png');
         background-repeat: no-repeat;
         background-position: 50%;
         background-size: contain;
     }
-}
 
-.sl-loading > * {
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px);
-    -o-filter: blur(4px);
-    -ms-filter: blur(4px);
-    filter: blur(4px);
+    &.inverse:before {
+        background-color: fade(@gray-lighter, 75%);
+    }
+
+    &.inverse:after {
+        background-image: url('/sl-ember-components/assets/images/spinner-dark-sm.png');
+    }
+
+    & > * {
+        -webkit-filter: blur(4px);
+        -moz-filter: blur(4px);
+        -o-filter: blur(4px);
+        -ms-filter: blur(4px);
+        filter: blur(4px);
+    }
 }
 
 // -------------------------------------------------------------------------

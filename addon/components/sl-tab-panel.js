@@ -5,8 +5,10 @@ import { containsValue, warn } from '../utils/all';
 /**
  * Valid `align` property values
  *
- * @memberof module:components/sl-tab-panel
+ * @memberof module:addon/components/sl-tab-panel
  * @enum {String}
+ * @property LEFT 'left'
+ * @property RIGHT 'right'
  */
 export const Alignment = Object.freeze({
     LEFT: 'left',
