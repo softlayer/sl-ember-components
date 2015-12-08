@@ -186,11 +186,19 @@ test( 'setupTypeahead() "typeahead:select" action is fired', function( assert ) 
     const colors = [
         { id: 'Black' }
     ];
+    const value = 'test value';
 
     const component = this.subject({
         suggestions: colors,
-        suggestionNamePath: 'id'
+        suggestionNamePath: 'id',
+        value: value
     });
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        value,
+        '"value" prop is set successfully'
+    );
 
     Ember.run( () => {
         this.$( '.typeahead.tt-input' ).typeahead( 'val', 'b' ).blur();
