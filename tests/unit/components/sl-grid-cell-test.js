@@ -44,12 +44,6 @@ test( 'Default property values', function( assert ) {
     );
 
     assert.deepEqual(
-        ColumnSizeEnum,
-        ColumnSize,
-        'Column size enum has correct values'
-    );
-
-    assert.deepEqual(
         ColumnAlignEnum,
         ColumnAlign,
         'Column align enum has correct values'
@@ -99,75 +93,6 @@ test( 'alignmentClass() returns correct alignment value', function( assert ) {
     );
 
     utils.warn.restore();
-});
-
-test( 'sizeClass() returns correct size value', function( assert ) {
-    const column = defaultColumn.create();
-    const component = this.subject({
-        column: column
-    });
-
-    assert.strictEqual(
-        component.get( 'sizeClass' ),
-        null,
-        'size value is null when "size" property is not set on column'
-    );
-
-    for( const size in ColumnSizeEnum ) {
-        const sizeValue = ColumnSizeEnum[ size ];
-        column.set( 'size', sizeValue );
-
-        assert.strictEqual(
-            component.get( 'sizeClass' ),
-            `column-${sizeValue}`,
-            `Setting a size of ${sizeValue} returns column-${sizeValue}`
-        );
-    }
-
-    const spy = sinon.spy( utils, 'warn' );
-    column.set( 'size', 'invalidValue' );
-
-    assert.strictEqual(
-        component.get( 'sizeClass' ),
-        'column-invalidValue',
-        'size value is "column-invalidValue" when "size" property is set to an invalid value'
-    );
-
-    assert.ok(
-        spy.called,
-        'warn was called when invalid value provided'
-    );
-
-    utils.warn.restore();
-});
-
-test( 'style() returns the correct value', function( assert ) {
-    const column = defaultColumn.create();
-    const component = this.subject({
-        column: column
-    });
-
-    assert.strictEqual(
-        component.get( 'style' ).string,
-        '',
-        'style() is an empty string when column size is not set'
-    );
-
-    column.set( 'size', 100 );
-
-    assert.strictEqual(
-        component.get( 'style' ).string,
-        'width: 100px;',
-        'style() returns a correct style value when a number is set'
-    );
-
-    column.set( 'size', 'notNumber' );
-
-    assert.strictEqual(
-        component.get( 'style' ).string,
-        '',
-        'style() returns an empty string when size is not a number'
-    );
 });
 
 test( 'contentValue() returns the correct value', function( assert ) {
@@ -242,10 +167,6 @@ test( 'Dependent keys are correct', function( assert ) {
         'record'
     ];
 
-    const sizeClassDependentKeys = [
-        'column.size'
-    ];
-
     assert.deepEqual(
         component.alignmentClass._dependentKeys,
         alignmentClassDependentKeys,
@@ -256,11 +177,5 @@ test( 'Dependent keys are correct', function( assert ) {
         component.contentValue._dependentKeys,
         contentValueDependentKeys,
         'Dependent keys are correct for contentValue()'
-    );
-
-    assert.deepEqual(
-        component.sizeClass._dependentKeys,
-        sizeClassDependentKeys,
-        'Dependent keys are correct for sizeClass()'
     );
 });

@@ -16,21 +16,6 @@ export const ColumnAlign = Object.freeze({
 });
 
 /**
- * Valid size values for columns
- *
- * @memberof module:addon/components/sl-grid-cell
- * @enum {String}
- * @property LARGE 'large'
- * @property MEDIUM 'medium'
- * @property SMALL 'small'
- */
-export const ColumnSize = Object.freeze({
-    LARGE: 'large',
-    MEDIUM: 'medium',
-    SMALL: 'small'
-});
-
-/**
  * @module
  * @augments ember/Component
  */
@@ -43,15 +28,9 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [
-        'style'
-    ],
-
-    /** @type {String[]} */
     classNameBindings: [
         'alignmentClass',
         'column.primary:primary-column',
-        'sizeClass'
     ],
 
     /** @type {Object} */
@@ -140,51 +119,6 @@ export default Ember.Component.extend({
                 this.get( 'record.model' ) || this.get( 'record' ),
                 this.get( 'column.valuePath' )
             );
-        }
-    ),
-
-    /**
-     * Class name string based on size string
-     *
-     * @function
-     * @returns {String}
-     */
-    sizeClass: Ember.computed(
-        'column.size',
-        function() {
-            const size = this.get( 'column.size' );
-
-            let sizeString = null;
-
-            if ( 'string' === Ember.typeOf( size ) ) {
-                if ( !containsValue( size, ColumnSize ) ) {
-                    warn( `Invalid column size value "${size}"` );
-                }
-
-                sizeString = 'column-' + size;
-            }
-
-            return sizeString;
-        }
-    ),
-
-    /**
-     * Calculated style string based on column size
-     *
-     * @function
-     * @returns {ember/String|undefined}
-     */
-    style: Ember.computed(
-        'column.size',
-        function() {
-            const size = this.get( 'column.size' );
-            let value = '';
-
-            if ( 'number' === Ember.typeOf( size ) ) {
-                value = `width: ${size}px;`;
-            }
-
-            return Ember.String.htmlSafe( value );
         }
     )
 
