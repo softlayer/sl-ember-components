@@ -45,12 +45,12 @@
         title: 'Color',
         valuePath: 'name'
     }, {
-        size: 'small',
+        extraClass: 'small',
         sortable: true,
         title: 'Fruit',
         valuePath: 'fruit'
     }, {
-        size: 'small',
+        extraClass: 'small',
         title: 'Hex Code',
         valuePath: 'hexCode'
     }
@@ -95,7 +95,7 @@ rowActions: [
         <ul>
             <li><strong>align</strong> - A <em>string</em> that determines which direction to align the column's text (default: "left")</li>
             <li><strong>primary</strong> - A <em>boolean</em> that determines whether the column remains shown when the detail pane is visible (default: <em>false</em>)</li>
-            <li><strong>size</strong> - The width of the column; either a string for relative sizing ("small", "medium", or "large"), or a number for exact number of pixels; the default is null for auto width</li>
+            <li><strong>extraClass</strong> - A class to pass through to the column header.  Allows for CSS control of column widths</li>
             <li><strong>sortable</strong> - A <em>boolean</em> that determines whether the column is sortable or not (default: <em>false</em>)</li>
             <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content; uses the <code>rowController</code> as its controller</li>
             <li><strong>title</strong> - The displayed title of the column</li>
