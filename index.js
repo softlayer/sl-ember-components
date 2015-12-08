@@ -24,8 +24,8 @@ module.exports = {
         app.import( 'bower_components/fontawesome/css/font-awesome.min.css' );
 
         app.import({
-            development: 'bower_components/highcharts/highcharts.src.js',
-            production: 'bower_components/highcharts/highcharts.js'
+            development: 'bower_components/highcharts/lib/highcharts.src.js',
+            production: 'bower_components/highcharts/lib/highcharts.js'
         });
 
         app.import({
