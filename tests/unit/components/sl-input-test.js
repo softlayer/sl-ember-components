@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
+import sinon from 'sinon';
 import { skip } from 'qunit';
 
 moduleForComponent( 'sl-input', 'Unit | Component | sl input', {
