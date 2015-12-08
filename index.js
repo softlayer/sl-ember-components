@@ -164,8 +164,8 @@ module.exports = {
         app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
         app.import({
-            development: app.bowerDirectory + '/highcharts/highcharts.src.js',
-            production: app.bowerDirectory + '/highcharts/highcharts.js'
+            development: app.bowerDirectory + '/highcharts/lib/highcharts.src.js',
+            production: app.bowerDirectory + '/highcharts/lib/highcharts.js'
         });
 
         app.import({
