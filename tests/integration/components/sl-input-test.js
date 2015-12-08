@@ -192,31 +192,31 @@ test( 'Typeahead classes are present', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span.twitter-typeahead' ).length,
+        this.$( '>:first-child' ).find( '.twitter-typeahead' ).length,
         1,
         'twitter-typeahead class exists'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input.typeahead' ).length,
+        this.$( '>:first-child' ).find( '.typeahead' ).length,
         2,
         'typeahead class exists'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'input.tt-input' ).length,
+        this.$( '>:first-child' ).find( '.tt-input' ).length,
         1,
         'tt-input class exists'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'div.tt-menu' ).length,
+        this.$( '>:first-child' ).find( '.tt-menu' ).length,
         1,
         'tt-menu class exists'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'div.tt-dataset' ).length,
+        this.$( '>:first-child' ).find( '.tt-dataset' ).length,
         1,
         'tt-dataset class exists'
     );

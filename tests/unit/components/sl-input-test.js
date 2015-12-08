@@ -183,15 +183,10 @@ test( 'isTypeaheadSetup is true when suggestions are provided', function( assert
     );
 });
 
-test( 'setupTypeahead() "typeahead:select" action is fired', function( assert ) {
-    const colors = [
-        { id: 'Black' }
-    ];
+test( 'Value is set correctly', function( assert ) {
     const value = 'test value';
 
     const component = this.subject({
-        suggestions: colors,
-        suggestionNamePath: 'id',
         value: value
     });
 
@@ -200,6 +195,16 @@ test( 'setupTypeahead() "typeahead:select" action is fired', function( assert ) 
         value,
         '"value" prop is set successfully'
     );
+});
+
+test( 'setupTypeahead() "selectItem" sets value successfully', function( assert ) {
+    const colors = [
+        'Black'
+    ];
+
+    const component = this.subject({
+        suggestions: colors
+    });
 
     Ember.run( () => {
         this.$( '.typeahead.tt-input' ).typeahead( 'val', 'b' ).blur();
@@ -209,7 +214,29 @@ test( 'setupTypeahead() "typeahead:select" action is fired', function( assert ) 
     assert.strictEqual(
         component.get( 'value' ),
         'Black',
-        '"typeahead:select" action sets value when suggestion selected'
+        '"selectItem" sets value successfully when item selected'
+    );
+});
+
+test( 'setupTypeahead() "selectItem" sets value successfully with "suggestionNamePath" set', function( assert ) {
+    const colors = [
+        { id: 'Black' }
+    ];
+
+    const component = this.subject({
+        suggestions: colors,
+        suggestionNamePath: 'id'
+    });
+
+    Ember.run( () => {
+        this.$( '.typeahead.tt-input' ).typeahead( 'val', 'b' ).blur();
+        this.$( '.tt-suggestion.tt-selectable' ).click();
+    });
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        'Black',
+        '"selectItem" sets value successfully when item selected with suggestionNamePath set'
     );
 });
 
@@ -233,5 +260,8 @@ skip( 'setupTypeahead() - typeahead "displayKey" initialization is correct', fun
 skip( 'setupTypeahead() - typeahead "source" initialization is correct', function() {
 });
 
-skip( 'setupTypeahead() - "typeahead:autocomplete" action sets value', function() {
+skip( 'setupTypeahead() - "typeahead:autocomplete" action sets value successfully', function() {
+});
+
+skip( 'setupTypeahead() - "typeahead:select" action sets value successfully', function() {
 });

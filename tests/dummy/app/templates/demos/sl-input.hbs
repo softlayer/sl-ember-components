@@ -31,7 +31,7 @@
         <pre>\{{sl-input
     label="Input with typeahead suggestions"
     placeholder="Enter a Name"
-    suggestions=name
+    suggestions=names
 }}</pre>
         <h6>Controller</h6>
         <pre>model: [
@@ -259,7 +259,7 @@
     {{/property-text}}
 
     {{#property-text name="suggestions" type="Array"}}
-        Values to use as typeahead suggestions furthermore an array of objects can be passed with one of the keys needing to be the suggestionNamePath ("name" by default).
+        Array of objects used as typeahead suggestions. Each object must contain a key whose name matches the <code>suggestionNamePath</code> property value, which is "name" by default".
     {{/property-text}}
 
     {{#property-text name="title" type="String"}}
