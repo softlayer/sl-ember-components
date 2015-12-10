@@ -2,76 +2,126 @@
 
 ### 0.9.4
 
-* [#1250](https://github.com/softlayer/sl-ember-components/pull/1250) [BUGFIX] Highcharts dependency changed the location of their source files
-* [#1278](https://github.com/softlayer/sl-ember-components/pull/1278) [INTERNAL] Update blueprint to reflect latest Highcharts version already being installed
+**ENHANCEMENT**
+
+* *CONTRIBUTING.MD*:  [#902](https://github.com/softlayer/sl-ember-components/pull/902) Update CONTRIBUTING.MD
+* *CONTRIBUTING.MD*:  [https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875](https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875)
+
+**BUGFIX** 
+
+* [#1250](https://github.com/softlayer/sl-ember-components/pull/1250) Highcharts dependency changed the location of their source files
+
+**INTERNAL**
+
+* [#880](https://github.com/softlayer/sl-ember-components/pull/880) Upgrade *sl-eslint* and *ember-cli-jsdoc* dependencies
+* [#1278](https://github.com/softlayer/sl-ember-components/pull/1278) Update blueprint to reflect latest Highcharts version already being installed
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.3...v0.9.4)
 
 ### 0.9.3
 
-* [#684](https://github.com/softlayer/sl-ember-components/issues/684) [BUGFIX] jQuery mousewheel production import is incorrect
-* [#509](https://github.com/softlayer/sl-ember-components/issues/509) [INTERNAL ENHANCEMENT] `sl-modal`: Computed properties should return null value by default
-* [#672](https://github.com/softlayer/sl-ember-components/pull/672) [INTERNAL] Synchronize installed version of PhantomJS between TravisCI and dev environments
+**BUGFIX**
+
+* [#684](https://github.com/softlayer/sl-ember-components/issues/684) jQuery mousewheel production import is incorrect
+
+**INTERNAL**
+
+* [#509](https://github.com/softlayer/sl-ember-components/issues/509) `sl-modal`: Computed properties should return null value by default
+* [#672](https://github.com/softlayer/sl-ember-components/pull/672) Synchronize installed version of PhantomJS between TravisCI and dev environments
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.2...v0.9.3)
 
 ### 0.9.2
 
-[#651](https://github.com/softlayer/sl-ember-components/issues/651) [BUGFIX] sl-bootstrap blueprint needs to use name and source
+**BUGFIX**
+
+[#651](https://github.com/softlayer/sl-ember-components/issues/651) sl-bootstrap blueprint needs to use name and source
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.1...v0.9.2)
 
 ### 0.9.1
 
-[#642](https://github.com/softlayer/sl-ember-components/issues/642) [BUGFIX] softlayer/sl-bootstrap entry in blueprints/sl-ember-components/index.js should reference correct version
-[#643](https://github.com/softlayer/sl-ember-components/issues/643) [BUGFIX] ember-stream should be a dependency, not a devDependency
+**BUGFIX**
+
+[#642](https://github.com/softlayer/sl-ember-components/issues/642) softlayer/sl-bootstrap entry in blueprints/sl-ember-components/index.js should reference correct version
+[#643](https://github.com/softlayer/sl-ember-components/issues/643) ember-stream should be a dependency, not a devDependency
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.0...v0.9.1)
 
 ### 0.9.0
 
-* [INTERNAL] All components are now fully tested
-* [INTERNAL] Codebase now aligns with the [Ember Style Guide](https://github.com/softlayer/ember-style-guide)
-* [DOCUMENATION] Added and improved documentation and demo application
-* [#365](https://github.com/softlayer/sl-ember-components/issues/365) [DOCUMENTATION] Support publishing of generated docs to gh-pages branch/site
-* [#344](https://github.com/softlayer/sl-ember-components/issues/344) [BREAKING ENHANCEMENT] Upgrade to Ember CLI 0.2.7
-* [#344](https://github.com/softlayer/sl-ember-components/pull/344) [BREAKING ENHANCEMENT] Replaced implementation of `sl-grid` with new one
-* [#208](https://github.com/softlayer/sl-ember-components/issues/208) [BREAKING ENHANCEMENT] Refactored `sl-checkbox`and added improvements
-* [#226](https://github.com/softlayer/sl-ember-components/issues/226) [BREAKING ENHANCEMENT] Refactored `sl-panel` and added improvements
-* [#359](https://github.com/softlayer/sl-ember-components/issues/359) [BREAKING ENHANCEMENT] Refactored `sl-menu` and added improvements
-* [#499](https://github.com/softlayer/sl-ember-components/pull/499) [BREAKING ENHANCEMENT] Added used of `ember-stream` by `sl-menu`
-* [#429](https://github.com/softlayer/sl-ember-components/issues/429) [BREAKING ENHANCEMENT] Deleted `mixin:sl-notify-view`
-* [#441](https://github.com/softlayer/sl-ember-components/pull/441) [BREAKING ENHANCEMENT] Deleted `mixin:sl-modal-manager` and `mixin:sl-modal`
-* [#499](https://github.com/softlayer/sl-ember-components/pull/499) [BREAKING ENHANCEMENT] Deleted 'service:sl-modal'
-* [#499](https://github.com/softlayer/sl-ember-components/pull/499) [BREAKING ENHANCEMENT] Refactored `sl-modal` to use `ember-stream` instead of `service:sl-modal`
-* [#478](https://github.com/softlayer/sl-ember-components/pull/478) [BREAKING ENHANCEMENT] Put fonts in namespace
-* [#306](https://github.com/softlayer/sl-ember-components/issues/305) [BREAKING BUGFIX] `sl-date-range-picker`: Remove change bindings for "startDateChange" and "endDateChange"
-* [#309](https://github.com/softlayer/sl-ember-components/issues/309) [BUGFIX] Update dependencies for underlying dependency chaining mis-matches that have occurred within Ember CLI ecosystem
-* [#389](https://github.com/softlayer/sl-ember-components/issues/389) [BUGFIX] Dropdown options are shifted off of the dropdown list element
-* [#390](https://github.com/softlayer/sl-ember-components/pull/390) [BUGFIX] `sl-select`: Couldn't recognize Ember objects passed in (thanks to [@JKGisMe](https://github.com/JKGisMe))
-* [#396](https://github.com/softlayer/sl-ember-components/issues/396) [BUGFIX] `Ember.typeOf( Symbol )` returns `"function"`, caused by [https://github.com/emberjs/ember.js/issues/11673](https://github.com/emberjs/ember.js/issues/11673)
-* [#410](https://github.com/softlayer/sl-ember-components/issues/410) [BUGFIX] `sl-select` doesn' show pre-existing selection (thanks to [@JKGisMe](https://github.com/JKGisMe))
-* [#526](https://github.com/softlayer/sl-ember-components/issues/526) [BUGFIX] Added `jquery-mousewheel` dependency
-* [#392](https://github.com/softlayer/sl-ember-components/pull/392) [ENHANCMENT] Install `ember-cli-jsdoc`
-* [#404](https://github.com/softlayer/sl-ember-components/pull/404) [ENHANCEMEN] Install `joshforisha/sl-eslint`
-* [#331](https://github.com/softlayer/sl-ember-components/issues/331) [ENHANCEMENT] `mixin:sl-tooltip-enabled`: Enable tooltip functionality to include popover and title
-* [#14](https://github.com/softlayer/sl-ember-components/issues/14) [INTERNAL] All expected properties that can be defined when a component is used in a template should also be set in the component
+**BREAKING ENHANCEMENT**
+
+* [#344](https://github.com/softlayer/sl-ember-components/issues/344) Upgrade to Ember CLI 0.2.7
+* [#344](https://github.com/softlayer/sl-ember-components/pull/344) Replaced implementation of `sl-grid` with new one
+* [#208](https://github.com/softlayer/sl-ember-components/issues/208) Refactored `sl-checkbox`and added improvements
+* [#226](https://github.com/softlayer/sl-ember-components/issues/226) Refactored `sl-panel` and added improvements
+* [#359](https://github.com/softlayer/sl-ember-components/issues/359) Refactored `sl-menu` and added improvements
+* [#499](https://github.com/softlayer/sl-ember-components/pull/499) Added used of `ember-stream` by `sl-menu`
+* [#429](https://github.com/softlayer/sl-ember-components/issues/429) Deleted `mixin:sl-notify-view`
+* [#441](https://github.com/softlayer/sl-ember-components/pull/441) Deleted `mixin:sl-modal-manager` and `mixin:sl-modal`
+* [#499](https://github.com/softlayer/sl-ember-components/pull/499) Deleted 'service:sl-modal'
+* [#499](https://github.com/softlayer/sl-ember-components/pull/499) Refactored `sl-modal` to use `ember-stream` instead of `service:sl-modal`
+* [#478](https://github.com/softlayer/sl-ember-components/pull/478) Put fonts in namespace
+
+**BREAKING BUGFIX**
+
+* [#306](https://github.com/softlayer/sl-ember-components/issues/305) `sl-date-range-picker`: Remove change bindings for "startDateChange" and "endDateChange"
+
+**ENHANCEMENT**
+
+* [#392](https://github.com/softlayer/sl-ember-components/pull/392) Install `ember-cli-jsdoc`
+* [#404](https://github.com/softlayer/sl-ember-components/pull/404) Install `joshforisha/sl-eslint`
+* [#331](https://github.com/softlayer/sl-ember-components/issues/331) `mixin:sl-tooltip-enabled`: Enable tooltip functionality to include popover and title
+
+**BUGFIX**
+
+* [#309](https://github.com/softlayer/sl-ember-components/issues/309) Update dependencies for underlying dependency chaining mis-matches that have occurred within Ember CLI ecosystem
+* [#389](https://github.com/softlayer/sl-ember-components/issues/389) Dropdown options are shifted off of the dropdown list element
+* [#390](https://github.com/softlayer/sl-ember-components/pull/390) `sl-select`: Couldn't recognize Ember objects passed in (thanks to [@JKGisMe](https://github.com/JKGisMe))
+* [#396](https://github.com/softlayer/sl-ember-components/issues/396) `Ember.typeOf( Symbol )` returns `"function"`, caused by [https://github.com/emberjs/ember.js/issues/11673](https://github.com/emberjs/ember.js/issues/11673)
+* [#410](https://github.com/softlayer/sl-ember-components/issues/410) `sl-select` doesn' show pre-existing selection (thanks to [@JKGisMe](https://github.com/JKGisMe))
+* [#526](https://github.com/softlayer/sl-ember-components/issues/526) Added `jquery-mousewheel` dependency
+
+**DOCUMENTATION**
+
+* Added and improved documentation and demo application
+* [#365](https://github.com/softlayer/sl-ember-components/issues/365) Support publishing of generated docs to gh-pages branch/site
+
+**INTERNAL**
+* All components are now fully tested
+* Codebase now aligns with the [Ember Style Guide](https://github.com/softlayer/ember-style-guide)
+* [#14](https://github.com/softlayer/sl-ember-components/issues/14) All expected properties that can be defined when a component is used in a template should also be set in the component
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.8.0...v0.9.0)
 
 ### 0.8.0
 
-* [#167](https://github.com/softlayer/sl-ember-components/pull/167) [ENHANCEMENT] Overwrite Font Awesome fonts if already in application tree
-* [INTERNAL] Increase test coverage
-* [INTERNAL] Refactor tests
-* [#266](https://github.com/softlayer/sl-ember-components/pull/266) [BREAKING ENHANCEMENT] Remove es5-shim
-* [#271](https://github.com/softlayer/sl-ember-components/pull/271) [BREAKING ENHANCEMENT] Upgrade to Ember CLI 0.1.15
-* [#276](https://github.com/softlayer/sl-ember-components/pull/276) [ENHANCEMENT] Update sl-ember-test-helpers to 1.3.0
-* [#279](https://github.com/softlayer/sl-ember-components/pull/279) [EHHANCEMENT] Removed ember-cli-6to5 3.0.0. Added ember-cli-babel 4.0.0
-* [#280](https://github.com/softlayer/sl-ember-components/pull/280) [DOCUMENATION] Update installation instructions
-* [#283](https://github.com/softlayer/sl-ember-components/pull/283) [INTERNAL] Replaced instances of `Ember.A()` with `[]`
-* [#284](https://github.com/softlayer/sl-ember-components/pull/284) [ENHANCEMENT] Update sl-ember-translate to 1.4.0
-* [#286](https://github.com/softlayer/sl-ember-components/pull/286) [BUGFIX] Closes [#130](https://github.com/softlayer/sl-ember-components/issues/130) - Keyboard shortcuts not working correctly in menu
+**BREAKING ENHANCEMENT**
+
+* [#266](https://github.com/softlayer/sl-ember-components/pull/266) Remove es5-shim
+* [#271](https://github.com/softlayer/sl-ember-components/pull/271) Upgrade to Ember CLI 0.1.15
+
+**ENHANCEMENT**
+
+* [#167](https://github.com/softlayer/sl-ember-components/pull/167) Overwrite Font Awesome fonts if already in application tree
+* [#276](https://github.com/softlayer/sl-ember-components/pull/276) Update sl-ember-test-helpers to 1.3.0
+* [#279](https://github.com/softlayer/sl-ember-components/pull/279) Removed ember-cli-6to5 3.0.0. Added ember-cli-babel 4.0.0
+* [#284](https://github.com/softlayer/sl-ember-components/pull/284) Update sl-ember-translate to 1.4.0
+
+**BUGFIX**
+
+* [#130](https://github.com/softlayer/sl-ember-components/issues/130) Keyboard shortcuts not working correctly in menu
+
+**DOCUMENTATION**
+
+* [#280](https://github.com/softlayer/sl-ember-components/pull/280) Update installation instructions
+
+**INTERNAL**
+
+* Increase test coverage
+* Refactor tests
+* [#283](https://github.com/softlayer/sl-ember-components/pull/283) Replaced instances of `Ember.A()` with `[]`
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.7.0...v0.8.0)
 
@@ -99,13 +149,6 @@
 
 ### 0.6.0
 
-**BUGFIX**
-
-* [#115](https://github.com/softlayer/sl-ember-components/pull/115) [BUGFIX] Remove duplicate LESS import statements
-* [#117](https://github.com/softlayer/sl-ember-components/pull/117) [BUGFIX] Fix Bower package name in blueprint
-* [#120](https://github.com/softlayer/sl-ember-components/pull/120) [BUGFIX] Layout of hidden columns in grid system
-* [#125](https://github.com/softlayer/sl-ember-components/pull/125) [BUGFIX] Cleanup event listeners in grid system
-
 **BREAKING ENHANCEMENT**
 
 * [#131](https://github.com/softlayer/sl-ember-components/issues/131) [BREAKING ENHANCEMENT] Update sl-bootstrap Bower dependency to1.1.0
@@ -116,13 +159,16 @@
 * [#122](https://github.com/softlayer/sl-ember-components/pull/122) [ENHANCEMENT] Add "align" property to sl-drop-button
 * [#123](https://github.com/softlayer/sl-ember-components/pull/123) [ENHANCEMENT] Improve buttons size options
 
+**BUGFIX**
+
+* [#115](https://github.com/softlayer/sl-ember-components/pull/115) [BUGFIX] Remove duplicate LESS import statements
+* [#117](https://github.com/softlayer/sl-ember-components/pull/117) [BUGFIX] Fix Bower package name in blueprint
+* [#120](https://github.com/softlayer/sl-ember-components/pull/120) [BUGFIX] Layout of hidden columns in grid system
+* [#125](https://github.com/softlayer/sl-ember-components/pull/125) [BUGFIX] Cleanup event listeners in grid system
+
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.5.0...v0.6.0)
 
 ### 0.5.0
-
-**BUGFIX**
-
-* [#97](https://github.com/softlayer/sl-ember-components/pull/97) Correct asset paths
 
 **BREAKING ENHANCEMENT**
 
@@ -134,6 +180,10 @@
 * [#103](https://github.com/softlayer/sl-ember-components/pull/103) Add properties for additional HTML attributes
 * [#104](https://github.com/softlayer/sl-ember-components/pull/104) Additional updates to textarea attributes
 
+**BUGFIX**
+
+* [#97](https://github.com/softlayer/sl-ember-components/pull/97) Correct asset paths
+
 **INTERNAL**
 
 * [#90](https://github.com/softlayer/sl-ember-components/pull/90) Update bower dependency url
@@ -141,11 +191,6 @@
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.4.0...v0.5.0)
 
 ### 0.4.0
-
-**BUGFIX**
-
-* [#55](https://github.com/softlayer/sl-ember-components/pull/55) Add "disabled" class binding to checkbox's div
-* [#59](https://github.com/softlayer/sl-ember-components/pull/59)
 
 **BREAKING ENHANCEMENT**
 
@@ -156,6 +201,11 @@
 * [#60](https://github.com/softlayer/sl-ember-components/pull/60) Remove content security policy addon
 * [#84](https://github.com/softlayer/sl-ember-components/pull/84) Changed the git endpoint for sl-bootstrap Bower dependency
 * [#86](https://github.com/softlayer/sl-ember-components/pull/86) Remove content security policy addon configuration from demo application
+
+**BUGFIX**
+
+* [#55](https://github.com/softlayer/sl-ember-components/pull/55) Add "disabled" class binding to checkbox's div
+* [#59](https://github.com/softlayer/sl-ember-components/pull/59)
 
 **DOCUMENTATION**
 
