@@ -30,18 +30,61 @@
         <h6>Template</h6>
         <pre>\{{sl-input
     label="Input with typeahead suggestions"
-    placeholder="Enter a color"
-    suggestions=colors
-    value=colorValue
+    placeholder="Enter a Name"
+    suggestions=names
 }}</pre>
+        <h6>Controller</h6>
+        <pre>model: [
+    names: [
+        "Jeff",
+        "Michael",
+        "Jeremy"
+    ]
+]</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{sl-input
             label="Input with typeahead suggestions"
+            placeholder="Enter a Name"
+            suggestions=names
+        }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <h6>Template</h6>
+        <pre>\{{sl-input
+    label="Input with typeahead suggestions using suggestionNamePath"
+    placeholder="Enter a color"
+    suggestions=colors
+    suggestionNamePath="id"
+}}</pre>
+        <h6>Controller</h6>
+        <pre>model: [
+    colors: [
+        { id: 'Black' },
+        { id: 'Blue' },
+        { id: 'Gray' },
+        { id: 'Green' },
+        { id: 'Orange' },
+        { id: 'Purple' },
+        { id: 'Red' },
+        { id: 'White' },
+        { id: "Yellow" }
+    ]
+]</pre>
+    </div>
+
+    <div class="col-lg-6">
+        <h6>Rendered Component</h6>
+        {{sl-input
+            label="Input with typeahead suggestions using suggestionNamePath"
             placeholder="Enter a color"
             suggestions=colors
+            suggestionNamePath="id"
             value=colorValue
         }}
     </div>
@@ -216,7 +259,7 @@
     {{/property-text}}
 
     {{#property-text name="suggestions" type="Array"}}
-        Values to use as typeahead suggestions.
+        Array of objects used as typeahead suggestions. Each object must contain a key whose name matches the <code>suggestionNamePath</code> property value, which is "name" by default.
     {{/property-text}}
 
     {{#property-text name="title" type="String"}}
