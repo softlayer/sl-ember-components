@@ -6,46 +6,12 @@ var path = require( 'path' );
 var less = require( 'less' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
-var compileLess = require( 'broccoli-less-single' );
 var existsSync = require( 'exists-sync' );
+var unwatchedTree = require( 'broccoli-unwatched-tree' );
+var Promise = require( 'rsvp' ).Promise;
 
 module.exports = {
     name: 'sl-ember-components',
-
-    /**
-     * Create subdirectory in temp folder
-     *
-     * @returns {undefined}
-     */
-    createTempPath: function() {
-        var tempRoot = path.join( this.project.root, 'tmp' );
-        var tempPath = this.getTempPath();
-
-        if ( !existsSync( tempRoot ) ) {
-            fs.mkdirSync( tempRoot );
-        }
-
-        if ( !existsSync( tempPath ) ) {
-            fs.mkdirSync( tempPath );
-        }
-    },
-
-    /**
-     * Remove subdirectory in temp folder
-     *
-     * @returns {undefined}
-     */
-    removeTempPath: function() {
-        var cssFilePath = path.join( this.getTempPath(), this.getCssFileName() );
-
-        if ( existsSync( cssFilePath ) ) {
-            fs.unlinkSync( path.resolve( cssFilePath ) );
-        }
-
-        if ( existsSync( this.getTempPath() ) ) {
-            fs.rmdirSync( this.getTempPath() );
-        }
-    },
 
     /**
      * Name used for LESS-generated CSS file placed in temp folder
@@ -62,9 +28,16 @@ module.exports = {
      * @returns {String}
      */
     getTempPath: function() {
-        var tempRoot = path.join( this.project.root, 'tmp' );
+        return path.join( this.project.root, 'tmp' );
+    },
 
-        return path.resolve( path.join( tempRoot, this.name ) );
+    /**
+     * Path to temp sub-folder
+     *
+     * @returns {String}
+     */
+    getTempSubPath: function() {
+        return path.resolve( path.join( this.getTempPath(), this.name ) );
     },
 
     /**
@@ -82,42 +55,75 @@ module.exports = {
      * Pre-compiling LESS files and placing result into file in temp folder for
      * use by treeForVendor()
      *
-     * @returns {undefined}
+     * @returns {Promise}
      */
     preBuild: function() {
-        this._super.included();
-
         var resolvePaths = [
             this.project.root
         ];
 
         if ( !this.isAddon() ) {
-            resolvePaths.push( 'node_modules' );
-            resolvePaths.push( this.name );
+            resolvePaths.push( 'node_modules', this.name );
         }
 
-        resolvePaths.push( 'app' );
-        resolvePaths.push( 'styles' );
-        resolvePaths.push( this.name + '.less' );
+        resolvePaths.push( 'app', 'styles', this.name + '.less' );
 
         var lessSourceLocation = path.resolve.apply( undefined, resolvePaths );
         var lessSourceString = fs.readFileSync( lessSourceLocation ).toString();
 
-        this.createTempPath();
-
         var lessCompiledLocation = path.resolve( this.getTempPath(), this.getCssFileName() );
 
-        less.render(
-            lessSourceString,
-            {
-                filename: lessSourceLocation
-            },
-            function( error, output ) {
-                var fd = fs.openSync( lessCompiledLocation, 'w' );
-                fs.writeSync( fd, output.css );
-                fs.closeSync( fd );
+        var tempRoot = this.getTempPath();
+        var tempPath = this.getTempSubPath();
+
+        return new Promise( function( resolve, reject ) {
+            var buildLess = function() {
+                less.render(
+                    lessSourceString,
+                    {
+                        filename: lessSourceLocation
+                    },
+                    function( error, output ) {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            var fd = fs.openSync( lessCompiledLocation, 'w' );
+                            fs.writeSync( fd, output.css );
+                            fs.closeSync( fd );
+                            resolve();
+                        }
+                    }
+                );
+            };
+
+            // add sub-folder
+            var addSubFolder = function() {
+                if ( !existsSync( tempPath ) ) {
+                    fs.mkdir( tempPath, function( error ) {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            buildLess();
+                        }
+                    });
+                } else {
+                    buildLess();
+                }
+            };
+
+            // add /tmp/ folder
+            if ( !existsSync( tempRoot ) ) {
+                fs.mkdir( tempRoot, function( error ) {
+                    if ( !error ) {
+                        addSubFolder();
+                    } else {
+                        reject( error );
+                    }
+                });
+            } else {
+                addSubFolder();
             }
-        );
+        });
     },
 
     /**
@@ -127,7 +133,8 @@ module.exports = {
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
-        var compiledLessTree = new Funnel( this.getTempPath(), {
+        var tempTree = new unwatchedTree( this.getTempPath() );
+        var compiledLessTree = new Funnel( tempTree, {
             srcDir: '/',
             destDir: this.name,
             include: [ this.getCssFileName() ]
@@ -157,8 +164,8 @@ module.exports = {
         app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
 
         app.import({
-            development: app.bowerDirectory + '/highcharts/highcharts.src.js',
-            production: app.bowerDirectory + '/highcharts/highcharts.js'
+            development: app.bowerDirectory + '/highcharts/lib/highcharts.src.js',
+            production: app.bowerDirectory + '/highcharts/lib/highcharts.js'
         });
 
         app.import({
@@ -221,9 +228,42 @@ module.exports = {
      * Delete generated CSS file from temp folder
      *
      * @param {Object} result
-     * @returns {undefined}
+     * @returns {Promise}
      */
     postBuild: function( result ) {
-        this.removeTempPath();
+        var tempPath = this.getTempSubPath();
+        var cssFileName = this.getCssFileName();
+
+        return new Promise( function( resolve, reject ) {
+            var cssFilePath = path.join( tempPath, cssFileName );
+
+            // remove the folder
+            var removeFolder = function() {
+                if ( existsSync( tempPath ) ) {
+                    fs.rmdir( tempPath, function( error ) {
+                        if ( error ) {
+                            reject( error );
+                        } else {
+                            resolve();
+                        }
+                    });
+                } else {
+                    resolve();
+                }
+            };
+
+            // remove the file
+            if ( existsSync( cssFilePath ) ) {
+                fs.unlink( path.resolve( cssFilePath ), function( error ) {
+                    if ( !error ) {
+                        removeFolder();
+                    } else {
+                        reject( error );
+                    }
+                });
+            } else {
+                removeFolder();
+            }
+        });
     }
 };

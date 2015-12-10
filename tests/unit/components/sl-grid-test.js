@@ -37,9 +37,9 @@ test( 'Default values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'activeRecord' ),
+        component.get( 'activeRow' ),
         null,
-        'activeRecord is set to null'
+        'activeRow is set to null'
     );
 
     assert.deepEqual(
@@ -116,8 +116,8 @@ test( 'Default values are set correctly', function( assert ) {
 
     assert.strictEqual(
         component.get( 'height' ),
-        'auto',
-        'height is "auto"'
+        '',
+        'height is ""'
     );
 
     assert.strictEqual(
@@ -217,15 +217,13 @@ test( 'changePage() triggers requestData action with correct arguments', functio
 test( 'openDetailPane() updates component state', function( assert ) {
     const row = { title: 'Name', valuePath: 'name', active: false };
     const activeRecord = { title: 'Id', valuePath: 'id', active: true };
-    const updateHeightSpy = sinon.spy();
 
     const component = this.subject({
-        activeRecord: activeRecord,
-        updateHeight: updateHeightSpy
+        activeRow: activeRecord
     });
 
     Ember.run( () => {
-        component.send( 'openDetailPane', row );
+        component.send( 'selectRow', row );
     });
 
     assert.strictEqual(
@@ -241,21 +239,9 @@ test( 'openDetailPane() updates component state', function( assert ) {
     );
 
     assert.deepEqual(
-        component.get( 'activeRecord' ),
+        component.get( 'activeRow' ),
         row,
         'Active record was set to passed in row'
-    );
-
-    assert.strictEqual(
-        component.get( 'detailPaneOpen' ),
-        true,
-        'detailPaneOpen is set to true'
-    );
-
-    assert.ok(
-        updateHeightSpy.calledOnce,
-        true,
-        'Update height was called'
     );
 });
 
@@ -278,17 +264,15 @@ test( 'rowClick() fires rowClick action', function( assert ) {
     );
 });
 
-test( 'closeDetailPane() updates component state', function( assert ) {
+test( 'deselectRow() updates component state', function( assert ) {
     const activeRecord = { 'active': true };
-    const updateHeightSpy = sinon.spy();
 
     const component = this.subject({
-        activeRecord: activeRecord,
-        updateHeight: updateHeightSpy
+        activeRow: activeRecord
     });
 
     Ember.run( () => {
-        component.send( 'closeDetailPane' );
+        component.send( 'deselectRow' );
     });
 
     assert.strictEqual(
@@ -298,7 +282,7 @@ test( 'closeDetailPane() updates component state', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'activeRecord' ),
+        component.get( 'activeRow' ),
         null,
         'Active record was set to null'
     );
@@ -307,11 +291,6 @@ test( 'closeDetailPane() updates component state', function( assert ) {
         component.get( 'detailPaneOpen' ),
         false,
         'detailPaneOpen was set to false'
-    );
-
-    assert.ok(
-        updateHeightSpy.calledOnce,
-        'Update height was called'
     );
 });
 
@@ -460,7 +439,7 @@ test( 'handleNewContent() unbinds scroll event when there is no more data to req
     Ember.$.fn.off.restore();
 });
 
-test( 'setupAutoHeight() - updateHeight() is called on window resize when height is not specified', function( assert ) {
+test( 'setupCalculatedHeight() - updateHeight() is called on window resize', function( assert ) {
     const spy = sinon.spy();
 
     this.subject({
@@ -529,244 +508,27 @@ test( 'setupContinuousPaging() enables continuous paging', function( assert ) {
     );
 });
 
-test( 'updateHeight() sets correct height on content elements', function( assert ) {
-    const heights = {
-        detailContentHeight: 100,
-        listContentHeight: 200
-    };
+test( 'updateHeight() sets grid table height when not empty', function( assert ) {
+    const height = '200px';
 
-    const stub = sinon.stub().returns( heights );
-    const component = this.subject({
+    this.subject({
         columns,
         content,
-        getContentHeights: stub
+        height
     });
 
     this.render();
 
-    this.$( '.detail-pane .content' ).height( 0 );
-    this.$( '.list-pane .content' ).height( 0 );
-
-    component.updateHeight();
-
-    assert.strictEqual(
-        this.$( '.detail-pane .content' ).height(),
-        heights.detailContentHeight,
-        'detail content height was set correctly'
+    assert.ok(
+        this.$( '> div > table' ).parent().height() < 200,
+        'detail content height is something less than what was given for total'
     );
 
     assert.strictEqual(
-        this.$( '.list-pane .content' ).height(),
-        heights.listContentHeight,
-        'list content height was set correctly'
+        parseInt( this.$( '> div > table' ).parent().css( 'height' ) ),
+        this.$( '> div > table' ).parent().height(),
+        'detail content height was set to something specific'
     );
-});
-
-test( 'getHeights() returns correct height values', function( assert ) {
-    const elements = {};
-
-    const component = this.subject({
-        columns,
-        content
-    });
-
-    this.render();
-
-    elements.gridHeader =  {
-        height: parseInt( this.$( '.grid-header' ).css( 'height' ) )
-    };
-
-    elements.detailHeader = {
-        height: parseInt( this.$( '.detail-pane header' ).css( 'height' ) )
-    };
-
-    elements.detailFooter = {
-        height: parseInt( this.$( '.detail-pane footer' ).css( 'height' ) )
-    };
-
-    elements.listHeader = {
-        height: parseInt( this.$( '.list-pane .column-headers' ).css( 'height' ) )
-    };
-
-    elements.listFooter = {
-        height: parseInt( this.$( '.list-pane footer' ).css( 'height' ) )
-    };
-
-    elements.filterPane = {
-        height: parseInt( this.$( '.filter-pane' ).css( 'height' ) )
-    };
-
-    const heights = component.getHeights();
-
-    for( const key in elements ) {
-        const element = elements[ key ];
-        const keyName = `${ key }Height`;
-
-        assert.strictEqual(
-            heights[ keyName ],
-            element.height,
-            `${ key } height was returned correctly`
-        );
-    }
-});
-
-test( 'getMaxHeight() returns correct height', function( assert ) {
-    const component = this.subject({
-        columns,
-        content
-    });
-
-    this.render();
-
-    const computedHeight = Ember.$( window ).innerHeight() - this.$().position().top;
-
-    assert.strictEqual(
-        component.getMaxHeight(),
-        computedHeight,
-        'When height is not set, computed height returned is correct'
-    );
-
-    Ember.run( () => component.set( 'height', 200 ) );
-
-    assert.strictEqual(
-        component.getMaxHeight(),
-        200,
-        'Static height is returned when height is set'
-    );
-});
-
-test( 'getContentHeights() returns correct value for content heights', function( assert ) {
-    const heights = {};
-    const maxHeight = 1000;
-    const component = this.subject({
-        filterPaneOpen: false
-    });
-
-    sinon.stub( component, 'getMaxHeight' ).returns( maxHeight );
-    sinon.stub( component, 'getHeights' ).returns( heights );
-
-    const resetHeights = () => {
-        heights.detailHeaderHeight = 0;
-        heights.detailFooterHeight = 0;
-        heights.listHeaderHeight = 0;
-        heights.listFooterHeight = 0;
-        heights.gridHeaderHeight = 0;
-        heights.filterPaneHeight = 0;
-    };
-
-    resetHeights();
-
-    let {
-        detailContentHeight,
-        listContentHeight
-    } = component.getContentHeights();
-
-    assert.strictEqual(
-        detailContentHeight,
-        1000,
-        `detailContentHeight is ${ maxHeight }`
-    );
-
-    assert.strictEqual(
-        listContentHeight,
-        1000,
-        `listContentHeight is ${ maxHeight }`
-    );
-
-    /* jshint ignore:start */
-
-    // Test detailContentHeight is computed correctly when detailContentHeight is set
-
-    heights.detailHeaderHeight = 100;
-
-    ( { detailContentHeight } = component.getContentHeights() );
-
-    assert.strictEqual(
-        detailContentHeight,
-        maxHeight - 100,
-        `detailContentHeight is ${ maxHeight - 100 } when detailHeaderHeight is set`
-    );
-
-    // Test detailContentHeight is computed correctly when detaiFooterHeight is set
-
-    resetHeights();
-    heights.detailFooterHeight = 100;
-    ( { detailContentHeight } = component.getContentHeights() );
-
-    assert.strictEqual(
-        detailContentHeight,
-        maxHeight - 100,
-        `detailContentHeight is ${ maxHeight - 100 } when detailFooterHeight is set`
-    );
-
-    // Test listContentHeight and detailContentHeight is computed correctly
-    // when filterPaneHeight is set
-
-    resetHeights();
-    heights.filterPaneHeight = 100;
-    Ember.run( () => component.set( 'filterPaneOpen', true ) );
-
-    ( { detailContentHeight, listContentHeight } = component.getContentHeights() );
-
-    assert.strictEqual(
-        detailContentHeight,
-        maxHeight - 100,
-        `detailContentHeight is ${ maxHeight - 100 } when filterPaneHeight is set`
-    );
-
-    assert.strictEqual(
-        listContentHeight,
-        maxHeight - 100,
-        `listContentHeight is ${ maxHeight - 100 } when filterPaneHeight is set`
-
-    );
-
-    // Test listContentHeight and detailContentHeight is computed correctly
-    // when gridHeaderHeight is set
-
-    resetHeights();
-    heights.gridHeaderHeight = 100;
-    ( { detailContentHeight, listContentHeight } = component.getContentHeights() );
-
-    assert.strictEqual(
-        detailContentHeight,
-        maxHeight - 100,
-        `detailContentHeight is ${ maxHeight - 100 } when gridHeaderHeight is set`
-    );
-
-    assert.strictEqual(
-        listContentHeight,
-        maxHeight - 100,
-        `listContentHeight is ${ maxHeight - 100 } when gridHeaderHeight is set`
-    );
-
-    // Test listContentHeight is computed correctly
-    // when listHeaderHeight is set
-
-    resetHeights();
-    heights.listHeaderHeight = 100;
-    ( { listContentHeight } = component.getContentHeights() );
-
-    assert.strictEqual(
-        listContentHeight,
-        maxHeight - 100,
-        `listContentHeight is ${ maxHeight - 100 } when listHeaderHeight is set`
-    );
-
-    // Test listContentHeight is computed correctly
-    // when listFooterHeight is set
-
-    resetHeights();
-    heights.listFooterHeight = 100;
-    ( { listContentHeight } = component.getContentHeights() );
-
-    assert.strictEqual(
-        listContentHeight,
-        maxHeight - 100,
-        `listContentHeight is ${ maxHeight - 100 } when listFooterHeight is set`
-    );
-
-    /* jshint ignore:end */
 });
 
 test( 'enableContinuousPaging() binds scroll event', function( assert ) {
@@ -783,7 +545,7 @@ test( 'enableContinuousPaging() binds scroll event', function( assert ) {
 
     component.enableContinuousPaging();
 
-    this.$( '.list-pane .content' ).trigger( 'scroll' );
+    this.$( '> div > table' ).parent().trigger( 'scroll' );
 
     assert.ok(
         handleListContentSpy.called,
@@ -1139,39 +901,6 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
     Ember.$.fn.off.restore();
 });
 
-test( 'Only required references to Ember.$, $ or jQuery exist', function( assert ) {
-    const jqueryAliasSpy = sinon.spy( window, '$' );
-    const jquerySpy = sinon.spy( window, 'jQuery' );
-    const emberJquery = sinon.spy( Ember, '$' );
-
-    this.subject();
-    this.render();
-
-    assert.notOk(
-        jquerySpy.called,
-        'there are no references to jQuery'
-    );
-
-    assert.notOk(
-        jqueryAliasSpy.called,
-        'there are no references to $'
-    );
-
-    assert.notOk(
-        emberJquery.calledOn( window ),
-        'Ember.$ was called on the window object'
-    );
-
-    assert.notOk(
-        emberJquery.calledOnce,
-        'Ember.$ was once called once'
-    );
-
-    window.$.restore();
-    window.jQuery.restore();
-    Ember.$.restore();
-});
-
 test( 'Observer keys are correct', function( assert ) {
     const component = this.subject();
 
@@ -1179,10 +908,21 @@ test( 'Observer keys are correct', function( assert ) {
         'content.[]'
     ];
 
+    const displayFooterKeys = [
+        'footerPath',
+        'showPagination'
+    ];
+
     assert.deepEqual(
         component.handleNewContent.__ember_observes__,
         handleNewContentKeys,
         'Observer keys are correct for handleNewContent()'
+    );
+
+    assert.deepEqual(
+        component.displayFooter.__ember_observes__,
+        displayFooterKeys,
+        'Observer keys are correct for displayFooter()'
     );
 });
 
@@ -1205,6 +945,11 @@ test( 'Dependent keys are correct', function( assert ) {
         'totalCount'
     ];
 
+    const hasMoreDataDependentKeys = [
+        'content.length',
+        'totalCount'
+    ];
+
     assert.deepEqual(
         component.showPagination._dependentKeys,
         showPaginationDependentKeys
@@ -1218,5 +963,10 @@ test( 'Dependent keys are correct', function( assert ) {
     assert.deepEqual(
         component.totalPages._dependentKeys,
         totalPagesDependentKeys
+    );
+
+    assert.deepEqual(
+        component.hasMoreData._dependentKeys,
+        hasMoreDataDependentKeys
     );
 });

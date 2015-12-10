@@ -26,19 +26,19 @@ export default Ember.Controller.extend({
 
     columns: Ember.A([
         {
-            size: 'small',
+            extraClass: 'small',
             title: 'Color',
             valuePath: 'name'
         },
         {
-            size: 'small',
+            extraClass: 'small',
             primary: true,
             sortable: true,
             title: 'Fruit',
             valuePath: 'fruit'
         },
         {
-            size: 'small',
+            extraClass: 'small',
             sortable: true,
             title: 'Hex Code',
             valuePath: 'hexCode'

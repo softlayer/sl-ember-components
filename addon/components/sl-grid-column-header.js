@@ -15,14 +15,10 @@ export default SlGridCell.extend({
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [
-        'style'
-    ],
-
-    /** @type {String[]} */
     classNameBindings: [
         'column.sortable:sortable-column',
-        'sortedClass'
+        'sortedClass',
+        'column.extraClass'
     ],
 
     /** @type {String[]} */

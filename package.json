@@ -1,6 +1,6 @@
 {
   "name": "sl-ember-components",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "Ember CLI Addon - UI components library",
   "homepage": "http://softlayer.github.io/sl-ember-components",
   "scripts": {
@@ -52,6 +52,8 @@
     "ember-cli-htmlbars": "1.0.0",
     "ember-stream": "^0.7.3",
     "exists-sync": "0.0.3",
+    "rsvp": "^3.1.0",
+    "broccoli-unwatched-tree": "^0.1.1",
     "less": "^2.5.3"
   },
   "devDependencies": {

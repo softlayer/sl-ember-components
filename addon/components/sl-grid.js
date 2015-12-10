@@ -46,12 +46,13 @@ export default Ember.Component.extend( Namespace, {
     /** @type {String[]} */
     classNameBindings: [
         'detailPaneOpen:details-open',
-        'loading:sl-loading'
+        'detailComponent:hasDetails'
     ],
 
     /** @type {String[]} */
     classNames: [
-        'sl-grid'
+        'grid',
+        'sl-ember-components'
     ],
 
     /** @type {Object} */
@@ -89,18 +90,37 @@ export default Ember.Component.extend( Namespace, {
          * @returns {undefined}
          */
         closeDetailPane() {
-            const activeRecord = this.get( 'activeRecord' );
-
-            if ( activeRecord ) {
-                Ember.set( activeRecord, 'active', false );
-                this.set( 'activeRecord', null );
+            if ( !this.get( 'detailPaneOpen' ) ) {
+                return;
             }
 
             this.set( 'detailPaneOpen', false );
-            this.updateHeight();
+
+            Ember.run.next( this, () => {
+                this.resetFixedHeaderWidths();
+            });
         },
 
-         /**
+        /**
+         * Deselect the currently selected row
+         *
+         * Will also close the details pane since nothing will be selected.
+         *
+         * @function
+         * @returns {undefined}
+         */
+        deselectRow() {
+            const activeRow = this.get( 'activeRow' );
+
+            if ( activeRow ) {
+                Ember.set( activeRow, 'active', false );
+                this.set( 'activeRow', null );
+            }
+
+            this.send( 'closeDetailPane' );
+        },
+
+        /**
          * Handles drop button selection
          *
          * @function actions:dropButtonSelect
@@ -113,27 +133,20 @@ export default Ember.Component.extend( Namespace, {
         },
 
         /**
-         * Open the detail-pane with a specific row object
+         * Open the detail-pane
          *
          * @function
-         * @param {Object} row - An object representing the row to make active
          * @returns {undefined}
          */
-        openDetailPane( row ) {
-            const activeRecord = this.get( 'activeRecord' );
-
-            if ( activeRecord ) {
-                Ember.set( activeRecord, 'active', false );
+        openDetailPane() {
+            if ( this.get( 'detailPaneOpen' ) || !this.get( 'detailComponent' ) || !this.get( 'activeRow' ) ) {
+                return;
             }
 
-            Ember.set( row, 'active', true );
-            this.setProperties({
-                activeRecord: row,
-                detailPaneOpen: true
-            });
+            this.set( 'detailPaneOpen', true );
 
-            Ember.run.scheduleOnce( 'afterRender', () => {
-                this.updateHeight();
+            Ember.run.next( this, () => {
+                this.resetFixedHeaderWidths();
             });
         },
 
@@ -141,20 +154,43 @@ export default Ember.Component.extend( Namespace, {
          * Handle a list item's row click
          *
          * If an action is bound to the `rowClick` property, then it will be
-         * called when this is triggered. Otherwise, the detail-pane will be
-         * opened for the triggering row's model record, unless no detailPath is
-         * defined.
+         * called when this is triggered. Otherwise, the row will be selected and
+         * the detail-pane will be opened for the triggering row's model record,
+         * unless no detailPath is defined.
          *
          * @function actions:rowClick
-         * @param {Object} row - The object that the clicked row represents
+         * @param {Object} row - The instance of the sl-grid-row component
          * @returns {undefined}
          */
         rowClick( row ) {
             if ( this.get( 'rowClick' ) ) {
                 this.sendAction( 'rowClick', row );
             } else if ( this.get( 'detailComponent' ) ) {
-                this.send( 'openDetailPane', row );
+                this.send( 'selectRow', row );
+                this.send( 'openDetailPane' );
             }
+        },
+
+        /**
+         * Select a row and possibly open the detail panel
+         *
+         * @function
+         * @param {Object} row - An object representing the row to make active
+         * @returns {undefined}
+         */
+        selectRow( row ) {
+            const activeRow = this.get( 'activeRow' );
+
+            if ( activeRow ) {
+                if ( activeRow === row ) {
+                    this.send( 'deselectRow' );
+                    return;
+                }
+                Ember.set( activeRow, 'active', false );
+            }
+
+            Ember.set( row, 'active', true );
+            this.set( 'activeRow', row );
         },
 
         /**
@@ -219,11 +255,11 @@ export default Ember.Component.extend( Namespace, {
     actionsButtonLabel: 'Actions',
 
     /**
-     * The row record that is currently active in the detail pane
+     * The row that is currently active in the detail pane
      *
      * @type {?Object}
      */
-    activeRecord: null,
+    activeRow: null,
 
     /**
      * @typedef ColumnDefinition
@@ -317,6 +353,13 @@ export default Ember.Component.extend( Namespace, {
     filterComponent: null,
 
     /**
+     * Whether or not the table headers should be fixed
+     *
+     * @type {Boolean}
+     */
+    fixedHeader: false,
+
+    /**
      * The path for the template to use for the footer of the list pane
      *
      * @type {?String}
@@ -324,15 +367,14 @@ export default Ember.Component.extend( Namespace, {
     footerPath: null,
 
     /**
-     * The height of the overall grid
+     * The height of the overall grid component
      *
-     * When the value is set to "auto" (the default), then the sl-grid will size
-     * its content to take up the maximum valid vertical space for the
-     * current viewport.
+     * This height will be passed through to the component.
+     * You may set it to any CSS measurement/value.
      *
      * @type {Number|String}
      */
-    height: 'auto',
+    height: '',
 
     /**
      * When true, the split-grid is in a loading state
@@ -402,6 +444,20 @@ export default Ember.Component.extend( Namespace, {
     // Observers
 
     /**
+     * Decides if the grid footer should be included on the page
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    displayFooter: Ember.observer(
+        'footerPath',
+        'showPagination',
+        function() {
+            return this.get( 'footerPath' ) || this.get( 'showPagination' );
+        }
+    ),
+
+    /**
      * Does cleanup for internal state when content length has changed
      *
      * @function
@@ -419,23 +475,6 @@ export default Ember.Component.extend( Namespace, {
     ),
 
     /**
-     * Setup the viewport-based auto sizing when `height` is "auto"
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupAutoHeight: Ember.on(
-        'didInsertElement',
-        function() {
-            if ( 'auto' === this.get( 'height' ) ) {
-                Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
-                    this.updateHeight();
-                });
-            }
-        }
-    ),
-
-    /**
      * Cleanup bound events
      *
      * @function
@@ -445,24 +484,7 @@ export default Ember.Component.extend( Namespace, {
         'willClearRender',
         function() {
             Ember.$( window ).off( this.namespaceEvent( 'resize' ) );
-            this.$( '.list-pane .content' ).off( this.namespaceEvent( 'scroll' ) );
-        }
-    ),
-
-    /**
-     * Setup the widths for column headers that were not given widths
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupColumnHeaderWidths: Ember.on(
-        'didInsertElement',
-        function() {
-            const context = this;
-            const colHeaders = this.$( '.list-pane .column-headers tr:first th' );
-            this.$( '.list-pane .content > table tr:first td' ).each( function( index ) {
-                colHeaders.eq( index ).width( context.$( this ).width() );
-            });
+            this.disableContinuousPaging();
         }
     ),
 
@@ -483,21 +505,40 @@ export default Ember.Component.extend( Namespace, {
     ),
 
     /**
-     * Update panes' heights
+     * Setup fixed position table header
+     *
+     * Also creates a window resize event to ensure grid acts fluid.
      *
      * @function
      * @returns {undefined}
      */
-    updateHeight: Ember.on(
+    setupFixedHeader: Ember.on(
         'didInsertElement',
         function() {
-            const {
-                detailContentHeight,
-                listContentHeight
-            } = this.getContentHeights();
+            if ( this.get( 'fixedHeader' ) ) {
+                this.resetFixedHeaderWidths();
+                Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+                    this.resetFixedHeaderWidths();
+                });
+            }
+        }
+    ),
 
-            this.$( '.detail-pane .content' ).height( detailContentHeight );
-            this.$( '.list-pane .content' ).height( listContentHeight );
+    /**
+     * Setup height of the grid table
+     *
+     * Also creates a window resize event to ensure grid acts fluid.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupCalculatedHeight: Ember.on(
+        'didInsertElement',
+        function() {
+            this.updateHeight();
+            Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+                this.updateHeight();
+            });
         }
     ),
 
@@ -505,82 +546,37 @@ export default Ember.Component.extend( Namespace, {
     // Methods
 
     /**
-     * Calculate and return content heights
+     * Namespace event per instance
      *
      * @function
-     * @returns {Object}
+     * @param {String} - event name
+     * @returns {String}
      */
-    getContentHeights() {
-        const maxHeight = this.getMaxHeight();
-        const {
-            detailHeaderHeight,
-            detailFooterHeight,
-            filterPaneHeight,
-            listHeaderHeight,
-            listFooterHeight,
-            gridHeaderHeight
-        } = this.getHeights();
-
-        let detailContentHeight = maxHeight - gridHeaderHeight -
-            detailHeaderHeight - detailFooterHeight;
-
-        let listContentHeight = maxHeight - gridHeaderHeight -
-            listHeaderHeight - listFooterHeight;
-
-        if ( this.get( 'filterPaneOpen' ) ) {
-            detailContentHeight -= filterPaneHeight;
-            listContentHeight -= filterPaneHeight;
-        }
-
-        return {
-            detailContentHeight,
-            listContentHeight
-        };
+    namespaceEvent( eventName ) {
+        return `${ eventName }.${ this.get( 'elementId' ) }`;
     },
 
     /**
-     * Return element heights
+     * Assign widths to the column headers based on their natural layout
+     *
+     * Table headers must be fixed with for fixed positioning to work.
      *
      * @function
-     * @returns {Object}
+     * @returns {undefined}
      */
-    getHeights() {
-        const elements = {};
-        const heights = {};
-
-        elements.gridHeader =  this.$( '.grid-header' );
-        elements.detailHeader = this.$( '.detail-pane header' );
-        elements.detailFooter = this.$( '.detail-pane footer' );
-        elements.listHeader = this.$( '.list-pane .column-headers' );
-        elements.listFooter = this.$( '.list-pane footer' );
-        elements.filterPane = this.$( '.filter-pane' );
-
-        for( const key in elements ) {
-            const element = elements[ key ];
-            const keyName = `${ key }Height`;
-            const height = parseInt( element.css( 'height' ) );
-
-            heights[ keyName ] = isNaN( height ) ? 0 : height;
+    resetFixedHeaderWidths() {
+        if ( !this.get( 'fixedHeader' ) ) {
+            return;
         }
 
-        return heights;
-    },
-
-    /**
-     * Compute and return max height
-     *
-     * @function
-     * @returns {Number}
-     */
-    getMaxHeight() {
-        const componentHeight = this.get( 'height' );
-
-        if ( 'auto' === componentHeight ) {
-            return Ember.$( window ).innerHeight() -
-                this.$().position().top;
-        }
-
-        return componentHeight;
+        const context = this;
+        const table = this.$( '> div > table' );
+        table.removeClass( 'fixed-header' );
+        table.find( 'thead th' ).width( '' );
+        table.find( 'thead th' ).width( function() {
+            return context.$( this ).width();
+        });
+        table.addClass( 'fixed-header' );
     },
 
     /**
@@ -659,7 +655,7 @@ export default Ember.Component.extend( Namespace, {
      * @returns {undefined}
      */
     disableContinuousPaging() {
-        this.$( '.list-pane .content' ).off( this.namespaceEvent( 'scroll' ) );
+        this.$( '> header + div' ).off( this.namespaceEvent( 'scroll' ) );
     },
 
     /**
@@ -669,7 +665,7 @@ export default Ember.Component.extend( Namespace, {
      * @returns {undefined}
      */
     enableContinuousPaging() {
-        this.$( '.list-pane .content' ).on( this.namespaceEvent( 'scroll' ), ( event ) => {
+        this.$( '> div > table' ).parent().on( this.namespaceEvent( 'scroll' ), ( event ) => {
             this.handleListContentScroll( event );
         });
     },
@@ -723,7 +719,7 @@ export default Ember.Component.extend( Namespace, {
      */
     requestMoreData() {
         if ( this.get( 'hasMoreData' ) ) {
-            const nextPageScrollPoint = this.$( '.list-pane .content' )[ 0 ]
+            const nextPageScrollPoint = this.$( '> div > table' ).parent()[ 0 ]
                 .scrollHeight;
 
             this.setProperties({
@@ -733,6 +729,32 @@ export default Ember.Component.extend( Namespace, {
 
             this.sendAction( 'requestData' );
         }
+    },
+
+    /**
+     * Assigns the table part of the grid a calculated height
+     *
+     * This will not be needed in the future, but right now we don't have enough
+     * control over what can exist in the header and footer.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateHeight() {
+        const context = this;
+        const height = this.get( 'height' );
+        let total = 0;
+
+        this.$().css( 'height', height );
+
+        if ( !parseInt( height ) ) {
+            return;
+        }
+
+        this.$( '> :not(div)' ).each( function() {
+            total += context.$( this ).height();
+        });
+        this.$( '> div:not(.panel)' ).height( this.$().height() - total );
     }
 
 });
