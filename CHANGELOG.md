@@ -1,5 +1,55 @@
 # sl-ember-components Changelog
 
+### 0.10.0
+
+**BREAKING ENHANCEMENT**
+
+* [#452](https://github.com/softlayer/sl-ember-components/issues/452) Upgrade to Ember CLI 1.13.8
+* [#1223](https://github.com/softlayer/sl-ember-components/issues/1223) Validate timezone value in `sl-date-time`
+* [#823](https://github.com/softlayer/sl-ember-components/pull/823) Refactor "spellcheck" property in `sl-textarea`
+
+**ENHANCEMENT**
+
+* [#916](https://github.com/softlayer/sl-ember-components/issues/916) Add name property to `sl-input-based` mixin
+* [#791](https://github.com/softlayer/sl-ember-components/issues/791) Extract `setInputId()` from `sl-input-based` mixin into own mixin
+* [#784](https://github.com/softlayer/sl-ember-components/issues/784) Add missing properties to `sl-radio`
+* [#762](https://github.com/softlayer/sl-ember-components/issues/762) Refactor DOM of `sl-modal-header`
+* [#759](https://github.com/softlayer/sl-ember-components/issues/759) Refactor DOM of `sl-modal-footer`
+* [#757](https://github.com/softlayer/sl-ember-components/issues/757) Refactor DOM of `sl-modal-body`
+
+**BUG FIX**
+
+* [#949](https://github.com/softlayer/sl-ember-components/issues/949) `sl-grid footer` is misaligned
+* [#900](https://github.com/softlayer/sl-ember-components/issues/900) Auto-column width does not align header with body
+* [#685](https://github.com/softlayer/sl-ember-components/issues/685) Replace use of single quotes with double quotes in template construction in integration tests
+* [#682](https://github.com/softlayer/sl-ember-components/issues/682) Refactor the format of the template rendering in the tests to pass linting checks
+* [#648](https://github.com/softlayer/sl-ember-components/issues/648) `sl-drop-button` not showing dropdown options when clicked
+* [#614](https://github.com/softlayer/sl-ember-components/issues/614) Failing tests for `sl-textarea`
+* [#613](https://github.com/softlayer/sl-ember-components/issues/613) Failing tests for `sl-tab-panel`
+* [#610](https://github.com/softlayer/sl-ember-components/issues/610) Failing tests for `sl-modal`
+
+**DOCUMENTATION**
+
+* [#1233](https://github.com/softlayer/sl-ember-components/issues/1233) `sl-calender`'s demo model is not in sync with demo model template
+* [#1014](https://github.com/softlayer/sl-ember-components/issues/1014) *README.MD* needs to be updated to include correct components, mixins, etc
+* [#962](https://github.com/softlayer/sl-ember-components/issues/962) Add action to documentation for `sl-date-picker`
+* [#877](https://github.com/softlayer/sl-ember-components/issues/877) "Align" enum is not showing up in generated documentation as expected
+* [#878](https://github.com/softlayer/sl-ember-components/issues/878) Are other enums experiencing this same documentation problem?
+* [#808](https://github.com/softlayer/sl-ember-components/issues/808) Add missing entry for `sl-component-input-id` mixin in documentation pages
+* [#807](https://github.com/softlayer/sl-ember-components/issues/807) Add missing `@augments` for `sl-component-input-id` mixin in `sl-input` and `sl-textarea`
+* [#744](https://github.com/softlayer/sl-ember-components/issues/744) Update `sl-button` documentation
+* [#700](https://github.com/softlayer/sl-ember-components/issues/700) Remove undefined from the @type for the "value" property for `sl-date-time`
+* [#696](https://github.com/softlayer/sl-ember-components/issues/696) Grid demo is broken
+* [#664](https://github.com/softlayer/sl-ember-components/issues/664) Change reference to *Brocfile.js* in 8README.MD* to *ember-cli-build.js*
+
+**INTERNAL**
+
+[179 Issues](https://github.com/softlayer/sl-ember-components/issues?q=is%3Aissue+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
+
+[12 PRs](https://github.com/softlayer/sl-ember-components/pulls?q=is%3Apr+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.4...v0.10.0)
+
 ### 0.9.4
 
 **ENHANCEMENT**
@@ -7,7 +57,7 @@
 * *CONTRIBUTING.MD*:  [#902](https://github.com/softlayer/sl-ember-components/pull/902) Update CONTRIBUTING.MD
 * *CONTRIBUTING.MD*:  [https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875](https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875)
 
-**BUGFIX** 
+**BUGFIX**
 
 * [#1250](https://github.com/softlayer/sl-ember-components/pull/1250) Highcharts dependency changed the location of their source files
 
