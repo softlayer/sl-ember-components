@@ -9,7 +9,7 @@ module.exports = {
                 target: '~4.3.0'
             }, {
                 name: 'highcharts',
-                target: '~4.1.5'
+                target: '~4.1.10'
             }, {
                 name: 'moment',
                 target: '~2.10.3'
