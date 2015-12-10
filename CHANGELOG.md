@@ -13,7 +13,7 @@
 
 **INTERNAL ENHANCEMENT**
 
-* (#880)[https://github.com/softlayer/sl-ember-components/pull/880] Upgrade *sl-eslint* and *ember-cli-jsdoc* dependencies
+* [#880](https://github.com/softlayer/sl-ember-components/pull/880) Upgrade *sl-eslint* and *ember-cli-jsdoc* dependencies
 * [#1278](https://github.com/softlayer/sl-ember-components/pull/1278) Update blueprint to reflect latest Highcharts version already being installed
 
 Refactor default return values from computed properties in components
