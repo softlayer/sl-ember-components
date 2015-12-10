@@ -1,5 +1,12 @@
 # sl-ember-components Changelog
 
+### 0.9.4
+
+* [#1250](https://github.com/softlayer/sl-ember-components/pull/1250) [BUGFIX] Highcharts dependency changed the location of their source files
+* [#1278](https://github.com/softlayer/sl-ember-components/pull/1278) [INTERNAL] Update blueprint to reflect latest Highcharts version already being installed
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.3...v0.9.4)
+
 ### 0.9.3
 
 * [#684](https://github.com/softlayer/sl-ember-components/issues/684) [BUGFIX] jQuery mousewheel production import is incorrect
