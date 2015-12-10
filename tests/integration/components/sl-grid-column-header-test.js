@@ -77,3 +77,20 @@ test( 'Column title is rendered when provided', function( assert ) {
         'Title was rendered correctly'
     );
 });
+
+test( 'Extra class is applied to column header', function( assert ) {
+    const column = {
+        extraClass: 'testClass'
+    };
+
+    this.set( 'column', column );
+
+    this.render( hbs`
+        {{sl-grid-column-header column=column}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'testClass' ),
+        'Extra class was applied to column header'
+    );
+});

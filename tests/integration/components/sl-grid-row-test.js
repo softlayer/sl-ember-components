@@ -20,42 +20,40 @@ test( 'Default rendered state', function( assert ) {
 });
 
 test( 'Active row class is supported', function( assert ) {
-    let row = {};
+    const row = {};
 
     this.set( 'row', row );
+    this.set( 'active', false );
 
     this.render( hbs`
-        {{sl-grid-row row=row}}
+        {{sl-grid-row record=row active=active}}
     ` );
 
-    assert.equal(
+    assert.notOk(
         this.$( '>:first-child' ).hasClass( 'active' ),
-        false,
-        'Component with non-active row does not have "active" class'
+        'Component with non-active state does not have "active" class'
     );
 
-    row = { active: true };
-    this.set( 'row', row );
+    this.set( 'active', true );
 
-    assert.equal(
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'active' ),
-        true,
-        'Component with active row has "active" class'
+        'Component with active state has "active" class'
     );
 });
 
-test( 'rowClick action handler is called when row is clicked', function( assert ) {
-    const row = { active: true };
+test( 'onClick action handler is called when row is clicked', function( assert ) {
+    const row = {};
     const spy = sinon.spy();
 
     this.set( 'row', row );
-    this.on( 'rowClick', spy );
+    this.on( 'onClick', spy );
 
     this.render( hbs`
-        {{sl-grid-row row=row rowClick="rowClick"}}
+        {{sl-grid-row record=row onClick="onClick"}}
     ` );
 
-    this.$( '>:first-child' ).click();
+    this.$( '>:first-child' ).trigger( 'click' );
 
     assert.ok(
         spy.called

@@ -61,7 +61,7 @@ test( 'Content value is handled for valuePath', function( assert ) {
     this.set( 'row', row );
 
     this.render( hbs`
-        {{sl-grid-cell column=column row=row}}
+        {{sl-grid-cell column=column record=row}}
     ` );
 
     assert.equal(
@@ -82,7 +82,7 @@ test( 'Clicking on grid-cell invokes onClick handler', function( assert ) {
     this.on( 'onClick', spyOnClick );
 
     this.render( hbs`
-        {{sl-grid-cell column=column row=row onClick="onClick"}}
+        {{sl-grid-cell column=column record=row onClick="onClick"}}
     ` );
 
     this.$( '>:first-child' ).click();
@@ -90,35 +90,5 @@ test( 'Clicking on grid-cell invokes onClick handler', function( assert ) {
     assert.ok(
         spyOnClick.called,
         'onClick action handler was called'
-    );
-});
-
-test( 'Column size is applied when column size is a number or string', function( assert ) {
-
-    let column = defaultColumn.create();
-    const row = defaultRow.create();
-
-    column.set( 'size', 42 );
-
-    this.set( 'column', column );
-    this.set( 'row', row );
-
-    this.render( defaultTemplate );
-
-    assert.equal(
-        this.$( '>:first-child' ).width(),
-        42,
-        'Setting column size to a number is supported'
-    );
-
-    column = defaultColumn.create();
-    column.set( 'size', 'small' );
-    this.set( 'column', column );
-
-    this.render( defaultTemplate );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'column-small' ),
-        'Setting column size to a valid string value adds appropriate class'
     );
 });

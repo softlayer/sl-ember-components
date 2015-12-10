@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'row.active:active'
+        'active:active'
     ],
 
     /** @type {String[]} */
@@ -38,7 +38,7 @@ export default Ember.Component.extend({
      */
     click( event ) {
         if ( this.$( event.target ).closest( '.sl-drop-button' ).length < 1 ) {
-            this.sendAction( 'rowClick', this.get( 'row' ) );
+            this.sendAction( 'onClick', this );
         }
     },
 
@@ -46,11 +46,18 @@ export default Ember.Component.extend({
     // Properties
 
     /**
+     * Whether the row is selected
+     *
+     * @type {Boolean}
+     */
+    active: false,
+
+    /**
      * The row record model instance
      *
      * @type {?Object}
      */
-    row: null
+    record: null
 
     // -------------------------------------------------------------------------
     // Observers
