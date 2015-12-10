@@ -853,7 +853,8 @@ define('dummy/initializers/export-application-global', ['exports', 'ember', 'dum
 
   exports.initialize = initialize;
 
-  function initialize(container, application) {
+  function initialize() {
+    var application = arguments[1] || arguments[0];
     if (config['default'].exportApplicationGlobal !== false) {
       var value = config['default'].exportApplicationGlobal;
       var globalName;
@@ -876,8 +877,6 @@ define('dummy/initializers/export-application-global', ['exports', 'ember', 'dum
       }
     }
   }
-
-  ;
 
   exports['default'] = {
     name: 'export-application-global',
@@ -4303,7 +4302,7 @@ define('dummy/templates/browsers', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("p");
-        var el3 = dom.createTextNode("Latest versions of browsers plus one version prior. Version 0.9.3 supports Internet Explorer 10+.");
+        var el3 = dom.createTextNode("Latest versions of browsers plus one version prior. Version 0.9.4 supports Internet Explorer 10+.");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -10619,7 +10618,7 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        The date format used for both inpus; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy\n        ");
+          var el1 = dom.createTextNode("        The date format used for both inputs; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy\n        ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("ul");
           var el2 = dom.createTextNode("\n            ");
@@ -23370,7 +23369,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h1");
-        var el4 = dom.createTextNode("sl-ember-components 0.9.3");
+        var el4 = dom.createTextNode("sl-ember-components 0.9.4");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
@@ -23854,8 +23853,8 @@ define('dummy/tests/app.jshint', function () {
   'use strict';
 
   module('JSHint - .');
-  test('app.js should pass jshint', function() {
-    ok(true, 'app.js should pass jshint.');
+  test('app.js should pass jshint', function() { 
+    ok(true, 'app.js should pass jshint.'); 
   });
 
 });
@@ -23864,8 +23863,8 @@ define('dummy/tests/components/demos/sl-grid-detail.jshint', function () {
   'use strict';
 
   module('JSHint - components/demos');
-  test('components/demos/sl-grid-detail.js should pass jshint', function() {
-    ok(true, 'components/demos/sl-grid-detail.js should pass jshint.');
+  test('components/demos/sl-grid-detail.js should pass jshint', function() { 
+    ok(true, 'components/demos/sl-grid-detail.js should pass jshint.'); 
   });
 
 });
@@ -23874,8 +23873,8 @@ define('dummy/tests/components/property-text.jshint', function () {
   'use strict';
 
   module('JSHint - components');
-  test('components/property-text.js should pass jshint', function() {
-    ok(true, 'components/property-text.js should pass jshint.');
+  test('components/property-text.js should pass jshint', function() { 
+    ok(true, 'components/property-text.js should pass jshint.'); 
   });
 
 });
@@ -23884,8 +23883,8 @@ define('dummy/tests/controllers/browsers.jshint', function () {
   'use strict';
 
   module('JSHint - controllers');
-  test('controllers/browsers.js should pass jshint', function() {
-    ok(true, 'controllers/browsers.js should pass jshint.');
+  test('controllers/browsers.js should pass jshint', function() { 
+    ok(true, 'controllers/browsers.js should pass jshint.'); 
   });
 
 });
@@ -23894,8 +23893,8 @@ define('dummy/tests/controllers/demos/sl-calendar.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-calendar.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-calendar.js should pass jshint.');
+  test('controllers/demos/sl-calendar.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-calendar.js should pass jshint.'); 
   });
 
 });
@@ -23904,8 +23903,8 @@ define('dummy/tests/controllers/demos/sl-chart.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-chart.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-chart.js should pass jshint.');
+  test('controllers/demos/sl-chart.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-chart.js should pass jshint.'); 
   });
 
 });
@@ -23914,8 +23913,8 @@ define('dummy/tests/controllers/demos/sl-date-time.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-date-time.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-date-time.js should pass jshint.');
+  test('controllers/demos/sl-date-time.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-date-time.js should pass jshint.'); 
   });
 
 });
@@ -23924,8 +23923,8 @@ define('dummy/tests/controllers/demos/sl-drop-button.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-drop-button.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-drop-button.js should pass jshint.');
+  test('controllers/demos/sl-drop-button.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-drop-button.js should pass jshint.'); 
   });
 
 });
@@ -23934,8 +23933,8 @@ define('dummy/tests/controllers/demos/sl-grid.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-grid.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-grid.js should pass jshint.');
+  test('controllers/demos/sl-grid.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-grid.js should pass jshint.'); 
   });
 
 });
@@ -23944,8 +23943,8 @@ define('dummy/tests/controllers/demos/sl-input.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-input.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-input.js should pass jshint.');
+  test('controllers/demos/sl-input.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-input.js should pass jshint.'); 
   });
 
 });
@@ -23954,8 +23953,8 @@ define('dummy/tests/controllers/demos/sl-menu.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-menu.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-menu.js should pass jshint.');
+  test('controllers/demos/sl-menu.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-menu.js should pass jshint.'); 
   });
 
 });
@@ -23964,8 +23963,8 @@ define('dummy/tests/controllers/demos/sl-pagination.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-pagination.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-pagination.js should pass jshint.');
+  test('controllers/demos/sl-pagination.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-pagination.js should pass jshint.'); 
   });
 
 });
@@ -23974,8 +23973,8 @@ define('dummy/tests/controllers/demos/sl-progress-bar.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-progress-bar.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-progress-bar.js should pass jshint.');
+  test('controllers/demos/sl-progress-bar.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-progress-bar.js should pass jshint.'); 
   });
 
 });
@@ -23984,8 +23983,8 @@ define('dummy/tests/controllers/demos/sl-radio-group.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-radio-group.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-radio-group.js should pass jshint.');
+  test('controllers/demos/sl-radio-group.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-radio-group.js should pass jshint.'); 
   });
 
 });
@@ -23994,8 +23993,8 @@ define('dummy/tests/controllers/demos/sl-select.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-select.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-select.js should pass jshint.');
+  test('controllers/demos/sl-select.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-select.js should pass jshint.'); 
   });
 
 });
@@ -24004,8 +24003,8 @@ define('dummy/tests/controllers/demos/sl-span.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-span.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-span.js should pass jshint.');
+  test('controllers/demos/sl-span.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-span.js should pass jshint.'); 
   });
 
 });
@@ -24014,8 +24013,8 @@ define('dummy/tests/controllers/demos/sl-tab-panel.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos');
-  test('controllers/demos/sl-tab-panel.js should pass jshint', function() {
-    ok(true, 'controllers/demos/sl-tab-panel.js should pass jshint.');
+  test('controllers/demos/sl-tab-panel.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/sl-tab-panel.js should pass jshint.'); 
   });
 
 });
@@ -24024,8 +24023,8 @@ define('dummy/tests/controllers/demos/tabs/home.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos/tabs');
-  test('controllers/demos/tabs/home.js should pass jshint', function() {
-    ok(true, 'controllers/demos/tabs/home.js should pass jshint.');
+  test('controllers/demos/tabs/home.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/tabs/home.js should pass jshint.'); 
   });
 
 });
@@ -24034,8 +24033,8 @@ define('dummy/tests/controllers/demos/tabs/one.jshint', function () {
   'use strict';
 
   module('JSHint - controllers/demos/tabs');
-  test('controllers/demos/tabs/one.js should pass jshint', function() {
-    ok(true, 'controllers/demos/tabs/one.js should pass jshint.');
+  test('controllers/demos/tabs/one.js should pass jshint', function() { 
+    ok(true, 'controllers/demos/tabs/one.js should pass jshint.'); 
   });
 
 });
@@ -24058,8 +24057,8 @@ define('dummy/tests/helpers/resolver.jshint', function () {
   'use strict';
 
   module('JSHint - helpers');
-  test('helpers/resolver.js should pass jshint', function() {
-    ok(true, 'helpers/resolver.js should pass jshint.');
+  test('helpers/resolver.js should pass jshint', function() { 
+    ok(true, 'helpers/resolver.js should pass jshint.'); 
   });
 
 });
@@ -24090,8 +24089,8 @@ define('dummy/tests/helpers/start-app.jshint', function () {
   'use strict';
 
   module('JSHint - helpers');
-  test('helpers/start-app.js should pass jshint', function() {
-    ok(true, 'helpers/start-app.js should pass jshint.');
+  test('helpers/start-app.js should pass jshint', function() { 
+    ok(true, 'helpers/start-app.js should pass jshint.'); 
   });
 
 });
@@ -24100,8 +24099,8 @@ define('dummy/tests/router.jshint', function () {
   'use strict';
 
   module('JSHint - .');
-  test('router.js should pass jshint', function() {
-    ok(true, 'router.js should pass jshint.');
+  test('router.js should pass jshint', function() { 
+    ok(true, 'router.js should pass jshint.'); 
   });
 
 });
@@ -24110,8 +24109,8 @@ define('dummy/tests/routes/application.jshint', function () {
   'use strict';
 
   module('JSHint - routes');
-  test('routes/application.js should pass jshint', function() {
-    ok(true, 'routes/application.js should pass jshint.');
+  test('routes/application.js should pass jshint', function() { 
+    ok(true, 'routes/application.js should pass jshint.'); 
   });
 
 });
@@ -24120,8 +24119,8 @@ define('dummy/tests/routes/demos/sl-calendar.jshint', function () {
   'use strict';
 
   module('JSHint - routes/demos');
-  test('routes/demos/sl-calendar.js should pass jshint', function() {
-    ok(true, 'routes/demos/sl-calendar.js should pass jshint.');
+  test('routes/demos/sl-calendar.js should pass jshint', function() { 
+    ok(true, 'routes/demos/sl-calendar.js should pass jshint.'); 
   });
 
 });
@@ -24130,8 +24129,8 @@ define('dummy/tests/routes/demos/sl-chart.jshint', function () {
   'use strict';
 
   module('JSHint - routes/demos');
-  test('routes/demos/sl-chart.js should pass jshint', function() {
-    ok(true, 'routes/demos/sl-chart.js should pass jshint.');
+  test('routes/demos/sl-chart.js should pass jshint', function() { 
+    ok(true, 'routes/demos/sl-chart.js should pass jshint.'); 
   });
 
 });
@@ -24140,8 +24139,8 @@ define('dummy/tests/routes/demos/sl-grid.jshint', function () {
   'use strict';
 
   module('JSHint - routes/demos');
-  test('routes/demos/sl-grid.js should pass jshint', function() {
-    ok(true, 'routes/demos/sl-grid.js should pass jshint.');
+  test('routes/demos/sl-grid.js should pass jshint', function() { 
+    ok(true, 'routes/demos/sl-grid.js should pass jshint.'); 
   });
 
 });
@@ -24150,8 +24149,8 @@ define('dummy/tests/routes/demos/sl-menu.jshint', function () {
   'use strict';
 
   module('JSHint - routes/demos');
-  test('routes/demos/sl-menu.js should pass jshint', function() {
-    ok(true, 'routes/demos/sl-menu.js should pass jshint.');
+  test('routes/demos/sl-menu.js should pass jshint', function() { 
+    ok(true, 'routes/demos/sl-menu.js should pass jshint.'); 
   });
 
 });
@@ -24160,8 +24159,8 @@ define('dummy/tests/routes/demos/sl-select.jshint', function () {
   'use strict';
 
   module('JSHint - routes/demos');
-  test('routes/demos/sl-select.js should pass jshint', function() {
-    ok(true, 'routes/demos/sl-select.js should pass jshint.');
+  test('routes/demos/sl-select.js should pass jshint', function() { 
+    ok(true, 'routes/demos/sl-select.js should pass jshint.'); 
   });
 
 });
@@ -24177,8 +24176,8 @@ define('dummy/tests/test-helper.jshint', function () {
   'use strict';
 
   module('JSHint - .');
-  test('test-helper.js should pass jshint', function() {
-    ok(true, 'test-helper.js should pass jshint.');
+  test('test-helper.js should pass jshint', function() { 
+    ok(true, 'test-helper.js should pass jshint.'); 
   });
 
 });
@@ -24249,8 +24248,8 @@ define('dummy/tests/unit/components/sl-alert-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-alert-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-alert-test.js should pass jshint.');
+  test('unit/components/sl-alert-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-alert-test.js should pass jshint.'); 
   });
 
 });
@@ -24376,8 +24375,8 @@ define('dummy/tests/unit/components/sl-button-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-button-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-button-test.js should pass jshint.');
+  test('unit/components/sl-button-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-button-test.js should pass jshint.'); 
   });
 
 });
@@ -24459,8 +24458,8 @@ define('dummy/tests/unit/components/sl-calendar-day-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-calendar-day-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-calendar-day-test.js should pass jshint.');
+  test('unit/components/sl-calendar-day-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-calendar-day-test.js should pass jshint.'); 
   });
 
 });
@@ -24526,8 +24525,8 @@ define('dummy/tests/unit/components/sl-calendar-month-test.jshint', function () 
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-calendar-month-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-calendar-month-test.js should pass jshint.');
+  test('unit/components/sl-calendar-month-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-calendar-month-test.js should pass jshint.'); 
   });
 
 });
@@ -24738,8 +24737,8 @@ define('dummy/tests/unit/components/sl-calendar-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-calendar-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-calendar-test.js should pass jshint.');
+  test('unit/components/sl-calendar-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-calendar-test.js should pass jshint.'); 
   });
 
 });
@@ -24793,8 +24792,8 @@ define('dummy/tests/unit/components/sl-calendar-year-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-calendar-year-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-calendar-year-test.js should pass jshint.');
+  test('unit/components/sl-calendar-year-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-calendar-year-test.js should pass jshint.'); 
   });
 
 });
@@ -25126,8 +25125,8 @@ define('dummy/tests/unit/components/sl-chart-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-chart-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-chart-test.js should pass jshint.');
+  test('unit/components/sl-chart-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-chart-test.js should pass jshint.'); 
   });
 
 });
@@ -25182,8 +25181,8 @@ define('dummy/tests/unit/components/sl-checkbox-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-checkbox-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-checkbox-test.js should pass jshint.');
+  test('unit/components/sl-checkbox-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-checkbox-test.js should pass jshint.'); 
   });
 
 });
@@ -25278,7 +25277,7 @@ define('dummy/tests/unit/components/sl-date-picker-test', ['ember', 'ember-qunit
             action: 'changeDate',
             targetObject: {
                 changeDate: function changeDate() {
-                    assert.ok('changeDate event fired');
+                    assert.ok(true, 'changeDate event fired');
                     done();
                 }
             }
@@ -25440,8 +25439,8 @@ define('dummy/tests/unit/components/sl-date-picker-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-date-picker-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-date-picker-test.js should pass jshint.');
+  test('unit/components/sl-date-picker-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-date-picker-test.js should pass jshint.'); 
   });
 
 });
@@ -25472,7 +25471,8 @@ define('dummy/tests/unit/components/sl-date-range-picker-test', ['ember', 'ember
 
         assert.ok(spy.calledWithExactly('focus'), 'End date input was given focus on start date change');
 
-        this.$('.sl-date-picker').remove();
+        $('.datepicker').remove();
+        daterangeEndDate.trigger.restore();
     });
 
     ember_qunit.test('Earliest end date is the based on min date and start date', function (assert) {
@@ -25625,8 +25625,8 @@ define('dummy/tests/unit/components/sl-date-range-picker-test.jshint', function 
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-date-range-picker-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-date-range-picker-test.js should pass jshint.');
+  test('unit/components/sl-date-range-picker-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-date-range-picker-test.js should pass jshint.'); 
   });
 
 });
@@ -25736,8 +25736,8 @@ define('dummy/tests/unit/components/sl-date-time-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-date-time-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-date-time-test.js should pass jshint.');
+  test('unit/components/sl-date-time-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-date-time-test.js should pass jshint.'); 
   });
 
 });
@@ -25822,8 +25822,8 @@ define('dummy/tests/unit/components/sl-drop-button-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-drop-button-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-drop-button-test.js should pass jshint.');
+  test('unit/components/sl-drop-button-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-drop-button-test.js should pass jshint.'); 
   });
 
 });
@@ -25880,8 +25880,8 @@ define('dummy/tests/unit/components/sl-drop-option-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-drop-option-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-drop-option-test.js should pass jshint.');
+  test('unit/components/sl-drop-option-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-drop-option-test.js should pass jshint.'); 
   });
 
 });
@@ -25973,8 +25973,8 @@ define('dummy/tests/unit/components/sl-grid-cell-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-grid-cell-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-grid-cell-test.js should pass jshint.');
+  test('unit/components/sl-grid-cell-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-grid-cell-test.js should pass jshint.'); 
   });
 
 });
@@ -26083,8 +26083,8 @@ define('dummy/tests/unit/components/sl-grid-column-header-test.jshint', function
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-grid-column-header-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-grid-column-header-test.js should pass jshint.');
+  test('unit/components/sl-grid-column-header-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-grid-column-header-test.js should pass jshint.'); 
   });
 
 });
@@ -26133,8 +26133,8 @@ define('dummy/tests/unit/components/sl-grid-row-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-grid-row-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-grid-row-test.js should pass jshint.');
+  test('unit/components/sl-grid-row-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-grid-row-test.js should pass jshint.'); 
   });
 
 });
@@ -26289,7 +26289,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'qun
     ember_qunit.test('Continuous mode and requestData are supported', function (assert) {
         var _this = this;
 
-        this.subject({
+        var component = this.subject({
             columns: columns,
             content: content,
             continuous: true,
@@ -26302,6 +26302,10 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'qun
                 }
             }
         });
+
+        assert.equal(component.get('totalPages'), null, 'Continuous-enabled grids have null total pages');
+
+        assert.equal(component.get('showPagination'), false, 'Continuous-enabled grids do not display navigation controls');
 
         Ember['default'].run(function () {
             _this.$('.list-pane .content').trigger('scroll');
@@ -26347,6 +26351,8 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'qun
             totalCount: content.length
         });
 
+        assert.equal(component.get('showPagination'), true, 'Pagination control is shown');
+
         assert.equal(component.get('currentPage'), 1, 'Initial currentPage is 1');
 
         this.$('.next-page-button').trigger('click');
@@ -26357,9 +26363,17 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'qun
             component.set('loading', false);
         });
 
+        this.$('.next-page-button').trigger('click');
+
+        assert.equal(component.get('hasMoreData'), false, 'Current page is the last page');
+
+        Ember['default'].run(function () {
+            component.set('loading', false);
+        });
+
         this.$('.previous-page-button').trigger('click');
 
-        assert.equal(component.get('currentPage'), 1, 'Current page decremented correctly');
+        assert.equal(component.get('currentPage'), 2, 'Current page decremented correctly');
     });
 
     ember_qunit.test('Window resize triggers updateHeight() with "auto" width', function (assert) {
@@ -26389,8 +26403,8 @@ define('dummy/tests/unit/components/sl-grid-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-grid-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-grid-test.js should pass jshint.');
+  test('unit/components/sl-grid-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-grid-test.js should pass jshint.'); 
   });
 
 });
@@ -26643,8 +26657,8 @@ define('dummy/tests/unit/components/sl-input-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-input-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-input-test.js should pass jshint.');
+  test('unit/components/sl-input-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-input-test.js should pass jshint.'); 
   });
 
 });
@@ -26674,8 +26688,8 @@ define('dummy/tests/unit/components/sl-loading-icon-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-loading-icon-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-loading-icon-test.js should pass jshint.');
+  test('unit/components/sl-loading-icon-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-loading-icon-test.js should pass jshint.'); 
   });
 
 });
@@ -26713,8 +26727,8 @@ define('dummy/tests/unit/components/sl-menu-item-show-all-test.jshint', function
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-menu-item-show-all-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-menu-item-show-all-test.js should pass jshint.');
+  test('unit/components/sl-menu-item-show-all-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-menu-item-show-all-test.js should pass jshint.'); 
   });
 
 });
@@ -26848,8 +26862,8 @@ define('dummy/tests/unit/components/sl-menu-item-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-menu-item-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-menu-item-test.js should pass jshint.');
+  test('unit/components/sl-menu-item-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-menu-item-test.js should pass jshint.'); 
   });
 
 });
@@ -27384,8 +27398,8 @@ define('dummy/tests/unit/components/sl-menu-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-menu-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-menu-test.js should pass jshint.');
+  test('unit/components/sl-menu-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-menu-test.js should pass jshint.'); 
   });
 
 });
@@ -27417,8 +27431,8 @@ define('dummy/tests/unit/components/sl-modal-body-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-modal-body-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-modal-body-test.js should pass jshint.');
+  test('unit/components/sl-modal-body-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-modal-body-test.js should pass jshint.'); 
   });
 
 });
@@ -27464,8 +27478,8 @@ define('dummy/tests/unit/components/sl-modal-footer-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-modal-footer-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-modal-footer-test.js should pass jshint.');
+  test('unit/components/sl-modal-footer-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-modal-footer-test.js should pass jshint.'); 
   });
 
 });
@@ -27530,8 +27544,8 @@ define('dummy/tests/unit/components/sl-modal-header-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-modal-header-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-modal-header-test.js should pass jshint.');
+  test('unit/components/sl-modal-header-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-modal-header-test.js should pass jshint.'); 
   });
 
 });
@@ -27670,7 +27684,7 @@ define('dummy/tests/unit/components/sl-modal-test', ['ember', 'ember-qunit', 'si
             template: template,
             targetObject: {
                 modalClosed: function modalClosed() {
-                    assert.ok('Modal was closed');
+                    assert.ok(true, 'Modal was closed');
                     closeDone();
                 }
             }
@@ -27790,8 +27804,8 @@ define('dummy/tests/unit/components/sl-modal-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-modal-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-modal-test.js should pass jshint.');
+  test('unit/components/sl-modal-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-modal-test.js should pass jshint.'); 
   });
 
 });
@@ -27873,8 +27887,8 @@ define('dummy/tests/unit/components/sl-pagination-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-pagination-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-pagination-test.js should pass jshint.');
+  test('unit/components/sl-pagination-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-pagination-test.js should pass jshint.'); 
   });
 
 });
@@ -27924,8 +27938,8 @@ define('dummy/tests/unit/components/sl-panel-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-panel-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-panel-test.js should pass jshint.');
+  test('unit/components/sl-panel-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-panel-test.js should pass jshint.'); 
   });
 
 });
@@ -27988,8 +28002,8 @@ define('dummy/tests/unit/components/sl-progress-bar-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-progress-bar-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-progress-bar-test.js should pass jshint.');
+  test('unit/components/sl-progress-bar-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-progress-bar-test.js should pass jshint.'); 
   });
 
 });
@@ -28083,8 +28097,8 @@ define('dummy/tests/unit/components/sl-radio-group-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-radio-group-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-radio-group-test.js should pass jshint.');
+  test('unit/components/sl-radio-group-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-radio-group-test.js should pass jshint.'); 
   });
 
 });
@@ -28116,8 +28130,8 @@ define('dummy/tests/unit/components/sl-radio-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-radio-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-radio-test.js should pass jshint.');
+  test('unit/components/sl-radio-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-radio-test.js should pass jshint.'); 
   });
 
 });
@@ -28167,8 +28181,8 @@ define('dummy/tests/unit/components/sl-span-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-span-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-span-test.js should pass jshint.');
+  test('unit/components/sl-span-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-span-test.js should pass jshint.'); 
   });
 
 });
@@ -28241,8 +28255,8 @@ define('dummy/tests/unit/components/sl-tab-pane-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-tab-pane-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-tab-pane-test.js should pass jshint.');
+  test('unit/components/sl-tab-pane-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-tab-pane-test.js should pass jshint.'); 
   });
 
 });
@@ -28459,8 +28473,8 @@ define('dummy/tests/unit/components/sl-tab-panel-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-tab-panel-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-tab-panel-test.js should pass jshint.');
+  test('unit/components/sl-tab-panel-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-tab-panel-test.js should pass jshint.'); 
   });
 
 });
@@ -28652,8 +28666,8 @@ define('dummy/tests/unit/components/sl-textarea-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-textarea-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-textarea-test.js should pass jshint.');
+  test('unit/components/sl-textarea-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-textarea-test.js should pass jshint.'); 
   });
 
 });
@@ -28814,8 +28828,8 @@ define('dummy/tests/unit/components/sl-tooltip-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/components');
-  test('unit/components/sl-tooltip-test.js should pass jshint', function() {
-    ok(true, 'unit/components/sl-tooltip-test.js should pass jshint.');
+  test('unit/components/sl-tooltip-test.js should pass jshint', function() { 
+    ok(true, 'unit/components/sl-tooltip-test.js should pass jshint.'); 
   });
 
 });
@@ -28859,8 +28873,8 @@ define('dummy/tests/unit/mixins/sl-input-based-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/mixins');
-  test('unit/mixins/sl-input-based-test.js should pass jshint', function() {
-    ok(true, 'unit/mixins/sl-input-based-test.js should pass jshint.');
+  test('unit/mixins/sl-input-based-test.js should pass jshint', function() { 
+    ok(true, 'unit/mixins/sl-input-based-test.js should pass jshint.'); 
   });
 
 });
@@ -29030,8 +29044,8 @@ define('dummy/tests/unit/mixins/sl-tooltip-enabled-test.jshint', function () {
   'use strict';
 
   module('JSHint - unit/mixins');
-  test('unit/mixins/sl-tooltip-enabled-test.js should pass jshint', function() {
-    ok(true, 'unit/mixins/sl-tooltip-enabled-test.js should pass jshint.');
+  test('unit/mixins/sl-tooltip-enabled-test.js should pass jshint', function() { 
+    ok(true, 'unit/mixins/sl-tooltip-enabled-test.js should pass jshint.'); 
   });
 
 });
@@ -29063,7 +29077,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"sl-ember-components","version":"0.9.0.c79f24b9"});
+  require("dummy/app")["default"].create({"name":"sl-ember-components","version":"0.9.4.abe77eb8"});
 }
 
 /* jshint ignore:end */
