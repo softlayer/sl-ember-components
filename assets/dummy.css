@@ -10732,6 +10732,10 @@ div.filter-term:first-of-type {
 .sl-grid .column-headers th.sortable-column:hover {
   background-color: #e0e3e7;
 }
+.sl-grid .fake-scrollbar {
+  width: 17px;
+  padding: 0;
+}
 .sl-grid .list-pane {
   float: left;
   padding-bottom: 33px;
