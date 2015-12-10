@@ -44,9 +44,8 @@
 
 **INTERNAL**
 
-[179 Issues](https://github.com/softlayer/sl-ember-components/issues?q=is%3Aissue+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
-
-[12 PRs](https://github.com/softlayer/sl-ember-components/pulls?q=is%3Apr+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
+* [179 Issues](https://github.com/softlayer/sl-ember-components/issues?q=is%3Aissue+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
+* [12 PRs](https://github.com/softlayer/sl-ember-components/pulls?q=is%3Apr+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.4...v0.10.0)
 
