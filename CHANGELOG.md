@@ -2,8 +2,26 @@
 
 ### 0.9.4
 
-* [#1250](https://github.com/softlayer/sl-ember-components/pull/1250) [BUGFIX] Highcharts dependency changed the location of their source files
-* [#1278](https://github.com/softlayer/sl-ember-components/pull/1278) [INTERNAL] Update blueprint to reflect latest Highcharts version already being installed
+**BUGFIX** 
+
+* [#1250](https://github.com/softlayer/sl-ember-components/pull/1250) Highcharts dependency changed the location of their source files
+
+**ENHANCEMENT**
+
+* *CONTRIBUTING.MD*:  [#902](https://github.com/softlayer/sl-ember-components/pull/902) Update CONTRIBUTING.MD
+* *CONTRIBUTING.MD*:  [https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875](https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875)
+
+**INTERNAL ENHANCEMENT**
+
+* (#880)[https://github.com/softlayer/sl-ember-components/pull/880] Upgrade *sl-eslint* and *ember-cli-jsdoc* dependencies
+* [#1278](https://github.com/softlayer/sl-ember-components/pull/1278) Update blueprint to reflect latest Highcharts version already being installed
+
+Refactor default return values from computed properties in components
+
+* `sl-grid`: [#512](https://github.com/softlayer/sl-ember-components/issues/512) 
+* `sl-grid`: [#676](https://github.com/softlayer/sl-ember-components/pull/676)
+* `sl-drop-button`: [#691](https://github.com/softlayer/sl-ember-components/pull/691)
+* `sl-tab-panel`: [#524](https://github.com/softlayer/sl-ember-components/issues/524)
 
 [View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.9.3...v0.9.4)
 
