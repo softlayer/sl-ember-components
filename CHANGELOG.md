@@ -44,6 +44,8 @@
 
 **INTERNAL**
 
+A large majority of these are related to creating a better testing story through the use of component integration tests.
+
 * [179 Issues](https://github.com/softlayer/sl-ember-components/issues?q=is%3Aissue+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
 * [12 PRs](https://github.com/softlayer/sl-ember-components/pulls?q=is%3Apr+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
 
@@ -53,8 +55,8 @@
 
 **ENHANCEMENT**
 
-* *CONTRIBUTING.MD*:  [#902](https://github.com/softlayer/sl-ember-components/pull/902) Update CONTRIBUTING.MD
-* *CONTRIBUTING.MD*:  [https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875](https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875)
+* [#902](https://github.com/softlayer/sl-ember-components/pull/902) Update CONTRIBUTING.MD
+* *CONTRIBUTING.MD*: [https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875](https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875)
 
 **BUGFIX**
 
