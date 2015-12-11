@@ -1,43 +1,21 @@
 /* jshint node: true */
 'use strict';
 
-var fs = require( 'fs' );
-var path = require( 'path' );
-var less = require( 'less' );
 var mergeTrees = require( 'broccoli-merge-trees' );
+var pickFiles = require( 'broccoli-static-compiler' );
 var Funnel = require( 'broccoli-funnel' );
-var existsSync = require( 'exists-sync' );
-var unwatchedTree = require( 'broccoli-unwatched-tree' );
-var Promise = require( 'rsvp' ).Promise;
+var compileLess = require( 'broccoli-less-single' );
 
 module.exports = {
     name: 'sl-ember-components',
 
     /**
-     * Name used for LESS-generated CSS file placed in temp folder
+     * Name used for LESS-generated CSS file placed in vendor tree
      *
      * @returns {String}
      */
     getCssFileName: function() {
         return this.name + '.css';
-    },
-
-    /**
-     * Path to temp folder
-     *
-     * @returns {String}
-     */
-    getTempPath: function() {
-        return path.join( this.project.root, 'tmp' );
-    },
-
-    /**
-     * Path to temp sub-folder
-     *
-     * @returns {String}
-     */
-    getTempSubPath: function() {
-        return path.resolve( path.join( this.getTempPath(), this.name ) );
     },
 
     /**
@@ -52,93 +30,25 @@ module.exports = {
     },
 
     /**
-     * Pre-compiling LESS files and placing result into file in temp folder for
-     * use by treeForVendor()
-     *
-     * @returns {Promise}
-     */
-    preBuild: function() {
-        var resolvePaths = [
-            this.project.root
-        ];
-
-        if ( !this.isAddon() ) {
-            resolvePaths.push( 'node_modules', this.name );
-        }
-
-        resolvePaths.push( 'app', 'styles', this.name + '.less' );
-
-        var lessSourceLocation = path.resolve.apply( undefined, resolvePaths );
-        var lessSourceString = fs.readFileSync( lessSourceLocation ).toString();
-
-        var lessCompiledLocation = path.resolve( this.getTempPath(), this.getCssFileName() );
-
-        var tempRoot = this.getTempPath();
-        var tempPath = this.getTempSubPath();
-
-        return new Promise( function( resolve, reject ) {
-            var buildLess = function() {
-                less.render(
-                    lessSourceString,
-                    {
-                        filename: lessSourceLocation
-                    },
-                    function( error, output ) {
-                        if ( error ) {
-                            reject( error );
-                        } else {
-                            var fd = fs.openSync( lessCompiledLocation, 'w' );
-                            fs.writeSync( fd, output.css );
-                            fs.closeSync( fd );
-                            resolve();
-                        }
-                    }
-                );
-            };
-
-            // add sub-folder
-            var addSubFolder = function() {
-                if ( !existsSync( tempPath ) ) {
-                    fs.mkdir( tempPath, function( error ) {
-                        if ( error ) {
-                            reject( error );
-                        } else {
-                            buildLess();
-                        }
-                    });
-                } else {
-                    buildLess();
-                }
-            };
-
-            // add /tmp/ folder
-            if ( !existsSync( tempRoot ) ) {
-                fs.mkdir( tempRoot, function( error ) {
-                    if ( !error ) {
-                        addSubFolder();
-                    } else {
-                        reject( error );
-                    }
-                });
-            } else {
-                addSubFolder();
-            }
-        });
-    },
-
-    /**
      * Adds LESS-generated CSS into vendor tree to be imported in included()
      *
      * @param {Object} tree
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
-        var tempTree = new unwatchedTree( this.getTempPath() );
-        var compiledLessTree = new Funnel( tempTree, {
-            srcDir: '/',
-            destDir: this.name,
-            include: [ this.getCssFileName() ]
-        });
+        var appTree = pickFiles(
+            'app',
+            {
+                srcDir:  '/',
+                destDir: '/'
+            }
+        );
+
+        var compiledLessTree = compileLess(
+            appTree,
+            'styles/' + this.name + '.less',
+            this.getCssFileName()
+        );
 
         return ( this.isAddon() ) ?
             mergeTrees([ tree, compiledLessTree ]) :
@@ -151,7 +61,7 @@ module.exports = {
         // -------------------------------------------------------------------------
         // CSS
 
-        app.import( 'vendor/' + this.name + '/' + this.getCssFileName() );
+        app.import( 'vendor/' + this.getCssFileName() );
 
         // -------------------------------------------------------------------------
         // Javascript
@@ -222,48 +132,5 @@ module.exports = {
                 overwrite: true
             }
         );
-    },
-
-    /**
-     * Delete generated CSS file from temp folder
-     *
-     * @param {Object} result
-     * @returns {Promise}
-     */
-    postBuild: function( result ) {
-        var tempPath = this.getTempSubPath();
-        var cssFileName = this.getCssFileName();
-
-        return new Promise( function( resolve, reject ) {
-            var cssFilePath = path.join( tempPath, cssFileName );
-
-            // remove the folder
-            var removeFolder = function() {
-                if ( existsSync( tempPath ) ) {
-                    fs.rmdir( tempPath, function( error ) {
-                        if ( error ) {
-                            reject( error );
-                        } else {
-                            resolve();
-                        }
-                    });
-                } else {
-                    resolve();
-                }
-            };
-
-            // remove the file
-            if ( existsSync( cssFilePath ) ) {
-                fs.unlink( path.resolve( cssFilePath ), function( error ) {
-                    if ( !error ) {
-                        removeFolder();
-                    } else {
-                        reject( error );
-                    }
-                });
-            } else {
-                removeFolder();
-            }
-        });
     }
 };
