@@ -65,6 +65,34 @@ test( 'Default rendered state', function( assert ) {
     );
 });
 
+test( 'sr-only class is set on child element when parent element has an icon class', function( assert ) {
+    this.render( hbs`
+        {{sl-calendar}}
+    ` );
+
+    const getIcons = () => this.$( '>:first-child' ).find( '[class^="sl-icon-"]' );
+    const classIsPresent = ( element ) => Ember.$( element ).find( '.sr-only' ).length === 1;
+
+    assert.ok(
+        getIcons().toArray().every( classIsPresent ),
+        'sr-only class is present on month icons'
+    );
+
+    this.$( '.datepicker-switch' ).click();
+
+    assert.ok(
+        getIcons().toArray().every( classIsPresent ),
+        'sr-only class is present on year icons'
+    );
+
+    this.$( '.datepicker-switch' ).click();
+
+    assert.ok(
+        getIcons().toArray().every( classIsPresent ),
+        'sr-only class is present on decade icons'
+    );
+});
+
 test( 'Check for classes set on items outside of range in picker', function( assert ) {
     this.set( 'currentYear', 2015 );
     this.set( 'currentMonth', 1 );
