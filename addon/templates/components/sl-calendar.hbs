@@ -1,21 +1,17 @@
 <div class="datepicker datepicker-inline">
     {{#if viewingDays}}
-        <div class="datepicker-days" style="display: block;">
+        <div class="datepicker-days">
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeMonth" -1}} class="prev">
-                            <span class="fa fa-angle-left"></span>
+                        <th {{action "changeMonth" -1}} class="sl-icon-prev">
+                            <span class="sr-only">previous month</span>
                         </th>
-                        <th
-                            {{action "setView" "months"}}
-                            colspan="5"
-                            class="datepicker-switch"
-                        >
+                        <th {{action "setView" "months"}} class="datepicker-switch" colspan="5">
                             {{currentMonthString}} {{currentYear}}
                         </th>
-                        <th {{action "changeMonth" 1}} class="next">
-                            <span class="fa fa-angle-right"></span>
+                        <th {{action "changeMonth" 1}} class="sl-icon-next">
+                            <span class="sr-only">next month</span>
                         </th>
                     </tr>
                     <tr>
@@ -45,30 +41,18 @@
     {{/if}}
 
     {{#if viewingMonths}}
-        <div class="datepicker-months" style="display: block;">
+        <div class="datepicker-months">
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th
-                            {{action "changeYear" -1}}
-                            class="prev"
-                            style="visibility: visible;"
-                        >
-                            <span class="fa fa-angle-left"></span>
+                        <th {{action "changeYear" -1}} class="sl-icon-prev">
+                            <span class="sr-only">previous year</span>
                         </th>
-                        <th
-                            {{action "setView" "years"}}
-                            class="datepicker-switch"
-                            colspan="5"
-                        >
+                        <th {{action "setView" "years"}} class="datepicker-switch" colspan="5">
                             {{currentYear}}
                         </th>
-                        <th
-                            {{action "changeYear" 1}}
-                            class="next"
-                            style="visibility: visible;"
-                        >
-                            <span class="fa fa-angle-right"></span>
+                        <th {{action "changeYear" 1}} class="sl-icon-next">
+                            <span class="sr-only">next year</span>
                         </th>
                     </tr>
                 </thead>
@@ -91,26 +75,18 @@
     {{/if}}
 
     {{#if viewingYears}}
-        <div class="datepicker-years" style="display: block;">
+        <div class="datepicker-years">
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th
-                            {{action "changeDecade" -1}} class="prev" style="visibility: visible;">
-                            <span class="fa fa-angle-left"></span>
+                        <th {{action "changeDecade" -1}} class="sl-icon-prev">
+                            <span class="sr-only">previous decade</span>
                         </th>
-                        <th
-                            class="datepicker-switch"
-                            colspan="5"
-                        >
+                        <th class="datepicker-switch" colspan="5">
                             {{decadeStart}}-{{decadeEnd}}
                         </th>
-                        <th
-                            {{action "changeDecade" 1}}
-                            class="next"
-                            style="visibility: visible;"
-                        >
-                            <span class="fa fa-angle-right"></span>
+                        <th {{action "changeDecade" 1}} class="sl-icon-next">
+                            <span class="sr-only">next decade</span>
                         </th>
                     </tr>
                 </thead>
