@@ -38,7 +38,7 @@
 * [#808](https://github.com/softlayer/sl-ember-components/issues/808) Add missing entry for `sl-component-input-id` mixin in documentation pages
 * [#807](https://github.com/softlayer/sl-ember-components/issues/807) Add missing `@augments` for `sl-component-input-id` mixin in `sl-input` and `sl-textarea`
 * [#744](https://github.com/softlayer/sl-ember-components/issues/744) Update `sl-button` documentation
-* [#700](https://github.com/softlayer/sl-ember-components/issues/700) Remove undefined from the @type for the "value" property for `sl-date-time`
+* [#700](https://github.com/softlayer/sl-ember-components/issues/700) Remove undefined from the `@type` for the "value" property for `sl-date-time`
 * [#696](https://github.com/softlayer/sl-ember-components/issues/696) Grid demo is broken
 * [#664](https://github.com/softlayer/sl-ember-components/issues/664) Change reference to *Brocfile.js* in 8README.MD* to *ember-cli-build.js*
 
