@@ -17,7 +17,7 @@ export default Ember.Component.extend({
     classNameBindings: [
         'active',
         'new',
-        'old',
+        'old'
     ],
 
     /** @type {String[]} */

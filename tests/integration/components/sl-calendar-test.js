@@ -71,7 +71,7 @@ test( 'sr-only class is set on child element when parent element has an icon cla
     ` );
 
     const getIcons = () => this.$( '>:first-child' ).find( '[class^="sl-icon-"]' );
-    const classIsPresent = ( element ) => Ember.$( element ).find( '.sr-only' ).length === 1;
+    const classIsPresent = ( element ) => 1 === Ember.$( element ).find( '.sr-only' ).length;
 
     assert.ok(
         getIcons().toArray().every( classIsPresent ),
