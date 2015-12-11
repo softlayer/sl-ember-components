@@ -13,10 +13,24 @@ export default Ember.Controller.extend({
             window.console.log( 'Record:', Ember.get( row, 'name' ) );
         },
 
-        sortColumn( column, sortAscending ) {
+        sortColumn( column ) {
+            const columns = this.get( 'columns' );
+            const currentDir = Ember.get( column, 'sorted' );
+
+            let sortDir = 'asc';
+            if ( currentDir ) {
+                sortDir = 'asc' === currentDir ? 'desc' : 'asc';
+            }
+
+            for ( let i = 0; i < columns.length; i++ ) {
+                Ember.set( columns[ i ], 'sorted', null );
+            }
+
+            Ember.set( column, 'sorted', sortDir );
+
             let columnString = column[ 'valuePath' ];
 
-            if ( !sortAscending ) {
+            if ( sortDir !== 'asc' ) {
                 columnString = `${columnString}:desc`;
             }
 
@@ -26,19 +40,20 @@ export default Ember.Controller.extend({
 
     columns: Ember.A([
         {
-            extraClass: 'small',
+            extraClass: 'smallWidth',
             title: 'Color',
             valuePath: 'name'
         },
         {
-            extraClass: 'small',
+            extraClass: 'smallWidth',
             primary: true,
             sortable: true,
+            sorted: 'asc',
             title: 'Fruit',
             valuePath: 'fruit'
         },
         {
-            extraClass: 'small',
+            extraClass: 'smallWidth',
             sortable: true,
             title: 'Hex Code',
             valuePath: 'hexCode'

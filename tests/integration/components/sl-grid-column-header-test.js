@@ -5,10 +5,6 @@ moduleForComponent( 'sl-grid-column-header', 'Integration | Component | sl grid 
     integration: true
 });
 
-const template = hbs`
-    {{sl-grid-column-header column=column}}
-`;
-
 test( 'Default rendered state', function( assert ) {
     this.render( hbs`
         {{sl-grid-column-header}}
@@ -21,13 +17,15 @@ test( 'Default rendered state', function( assert ) {
 });
 
 test( 'Sorted icon class is applied correctly', function( assert ) {
-    let column = {
-        sortable: true
-    };
+    const sortable = true;
+    let sorted = null;
 
-    this.render( template );
+    this.set( 'sortable', sortable );
+    this.set( 'sorted', sorted );
 
-    this.set( 'column', column );
+    this.render( hbs`
+        {{sl-grid-column-header sortable=sortable sorted=sorted}}
+    ` );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'sortable-column' ),
@@ -35,58 +33,44 @@ test( 'Sorted icon class is applied correctly', function( assert ) {
         'Component has class "sortable-column" with sortable column'
     );
 
-    column = {
-        sortable: true,
-        sortAscending: true
-    };
-
-    this.set( 'column', column );
+    sorted = 'asc';
+    this.set( 'sorted', sorted );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'column-ascending' ),
-        'column-ascending class is present when sortAscending is true'
+        'column-ascending class is present when sorted is "asc"'
     );
 
-    column = {
-        sortable: true,
-        sortAscending: false
-    };
-
-    this.set( 'column', column );
+    sorted = 'desc';
+    this.set( 'sorted', sorted );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'column-descending' ),
-        'column-descending class is present when sortAscending is false'
+        'column-descending class is present when sorted is "desc"'
     );
 });
 
-test( 'Column title is rendered when provided', function( assert ) {
-    const column = {
-        title: 'column title'
-    };
-
-    this.set( 'column', column );
-
+test( 'Content is yielded', function( assert ) {
     this.render( hbs`
-        {{sl-grid-column-header column=column}}
+        {{#sl-grid-column-header}}
+            test text
+        {{/sl-grid-column-header}}
     ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
-        column.title,
+        'test text',
         'Title was rendered correctly'
     );
 });
 
 test( 'Extra class is applied to column header', function( assert ) {
-    const column = {
-        extraClass: 'testClass'
-    };
+    const extraClass = 'testClass';
 
-    this.set( 'column', column );
+    this.set( 'extraClass', extraClass );
 
     this.render( hbs`
-        {{sl-grid-column-header column=column}}
+        {{sl-grid-column-header extraClass=extraClass}}
     ` );
 
     assert.ok(

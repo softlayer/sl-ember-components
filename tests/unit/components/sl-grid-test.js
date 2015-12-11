@@ -149,18 +149,6 @@ test( 'Default values are set correctly', function( assert ) {
         null,
         'rowClick is null'
     );
-
-    assert.strictEqual(
-        component.get( 'sortAscending' ),
-        true,
-        'sortAscending is true'
-    );
-
-    assert.strictEqual(
-        component.get( 'sortedColumnTitle' ),
-        null,
-        'sortedColumnTitle is null'
-    );
 });
 
 test( 'changePage() triggers requestData action with correct arguments', function( assert ) {
@@ -325,35 +313,6 @@ test( 'showPagination() returns correct value', function( assert ) {
        component.get( 'showPagination' ),
        false,
        'showPagination is false when continuous is true and totalPages is 0'
-    );
-});
-
-test( 'sortedColumns() returns the correct column', function( assert ) {
-    const component = this.subject({
-        sortedColumnTitle: null,
-        columns
-    });
-
-    assert.strictEqual(
-        component.get( 'sortedColumn' ),
-        null,
-        'null is returned when sortedColumnTitle is null'
-    );
-
-    component.set( 'sortedColumnTitle', 'Gender' );
-
-    assert.strictEqual(
-        component.get( 'sortedColumn' ),
-        null,
-        'null is returned when title provided is not present within the columns'
-    );
-
-    component.set( 'sortedColumnTitle', 'Name' );
-
-    assert.deepEqual(
-        component.get( 'sortedColumn' ),
-        columns.findBy( 'title', 'Name' ),
-        'Column returned is the correct column'
     );
 });
 
@@ -661,7 +620,7 @@ test( 'requestMoreData() sets correct component state and fires requestData acti
     );
 });
 
-test( 'sortColumn() sets correct component state and fires sortColumn action', function( assert ) {
+test( 'sortColumn() fires sortColumn action', function( assert ) {
     const columns = Ember.A([
         { title: 'Name', valuePath: 'name' },
         { title: 'ID', valuePath: 'id' }
@@ -682,55 +641,9 @@ test( 'sortColumn() sets correct component state and fires sortColumn action', f
         component.send( 'sortColumn', columns[ 0 ] );
     });
 
-    assert.strictEqual(
-        component.get( 'sortedColumnTitle' ),
-        columns[ 0 ].title,
-        'Sorted column title matches title of row passed in'
-
-    );
-
-    assert.strictEqual(
-        component.get( 'sortDirection' ),
-        true,
-        'On first sort, sort direction is ascending'
-    );
-
-    assert.strictEqual(
-       columns[ 0 ].sortAscending,
-       true,
-       'sortAscending is set to true on column that was passed in'
-    );
-
-    Ember.run( () => {
-        component.send( 'sortColumn', columns[ 0 ] );
-    });
-
-    assert.strictEqual(
-        component.get( 'sortedColumnTitle' ),
-        columns[ 0 ].title,
-        'Sorted column title has not changed'
-    );
-
-    assert.strictEqual(
-        component.get( 'sortDirection' ),
-        false,
-        'sortDirection is descending'
-    );
-
-    assert.strictEqual(
-       columns[ 0 ].sortAscending,
-       false,
-       'sortAscending is set to false on column that was passed in'
-    );
-
-    Ember.run( () => {
-        component.send( 'sortColumn', columns[ 1 ] );
-    });
-
-    assert.strictEqual(
-       columns[ 0 ].sortAscending,
-       null,
-       'sortAscending is set to null on previously sorted column'
+    assert.ok(
+        sortColumnSpy.calledOnce,
+        'sortColumn action fired'
     );
 });
 
@@ -934,11 +847,6 @@ test( 'Dependent keys are correct', function( assert ) {
         'totalPages'
     ];
 
-    const sortedColumnDependentKeys = [
-        'columns',
-        'sortedColumnTitle'
-    ];
-
     const totalPagesDependentKeys = [
         'continuous',
         'pageSize',
@@ -953,11 +861,6 @@ test( 'Dependent keys are correct', function( assert ) {
     assert.deepEqual(
         component.showPagination._dependentKeys,
         showPaginationDependentKeys
-    );
-
-    assert.deepEqual(
-        component.sortedColumn._dependentKeys,
-        sortedColumnDependentKeys
     );
 
     assert.deepEqual(

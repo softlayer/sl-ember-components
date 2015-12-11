@@ -22,9 +22,10 @@ test( 'Default property values', function( assert ) {
 });
 
 test( 'Sorted class is present when column is in sorted state', function( assert ) {
-    const column = {};
+    const sortable = true;
+    const sorted = null;
 
-    this.subject({ column });
+    const component = this.subject({ sortable, sorted });
 
     assert.equal(
         this.$().hasClass( 'column-ascending' ),
@@ -38,10 +39,7 @@ test( 'Sorted class is present when column is in sorted state', function( assert
         'Class "column-descending" is not present with non-sorted column'
     );
 
-    Ember.run( () => {
-        Ember.set( column, 'sortable', true );
-        Ember.set( column, 'sortAscending', true );
-    });
+    Ember.run( () => component.set( 'sorted', 'asc' ) );
 
     assert.equal(
         this.$().hasClass( 'column-descending' ),
@@ -55,9 +53,7 @@ test( 'Sorted class is present when column is in sorted state', function( assert
         'Class "column-ascending" is present with ascending-sorted column'
     );
 
-    Ember.run( () => {
-        Ember.set( column, 'sortAscending', false );
-    });
+    Ember.run( () => component.set( 'sorted', 'desc' ) );
 
     assert.equal(
         this.$().hasClass( 'column-ascending' ),
@@ -74,6 +70,7 @@ test( 'Sorted class is present when column is in sorted state', function( assert
 
 test( 'Click event returns column with sortable column', function( assert ) {
     const column = {};
+    const sortable = false;
 
     const targetObject = {
         test() {
@@ -84,8 +81,9 @@ test( 'Click event returns column with sortable column', function( assert ) {
         }
     };
 
-    this.subject({
+    const component = this.subject({
         column,
+        sortable,
         onClick: 'test',
         targetObject
     });
@@ -96,7 +94,7 @@ test( 'Click event returns column with sortable column', function( assert ) {
     this.$().trigger( 'click' );
 
     Ember.run( () => {
-        Ember.set( column, 'sortable', true );
+        component.set( 'sortable', true );
 
         targetObject.test = function( passedColumn ) {
             assert.equal(
@@ -114,8 +112,8 @@ test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
     const sortedClassDependentKeys = [
-        'column.sortAscending',
-        'column.sortable'
+        'sortable',
+        'sorted'
     ];
 
     assert.deepEqual(
