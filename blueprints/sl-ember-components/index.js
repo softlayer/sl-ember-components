@@ -9,7 +9,7 @@ module.exports = {
                 target: '~1.3.0'
             }, {
                 name: 'highcharts',
-                target: '~4.1.5'
+                target: '~4.1.10'
             }, {
                 name: 'jquery-mousewheel',
                 target: '^3.1.12'

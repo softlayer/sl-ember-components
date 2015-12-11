@@ -1,4 +1,4 @@
-<header class="grid-header">
+<header>
     <div class="row">
         <div class="col-sm-6">
             {{yield}}
@@ -15,20 +15,20 @@
             </div>
         {{/if}}
     </div>
+
+    {{#if filterComponent}}
+        {{#if filterPaneOpen}}
+            <div class="row">
+                <div class="col-sm-12 filter-content">
+                    {{component filterComponent}}
+                </div>
+            </div>
+        {{/if}}
+    {{/if}}
 </header>
 
-<div class="filter-pane">
-    {{#if filterPaneOpen}}
-        <div class="filter-content">
-            {{#if filterComponent}}
-                {{component filterComponent}}
-            {{/if}}
-        </div>
-    {{/if}}
-</div>
-
-<div class="list-pane">
-    <table class="table column-headers">
+<div class="{{if loading "sl-loading"}}">
+    <table class="table table-hover table-striped">
         <thead>
             <tr>
                 {{#each columns as |column|}}
@@ -38,50 +38,78 @@
                 {{#if rowActions}}
                     <th class="actions-cell column-small"></th>
                 {{/if}}
-
-                <th class="fake-scrollbar"></th>
             </tr>
         </thead>
-    </table>
-
-    <div class="content">
-        <table class="table table-hover table-striped">
-            <tbody>
-                {{#each content as |row|}}
-                    {{#sl-grid-row}}
-                        {{#each columns as |column|}}
-                            {{sl-grid-cell
-                                column=column
-                                onClick="rowClick"
-                                row=row
-                            }}
-                        {{/each}}
-
-                        {{#if rowActions}}
-                            <td class="actions-cell column-small">
-                                {{#sl-drop-button
-                                    align="right"
-                                    label=actionsButtonLabel
-                                    size="extra-small"
-                                    theme="hover"
-                                }}
-                                    {{#each rowActions as |rowAction|}}
-                                        {{sl-drop-option
-                                            action="dropButtonSelect"
-                                            actionContext=rowAction.action
-                                            data=row
-                                            label=rowAction.label
-                                        }}
-                                    {{/each}}
-                                {{/sl-drop-button}}
-                            </td>
-                        {{/if}}
-                    {{/sl-grid-row}}
+        <tbody>
+            <!-- duplicate header for proper spacing w/ fixed table header -->
+            <tr>
+                {{#each columns as |column|}}
+                    {{sl-grid-column-header column=column}}
                 {{/each}}
-            </tbody>
-        </table>
+
+                {{#if rowActions}}
+                    <th class="actions-cell column-small"></th>
+                {{/if}}
+            </tr>
+            {{#each content as |row|}}
+                {{#sl-grid-row record=row onClick="rowClick"}}
+                    {{#each columns as |column|}}
+                        {{sl-grid-cell
+                            column=column
+                            record=row
+                        }}
+                    {{/each}}
+
+                    {{#if rowActions}}
+                        <td class="actions-cell column-small">
+                            {{#sl-drop-button
+                                align="right"
+                                label=actionsButtonLabel
+                                size="extra-small"
+                                theme="hover"
+                            }}
+                                {{#each rowActions as |rowAction|}}
+                                    {{sl-drop-option
+                                        action="dropButtonSelect"
+                                        actionContext=rowAction.action
+                                        data=row
+                                        label=rowAction.label
+                                    }}
+                                {{/each}}
+                            {{/sl-drop-button}}
+                        </td>
+                    {{/if}}
+                {{/sl-grid-row}}
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div class="panel panel-default {{if detailPaneOpen "show"}} {{unless detailPaneOpen "hidden"}}">
+    <header class="panel-heading">
+        <button {{action "closeDetailPane"}} type="button" class="close" aria-label="Close">&times;</button>
+
+        <span class="title">
+            {{#if detailHeaderComponent}}
+                {{component detailHeaderComponent model=activeRow.record}}
+            {{/if}}
+        </span>
+    </header>
+
+    <div class="panel-body">
+        {{#if detailComponent}}
+            {{component detailComponent model=activeRow.record}}
+        {{/if}}
     </div>
 
+    <footer class="panel-footer">
+        {{#if detailFooterComponent}}
+            {{component detailFooterComponent model=activeRow.record}}
+        {{/if}}
+    </footer>
+</div>
+
+{{#if displayFooter}}
     <footer>
         <div class="row">
             <div class="col-xs-6">
@@ -89,42 +117,16 @@
                     {{partial footerPath}}
                 {{/if}}
             </div>
-            <div class="col-xs-6 text-right">
-                {{#if showPagination}}
+            {{#if showPagination}}
+                <div class="col-xs-6 text-right">
                     {{sl-pagination
                         busy=loading
                         changePage="changePage"
                         currentPage=currentPage
                         totalPages=totalPages
                     }}
-                {{/if}}
-            </div>
-        </div>
-    </footer>
-</div>
-
-<div class="detail-pane panel">
-    <header class="panel-heading">
-        <button {{action "closeDetailPane"}} type="button" class="close" aria-label="Close">&times;</button>
-
-        <span class="title">
-            {{#if detailHeaderComponent}}
-                {{component detailHeaderComponent model=activeRecord}}
-            {{/if}}
-        </span>
-    </header>
-
-    <div class="content panel-body">
-        <div class="detail-content">
-            {{#if detailComponent}}
-                {{component detailComponent model=activeRecord}}
+                </div>
             {{/if}}
         </div>
-    </div>
-
-    <footer class="panel-footer">
-        {{#if detailFooterComponent}}
-            {{component detailFooterComponent model=activeRecord}}
-        {{/if}}
     </footer>
-</div>
+{{/if}}

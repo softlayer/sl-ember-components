@@ -1,64 +1,155 @@
-.sl-grid .list-pane {
-    float: left;
-    padding-bottom: 33px;
+@panel-heading-padding-top: extract(@panel-heading-padding, 1);
+@panel-heading-padding-bottom: extract(@panel-heading-padding, 1);
+@panel-footer-padding-top: extract(@panel-footer-padding, 1);
+@panel-footer-padding-bottom: extract(@panel-footer-padding, 1);
+
+.grid.sl-ember-components {
+    display: flex;
+    flex-flow: row wrap;
     position: relative;
-    width: 100%;
-}
 
-.sl-grid .list-pane .content {
-    overflow-y: scroll;
-}
+    & > * {
+        flex: 1 100%;
+    }
 
-.sl-grid.details-open .list-pane {
-    width: 20%;
-}
+    &.details-open > div {
+        flex: 1 auto;
+        overflow-x: hidden;
 
-.sl-grid.details-open .list-pane tr th:not(.primary-column), .sl-grid.details-open .list-pane tr td:not(.primary-column) {
-    display: none;
-}
+        & + div.panel {
+            flex: 9 0px;
+            width: auto;
+            display: block;
+        }
 
-.sl-grid .detail-pane {
-    background-color: #f9fafb;
-    border-left: 1px solid #d6d9dd;
-    display: none;
-    position: relative;
-}
+        & > table {
 
-.sl-grid.details-open .detail-pane {
-    display: inline-block;
-    width: 80%;
-}
+            & > thead th, & > tbody td, & > tbody th {
+            }
 
-.sl-grid .list-pane footer {
-    border-top: 1px solid #d6d9dd;
-    bottom: 0;
-    height: 33px;
-    line-height: 33px;
-    overflow: hidden;
-    padding: 0 1em;
-    position: absolute;
-    text-overflow: ellipsis;
-    width: 100%;
-}
+            & > thead th:not(.primary-column), & > tbody td:not(.primary-column), & > tbody th:not(.primary-column) {
+                max-width: 0;
+                overflow: hidden;
+                padding-left: 0;
+                padding-right: 0;
+                font-size: 0;
+            }
+        }
+    }
 
-.sl-grid th.fake-scrollbar {
-    width: 17px;
-    padding: 0;
-}
+    &.hasDetails > div > table > tbody td {
+        cursor: pointer;
+    }
 
-.sl-grid .sortable-column {
-    cursor: pointer;
-}
+    & > div {
+        overflow: auto;
 
-.sl-grid .sl-icon-sortable:after {
-    content: "\e150";
-    font-size: .85em;
-}
+        & > table {
+            width: 100%;
+            border-collapse: inherit;
+            margin: 0;
 
-.sl-grid .column-ascending .sl-icon-sortable:after {
-    content: "\e093";
-}
+            & > thead {
+                th {
+                    background-color: #FFF;
+                }
 
-.sl-grid .column-descending .sl-icon-sortable:after {
-    content: "\e094";
+                .sortable-column {
+                    cursor: pointer;
+                }
+
+                .sl-icon-sortable:after {
+                    content: "\e150";
+                    font-size: .85em;
+                }
+
+                .column-descending .sl-icon-sortable:after {
+                    content: "\e094";
+                }
+
+                .column-ascending .sl-icon-sortable:after {
+                    content: "\e093";
+                }
+            }
+
+            tr.active td {
+                background-color: @component-active-bg;
+                color: @component-active-color;
+            }
+
+            /* the fake header */
+            & > tbody tr:first-child {
+                display: none;
+            }
+
+            &.fixed-header {
+                &> tbody > tr:first-child {
+                    display: table-row;
+                }
+
+                &> thead {
+                    position: absolute;
+                    z-index: 2;
+                }
+            }
+        }
+    }
+
+    &> div + div.panel {
+        display: none;
+        box-sizing: border-box;
+        overflow: visible;
+        position: relative;
+        margin-bottom: 0;
+        min-height: 15em;
+
+        &> * {
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+
+        &> div {
+            overflow: auto;
+            top: 0;
+            bottom: 0;
+        }
+
+        &> footer {
+            bottom: 0;
+        }
+
+        &> header + div {
+            top: calc(1.5em ~"+" @panel-heading-padding-top ~"+" @panel-heading-padding-bottom);
+
+            &:nth-last-child(2) {
+                bottom: calc(1.5em ~"+" @panel-footer-padding-top ~"+" @panel-footer-padding-bottom);
+            }
+        }
+    }
+
+    &> footer {
+        clear: left;
+        margin-top: @line-height-computed;
+    }
+
+    /* internal div heights based on having component header/footer */
+    div.component > div {
+        /* height: 100%; */
+    }
+
+    /* header only */
+    & > header ~ div {
+        /* height: calc(100% - 2em); */
+    }
+
+    /* footer only */
+    & > div:nth-last-child(3), & > div:nth-last-child(3) + div {
+        /* height: calc(100% - 1.75em); */
+    }
+
+    /* header and footer */
+    & > header + div:nth-last-child(3), & > header + div:nth-last-child(3) + div {
+        /* height: calc(100% - 3.75em); */
+    }
 }

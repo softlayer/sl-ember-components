@@ -4,6 +4,7 @@ import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import sinon from 'sinon';
+import { skip } from 'qunit';
 
 moduleForComponent( 'sl-input', 'Unit | Component | sl input', {
     unit: true
@@ -23,6 +24,40 @@ test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
         ComponentInputId.detect( this.subject() ),
         'ComponentInputId Mixin is present'
+    );
+});
+
+test( 'Default property values', function( assert ) {
+    const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'clickToEdit' ),
+        false,
+        'clickToEdit property false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'type' ),
+        'text',
+        'type property is text by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'isTypeaheadSetup' ),
+        false,
+        'isTypeaheadSetup property false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'suggestionNamePath' ),
+        'name',
+        'suggestionNamePath property is "name" by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        null,
+        'value property is null by default'
     );
 });
 
@@ -99,154 +134,6 @@ test( 'Blur action is triggered when input loses focus', function( assert ) {
     this.$( 'input' ).trigger( 'blur' );
 });
 
-test( 'Default property values', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'clickToEdit' ),
-        false,
-        'clickToEdit property false by default'
-    );
-
-    assert.equal(
-        component.get( 'type' ),
-        'text',
-        'type property is text by default'
-    );
-
-    assert.strictEqual(
-        component.get( 'isTypeaheadSetup' ),
-        false,
-        'isTypeaheadSetup property false by default'
-    );
-
-    assert.equal(
-        component.get( 'suggestionNamePath' ),
-        'name',
-        'suggestionNamePath property is "name" by default'
-    );
-
-    assert.strictEqual(
-        component.get( 'value' ),
-        null,
-        'value property is null by default'
-    );
-});
-
-test( 'Click to edit input has the correct class', function( assert ) {
-    this.subject({
-        clickToEdit: true
-    });
-
-    assert.ok(
-        this.$( 'input' ).hasClass( 'click-to-edit' )
-    );
-});
-
-test( 'Input can be disabled', function( assert ) {
-    this.subject({
-        disabled: true
-    });
-
-    assert.ok(
-        this.$( 'input' ).prop( 'disabled' )
-    );
-});
-
-test( 'Help text is displayed', function( assert ) {
-    const helpText = 'Testing help text is displayed';
-
-    this.subject({
-        helpText: helpText
-    });
-
-    assert.equal(
-        this.$( '.help-block' ).text().trim(),
-        helpText
-    );
-});
-
-test( 'Label text is displayed', function( assert ) {
-    const labelText = 'Test label text';
-
-    this.subject({
-        label: labelText
-    });
-
-    assert.equal(
-        this.$( '.control-label' ).text().trim(),
-        labelText
-    );
-});
-
-test( 'Label text is not displayed', function( assert ) {
-    this.subject();
-
-    assert.equal(
-        this.$( '.control-label' ).length,
-        0
-    );
-});
-
-test( 'Optional property displays optional label', function( assert ) {
-    this.subject({
-        label: 'Optional input',
-        optional: true
-    });
-
-    assert.equal(
-        this.$( '.text-info' ).text().trim(),
-        'Optional'
-    );
-});
-
-test( 'Required property displays required label', function( assert ) {
-    this.subject({
-        label: 'Required input',
-        required: true
-    });
-
-    assert.equal(
-        this.$( '.text-danger' ).text().trim(),
-        'Required'
-    );
-});
-
-test( 'Required property does not display required label', function( assert ) {
-    this.subject({
-        label: 'Required input',
-        required: false
-    });
-
-    assert.equal(
-        this.$( '.text-danger' ).length,
-        0
-    );
-});
-
-test( 'Placeholder property sets the placeholder for the input', function( assert ) {
-    const placeholderText = 'placeholder';
-
-    this.subject({
-        placeholder: 'placeholder'
-    });
-
-    assert.equal(
-        this.$( 'input' ).prop( 'placeholder' ),
-        placeholderText
-    );
-});
-
-test( 'Readonly property, makes the input readonly', function( assert ) {
-    this.subject({
-        readonly: true
-    });
-
-    assert.ok(
-        this.$( 'input' ).prop( 'readonly' )
-    );
-});
-
 test( 'Popover is initialized with the correct options', function( assert ) {
     const popoverText = 'Popover text';
 
@@ -265,70 +152,16 @@ test( 'Popover is initialized with the correct options', function( assert ) {
         'Popover is enabled'
     );
 
-    assert.equal(
+    assert.strictEqual(
         popoverData.options.trigger,
         'focus',
         'Popover trigger is "focus"'
     );
 
-    assert.equal(
+    assert.strictEqual(
         popoverData.options.content,
         popoverText,
         'Popover text is set correctly'
-    );
-});
-
-test( 'Typeahead is initialized and has the correct classes', function( assert ) {
-    const colors = [
-        'Black',
-        'Yellow'
-    ];
-
-    this.subject({
-        suggestions: colors
-    });
-
-    const typeahead = this.$( '.tt-input' ).data().ttTypeahead;
-
-    assert.ok(
-        typeahead,
-        'Typeahead is initialized'
-    );
-});
-
-test( 'Typeahead classes are present', function( assert ) {
-    const colors = [
-        'Black',
-        'Yellow'
-    ];
-
-    this.subject({
-        suggestions: colors
-    });
-
-    assert.ok(
-        this.$( '.twitter-typeahead' ),
-        'twitter-typeahead class exists'
-    );
-
-    assert.ok(
-        this.$( '.typeahead' ),
-        'typeahead class exists'
-    );
-
-    assert.ok(
-        this.$( '.tt-input' ),
-        'tt-input class exists'
-    );
-
-    assert.ok(
-        this.$( '.tt-menu' ),
-        'tt-menu class exists'
-    );
-
-    assert.ok(
-        this.$( '.tt-dataset' ),
-        'tt-dataset class exists'
     );
 });
 
@@ -351,13 +184,59 @@ test( 'isTypeaheadSetup is true when suggestions are provided', function( assert
 });
 
 test( 'Value is set correctly', function( assert ) {
-    const value = 'set value';
+    const value = 'test value';
 
-    this.subject({ value: value });
+    const component = this.subject({
+        value: value
+    });
 
-    assert.equal(
-        this.$( 'input' ).val(),
-        value
+    assert.strictEqual(
+        component.get( 'value' ),
+        value,
+        '"value" prop is set successfully'
+    );
+});
+
+test( 'setupTypeahead() "selectItem" sets value successfully', function( assert ) {
+    const colors = [
+        'Black'
+    ];
+
+    const component = this.subject({
+        suggestions: colors
+    });
+
+    Ember.run( () => {
+        this.$( '.typeahead.tt-input' ).typeahead( 'val', 'b' ).blur();
+        this.$( '.tt-suggestion.tt-selectable' ).click();
+    });
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        'Black',
+        '"selectItem" sets value successfully when item selected'
+    );
+});
+
+test( 'setupTypeahead() "selectItem" sets value successfully with "suggestionNamePath" set', function( assert ) {
+    const colors = [
+        { id: 'Black' }
+    ];
+
+    const component = this.subject({
+        suggestions: colors,
+        suggestionNamePath: 'id'
+    });
+
+    Ember.run( () => {
+        this.$( '.typeahead.tt-input' ).typeahead( 'val', 'b' ).blur();
+        this.$( '.tt-suggestion.tt-selectable' ).click();
+    });
+
+    assert.strictEqual(
+        component.get( 'value' ),
+        'Black',
+        '"selectItem" sets value successfully when item selected with suggestionNamePath set'
     );
 });
 
@@ -373,4 +252,16 @@ test( 'Observer keys are correct', function( assert ) {
         setupTypeaheadKeys,
         'Observer keys are correct for setupTypeahead()'
     );
+});
+
+skip( 'setupTypeahead() - typeahead "displayKey" initialization is correct', function() {
+});
+
+skip( 'setupTypeahead() - typeahead "source" initialization is correct', function() {
+});
+
+skip( 'setupTypeahead() - "typeahead:autocomplete" action sets value successfully', function() {
+});
+
+skip( 'setupTypeahead() - "typeahead:select" action sets value successfully', function() {
 });

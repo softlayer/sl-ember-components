@@ -170,12 +170,11 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
                     const selectItem = ( event, item ) => {
                         const value = 'object' === Ember.typeOf( item ) ?
                             Ember.get( item, namePath ) : item;
-
                         this.set( 'value', value );
                     };
 
-                    typeahead.on( 'typeahead:autocompleted', selectItem );
-                    typeahead.on( 'typeahead:selected', selectItem );
+                    typeahead.on( 'typeahead:autocomplete', selectItem );
+                    typeahead.on( 'typeahead:select', selectItem );
 
                     this.set( 'isTypeaheadSetup', true );
                 }

@@ -14,25 +14,25 @@ test( 'Default property values', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'row' ),
+        component.get( 'record' ),
         null,
-        'row is null'
+        'record is null'
     );
 });
 
 test( 'Click event triggers rowClick action with row record', function( assert ) {
-    const row = { testValue: true };
+    const record = { testValue: true };
 
     this.subject({
-        row,
-        rowClick: 'test',
+        record,
+        onClick: 'test',
 
         targetObject: {
             test( passedRow ) {
                 assert.equal(
-                    passedRow,
-                    row,
-                    'Row record passed from rowClick is expected value'
+                    passedRow.record,
+                    record,
+                    'Row record passed from onClick is expected value'
                 );
             }
         }
