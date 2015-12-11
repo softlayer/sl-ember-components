@@ -33,7 +33,9 @@ test( 'Content is yielded', function( assert ) {
 
 test( '"value" property is supported', function( assert ) {
     this.render( hbs`
-        {{sl-span value="value text"}}
+        {{#sl-span value="value text"}}
+            Some yielded text
+        {{/sl-span}}
     ` );
 
     assert.strictEqual(
