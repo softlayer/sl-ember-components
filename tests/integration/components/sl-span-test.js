@@ -33,6 +33,18 @@ test( 'Content is yielded', function( assert ) {
 
 test( '"value" property is supported', function( assert ) {
     this.render( hbs`
+        {{sl-span value="value text"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).text().trim(),
+        'value text',
+        '"value" text is displayed'
+    );
+});
+
+test( '"value" property overrides yield', function( assert ) {
+    this.render( hbs`
         {{#sl-span value="value text"}}
             Some yielded text
         {{/sl-span}}
@@ -41,7 +53,7 @@ test( '"value" property is supported', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
         'value text',
-        '"value" text is displayed'
+        '"value" text is displayed instead of yield'
     );
 });
 
