@@ -2,7 +2,6 @@
 'use strict';
 
 var mergeTrees = require( 'broccoli-merge-trees' );
-var pickFiles = require( 'broccoli-static-compiler' );
 var Funnel = require( 'broccoli-funnel' );
 var compileLess = require( 'broccoli-less-single' );
 
@@ -36,13 +35,7 @@ module.exports = {
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
-        var appTree = pickFiles(
-            'app',
-            {
-                srcDir:  '/',
-                destDir: '/'
-            }
-        );
+        var appTree = new Funnel( 'app' );
 
         var compiledLessTree = compileLess(
             appTree,
