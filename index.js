@@ -1,6 +1,7 @@
 /* jshint node: true */
 'use strict';
 
+var path = require( 'path' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
 var compileLess = require( 'broccoli-less-single' );
@@ -35,7 +36,9 @@ module.exports = {
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
-        var appTree = new Funnel( 'app' );
+        var appTreePath = 'app';
+        var addonTreePath = path.join( this.nodeModulesPath, '../', 'app' );
+        var appTree = new Funnel( this.isAddon() ? appTreePath : addonTreePath );
 
         var compiledLessTree = compileLess(
             appTree,
