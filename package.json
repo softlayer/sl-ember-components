@@ -50,11 +50,7 @@
     "broccoli-merge-trees": "^0.2.1",
     "ember-cli-babel": "^5.1.3",
     "ember-cli-htmlbars": "1.0.0",
-    "ember-stream": "^0.7.3",
-    "exists-sync": "0.0.3",
-    "rsvp": "^3.1.0",
-    "broccoli-unwatched-tree": "^0.1.1",
-    "less": "^2.5.3"
+    "ember-stream": "^0.7.3"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.1.2",
