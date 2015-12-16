@@ -41,16 +41,20 @@
         <h6>Controller</h6>
         <pre>columns: [
     {
-        primary: true,
         title: 'Color',
         valuePath: 'name'
-    }, {
-        extraClass: 'small',
+    },
+    {
+        extraClass: 'smallWidth',
+        primary: true,
         sortable: true,
+        sorted: 'asc',
         title: 'Fruit',
         valuePath: 'fruit'
-    }, {
-        extraClass: 'small',
+    },
+    {
+        extraClass: 'smallWidth',
+        sortable: true,
         title: 'Hex Code',
         valuePath: 'hexCode'
     }
@@ -97,6 +101,7 @@ rowActions: [
             <li><strong>primary</strong> - A <em>boolean</em> that determines whether the column remains shown when the detail pane is visible (default: <em>false</em>)</li>
             <li><strong>extraClass</strong> - A class to pass through to the column header.  Allows for CSS control of column widths</li>
             <li><strong>sortable</strong> - A <em>boolean</em> that determines whether the column is sortable or not (default: <em>false</em>)</li>
+            <li><strong>sorted</strong> - A <em>string</em> that determines which direction the column is sorted (default: <em>null</em>)</li>
             <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content; uses the <code>rowController</code> as its controller</li>
             <li><strong>title</strong> - The displayed title of the column</li>
             <li><strong>valuePath</strong> - The lookup string for the column's basic output; only used if <strong>template</strong> is omitted</li>

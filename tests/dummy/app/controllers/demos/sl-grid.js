@@ -40,7 +40,6 @@ export default Ember.Controller.extend({
 
     columns: Ember.A([
         {
-            extraClass: 'smallWidth',
             title: 'Color',
             valuePath: 'name'
         },

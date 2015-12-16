@@ -3,6 +3,21 @@ import SlGridCell from './sl-grid-cell';
 import layout from '../templates/components/sl-grid-header-column';
 
 /**
+ * Valid sort values for the sl-grid-column-header component
+ *
+ * @memberof module:addon/components/sl-grid-column-header
+ * @enum {String}
+ * @property {String} ASC 'asc',
+ * @property {String} DESC 'desc',
+ * @property {String} NULL 'null',
+ */
+export const Sort = Object.freeze({
+    ASC: 'asc',
+    DESC: 'desc',
+    NULL: 'null'
+});
+
+/**
  * @module
  * @augments module:components/sl-grid-cell
  */
@@ -17,8 +32,7 @@ export default SlGridCell.extend({
     /** @type {String[]} */
     classNameBindings: [
         'sortable:sortable-column',
-        'sortedClass',
-        'extraClass'
+        'sortedClass'
     ],
 
     /** @type {String[]} */
@@ -58,11 +72,19 @@ export default SlGridCell.extend({
      */
     column: null,
 
-    extraClass: null,
-
+    /**
+     * Whether the column is sortable
+     *
+     * @type {Boolean}
+     */
     sortable: true,
 
-    sorted: null,
+    /**
+     * The sort direction of the column
+     *
+     * @type {Sort}
+     */
+    sorted: Sort.NULL,
 
     // -------------------------------------------------------------------------
     // Observers
