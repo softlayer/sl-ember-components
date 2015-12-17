@@ -20,7 +20,8 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'sl-calendar'
+        'sl-ember-components',
+        'calendar'
     ],
 
     /** @type {Object} */

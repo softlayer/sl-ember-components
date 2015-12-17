@@ -8,6 +8,7 @@
     line-height: 1;
     position: relative;
     top: 1px;
+    white-space: nowrap;
     display: inline-block;
     width: 1em;
     overflow: hidden;
@@ -64,6 +65,21 @@
         -o-filter: blur(4px);
         -ms-filter: blur(4px);
         filter: blur(4px);
+    }
+}
+
+span.sl-loading {
+    display: inline-block;
+    min-height: @line-height-computed;
+    min-width: @line-height-computed;
+    vertical-align: bottom;
+
+    &:before {
+        display: none;
+    }
+
+    &:after {
+        background-size: 160%;
     }
 }
 

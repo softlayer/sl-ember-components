@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import SlGridCell from './sl-grid-cell';
-import layout from '../templates/components/sl-grid-header-column';
+import layout from '../templates/components/sl-grid-column-header';
 
 /**
  * Valid sort values for the sl-grid-column-header component
