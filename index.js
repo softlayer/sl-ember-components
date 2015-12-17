@@ -62,47 +62,15 @@ module.exports = {
         // -------------------------------------------------------------------------
         // Javascript
 
-        app.import({
-            development: app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js',
-            production: app.bowerDirectory + '/bootstrap/dist/js/bootstrap.min.js'
-        });
-
+        app.import( app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js' );
         app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
-
-        app.import({
-            development: app.bowerDirectory + '/highcharts/lib/highcharts.src.js',
-            production: app.bowerDirectory + '/highcharts/lib/highcharts.js'
-        });
-
-        app.import({
-            development: app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js',
-            production: app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.min.js'
-        });
-
-        app.import({
-            development: app.bowerDirectory + '/moment/min/moment-with-locales.js',
-            production: app.bowerDirectory + '/moment/min/moment-with-locales.min.js'
-        });
-
-        app.import({
-            development: app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.js',
-            production: app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.min.js'
-        });
-
-        app.import({
-            development: app.bowerDirectory + '/rxjs/dist/rx.all.js',
-            production: app.bowerDirectory + '/rxjs/dist/rx.all.min.js'
-        });
-
-        app.import({
-            development: app.bowerDirectory + '/select2/select2.js',
-            production: app.bowerDirectory + '/select2/select2.min.js'
-        });
-
-        app.import({
-            development: app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.js',
-            production: app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.min.js'
-        });
+        app.import( app.bowerDirectory + '/highcharts/lib/highcharts.src.js' );
+        app.import( app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js' );
+        app.import( app.bowerDirectory + '/moment/min/moment-with-locales.js' );
+        app.import( app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.js' );
+        app.import( app.bowerDirectory + '/rxjs/dist/rx.all.js' );
+        app.import( app.bowerDirectory + '/select2/select2.js' );
+        app.import( app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.js' );
     },
 
     /**
