@@ -13,6 +13,12 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
+    classNameBindings: [
+        'inverse',
+        'loading:sl-loading'
+    ],
+
     /** @type {Object} */
     layout,
 
@@ -29,7 +35,7 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * Whether the underlying loading-icon is inverse
+     * Whether "inverse" class should be applied (only for sl-loading in this context)
      *
      * @type {Boolean}
      */

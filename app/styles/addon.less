@@ -68,6 +68,21 @@
     }
 }
 
+span.sl-loading {
+    display: inline-block;
+    min-height: @line-height-computed;
+    min-width: @line-height-computed;
+    vertical-align: bottom;
+
+    &:before {
+        display: none;
+    }
+
+    &:after {
+        background-size: 160%;
+    }
+}
+
 // -------------------------------------------------------------------------
 // Animations
 
