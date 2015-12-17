@@ -62,14 +62,14 @@ module.exports = {
         // -------------------------------------------------------------------------
         // Javascript
 
-        app.import( app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
+        app.import( app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js' );
         app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
         app.import( app.bowerDirectory + '/highcharts/lib/highcharts.src.js' );
         app.import( app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js' );
         app.import( app.bowerDirectory + '/moment/min/moment-with-locales.js' );
         app.import( app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.js' );
         app.import( app.bowerDirectory + '/rxjs/dist/rx.all.js' );
-        app.import( app.bowerDirectory + '/select2/select2.js');
+        app.import( app.bowerDirectory + '/select2/select2.js' );
         app.import( app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.js' );
     },
 
