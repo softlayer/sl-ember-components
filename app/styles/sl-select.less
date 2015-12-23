@@ -21,7 +21,6 @@
     }
 
     .select2-choice {
-        background-color: @gray-lighter;
         background-clip: padding-box;
         border: 0;
         border-radius: @border-radius-base;
@@ -95,7 +94,7 @@
                 color: @gray;
                 display: inline-block;
                 font-family: "Glyphicons Halflings";
-                font-size: 150%;
+                font-size: 1em;
                 font-style: normal;
                 font-weight: normal;
                 line-height: 1.5em;
@@ -103,7 +102,10 @@
                 -webkit-font-smoothing: antialiased;
 
                 &:before {
-                    content: "\e259";
+                    content: "\e252";
+                    position: relative;
+                    top: 0.4em;
+                    right: 0.1em;
                 }
             }
         }
@@ -119,10 +121,6 @@
 
         .select2-choice {
             border-bottom-color: @input-border;
-        }
-
-        .select2-arrow b::before {
-            content: "\f106";
         }
     }
 
@@ -169,10 +167,6 @@ html[dir="rtl"] {
             border-left: none;
             border-right: 1px solid @input-border;
             border-radius: @border-radius-base 0 0 @border-radius-base;
-
-            b {
-                background-position: 2px 1px;
-            }
         }
     }
 
@@ -182,10 +176,6 @@ html[dir="rtl"] {
 
     .select2-dropdown-open .select2-choice .select2-arrow {
         border-right: none;
-
-        b {
-            background-position: -16px 1px;
-        }
     }
 
     .select2-results {
@@ -226,8 +216,8 @@ html[dir="rtl"] {
     z-index: 9999;
     top: 100%;
 
-    background: @gray-lighter;
     color: @text-color;
+    background: #fff;
     border: 1px solid @input-border;
 
     border-radius: 0 0 @border-radius-base @border-radius-base;
@@ -330,7 +320,6 @@ html[dir="rtl"] {
     .transition(all 0 ease 0);
 
     .select2-choice {
-        background-color: @gray-lighter;
         border: 0;
         border-bottom-color: transparent;
         border-bottom-left-radius: 0;
@@ -343,8 +332,8 @@ html[dir="rtl"] {
 
             .box-shadow(none);
 
-            b {
-                background-position: -18px 1px;
+            b:before {
+                content: "\e253";
             }
         }
     }
@@ -518,7 +507,6 @@ html[dir="rtl"] {
         }
 
         .select2-search-choice {
-            background-color: @gray-lighter;
             border: 1px solid @input-border;
             border-radius: @border-radius-base;
             color: @text-color;
