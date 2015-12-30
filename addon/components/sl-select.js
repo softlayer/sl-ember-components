@@ -39,6 +39,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @returns {undefined}
      */
     didInsertElement: function() {
+        this._super( ...arguments );
         this.setupSelect2();
     },
 
@@ -49,6 +50,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @returns {undefined}
      */
     willClearRender: function() {
+        this._super( ...arguments );
         this.destroySelect2();
     },
 
