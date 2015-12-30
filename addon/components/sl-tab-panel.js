@@ -69,8 +69,8 @@ export default Ember.Component.extend({
             const initialTabName = this.getInitialTabName();
             this.createTabs();
             this.$( '> .tab-content > .tab-pane' ).filter(
-                    '[data-tab-name=' + initialTabName + ']'
-                ).addClass( 'active' );
+                '[data-tab-name=' + initialTabName + ']'
+            ).addClass( 'active' );
         });
     },
 
