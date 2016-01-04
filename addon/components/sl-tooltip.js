@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import { throwTooltipError } from '../utils/error';
 
 /**
  * @module
@@ -33,21 +34,21 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Check passed parameters on initialization
      *
      * @function
-     * @throws {ember/Error} Thrown if 'title' or 'popover' is invalid
+     * @throws {sl-ember-components/utils/error/tooltip} Thrown if 'title' or 'popover' is invalid
      * @returns {undefined}
      */
     initialize: Ember.on(
         'init',
         function() {
             if ( 'string' !== Ember.typeOf( this.get( 'title' ) ) ) {
-                throw new Ember.Error(
+                throwTooltipError(
                     'enableTooltip() and enablePopover() expect the parameter "title" and for it to be a string'
                 );
             }
 
             if ( 'string' !== Ember.typeOf( this.get( 'popover' ) ) &&
                  'undefined' !== Ember.typeOf( this.get( 'popover' ) ) ) {
-                throw new Ember.Error(
+                throwTooltipError(
                     'enablePopover() expects the parameter "popover" and for it to be a string'
                 );
             }
