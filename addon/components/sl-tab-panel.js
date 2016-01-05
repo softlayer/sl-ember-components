@@ -46,6 +46,17 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event hook
+     *
+     * @function
+     * @returns {undefined}
+     */
+    didInsertElement: function() {
+        this._super( ...arguments );
+        this.setupTabs();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -66,26 +77,6 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Sets up the initial tab, and parses the content of the tab panel to
-     * determine tab labels and names.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupTabs: Ember.on(
-        'didInsertElement',
-        function() {
-            Ember.run.scheduleOnce( 'afterRender', this, function() {
-                const initialTabName = this.getInitialTabName();
-                this.createTabs();
-                this.$( '> .tab-content > .tab-pane' ).filter(
-                        '[data-tab-name=' + initialTabName + ']'
-                    ).addClass( 'active' );
-            });
-        }
-    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -160,6 +151,24 @@ export default Ember.Component.extend({
      */
     setActiveTab( tabName ) {
         this.$( '> .nav-tabs > li[data-tab-name=' + tabName + '] a' ).trigger( 'click' );
+    },
+
+    /**
+     * Sets up the initial tab, and parses the content of the tab panel to
+     * determine tab labels and names.
+     *
+     * @private
+     * @function
+     * @returns {undefined}
+     */
+    setupTabs: function() {
+        Ember.run.scheduleOnce( 'afterRender', this, function() {
+            const initialTabName = this.getInitialTabName();
+            this.createTabs();
+            this.$( '> .tab-content > .tab-pane' ).filter(
+                '[data-tab-name=' + initialTabName + ']'
+            ).addClass( 'active' );
+        });
     },
 
     /**
