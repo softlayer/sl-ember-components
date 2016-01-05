@@ -54,9 +54,75 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         this.destroySelect2();
     },
 
+    // -------------------------------------------------------------------------
+    // Properties
+
+    /**
+     * Whether to show the search filter input or not
+     *
+     * @type {Boolean}
+     */
+    disableSearch: false,
+
+    /**
+     * The internal input element, used for Select2's bindings
+     *
+     * @type {?Object}
+     */
+    input: null,
+
+    /**
+     * The maximum number of selections allowed when `multiple` is enabled
+     *
+     * @type {?Number}
+     */
+    maximumSelectionSize: null,
+
+    /**
+     * Whether to allow multiple selections
+     *
+     * @type {Boolean}
+     */
+    multiple: false,
+
+    /**
+     * The path key for each option object's description
+     *
+     * @type {String}
+     */
+    optionDescriptionPath: 'description',
+
+    /**
+     * The path key for each option object's label
+     *
+     * @type {String}
+     */
+    optionLabelPath: 'label',
+
+    /**
+     * The path key for each option object's value
+     *
+     * @type {String}
+     */
+    optionValuePath: 'value',
+
+    /**
+     * The current value of the select input
+     *
+     * @type {?Array|String}
+     */
+    value: null,
+
+    // -------------------------------------------------------------------------
+    // Observers
+
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Teardown the select2 to prevent memory leaks
      *
+     * @private
      * @function
      * @returns {undefined}
      */
@@ -67,6 +133,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
     /**
      * Set up select2 initialization after the element is inserted in the DOM
      *
+     * @private
      * @function
      * @returns {undefined}
      */
@@ -230,71 +297,5 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
         }
 
         this.input = input;
-    },
-
-    // -------------------------------------------------------------------------
-    // Properties
-
-    /**
-     * Whether to show the search filter input or not
-     *
-     * @type {Boolean}
-     */
-    disableSearch: false,
-
-    /**
-     * The internal input element, used for Select2's bindings
-     *
-     * @type {?Object}
-     */
-    input: null,
-
-    /**
-     * The maximum number of selections allowed when `multiple` is enabled
-     *
-     * @type {?Number}
-     */
-    maximumSelectionSize: null,
-
-    /**
-     * Whether to allow multiple selections
-     *
-     * @type {Boolean}
-     */
-    multiple: false,
-
-    /**
-     * The path key for each option object's description
-     *
-     * @type {String}
-     */
-    optionDescriptionPath: 'description',
-
-    /**
-     * The path key for each option object's label
-     *
-     * @type {String}
-     */
-    optionLabelPath: 'label',
-
-    /**
-     * The path key for each option object's value
-     *
-     * @type {String}
-     */
-    optionValuePath: 'value',
-
-    /**
-     * The current value of the select input
-     *
-     * @type {?Array|String}
-     */
-    value: null
-
-    // -------------------------------------------------------------------------
-    // Observers
-
-    // -------------------------------------------------------------------------
-    // Methods
-
+    }
 });
