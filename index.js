@@ -66,7 +66,7 @@ module.exports = {
 
         app.import( app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js' );
         app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
-        app.import( app.bowerDirectory + '/highcharts/lib/highcharts.src.js' );
+        app.import( app.bowerDirectory + '/highcharts/highcharts.src.js' );
         app.import( app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js' );
         app.import( app.bowerDirectory + '/moment/min/moment-with-locales.js' );
         app.import( app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.js' );
