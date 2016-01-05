@@ -1,5 +1,17 @@
 # sl-ember-components Changelog
 
+### 0.10.1
+
+**BUG FIX**
+
+* [#1340](https://github.com/softlayer/sl-ember-components/issues/1340) Highcharts library changed the folder structure of their built/distributed code...again.
+
+**DOCUMENTATION**
+
+* [#1344](https://github.com/softlayer/sl-ember-components/pull/1344) Update README.md.  `Select2` dependency license is now MIT.
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.10.0...v0.10.1)
+
 ### 0.10.0
 
 **BREAKING ENHANCEMENT**
