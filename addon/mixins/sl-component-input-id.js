@@ -29,18 +29,6 @@ export default Ember.Mixin.create({
         this.setInputId();
     },
 
-    /**
-     * Set unique inputId that will be set on label and input element
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setInputId: function() {
-        if ( !this.get( 'inputId' ) ) {
-            this.set( 'inputId', this.get( 'elementId' ) + '-input' );
-        }
-    }
-
     // -------------------------------------------------------------------------
     // Properties
 
@@ -55,8 +43,19 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Observers
 
-
     // -------------------------------------------------------------------------
     // Methods
 
+    /**
+     * Set unique inputId that will be set on label and input element
+     *
+     * @private
+     * @function
+     * @returns {undefined}
+     */
+    setInputId: function() {
+        if ( !this.get( 'inputId' ) ) {
+            this.set( 'inputId', this.get( 'elementId' ) + '-input' );
+        }
+    }
 });
