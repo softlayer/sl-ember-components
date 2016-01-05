@@ -19,7 +19,7 @@ export default Ember.Mixin.create({
     // Events
 
     /**
-     * initialize
+     * init event hook
      *
      * @function
      * @returns {undefined}
