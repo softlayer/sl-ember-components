@@ -57,23 +57,6 @@ export default Ember.Component.extend({
         this.setupTabs();
     },
 
-    /**
-     * Sets up the initial tab, and parses the content of the tab panel to
-     * determine tab labels and names.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupTabs: function() {
-        Ember.run.scheduleOnce( 'afterRender', this, function() {
-            const initialTabName = this.getInitialTabName();
-            this.createTabs();
-            this.$( '> .tab-content > .tab-pane' ).filter(
-                '[data-tab-name=' + initialTabName + ']'
-            ).addClass( 'active' );
-        });
-    },
-
     // -------------------------------------------------------------------------
     // Properties
 
@@ -168,6 +151,24 @@ export default Ember.Component.extend({
      */
     setActiveTab( tabName ) {
         this.$( '> .nav-tabs > li[data-tab-name=' + tabName + '] a' ).trigger( 'click' );
+    },
+
+    /**
+     * Sets up the initial tab, and parses the content of the tab panel to
+     * determine tab labels and names.
+     *
+     * @private
+     * @function
+     * @returns {undefined}
+     */
+    setupTabs: function() {
+        Ember.run.scheduleOnce( 'afterRender', this, function() {
+            const initialTabName = this.getInitialTabName();
+            this.createTabs();
+            this.$( '> .tab-content > .tab-pane' ).filter(
+                '[data-tab-name=' + initialTabName + ']'
+            ).addClass( 'active' );
+        });
     },
 
     /**
