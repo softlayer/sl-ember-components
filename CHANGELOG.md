@@ -1,5 +1,17 @@
 # sl-ember-components Changelog
 
+### 0.10.1
+
+**BUG FIX**
+
+* [#1340](https://github.com/softlayer/sl-ember-components/issues/1340) Highcharts library changed the folder structure of their built/distributed code...again.
+
+**DOCUMENTATION**
+
+* [#1344](https://github.com/softlayer/sl-ember-components/pull/1344) Update README.md.  `Select2` dependency license is now MIT.
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.10.0...v0.10.1)
+
 ### 0.10.0
 
 **BREAKING ENHANCEMENT**
@@ -38,11 +50,13 @@
 * [#808](https://github.com/softlayer/sl-ember-components/issues/808) Add missing entry for `sl-component-input-id` mixin in documentation pages
 * [#807](https://github.com/softlayer/sl-ember-components/issues/807) Add missing `@augments` for `sl-component-input-id` mixin in `sl-input` and `sl-textarea`
 * [#744](https://github.com/softlayer/sl-ember-components/issues/744) Update `sl-button` documentation
-* [#700](https://github.com/softlayer/sl-ember-components/issues/700) Remove undefined from the @type for the "value" property for `sl-date-time`
+* [#700](https://github.com/softlayer/sl-ember-components/issues/700) Remove undefined from the `@type` for the "value" property for `sl-date-time`
 * [#696](https://github.com/softlayer/sl-ember-components/issues/696) Grid demo is broken
 * [#664](https://github.com/softlayer/sl-ember-components/issues/664) Change reference to *Brocfile.js* in 8README.MD* to *ember-cli-build.js*
 
 **INTERNAL**
+
+A large majority of these are related to creating a better testing story through the use of component integration tests.
 
 * [179 Issues](https://github.com/softlayer/sl-ember-components/issues?q=is%3Aissue+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
 * [12 PRs](https://github.com/softlayer/sl-ember-components/pulls?q=is%3Apr+milestone%3A%22v0.10.0+%28Ember+CLI+1.13.8+Upgrade%29%22+label%3A%22changetype%3A6+internal%22+is%3Aclosed)
@@ -53,8 +67,8 @@
 
 **ENHANCEMENT**
 
-* *CONTRIBUTING.MD*:  [#902](https://github.com/softlayer/sl-ember-components/pull/902) Update CONTRIBUTING.MD
-* *CONTRIBUTING.MD*:  [https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875](https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875)
+* [#902](https://github.com/softlayer/sl-ember-components/pull/902) Update CONTRIBUTING.MD
+* *CONTRIBUTING.MD*: [https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875](https://github.com/softlayer/sl-ember-components/commit/99af879f3705aeb9957538a8daf007f8df98a875)
 
 **BUGFIX**
 
