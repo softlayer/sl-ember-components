@@ -30,25 +30,25 @@ module.exports = {
     },
 
     /**
-     * Adds LESS-generated CSS into vendor tree to be imported in included()
+     * Adds LESS-generated CSS into vendor tree of consuming app to be imported in included()
      *
      * @param {Object} tree
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
-        var appTreePath = 'app';
-        var addonTreePath = path.join( this.nodeModulesPath, '../', 'app' );
-        var appTree = new Funnel( this.isAddon() ? appTreePath : addonTreePath );
+        var vendorTree = tree;
 
-        var compiledLessTree = compileLess(
-            appTree,
-            'styles/' + this.name + '.less',
-            this.getCssFileName()
-        );
+        if ( !this.isAddon() ) {
+            var compiledLessTree = compileLess(
+                new Funnel( path.join( this.nodeModulesPath, '../', 'app' ) ),
+                'styles/' + this.name + '.less',
+                this.getCssFileName()
+            );
 
-        return ( this.isAddon() ) ?
-            mergeTrees([ tree, compiledLessTree ]) :
-            compiledLessTree;
+            vendorTree = ( tree ) ? mergeTrees([ tree, compiledLessTree ]) : compiledLessTree;
+        }
+
+        return vendorTree;
     },
 
     included: function( app ) {
@@ -57,14 +57,16 @@ module.exports = {
         // -------------------------------------------------------------------------
         // CSS
 
-        app.import( 'vendor/' + this.getCssFileName() );
+        if ( !this.isAddon() ) {
+            app.import( 'vendor/' + this.getCssFileName() );
+        }
 
         // -------------------------------------------------------------------------
         // Javascript
 
         app.import( app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js' );
         app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
-        app.import( app.bowerDirectory + '/highcharts/lib/highcharts.src.js' );
+        app.import( app.bowerDirectory + '/highcharts/highcharts.src.js' );
         app.import( app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js' );
         app.import( app.bowerDirectory + '/moment/min/moment-with-locales.js' );
         app.import( app.bowerDirectory + '/moment-timezone/builds/moment-timezone-with-data.js' );
