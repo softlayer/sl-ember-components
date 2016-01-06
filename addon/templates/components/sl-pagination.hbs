@@ -5,8 +5,8 @@
 </li>
 
 {{#each range as |page|}}
-    <li class="{{if page.active 'active'}}">
-        <a href='#' {{action "gotoPage" page.index}}>{{page.index}}</a>
+    <li class="{{if page.active "active"}}">
+        <a href="#" {{action "gotoPage" page.index}}>{{page.index}}</a>
     </li>
 {{/each}}
 

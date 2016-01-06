@@ -130,16 +130,18 @@ export default Ember.Component.extend({
         'currentPage',
         'totalPages',
         function() {
-            const arr = [];
-            const total = this.get( 'totalPages' );
-            const current = this.get( 'currentPage' );
-            for( let i = 1; i <= total; i++ ) {
-                arr.push( {
-                    'index': i,
-                    'active': i === current ? true : false
-                } );
+            const pages = [];
+            const totalPages = this.get( 'totalPages' );
+            const currentPage = this.get( 'currentPage' );
+
+            for( let i = 1; i <= totalPages; i++ ) {
+                pages.push({
+                    index: i,
+                    active: i === currentPage
+                });
             }
-            return arr;
+
+            return pages;
         }
     ),
 
