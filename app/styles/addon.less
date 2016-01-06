@@ -45,7 +45,7 @@
         -moz-animation: sl-spin 1s infinite linear;
         -o-animation: sl-spin 1s infinite linear;
         animation: sl-spin 1s infinite linear;
-        background-image: url('/sl-ember-components/assets/images/spinner-light-sm.png');
+        background-image: url('@{loading-spinner-light}');
         background-repeat: no-repeat;
         background-position: 50%;
         background-size: contain;
@@ -56,7 +56,7 @@
     }
 
     &.inverse:after {
-        background-image: url('/sl-ember-components/assets/images/spinner-dark-sm.png');
+        background-image: url('@{loading-spinner-dark}');
     }
 
     & > * {
@@ -80,6 +80,11 @@ span.sl-loading {
 
     &:after {
         background-size: 160%;
+        background-image: url('@{loading-spinner-dark}');
+    }
+
+    &.inverse:after {
+        background-image: url('@{loading-spinner-light}');
     }
 }
 
