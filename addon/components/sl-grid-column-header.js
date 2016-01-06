@@ -9,12 +9,12 @@ import layout from '../templates/components/sl-grid-column-header';
  * @enum {String}
  * @property {String} ASC 'asc',
  * @property {String} DESC 'desc',
- * @property {String} NULL 'null',
+ * @property {String} NULL null,
  */
 export const Sort = Object.freeze({
     ASC: 'asc',
     DESC: 'desc',
-    NULL: 'null'
+    NULL: null
 });
 
 /**
@@ -105,7 +105,7 @@ export default SlGridCell.extend({
             const sorted = this.get( 'sorted' );
             let className = null;
 
-            if ( this.get( 'sortable' ) && sorted !== null && sorted !== undefined ) {
+            if ( this.get( 'sortable' ) && !Ember.isNone( sorted ) ) {
                 className = 'column-' + (
                     'asc' === sorted ? 'ascending' : 'descending'
                 );

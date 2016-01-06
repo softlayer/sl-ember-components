@@ -18,8 +18,8 @@ export default Ember.Controller.extend({
             const currentDir = Ember.get( column, 'sorted' );
 
             let sortDir = 'asc';
-            if ( currentDir ) {
-                sortDir = 'asc' === currentDir ? 'desc' : 'asc';
+            if ( 'asc' === currentDir ) {
+                sortDir = 'desc';
             }
 
             for ( let i = 0; i < columns.length; i++ ) {
