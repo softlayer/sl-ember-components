@@ -120,6 +120,24 @@ export default Ember.Component.extend({
         }
     ),
 
+    setupResponsive: function() {
+        this.$().twbsResponsivePagination();
+    },
+
+    didInsertElement: function() {
+        this._super( ...arguments );
+        this.setupResponsive();
+    },
+
+    pageChange: Ember.observer(
+        'currentPage',
+        function() {
+            Ember.run.scheduleOnce( 'afterRender', this, function() {
+                this.$().twbsResponsivePagination();
+            });
+        }
+    ),
+
     /**
      * Array of simple objects representing the pages
      *
