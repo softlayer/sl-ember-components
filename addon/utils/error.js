@@ -13,7 +13,6 @@ let errorTypeThrown = null;
 /**
  * Creates an Error Function with additional values set
  *
- * @function
  * @param {String} component The component name which needs an error function created
  * @param {String} message The error message
  * @returns {Function}
@@ -42,7 +41,6 @@ const buildErrorFunction = function( component, message ) {
 /**
  * Determines whether an error was thrown from sl-ember-components
  *
- * @function
  * @returns {Boolean}
  */
 const errorWasThrown = function() {
@@ -52,7 +50,6 @@ const errorWasThrown = function() {
 /**
  * Determines whether an error instance was one defined from sl-ember-components
  *
- * @function
  * @param {String} type The error instance's name to compare
  * @returns {Boolean}
  */
@@ -63,7 +60,6 @@ const isErrorInstanceOf = function( type ) {
 /**
  * Sets errorTypeThrown to the passed function name
  *
- * @function
  * @param {String} functionName The error instance's name
  * @returns {undefined}
  */
@@ -74,7 +70,6 @@ const setErrorTypeThrown = function( functionName ) {
 /**
  * Requests one of the sl-ember-component error functions to be created and throws that error
  *
- * @function
  * @param {String} component The component name which needs an error function created
  * @param {String} message The error message
  * @returns {undefined}
@@ -84,7 +79,6 @@ const throwError = function( component, message ) {
 
     throw new ErrorFunction();
 };
-
 
 /**
  * @typedef chart
@@ -96,7 +90,6 @@ const throwError = function( component, message ) {
 /**
  * Requests an sl-ember-component sl-chart error to be thrown
  *
- * @function
  * @param {String} message The error message
  * @returns {chart}
  */
@@ -114,7 +107,6 @@ const throwChartError = function( message ) {
 /**
  * Requests an sl-ember-component sl-date-time error to be thrown
  *
- * @function
  * @param {String} message The error message
  * @returns {dateTime}
  */
@@ -132,7 +124,6 @@ const throwDateTimeError = function( message ) {
 /**
  * Requests an sl-ember-component sl-menu error to be thrown
  *
- * @function
  * @param {String} message The error message
  * @returns {menu}
  */
@@ -150,7 +141,6 @@ const throwMenuError = function( message ) {
 /**
  * Requests an sl-ember-component sl-radio-group error to be thrown
  *
- * @function
  * @param {String} message The error message
  * @returns {radioGroup}
  */
@@ -168,9 +158,8 @@ const throwRadioGroupError = function( message ) {
 /**
  * Requests an sl-ember-component sl-tooltip error to be thrown
  *
- * @function
  * @param {String} message The error message
- * @returns {module:addon/utils/error~tooltip}
+ * @returns {tooltip}
  */
 const throwTooltipError = function( message ) {
     throwError( 'sl-tooltip', message );
