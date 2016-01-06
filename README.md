@@ -96,7 +96,6 @@ While this library is MIT licensed not all of the third-party component librarie
 
 Other libraries that are not MIT licensed, though it should not pose a problem, are:
 
-* [Select2](https://github.com/ivaynberg/select2/blob/master/LICENSE)
 * [Bootstrap-Datepicker](https://github.com/eternicode/bootstrap-datepicker/blob/release/LICENSE)
 
 
