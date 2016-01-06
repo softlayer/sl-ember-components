@@ -179,14 +179,10 @@ test( 'placeholder is accepted as a parameter', function( assert ) {
 test( 'action is fired when date changes on datepicker', function( assert ) {
     assert.expect( 1 );
 
-    const done = assert.async();
-
     this.on( 'action', function() {
         assert.ok(
             'Action was fired'
         );
-
-        done();
     });
 
     this.render( hbs`
