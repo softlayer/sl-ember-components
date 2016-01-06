@@ -116,8 +116,6 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
 test( 'Blur action is triggered when input loses focus', function( assert ) {
     assert.expect( 1 );
 
-    const done = assert.async();
-
     this.subject({
         blur: 'blur',
         targetObject: {
@@ -125,8 +123,6 @@ test( 'Blur action is triggered when input loses focus', function( assert ) {
                 assert.ok(
                     'blur was triggered'
                 );
-
-                done();
             }
         }
     });
