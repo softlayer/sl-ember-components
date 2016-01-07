@@ -210,6 +210,20 @@ export default Ember.Component.extend( Namespace, {
     // -------------------------------------------------------------------------
     // Events
 
+    didInsertElement: function() {
+        this._super( ...arguments );
+
+        this.setupFixedHeader();
+        this.setupCalculatedHeight();
+        this.setupContinuousPaging();
+    },
+
+    willClearRender: function() {
+        this._super( ...arguments );
+
+        this.clearEvents();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -419,151 +433,19 @@ export default Ember.Component.extend( Namespace, {
         }
     ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Cleanup bound events
      *
      * @function
      * @returns {undefined}
      */
-    clearEvents: Ember.on(
-        'willClearRender',
-        function() {
-            Ember.$( window ).off( this.namespaceEvent( 'resize' ) );
-            this.disableContinuousPaging();
-        }
-    ),
-
-    /**
-     * Setup the "continuous paging" functionality, if the data set is
-     * not complete
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupContinuousPaging: Ember.on(
-        'didInsertElement',
-        function() {
-            if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
-                this.enableContinuousPaging();
-            }
-        }
-    ),
-
-    /**
-     * Setup fixed position table header
-     *
-     * Also creates a window resize event to ensure grid acts fluid.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupFixedHeader: Ember.on(
-        'didInsertElement',
-        function() {
-            if ( this.get( 'fixedHeader' ) ) {
-                this.resetFixedHeaderWidths();
-                Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
-                    this.resetFixedHeaderWidths();
-                });
-            }
-        }
-    ),
-
-    /**
-     * Setup height of the grid table
-     *
-     * Also creates a window resize event to ensure grid acts fluid.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupCalculatedHeight: Ember.on(
-        'didInsertElement',
-        function() {
-            this.updateHeight();
-            Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
-                this.updateHeight();
-            });
-        }
-    ),
-
-    // -------------------------------------------------------------------------
-    // Methods
-
-    /**
-     * Namespace event per instance
-     *
-     * @function
-     * @param {String} - event name
-     * @returns {String}
-     */
-    namespaceEvent( eventName ) {
-        return `${ eventName }.${ this.get( 'elementId' ) }`;
+    clearEvents() {
+        Ember.$( window ).off( this.namespaceEvent( 'resize' ) );
+        this.disableContinuousPaging();
     },
-
-    /**
-     * Assign widths to the column headers based on their natural layout
-     *
-     * Table headers must be fixed with for fixed positioning to work.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    resetFixedHeaderWidths() {
-        if ( !this.get( 'fixedHeader' ) ) {
-            return;
-        }
-
-        const context = this;
-        const table = this.$( '> div > table' );
-        table.removeClass( 'fixed-header' );
-        table.find( 'thead th' ).width( '' );
-        table.find( 'thead th' ).width( function() {
-            return context.$( this ).width();
-        });
-        table.addClass( 'fixed-header' );
-    },
-
-    /**
-     * Whether to show the pagination in the list-pane footer
-     *
-     * @function
-     * @returns {Boolean}
-     */
-    showPagination: Ember.computed(
-        'continuous',
-        'totalPages',
-        function() {
-            const totalPages = this.get( 'totalPages' );
-
-            return Boolean( !this.get( 'continuous' ) && totalPages && totalPages > 1 );
-        }
-    ),
-
-    /**
-     * The total number of pages of bound content, based on pageSize
-     *
-     * @function
-     * @returns {?Number}
-     */
-    totalPages: Ember.computed(
-        'continuous',
-        'pageSize',
-        'totalCount',
-        function() {
-            if (
-                !this.get( 'continuous' ) &&
-                this.get( 'totalCount' ) &&
-                this.get( 'pageSize' )
-            ) {
-                return Math.ceil(
-                    this.get( 'totalCount' ) / this.get( 'pageSize' )
-                );
-            }
-
-            return null;
-        }
-    ),
 
     /**
      * Disables the scroll event handling for continuous paging
@@ -629,6 +511,17 @@ export default Ember.Component.extend( Namespace, {
     ),
 
     /**
+     * Namespace event per instance
+     *
+     * @function
+     * @param {String} - event name
+     * @returns {String}
+     */
+    namespaceEvent( eventName ) {
+        return `${ eventName }.${ this.get( 'elementId' ) }`;
+    },
+
+    /**
      * Trigger the bound `requestData` action for more content data
      *
      * @function
@@ -647,6 +540,115 @@ export default Ember.Component.extend( Namespace, {
             this.sendAction( 'requestData' );
         }
     },
+
+    /**
+     * Assign widths to the column headers based on their natural layout
+     *
+     * Table headers must be fixed with for fixed positioning to work.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    resetFixedHeaderWidths() {
+        if ( !this.get( 'fixedHeader' ) ) {
+            return;
+        }
+
+        const context = this;
+        const table = this.$( '> div > table' );
+        table.removeClass( 'fixed-header' );
+        table.find( 'thead th' ).width( '' );
+        table.find( 'thead th' ).width( function() {
+            return context.$( this ).width();
+        });
+        table.addClass( 'fixed-header' );
+    },
+
+    /**
+     * Setup height of the grid table
+     *
+     * Also creates a window resize event to ensure grid acts fluid.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupCalculatedHeight() {
+        this.updateHeight();
+        Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+            this.updateHeight();
+        });
+    },
+
+    /**
+     * Setup the "continuous paging" functionality, if the data set is
+     * not complete
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupContinuousPaging() {
+        if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
+            this.enableContinuousPaging();
+        }
+    },
+
+    /**
+     * Setup fixed position table header
+     *
+     * Also creates a window resize event to ensure grid acts fluid.
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupFixedHeader() {
+        if ( this.get( 'fixedHeader' ) ) {
+            this.resetFixedHeaderWidths();
+            Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+                this.resetFixedHeaderWidths();
+            });
+        }
+    },
+
+    /**
+     * Whether to show the pagination in the list-pane footer
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    showPagination: Ember.computed(
+        'continuous',
+        'totalPages',
+        function() {
+            const totalPages = this.get( 'totalPages' );
+
+            return Boolean( !this.get( 'continuous' ) && totalPages && totalPages > 1 );
+        }
+    ),
+
+    /**
+     * The total number of pages of bound content, based on pageSize
+     *
+     * @function
+     * @returns {?Number}
+     */
+    totalPages: Ember.computed(
+        'continuous',
+        'pageSize',
+        'totalCount',
+        function() {
+            if (
+                !this.get( 'continuous' ) &&
+                this.get( 'totalCount' ) &&
+                this.get( 'pageSize' )
+            ) {
+                return Math.ceil(
+                    this.get( 'totalCount' ) / this.get( 'pageSize' )
+                );
+            }
+
+            return null;
+        }
+    ),
 
     /**
      * Assigns the table part of the grid a calculated height
