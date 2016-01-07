@@ -151,6 +151,8 @@ The components in sl-ember-components will throw errors if the components are us
 If you wish to capture these errors and pass them along to your error logging application you can do so by adding the following lines to your application's `app/app.js` file:
 
 ```
+import { errorWasThrown, isErrorInstanceOf } from 'sl-ember-components/utils/error';
+
 var App;
 
 ...
@@ -158,18 +160,18 @@ var App;
 Ember.onerror = function( error ) {
 
     if ( errorWasThrown( error ) ) {
-        //This will catch any errors coming from the sl-ember-components addon
-        //Insert the code you would use to send to your error logging application here
+        // This will catch any errors coming from the sl-ember-components addon
+        // Insert the code you would use to send to your error logging application here
     }
 
     if ( isErrorInstanceOf( 'radioGroup' ) ) {
-        //Use this option if you want granularity at the individual component level
-        //Insert the code you would use to send to your error logging application here
+        // Use this option if you want granularity at the individual component level
+        // Insert the code you would use to send to your error logging application here
     }
 
     ...Repeat the above for each component that you want to watch for where "radioGroup"
     is the name of the component "sl-radio-group". So if you wanted to watch "sl-menu" you
-    would replace "radioGroup" with "menu".
+    would replace "radioGroup" with "menu". To see what can be used look at addon/utils/error.js.
 
     console.error( error ); // Still send the error to the console
 };
