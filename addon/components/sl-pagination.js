@@ -66,6 +66,18 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event handler
+     *
+     * @function
+     * @returns {undefined}
+     */
+    didInsertElement: function() {
+        this._super( ...arguments );
+
+        this.setupResponsivePlugin();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -120,20 +132,48 @@ export default Ember.Component.extend({
         }
     ),
 
-    setupResponsive: function() {
-        this.$().twbsResponsivePagination();
-    },
+    /**
+     * Re-initialize the responsive plugin if total page count changes
+     *
+     * @function
+     * @returns {undefined}
+     */
+    reinitializeResponsivePlugin: Ember.observer(
+        'totalPages',
+        function() {
+            this.setupResponsivePlugin();
+        }
+    ),
 
-    didInsertElement: function() {
-        this._super( ...arguments );
-        this.setupResponsive();
-    },
+    /**
+     * Modify the active property of the currently active page object
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateCurrentPage: Ember.observer(
+        'currentPage',
+        function() {
+            const pages = this.get( 'range' );
+            const currentPage = this.get( 'currentPage' );
 
-    pageChange: Ember.observer(
+            pages.forEach( ( page, i ) => {
+                Ember.set( page, 'active', ( i + 1 === currentPage ) );
+            });
+        }
+    ),
+
+    /**
+     * Update the responsive plugin if current page changes
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateResponsivePlugin: Ember.observer(
         'currentPage',
         function() {
             Ember.run.scheduleOnce( 'afterRender', this, function() {
-                this.$().twbsResponsivePagination();
+                this.$().twbsResponsivePagination( 'update' );
             });
         }
     ),
@@ -145,7 +185,6 @@ export default Ember.Component.extend({
      * @returns {Array}
      */
     range: Ember.computed(
-        'currentPage',
         'totalPages',
         function() {
             const pages = [];
@@ -200,6 +239,16 @@ export default Ember.Component.extend({
         if ( this.get( 'changePage' ) ) {
             this.sendAction( 'changePage', page );
         }
+    },
+
+    /**
+     * Initialize the responsive pagination jQuery plugin
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setupResponsivePlugin: function() {
+        this.$().twbsResponsivePagination();
     }
 
 });

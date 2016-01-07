@@ -4,11 +4,11 @@
     </a>
 </li>
 
-{{#each range as |page|}}
+{{~#each range as |page|~}}
     <li class="{{if page.active "active"}}">
         <a href="#" {{action "gotoPage" page.index}}>{{page.index}}</a>
     </li>
-{{/each}}
+{{~/each~}}
 
 <li class="{{if onLastPage "disabled"}}">
     <a {{action "nextPage"}} aria-label="Next" class="next-page-button sl-pagination-button">

@@ -37,6 +37,8 @@ test( 'Default property values', function( assert ) {
 test( 'nextPage action increments currentPage', function( assert ) {
     const component = this.subject({ totalPages: 2 });
 
+    this.render();
+
     Ember.run( () => {
         component.send( 'nextPage' );
     });
@@ -51,6 +53,8 @@ test( 'nextPage action increments currentPage', function( assert ) {
 test( 'previousPage action decrements currentPage', function( assert ) {
     const component = this.subject({ totalPages: 2, currentPage: 2 });
 
+    this.render();
+
     Ember.run( () => {
         component.send( 'previousPage' );
     });
@@ -64,6 +68,8 @@ test( 'previousPage action decrements currentPage', function( assert ) {
 
 test( 'onFirstPage property returns the expected values', function( assert ) {
     const component = this.subject({ currentPage: 2 });
+
+    this.render();
 
     assert.strictEqual(
         component.get( 'onFirstPage' ),
@@ -87,6 +93,8 @@ test( 'onLastPage property returns the expected values', function( assert ) {
         currentPage: 1,
         totalPages: 2
     });
+
+    this.render();
 
     assert.strictEqual(
         component.get( 'onLastPage' ),
@@ -120,6 +128,8 @@ test( 'changePageBy() adds to currentPage when positive', function( assert ) {
         totalPages: 2
     });
 
+    this.render();
+
     Ember.run( () => {
         component.changePageBy( 1 );
     });
@@ -136,6 +146,8 @@ test( 'changePageBy() subtracts from currentPage when negative', function( asser
         totalPages: 2,
         currentPage: 2
     });
+
+    this.render();
 
     Ember.run( () => {
         component.changePageBy( -1 );
@@ -158,6 +170,8 @@ test( 'gotoPage() sends the changePage action', function( assert ) {
         changePage: 'testAction',
         targetObject: targetObject
     });
+
+    this.render();
 
     Ember.run( () => {
         component.gotoPage( 2 );
@@ -231,7 +245,6 @@ test( 'Dependent keys are correct', function( assert ) {
     ];
 
     const rangeDependentKeys = [
-        'currentPage',
         'totalPages'
     ];
 
