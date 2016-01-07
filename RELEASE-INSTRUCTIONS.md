@@ -18,6 +18,7 @@ This document captures the steps a project maintainer should follow when releasi
     * If a change requires a user to change their configuration, *bower.json*, *package.json*, or *ember-cli-build.js* also add a BREAKING tag within the brackets before any other tags (example [BREAKING BUGFIX])
     * Following the pattern of the existing entries for guidance
     * Add appropriately linked "View complete changeset" link at bottom of entries
+* Mark as completed any related task items in the appropriate version section of the [Roadmap](ROADMAP.md)
 * After changes have been committed:
     * `npm version x.x.x`, where *x.x.x* is the Semantic Version of the changeset
     * `git push origin master`
