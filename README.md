@@ -79,7 +79,7 @@ Provides an abstraction between the events the *sl-menu* component listens for a
 
 *error*
 
-Provides sl-ember-components a way for individual components to throw errors that are able to be recognized by methods inside of a comsuming applications `Ember.onerror()` function. For more details reference the [Error Handling](#error-handling) section below.
+Provides a way for individual components to throw errors that are able to be recognized by methods inside of a consuming application's `Ember.onerror()` function. For more details reference the [Error Handling](#error-handling) section below.
 
 
 ---
