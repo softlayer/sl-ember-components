@@ -34,12 +34,9 @@ export default SlMenuItem.extend({
      * @function
      * @returns {undefined}
      */
-    handleMouseEnter: Ember.on(
-        'mouseEnter',
-        function() {
-            this.sendAction( 'onMouseEnter' );
-        }
-    )
+    mouseEnter() {
+        this.sendAction( 'onMouseEnter' );
+    }
 
     // -------------------------------------------------------------------------
     // Properties
