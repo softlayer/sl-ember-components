@@ -105,6 +105,8 @@ test( 'if label is present and icon is set icon image tag is rendered with sampl
 test( 'Action is wired into template hyperlink tag', function( assert ) {
     assert.expect( 1 );
 
+    const testActionDone = assert.async();
+
     this.render( hbs`
         {{sl-drop-option action="testAction" label="test"}}
     ` );
@@ -114,6 +116,8 @@ test( 'Action is wired into template hyperlink tag', function( assert ) {
             true,
             'The test action was called'
         );
+
+        testActionDone();
     });
 
     this.$( '>:first-child' ).find( 'a' ).click();
