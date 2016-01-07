@@ -248,7 +248,7 @@ test( 'Observer keys are correct', function( assert ) {
     ];
 
     assert.deepEqual(
-        component.setupTypeahead.__ember_observes__,
+        component.setupTypeaheadObserver.__ember_observes__,
         setupTypeaheadKeys,
         'Observer keys are correct for setupTypeahead()'
     );
