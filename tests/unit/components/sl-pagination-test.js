@@ -266,3 +266,37 @@ test( 'Dependent keys are correct', function( assert ) {
         'Dependent keys are correct for range()'
     );
 });
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const reinitializeResponsivePluginKeys = [
+        'totalPages'
+    ];
+
+    const updateCurrentPageKeys = [
+        'currentPage'
+    ];
+
+    const updateResponsivePluginKeys = [
+        'currentPage'
+    ];
+
+    assert.deepEqual(
+        component.reinitializeResponsivePlugin.__ember_observes__,
+        reinitializeResponsivePluginKeys,
+        'Observer keys are correct for reinitializeResponsivePlugin()'
+    );
+
+    assert.deepEqual(
+        component.updateCurrentPage.__ember_observes__,
+        updateCurrentPageKeys,
+        'Observer keys are correct for updateCurrentPage()'
+    );
+
+    assert.deepEqual(
+        component.updateResponsivePlugin.__ember_observes__,
+        updateResponsivePluginKeys,
+        'Observer keys are correct for updateResponsivePlugin()'
+    );
+});
