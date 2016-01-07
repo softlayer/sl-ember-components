@@ -16,21 +16,6 @@ export const ColumnAlign = Object.freeze({
 });
 
 /**
- * Valid values for the column definitions' `size` property
- *
- * @memberof module:addon/components/sl-grid
- * @enum {String}
- * @property LARGE 'large'
- * @property MEDIUM 'medium'
- * @property SMALL 'small'
- */
-export const ColumnSize = Object.freeze({
-    LARGE: 'large',
-    MEDIUM: 'medium',
-    SMALL: 'small'
-});
-
-/**
  * @module
  * @augments ember/Component
  * @augments module:mixins/sl-namespace
@@ -207,26 +192,7 @@ export default Ember.Component.extend( Namespace, {
                 return;
             }
 
-            const columnTitle = Ember.get( column, 'title' );
-            const sortedColumn = this.get( 'sortedColumn' );
-            const sortedColumnTitle = this.get( 'sortedColumnTitle' );
-            let sortDirection = this.get( 'sortDirection' );
-
-            if ( sortedColumnTitle === columnTitle ) {
-                sortDirection = !sortDirection;
-            } else {
-                if ( sortedColumn ) {
-                    Ember.set( sortedColumn, 'sortAscending', null );
-                }
-
-                this.set( 'sortedColumnTitle', columnTitle );
-                sortDirection = true;
-            }
-
-            this.set( 'sortDirection', sortDirection );
-            Ember.set( column, 'sortAscending', sortDirection );
-
-            this.sendAction( 'sortColumn', column, sortDirection );
+            this.sendAction( 'sortColumn', column );
         },
 
         /**
@@ -267,9 +233,9 @@ export default Ember.Component.extend( Namespace, {
      * @property {ColumnAlign} [align] - Which direction to align the
      *           column's content
      * @property {Boolean} [primary] - Whether the column is always shown
-     * @property {Number|ColumnSize} [size] - The width of the column; either a
-     *           number of pixels, or a ColumnSize value
      * @property {Boolean} [sortable] - Whether the column is able to be sorted
+     * @property {?String} [sorted] - Which direction the column is sorted;
+     *           null for none, 'asc', 'desc'
      * @property {String} [template] - Template name to use for the cell value;
      *           uses the `rowController` as its controller
      * @property {String} title - The displayed title of the column
@@ -418,27 +384,6 @@ export default Ember.Component.extend( Namespace, {
      * @type {?String}
      */
     rowClick: null,
-
-    /**
-     * Whether the currently sorted column is ascending or not
-     *
-     * @type {Boolean}
-     */
-    sortAscending: true,
-
-    /**
-     * The title of the column that is currently being sorted
-     *
-     * @type {?Object}
-     */
-    sortedColumnTitle: null,
-
-    /**
-     * The sort direction represented as boolean (true: asc; false: desc)
-     *
-     * @type {Boolean}
-     */
-    sortDirection: null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -592,34 +537,6 @@ export default Ember.Component.extend( Namespace, {
             const totalPages = this.get( 'totalPages' );
 
             return Boolean( !this.get( 'continuous' ) && totalPages && totalPages > 1 );
-        }
-    ),
-
-    /**
-     * The currently sorted column definition
-     *
-     * @function
-     * @returns {?Object} The definition for the currently sorted column
-     */
-    sortedColumn: Ember.computed(
-        'columns',
-        'sortedColumnTitle',
-        function() {
-            const sortedColumnTitle = this.get( 'sortedColumnTitle' );
-
-            if ( sortedColumnTitle ) {
-                const columns = this.get( 'columns' );
-
-                for ( let i = 0; i < columns.length; i++ ) {
-                    if (
-                        Ember.get( columns[ i ], 'title' ) === sortedColumnTitle
-                    ) {
-                        return columns[ i ];
-                    }
-                }
-            }
-
-            return null;
         }
     ),
 
