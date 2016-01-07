@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-date-time';
+import { throwDateTimeError } from '../utils/error';
 
 /**
  * Valid date format strings
@@ -100,21 +101,21 @@ export default Ember.Component.extend( TooltipEnabled, {
      * Check passed parameters on initialization
      *
      * @function
-     * @throws {ember/Error} timezone property must be a string
-     * @throws {ember/Error} timezone property provided is not valid
+     * @throws {sl-ember-components/utils/error/dateTime} timezone property must be a string
+     * @throws {sl-ember-components/utils/error/dateTime} timezone property provided is not valid
      * @returns {undefined}
      */
     initialize: Ember.on(
         'init',
         function() {
             if ( 'string' !== Ember.typeOf( this.get( 'timezone' ) ) ) {
-                throw new Ember.Error( 'timezone property must be a string' );
+                throwDateTimeError( 'Timezone property must be a string' );
             }
 
             const validTimeZonesArray = window.moment.tz.names();
 
             if ( !validTimeZonesArray.includes( this.get( 'timezone' ) ) ) {
-                throw new Ember.Error( 'timezone property provided is not valid' );
+                throwDateTimeError( 'Timezone property provided is not valid' );
             }
         }
     ),
