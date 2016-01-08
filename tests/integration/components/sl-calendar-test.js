@@ -65,34 +65,6 @@ test( 'Default rendered state', function( assert ) {
     );
 });
 
-test( 'sr-only class is set on child element when parent element has an icon class', function( assert ) {
-    this.render( hbs`
-        {{sl-calendar}}
-    ` );
-
-    const getIcons = () => this.$( '>:first-child' ).find( '[class^="sl-icon-"]' );
-    const classIsPresent = ( element ) => 1 === Ember.$( element ).find( '.sr-only' ).length;
-
-    assert.ok(
-        getIcons().toArray().every( classIsPresent ),
-        'sr-only class is present on month icons'
-    );
-
-    this.$( '.datepicker-switch' ).click();
-
-    assert.ok(
-        getIcons().toArray().every( classIsPresent ),
-        'sr-only class is present on year icons'
-    );
-
-    this.$( '.datepicker-switch' ).click();
-
-    assert.ok(
-        getIcons().toArray().every( classIsPresent ),
-        'sr-only class is present on decade icons'
-    );
-});
-
 test( 'Check for classes set on items outside of range in picker', function( assert ) {
     this.set( 'currentYear', 2015 );
     this.set( 'currentMonth', 1 );
@@ -970,7 +942,7 @@ test( 'All Twelve Months are Displayed in Order', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span:not(.sr-only)' ).text().trim(),
+        this.$( '>:first-child' ).find( 'tbody span' ).text().trim(),
         'JanFebMarAprMayJunJulAugSepOctNovDec',
         'Twelve months are listed in order'
     );
@@ -988,7 +960,7 @@ test( 'Twelve Years are Displayed in Order', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span:not(.sr-only)' ).text().trim(),
+        this.$( '>:first-child' ).find( 'tbody span' ).text().trim(),
         '201920202021202220232024202520262027202820292030',
         'Twelve years are listed in order'
     );
