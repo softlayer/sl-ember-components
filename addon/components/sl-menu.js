@@ -75,6 +75,17 @@ export default Ember.Component.extend( StreamEnabled, {
     // Events
 
     /**
+     * init event hook
+     *
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+        this.initialize();
+        this.setupStreamActions();
+    },
+
+    /**
      * mouseLeave event handler
      *
      * @function
@@ -87,7 +98,6 @@ export default Ember.Component.extend( StreamEnabled, {
     /**
      * mouseMove event handler
      *
-     * @function
      * returns {undefined}
      */
     mouseMove() {
@@ -131,88 +141,6 @@ export default Ember.Component.extend( StreamEnabled, {
     // Observers
 
     /**
-     * Initialize any computed properties that need setup
-     *
-     * @function
-     * @returns {undefined}
-     */
-    initialize: Ember.on(
-        'init',
-        function() {
-            this.set( 'selections', Ember.A() );
-        }
-    ),
-
-    /**
-     * Setup the stream actions bindings
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupStreamActions: Ember.on(
-        'init',
-        function() {
-            const stream = this.get( 'stream' );
-
-            if ( !stream ) {
-                return;
-            }
-
-            stream.on( 'doAction', () => {
-                this.doAction();
-            });
-
-            stream.on( 'hideAll', () => {
-                this.hideAll();
-            });
-
-            stream.on( 'select', ( index ) => {
-                this.select( index );
-            });
-
-            stream.on( 'selectDown', () => {
-                this.selectDown();
-            });
-
-            stream.on( 'selectLeft', () => {
-                this.selectLeft();
-            });
-
-            stream.on( 'selectNext', () => {
-                this.selectNext();
-            });
-
-            stream.on( 'selectParent', () => {
-                this.selectParent();
-            });
-
-            stream.on( 'selectPrevious', () => {
-                this.selectPrevious();
-            });
-
-            stream.on( 'selectRight', () => {
-                this.selectRight();
-            });
-
-            stream.on( 'selectSubMenu', () => {
-                this.selectSubMenu();
-            });
-
-            stream.on( 'selectUp', () => {
-                this.selectUp();
-            });
-
-            stream.on( 'showAll', () => {
-                this.showAll();
-            });
-
-            stream.on( 'clearSelections', () => {
-                this.clearSelections();
-            });
-        }
-    ),
-
-    /**
      * Retrieve the currently selected item
      *
      * @function
@@ -231,9 +159,85 @@ export default Ember.Component.extend( StreamEnabled, {
     // Methods
 
     /**
+     * Initialize any computed properties that need setup
+     *
+     * @private
+     * @returns {undefined}
+     */
+    initialize() {
+        this.set( 'selections', Ember.A() );
+    },
+
+    /**
+     * Setup the stream actions bindings
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupStreamActions() {
+        const stream = this.get( 'stream' );
+
+        if ( !stream ) {
+            return;
+        }
+
+        stream.on( 'doAction', () => {
+            this.doAction();
+        });
+
+        stream.on( 'hideAll', () => {
+            this.hideAll();
+        });
+
+        stream.on( 'select', ( index ) => {
+            this.select( index );
+        });
+
+        stream.on( 'selectDown', () => {
+            this.selectDown();
+        });
+
+        stream.on( 'selectLeft', () => {
+            this.selectLeft();
+        });
+
+        stream.on( 'selectNext', () => {
+            this.selectNext();
+        });
+
+        stream.on( 'selectParent', () => {
+            this.selectParent();
+        });
+
+        stream.on( 'selectPrevious', () => {
+            this.selectPrevious();
+        });
+
+        stream.on( 'selectRight', () => {
+            this.selectRight();
+        });
+
+        stream.on( 'selectSubMenu', () => {
+            this.selectSubMenu();
+        });
+
+        stream.on( 'selectUp', () => {
+            this.selectUp();
+        });
+
+        stream.on( 'showAll', () => {
+            this.showAll();
+        });
+
+        stream.on( 'clearSelections', () => {
+            this.clearSelections();
+        });
+    },
+
+    /**
      * Clear the `selections` data
      *
-     * @function
+     * @private
      * @returns {undefined}
      */
     clearSelections() {
