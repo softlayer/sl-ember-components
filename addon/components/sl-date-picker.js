@@ -37,10 +37,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     /**
      * didInsertElement event hook
      *
-     * @function
      * @returns {undefined}
      */
-    didInsertElement: function() {
+    didInsertElement() {
         this._super( ...arguments );
         this.setupDatepicker();
     },
@@ -48,10 +47,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     /**
      * willClearRender event hook
      *
-     * @function
      * @returns {undefined}
      */
-    willClearRender: function() {
+    willClearRender() {
         this._super( ...arguments );
         this.unregisterEvents();
     },
@@ -321,10 +319,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      * Setup the bootstrap-datepicker plugin and events
      *
      * @private
-     * @function
      * @returns {undefined}
      */
-    setupDatepicker: function() {
+    setupDatepicker() {
         const datepicker = this.$( 'input.date-picker' )
             .datepicker( this.get( 'options' ) );
 
@@ -337,10 +334,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      * Remove events
      *
      * @private
-     * @function
      * @returns {undefined}
      */
-    unregisterEvents: function() {
+    unregisterEvents() {
         this.$( 'input.date-picker' ).off( this.namespaceEvent( 'changeDate' ) );
     }
 });
