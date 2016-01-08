@@ -58,12 +58,11 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * willInsertElement event hook
      *
-     * @function
      * @returns {undefined}
      */
-    willInsertElement: function() {
+    willInsertElement() {
         this._super( ...arguments );
-        this.initialize();
+        this.setCssWidth();
     },
 
     // -------------------------------------------------------------------------
@@ -124,17 +123,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     // Methods
 
     /**
-     * Setup initial width on the progress bar
-     *
-     * @private
-     * @function
-     * @returns {undefined}
-     */
-    initialize: function() {
-        this.setCssWidth();
-    },
-
-    /**
      * Whether the progress value is below a certain level
      *
      * @function
@@ -150,7 +138,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     /**
      * Dynamically sets the width on the style of the progress bar
      *
-     * @function
      * @returns {undefined}
      */
     setCssWidth() {
