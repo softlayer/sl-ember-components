@@ -28,7 +28,7 @@ This list of objectives outlines the plan we have for aligning with our [Vision 
 - [ ] Upgrade to, and support, latest released versions of Ember and Ember CLI
 
 
-[v0.13.0](https://github.com/softlayer/sl-ember-components/milestones/v0.13.0%20(Final%20push%20for%20a%201.0.0%20release))
+[v0.13.0 Milestone](https://github.com/softlayer/sl-ember-components/milestones/v0.13.0%20(Final%20push%20for%20a%201.0.0%20release))
 
 - [ ] Identify desired capabilities and API of each component
 - [ ] Improve and standarize API across components
@@ -38,23 +38,23 @@ This list of objectives outlines the plan we have for aligning with our [Vision 
 - [ ] Improve events triggered by components and use event system
 
 
-[v1.0.0](https://github.com/softlayer/sl-ember-components/milestones/v1.0.0%20(Documentation%20and%20Demo%20App))
+[v1.0.0 Milestone](https://github.com/softlayer/sl-ember-components/milestones/v1.0.0%20(Documentation%20and%20Demo%20App))
 
 - [ ] Improve the demo app experience
 - [ ] Improve documentation
 
 
-[v1.1.0](https://github.com/softlayer/sl-ember-components/milestones/v1.1.0%20(Smallest%20footprint%20possible))
+[v1.1.0 Milestone](https://github.com/softlayer/sl-ember-components/milestones/v1.1.0%20(Smallest%20footprint%20possible))
 
 - [ ] Only the components leveraged in a consuming application have their source code built into the application source code
 - [ ] Evaluate LESS compilation for caching opportunities
 
 
-[v1.2.0](https://github.com/softlayer/sl-ember-components/milestones/v1.2.0%20(Automated%20visual/CSS%20regression%20testing))
+[v1.2.0 Milestone](https://github.com/softlayer/sl-ember-components/milestones/v1.2.0%20(Automated%20visual/CSS%20regression%20testing))
 
 - [ ] Automated visual/CSS regression testing
 
 
-[v1.3.0](https://github.com/softlayer/sl-ember-components/milestones/v1.3.0%20(Support%20multiple%20CSS%20framework))
+[v1.3.0 Milestone](https://github.com/softlayer/sl-ember-components/milestones/v1.3.0%20(Support%20multiple%20CSS%20framework))
 
 - [ ] Support multiple CSS frameworks
