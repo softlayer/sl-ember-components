@@ -8,17 +8,25 @@ This document captures the steps a project maintainer should follow when releasi
 * If change is due to upgrading Ember CLI version
     * Update Ember CLI version text in *README.md* file
 * Update *CHANGELOG.md*
-    * Prefix the entries with one of the following tags inside brackets:
-        * BUGFIX
-            * A link to a bug and a link to a patch.
-        * FEATURE or ENHANCEMENT
-            * Are for things that users are interested in. Avoid super technical talk. Craft a concise description of the change.
-        * INTERNAL
-            * An internal log of changes.
-    * If a change requires a user to change their configuration, *bower.json*, *package.json*, or *ember-cli-build.js* also add a BREAKING tag within the brackets before any other tags (example [BREAKING BUGFIX])
+    * Organize each entry into one of the following categories, to be displayed in this order:
+        * Breaking Enhancement
+            * An enhancement that breaks the existing usage or features
+            * Any change that requires a user to change their configuration, *bower.json*, *package.json*, or *ember-cli-build.js* files
+        * Breaking Bug Fix
+            * A bug fix that breaks the existing usage or features
+        * Enhancement
+            * An improvement to the usage or feature set that users are interested in.
+        * Deprecation
+            * A removed feature or method of usage
+        * Bug Fix
+            * Bug fixes
+        * Documentation
+            * Documentation changes
+        * Internal
+            * Changes that do not affect the usage or feature set
     * Following the pattern of the existing entries for guidance
     * Add appropriately linked "View complete changeset" link at bottom of entries
-* Mark as completed any related task items in the appropriate version section of the [Roadmap](ROADMAP.md)
+* Mark as completed any related task items in the appropriate version section of the [ROADMAP](ROADMAP.md)
 * After changes have been committed:
     * `npm version x.x.x`, where *x.x.x* is the Semantic Version of the changeset
     * `git push origin master`
