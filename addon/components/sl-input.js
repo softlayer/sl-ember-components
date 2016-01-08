@@ -56,32 +56,20 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     /**
      * didInsertElement event hook
      *
-     * @function
      * @returns {undefined}
      */
-    didInsertElement: function() {
+    didInsertElement() {
         this._super( ...arguments );
         this.setupInputEvents();
         this.setupTypeahead();
     },
 
     /**
-     * Remove events
-     *
-     * @function
-     * @returns {undefined}
-     */
-    unregisterEvents: function() {
-        this.getInput().off( this.namespaceEvent( 'blur' ) );
-    },
-
-    /**
      * willClearRender event hook
      *
-     * @function
      * @returns {undefined}
      */
-    willClearRender: function() {
+    willClearRender() {
         this._super( ...arguments );
         this.unregisterEvents();
     },
@@ -141,14 +129,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
         }
     ),
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Sets up the typeahead behavior are supplied
      *
      * @private
-     * @function
      * @returns {undefined}
      */
-    setupTypeahead: function() {
+    setupTypeahead() {
         if (
             this.get( 'suggestions' ) &&
             !this.get( 'isTypeaheadSetup' )
@@ -206,17 +196,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
         }
     },
 
-    // -------------------------------------------------------------------------
-    // Methods
-
     /**
      * Sets up the input event listeners exposed to the component's
      * parent controller
      *
-     * @function
+     * @private
      * @returns {undefined}
      */
-    setupInputEvents: function() {
+    setupInputEvents() {
         if ( this.get( 'blur' ) ) {
             this.getInput().on( this.namespaceEvent( 'blur' ), () => {
                 this.sendAction( 'blur' );
@@ -225,9 +212,18 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     },
 
     /**
+     * Remove events
+     *
+     * @private
+     * @returns {undefined}
+     */
+    unregisterEvents() {
+        this.getInput().off( this.namespaceEvent( 'blur' ) );
+    },
+
+    /**
      * Get a reference to the internal input element
      *
-     * @function
      * @returns {jQuery.Object}
      */
     getInput() {
