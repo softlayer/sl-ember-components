@@ -182,7 +182,7 @@ test( 'sl-drop-option label is supported', function( assert ) {
 test( 'Click action triggers bound action', function( assert ) {
     assert.expect( 1 );
 
-    const testActionDone = assert.async();
+    const done = assert.async();
 
     this.render( hbs`
         {{#sl-drop-button}}
@@ -196,7 +196,7 @@ test( 'Click action triggers bound action', function( assert ) {
             'The test action was called'
         );
 
-        testActionDone();
+        done();
     });
 
     this.$( '>:first-child' ).find( 'a' ).click();
