@@ -32,11 +32,19 @@
         <thead>
             <tr>
                 {{#each columns as |column|}}
-                    {{sl-grid-column-header column=column onClick="sortColumn"}}
+                    {{#sl-grid-column-header
+                        sortable=column.sortable
+                        sorted=column.sorted
+                        class=column.extraClass
+                        column=column
+                        onClick="sortColumn"
+                    }}
+                        {{column.title}}
+                    {{/sl-grid-column-header}}
                 {{/each}}
 
                 {{#if rowActions}}
-                    <th class="actions-cell column-small"></th>
+                    <th class="actions-cell"></th>
                 {{/if}}
             </tr>
         </thead>
@@ -44,11 +52,19 @@
             <!-- duplicate header for proper spacing w/ fixed table header -->
             <tr>
                 {{#each columns as |column|}}
-                    {{sl-grid-column-header column=column}}
+                    {{#sl-grid-column-header
+                        sortable=column.sortable
+                        sorted=column.sorted
+                        class=column.extraClass
+                        column=column
+                        onClick="sortColumn"
+                    }}
+                        {{column.title}}
+                    {{/sl-grid-column-header}}
                 {{/each}}
 
                 {{#if rowActions}}
-                    <th class="actions-cell column-small"></th>
+                    <th class="actions-cell"></th>
                 {{/if}}
             </tr>
             {{#each content as |row|}}

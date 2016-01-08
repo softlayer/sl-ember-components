@@ -77,6 +77,10 @@ Provides Bootstrap tooltip functionality bindings, for both popovers and plain t
 
 Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
 
+*error*
+
+Provides a way for individual components to throw errors that are able to be recognized by methods inside of a consuming application's `Ember.onerror()` function. For more details reference the [Error Handling](#error-handling) section below.
+
 
 ---
 
@@ -144,6 +148,38 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
     ember install sl-ember-components
 
+## Error Handling ##
+
+The components in sl-ember-components will throw errors if the components are used incorrectly. For example, the `sl-radio-group` component requires that a `name` property be passed with the component. If one is not passed an error will be thrown with the name of the component that is throwing the error (sl-radio-group) and the message saying "The name property must be set".
+
+If you wish to capture these errors and pass them along to your error logging application you can do so by adding the following lines to your application's `app/app.js` file:
+
+```
+import { errorWasThrown, isErrorInstanceOf } from 'sl-ember-components/utils/error';
+
+var App;
+
+...
+
+Ember.onerror = function( error ) {
+
+    if ( errorWasThrown( error ) ) {
+        // This will catch any errors coming from the sl-ember-components addon
+        // Insert the code you would use to send to your error logging application here
+    }
+
+    if ( isErrorInstanceOf( 'radioGroup' ) ) {
+        // Use this option if you want granularity at the individual component level
+        // Insert the code you would use to send to your error logging application here
+    }
+
+    ...Repeat the above for each component that you want to watch for where "radioGroup"
+    is the name of the component "sl-radio-group". So if you wanted to watch "sl-menu" you
+    would replace "radioGroup" with "menu". To see what can be used look at addon/utils/error.js.
+
+    console.error( error ); // Still send the error to the console
+};
+```
 
 ## Styling
 
