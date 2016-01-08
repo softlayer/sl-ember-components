@@ -45,10 +45,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
     /**
      * didInsertElement event hook
      *
-     * @function
      * @returns {undefined}
      */
-    didInsertElement: function() {
+    didInsertElement() {
         this._super( ...arguments );
         this.initialize();
     },
@@ -56,10 +55,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
     /**
      * willClearRender event hook
      *
-     * @function
      * @returns {undefined}
      */
-    willClearRender: function() {
+    willClearRender() {
         this._super( ...arguments );
         this.unregisterEvents();
     },
@@ -103,11 +101,10 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
      * Initialize the group-wide options and setup child radio buttons
      *
      * @private
-     * @function
      * @throws {ember/Error} Thrown if the `name` property is not set
      * @returns {undefined}
      */
-    initialize: function() {
+    initialize() {
         const name = this.get( 'name' );
 
         if ( Ember.isEmpty( name ) ) {
@@ -167,10 +164,9 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
      * Remove events
      *
      * @private
-     * @function
      * @returns {undefined}
      */
-    unregisterEvents: function() {
+    unregisterEvents() {
         this.$( `input[name=${this.get( 'name' )}]:radio` )
             .off( this.namespaceEvent( 'change' ) );
     }
