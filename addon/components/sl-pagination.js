@@ -72,7 +72,7 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-    didInsertElement: function() {
+    didInsertElement() {
         this._super( ...arguments );
 
         this.setupResponsivePlugin();
@@ -157,9 +157,10 @@ export default Ember.Component.extend({
             const pages = this.get( 'range' );
             const currentPage = this.get( 'currentPage' );
 
-            pages.forEach( ( page, i ) => {
-                Ember.set( page, 'active', ( i + 1 === currentPage ) );
-            });
+            const previousPage = pages.find( ( page ) => page.active );
+
+            Ember.set( previousPage, 'active', false );
+            Ember.set( pages[ currentPage - 1 ], 'active', true );
         }
     ),
 

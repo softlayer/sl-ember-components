@@ -73,7 +73,7 @@ module.exports = {
         app.import( app.bowerDirectory + '/rxjs/dist/rx.all.js' );
         app.import( app.bowerDirectory + '/select2/select2.js' );
         app.import( app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.js' );
-        app.import( app.bowerDirectory + '/jquery.fn.twbs-responsive-pagination/dist/twbsResponsivePagination.min.js' );
+        app.import( app.bowerDirectory + '/jquery.fn.twbs-responsive-pagination/src/twbsResponsivePagination.js' );
     },
 
     /**
