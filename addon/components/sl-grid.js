@@ -210,7 +210,7 @@ export default Ember.Component.extend( Namespace, {
     // -------------------------------------------------------------------------
     // Events
 
-    didInsertElement: function() {
+    didInsertElement() {
         this._super( ...arguments );
 
         this.setupFixedHeader();
@@ -218,7 +218,7 @@ export default Ember.Component.extend( Namespace, {
         this.setupContinuousPaging();
     },
 
-    willClearRender: function() {
+    willClearRender() {
         this._super( ...arguments );
 
         this.clearEvents();
