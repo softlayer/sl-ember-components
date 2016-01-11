@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 import streamEnabled from 'ember-stream/mixins/stream-enabled';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const mockStream = {
     actions: {},
@@ -219,4 +220,20 @@ test( 'Stream action "hide" triggers hide()', function( assert ) {
     );
 
     component.hide.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called()
+    );
+
+    globalLibraries.restoreSpies();
 });
