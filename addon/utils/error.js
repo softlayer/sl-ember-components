@@ -175,8 +175,6 @@ const throwTooltipError = function( message ) {
     throwError( 'sl-tooltip', message );
 };
 
-console.log( 'Config: ', config.environment );
-
 export {
     errorWasThrown,
     isErrorInstanceOf,
