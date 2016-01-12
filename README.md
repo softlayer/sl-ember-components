@@ -18,7 +18,7 @@ We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softl
 An [Ember CLI Addon](http://ember-cli.com) that provides UI components compatible with
 [Ember.js](http://www.emberjs.com) and [Twitter Bootstrap](http://www.getbootstrap.com).
 
-**This addon is currently BETA.** View the [Roadmap](ROADMAP.md) we're following for a 1.0.0+ release.
+**This addon is currently BETA.** View the [Roadmap](https://github.com/softlayer/sl-ember-components/wiki/Roadmap) we're following for a 1.0.0+ release.
 
 Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components/ which
 is served from the *gh-pages* branch of this repository.
