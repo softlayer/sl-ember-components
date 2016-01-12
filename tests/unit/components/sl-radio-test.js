@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import{ moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
     unit: true
@@ -79,4 +80,20 @@ test( 'Dependent keys are correct', function( assert ) {
         radioTypeDependentKeys,
         'Dependent keys are correct for radioType()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called()
+    );
+
+    globalLibraries.restoreSpies();
 });
