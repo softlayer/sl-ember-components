@@ -237,20 +237,19 @@ export default Ember.Component.extend({
      * @function
      * @returns {undefined}
      */
-    initialize: Ember.on(
-        'init',
-        function() {
-            const today = new Date();
+    init() {
+        this._super( ...arguments );
 
-            if ( !this.get( 'currentMonth' ) ) {
-                this.set( 'currentMonth', today.getMonth() + 1 );
-            }
+        const today = new Date();
 
-            if ( !this.get( 'currentYear' ) ) {
-                this.set( 'currentYear', today.getFullYear() );
-            }
+        if ( !this.get( 'currentMonth' ) ) {
+            this.set( 'currentMonth', today.getMonth() + 1 );
         }
-    ),
+
+        if ( !this.get( 'currentYear' ) ) {
+            this.set( 'currentYear', today.getFullYear() );
+        }
+    },
 
     // -------------------------------------------------------------------------
     // Methods
