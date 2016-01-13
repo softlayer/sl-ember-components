@@ -13,18 +13,18 @@ We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softl
 
 
 
-### Is currently in BETA
-
-
-
 # What sl-ember-components is
 
-A UI components library compatible with Ember.js
+An [Ember CLI Addon](http://ember-cli.com) that provides UI components compatible with
+[Ember.js](http://www.emberjs.com) and [Twitter Bootstrap](http://www.getbootstrap.com).
+
+**This addon is currently BETA.** View the [Roadmap](ROADMAP.md) we're following for a 1.0.0+ release.
 
 Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components/ which
 is served from the *gh-pages* branch of this repository.
 
-**Components**
+
+**Components provided**
 
 * sl-alert
 * sl-button
@@ -35,7 +35,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-range-picker
 * sl-date-time
 * sl-drop-button
-* sl-drop-option
 * sl-grid
 * sl-input
 * sl-loading-icon
@@ -48,13 +47,12 @@ is served from the *gh-pages* branch of this repository.
 * sl-radio-group
 * sl-select
 * sl-span
-* sl-tab-pane
 * sl-tab-panel
 * sl-textarea
 * sl-tooltip
 
 
-**Mixins**
+**Mixins provided**
 
 *sl-component-input-id*
 
@@ -66,16 +64,28 @@ Provides unique id that a component can assign to an input and a label's "for" a
 Provides state properties for input element based components.
 
 
+*sl-namespace*
+
+Namespace component events by `elementId`
+
+
 *sl-tooltip-enabled*
 
 Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.
 
 
-**Utility Classes**
+**Utility Classes provided**
 
-*sl-menu-key-adapter*
+*containsValue*
 
-Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
+Check whether a value is a valid value in object.
+
+
+*warn*
+
+Check whether a value is a valid value in object.
+
+Provides a mechanism for initiating `console.warn()`s
 
 *error*
 

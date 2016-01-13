@@ -178,7 +178,6 @@ export default Ember.Component.extend({
     /**
      * Initialize default property values
      *
-     * @function
      * @returns {undefined}
      */
     init() {

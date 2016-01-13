@@ -195,11 +195,13 @@ test( 'Pagination is displayed at the bottom of the grid and page count is corre
         'Pagination is displayed'
     );
 
-    const text = first.find( '.sl-ember-components.pagination :nth-child(2) a' ).text().replace( /\s+/g, '' );
+    const text = first.find( '.sl-ember-components.pagination li' ).filter(
+            ':not(:first-child, :last-child)'
+        ).find( 'a' ).text();
 
     assert.strictEqual(
         text,
-        '1/4',
+        '1234',
         'Page count is correct on pagination'
     );
 });
