@@ -439,7 +439,6 @@ export default Ember.Component.extend( Namespace, {
     /**
      * Cleanup bound events
      *
-     * @function
      * @returns {undefined}
      */
     clearEvents() {
@@ -450,7 +449,6 @@ export default Ember.Component.extend( Namespace, {
     /**
      * Disables the scroll event handling for continuous paging
      *
-     * @function
      * @returns {undefined}
      */
     disableContinuousPaging() {
@@ -460,7 +458,6 @@ export default Ember.Component.extend( Namespace, {
     /**
      * Enables the scroll event handling for continuous paging
      *
-     * @function
      * @returns {undefined}
      */
     enableContinuousPaging() {
@@ -474,7 +471,6 @@ export default Ember.Component.extend( Namespace, {
      * responsible for determining when triggering requestData is necessary by
      * checking the scroll location of the content
      *
-     * @function
      * @param {jQuery.Event} event - The scroll trigger event
      * @returns {undefined}
      */
@@ -511,20 +507,8 @@ export default Ember.Component.extend( Namespace, {
     ),
 
     /**
-     * Namespace event per instance
-     *
-     * @function
-     * @param {String} - event name
-     * @returns {String}
-     */
-    namespaceEvent( eventName ) {
-        return `${ eventName }.${ this.get( 'elementId' ) }`;
-    },
-
-    /**
      * Trigger the bound `requestData` action for more content data
      *
-     * @function
      * @returns {undefined}
      */
     requestMoreData() {
@@ -569,7 +553,6 @@ export default Ember.Component.extend( Namespace, {
      *
      * Also creates a window resize event to ensure grid acts fluid.
      *
-     * @function
      * @returns {undefined}
      */
     setupCalculatedHeight() {
@@ -583,7 +566,6 @@ export default Ember.Component.extend( Namespace, {
      * Setup the "continuous paging" functionality, if the data set is
      * not complete
      *
-     * @function
      * @returns {undefined}
      */
     setupContinuousPaging() {
@@ -597,7 +579,6 @@ export default Ember.Component.extend( Namespace, {
      *
      * Also creates a window resize event to ensure grid acts fluid.
      *
-     * @function
      * @returns {undefined}
      */
     setupFixedHeader() {
