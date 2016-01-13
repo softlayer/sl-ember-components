@@ -67,7 +67,10 @@ test( 'previousPage action decrements currentPage', function( assert ) {
 });
 
 test( 'onFirstPage property returns the expected values', function( assert ) {
-    const component = this.subject({ currentPage: 2 });
+    const component = this.subject({
+        currentPage: 2,
+        totalPages: 3
+    });
 
     this.render();
 

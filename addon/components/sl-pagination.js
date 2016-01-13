@@ -156,7 +156,6 @@ export default Ember.Component.extend({
         function() {
             const pages = this.get( 'range' );
             const currentPage = this.get( 'currentPage' );
-
             const previousPage = pages.find( ( page ) => page.active );
 
             Ember.set( previousPage, 'active', false );
