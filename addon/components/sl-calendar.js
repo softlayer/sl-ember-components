@@ -175,6 +175,28 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * Initialize default property values
+     *
+     * @function
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+
+        const today = window.moment();
+
+        this.set( 'today', today );
+
+        if ( !this.get( 'currentMonth' ) ) {
+            this.set( 'currentMonth', today.month() + 1 );
+        }
+
+        if ( !this.get( 'currentYear' ) ) {
+            this.set( 'currentYear', today.year() );
+        }
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -221,6 +243,10 @@ export default Ember.Component.extend({
      */
     locked: false,
 
+    today: null,
+
+    fixedWeekCount: true,
+
     /**
      * The current view mode for the calendar
      *
@@ -230,27 +256,6 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Initialize default property values
-     *
-     * @function
-     * @returns {undefined}
-     */
-    initialize: Ember.on(
-        'init',
-        function() {
-            const today = new Date();
-
-            if ( !this.get( 'currentMonth' ) ) {
-                this.set( 'currentMonth', today.getMonth() + 1 );
-            }
-
-            if ( !this.get( 'currentYear' ) ) {
-                this.set( 'currentYear', today.getFullYear() );
-            }
-        }
-    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -305,11 +310,10 @@ export default Ember.Component.extend({
      */
     currentMonthString: Ember.computed(
         'currentMonth',
-        'currentYear',
         'locale',
         function() {
             return window.moment([
-                this.get( 'currentYear' ),
+                2015,
                 this.get( 'currentMonth' ) - 1
             ]).locale( this.get( 'locale' ) ).format( 'MMMM' );
         }
@@ -371,20 +375,16 @@ export default Ember.Component.extend({
      * @returns {Object[]}
      */
     monthsInYearView: Ember.computed(
-        'contentDates',
+        'currentMonth',
         'currentYear',
         function() {
-            const contentDates = this.get( 'contentDates' );
             const currentYear = this.get( 'currentYear' );
+            const currentMonth = this.get( 'currentMonth' );
             const months = Ember.A();
 
             for ( let month = 1; month <= 12; month++ ) {
                 months.push({
-                    active: (
-                        contentDates.hasOwnProperty( currentYear ) &&
-                        contentDates[ currentYear ].hasOwnProperty( month )
-                    ),
-
+                    active: month === currentMonth,
                     month
                 });
             }
@@ -404,15 +404,13 @@ export default Ember.Component.extend({
         function() {
             const m = window.moment().locale( this.get( 'locale' ) );
 
-            return Ember.A([
-                m.day( 0 ).format( 'dd' ),
-                m.day( 1 ).format( 'dd' ),
-                m.day( 2 ).format( 'dd' ),
-                m.day( 3 ).format( 'dd' ),
-                m.day( 4 ).format( 'dd' ),
-                m.day( 5 ).format( 'dd' ),
-                m.day( 6 ).format( 'dd' )
-            ]);
+            let weekdays = window.moment.weekdaysMin();
+
+            for ( let i = m.localeData().firstDayOfWeek(); i > 0; i-- ) {
+                weekdays.push( weekdays.shift() );
+            }
+
+            return weekdays;
         }
     ),
 
@@ -472,92 +470,50 @@ export default Ember.Component.extend({
         'contentDates',
         'currentMonth',
         'currentYear',
-        'daysInMonth',
+        'fixedWeekCount',
+        'locale',
         function() {
-            const contentDates = this.get( 'contentDates' );
-            const currentMonth = this.get( 'currentMonth' );
-            const currentYear = this.get( 'currentYear' );
-            const daysInCurrentMonth = this.get( 'daysInMonth' );
-            const firstWeekdayOfCurrentMonth = (
-                new Date( currentYear, currentMonth - 1, 1 )
-            ).getDay();
-
             const weeks = Ember.A();
-            let inNextMonth = false;
 
-            let previousMonth;
-            let previousMonthYear;
-            if ( 1 === currentMonth ) {
-                previousMonth = 12;
-                previousMonthYear = currentYear - 1;
-            } else {
-                previousMonth = currentMonth - 1;
-                previousMonthYear = currentYear;
+            const currentMonth = this.get( 'currentMonth' );
+
+            let firstOfMonth = window.moment( '01-' + currentMonth + '-' + this.get( 'currentYear' ), 'DD-MM-YYYY' ).locale( this.get( 'locale' ) );
+            let firstDayOfWeek = firstOfMonth.localeData().firstDayOfWeek();
+            let nextDayToShow = window.moment( firstOfMonth ).subtract( firstOfMonth.day(), 'days' );
+
+            // support firstDayOfWeek via locale
+            nextDayToShow.add( firstDayOfWeek, 'days' );
+
+            // if the first day of the week has shifted the first onto last week
+            if ( nextDayToShow.date() < 6 && nextDayToShow.date() !== 1 ) {
+                nextDayToShow.subtract( 7, 'days' );
             }
 
-            const previousMonthDays = window.moment([
-                previousMonthYear,
-                previousMonth - 1
-            ]).daysInMonth();
+            let weeksToShow = 6;
 
-            let nextMonth;
-            let nextMonthYear;
-            if ( 12 === currentMonth ) {
-                nextMonth = 1;
-                nextMonthYear = currentYear + 1;
-            } else {
-                nextMonth = currentMonth + 1;
-                nextMonthYear = currentYear;
+            if ( !this.get( 'fixedWeekCount' ) ) {
+                weeksToShow = window.moment( firstOfMonth ).add( 1, 'months' ).subtract( 1, 'days' ).diff( nextDayToShow, 'weeks' ) + 1;
             }
 
-            let inPreviousMonth;
-            let day;
-            let month;
-            let year;
-            if ( firstWeekdayOfCurrentMonth > 0 ) {
-                inPreviousMonth = true;
-                day = previousMonthDays - firstWeekdayOfCurrentMonth + 1;
-                month = previousMonth;
-                year = previousMonthYear;
-            } else {
-                inPreviousMonth = false;
-                day = 1;
-                month = currentMonth;
-                year = currentYear;
-            }
-
-            for ( let week = 0; week < 6; week++ ) {
+            for ( let i = 1; i <= weeksToShow; i++ ) {
                 const days = Ember.A();
 
-                for ( let wday = 0; wday < 7; wday++ ) {
-                    const active = !inPreviousMonth && !inNextMonth &&
-                        contentDates.hasOwnProperty( year ) &&
-                        contentDates[ year ].hasOwnProperty( month ) &&
-                        contentDates[ year ][ month ].hasOwnProperty( day );
+                for ( let k = 0; k < 7; k++ ) {
+                    let inNextMonth = nextDayToShow.month() === currentMonth;
+                    let inPrevMonth = nextDayToShow.month() === currentMonth - 2;
 
-                    days.push({
-                        active,
-                        content: active ?
-                            contentDates[ year ][ month ][ day ] :
-                            null,
-                        day: day++,
-                        'new': inNextMonth,
-                        old: inPreviousMonth
-                    });
-
-                    if ( inPreviousMonth ) {
-                        if ( day > previousMonthDays ) {
-                            inPreviousMonth = false;
-                            day = 1;
-                            month = currentMonth;
-                            year = currentYear;
-                        }
-                    } else if ( day > daysInCurrentMonth ) {
-                        inNextMonth = true;
-                        day = 1;
-                        month = nextMonth;
-                        year = nextMonthYear;
+                    if ( currentMonth === 1 && nextDayToShow.month() === 11 ) {
+                        inPrevMonth = true;
                     }
+
+                    const day = {
+                        date: window.moment( nextDayToShow ),
+                        day: nextDayToShow.date(),
+                        old: inPrevMonth,
+                        new: inNextMonth
+                    };
+                    days.push( day );
+                    nextDayToShow.add( 1, 'days' );
                 }
 
                 weeks.push( days );
@@ -580,18 +536,17 @@ export default Ember.Component.extend({
      * @returns {Object[]}
      */
     yearsInDecadeView: Ember.computed(
-        'contentDates',
         'decadeEnd',
         'decadeStart',
         function() {
-            const contentDates = this.get( 'contentDates' );
             const decadeStart = this.get( 'decadeStart' );
             const decadeEnd = this.get( 'decadeEnd' );
+            const currentYear = this.get( 'currentYear' );
             const years = Ember.A();
 
             for ( let year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
                 years.push({
-                    active: contentDates.hasOwnProperty( year ),
+                    active: year === currentYear,
                     'new': year > decadeEnd,
                     old: year < decadeStart,
                     year
