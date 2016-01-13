@@ -13,18 +13,18 @@ We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softl
 
 
 
-### Is currently in BETA
-
-
-
 # What sl-ember-components is
 
-A UI components library compatible with Ember.js
+An [Ember CLI Addon](http://ember-cli.com) that provides UI components compatible with
+[Ember.js](http://www.emberjs.com) and [Twitter Bootstrap](http://www.getbootstrap.com).
+
+**This addon is currently BETA.** View the [Roadmap](ROADMAP.md) we're following for a 1.0.0+ release.
 
 Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components/ which
 is served from the *gh-pages* branch of this repository.
 
-**Components**
+
+**Components provided**
 
 * sl-alert
 * sl-button
@@ -35,7 +35,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-date-range-picker
 * sl-date-time
 * sl-drop-button
-* sl-drop-option
 * sl-grid
 * sl-input
 * sl-loading-icon
@@ -48,13 +47,12 @@ is served from the *gh-pages* branch of this repository.
 * sl-radio-group
 * sl-select
 * sl-span
-* sl-tab-pane
 * sl-tab-panel
 * sl-textarea
 * sl-tooltip
 
 
-**Mixins**
+**Mixins provided**
 
 *sl-component-input-id*
 
@@ -66,16 +64,32 @@ Provides unique id that a component can assign to an input and a label's "for" a
 Provides state properties for input element based components.
 
 
+*sl-namespace*
+
+Namespace component events by `elementId`
+
+
 *sl-tooltip-enabled*
 
 Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.
 
 
-**Utility Classes**
+**Utility Classes provided**
 
-*sl-menu-key-adapter*
+*containsValue*
 
-Provides an abstraction between the events the *sl-menu* component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.
+Check whether a value is a valid value in object.
+
+
+*warn*
+
+Check whether a value is a valid value in object.
+
+Provides a mechanism for initiating `console.warn()`s
+
+*error*
+
+Provides a way for individual components to throw errors that are able to be recognized by methods inside of a consuming application's `Ember.onerror()` function. For more details reference the [Error Handling](#error-handling) section below.
 
 
 ---
@@ -144,6 +158,38 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 
     ember install sl-ember-components
 
+## Error Handling ##
+
+The components in sl-ember-components will throw errors if the components are used incorrectly. For example, the `sl-radio-group` component requires that a `name` property be passed with the component. If one is not passed an error will be thrown with the name of the component that is throwing the error (sl-radio-group) and the message saying "The name property must be set".
+
+If you wish to capture these errors and pass them along to your error logging application you can do so by adding the following lines to your application's `app/app.js` file:
+
+```
+import { errorWasThrown, isErrorInstanceOf } from 'sl-ember-components/utils/error';
+
+var App;
+
+...
+
+Ember.onerror = function( error ) {
+
+    if ( errorWasThrown( error ) ) {
+        // This will catch any errors coming from the sl-ember-components addon
+        // Insert the code you would use to send to your error logging application here
+    }
+
+    if ( isErrorInstanceOf( 'radioGroup' ) ) {
+        // Use this option if you want granularity at the individual component level
+        // Insert the code you would use to send to your error logging application here
+    }
+
+    ...Repeat the above for each component that you want to watch for where "radioGroup"
+    is the name of the component "sl-radio-group". So if you wanted to watch "sl-menu" you
+    would replace "radioGroup" with "menu". To see what can be used look at addon/utils/error.js.
+
+    console.error( error ); // Still send the error to the console
+};
+```
 
 ## Styling
 

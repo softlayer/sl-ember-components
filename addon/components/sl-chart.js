@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-chart';
+import { throwChartError } from '../utils/error';
 
 /**
  * @module
@@ -75,15 +76,15 @@ export default Ember.Component.extend({
      * Check passed parameters on initialization
      *
      * @function
-     * @throws {ember/Error} Series property must be an Array
-     * @throws {ember/Error} Options property must be an Object
+     * @throws {sl-ember-components/utils/error/chart} Series property must be an Array
+     * @throws {sl-ember-components/utils/error/chart} Options property must be an Object
      * @returns {undefined}
      */
     initialize: Ember.on(
         'init',
         function() {
             if ( 'array' !== Ember.typeOf( this.get( 'series' ) ) ) {
-                throw new Ember.Error( 'Series property must be an array' );
+                throwChartError( 'Series property must be an array' );
             }
 
             /* jshint ignore:start */
@@ -95,7 +96,7 @@ export default Ember.Component.extend({
                 ) ||
                 'symbol' === typeof options
             ) {
-                throw new Ember.Error( 'Options property must be an Object' );
+                throwChartError( 'Options property must be an Object' );
             }
             /* jshint ignore:end */
         }

@@ -3,107 +3,107 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
     components: Ember.A([
         {
-            name: 'alert',
+            name: 'sl-alert',
             lib: { 'twb': true }
         },
         {
-            name: 'button',
+            name: 'sl-button',
             lib: { 'twb': true }
         },
         {
-            name: 'calendar',
+            name: 'sl-calendar',
             lib: { 'sec': true }
         },
         {
-            name: 'chart',
+            name: 'sl-chart',
             lib: { 'hc': true }
         },
         {
-            name: 'checkbox',
+            name: 'sl-checkbox',
             lib: { 'twb': true }
         },
         {
-            name: 'date-picker',
+            name: 'sl-date-picker',
             lib: { 'bd': true }
         },
         {
-            name: 'date-range-picker',
+            name: 'sl-date-range-picker',
             lib: { 'bd': true }
         },
         {
-            name: 'date-time',
+            name: 'sl-date-time',
             lib: { 'sec': true }
         },
         {
-            name: 'drop-button',
+            name: 'sl-drop-button',
             lib: { 'twb': true }
         },
         {
-            name: 'drop-option',
+            name: 'sl-drop-option',
             lib: { 'twb': true }
         },
         {
-            name: 'grid',
+            name: 'sl-grid',
             lib: { 'sec': true }
         },
         {
-            name: 'input',
+            name: 'sl-input',
             lib: { 'twb': true, 'ta': true }
         },
         {
-            name: 'loading-icon',
+            name: 'sl-loading-icon',
             lib: { 'sec': true }
         },
         {
-            name: 'menu',
+            name: 'sl-menu',
             lib: { 'sec': true }
         },
         {
-            name: 'modal',
+            name: 'sl-modal',
             lib: { 'twb': true }
         },
         {
-            name: 'pagination',
+            name: 'sl-pagination',
             lib: { 'sec': true }
         },
         {
-            name: 'panel',
+            name: 'sl-panel',
             lib: { 'twb': true }
         },
         {
-            name: 'progress-bar',
+            name: 'sl-progress-bar',
             lib: { 'twb': true }
         },
         {
-            name: 'radio',
+            name: 'sl-radio',
             lib: { 'sec': true }
         },
         {
-            name: 'radio-group',
+            name: 'sl-radio-group',
             lib: { 'twb': true }
         },
         {
-            name: 'select',
+            name: 'sl-select',
             lib: { 's2': true }
         },
         {
-            name: 'span',
+            name: 'sl-span',
             lib: { 'sec': true }
         },
         {
-            name: 'tab-pane',
+            name: 'sl-tab-pane',
             lib: { 'twb': true }
         },
         {
-            name: 'tab-panel',
+            name: 'sl-tab-panel',
             lib: { 'twb': true }
         },
         {
-            name: 'textarea',
+            name: 'sl-textarea',
             lib: { 'sec': true }
         },
         {
-            name: 'tooltip',
+            name: 'sl-tooltip',
             lib: { 'twb': true }
         }
     ])

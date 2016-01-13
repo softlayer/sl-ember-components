@@ -3,6 +3,7 @@ import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-radio-group';
 import Namespace from '../mixins/sl-namespace';
+import { throwRadioGroupError } from '../utils/error';
 
 /**
  * @module
@@ -78,7 +79,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
      * Initialize the group-wide options and setup child radio buttons
      *
      * @function
-     * @throws {ember/Error} Thrown if the `name` property is not set
+     * @throws {sl-ember-components/utils/error/radioGroup} Thrown if the `name` property is not set
      * @returns {undefined}
      */
     initialize: Ember.on(
@@ -87,9 +88,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
             const name = this.get( 'name' );
 
             if ( Ember.isEmpty( name ) ) {
-                throw new Ember.Error(
-                    'The name property must be set on the sl-radio-group component'
-                );
+                throwRadioGroupError( 'The name property must be set' );
             }
 
             const value = this.get( 'value' );

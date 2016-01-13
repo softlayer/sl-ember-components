@@ -32,6 +32,16 @@ export default Ember.Component.extend({
     actions: {
 
         /**
+         * Jump to a specific page
+         *
+         * @function actions:gotoPage
+         * @returns {undefined}
+         */
+        gotoPage( page ) {
+            this.gotoPage( page );
+        },
+
+        /**
          * Progress forward one page
          *
          * @function actions:nextPage
@@ -110,32 +120,67 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Array of simple objects representing the pages
+     *
+     * @function
+     * @returns {Array}
+     */
+    range: Ember.computed(
+        'currentPage',
+        'totalPages',
+        function() {
+            const pages = [];
+            const totalPages = this.get( 'totalPages' );
+            const currentPage = this.get( 'currentPage' );
+
+            for( let i = 1; i <= totalPages; i++ ) {
+                pages.push({
+                    index: i,
+                    active: i === currentPage
+                });
+            }
+
+            return pages;
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
     /**
-     * Change the current page number
+     * Change the current page number by a delta
      *
      * @function
      * @param {Number} pageMod - The integer to increment the currentPage by
      * @returns {undefined}
      */
     changePageBy( pageMod ) {
+        const newCurrentPage = this.get( 'currentPage' ) + pageMod;
+
+        this.gotoPage( newCurrentPage );
+    },
+
+    /**
+     * Change to a specific page number
+     *
+     * @function
+     * @param {Number} page - The page number to jump to
+     * @returns {undefined}
+     */
+    gotoPage( page ) {
         if ( this.get( 'busy' ) ) {
             return;
         }
 
-        const newCurrentPage = this.get( 'currentPage' ) + pageMod;
+        if ( page > this.get( 'totalPages' ) || page < 1 ) {
+            return;
+        }
 
-        if (
-            newCurrentPage > 0 &&
-            newCurrentPage <= this.get( 'totalPages' )
-        ) {
-            this.set( 'currentPage', newCurrentPage );
+        this.set( 'currentPage', page );
 
-            if ( this.get( 'changePage' ) ) {
-                this.sendAction( 'changePage', newCurrentPage );
-            }
+        if ( this.get( 'changePage' ) ) {
+            this.sendAction( 'changePage', page );
         }
     }
 
