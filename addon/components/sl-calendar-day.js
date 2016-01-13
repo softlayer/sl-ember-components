@@ -17,7 +17,8 @@ export default Ember.Component.extend({
     classNameBindings: [
         'active',
         'new',
-        'old'
+        'old',
+        'isToday:today'
     ],
 
     /** @type {String[]} */
@@ -81,12 +82,21 @@ export default Ember.Component.extend({
      *
      * @type {Boolean}
      */
-    old: false
+    old: false,
+
+    date: null,
 
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
+
+    isToday: Ember.computed(
+        'date',
+        function() {
+            return window.moment().isSame( this.get( 'date' ), 'day' );
+        }
+    )
 
 });
