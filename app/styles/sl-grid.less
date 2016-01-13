@@ -59,16 +59,16 @@
                 }
 
                 .sl-icon-sortable:after {
-                    content: "\e150";
+                    content: @icon-grid-sortable;
                     font-size: .85em;
                 }
 
                 .column-descending .sl-icon-sortable:after {
-                    content: "\e094";
+                    content: @icon-grid-sorted-desc;
                 }
 
                 .column-ascending .sl-icon-sortable:after {
-                    content: "\e093";
+                    content: @icon-grid-sorted-asc;
                 }
             }
 
@@ -127,7 +127,7 @@
             font-size: 1.4em;
 
             .sl-icon-close::before {
-                content: '\e014';
+                content: @icon-grid-details-close;
             }
         }
 

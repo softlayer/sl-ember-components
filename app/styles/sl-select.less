@@ -46,7 +46,7 @@
         -webkit-user-select: none;
 
         >.select2-chosen {
-            display: block;
+            display: inline-block;
             float: none;
             margin-right: 26px;
             overflow: hidden;
@@ -90,10 +90,8 @@
             border-radius: 0 @border-radius-base @border-radius-base 0;
             display: inline-block;
             width: 22px;
-            height: 100%;
             position: absolute;
             right: 0;
-            top: 0;
 
             b {
                 width: 1.4em;
@@ -131,7 +129,7 @@
                     -webkit-font-smoothing: antialiased;
                     -moz-osx-font-smoothing: grayscale;
 
-                    content: "\e252";
+                    content: @icon-select-open;
                 }
             }
         }
@@ -359,7 +357,7 @@ html[dir="rtl"] {
             .box-shadow(none);
 
             b:before {
-                content: "\e253";
+                content: @icon-select-close;
             }
         }
     }
