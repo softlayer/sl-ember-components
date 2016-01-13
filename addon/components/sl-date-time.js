@@ -53,6 +53,27 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * Check passed parameters on initialization
+     *
+     * @throws {sl-ember-components/utils/error/dateTime} timezone property must be a string
+     * @throws {sl-ember-components/utils/error/dateTime} timezone property provided is not valid
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+
+        if ( 'string' !== Ember.typeOf( this.get( 'timezone' ) ) ) {
+            throwDateTimeError( 'Timezone property must be a string' );
+        }
+
+        const validTimeZonesArray = window.moment.tz.names();
+
+        if ( !validTimeZonesArray.includes( this.get( 'timezone' ) ) ) {
+            throwDateTimeError( 'Timezone property provided is not valid' );
+        }
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -96,29 +117,6 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Check passed parameters on initialization
-     *
-     * @function
-     * @throws {sl-ember-components/utils/error/dateTime} timezone property must be a string
-     * @throws {sl-ember-components/utils/error/dateTime} timezone property provided is not valid
-     * @returns {undefined}
-     */
-    initialize: Ember.on(
-        'init',
-        function() {
-            if ( 'string' !== Ember.typeOf( this.get( 'timezone' ) ) ) {
-                throwDateTimeError( 'Timezone property must be a string' );
-            }
-
-            const validTimeZonesArray = window.moment.tz.names();
-
-            if ( !validTimeZonesArray.includes( this.get( 'timezone' ) ) ) {
-                throwDateTimeError( 'Timezone property provided is not valid' );
-            }
-        }
-    ),
 
     // -------------------------------------------------------------------------
     // Methods
