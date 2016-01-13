@@ -24,38 +24,45 @@ export default Ember.Component.extend( TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * init event hook
+     *
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+        this.initialize();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
     // -------------------------------------------------------------------------
     // Observers
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Check passed parameters on initialization
      *
-     * @function
+     * @private
      * @throws {sl-ember-components/utils/error/tooltip} Thrown if 'title' or 'popover' is invalid
      * @returns {undefined}
      */
-    initialize: Ember.on(
-        'init',
-        function() {
-            if ( 'string' !== Ember.typeOf( this.get( 'title' ) ) ) {
-                throwTooltipError(
-                    'enableTooltip() and enablePopover() expect the parameter "title" and for it to be a string'
-                );
-            }
-
-            if ( 'string' !== Ember.typeOf( this.get( 'popover' ) ) &&
-                 'undefined' !== Ember.typeOf( this.get( 'popover' ) ) ) {
-                throwTooltipError(
-                    'enablePopover() expects the parameter "popover" and for it to be a string'
-                );
-            }
+    initialize() {
+        if ( 'string' !== Ember.typeOf( this.get( 'title' ) ) ) {
+            throwTooltipError(
+                'enableTooltip() and enablePopover() expect the parameter "title" and for it to be a string'
+            );
         }
-    )
 
-    // -------------------------------------------------------------------------
-    // Methods
+        if ( 'string' !== Ember.typeOf( this.get( 'popover' ) ) &&
+             'undefined' !== Ember.typeOf( this.get( 'popover' ) ) ) {
+            throwTooltipError(
+                'enablePopover() expects the parameter "popover" and for it to be a string'
+            );
+        }
+    }
 
 });
