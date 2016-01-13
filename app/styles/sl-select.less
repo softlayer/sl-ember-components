@@ -223,7 +223,7 @@ html[dir="rtl"] {
     top: 100%;
 
     color: @text-color;
-    background: #fff;
+    background: @body-bg;
     border: 1px solid @input-border;
 
     border-radius: 0 0 @border-radius-base @border-radius-base;
@@ -242,7 +242,7 @@ html[dir="rtl"] {
         opacity: 0;
         z-index: 9998;
         /* styles required for IE to work */
-        background-color: #fff;
+        background-color: @body-bg;
         filter: alpha(opacity=0);
     }
 
@@ -251,7 +251,7 @@ html[dir="rtl"] {
         border-top-color: @input-border;
 
         &.select2-drop-multi {
-            background: #fff;
+            background: @body-bg;
             //border-top-width: 0;
         }
     }
@@ -297,7 +297,7 @@ html[dir="rtl"] {
         width: 100%;
 
         &.select2-active {
-            background: #fff no-repeat 100%;
+            background: @body-bg no-repeat 100%;
         }
     }
 }
@@ -409,19 +409,19 @@ html[dir="rtl"] {
 
     .select2-highlighted {
         background: @brand-primary;
-        color: #fff;
+        color: @body-bg;
 
         em {
             background: transparent;
         }
 
         ul {
-            background: #fff;
+            background: @body-bg;
             color: @text-color;
         }
 
         .text-muted {
-            color: #fff;
+            color: @body-bg;
         }
     }
 
@@ -476,7 +476,7 @@ html[dir="rtl"] {
 
 .select2-container-multi {
     .select2-choices {
-        background-color: #fff;
+        background-color: @body-bg;
         border: 1px solid @input-border;
         .box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
         cursor: text;
@@ -507,7 +507,7 @@ html[dir="rtl"] {
                 padding: 5px;
 
                 &.select2-active {
-                    background: #fff no-repeat 100% !important;
+                    background: @body-bg no-repeat 100% !important;
                 }
             }
         }
@@ -530,13 +530,13 @@ html[dir="rtl"] {
             &.select2-search-choice-focus {
                 background-color: @brand-primary;
                 border-color: @brand-primary;
-                color: #fff;
+                color: @body-bg;
 
                 .select2-search-choice-close {
-                    color: #fff;
+                    color: @body-bg;
 
                     &:hover {
-                        color: #fff;
+                        color: @body-bg;
                     }
                 }
             }
