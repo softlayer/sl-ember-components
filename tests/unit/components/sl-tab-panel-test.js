@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-tab-panel';
-import * as utils from 'sl-ember-components/utils/all';
+import * as warn from 'sl-ember-components/utils/warn';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -181,7 +181,7 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
         'Correct string returned for value of right'
     );
 
-    const spy = sinon.spy( utils, 'warn' );
+    const spy = sinon.spy( warn, 'default' );
 
     component.set( 'alignTabs', 'Invalid value' );
     component.get( 'tabAlignmentClass' );
@@ -191,7 +191,7 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
         'warn() was called when invalid alignment class was provided'
     );
 
-    utils.warn.restore();
+    warn.default.restore();
 });
 
 test( 'getActiveTabName returns the correct value after setActiveTab() is called', function( assert ) {
