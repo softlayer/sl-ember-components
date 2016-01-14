@@ -44,10 +44,11 @@ export default Ember.Component.extend({
      */
     click() {
         const content = this.get( 'content' );
+        const date = this.get( 'date' );
 
-        if ( content ) {
-            this.sendAction( 'action', content );
-        }
+        //if ( content ) {
+            this.sendAction( 'action', date, content );
+        //}
     },
 
     // -------------------------------------------------------------------------

@@ -31,6 +31,15 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
+    actions: {
+
+        selectDate( date ) {
+            this.selectDate( date );
+        }
+
+    },
+
     // -------------------------------------------------------------------------
     // Events
 
@@ -256,6 +265,10 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      */
     weekStart: 0,
 
+    isOpen: false,
+
+    locale: 'en',
+
     // -------------------------------------------------------------------------
     // Observers
 
@@ -300,7 +313,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         'endDate',
         'startDate',
         function() {
-            const input = this.$( 'input.date-picker' );
+            /*const input = this.$( 'input.date-picker' );
             const datepicker = input.data( 'datepicker' );
 
             datepicker.setStartDate( this.get( 'startDate' ) );
@@ -308,12 +321,19 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
             if ( 'Invalid Date' === datepicker.getDate().toString() ) {
                 input.val( '' );
-            }
+            }*/
         }
     ),
 
     // -------------------------------------------------------------------------
     // Methods
+
+    selectDate( date ) {
+        const format = window.moment().localeData().longDateFormat( 'L' );
+
+        this.set( 'value', date.format( format ) );
+        this.set( 'isOpen', false );
+    },
 
     /**
      * Setup the bootstrap-datepicker plugin and events
@@ -322,11 +342,17 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      * @returns {undefined}
      */
     setupDatepicker() {
-        const datepicker = this.$( 'input.date-picker' )
+        /*const datepicker = this.$( 'input.date-picker' )
             .datepicker( this.get( 'options' ) );
 
         datepicker.on( this.namespaceEvent( 'changeDate' ), () => {
             this.sendAction();
+        });*/
+        const context = this;
+
+        this.$( '> input' ).on( 'focus', function() {
+            context.set( 'isOpen', true );
+            console.log( 'opening' );
         });
     },
 
@@ -337,6 +363,6 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      * @returns {undefined}
      */
     unregisterEvents() {
-        this.$( 'input.date-picker' ).off( this.namespaceEvent( 'changeDate' ) );
+        //this.$( 'input.date-picker' ).off( this.namespaceEvent( 'changeDate' ) );
     }
 });

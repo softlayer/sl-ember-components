@@ -47,61 +47,53 @@ export default Ember.Component.extend({
                 return;
             }
 
-            this.incrementProperty( 'currentYear', 10 * decadeMod );
+            this.incrementProperty( 'showingYear', 10 * decadeMod );
         },
 
         /**
          * Change the currently-viewed month by incrementing or decrementing
-         * the currentMonth (and currentYear if needed)
+         * the showingMonth (and showingYear if needed)
          *
          * @function actions:changeMonth
-         * @param {Number} monthMod - A number to adjust the currentMonth by
+         * @param {Number} monthMod - A number to adjust the showingMonth by
          *        (positive to increment, negative to decrement). The
-         *        currentYear is adjusted as needed.
+         *        showingYear is adjusted as needed.
          * @returns {undefined}
          */
         changeMonth( monthMod ) {
-            let month;
-            let year;
+            const newMonth = ( this.get( 'viewingDate' ).month() + 1 ) + monthMod;
 
+            this.setMonth( newMonth );/*
             if ( this.get( 'locked' ) ) {
                 return;
             }
 
-            month = this.get( 'currentMonth' ) + monthMod;
-            year = this.get( 'currentYear' );
+            const viewingDate = this.get( 'viewingDate' );
 
-            while ( month < 1 ) {
-                month += 12;
-                year -= 1;
-            }
-
-            while ( month > 12 ) {
-                month -= 12;
-                year += 1;
-            }
-
-            this.setProperties({
-                currentYear: year,
-                currentMonth: month
-            });
+            this.set( 'viewingDate', window.moment( viewingDate ).add( monthMod, 'months' ) );*/
         },
 
         /**
          * Change the currently-viewed year by increment or decrementing the
-         * currentYear
+         * showingYear
          *
          * @function actions:changeYear
-         * @param {Number} yearMod - A number to adjust the currentYear by
+         * @param {Number} yearMod - A number to adjust the showingYear by
          *        (positive to increment, negative to decrement)
          * @returns {undefined}
          */
         changeYear( yearMod ) {
+            const newYear = this.get( 'viewingDate' ).year() + yearMod;
+
+            this.setYear( newYear );/*
+
             if ( this.get( 'locked' ) ) {
                 return;
             }
 
-            this.incrementProperty( 'currentYear', yearMod );
+            const viewingDate = this.get( 'viewingDate' );
+
+            this.set( 'viewingDate', window.moment( viewingDate ).add( yearMod, 'years' ) );*/
         },
 
         /**
@@ -119,22 +111,34 @@ export default Ember.Component.extend({
             }
         },
 
+        selectDate( date, data ) {
+            this.setDate( date );
+
+            this.sendAction( 'action', date, data );
+        },
+
         /**
          * Set the current month and change view mode to that month
          *
-         * @function actions:setMonth
+         * @function actions:selectMonth
          * @param {Number} month - The number of the month to change view to
          * @returns {undefined}
          */
-        setMonth( month ) {
-            if ( this.get( 'locked' ) ) {
-                return;
-            }
+        selectMonth( month ) {
+            this.setMonth( month );
+            this.send( 'setView', 'days' );
+        },
 
-            this.setProperties({
-                currentMonth: month,
-                viewMode: 'days'
-            });
+        /**
+         * Set the current year and change the view mode to that year
+         *
+         * @function actions:selectYear
+         * @param {Number} year - The year to set to the current value
+         * @returns {undefined}
+         */
+        selectYear( year ) {
+            this.setYear( year );
+            this.send( 'setView', 'months' );
         },
 
         /**
@@ -151,24 +155,6 @@ export default Ember.Component.extend({
             }
 
             this.set( 'viewMode', view );
-        },
-
-        /**
-         * Set the current year
-         *
-         * @function actions:setYear
-         * @param {Number} year - The year to set to the current value
-         * @returns {undefined}
-         */
-        setYear( year ) {
-            if ( this.get( 'locked' ) ) {
-                return;
-            }
-
-            this.setProperties({
-                viewMode: 'months',
-                currentYear: year
-            });
         }
     },
 
@@ -187,13 +173,19 @@ export default Ember.Component.extend({
 
         this.set( 'today', today );
 
-        if ( !this.get( 'currentMonth' ) ) {
-            this.set( 'currentMonth', today.month() + 1 );
+        if ( !this.get( 'viewingDate' ) ) {
+            this.set( 'viewingDate', today );
+        }
+/*
+        const viewingDate = this.get( 'viewingDate' );
+
+        if ( !this.get( 'showingMonth' ) ) {
+            this.set( 'showingMonth', viewingDate.month() + 1 );
         }
 
-        if ( !this.get( 'currentYear' ) ) {
-            this.set( 'currentYear', today.year() );
-        }
+        if ( !this.get( 'showingYear' ) ) {
+            this.set( 'showingYear', viewingDate.year() );
+        }*/
     },
 
     // -------------------------------------------------------------------------
@@ -211,14 +203,14 @@ export default Ember.Component.extend({
      *
      * @type {?Number}
      */
-    currentMonth: null,
+    //showingMonth: null,
 
     /**
      * The currently selected/viewed year
      *
      * @type {?Number}
      */
-    currentYear: null,
+    //showingYear: null,
 
     /**
      * String lookup for the date value on the content objects
@@ -246,6 +238,10 @@ export default Ember.Component.extend({
 
     fixedWeekCount: true,
 
+    viewingDate: null,
+
+    selectedDate: null,
+
     /**
      * The current view mode for the calendar
      *
@@ -258,6 +254,44 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Methods
+
+    setDate( date ) {
+        this.set( 'selectedDate', window.moment( date ) );
+    },
+
+    setMonth( month ) {
+        if ( this.get( 'locked' ) ) {
+            return;
+        }
+
+        const viewingDate = this.get( 'viewingDate' );
+
+        this.set( 'viewingDate', window.moment( viewingDate ).month( month - 1 ) );
+    },
+
+    setYear( year ) {
+        if ( this.get( 'locked' ) ) {
+            return;
+        }
+
+        const viewingDate = this.get( 'viewingDate' );
+
+        this.set( 'viewingDate', window.moment( viewingDate ).year( year ) );
+    },
+
+    showingMonth: Ember.computed(
+        'viewingDate',
+        function() {
+            return this.get( 'viewingDate' ).month() + 1;
+        }
+    ),
+
+    showingYear: Ember.computed(
+        'viewingDate',
+        function() {
+            return this.get( 'viewingDate' ).year();
+        }
+    ),
 
     /**
      * Object of nested year, month, and day values, representing the dates
@@ -307,13 +341,13 @@ export default Ember.Component.extend({
      * @function
      * @returns {String}
      */
-    currentMonthString: Ember.computed(
-        'currentMonth',
+    showingMonthString: Ember.computed(
+        'showingMonth',
         'locale',
         function() {
             return window.moment([
                 2015,
-                this.get( 'currentMonth' ) - 1
+                this.get( 'showingMonth' ) - 1
             ]).locale( this.get( 'locale' ) ).format( 'MMMM' );
         }
     ),
@@ -325,12 +359,12 @@ export default Ember.Component.extend({
      * @returns {Number}
      */
     daysInMonth: Ember.computed(
-        'currentMonth',
-        'currentYear',
+        'showingMonth',
+        'showingYear',
         function() {
             return window.moment([
-                this.get( 'currentYear' ),
-                this.get( 'currentMonth' ) - 1
+                this.get( 'showingYear' ),
+                this.get( 'showingMonth' ) - 1
             ]).daysInMonth();
         }
     ),
@@ -355,11 +389,11 @@ export default Ember.Component.extend({
      * @returns {Number}
      */
     decadeStart: Ember.computed(
-        'currentYear',
+        'showingYear',
         function() {
-            const currentYear = this.get( 'currentYear' );
+            const showingYear = this.get( 'showingYear' );
 
-            return currentYear - ( currentYear % 10 );
+            return showingYear - ( showingYear % 10 );
         }
     ),
 
@@ -374,16 +408,26 @@ export default Ember.Component.extend({
      * @returns {Object[]}
      */
     monthsInYearView: Ember.computed(
-        'currentMonth',
-        'currentYear',
+        'showingYear',
+        'selectedDate',
+        'locale',
         function() {
-            const currentYear = this.get( 'currentYear' );
-            const currentMonth = this.get( 'currentMonth' );
+            const showingYear = this.get( 'showingYear' );
+            const selectedDate = this.get( 'selectedDate' );
+            const m = window.moment().locale( this.get( 'locale' ) );
+            const monthNames = window.moment.monthsShort();
             const months = Ember.A();
 
             for ( let month = 1; month <= 12; month++ ) {
+                let isActive = false;
+
+                if ( selectedDate ) {
+                    isActive = ( selectedDate.month() + 1 ) === month && selectedDate.year() === showingYear;
+                }
+
                 months.push({
-                    active: month === currentMonth,
+                    active: isActive,
+                    monthName: monthNames[ month - 1 ],
                     month
                 });
             }
@@ -467,16 +511,18 @@ export default Ember.Component.extend({
      */
     weeksInMonthView: Ember.computed(
         'contentDates',
-        'currentMonth',
-        'currentYear',
+        'showingMonth',
+        'showingYear',
+        'selectedDate',
         'fixedWeekCount',
         'locale',
         function() {
             const weeks = Ember.A();
 
-            const currentMonth = this.get( 'currentMonth' );
+            const showingMonth = this.get( 'showingMonth' );
+            const selectedDate = this.get( 'selectedDate' );
 
-            let firstOfMonth = window.moment( '01-' + currentMonth + '-' + this.get( 'currentYear' ), 'DD-MM-YYYY' ).locale( this.get( 'locale' ) );
+            let firstOfMonth = window.moment( '01-' + showingMonth + '-' + this.get( 'showingYear' ), 'DD-MM-YYYY' ).locale( this.get( 'locale' ) );
             let firstDayOfWeek = firstOfMonth.localeData().firstDayOfWeek();
             let nextDayToShow = window.moment( firstOfMonth ).subtract( firstOfMonth.day(), 'days' );
 
@@ -498,18 +544,24 @@ export default Ember.Component.extend({
                 const days = Ember.A();
 
                 for ( let k = 0; k < 7; k++ ) {
-                    let inNextMonth = nextDayToShow.month() === currentMonth;
-                    let inPrevMonth = nextDayToShow.month() === currentMonth - 2;
+                    let isActive = false;
+                    let inNextMonth = nextDayToShow.month() === showingMonth;
+                    let inPrevMonth = nextDayToShow.month() === showingMonth - 2;
 
-                    if ( currentMonth === 1 && nextDayToShow.month() === 11 ) {
+                    if ( showingMonth === 1 && nextDayToShow.month() === 11 ) {
                         inPrevMonth = true;
+                    }
+
+                    if ( selectedDate ) {
+                        isActive = nextDayToShow.isSame( selectedDate );
                     }
 
                     const day = {
                         date: window.moment( nextDayToShow ),
                         day: nextDayToShow.date(),
                         old: inPrevMonth,
-                        new: inNextMonth
+                        new: inNextMonth,
+                        active: isActive
                     };
                     days.push( day );
                     nextDayToShow.add( 1, 'days' );
@@ -537,15 +589,22 @@ export default Ember.Component.extend({
     yearsInDecadeView: Ember.computed(
         'decadeEnd',
         'decadeStart',
+        'selectedDate',
         function() {
             const decadeStart = this.get( 'decadeStart' );
             const decadeEnd = this.get( 'decadeEnd' );
-            const currentYear = this.get( 'currentYear' );
+            const selectedDate = this.get( 'selectedDate' );
             const years = Ember.A();
 
             for ( let year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
+                let isActive = false;
+
+                if ( selectedDate ) {
+                    isActive = year === selectedDate.year();
+                }
+
                 years.push({
-                    active: year === currentYear,
+                    active: isActive,
                     'new': year > decadeEnd,
                     old: year < decadeStart,
                     year

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/sl-calendar-month';
+//import layout from '../templates/components/sl-calendar-month';
 
 /**
  * @module
@@ -22,9 +22,6 @@ export default Ember.Component.extend({
     classNames: [
         'month'
     ],
-
-    /** @type {Object} */
-    layout,
 
     /** @type {String} */
     tagName: 'span',
@@ -59,14 +56,14 @@ export default Ember.Component.extend({
      *
      * @type {String}
      */
-    locale: 'en',
+    //locale: 'en',
 
     /**
      * The number of the month (1-12)
      *
      * @type {?Number}
      */
-    month: null,
+    month: null//,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -80,13 +77,13 @@ export default Ember.Component.extend({
      * @function
      * @returns {String}
      */
-    shortName: Ember.computed(
+    /*shortName: Ember.computed(
         'month',
         function() {
             return window.moment([ 1, this.get( 'month' ) - 1 ])
                 .locale( this.get( 'locale' ) )
                 .format( 'MMM' );
         }
-    )
+    )*/
 
 });

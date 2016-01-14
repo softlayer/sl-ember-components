@@ -11,6 +11,19 @@
     value=value
 }}
 
+{{#if isOpen}}
+    <div class="popover bottom show">
+        <div class="arrow"></div>
+        <div class="popover-content">
+            {{sl-calendar
+                action="selectDate"
+                fixedWeekCount=true
+                locale=locale
+            }}
+        </div>
+    </div>
+{{/if}}
+
 {{#if helpText}}
     <p class="help-block">{{helpText}}</p>
 {{/if}}

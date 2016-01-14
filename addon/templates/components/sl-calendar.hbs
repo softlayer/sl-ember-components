@@ -8,7 +8,7 @@
                             <span class="sr-only">previous month</span>
                         </th>
                         <th {{action "setView" "months"}} class="datepicker-switch" colspan="5">
-                            {{currentMonthString}} {{currentYear}}
+                            {{showingMonthString}} {{showingYear}}
                         </th>
                         <th {{action "changeMonth" 1}} class="sl-icon-next">
                             <span class="sr-only">next month</span>
@@ -25,7 +25,7 @@
                         <tr>
                             {{#each weekDays as |day|}}
                                 {{sl-calendar-day
-                                    action="sendDateContent"
+                                    action="selectDate"
                                     active=day.active
                                     content=day.content
                                     day=day.day
@@ -50,7 +50,7 @@
                             <span class="sr-only">previous year</span>
                         </th>
                         <th {{action "setView" "years"}} class="datepicker-switch" colspan="5">
-                            {{currentYear}}
+                            {{showingYear}}
                         </th>
                         <th {{action "changeYear" 1}} class="sl-icon-next">
                             <span class="sr-only">next year</span>
@@ -61,12 +61,14 @@
                     <tr>
                         <td colspan="7">
                             {{#each monthsInYearView as |month|}}
-                                {{sl-calendar-month
-                                    action="setMonth"
+                                {{#sl-calendar-month
+                                    action="selectMonth"
                                     active=month.active
                                     locale=locale
                                     month=month.month
                                 }}
+                                    {{month.monthName}}
+                                {{/sl-calendar-month}}
                             {{/each}}
                         </td>
                     </tr>
@@ -96,7 +98,7 @@
                         <td colspan="7">
                             {{#each yearsInDecadeView as |year|}}
                                 {{sl-calendar-year
-                                    action="setYear"
+                                    action="selectYear"
                                     active=year.active
                                     old=year.old
                                     new=year.new
