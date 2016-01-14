@@ -15,6 +15,8 @@ We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softl
 
 # What sl-ember-components is
 
+[![Join the chat at https://gitter.im/softlayer/sl-ember-components](https://badges.gitter.im/softlayer/sl-ember-components.svg)](https://gitter.im/softlayer/sl-ember-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 An [Ember CLI Addon](http://ember-cli.com) that provides UI components compatible with
 [Ember.js](http://www.emberjs.com) and [Twitter Bootstrap](http://www.getbootstrap.com).
 
