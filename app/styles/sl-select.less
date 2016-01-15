@@ -223,7 +223,7 @@ html[dir="rtl"] {
     top: 100%;
 
     color: @text-color;
-    background: @body-bg;
+    background: @input-bg;
     border: 1px solid @input-border;
 
     border-radius: 0 0 @border-radius-base @border-radius-base;
@@ -242,7 +242,7 @@ html[dir="rtl"] {
         opacity: 0;
         z-index: 9998;
         /* styles required for IE to work */
-        background-color: @body-bg;
+        background-color: @input-bg;
         filter: alpha(opacity=0);
     }
 
@@ -251,7 +251,7 @@ html[dir="rtl"] {
         border-top-color: @input-border;
 
         &.select2-drop-multi {
-            background: @body-bg;
+            background: @input-bg;
             //border-top-width: 0;
         }
     }
@@ -297,7 +297,7 @@ html[dir="rtl"] {
         width: 100%;
 
         &.select2-active {
-            background: @body-bg no-repeat 100%;
+            background: @input-bg no-repeat 100%;
         }
     }
 }
@@ -409,19 +409,19 @@ html[dir="rtl"] {
 
     .select2-highlighted {
         background: @brand-primary;
-        color: @body-bg;
+        color: @input-bg;
 
         em {
             background: transparent;
         }
 
         ul {
-            background: @body-bg;
+            background: @input-bg;
             color: @text-color;
         }
 
         .text-muted {
-            color: @body-bg;
+            color: @input-bg;
         }
     }
 
@@ -507,7 +507,7 @@ html[dir="rtl"] {
                 padding: 5px;
 
                 &.select2-active {
-                    background: @body-bg no-repeat 100% !important;
+                    background: @input-bg no-repeat 100% !important;
                 }
             }
         }
@@ -530,13 +530,13 @@ html[dir="rtl"] {
             &.select2-search-choice-focus {
                 background-color: @brand-primary;
                 border-color: @brand-primary;
-                color: @body-bg;
+                color: @input-bg;
 
                 .select2-search-choice-close {
-                    color: @body-bg;
+                    color: @input-bg;
 
                     &:hover {
-                        color: @body-bg;
+                        color: @input-bg;
                     }
                 }
             }
