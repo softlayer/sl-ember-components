@@ -233,8 +233,8 @@ used for the `sl-menu` component, use the following declaration:
 
 If you wish to use a font library other than Glyphicons Halflings you will need to take a few
 extra steps but it is still very easy to do.  The first step is to make sure you have properly
-installed, and are including, your desired font library.  Next, you need to redefine the
-`[class^="sl-icon-"], [class*=" sl-icon-"]` declaration by copying your font library's main css
+installed, and are including, your desired font library.  Next, you need to define a
+`[class^="sl-icon-"], [class*=" sl-icon-"]` declaration and copy your font library's main css
 declaration into it.  The example below demonstrates this, replacing Glyphicons Halflings with
 Font Awesome:
 
