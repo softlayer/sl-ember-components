@@ -18,7 +18,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'optionType'
+        'isDivider:divider'
     ],
 
     /** @type {String[]} */
@@ -81,16 +81,15 @@ export default Ember.Component.extend({
     // Methods
 
     /**
-     * Represents the type of option; "divider" if the label is undefined, or
-     * "presentation" otherwise
+     * Whether or not the option represents a divider placeholder
      *
      * @function
-     * @returns {String}
+     * @returns {Boolean}
      */
-    optionType: Ember.computed(
+    isDivider: Ember.computed(
         'label',
         function() {
-            return this.get( 'label' ) ? 'presentation' : 'divider';
+            return Ember.isEmpty( this.get( 'label' ) );
         }
     )
 
