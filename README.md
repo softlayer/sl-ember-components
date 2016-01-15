@@ -226,7 +226,7 @@ the `content` definition for the appropriate styles.  For example, to replace th
 used for the `sl-menu` component, use the following declaration:
 
 ```
-.sl-menu .sl-icon-show-all:before {
+.sl-ember-components.menu .sl-icon-show-all:before {
     content: "\e011";
 }
 ```
@@ -234,16 +234,18 @@ used for the `sl-menu` component, use the following declaration:
 If you wish to use a font library other than Glyphicons Halflings you will need to take a few
 extra steps but it is still very easy to do.  The first step is to make sure you have properly
 installed, and are including, your desired font library.  Next, you need to redefine the
-`[class*=sl-ember-components-icon]` declaration.  The example below demonstrates this,
-replacing Glyphicons Halflings with Font Awesome:
+`[class^="sl-icon-"], [class*=" sl-icon-"]` declaration by copying your font library's main css
+declaration into it.  The example below demonstrates this, replacing Glyphicons Halflings with
+Font Awesome:
 
 ```
-[class*=sl-ember-components-icon] {
+[class^="sl-icon-"], [class*=" sl-icon-"] {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 ```
 
@@ -251,7 +253,7 @@ Then you only need to redefine the `content` definition in the appropriate style
 previously explained above:
 
 ```
-.sl-menu .sl-icon-show-all:before {
+.sl-ember-components.menu .sl-icon-show-all:before {
     content: "\f270";
 }
 ```

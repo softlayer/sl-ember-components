@@ -65,6 +65,46 @@ test( 'Default rendered state', function( assert ) {
     );
 });
 
+test( 'Next and Previous buttons have appropriate classes', function( assert ) {
+    this.render( hbs`
+        {{sl-calendar}}
+    ` );
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-prev' ),
+        'day view has previous button class'
+    );
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
+        'day view has next button class'
+    );
+
+    this.$( '.datepicker-switch' ).click();
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-prev' ),
+        'month view has previous button class'
+    );
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
+        'month view has next button class'
+    );
+
+    this.$( '.datepicker-switch' ).click();
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-prev' ),
+        'year view has previous button class'
+    );
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
+        'year view has next button class'
+    );
+});
+
 test( 'Check for classes set on items outside of range in picker', function( assert ) {
     this.set( 'currentYear', 2015 );
     this.set( 'currentMonth', 1 );
