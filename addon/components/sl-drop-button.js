@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-drop-button';
 import {
@@ -24,7 +25,7 @@ export const Align = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

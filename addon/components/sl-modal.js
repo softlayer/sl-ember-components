@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
 import Namespace from '../mixins/sl-namespace';
@@ -22,7 +23,7 @@ export const Size = Object.freeze({
  * @augments ember-stream/mixins/stream-enabled
  * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend( StreamEnabled, Namespace, {
+export default Ember.Component.extend( ComponentClassPrefix, Namespace, StreamEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -137,6 +138,14 @@ export default Ember.Component.extend( StreamEnabled, Namespace, {
      * @type {Boolean}
      */
     backdrop: true,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'modal',
 
     /*
      * Whether to modal is open or not

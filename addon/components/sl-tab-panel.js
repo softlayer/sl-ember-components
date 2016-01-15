@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import layout from '../templates/components/sl-tab-panel';
 import { containsValue, warn } from '../utils/all';
 
@@ -19,7 +20,7 @@ export const Alignment = Object.freeze({
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ComponentClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -30,11 +31,6 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNameBindings: [
         'tabAlignmentClass'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-tab-panel'
     ],
 
     /** @type {Object} */
@@ -67,6 +63,14 @@ export default Ember.Component.extend({
      * @type {Alignment}
      */
     alignTabs: Alignment.LEFT,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'tab-panel',
 
     /**
      * The name of the tab to open when the component is first rendered

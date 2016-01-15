@@ -21,7 +21,6 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'sl-tab-pane',
         'tab-pane'
     ],
 

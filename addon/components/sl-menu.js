@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-menu';
 import { warn } from '../utils/all';
@@ -9,7 +10,7 @@ import { throwMenuError } from '../utils/error';
  * @augments ember/Component
  * @augments ember-stream/mixins/stream-enabled
  */
-export default Ember.Component.extend( StreamEnabled, {
+export default Ember.Component.extend( StreamEnabled, ComponentClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -20,12 +21,6 @@ export default Ember.Component.extend( StreamEnabled, {
     /** @type {String[]} */
     classNameBindings: [
         'showingAll:show-all'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-ember-components',
-        'sl-menu'
     ],
 
     /** @type {Object} */
@@ -113,6 +108,14 @@ export default Ember.Component.extend( StreamEnabled, {
      * @type {Boolean}
      */
     allowShowAll: false,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'menu',
 
     /**
      * The array of menu items

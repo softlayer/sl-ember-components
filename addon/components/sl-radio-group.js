@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-radio-group';
@@ -12,7 +13,7 @@ import { throwRadioGroupError } from '../utils/error';
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
+export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -27,8 +28,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
 
     /** @type {String[]} */
     classNames: [
-        'form-group',
-        'sl-radio-group'
+        'form-group'
     ],
 
     /** @type {Object} */
@@ -45,6 +45,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'radio-group',
 
     /**
      * Whether the radio buttons should be put inline together

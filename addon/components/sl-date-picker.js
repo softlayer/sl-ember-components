@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import Namespace from '../mixins/sl-namespace';
@@ -11,7 +12,7 @@ import layout from '../templates/components/sl-date-picker';
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespace, {
+export default Ember.Component.extend( ComponentClassPrefix, ComponentInputId, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -81,6 +82,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      * @type {Boolean}
      */
     clearBtn: false,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'date-picker',
 
     /**
      * Days of the week that should be disabled

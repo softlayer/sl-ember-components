@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ComponentClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -19,8 +20,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'loading-icon',
-        'sl-ember-components'
+        'loading-icon'
     ],
 
     /** @type {String} */
@@ -34,6 +34,14 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'loading-icon',
 
     /**
      * Whether to use the inverse (lighter colored) icon

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import layout from '../templates/components/sl-grid';
 import Namespace from '../mixins/sl-namespace';
 
@@ -20,7 +21,7 @@ export const ColumnAlign = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend( Namespace, {
+export default Ember.Component.extend( ComponentClassPrefix, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -36,8 +37,7 @@ export default Ember.Component.extend( Namespace, {
 
     /** @type {String[]} */
     classNames: [
-        'grid',
-        'sl-ember-components'
+        'grid'
     ],
 
     /** @type {Object} */
@@ -247,6 +247,14 @@ export default Ember.Component.extend( Namespace, {
      * @type {ColumnDefinition[]}
      */
     columns: [],
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'grid',
 
     /**
      * @type {?Object[]}

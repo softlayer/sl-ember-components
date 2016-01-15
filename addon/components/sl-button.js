@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
-import layout from '../templates/components/sl-button';
 import { containsValue, warn } from '../utils/all';
+import layout from '../templates/components/sl-button';
 
 /**
  * Valid size values for the sl-button component
@@ -52,7 +53,7 @@ export const Theme = Object.freeze({
  * @augments ember-stream/mixins/stream-enabled
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
+export default Ember.Component.extend( ComponentClassPrefix, StreamEnabled, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -76,8 +77,7 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'btn',
-        'sl-ember-components'
+        'btn'
     ],
 
     /** @type {Object} */
@@ -111,12 +111,21 @@ export default Ember.Component.extend( StreamEnabled, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Properties
 
+
     /**
      * Whether or not the button should bubble actions to its parent
      *
      * @type {Boolean}
      */
     bubbles: true,
+
+    /**
+     * Component class that will be prefixed
+     * with base class
+     *
+     * @type {String}
+     */
+    componentClass: 'button',
 
     /**
      * Whether or not the button is disabled

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import Namespace from '../mixins/sl-namespace';
 import layout from '../templates/components/sl-date-range-picker';
@@ -9,7 +10,7 @@ import layout from '../templates/components/sl-date-range-picker';
  * @augments module:mixins/sl-component-input-id
  * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend( ComponentInputId, Namespace, {
+export default Ember.Component.extend( ComponentClassPrefix, ComponentInputId, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -53,6 +54,14 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'date-picker',
 
     /**
      * The value for the endDate input

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
@@ -13,7 +14,7 @@ import layout from '../templates/components/sl-input';
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInputId, Namespace, {
+export default Ember.Component.extend( ComponentInputId, InputBased, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -83,6 +84,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
      * @type {Boolean}
      */
     clickToEdit: false,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'input',
 
     /**
      * Whether the typeahead.js functionality has been setup

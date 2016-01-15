@@ -42,8 +42,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'progress',
-        'sl-ember-components'
+        'progress'
     ],
 
     /** @type {Object} */
@@ -74,6 +73,14 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @type {Boolean}
      */
     animated: false,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'progress-bar',
 
     /**
      * Whether to display a text value over the progress

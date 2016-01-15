@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import layout from '../templates/components/sl-pagination';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ComponentClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -15,8 +16,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'pagination',
-        'sl-ember-components'
+        'pagination'
     ],
 
     /** @type {Object} */
@@ -75,6 +75,14 @@ export default Ember.Component.extend({
      * @type {Boolean}
      */
     busy: false,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'pagination',
 
     /**
      * The current page number

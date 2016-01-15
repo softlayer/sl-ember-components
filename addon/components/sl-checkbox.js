@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-checkbox';
@@ -9,7 +10,7 @@ import layout from '../templates/components/sl-checkbox';
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( ComponentClassPrefix, InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -49,6 +50,14 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
      * @type {Boolean}
      */
     checked: false,
+
+    /**
+     * Component class that will be prefixed
+     * with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'checkbox',
 
     /**
      * Whether to show the component in-line
