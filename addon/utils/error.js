@@ -3,6 +3,7 @@
 import Ember from 'ember';
 import config from 'ember-get-config';
 import { warn } from './all';
+
 /**
  * @module
  * @augments Error
