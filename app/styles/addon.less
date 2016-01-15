@@ -1,11 +1,49 @@
 // -------------------------------------------------------------------------
 // Icons
 
-[class*=sl-icon] {
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
+[class^="sl-icon-"], [class*=" sl-icon-"] {
+
+    width: 1.4em;
+    display: inline-block;
     line-height: 1;
+    vertical-align: middle;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+
+    font-size: .65em;
+
+    &::before, &::after {
+        font-family: "Glyphicons Halflings";
+
+        font-style: normal;
+        font-weight: normal;
+        speak: none;
+
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        text-decoration: inherit;
+        width: 1em;
+        text-align: center;
+
+        font-variant: normal;
+        text-transform: none;
+
+        line-height: 1em;
+
+        margin-right: .2em;
+        margin-left: .2em;
+
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    &::before {
+        margin-right: 1.2em;
+    }
+
+    /*
     position: relative;
     top: 1px;
     white-space: nowrap;
@@ -13,9 +51,22 @@
     width: 1em;
     overflow: hidden;
 
+    &::before, &::after {
+        speak: none;
+
+        font-variant: normal;
+        text-transform: none;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+
+        font-size: .75em;
+        text-align: center;
+    }
+
     &::before {
         margin-right: 2em;
-    }
+    }*/
 }
 
 // -------------------------------------------------------------------------

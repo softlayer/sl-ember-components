@@ -96,7 +96,45 @@
             top: 0;
 
             b {
-                color: @gray;
+                width: 1.4em;
+                display: inline-block;
+                line-height: 1;
+                vertical-align: middle;
+                box-sizing: border-box;
+                overflow: hidden;
+                white-space: nowrap;
+
+                font-size: .65em;
+
+                &::before {
+                    font-family: "Glyphicons Halflings";
+
+                    font-style: normal;
+                    font-weight: normal;
+                    speak: none;
+
+                    position: relative;
+                    top: 1px;
+                    display: inline-block;
+                    text-decoration: inherit;
+                    width: 1em;
+                    text-align: center;
+
+                    font-variant: normal;
+                    text-transform: none;
+
+                    line-height: 1em;
+
+                    margin-right: .2em;
+                    margin-left: .2em;
+
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+
+                    content: "\e252";
+                }
+
+                /*color: @gray;
                 display: inline-block;
                 font-family: "Glyphicons Halflings";
                 font-size: 1em;
@@ -112,7 +150,7 @@
                     position: relative;
                     top: 0.4em;
                     right: 0.1em;
-                }
+                }*/
             }
         }
     }

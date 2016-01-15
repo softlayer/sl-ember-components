@@ -123,6 +123,14 @@
             bottom: 0;
         }
 
+        &> header button.close {
+            font-size: 1.4em;
+
+            .sl-icon-close::before {
+                content: '\e014';
+            }
+        }
+
         &> header + div {
             top: calc(1.5em ~"+" @panel-heading-padding-top ~"+" @panel-heading-padding-bottom);
 

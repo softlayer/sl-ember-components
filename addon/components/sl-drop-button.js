@@ -86,7 +86,7 @@ export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
      *
      * @type {String}
      */
-    iconClass: 'caret',
+    iconClass: 'sl-icon-dropdown',
 
     /**
      * Text string used for labeling the drop-button

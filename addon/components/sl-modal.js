@@ -41,7 +41,8 @@ export default Ember.Component.extend( ComponentClassPrefix, Namespace, StreamEn
 
     /** @type {String[]} */
     classNames: [
-        'modal'
+        'modal',
+        'sl-ember-components'
     ],
 
     /** @type {String[]} */
