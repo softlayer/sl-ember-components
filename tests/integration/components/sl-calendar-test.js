@@ -71,7 +71,7 @@ test( 'Next and Previous buttons have appropriate classes', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-prev' ),
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
         'day view has previous button class'
     );
 
@@ -83,7 +83,7 @@ test( 'Next and Previous buttons have appropriate classes', function( assert ) {
     this.$( '.datepicker-switch' ).click();
 
     assert.ok(
-        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-prev' ),
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
         'month view has previous button class'
     );
 
@@ -95,7 +95,7 @@ test( 'Next and Previous buttons have appropriate classes', function( assert ) {
     this.$( '.datepicker-switch' ).click();
 
     assert.ok(
-        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-prev' ),
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
         'year view has previous button class'
     );
 
@@ -601,7 +601,7 @@ test( 'Navigating Backward by Month', function( assert ) {
         'The current month is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -655,7 +655,7 @@ test( 'Navigating Backward by Year', function( assert ) {
         'The current year is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -707,7 +707,7 @@ test( 'Navigating Backward by Decade', function( assert ) {
         'The current Decade is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -945,7 +945,7 @@ test( 'Navigating Backward by Month Crosses to Previous Year', function( assert 
         'The current month is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -1110,7 +1110,7 @@ test( 'Dual instance: Navigating Backward by Month', function( assert ) {
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -1174,7 +1174,7 @@ test( 'Dual instance: Navigating Backward by Year', function( assert ) {
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -1238,7 +1238,7 @@ test( 'Dual instance: Navigating Backward by Decade', function( assert ) {
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -1456,7 +1456,7 @@ test( 'Dual instance: Navigating Backward by Month Crosses to Previous Year', fu
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),

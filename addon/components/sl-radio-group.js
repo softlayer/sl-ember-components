@@ -43,6 +43,26 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespa
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event hook
+     *
+     * @returns {undefined}
+     */
+    didInsertElement() {
+        this._super( ...arguments );
+        this.initialize();
+    },
+
+    /**
+     * willClearRender event hook
+     *
+     * @returns {undefined}
+     */
+    willClearRender() {
+        this._super( ...arguments );
+        this.unregisterEvents();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -83,82 +103,78 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespa
     // -------------------------------------------------------------------------
     // Observers
 
+    // -------------------------------------------------------------------------
+    // Methods
+
     /**
      * Initialize the group-wide options and setup child radio buttons
      *
-     * @function
+     * @private
      * @throws {sl-ember-components/utils/error/radioGroup} Thrown if the `name` property is not set
      * @returns {undefined}
      */
-    initialize: Ember.on(
-        'didInsertElement',
-        function() {
-            const name = this.get( 'name' );
+    initialize() {
+        const name = this.get( 'name' );
 
-            if ( Ember.isEmpty( name ) ) {
-                throwRadioGroupError( 'The name property must be set' );
-            }
-
-            const value = this.get( 'value' );
-            const isDisabled = this.get( 'disabled' );
-            const isInline = this.get( 'inline' );
-
-            /**
-             * To each sl-radio component apply...
-             *
-             * - Attributes: name, disabled
-             * - Classes: radio, radio-inline
-             */
-            this.$( '.sl-radio' ).each( function() {
-                const radio = Ember.$( this );
-                const input = Ember.$( 'input', this );
-
-                input.attr( 'name', name );
-
-                if ( isDisabled ) {
-                    input.prop( 'disabled', true );
-                    radio.addClass( 'disabled' );
-                }
-
-                if ( true === isInline ) {
-                    radio.removeClass( 'radio' );
-                    radio.addClass( 'radio-inline' );
-                }
-
-                if ( false === isInline ) {
-                    radio.removeClass( 'radio-inline' );
-                    radio.addClass( 'radio' );
-                }
-            });
-
-            // Pre-select radio button if a value is set
-            if ( value ) {
-                this.$( `input[name=${name}]:radio[value=${value}]` ).prop(
-                    'checked', true
-                );
-            }
-
-            // Apply change() listener to keep group value in sync with select
-            // sl-radio option
-            const radios = this.$( `input[name=${name}]:radio` );
-            radios.on( this.namespaceEvent( 'change' ), () => {
-                this.set( 'value', radios.filter( ':checked' ).val() );
-            });
+        if ( Ember.isEmpty( name ) ) {
+            throwRadioGroupError( 'The name property must be set' );
         }
-    ),
+
+        const value = this.get( 'value' );
+        const isDisabled = this.get( 'disabled' );
+        const isInline = this.get( 'inline' );
+
+        /**
+         * To each sl-radio component apply...
+         *
+         * - Attributes: name, disabled
+         * - Classes: radio, radio-inline
+         */
+        this.$( '.sl-radio' ).each( function() {
+            const radio = Ember.$( this );
+            const input = Ember.$( 'input', this );
+
+            input.attr( 'name', name );
+
+            if ( isDisabled ) {
+                input.prop( 'disabled', true );
+                radio.addClass( 'disabled' );
+            }
+
+            if ( true === isInline ) {
+                radio.removeClass( 'radio' );
+                radio.addClass( 'radio-inline' );
+            }
+
+            if ( false === isInline ) {
+                radio.removeClass( 'radio-inline' );
+                radio.addClass( 'radio' );
+            }
+        });
+
+        // Pre-select radio button if a value is set
+        if ( value ) {
+            this.$( `input[name=${name}]:radio[value=${value}]` ).prop(
+                'checked', true
+            );
+        }
+
+        // Apply change() listener to keep group value in sync with select
+        // sl-radio option
+        const radios = this.$( `input[name=${name}]:radio` );
+        radios.on( this.namespaceEvent( 'change' ), () => {
+            this.set( 'value', radios.filter( ':checked' ).val() );
+        });
+    },
 
     /**
      * Remove events
      *
-     * @function
+     * @private
      * @returns {undefined}
      */
-    unregisterEvents: Ember.on(
-        'willClearRender',
-        function() {
-            this.$( `input[name=${this.get( 'name' )}]:radio` )
-                .off( this.namespaceEvent( 'change' ) );
-        }
-    )
-
+    unregisterEvents() {
+        this.$( `input[name=${this.get( 'name' )}]:radio` )
+            .off( this.namespaceEvent( 'change' ) );
+    }
 });

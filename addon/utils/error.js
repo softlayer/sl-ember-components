@@ -1,6 +1,8 @@
 /* jshint ignore:start */
 
 import Ember from 'ember';
+import config from 'ember-get-config';
+import { warn } from './all';
 
 /**
  * @module
@@ -9,6 +11,9 @@ import Ember from 'ember';
 
 /** @type {String} */
 let errorTypeThrown = null;
+
+/** @type {Boolean} */
+let wasSetErrorTypeThrownCalledInternally = false;
 
 /**
  * Creates an Error Function with additional values set
@@ -33,7 +38,9 @@ const buildErrorFunction = function( component, message ) {
     error[ functionName ].prototype = Object.create( Error.prototype );
     error[ functionName ].prototype.constructor = error[ functionName ];
 
+    wasSetErrorTypeThrownCalledInternally = true;
     setErrorTypeThrown( functionName );
+    wasSetErrorTypeThrownCalledInternally = false;
 
     return error[ functionName ];
 };
@@ -64,7 +71,11 @@ const isErrorInstanceOf = function( type ) {
  * @returns {undefined}
  */
 const setErrorTypeThrown = function( functionName ) {
-    errorTypeThrown = functionName;
+    if ( 'test' === config.environment || true === wasSetErrorTypeThrownCalledInternally ) {
+        errorTypeThrown = functionName;
+    } else {
+        warn( 'This method is only available in the testing environment' );
+    }
 };
 
 /**
