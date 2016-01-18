@@ -33,11 +33,15 @@ test( 'Default rendered state', function( assert ) {
 test( 'Default action is triggered when element is clicked', function( assert ) {
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.on( 'externalAction', () => {
         assert.ok(
             true,
             'External action was called'
         );
+
+        done();
     });
 
     this.render( hbs`
