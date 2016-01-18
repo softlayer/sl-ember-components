@@ -32,11 +32,19 @@
         <thead>
             <tr>
                 {{#each columns as |column|}}
-                    {{sl-grid-column-header column=column onClick="sortColumn"}}
+                    {{#sl-grid-column-header
+                        sortable=column.sortable
+                        sorted=column.sorted
+                        class=column.extraClass
+                        column=column
+                        onClick="sortColumn"
+                    }}
+                        {{column.title}}
+                    {{/sl-grid-column-header}}
                 {{/each}}
 
                 {{#if rowActions}}
-                    <th class="actions-cell column-small"></th>
+                    <th class="actions-cell"></th>
                 {{/if}}
             </tr>
         </thead>
@@ -44,11 +52,19 @@
             <!-- duplicate header for proper spacing w/ fixed table header -->
             <tr>
                 {{#each columns as |column|}}
-                    {{sl-grid-column-header column=column}}
+                    {{#sl-grid-column-header
+                        sortable=column.sortable
+                        sorted=column.sorted
+                        class=column.extraClass
+                        column=column
+                        onClick="sortColumn"
+                    }}
+                        {{column.title}}
+                    {{/sl-grid-column-header}}
                 {{/each}}
 
                 {{#if rowActions}}
-                    <th class="actions-cell column-small"></th>
+                    <th class="actions-cell"></th>
                 {{/if}}
             </tr>
             {{#each content as |row|}}
@@ -87,7 +103,9 @@
 
 <div class="panel panel-default {{if detailPaneOpen "show"}} {{unless detailPaneOpen "hidden"}}">
     <header class="panel-heading">
-        <button {{action "closeDetailPane"}} type="button" class="close" aria-label="Close">&times;</button>
+        <button {{action "closeDetailPane"}} class="pull-right close" aria-label="Close" type="button">
+            <span class="sl-icon-close">Close</span>
+        </button>
 
         <span class="title">
             {{#if detailHeaderComponent}}

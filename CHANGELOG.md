@@ -1,5 +1,22 @@
 # sl-ember-components Changelog
 
+### 0.10.2
+
+**BUG FIX**
+
+* [#1391](https://github.com/softlayer/sl-ember-components/pull/1391) jQuery version increased but Ember CLI is checking for previous version
+
+**DOCUMENTATION**
+
+* Added [Vision Statement](VISION-STATEMENT.md)
+* Added [Roadmap](ROADMAP.md)
+
+**INTERNAL**
+
+* Updated [Release Instructions](RELEASE-INSTRUCTIONS.md)
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.10.1...v0.10.2)
+
 ### 0.10.1
 
 **BUG FIX**

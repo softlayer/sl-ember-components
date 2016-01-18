@@ -1,0 +1,34 @@
+.datepicker thead th.prev, .datepicker thead th.next {
+    text-indent: 1em;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+
+    &::before {
+        font-family: "Glyphicons Halflings";
+
+        font-size: .65em;
+        margin-right: 1em;
+        margin-left: -.75em;
+    }
+}
+
+.datepicker thead th.prev {
+    &::before {
+        content: @icon-date-picker-previous;
+    }
+}
+
+.datepicker thead th.next {
+    &::before {
+        content: @icon-date-picker-next;
+    }
+}
+
+.datepicker thead th.prev {
+    &:extend(.sl-ember-components-icons all);
+}
+
+.datepicker thead th.next {
+    &:extend(.sl-ember-components-icons all);
+}

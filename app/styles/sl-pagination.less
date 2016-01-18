@@ -6,4 +6,20 @@
     li.overflow span:before {
         content: "...";
     }
+
+    .sl-icon-next::before {
+        content: @icon-pagination-next;
+    }
+
+    .sl-icon-previous::before {
+        content: @icon-pagination-previous;
+    }
+}
+
+.sl-icon-previous {
+    &:extend(.sl-ember-components-icons all);
+}
+
+.sl-icon-next {
+    &:extend(.sl-ember-components-icons all);
 }

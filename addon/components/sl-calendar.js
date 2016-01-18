@@ -175,6 +175,25 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * Initialize default property values
+     *
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+
+        const today = new Date();
+
+        if ( !this.get( 'currentMonth' ) ) {
+            this.set( 'currentMonth', today.getMonth() + 1 );
+        }
+
+        if ( !this.get( 'currentYear' ) ) {
+            this.set( 'currentYear', today.getFullYear() );
+        }
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -230,27 +249,6 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Initialize default property values
-     *
-     * @function
-     * @returns {undefined}
-     */
-    initialize: Ember.on(
-        'init',
-        function() {
-            const today = new Date();
-
-            if ( !this.get( 'currentMonth' ) ) {
-                this.set( 'currentMonth', today.getMonth() + 1 );
-            }
-
-            if ( !this.get( 'currentYear' ) ) {
-                this.set( 'currentYear', today.getFullYear() );
-            }
-        }
-    ),
 
     // -------------------------------------------------------------------------
     // Methods

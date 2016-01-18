@@ -31,6 +31,26 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event hook
+     *
+     * @returns {undefined}
+     */
+    didInsertElement() {
+        this._super( ...arguments );
+        this.setupFocusTransition();
+    },
+
+    /**
+     * willClearRender event hook
+     *
+     * @returns {undefined}
+     */
+    willClearRender() {
+        this._super( ...arguments );
+        this.unregisterEvents();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -71,37 +91,6 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Set up a transition that moves focus to the endDate input when the
-     * startDate input is changed
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupFocusTransition: Ember.on(
-        'didInsertElement',
-        function() {
-            this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
-            this.set( 'endDateInput', this.$( '.sl-daterange-end-date input' ) );
-            this.get( 'startDateInput' ).on( this.namespaceEvent( 'changeDate' ), () => {
-                this.get( 'endDateInput' ).trigger( 'focus' );
-            });
-        }
-    ),
-
-    /**
-     * Remove events
-     *
-     * @function
-     * @returns {undefined}
-     */
-    unregisterEvents: Ember.on(
-        'willClearRender',
-        function() {
-            this.get( 'startDateInput' ).off( this.namespaceEvent( 'changeDate' ) );
-        }
-    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -156,6 +145,31 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
 
             return null;
         }
-    )
+    ),
+
+    /**
+     * Set up a transition that moves focus to the endDate input when the
+     * startDate input is changed
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupFocusTransition() {
+        this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
+        this.set( 'endDateInput', this.$( '.sl-daterange-end-date input' ) );
+        this.get( 'startDateInput' ).on( this.namespaceEvent( 'changeDate' ), () => {
+            this.get( 'endDateInput' ).trigger( 'focus' );
+        });
+    },
+
+    /**
+     * Remove events
+     *
+     * @private
+     * @returns {undefined}
+     */
+    unregisterEvents() {
+        this.get( 'startDateInput' ).off( this.namespaceEvent( 'changeDate' ) );
+    }
 
 });
