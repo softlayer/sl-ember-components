@@ -210,6 +210,11 @@ export default Ember.Component.extend( Namespace, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event hook
+     *
+     * @returns {undefined}
+     */
     didInsertElement() {
         this._super( ...arguments );
 
@@ -218,6 +223,11 @@ export default Ember.Component.extend( Namespace, {
         this.setupContinuousPaging();
     },
 
+    /**
+     * willClearRender event hook
+     *
+     * @returns {undefined}
+     */
     willClearRender() {
         this._super( ...arguments );
 
@@ -439,6 +449,7 @@ export default Ember.Component.extend( Namespace, {
     /**
      * Cleanup bound events
      *
+     * @private
      * @returns {undefined}
      */
     clearEvents() {
@@ -449,6 +460,7 @@ export default Ember.Component.extend( Namespace, {
     /**
      * Disables the scroll event handling for continuous paging
      *
+     * @private
      * @returns {undefined}
      */
     disableContinuousPaging() {
@@ -553,6 +565,7 @@ export default Ember.Component.extend( Namespace, {
      *
      * Also creates a window resize event to ensure grid acts fluid.
      *
+     * @private
      * @returns {undefined}
      */
     setupCalculatedHeight() {
@@ -566,6 +579,7 @@ export default Ember.Component.extend( Namespace, {
      * Setup the "continuous paging" functionality, if the data set is
      * not complete
      *
+     * @private
      * @returns {undefined}
      */
     setupContinuousPaging() {
@@ -579,6 +593,7 @@ export default Ember.Component.extend( Namespace, {
      *
      * Also creates a window resize event to ensure grid acts fluid.
      *
+     * @private
      * @returns {undefined}
      */
     setupFixedHeader() {
