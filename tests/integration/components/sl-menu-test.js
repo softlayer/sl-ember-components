@@ -121,6 +121,8 @@ test( '"allowShowAll" property is supported', function( assert ) {
 test( 'Actions are handled properly from menu items', function( assert ) {
     assert.expect( 3 );
 
+    const done = assert.async();
+
     this.set( 'menuItems', menuItems );
 
     this.render( hbs`
@@ -147,6 +149,8 @@ test( 'Actions are handled properly from menu items', function( assert ) {
             '"testData"',
             'Data is passed'
         );
+
+        done();
     });
 
     this.$( '>:first-child' ).find( '> ul > li:first > ul > li:first > a' ).trigger( 'click' );

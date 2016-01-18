@@ -46,7 +46,7 @@
         -webkit-user-select: none;
 
         >.select2-chosen {
-            display: block;
+            display: inline-block;
             float: none;
             margin-right: 26px;
             overflow: hidden;
@@ -90,28 +90,46 @@
             border-radius: 0 @border-radius-base @border-radius-base 0;
             display: inline-block;
             width: 22px;
-            height: 100%;
             position: absolute;
             right: 0;
-            top: 0;
 
             b {
-                color: @gray;
+                width: 1.4em;
                 display: inline-block;
-                font-family: "Glyphicons Halflings";
-                font-size: 1em;
-                font-style: normal;
-                font-weight: normal;
-                line-height: 1.5em;
-                -moz-osx-font-smoothing: grayscale;
-                -webkit-font-smoothing: antialiased;
+                line-height: 1;
+                vertical-align: middle;
+                box-sizing: border-box;
+                overflow: hidden;
+                white-space: nowrap;
 
-                &:before {
-                    color: @icon-color;
-                    content: "\e252";
+                font-size: .65em;
+
+                &::before {
+                    font-family: "Glyphicons Halflings";
+
+                    font-style: normal;
+                    font-weight: normal;
+                    speak: none;
+
                     position: relative;
-                    top: 0.4em;
-                    right: 0.1em;
+                    top: 1px;
+                    display: inline-block;
+                    text-decoration: inherit;
+                    width: 1em;
+                    text-align: center;
+
+                    font-variant: normal;
+                    text-transform: none;
+
+                    line-height: 1em;
+
+                    margin-right: .2em;
+                    margin-left: .2em;
+
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+
+                    content: @icon-select-open;
                 }
             }
         }
@@ -339,7 +357,7 @@ html[dir="rtl"] {
             .box-shadow(none);
 
             b:before {
-                content: "\e253";
+                content: @icon-select-close;
             }
         }
     }

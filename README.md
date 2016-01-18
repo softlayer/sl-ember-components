@@ -3,7 +3,7 @@
 
 [![Dependencies](https://img.shields.io/david/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components) [![Dev Dependencies](https://img.shields.io/david/dev/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components#info=devDependencies)
 
-[![Build Status](https://img.shields.io/travis/softlayer/sl-ember-components/master.svg)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://img.shields.io/codeclimate/github/softlayer/sl-ember-components.svg)](https://codeclimate.com/github/softlayer/sl-ember-components) [![Ember Observer](http://emberobserver.com/badges/sl-ember-components.svg)](http://emberobserver.com/addons/sl-ember-components) [![Inch CI](http://inch-ci.org/github/softlayer/sl-ember-components.svg?branch=master)](http://inch-ci.org/github/softlayer/sl-ember-components)
+[![Build Status](https://img.shields.io/travis/softlayer/sl-ember-components/master.svg)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://img.shields.io/codeclimate/github/softlayer/sl-ember-components.svg)](https://codeclimate.com/github/softlayer/sl-ember-components) [![Ember Observer](http://emberobserver.com/badges/sl-ember-components.svg)](http://emberobserver.com/addons/sl-ember-components) [![Inch CI](http://inch-ci.org/github/softlayer/sl-ember-components.svg?branch=master)](http://inch-ci.org/github/softlayer/sl-ember-components) [![Join the chat at https://gitter.im/softlayer/sl-ember-components](https://badges.gitter.im/softlayer/sl-ember-components.svg)](https://gitter.im/softlayer/sl-ember-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softlayer/sl-ember-components) to work our issues.
 
@@ -18,7 +18,7 @@ We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softl
 An [Ember CLI Addon](http://ember-cli.com) that provides UI components compatible with
 [Ember.js](http://www.emberjs.com) and [Twitter Bootstrap](http://www.getbootstrap.com).
 
-**This addon is currently BETA.** View the [Roadmap](ROADMAP.md) we're following for a 1.0.0+ release.
+**This addon is currently BETA.** View the [Roadmap](https://github.com/softlayer/sl-ember-components/wiki/Roadmap) we're following for a 1.0.0+ release.
 
 Examples and documentation on how to use each component can be viewed at http://softlayer.github.io/sl-ember-components/ which
 is served from the *gh-pages* branch of this repository.
@@ -226,24 +226,26 @@ the `content` definition for the appropriate styles.  For example, to replace th
 used for the `sl-menu` component, use the following declaration:
 
 ```
-.sl-menu .sl-icon-show-all:before {
+.sl-ember-components.menu .sl-icon-show-all:before {
     content: "\e011";
 }
 ```
 
 If you wish to use a font library other than Glyphicons Halflings you will need to take a few
 extra steps but it is still very easy to do.  The first step is to make sure you have properly
-installed, and are including, your desired font library.  Next, you need to redefine the
-`[class*=sl-ember-components-icon]` declaration.  The example below demonstrates this,
-replacing Glyphicons Halflings with Font Awesome:
+installed, and are including, your desired font library.  Next, you need to define a
+`[class^="sl-icon-"], [class*=" sl-icon-"]` declaration and copy your font library's main css
+declaration into it.  The example below demonstrates this, replacing Glyphicons Halflings with
+Font Awesome:
 
 ```
-[class*=sl-ember-components-icon] {
+[class^="sl-icon-"], [class*=" sl-icon-"] {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 ```
 
@@ -251,7 +253,7 @@ Then you only need to redefine the `content` definition in the appropriate style
 previously explained above:
 
 ```
-.sl-menu .sl-icon-show-all:before {
+.sl-ember-components.menu .sl-icon-show-all:before {
     content: "\f270";
 }
 ```

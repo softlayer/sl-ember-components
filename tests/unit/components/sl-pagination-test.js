@@ -148,7 +148,7 @@ test( 'changePageBy() subtracts from currentPage when negative', function( asser
     );
 });
 
-test( 'changePageBy() sends the changePage action', function( assert ) {
+test( 'gotoPage() sends the changePage action', function( assert ) {
     const targetObject = {
         testAction: sinon.spy()
     };
@@ -160,7 +160,7 @@ test( 'changePageBy() sends the changePage action', function( assert ) {
     });
 
     Ember.run( () => {
-        component.changePageBy( 1 );
+        component.gotoPage( 2 );
     });
 
     assert.strictEqual(
@@ -170,7 +170,7 @@ test( 'changePageBy() sends the changePage action', function( assert ) {
     );
 });
 
-test( 'changePageBy() does nothing when busy is true', function( assert ) {
+test( 'gotoPage() does nothing when busy is true', function( assert ) {
     const targetObject = {
         testAction: sinon.spy()
     };
@@ -183,7 +183,7 @@ test( 'changePageBy() does nothing when busy is true', function( assert ) {
 
     Ember.run( () => {
         component.set( 'busy', true );
-        component.changePageBy( 1 );
+        component.gotoPage( 2 );
     });
 
     assert.strictEqual(
@@ -192,10 +192,29 @@ test( 'changePageBy() does nothing when busy is true', function( assert ) {
         'currentPage was not changed'
     );
 
-    assert.strictEqual(
+    assert.notOk(
         targetObject.testAction.calledOnce,
-        false,
         'changePage action was not sent'
+    );
+});
+
+test( 'gotoPage() does nothing when page is outside of range', function( assert ) {
+    const targetObject = {
+        testAction: sinon.spy()
+    };
+
+    const component = this.subject({
+        totalPages: 2,
+        changePage: 'testAction',
+        targetObject: targetObject
+    });
+
+    component.gotoPage( 3 );
+    component.gotoPage( 0 );
+
+    assert.notOk(
+        targetObject.testAction.called,
+        'changePage action not called when page number is outside of range'
     );
 });
 
@@ -211,6 +230,11 @@ test( 'Dependent keys are correct', function( assert ) {
         'totalPages'
     ];
 
+    const rangeDependentKeys = [
+        'currentPage',
+        'totalPages'
+    ];
+
     assert.deepEqual(
         component.onFirstPage._dependentKeys,
         onFirstPageDependentKeys,
@@ -221,5 +245,11 @@ test( 'Dependent keys are correct', function( assert ) {
         component.onLastPage._dependentKeys,
         onLastPageDependentKeys,
         'Dependent keys are correct for onLastPage()'
+    );
+
+    assert.deepEqual(
+        component.range._dependentKeys,
+        rangeDependentKeys,
+        'Dependent keys are correct for range()'
     );
 });

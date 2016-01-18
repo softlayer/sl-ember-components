@@ -43,7 +43,7 @@ test( 'Default properties are set correctly', function( assert ) {
 
     assert.strictEqual(
         component.get( 'iconClass' ),
-        'caret',
+        'sl-icon-dropdown',
         '"iconClass" default value is correct'
     );
 

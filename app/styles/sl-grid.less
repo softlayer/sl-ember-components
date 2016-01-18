@@ -64,16 +64,15 @@
                 }
 
                 .sl-icon-sortable:after {
-                    content: "\e150";
-                    font-size: .85em;
+                    content: @icon-grid-sortable;
                 }
 
                 .column-descending .sl-icon-sortable:after {
-                    content: "\e094";
+                    content: @icon-grid-sorted-desc;
                 }
 
                 .column-ascending .sl-icon-sortable:after {
-                    content: "\e093";
+                    content: @icon-grid-sorted-asc;
                 }
             }
 
@@ -128,6 +127,14 @@
             bottom: 0;
         }
 
+        &> header button.close {
+            font-size: 1.4em;
+
+            .sl-icon-close::before {
+                content: @icon-grid-details-close;
+            }
+        }
+
         &> header + div {
             top: calc(1.5em ~"+" @panel-heading-padding-top ~"+" @panel-heading-padding-bottom);
 
@@ -165,4 +172,8 @@
 
 .panel .grid.sl-ember-components > div > table > thead th {
     background-color: @panel-bg;
+}
+
+.sl-icon-sortable {
+    &:extend(.sl-ember-components-icons all);
 }
