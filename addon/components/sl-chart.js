@@ -93,105 +93,6 @@ export default Ember.Component.extend({
     // Observers
 
     /**
-     * Updates the chart's height
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setHeight: Ember.observer(
-        'height',
-        function() {
-            this.$( '> .panel-body > div' ).height( this.get( 'height' ) );
-        }
-    ),
-
-    /**
-     * Sets up Highcharts initialization
-     *
-     * @private
-     * @returns {undefined}
-     */
-    setupChart() {
-        const chartDiv = this.$( '> .panel-body > div' );
-
-        this.setHeight();
-        this.setWidth();
-
-        chartDiv.highcharts( this.get( 'highchartsOptions' ) );
-        this.set( 'chart', chartDiv.highcharts() );
-        this.updateData();
-    },
-
-    /**
-     * Updates the chart's width
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setWidth: Ember.observer(
-        'width',
-        function() {
-            this.$( '> .panel-body > div' ).width( this.get( 'width' ) );
-        }
-    ),
-
-    /**
-     * Updates the chart's series data
-     *
-     * @function
-     * @returns {undefined}
-     */
-    updateData: Ember.observer(
-        'series',
-        function() {
-            const chart = this.get( 'chart' );
-            const series = this.get( 'series' );
-
-            if ( !chart.hasOwnProperty( 'series' ) ) {
-                chart.series = [];
-            }
-
-            for ( let i = 0; i < series.length; i++ ) {
-                if ( chart.series.length <= i ) {
-                    chart.addSeries( series[ i ] );
-                } else {
-                    chart.series[ i ].setData( series[ i ].data );
-                }
-            }
-        }
-    ),
-
-    // -------------------------------------------------------------------------
-    // Methods
-
-    /**
-     * Check passed parameters on initialization
-     *
-     * @private
-     * @throws {sl-ember-components/utils/error/chart} Series property must be an Array
-     * @throws {sl-ember-components/utils/error/chart} Options property must be an Object
-     * @returns {undefined}
-     */
-    initialize() {
-        if ( 'array' !== Ember.typeOf( this.get( 'series' ) ) ) {
-            throwChartError( 'Series property must be an array' );
-        }
-
-        /* jshint ignore:start */
-        const options = this.get( 'options' );
-        if (
-            (
-                'instance' !== Ember.typeOf( options ) &&
-                'object' !== Ember.typeOf( options )
-            ) ||
-            'symbol' === typeof options
-        ) {
-            throwChartError( 'Options property must be an Object' );
-        }
-        /* jshint ignore:end */
-    },
-
-    /**
      * Options for Highcharts
      *
      * @function
@@ -264,6 +165,105 @@ export default Ember.Component.extend({
 
             return options;
         }
-    )
+    ),
+
+    /**
+     * Updates the chart's height
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setHeight: Ember.observer(
+        'height',
+        function() {
+            this.$( '> .panel-body > div' ).height( this.get( 'height' ) );
+        }
+    ),
+
+    /**
+     * Updates the chart's width
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setWidth: Ember.observer(
+        'width',
+        function() {
+            this.$( '> .panel-body > div' ).width( this.get( 'width' ) );
+        }
+    ),
+
+    /**
+     * Updates the chart's series data
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateData: Ember.observer(
+        'series',
+        function() {
+            const chart = this.get( 'chart' );
+            const series = this.get( 'series' );
+
+            if ( !chart.hasOwnProperty( 'series' ) ) {
+                chart.series = [];
+            }
+
+            for ( let i = 0; i < series.length; i++ ) {
+                if ( chart.series.length <= i ) {
+                    chart.addSeries( series[ i ] );
+                } else {
+                    chart.series[ i ].setData( series[ i ].data );
+                }
+            }
+        }
+    ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
+     * Check passed parameters on initialization
+     *
+     * @private
+     * @throws {sl-ember-components/utils/error/chart} Series property must be an Array
+     * @throws {sl-ember-components/utils/error/chart} Options property must be an Object
+     * @returns {undefined}
+     */
+    initialize() {
+        if ( 'array' !== Ember.typeOf( this.get( 'series' ) ) ) {
+            throwChartError( 'Series property must be an array' );
+        }
+
+        /* jshint ignore:start */
+        const options = this.get( 'options' );
+        if (
+            (
+                'instance' !== Ember.typeOf( options ) &&
+                'object' !== Ember.typeOf( options )
+            ) ||
+            'symbol' === typeof options
+        ) {
+            throwChartError( 'Options property must be an Object' );
+        }
+        /* jshint ignore:end */
+    },
+
+    /**
+     * Sets up Highcharts initialization
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupChart() {
+        const chartDiv = this.$( '> .panel-body > div' );
+
+        this.setHeight();
+        this.setWidth();
+
+        chartDiv.highcharts( this.get( 'highchartsOptions' ) );
+        this.set( 'chart', chartDiv.highcharts() );
+        this.updateData();
+    }
 
 });
