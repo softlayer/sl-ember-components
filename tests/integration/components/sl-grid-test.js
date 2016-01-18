@@ -195,11 +195,13 @@ test( 'Pagination is displayed at the bottom of the grid and page count is corre
         'Pagination is displayed'
     );
 
-    const text = first.find( '.sl-ember-components.pagination :nth-child(2) a' ).text().replace( /\s+/g, '' );
+    const text = first.find( '.sl-ember-components.pagination li' ).filter(
+            ':not(:first-child, :last-child)'
+        ).find( 'a' ).text();
 
     assert.strictEqual(
         text,
-        '1/4',
+        '1234',
         'Page count is correct on pagination'
     );
 });
@@ -526,10 +528,9 @@ test( 'sortColumn action was fired with correct arguments when a sortable column
 
         const first = this.$( '>:first-child' );
 
-        first.find( '.sl-grid-column-header:nth-child(2)' ).click();
+        first.find( 'thead .sl-grid-column-header:nth-child(2)' ).click();
 
         const row = sortColumnSpy.getCall( 0 ).args[ 0 ];
-        let sortOrder = sortColumnSpy.getCall( 0 ).args[ 1 ] ? 'ascending' : 'descending';
 
         assert.ok(
             sortColumnSpy.calledOnce,
@@ -540,21 +541,6 @@ test( 'sortColumn action was fired with correct arguments when a sortable column
              row.id,
              columns[ 1 ].id,
              'sortColumn action handler received correct row'
-        );
-
-        assert.strictEqual(
-            sortOrder,
-            'ascending',
-            'Sort order is ascending'
-        );
-
-        first.find( '.sl-grid-column-header:nth-child(2)' ).click();
-        sortOrder = sortColumnSpy.getCall( 1 ).args[ 1 ] ? 'ascending' : 'descending';
-
-        assert.strictEqual(
-            sortOrder,
-            'descending',
-            'Sort order is descending on consecutive click'
         );
     }
 );
