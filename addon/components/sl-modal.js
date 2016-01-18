@@ -40,7 +40,8 @@ export default Ember.Component.extend( StreamEnabled, Namespace, {
 
     /** @type {String[]} */
     classNames: [
-        'modal'
+        'modal',
+        'sl-ember-components'
     ],
 
     /** @type {String[]} */

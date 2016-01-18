@@ -93,15 +93,9 @@ test( 'Icon class property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span' ).hasClass( 'caret' ),
-        true,
-        'Default component has iconClass "caret"'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span.caret' ).length,
+        this.$( '>:first-child' ).find( 'span.sl-icon-dropdown' ).length,
         1,
-        'Default rendered component includes caret icon span'
+        'Default rendered component includes sl-icon-dropdown icon span'
     );
 
     this.render( hbs`
