@@ -3,7 +3,8 @@ import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
 import Namespace from '../mixins/sl-namespace';
-import { containsValue, warn } from '../utils/all';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 
 /**
  * Valid size values for the sl-modal component

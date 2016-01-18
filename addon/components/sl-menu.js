@@ -2,7 +2,7 @@ import Ember from 'ember';
 import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-menu';
-import { warn } from '../utils/all';
+import warn from '../utils/warn';
 import { throwMenuError } from '../utils/error';
 
 /**

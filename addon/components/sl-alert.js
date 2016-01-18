@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
-import { containsValue, warn } from '../utils/all';
 import layout from '../templates/components/sl-alert';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 
 /**
  * Bootstrap theme names for alert components

@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-progress-bar';
-import { containsValue, warn } from '../utils/all';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 
 /**
  * Valid Bootstrap theme class names for progress bars

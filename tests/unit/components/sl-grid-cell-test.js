@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { ColumnAlign as ColumnAlignEnum } from 'sl-ember-components/components/sl-grid-cell';
-import * as utils from 'sl-ember-components/utils/all';
+import * as warn from 'sl-ember-components/utils/warn';
 import sinon from 'sinon';
 
 moduleForComponent( 'sl-grid-cell', 'Unit | Component | sl grid cell', {
@@ -71,7 +71,7 @@ test( 'alignmentClass() returns correct alignment value', function( assert ) {
         'null is returned when alignment is set to left'
     );
 
-    const spy = sinon.spy( utils, 'warn' );
+    const spy = sinon.spy( warn, 'default' );
     column.set( 'align', 'invalidValue' );
 
     assert.strictEqual(
@@ -85,7 +85,7 @@ test( 'alignmentClass() returns correct alignment value', function( assert ) {
         'warn was called when invalid value provided'
     );
 
-    utils.warn.restore();
+    warn.default.restore();
 });
 
 test( 'contentValue() returns the correct value', function( assert ) {

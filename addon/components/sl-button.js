@@ -2,8 +2,9 @@ import Ember from 'ember';
 import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
-import { containsValue, warn } from '../utils/all';
 import layout from '../templates/components/sl-button';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 
 /**
  * Valid size values for the sl-button component
