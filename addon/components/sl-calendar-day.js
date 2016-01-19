@@ -13,6 +13,11 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    attributeBindings: [
+        'ariaSelected:aria-selected',
+        'tabIndex'
+    ],
+
     /** @type {String[]} */
     classNameBindings: [
         'active',
@@ -87,16 +92,47 @@ export default Ember.Component.extend({
 
     date: null,
 
+    focused: false,
+
+    ariaRole: 'gridcell',
+
     // -------------------------------------------------------------------------
     // Observers
 
+    applyFocus: Ember.observer(
+        'focused',
+        function() {
+            if ( this.get( 'focused' ) ) {
+                console.log( 'focused' );
+                Ember.run.scheduleOnce( 'afterRender', this, () => {
+                    this.$().get( 0 ).focus();
+                });
+            }
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
+
+    ariaSelected: Ember.computed(
+        'active',
+        function() {
+            const active = this.get( 'active' );
+            return active ? active : null;
+        }
+    ),
 
     isToday: Ember.computed(
         'date',
         function() {
             return window.moment().isSame( this.get( 'date' ), 'day' );
+        }
+    ),
+
+    tabIndex: Ember.computed(
+        'focused',
+        function() {
+            return this.get( 'focused' ) ? 0 : null;
         }
     )
 

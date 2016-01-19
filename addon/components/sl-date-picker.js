@@ -34,6 +34,25 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     /** @type {Object} */
     actions: {
 
+        inputBlurred() {
+            this.trigger( 'focusOut' );
+
+            this.updateValue();
+        },
+
+        inputFocused() {
+            this.trigger( 'focusIn' );
+        },
+
+        inputKeyUp( value, event ) {
+            console.log( 'input key up' );
+
+            // not a tab or modifier key
+            if ( event.keyCode !== 9 && ( event.keyCode > 18 || event.keyCode < 16 ) ) {
+                this.checkInput();
+            }
+        },
+
         selectDate( date ) {
             this.selectDate( date );
         }
@@ -51,6 +70,52 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     didInsertElement() {
         this._super( ...arguments );
         this.setupDatepicker();
+    },
+
+    focusIn( event ) {
+        this._super( ...arguments );
+
+        this.set( 'hasFocus', true );
+        //this.set( 'isOpen', true );
+
+        const losingFocus = this.get( 'losingFocus' );
+        Ember.run.cancel( losingFocus );
+
+        if ( event === undefined ) {
+            return;
+        }
+
+        if ( event.target === this.$().get( 0 ) ) {
+            this.$( '> input' ).get( 0 ).focus();
+        }
+    },
+
+    focusOut( event ) {
+        this._super( ...arguments );
+
+
+        const runNext = Ember.run.next( this, () => {
+            /*if ( !this.get( 'hasFocus' ) ) {
+                this.set( 'isOpen', false );
+            }*/
+
+            this.set( 'hasFocus', false );
+        });
+
+        this.set( 'losingFocus', runNext );
+    },
+
+    init() {
+        this._super( ...arguments );
+
+        if ( !this.get( 'format' ) ) {
+            const format = window.moment().localeData().longDateFormat( 'L' );
+            this.set( 'format', format );
+        }
+    },
+
+    keyPress() {
+        console.log( 'date picker: keypress' );
     },
 
     /**
@@ -137,9 +202,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      * - M, MM: Abbreviated and full month names, respectively
      * - yy, yyyy: 2- and 4-digit years, respectively
      *
-     * @type {String}
+     * @type {?String}
      */
-    format: 'mm/dd/yyyy',
+    format: null,
 
     /**
      * The help text below the datepicker
@@ -265,12 +330,25 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      */
     weekStart: 0,
 
-    isOpen: false,
-
     locale: 'en',
+
+    selectedDate: null,
+
+    hasFocus: false,
+
+    losingFocus: false,
 
     // -------------------------------------------------------------------------
     // Observers
+
+    // close calendar and set value with formatting
+    dateSelected: Ember.observer(
+        'selectedDate',
+        function() {
+            this.updateValue();
+            //this.set( 'isOpen', false );
+        }
+    ),
 
     /**
      * Datepicker plugin options
@@ -281,7 +359,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     options: Ember.computed(
         function() {
             return {
-                autoclose: this.get( 'autoclose' ),
+                /*autoclose: this.get( 'autoclose' ),
                 calendarWeeks: this.get( 'calendarWeeks' ),
                 clearBtn: this.get( 'clearBtn' ),
                 daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
@@ -298,7 +376,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
                 startView: this.get( 'startView' ),
                 todayBtn: this.get( 'todayBtn' ),
                 todayHighlight: this.get( 'todayHighlight' ),
-                weekStart: this.get( 'weekStart' )
+                weekStart: this.get( 'weekStart' )*/
             };
         }
     ),
@@ -328,11 +406,48 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     // -------------------------------------------------------------------------
     // Methods
 
-    selectDate( date ) {
-        const format = window.moment().localeData().longDateFormat( 'L' );
+    checkInput() {
+        let value = this.get( 'value' );
+        const format = this.get( 'format' );
+        const parseFormats = this.get( 'parseFormats' );
 
-        this.set( 'value', date.format( format ) );
-        this.set( 'isOpen', false );
+        //console.log( 'from value observer: ', this.get( 'value' ) );
+
+        value = value.replace(/\W+/g, "-");
+
+        const date = window.moment( value, parseFormats, this.get( 'locale' ), true );
+        //console.log( 'date entered: ', date.format( format ) );
+        //return;
+        if ( date.isValid() ) {
+            this.set( 'selectedDate', date );
+        }
+    },
+
+    parseFormats: Ember.computed(
+        'locale',
+        function() {
+            const formats = Ember.A();
+            const localeData = window.moment().localeData();
+
+            formats.push(
+                localeData.longDateFormat('L').replace(/\W+/g, "-"),
+                localeData.longDateFormat('LL').replace(/\W+/g, "-"),
+                localeData.longDateFormat('L').replace('DD', 'D').replace('MM', 'M').replace(/\W+/g, "-")
+            );
+
+            return formats;
+        }
+    ),
+
+    viewingDate: Ember.computed(
+        'selectedDate',
+        function() {
+            return this.get( 'selectedDate' );
+        }
+    ),
+
+    selectDate( date ) {
+        this.set( 'selectedDate', date );
     },
 
     /**
@@ -348,12 +463,6 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         datepicker.on( this.namespaceEvent( 'changeDate' ), () => {
             this.sendAction();
         });*/
-        const context = this;
-
-        this.$( '> input' ).on( 'focus', function() {
-            context.set( 'isOpen', true );
-            console.log( 'opening' );
-        });
     },
 
     /**
@@ -364,5 +473,16 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      */
     unregisterEvents() {
         //this.$( 'input.date-picker' ).off( this.namespaceEvent( 'changeDate' ) );
+    },
+
+    updateValue() {
+        const date = this.get( 'selectedDate' );
+        const format = this.get( 'format' );
+
+        if ( date === null ) {
+            return;
+        }
+
+        this.set( 'value', date.format( format ) );
     }
 });

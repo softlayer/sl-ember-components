@@ -9,16 +9,21 @@
     id=inputId
     placeholder=placeholder
     value=value
+    focus-in="inputFocused"
+    focus-out="inputBlurred"
+    key-up="inputKeyUp"
 }}
 
-{{#if isOpen}}
-    <div class="popover bottom show">
+{{#if hasFocus}}
+    <div class="popover bottom show" style="top: auto;">
         <div class="arrow"></div>
         <div class="popover-content">
             {{sl-calendar
                 action="selectDate"
                 fixedWeekCount=true
                 locale=locale
+                selectedDate=selectedDate
+                viewingDate=viewingDate
             }}
         </div>
     </div>

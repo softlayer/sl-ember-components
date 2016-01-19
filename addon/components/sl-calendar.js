@@ -13,6 +13,10 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    attributeBindings: [
+        'tabIndex'
+    ],
+
     /** @type {String[]} */
     classNameBindings: [
         'locked:sl-calendar-locked'
@@ -161,6 +165,94 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    focusIn() {
+        this._super( ...arguments );
+
+        console.log( 'calendar focus in' );
+        this.set( 'hasFocus', true );
+    },
+
+    focusOut() {
+        this._super( ...arguments );
+
+        console.log( 'calendar focus out' );
+        this.set( 'hasFocus', false );
+    },
+
+    keyDown( event ) {
+        this._super( ...arguments );
+
+        // handle wai-aria here
+        // https://www.w3.org/TR/2009/WD-wai-aria-practices-20090224/#datepicker
+        // https://web.archive.org/web/20130127091925/http://codetalks.org/source/widgets/datepicker/datepicker.sample.html
+
+        const viewingDate = window.moment( this.get( 'viewingDate' ) );
+
+        let timePeriod;
+
+        switch ( event.keyCode ) {
+            case 38: // up arrow
+                this.set( 'viewingDate', viewingDate.subtract( 1, 'weeks' ) );
+                break;
+
+            case 40: // down arrow
+                this.set( 'viewingDate', viewingDate.add( 1, 'weeks' ) );
+                break;
+
+            case 37: // left arrow
+                this.set( 'viewingDate', viewingDate.subtract( 1, 'days' ) );
+                break;
+
+            case 39: // right arrow
+                this.set( 'viewingDate', viewingDate.add( 1, 'days' ) );
+                break;
+
+            case 33: // page up
+                timePeriod = 'months';
+                if ( event.shiftKey ) {
+                    timePeriod = 'years';
+                }
+                this.set( 'viewingDate', viewingDate.subtract( 1, timePeriod ) );
+                break;
+
+            case 34: // page down
+                timePeriod = 'months';
+                if ( event.shiftKey ) {
+                    timePeriod = 'years';
+                }
+                this.set( 'viewingDate', viewingDate.add( 1, timePeriod ) );
+                break;
+
+            case 35: // end
+                timePeriod = 'month';
+                if ( event.ctrlKey ) {
+                    timePeriod = 'year';
+                }
+                this.set( 'viewingDate', viewingDate.endOf( timePeriod ) );
+                break;
+
+            case 36: // home
+                timePeriod = 'month';
+                if ( event.ctrlKey ) {
+                    timePeriod = 'year';
+                }
+                this.set( 'viewingDate', viewingDate.startOf( timePeriod ) );
+                break;
+
+            case 32: // space
+
+            case 13: // enter
+                this.set( 'selectedDate', viewingDate );
+                break;
+
+            default:
+                return true;
+        }
+
+        // disallow default key event
+        return false;
+    },
+
     /**
      * Initialize default property values
      *
@@ -242,6 +334,10 @@ export default Ember.Component.extend({
 
     selectedDate: null,
 
+    focusable: true,
+
+    hasFocus: false,
+
     /**
      * The current view mode for the calendar
      *
@@ -257,6 +353,7 @@ export default Ember.Component.extend({
 
     setDate( date ) {
         this.set( 'selectedDate', window.moment( date ) );
+        this.set( 'viewingDate', window.moment( date ) );
     },
 
     setMonth( month ) {
@@ -290,6 +387,13 @@ export default Ember.Component.extend({
         'viewingDate',
         function() {
             return this.get( 'viewingDate' ).year();
+        }
+    ),
+
+    tabIndex: Ember.computed(
+        'focusable',
+        function() {
+            return this.get( 'focusable' ) ? 0 : -1;
         }
     ),
 
@@ -516,11 +620,13 @@ export default Ember.Component.extend({
         'selectedDate',
         'fixedWeekCount',
         'locale',
+        'viewingDate',
         function() {
             const weeks = Ember.A();
 
             const showingMonth = this.get( 'showingMonth' );
             const selectedDate = this.get( 'selectedDate' );
+            const viewingDate = this.get( 'viewingDate' );
 
             let firstOfMonth = window.moment( '01-' + showingMonth + '-' + this.get( 'showingYear' ), 'DD-MM-YYYY' ).locale( this.get( 'locale' ) );
             let firstDayOfWeek = firstOfMonth.localeData().firstDayOfWeek();
@@ -553,7 +659,7 @@ export default Ember.Component.extend({
                     }
 
                     if ( selectedDate ) {
-                        isActive = nextDayToShow.isSame( selectedDate );
+                        isActive = nextDayToShow.isSame( selectedDate, 'day' );
                     }
 
                     const day = {
@@ -561,6 +667,7 @@ export default Ember.Component.extend({
                         day: nextDayToShow.date(),
                         old: inPrevMonth,
                         new: inNextMonth,
+                        focused: nextDayToShow.isSame( viewingDate, 'day' ),
                         active: isActive
                     };
                     days.push( day );

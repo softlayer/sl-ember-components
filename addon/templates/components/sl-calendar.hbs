@@ -1,7 +1,7 @@
 <div class="datepicker datepicker-inline">
     {{#if viewingDays}}
         <div class="datepicker-days">
-            <table class="table-condensed">
+            <table class="table-condensed" role="grid">
                 <thead>
                     <tr>
                         <th {{action "changeMonth" -1}} class="sl-icon-prev">
@@ -16,7 +16,7 @@
                     </tr>
                     <tr>
                         {{#each shortWeekDayNames as |dayName|}}
-                            <th class="dow">{{dayName}}</th>
+                            <th class="dow" role="columnheader">{{dayName}}</th>
                         {{/each}}
                     </tr>
                 </thead>
@@ -32,6 +32,7 @@
                                     new=day.new
                                     old=day.old
                                     date=day.date
+                                    focused=day.focused
                                 }}
                             {{/each}}
                         </tr>
@@ -43,7 +44,7 @@
 
     {{#if viewingMonths}}
         <div class="datepicker-months">
-            <table class="table-condensed">
+            <table class="table-condensed" role="grid">
                 <thead>
                     <tr>
                         <th {{action "changeYear" -1}} class="sl-icon-prev">
@@ -79,7 +80,7 @@
 
     {{#if viewingYears}}
         <div class="datepicker-years">
-            <table class="table-condensed">
+            <table class="table-condensed" role="grid">
                 <thead>
                     <tr>
                         <th {{action "changeDecade" -1}} class="sl-icon-prev">
