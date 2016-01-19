@@ -22,8 +22,7 @@ export default Ember.Component.extend( ComponentClassPrefix, ComponentInputId, N
 
     /** @type {String[]} */
     classNames: [
-        'form-group',
-        'sl-date-picker'
+        'form-group'
     ],
 
     /** @type {Object} */

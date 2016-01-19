@@ -48,8 +48,7 @@ module.exports = {
             var compiledLessTree = compileLess(
                 new Funnel( path.join( this.nodeModulesPath, '../', 'app' ) ),
                 'styles/' + this.name + '.less',
-                this.getCssFileName(),
-                {
+                this.getCssFileName(), {
                     modifyVars: {
                         'component-class-prefix': componentClassPrefix
                     }

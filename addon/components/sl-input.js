@@ -14,7 +14,7 @@ import layout from '../templates/components/sl-input';
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( ComponentInputId, InputBased, Namespace, TooltipEnabled, {
+export default Ember.Component.extend( ComponentClassPrefix, ComponentInputId, InputBased, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -24,8 +24,7 @@ export default Ember.Component.extend( ComponentInputId, InputBased, Namespace, 
 
     /** @type {String[]} */
     classNames: [
-        'form-group',
-        'sl-input'
+        'form-group'
     ],
 
     /** @type {Object} */

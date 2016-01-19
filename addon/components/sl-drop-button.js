@@ -75,6 +75,14 @@ export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
     align: Align.LEFT,
 
     /**
+     * Component class that will be prefixed
+     * with base class
+     *
+     * @type {String}
+     */
+    componentClass: 'drop-button',
+
+    /**
      * Array of dropdown options
      *
      * @type {?Object[]}

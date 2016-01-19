@@ -1,4 +1,8 @@
-.sl-ember-components.calendar {
+.@{component-class-prefix}-calendar{
+    .sl-icon-previous, .sl-icon-next {
+        &:extend( .sl-ember-components-icons all );
+    }
+
     .sl-icon-previous::before {
         content: @icon-calendar-previous;
     }
@@ -12,12 +16,4 @@
     .datepicker-years {
         display: block;
     }
-}
-
-.sl-icon-previous {
-    &:extend(.sl-ember-components-icons all);
-}
-
-.sl-icon-next {
-    &:extend(.sl-ember-components-icons all);
 }

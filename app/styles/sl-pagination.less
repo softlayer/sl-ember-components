@@ -1,6 +1,10 @@
-.sl-ember-components.pagination {
+.@{component-class-prefix}-pagination{
     .sl-pagination-button {
         cursor: pointer;
+    }
+
+    .sl-icon-previous, .sl-icon-next {
+        &:extend(.sl-ember-components-icons all);
     }
 
     .sl-icon-next::before {
@@ -12,10 +16,3 @@
     }
 }
 
-.sl-icon-previous {
-    &:extend(.sl-ember-components-icons all);
-}
-
-.sl-icon-next {
-    &:extend(.sl-ember-components-icons all);
-}
