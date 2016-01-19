@@ -14,11 +14,6 @@ export default Ember.Component.extend({
     // Attributes
 
     /** @type {String[]} */
-    attributeBindings: [
-        'ariaRole:role'
-    ],
-
-    /** @type {String[]} */
     classNameBindings: [
         'isDivider:divider'
     ],
