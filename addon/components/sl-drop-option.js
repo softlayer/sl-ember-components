@@ -13,8 +13,10 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /** @type {String} */
-    ariaRole: 'menuitem',
+    /** @type {String[]} */
+    attributeBindings: [
+        'ariaRole:role'
+    ],
 
     /** @type {String[]} */
     classNameBindings: [
@@ -79,6 +81,21 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * The aria-role attribute value based on isDivider
+     *
+     * @function
+     * @returns {String}
+     */
+    ariaRole: Ember.computed(
+        'isDivider',
+        function() {
+            const isDivider = this.get( 'isDivider' );
+
+            return isDivider ? 'separator' : 'menuitem';
+        }
+    ),
 
     /**
      * Whether or not the option represents a divider placeholder

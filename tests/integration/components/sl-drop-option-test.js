@@ -17,8 +17,8 @@ test( 'Default rendered state', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),
-        'menuitem',
-        'ARIA role is properly set to "menuitem"'
+        'separator',
+        'ARIA role is properly set to "separator"'
     );
 });
 
@@ -39,6 +39,18 @@ test( 'divider class depends on `label` value', function( assert ) {
     assert.notOk(
         this.$( '>:first-child' ).hasClass( 'divider' ),
         'Rendered component does not have class "divider"'
+    );
+});
+
+test( 'aria-role properly set for non-separator', function( assert ) {
+    this.render( hbs`
+        {{sl-drop-option label="test"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'role' ),
+        'menuitem',
+        'ARIA role is properly set to "menuitem"'
     );
 });
 
