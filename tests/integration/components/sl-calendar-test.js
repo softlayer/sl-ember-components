@@ -343,6 +343,8 @@ test( 'Action fires when day is clicked', function( assert ) {
 
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.set( 'currentYear', 2022 );
 
     this.set( 'currentMonth', 9 );
@@ -363,6 +365,8 @@ test( 'Action fires when day is clicked', function( assert ) {
             true,
             'The test action was called'
         );
+
+        done();
     });
 
     this.$( '>:first-child' ).find( '.active' ).click();
@@ -371,6 +375,8 @@ test( 'Action fires when day is clicked', function( assert ) {
 skip( 'Action passes through expected objects in content array', function( assert ) {
 
     assert.expect( 8 );
+
+    const done = assert.async();
 
     this.set( 'currentYear', 2022 );
 
@@ -440,6 +446,8 @@ skip( 'Action passes through expected objects in content array', function( asser
                 'The label property was passed through'
             );
         }
+
+        done();
     });
 
     this.$( '>:first-child' ).find( '.active' ).click();

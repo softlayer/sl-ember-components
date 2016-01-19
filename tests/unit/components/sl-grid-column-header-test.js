@@ -90,6 +90,8 @@ test( 'Click event returns column with sortable column', function( assert ) {
 
     assert.expect( 1 );
 
+    const done = assert.async();
+
     // This click should not cause the initial assertion to run
     this.$().trigger( 'click' );
 
@@ -102,6 +104,8 @@ test( 'Click event returns column with sortable column', function( assert ) {
                 column,
                 'onClick passed expected column definition'
             );
+
+            done();
         };
     });
 
