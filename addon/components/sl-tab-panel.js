@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-tab-panel';
-import { containsValue, warn } from '../utils/all';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 
 /**
  * Valid `align` property values

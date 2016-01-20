@@ -59,16 +59,15 @@
                 }
 
                 .sl-icon-sortable:after {
-                    content: "\e150";
-                    font-size: .85em;
+                    content: @icon-grid-sortable;
                 }
 
                 .column-descending .sl-icon-sortable:after {
-                    content: "\e094";
+                    content: @icon-grid-sorted-desc;
                 }
 
                 .column-ascending .sl-icon-sortable:after {
-                    content: "\e093";
+                    content: @icon-grid-sorted-asc;
                 }
             }
 
@@ -123,6 +122,14 @@
             bottom: 0;
         }
 
+        &> header button.close {
+            font-size: 1.4em;
+
+            .sl-icon-close::before {
+                content: @icon-grid-details-close;
+            }
+        }
+
         &> header + div {
             top: calc(1.5em ~"+" @panel-heading-padding-top ~"+" @panel-heading-padding-bottom);
 
@@ -156,4 +163,8 @@
     & > header + div:nth-last-child(3), & > header + div:nth-last-child(3) + div {
         /* height: calc(100% - 3.75em); */
     }
+}
+
+.sl-icon-sortable {
+    &:extend(.sl-ember-components-icons all);
 }

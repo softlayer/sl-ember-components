@@ -65,31 +65,43 @@ test( 'Default rendered state', function( assert ) {
     );
 });
 
-test( 'sr-only class is set on child element when parent element has an icon class', function( assert ) {
+test( 'Next and Previous buttons have appropriate classes', function( assert ) {
     this.render( hbs`
         {{sl-calendar}}
     ` );
 
-    const getIcons = () => this.$( '>:first-child' ).find( '[class^="sl-icon-"]' );
-    const classIsPresent = ( element ) => 1 === Ember.$( element ).find( '.sr-only' ).length;
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
+        'day view has previous button class'
+    );
 
     assert.ok(
-        getIcons().toArray().every( classIsPresent ),
-        'sr-only class is present on month icons'
+        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
+        'day view has next button class'
     );
 
     this.$( '.datepicker-switch' ).click();
 
     assert.ok(
-        getIcons().toArray().every( classIsPresent ),
-        'sr-only class is present on year icons'
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
+        'month view has previous button class'
+    );
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
+        'month view has next button class'
     );
 
     this.$( '.datepicker-switch' ).click();
 
     assert.ok(
-        getIcons().toArray().every( classIsPresent ),
-        'sr-only class is present on decade icons'
+        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
+        'year view has previous button class'
+    );
+
+    assert.ok(
+        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
+        'year view has next button class'
     );
 });
 
@@ -331,6 +343,8 @@ test( 'Action fires when day is clicked', function( assert ) {
 
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.set( 'currentYear', 2022 );
 
     this.set( 'currentMonth', 9 );
@@ -351,6 +365,8 @@ test( 'Action fires when day is clicked', function( assert ) {
             true,
             'The test action was called'
         );
+
+        done();
     });
 
     this.$( '>:first-child' ).find( '.active' ).click();
@@ -359,6 +375,8 @@ test( 'Action fires when day is clicked', function( assert ) {
 skip( 'Action passes through expected objects in content array', function( assert ) {
 
     assert.expect( 8 );
+
+    const done = assert.async();
 
     this.set( 'currentYear', 2022 );
 
@@ -428,6 +446,8 @@ skip( 'Action passes through expected objects in content array', function( asser
                 'The label property was passed through'
             );
         }
+
+        done();
     });
 
     this.$( '>:first-child' ).find( '.active' ).click();
@@ -589,7 +609,7 @@ test( 'Navigating Backward by Month', function( assert ) {
         'The current month is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -643,7 +663,7 @@ test( 'Navigating Backward by Year', function( assert ) {
         'The current year is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -695,7 +715,7 @@ test( 'Navigating Backward by Decade', function( assert ) {
         'The current Decade is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -933,7 +953,7 @@ test( 'Navigating Backward by Month Crosses to Previous Year', function( assert 
         'The current month is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -970,7 +990,7 @@ test( 'All Twelve Months are Displayed in Order', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span:not(.sr-only)' ).text().trim(),
+        this.$( '>:first-child' ).find( 'tbody span' ).text().trim(),
         'JanFebMarAprMayJunJulAugSepOctNovDec',
         'Twelve months are listed in order'
     );
@@ -988,7 +1008,7 @@ test( 'Twelve Years are Displayed in Order', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span:not(.sr-only)' ).text().trim(),
+        this.$( '>:first-child' ).find( 'tbody span' ).text().trim(),
         '201920202021202220232024202520262027202820292030',
         'Twelve years are listed in order'
     );
@@ -1098,7 +1118,7 @@ test( 'Dual instance: Navigating Backward by Month', function( assert ) {
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -1162,7 +1182,7 @@ test( 'Dual instance: Navigating Backward by Year', function( assert ) {
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -1226,7 +1246,7 @@ test( 'Dual instance: Navigating Backward by Decade', function( assert ) {
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
@@ -1444,7 +1464,7 @@ test( 'Dual instance: Navigating Backward by Month Crosses to Previous Year', fu
         }}
     ` );
 
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-prev' ).click();
+    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),

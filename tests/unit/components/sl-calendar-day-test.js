@@ -98,6 +98,10 @@ test( 'Property "day" populates component content', function( assert ) {
 });
 
 test( 'Action bindings sends action with expected day content', function( assert ) {
+    assert.expect( 1 );
+
+    const done = assert.async();
+
     const dayContent = { day: 42 };
 
     this.subject({
@@ -110,11 +114,11 @@ test( 'Action bindings sends action with expected day content', function( assert
                     dayContent,
                     'Test action fired with expected value'
                 );
+
+                done();
             }
         }
     });
-
-    assert.expect( 1 );
 
     this.$().trigger( 'click' );
 });
