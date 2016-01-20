@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
 
