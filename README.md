@@ -225,7 +225,7 @@ To get started, you will need to add a config value to your `ember-cli-build.js`
 ```
 var app = new EmberApp(defaults, {
     slEmberComponents: {
-        componentClassPrefix: 'my-prefix'
+        componentClassPrefix: 'my-prefix' // specify your custom prefix here
     }
 });
 ```
@@ -241,7 +241,7 @@ If you are using LESS then you will need to set a `component-class-prefix` varia
 
 You should now be able to target components using your custom prefix e.g in the case of `sl-grid` you should now be able to use the CSS class selector `.my-prefix-grid`.
 
-*Note: If you have already served your application, remember to re-serve after making changes to the `ember-cli-build.js` file, so changes can take affect.*
+*Note: If you have already served your application, remember to re-serve after making changes to the `ember-cli-build.js` file so changes can take affect.*
 
 
 ### Icons
