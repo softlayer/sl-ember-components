@@ -10,11 +10,6 @@ test( 'Default rendered state', function( assert ) {
         {{sl-drop-option}}
     ` );
 
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-drop-option' ),
-        'Rendered component has class "sl-drop-option"'
-    );
-
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),
         'menuitem',

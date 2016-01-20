@@ -19,11 +19,6 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'form-group' ),
         'Has class "form-group"'
     );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-checkbox' ),
-        'Has class "sl-checkbox"'
-    );
 });
 
 test( 'Disabled state applies class and disables input', function( assert ) {

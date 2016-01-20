@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { Align as alignEnum } from 'sl-ember-components/components/sl-drop-button';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import {
     Size as ButtonSize,
     Theme as ButtonTheme
@@ -14,8 +15,21 @@ moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default properties are set correctly', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'drop-button',
+        'componentClass is set to drop-button'
+    );
 
     assert.strictEqual(
         component.get( 'title' ),

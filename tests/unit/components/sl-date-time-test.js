@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 
 moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
     unit: true
@@ -8,17 +9,27 @@ moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        TooltipEnabledMixin.detect( this.subject({ timezone: 'America/Chicago' }) ),
+        ComponentClassPrefix.detect(
+            this.subject({ timezone: 'America/Chicago' })
+        ),
+       'ComponentClassPrefix Mixin is present'
+    );
+
+    assert.ok(
+        TooltipEnabledMixin.detect(
+            this.subject({ timezone: 'America/Chicago' })
+        ),
         'TooltipEnabled Mixin is present'
     );
 });
 
 test( 'Default property values', function( assert ) {
-    this.subject({ timezone: 'America/Chicago' });
+    const component = this.subject({ timezone: 'America/Chicago' });
 
-    assert.ok(
-        this.$().hasClass( 'sl-datetime' ),
-        'Default rendered component has class "sl-datetime"'
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'date-time',
+        'componentClass is set to date-picker'
     );
 });
 

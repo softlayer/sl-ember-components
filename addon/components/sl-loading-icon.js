@@ -18,11 +18,6 @@ export default Ember.Component.extend( ComponentClassPrefix, {
         'inverse:loading-icon-light:loading-icon-dark'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'loading-icon'
-    ],
-
     /** @type {String} */
     tagName: 'span',
 

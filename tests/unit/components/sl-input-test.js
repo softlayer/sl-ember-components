@@ -31,6 +31,12 @@ test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
+        component.get( 'componentClass' ),
+        'input',
+        'componentClass is set to input'
+    );
+
+    assert.strictEqual(
         component.get( 'clickToEdit' ),
         false,
         'clickToEdit property false by default'

@@ -40,16 +40,6 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "sl-ember-components"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'calendar' ),
-        'Has class "calendar"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'datepicker' ),
         'First child of component has class "datepicker"'
     );

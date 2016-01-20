@@ -19,11 +19,6 @@ export default Ember.Component.extend( ComponentClassPrefix, {
         'locked:sl-calendar-locked'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'calendar'
-    ],
-
     /** @type {Object} */
     layout,
 

@@ -11,16 +11,6 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'loading-icon' ),
-        'Has class "sl-loading-icon"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "sl-loading-icon"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).hasClass( 'loading-icon-dark' ),
         'Has class "sl-loading-icon-dark"'
     );

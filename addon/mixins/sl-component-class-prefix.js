@@ -4,9 +4,10 @@ import config from 'ember-get-config';
 export default Ember.Mixin.create({
     init() {
         this._super( ...arguments );
+        this.classNames.push( this.getComponentClassName() );
+    },
 
-        let componentClass = `${config.componentClassPrefix}-${this.componentClass}`;
-        this.classNames.push( componentClass );
+    getComponentClassName() {
+        return `${config.componentClassPrefix}-${this.componentClass}`;
     }
-
 });

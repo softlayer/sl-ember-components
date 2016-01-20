@@ -15,11 +15,6 @@ test( 'Default classes are applied', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'pagination' ),
         'Default rendered component has class "pagination"'
     );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Default rendered component has class "sl-ember-components"'
-    );
 });
 
 test( 'The totalPages property is bound to the total pages display', function( assert ) {

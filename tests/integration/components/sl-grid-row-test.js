@@ -6,19 +6,6 @@ moduleForComponent( 'sl-grid-row', 'Integration | Component | sl grid row', {
     integration: true
 });
 
-const defaultTemplate = hbs`
-    {{sl-grid-row}}
-`;
-
-test( 'Default rendered state', function( assert ) {
-    this.render( defaultTemplate );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-grid-row' ),
-        'sl-grid-row class is present'
-    );
-});
-
 test( 'Active row class is supported', function( assert ) {
     const row = {};
 

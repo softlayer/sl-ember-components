@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import TooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import sinon from 'sinon';
@@ -9,6 +10,11 @@ moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
 });
 
 test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+
     assert.ok(
         ComponentInputId.detect( this.subject() ),
         'sl-component-input-id mixin is present'
@@ -39,6 +45,12 @@ test( 'Default properties are set correctly', function( assert ) {
         component.get( 'clearBtn' ),
         false,
         '"clearBtn" default value is correct'
+    );
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'date-picker',
+        'componentClass is set to date-picker'
     );
 
     assert.deepEqual(

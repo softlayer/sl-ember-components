@@ -1,9 +1,9 @@
 .@{component-class-prefix}-drop-button{
-    .sl-icon-dropdown {
-        &:extend( .sl-ember-components-icons all );
-
-        &::before {
-            content: @icon-drop-button-open;
-        }
+    .sl-icon-dropdown::before {
+        content: @icon-drop-button-open;
     }
+}
+
+.sl-icon-dropdown {
+    &:extend( .sl-ember-components-icons all );
 }

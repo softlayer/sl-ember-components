@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
 
 /**
  * @module
@@ -17,11 +18,6 @@ export default Ember.Component.extend({
         'active:active'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'sl-grid-row'
-    ],
-
     /** @type {String} */
     tagName: 'tr',
 
@@ -37,7 +33,8 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     click( event ) {
-        if ( this.$( event.target ).closest( '.sl-drop-button' ).length < 1 ) {
+        const dropButtonClass = `.${config.componentClassPrefix}-drop-button`;
+        if ( this.$( event.target ).closest( dropButtonClass ).length < 1 ) {
             this.sendAction( 'onClick', this );
         }
     },

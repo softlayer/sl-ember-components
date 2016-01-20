@@ -17,11 +17,6 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-textarea' ),
-        'Has class "sl-textarea"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).find( 'textarea' ).hasClass( 'form-control' ),
         'Has class "form-control"'
     );

@@ -21,11 +21,6 @@ export default Ember.Component.extend({
         'optionType'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'sl-drop-option'
-    ],
-
     /** @type {Object} */
     layout,
 

@@ -1,13 +1,27 @@
 import Ember from 'ember';
 import sinon from 'sinon';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-pagination', 'Unit | Component | sl pagination', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'pagination',
+        'componentClass is set to pagination'
+    );
 
     assert.strictEqual(
         component.get( 'tagName' ),

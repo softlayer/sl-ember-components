@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';
@@ -35,6 +36,11 @@ const mockStreamService = {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+
+    assert.ok(
        StreamEnabledMixin.detect( this.subject() ),
        'StreamEnabled Mixin is present'
     );
@@ -47,6 +53,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'button',
+        'componentClass is set to button'
+    );
 
     assert.strictEqual(
         component.get( 'tagName' ),

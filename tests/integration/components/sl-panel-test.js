@@ -20,11 +20,6 @@ test( 'Default rendered state', function( assert ) {
         'Default rendered component has class "panel-default"'
     );
 
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Default rendered component has class "sl-ember-components"'
-    );
-
     const panelBody = this.$( '>:first-child' ).find( '> .panel-body' );
 
     assert.strictEqual(

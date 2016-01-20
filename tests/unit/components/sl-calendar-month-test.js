@@ -23,13 +23,6 @@ test( 'Default state is inactive', function( assert ) {
     );
 });
 
-test( 'Component has "month" class by default', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'month' ),
-        '"month" class is present'
-    );
-});
-
 test( 'Active state is set correctly', function( assert ) {
     const component = this.subject({ active: true });
 

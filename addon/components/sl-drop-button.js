@@ -35,8 +35,7 @@ export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'btn-group',
-        'sl-drop-button'
+        'btn-group'
     ],
 
     /** @type {Object} */

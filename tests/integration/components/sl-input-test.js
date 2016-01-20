@@ -29,11 +29,6 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-input' ),
-        'Has class "sl-input"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).find( 'input' ).hasClass( 'form-control' ),
         'Has class "form-control"'
     );

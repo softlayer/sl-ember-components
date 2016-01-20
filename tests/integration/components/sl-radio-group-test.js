@@ -17,11 +17,6 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'form-group' ),
         'Has class "form-group"'
     );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-radio-group' ),
-        'Has class "sl-radio-group"'
-    );
 });
 
 test( 'The disabled state applies the disabled attribute and class', function( assert ) {

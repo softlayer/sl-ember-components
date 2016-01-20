@@ -21,11 +21,6 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-tab-pane' ),
-        'Has class "sl-tab-pane"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).hasClass( 'tab-pane' ),
         'Has class "tab-pane"'
     );

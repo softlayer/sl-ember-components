@@ -1,7 +1,8 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import { Wrap as WrapEnum, Direction as DirectionEnum } from 'sl-ember-components/components/sl-textarea';
 
 const Direction = {
@@ -34,10 +35,21 @@ test( 'Expected Mixins are present', function( assert ) {
         ComponentInputId.detect( this.subject() ),
         'ComponentInputId Mixin is present'
     );
+
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
 });
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'textarea',
+        'componentClass is set to textarea'
+    );
 
     assert.strictEqual(
         component.get( 'autofocus' ),

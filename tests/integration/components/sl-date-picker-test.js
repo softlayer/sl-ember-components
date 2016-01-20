@@ -27,11 +27,6 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        first.hasClass( 'sl-date-picker' ),
-        'Default rendered component has class "sl-date-picker"'
-    );
-
-    assert.ok(
         input.hasClass( 'date-picker' ),
         'Default rendered input has class "date-picker"'
     );

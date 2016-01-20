@@ -1,5 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import { Theme } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
 
@@ -8,6 +9,11 @@ moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
 });
 
 test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+
     assert.ok(
         TooltipEnabledMixin.detect( this.subject() ),
         'TooltipEnabled Mixin is present'
@@ -21,6 +27,12 @@ test( 'Default property values are set correctly', function( assert ) {
         component.get( 'ariaRole' ),
         'alert',
         'ariaRole: "alert"'
+    );
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'alert',
+        'componentClass is set to alert'
     );
 
     assert.strictEqual(

@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import sinon from 'sinon';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 
 moduleForComponent(
@@ -18,6 +19,11 @@ moduleForComponent(
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+
+    assert.ok(
         ComponentInputId.detect( this.subject() ),
         'sl-component-input-id mixin is present'
     );
@@ -25,6 +31,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'daterange-picker',
+        'componentClass is set to daterange-picker'
+    );
 
     assert.strictEqual(
         component.get( 'endDateValue' ),

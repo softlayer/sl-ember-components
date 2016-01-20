@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 import { skip } from 'qunit';
@@ -13,6 +14,13 @@ moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
@@ -24,6 +32,12 @@ test( 'Default property values are set correctly', function( assert ) {
 
     const today = new Date();
     const month = today.getMonth() + 1;
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'calendar',
+        'componentClass is set to button'
+    );
 
     assert.strictEqual(
         component.get( 'currentMonth' ),

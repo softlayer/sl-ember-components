@@ -14,16 +14,6 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-      this.$( '>:first-child' ).hasClass( 'chart' ),
-      'has class "chart"'
-    );
-
-    assert.ok(
-      this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-      'has class "sl-ember-components"'
-    );
-
-    assert.ok(
       this.$( '>:first-child' ).hasClass( 'panel' ),
       'has class "panel"'
     );

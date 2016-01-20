@@ -52,16 +52,6 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-menu' ),
-        'Has class "sl-menu"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "sl-ember-components"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).find( 'ul' ).hasClass( 'list-unstyled' ),
         'Has class "list-unstyled"'
     );

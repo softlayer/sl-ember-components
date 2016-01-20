@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import sinon from 'sinon';
 
@@ -54,6 +55,11 @@ moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+
+    assert.ok(
         StreamEnabledMixin.detect( this.subject() ),
         'StreamEnabled Mixin is present'
     );
@@ -61,6 +67,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'menu',
+        'componentClass is set to menu'
+    );
 
     assert.strictEqual(
         component.get( 'allowShowAll' ),

@@ -19,11 +19,6 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "alert"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).hasClass( 'alert-info' ),
         'Default theme class is applied'
     );

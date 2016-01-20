@@ -24,11 +24,6 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Tooltip
         'inline::form-group'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'sl-checkbox'
-    ],
-
     /** @type {Object} */
     layout,
 

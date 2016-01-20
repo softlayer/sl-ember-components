@@ -35,11 +35,6 @@ export default Ember.Component.extend( ComponentClassPrefix, Namespace, {
         'detailComponent:hasDetails'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'grid'
-    ],
-
     /** @type {Object} */
     layout,
 

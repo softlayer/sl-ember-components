@@ -37,18 +37,6 @@ moduleForComponent( 'sl-grid', 'Integration | Component | sl grid', {
     integration: true
 });
 
-test( 'Default rendered state', function( assert ) {
-    this.render( hbs`{{sl-grid}}` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'grid' )
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' )
-    );
-});
-
 test( 'Content is yielded', function( assert ) {
     this.render( defaultTemplate );
 
@@ -94,7 +82,7 @@ test( 'Setting "sortable" property within the columns property to true applies t
         const first = this.$( '>:first-child' );
 
         assert.ok(
-            first.find( '.sl-grid-column-header:nth-child(2)' ).hasClass( 'sortable-column' )
+            first.find( 'thead th:nth-child(2)' ).hasClass( 'sortable-column' )
         );
     }
 );
@@ -190,12 +178,12 @@ test( 'Pagination is displayed at the bottom of the grid and page count is corre
     const first = this.$( '>:first-child' );
 
     assert.strictEqual(
-        first.find( '.sl-ember-components.pagination' ).length,
+        first.find( '.pagination' ).length,
         1,
         'Pagination is displayed'
     );
 
-    const text = first.find( '.sl-ember-components.pagination li' ).filter(
+    const text = first.find( '.pagination li' ).filter(
             ':not(:first-child, :last-child)'
         ).find( 'a' ).text();
 
@@ -231,7 +219,7 @@ test( 'Action requestData is fired with correct arguments in paging mode', funct
 
     const first = $( '>:first-child' );
 
-    first.find( '.sl-ember-components.pagination :nth-child(3) a' ).click();
+    first.find( '.pagination :nth-child(3) a' ).click();
 
     assert.ok(
         spy.calledOnce,
@@ -443,12 +431,12 @@ test( 'Row actions are rendered and actions are triggered as expected', function
     const firstRow = first.find( '> div > table tbody tr + tr' ).first();
 
     assert.strictEqual(
-        firstRow.find( '.sl-drop-option:first a' ).text().trim(),
+        firstRow.find( 'a:first' ).text().trim(),
         rowActions[ 0 ].label,
         'Row action link was present'
     );
 
-    firstRow.find( '.sl-drop-option:first a' ).click();
+    firstRow.find( 'a:first' ).click();
 
     assert.ok(
         sendLogSpy.called,
@@ -528,7 +516,7 @@ test( 'sortColumn action was fired with correct arguments when a sortable column
 
         const first = this.$( '>:first-child' );
 
-        first.find( 'thead .sl-grid-column-header:nth-child(2)' ).click();
+        first.find( 'thead th:nth-child(2)' ).click();
 
         const row = sortColumnSpy.getCall( 0 ).args[ 0 ];
 

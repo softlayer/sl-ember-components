@@ -26,6 +26,7 @@
                             {{#each weekDays as |day|}}
                                 {{sl-calendar-day
                                     action="sendDateContent"
+                                    class="day"
                                     active=day.active
                                     content=day.content
                                     day=day.day

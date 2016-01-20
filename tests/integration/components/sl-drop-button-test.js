@@ -16,11 +16,6 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-drop-button' ),
-        'Has class "sl-drop-button"'
-    );
-
-    assert.ok(
         this.$( '>:first-child' ).find( 'button' ).hasClass( 'dropdown-toggle' ),
         'Has class "dropdown-toggle"'
     );

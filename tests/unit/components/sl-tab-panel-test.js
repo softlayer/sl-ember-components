@@ -1,6 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-tab-panel';
 import * as warn from 'sl-ember-components/utils/warn';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -35,6 +36,13 @@ test( 'Alignment enum values are correct', function( assert ) {
     );
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default values are set correctly', function( assert ) {
     const component = this.subject();
 
@@ -42,6 +50,12 @@ test( 'Default values are set correctly', function( assert ) {
         component.get( 'alignTabs' ),
         AlignmentEnum.LEFT,
         'alignmentTabs is left by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'tab-panel',
+        'componentClass is set to tab-panel'
     );
 
     assert.strictEqual(

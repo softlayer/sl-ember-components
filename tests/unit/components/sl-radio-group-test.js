@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import NamespaceMixin from 'sl-ember-components/mixins/sl-namespace';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -12,6 +13,11 @@ moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
 });
 
 test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
+    );
+
     assert.ok(
         InputBasedMixin.detect( this.subject() ),
         'InputBased Mixin is present'
@@ -30,6 +36,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'radio-group',
+        'componentClass is set to radio-group'
+    );
 
     assert.strictEqual(
         component.get( 'tagName' ),

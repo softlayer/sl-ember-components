@@ -46,7 +46,7 @@ export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'alert',
+        'alert'
     ],
 
     /** @type {Object} */

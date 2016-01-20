@@ -61,7 +61,7 @@ export default Ember.Component.extend( ComponentClassPrefix, ComponentInputId, N
      *
      * @type {String}
      */
-    componentClass: 'date-picker',
+    componentClass: 'daterange-picker',
 
     /**
      * The value for the endDate input
