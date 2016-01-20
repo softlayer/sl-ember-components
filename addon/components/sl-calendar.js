@@ -262,12 +262,22 @@ export default Ember.Component.extend({
         this._super( ...arguments );
 
         const today = window.moment();
+        const selectConstraint = this.get( 'selectConstraint' );
 
         this.set( 'today', today );
 
         if ( !this.get( 'viewingDate' ) ) {
             this.set( 'viewingDate', today );
         }
+
+        for ( let i in selectConstraint ) {
+            selectConstraint[ i ] = window.moment( selectConstraint[i] );
+            if ( !selectConstraint[ i ].isValid ) {
+                // throw an error or warning here
+            }
+        }
+        this.set( 'selectConstraint', selectConstraint );
+        console.log( selectConstraint );
 /*
         const viewingDate = this.get( 'viewingDate' );
 
@@ -337,6 +347,11 @@ export default Ember.Component.extend({
     focusable: true,
 
     hasFocus: false,
+
+    selectConstraint: {
+        start: null,
+        end: null
+    },
 
     /**
      * The current view mode for the calendar
@@ -621,12 +636,14 @@ export default Ember.Component.extend({
         'fixedWeekCount',
         'locale',
         'viewingDate',
+        'selectConstraint',
         function() {
             const weeks = Ember.A();
 
             const showingMonth = this.get( 'showingMonth' );
             const selectedDate = this.get( 'selectedDate' );
             const viewingDate = this.get( 'viewingDate' );
+            const selectConstraint = this.get( 'selectConstraint' );
 
             let firstOfMonth = window.moment( '01-' + showingMonth + '-' + this.get( 'showingYear' ), 'DD-MM-YYYY' ).locale( this.get( 'locale' ) );
             let firstDayOfWeek = firstOfMonth.localeData().firstDayOfWeek();
@@ -653,6 +670,7 @@ export default Ember.Component.extend({
                     let isActive = false;
                     let inNextMonth = nextDayToShow.month() === showingMonth;
                     let inPrevMonth = nextDayToShow.month() === showingMonth - 2;
+                    let isRestricted = false;
 
                     if ( showingMonth === 1 && nextDayToShow.month() === 11 ) {
                         inPrevMonth = true;
@@ -662,13 +680,26 @@ export default Ember.Component.extend({
                         isActive = nextDayToShow.isSame( selectedDate, 'day' );
                     }
 
+                    if ( selectConstraint.start ) {
+                        if ( nextDayToShow.isBefore( selectConstraint.start ) ) {
+                            isRestricted = true;
+                        }
+                    }
+
+                    if ( selectConstraint.end ) {
+                        if ( nextDayToShow.isAfter( selectConstraint.end ) ) {
+                            isRestricted = true;
+                        }
+                    }
+
                     const day = {
                         date: window.moment( nextDayToShow ),
                         day: nextDayToShow.date(),
                         old: inPrevMonth,
                         new: inNextMonth,
-                        focused: nextDayToShow.isSame( viewingDate, 'day' ),
-                        active: isActive
+                        focused: nextDayToShow.isSame( viewingDate, 'day' ) && this.get( 'hasFocus' ),
+                        active: isActive,
+                        restricted: isRestricted
                     };
                     days.push( day );
                     nextDayToShow.add( 1, 'days' );

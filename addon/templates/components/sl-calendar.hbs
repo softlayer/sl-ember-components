@@ -4,14 +4,14 @@
             <table class="table-condensed" role="grid">
                 <thead>
                     <tr>
-                        <th {{action "changeMonth" -1}} class="sl-icon-prev">
-                            <span class="sr-only">previous month</span>
+                        <th {{action "changeMonth" -1}}>
+                            <span class="sl-icon-prev">previous month</span>
                         </th>
-                        <th {{action "setView" "months"}} class="datepicker-switch" colspan="5">
+                        <th {{action "setView" "months"}} colspan="5">
                             {{showingMonthString}} {{showingYear}}
                         </th>
-                        <th {{action "changeMonth" 1}} class="sl-icon-next">
-                            <span class="sr-only">next month</span>
+                        <th {{action "changeMonth" 1}}>
+                            <span class="sl-icon-next">next month</span>
                         </th>
                     </tr>
                     <tr>
@@ -33,6 +33,7 @@
                                     old=day.old
                                     date=day.date
                                     focused=day.focused
+                                    restricted=day.restricted
                                 }}
                             {{/each}}
                         </tr>

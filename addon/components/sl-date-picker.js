@@ -125,7 +125,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      */
     willClearRender() {
         this._super( ...arguments );
-        this.unregisterEvents();
+        //this.unregisterEvents();
     },
 
     // -------------------------------------------------------------------------
@@ -338,6 +338,11 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
     losingFocus: false,
 
+    selectConstraint: {
+        start: null,
+        end: null
+    },
+
     // -------------------------------------------------------------------------
     // Observers
 
@@ -346,7 +351,8 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         'selectedDate',
         function() {
             this.updateValue();
-            //this.set( 'isOpen', false );
+            //this.$( '> input' ).focus();
+            //this.set( 'hasFocus', false );
         }
     ),
 

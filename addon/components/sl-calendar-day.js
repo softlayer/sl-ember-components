@@ -20,10 +20,11 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'active',
+        'active:selected',
         'new',
         'old',
-        'isToday:today'
+        'isToday:today',
+        'restricted:disabled'
     ],
 
     /** @type {String[]} */
@@ -54,6 +55,12 @@ export default Ember.Component.extend({
         //if ( content ) {
             this.sendAction( 'action', date, content );
         //}
+    },
+
+    didInsertElement() {
+        this._super( ...arguments );
+
+        this.applyFocus();
     },
 
     // -------------------------------------------------------------------------
@@ -96,23 +103,19 @@ export default Ember.Component.extend({
 
     ariaRole: 'gridcell',
 
+    restricted: false,
+
     // -------------------------------------------------------------------------
     // Observers
 
-    applyFocus: Ember.observer(
-        'focused',
-        function() {
-            if ( this.get( 'focused' ) ) {
-                console.log( 'focused' );
-                Ember.run.scheduleOnce( 'afterRender', this, () => {
-                    this.$().get( 0 ).focus();
-                });
-            }
-        }
-    ),
-
     // -------------------------------------------------------------------------
     // Methods
+
+    applyFocus() {
+        if ( this.get( 'focused' ) ) {
+            this.$().get( 0 ).focus();
+        }
+    },
 
     ariaSelected: Ember.computed(
         'active',
