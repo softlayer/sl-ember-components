@@ -154,71 +154,71 @@ export default Ember.Component.extend({
      * @returns {Object}
      */
     highchartsOptions() {
-            const chartStyle = {
-                fontFamily: [
-                    'Helvetica',
-                    'Arial',
-                    'sans-serif'
-                ].join( ', ' ),
-                fontSize: '13px'
-            };
+        const chartStyle = {
+            fontFamily: [
+                'Helvetica',
+                'Arial',
+                'sans-serif'
+            ].join( ', ' ),
+            fontSize: '13px'
+        };
 
-            const options = Ember.$.extend( true, {
-                title: '',
-                chart: {
-                    animation: false,
-                    backgroundColor: 'rgba(255, 255, 255, 0)',
-                    style: chartStyle
+        const options = Ember.$.extend( true, {
+            title: '',
+            chart: {
+                animation: false,
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                style: chartStyle
+            },
+            colors: [
+                '#298fce',
+                '#94302e',
+                '#00a14b',
+                '#f29c1e',
+                '#fadb00',
+                '#34495d'
+            ],
+            credits: {
+                enabled: false
+            },
+            legend: {
+                itemStyle: chartStyle
+            },
+            plotOptions: {
+                bar: {
+                    borderColor: 'transparent'
                 },
-                colors: [
-                    '#298fce',
-                    '#94302e',
-                    '#00a14b',
-                    '#f29c1e',
-                    '#fadb00',
-                    '#34495d'
-                ],
-                credits: {
-                    enabled: false
-                },
-                legend: {
-                    itemStyle: chartStyle
-                },
-                plotOptions: {
-                    bar: {
-                        borderColor: 'transparent'
-                    },
-                    series: {
-                        animation: false
-                    }
-                },
-                tooltip: {
-                    animation: false,
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    borderWidth: 0,
-                    shadow: false,
-                    style: {
-                        color: '#fff'
-                    }
-                },
-                xAxis: {
-                    labels: {
-                        style: chartStyle
-                    }
-                },
-                yAxis: {
-                    labels: {
-                        style: chartStyle
-                    }
+                series: {
+                    animation: false
                 }
-            }, this.get( 'options' ) || {} );
+            },
+            tooltip: {
+                animation: false,
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                borderWidth: 0,
+                shadow: false,
+                style: {
+                    color: '#fff'
+                }
+            },
+            xAxis: {
+                labels: {
+                    style: chartStyle
+                }
+            },
+            yAxis: {
+                labels: {
+                    style: chartStyle
+                }
+            }
+        }, this.get( 'options' ) || {} );
 
-            // Title property in options must be kept null in order to
-            // suppress its default behavior for our specific usage
-            options.title = null;
+        // Title property in options must be kept null in order to
+        // suppress its default behavior for our specific usage
+        options.title = null;
 
-            return options;
-     },
+        return options;
+    },
 
     /**
      * Check passed parameters on initialization
