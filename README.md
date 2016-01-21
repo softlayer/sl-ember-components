@@ -210,36 +210,35 @@ then create a `app/styles/app.less` file and add this to it:
 
 
 
-### Namespaces
+### Component Classes
 
-Each component has its own CSS namespacing so that it is easy to target specific components
-for styling.  Refer to each component's respective documentation at
+Each component has its own unique CSS class selector so that it is easy to target and style specific components.  Refer to each component's respective documentation at
 [http://softlayer.github.io/sl-ember-components](http://softlayer.github.io/sl-ember-components)
 for these values.
 
-### Customizing CSS Namespaces
-All components share a common CSS prefix, namely, `sl-ember-components`. To target and style a particular component for example the `sl-grid` component, one would use the CSS class selector `.sl-ember-components-grid`. The reason for such a verbose selector is to prevent styling conflicts with other libraries. You can customize the prefix value and change it from the default `sl-ember-components` to whatever you would like. Depending on what option you picked in the [Styling](#styling) section, the steps below outline how you would go about customizing the CSS prefix.
+### Customizing a components CSS prefix
+All components share a common CSS prefix, namely, `sl-ember-components`. To target and style a particular component for example the `sl-grid` component, one would use the CSS class selector `.sl-ember-components-grid`. The reason for such a verbose selector is to prevent styling conflicts with other libraries. You can customize the prefix value and change it from the default `sl-ember-components` to whatever you would like. Depending on what option you picked in the [Styling](#styling) section, the steps below describe how you would go about customizing the CSS prefix.
 
-To get started, you will need to add a config value to your `ember-cli-build.js` as outlined below.
+To get started, you will need to add a config value to your `ember-cli-build.js`
 
 ```
 var app = new EmberApp(defaults, {
     slEmberComponents: {
-        componentClassPrefix: 'my-prefix' // specify your custom prefix here
+        componentClassPrefix: 'custom-prefix' // specify your custom prefix here
     }
 });
 ```
 
-If you are *not* using LESS as a preprocessor then nothing else needs to be done on your part. You should now be able to target components using your custom prefix e.g in the case of `sl-grid` you should now be able to use the CSS class selector `.my-prefix-grid`.
+If you are *not* using LESS as a preprocessor then nothing else needs to be done on your part. You should now be able to target components using your custom prefix e.g in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`.
 
-If you are using LESS then you will need to set a `component-class-prefix` variable *below* the line of code which imports the `sl-ember-components` as shown below.
+If you are using LESS then you will need to set a `@component-class-prefix` variable *below* the line of code which imports the `sl-ember-components` as shown below.
 
 ```
 @import 'sl-ember-components'
 @component-class-prefix: custom-prefix;
 ```
 
-You should now be able to target components using your custom prefix e.g in the case of `sl-grid` you should now be able to use the CSS class selector `.my-prefix-grid`.
+You should now be able to target components using your custom prefix e.g in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`.
 
 *Note: If you have already served your application, remember to re-serve after making changes to the `ember-cli-build.js` file so changes can take affect.*
 
