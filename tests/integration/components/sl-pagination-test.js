@@ -184,7 +184,8 @@ test( 'Responsive plugin is initialized', function( assert ) {
         'Correct jQuery object was used to call the responsive plugin'
     );
 
-    assert.ok( // init called directly || initialized with options object || initialized with no params
+    // init called directly || initialized with options object || initialized with no params
+    assert.ok(
         spy.calledWith( 'init' ) || spy.calledWithMatch( {} ) || spy.calledWithExactly(),
         'Responsive plugin was initialized on creation'
     );
@@ -199,7 +200,8 @@ test( 'Responsive plugin is initialized', function( assert ) {
         'Correct jQuery object was used to call the responsive plugin'
     );
 
-    assert.ok( // init called directly || initialized with options object || initialized with no params
+    // init called directly || initialized with options object || initialized with no params
+    assert.ok(
         spy.calledWith( 'init' ) || spy.calledWithMatch( {} ) || spy.calledWithExactly(),
         'Responsive plugin was initialized on totalPages change'
     );

@@ -106,33 +106,6 @@ export default Ember.Component.extend({
     // Observers
 
     /**
-     * Whether the current page is the first page
-     *
-     * @function
-     * @returns {Boolean}
-     */
-    onFirstPage: Ember.computed(
-        'currentPage',
-        function() {
-            return 1 === this.get( 'currentPage' );
-        }
-    ),
-
-    /**
-     * Whether the current page is the last page
-     *
-     * @function
-     * @returns {Boolean}
-     */
-    onLastPage: Ember.computed(
-        'currentPage',
-        'totalPages',
-        function() {
-            return this.get( 'currentPage' ) === this.get( 'totalPages' );
-        }
-    ),
-
-    /**
      * Re-initialize the responsive plugin if total page count changes
      *
      * @function
@@ -173,7 +146,9 @@ export default Ember.Component.extend({
         'currentPage',
         function() {
             Ember.run.scheduleOnce( 'afterRender', this, function() {
-                this.$().twbsResponsivePagination( 'update' );
+                if ( this.$() ) {
+                    this.$().twbsResponsivePagination( 'update' );
+                }
             });
         }
     ),
@@ -242,13 +217,43 @@ export default Ember.Component.extend({
     },
 
     /**
+     * Whether the current page is the first page
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    onFirstPage: Ember.computed(
+        'currentPage',
+        function() {
+            return 1 === this.get( 'currentPage' );
+        }
+    ),
+
+    /**
+     * Whether the current page is the last page
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    onLastPage: Ember.computed(
+        'currentPage',
+        'totalPages',
+        function() {
+            return this.get( 'currentPage' ) === this.get( 'totalPages' );
+        }
+    ),
+
+    /**
      * Initialize the responsive pagination jQuery plugin
      *
      * @function
+     * @private
      * @returns {undefined}
      */
     setupResponsivePlugin: function() {
-        this.$().twbsResponsivePagination();
+        if ( this.$() ) {
+            this.$().twbsResponsivePagination();
+        }
     }
 
 });
