@@ -17,21 +17,15 @@ test( 'Default rendered state', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),
-        'menuitem',
-        'ARIA role is properly set to "menuitem"'
+        'separator',
+        'ARIA role is properly set to "separator"'
     );
 });
 
-test( 'Option type class value depends on `label` value', function( assert ) {
+test( 'divider class depends on `label` value', function( assert ) {
     this.render( hbs`
         {{sl-drop-option}}
     ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'presentation' ),
-        false,
-        'Rendered component initially does not have class "presentation"'
-    );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'divider' ),
@@ -42,15 +36,21 @@ test( 'Option type class value depends on `label` value', function( assert ) {
         {{sl-drop-option label="test"}}
     ` );
 
-    assert.strictEqual(
+    assert.notOk(
         this.$( '>:first-child' ).hasClass( 'divider' ),
-        false,
         'Rendered component does not have class "divider"'
     );
+});
 
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'presentation' ),
-        'Rendered compnonet has class "presentation" with valid "label" value'
+test( 'aria-role properly set for non-separator', function( assert ) {
+    this.render( hbs`
+        {{sl-drop-option label="test"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'role' ),
+        'menuitem',
+        'ARIA role is properly set to "menuitem"'
     );
 });
 

@@ -13,12 +13,9 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /** @type {String} */
-    ariaRole: 'menuitem',
-
     /** @type {String[]} */
     classNameBindings: [
-        'optionType'
+        'isDivider:divider'
     ],
 
     /** @type {String[]} */
@@ -81,16 +78,28 @@ export default Ember.Component.extend({
     // Methods
 
     /**
-     * Represents the type of option; "divider" if the label is undefined, or
-     * "presentation" otherwise
+     * The aria-role attribute value based on isDivider
      *
      * @function
      * @returns {String}
      */
-    optionType: Ember.computed(
+    ariaRole: Ember.computed(
+        'isDivider',
+        function() {
+            return this.get( 'isDivider' ) ? 'separator' : 'menuitem';
+        }
+    ),
+
+    /**
+     * Whether or not the option represents a divider placeholder
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    isDivider: Ember.computed(
         'label',
         function() {
-            return this.get( 'label' ) ? 'presentation' : 'divider';
+            return Ember.isEmpty( this.get( 'label' ) );
         }
     )
 

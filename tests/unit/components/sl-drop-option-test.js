@@ -28,47 +28,44 @@ test( 'Default property values', function( assert ) {
     );
 });
 
-test( 'optionType function returns expected values', function( assert ) {
+test( 'isDivider function returns expected values', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.get( 'optionType' ),
-        'divider',
-        '"optionType" defaults to "divider" if label isnt set'
+    assert.ok(
+        component.get( 'isDivider' ),
+        '"isDivider" defaults to true if label isnt set'
     );
 
     Ember.run ( () => {
         component.set( 'label', '' );
     });
 
-    assert.strictEqual(
-        component.get( 'optionType' ),
-        'divider',
-        '"optionType" returns "divider" if label is false'
+    assert.ok(
+        component.get( 'isDivider' ),
+        '"isDivider" defaults to true if label is empty'
     );
 
     Ember.run ( () => {
         component.set( 'label', 'testLabel' );
     });
 
-    assert.strictEqual(
-        component.get( 'optionType' ),
-        'presentation',
-        '"optionType" returns "presentation" if label is true'
+    assert.notOk(
+        component.get( 'isDivider' ),
+        '"isDivider" returns false when label exists'
     );
 });
 
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    const optionTypeDependentKeys = [
+    const isDividerDependentKeys = [
         'label'
     ];
 
     assert.deepEqual(
-        component.optionType._dependentKeys,
-        optionTypeDependentKeys,
-        'Dependent keys are correct for optionType()'
+        component.isDivider._dependentKeys,
+        isDividerDependentKeys,
+        'Dependent keys are correct for isDivider()'
     );
 });
 
