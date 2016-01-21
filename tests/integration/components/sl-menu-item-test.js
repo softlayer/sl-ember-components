@@ -104,6 +104,8 @@ test( '"contains-dropdown" and "dropdown-toggle" classes are set when menu has s
 test( 'clickLink() action is fired from top level menu item', function( assert ) {
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.set( 'menuItem', menuItem );
 
     this.render( hbs`
@@ -118,6 +120,8 @@ test( 'clickLink() action is fired from top level menu item', function( assert )
             true,
             'The test action was called'
         );
+
+        done();
     });
 
     this.$( '>:first-child' ).find( 'a' ).first().click();
@@ -125,6 +129,8 @@ test( 'clickLink() action is fired from top level menu item', function( assert )
 
 test( 'handleAction() action is fired from sub menu (Sub 1) item', function( assert ) {
     assert.expect( 3 );
+
+    const done = assert.async();
 
     this.set( 'menuItems', menuItems );
 
@@ -152,6 +158,8 @@ test( 'handleAction() action is fired from sub menu (Sub 1) item', function( ass
             '"testData1"',
             'Data is passed'
         );
+
+        done();
     });
 
     // Sub 1
@@ -160,6 +168,8 @@ test( 'handleAction() action is fired from sub menu (Sub 1) item', function( ass
 
 test( 'handleAction() action is fired from sub sub menu (Sub 2-1) item', function( assert ) {
     assert.expect( 3 );
+
+    const done = assert.async();
 
     this.set( 'menuItems', menuItems );
 
@@ -187,6 +197,8 @@ test( 'handleAction() action is fired from sub sub menu (Sub 2-1) item', functio
             '"testData2"',
             'Data is passed'
         );
+
+        done();
     });
 
     // Sub 2-1

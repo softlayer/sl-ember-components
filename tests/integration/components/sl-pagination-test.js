@@ -30,16 +30,16 @@ test( 'The totalPages property is bound to the total pages display', function( a
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '1 / 1',
+        this.$( '>:first-child' ).find( 'li:not(:first-child, :last-child) a' ).text().trim(),
+        '1',
         'totalPages is initialized to 1'
     );
 
     this.set( 'totalPages', 2 );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '1 / 2',
+        this.$( '>:first-child' ).find( 'li:not(:first-child, :last-child) a' ).text().trim(),
+        '12',
         'totalPages is now set to 2'
     );
 });
@@ -52,16 +52,16 @@ test( 'The currentPage property is bound to the current page display', function(
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '1 / 2',
+        this.$( '>:first-child' ).find( 'li.active a' ).text().trim(),
+        '1',
         'currentPage is initialized to 1'
     );
 
     this.set( 'currentPage', 2 );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '2 / 2',
+        this.$( '>:first-child' ).find( 'li.active a' ).text().trim(),
+        '2',
         'currentPage is now set to 2'
     );
 });
@@ -77,66 +77,30 @@ test( 'When totalPages is 1 the previous and next buttons are disabled', functio
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'li:nth-child(3)' ).hasClass( 'disabled' ),
+        this.$( '>:first-child' ).find( 'li:last-child' ).hasClass( 'disabled' ),
         'The next button has the "disabled" class'
     );
 });
 
 test( 'The previous button is disabled when on the first page', function( assert ) {
-    const testActionHandler = sinon.spy();
-
-    this.on( 'testAction', testActionHandler );
-
     this.render( hbs`
-        {{sl-pagination totalPages=2 changePage="testAction"}}
+        {{sl-pagination totalPages=2}}
     ` );
 
     assert.ok(
         this.$( '>:first-child' ).find( 'li:first-child' ).hasClass( 'disabled' ),
         'The previous button has the "disabled" class'
     );
-
-    this.$( '>:first-child' ).find( '.previous-page-button' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '1 / 2',
-        'The current page displayed has not changed'
-    );
-
-    assert.strictEqual(
-        testActionHandler.callCount,
-        0,
-        'changePage action was not called'
-    );
 });
 
 test( 'The next button is disabled when on the last page', function( assert ) {
-    const testActionHandler = sinon.spy();
-
-    this.on( 'testAction', testActionHandler );
-
     this.render( hbs`
-        {{sl-pagination totalPages=2 currentPage=2 changePage="testAction"}}
+        {{sl-pagination totalPages=2 currentPage=2}}
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).find( 'li:nth-child(3)' ).hasClass( 'disabled' ),
+        this.$( '>:first-child' ).find( 'li:last-child' ).hasClass( 'disabled' ),
         'The next button has the "disabled" class'
-    );
-
-    this.$( '>:first-child' ).find( '.next-page-button' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '2 / 2',
-        'The current page displayed was has not changed'
-    );
-
-    assert.strictEqual(
-        testActionHandler.callCount,
-        0,
-        'changePage action was not called'
     );
 });
 
@@ -151,7 +115,7 @@ test( 'Neither the previous nor the next button are disabled when not on an inte
     );
 
     assert.ok(
-        !this.$( '>:first-child' ).find( 'li:nth-child(3)' ).hasClass( 'disabled' ),
+        !this.$( '>:first-child' ).find( 'li:last-child' ).hasClass( 'disabled' ),
         'The next button does not have the "disabled" class'
     );
 });
@@ -165,11 +129,11 @@ test( 'Next button click increments the current page and calls the changePage ac
         {{sl-pagination totalPages=2 changePage="testAction"}}
     ` );
 
-    this.$( '>:first-child' ).find( '.next-page-button' ).click();
+    this.$( '>:first-child' ).find( 'li:last-child a' ).click();
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '2 / 2',
+        this.$( '>:first-child' ).find( 'li.active a' ).text().trim(),
+        '2',
         'The current page displayed was incremented'
     );
 
@@ -192,8 +156,8 @@ test( 'Previous button click decrements the current page and calls the changePag
     this.$( '>:first-child' ).find( '.previous-page-button' ).click();
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'li:nth-child(2) a' ).text().trim(),
-        '1 / 2',
+        this.$( '>:first-child' ).find( 'li.active a' ).text().trim(),
+        '1',
         'The current page displayed was decremented'
     );
 

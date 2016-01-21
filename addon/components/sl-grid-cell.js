@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-grid-cell';
-import { containsValue, warn } from '../utils/all';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 
 /**
  * Valid alignment values for columns
