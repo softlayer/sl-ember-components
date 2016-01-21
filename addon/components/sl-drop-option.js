@@ -86,9 +86,7 @@ export default Ember.Component.extend({
     ariaRole: Ember.computed(
         'isDivider',
         function() {
-            const isDivider = this.get( 'isDivider' );
-
-            return isDivider ? 'separator' : 'menuitem';
+            return this.get( 'isDivider' ) ? 'separator' : 'menuitem';
         }
     ),
 
