@@ -93,13 +93,67 @@ export default Ember.Component.extend({
     // Observers
 
     /**
+     * Updates the chart's height
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setHeight: Ember.observer(
+        'height',
+        function() {
+            this.$( '> .panel-body > div' ).height( this.get( 'height' ) );
+        }
+    ),
+
+    /**
+     * Updates the chart's width
+     *
+     * @function
+     * @returns {undefined}
+     */
+    setWidth: Ember.observer(
+        'width',
+        function() {
+            this.$( '> .panel-body > div' ).width( this.get( 'width' ) );
+        }
+    ),
+
+    /**
+     * Updates the chart's series data
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateData: Ember.observer(
+        'series',
+        function() {
+            const chart = this.get( 'chart' );
+            const series = this.get( 'series' );
+
+            if ( !chart.hasOwnProperty( 'series' ) ) {
+                chart.series = [];
+            }
+
+            for ( let i = 0; i < series.length; i++ ) {
+                if ( chart.series.length <= i ) {
+                    chart.addSeries( series[ i ] );
+                } else {
+                    chart.series[ i ].setData( series[ i ].data );
+                }
+            }
+        }
+    ),
+
+    // -------------------------------------------------------------------------
+    // Methods
+
+    /**
      * Options for Highcharts
      *
      * @function
      * @returns {Object}
      */
-    highchartsOptions: Ember.computed(
-        function() {
+    highchartsOptions() {
             const chartStyle = {
                 fontFamily: [
                     'Helvetica',
@@ -164,63 +218,7 @@ export default Ember.Component.extend({
             options.title = null;
 
             return options;
-        }
-    ),
-
-    /**
-     * Updates the chart's height
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setHeight: Ember.observer(
-        'height',
-        function() {
-            this.$( '> .panel-body > div' ).height( this.get( 'height' ) );
-        }
-    ),
-
-    /**
-     * Updates the chart's width
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setWidth: Ember.observer(
-        'width',
-        function() {
-            this.$( '> .panel-body > div' ).width( this.get( 'width' ) );
-        }
-    ),
-
-    /**
-     * Updates the chart's series data
-     *
-     * @function
-     * @returns {undefined}
-     */
-    updateData: Ember.observer(
-        'series',
-        function() {
-            const chart = this.get( 'chart' );
-            const series = this.get( 'series' );
-
-            if ( !chart.hasOwnProperty( 'series' ) ) {
-                chart.series = [];
-            }
-
-            for ( let i = 0; i < series.length; i++ ) {
-                if ( chart.series.length <= i ) {
-                    chart.addSeries( series[ i ] );
-                } else {
-                    chart.series[ i ].setData( series[ i ].data );
-                }
-            }
-        }
-    ),
-
-    // -------------------------------------------------------------------------
-    // Methods
+     },
 
     /**
      * Check passed parameters on initialization
@@ -261,7 +259,7 @@ export default Ember.Component.extend({
         this.setHeight();
         this.setWidth();
 
-        chartDiv.highcharts( this.get( 'highchartsOptions' ) );
+        chartDiv.highcharts( this.highchartsOptions() );
         this.set( 'chart', chartDiv.highcharts() );
         this.updateData();
     }
