@@ -14,6 +14,9 @@ module.exports = {
                 name: 'jquery-mousewheel',
                 target: '^3.1.12'
             }, {
+                name: 'jquery.fn.twbs-responsive-pagination',
+                target: '~0.1.2'
+            }, {
                 name: 'moment',
                 target: '~2.10.3'
             }, {
