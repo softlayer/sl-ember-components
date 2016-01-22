@@ -1,4 +1,27 @@
+@calendar-border-radius-small:        @border-radius-small;
+
+@calendar-default-color:              @btn-default-color;
+
+@calendar-disabled-bg:                @gray-lighter;
+@calendar-today-bg:                   @state-warning-bg;//@btn-warning-bg;
+@calendar-today-border:               @state-warning-border;//@btn-warning-border;
+@calendar-selected-bg:                @btn-primary-bg;
+@calendar-selected-color:             @btn-primary-color;
+@calendar-focus-bg:                   @gray-lighter;//@table-bg-active;
+
 .sl-ember-components.calendar {
+
+    display: inline-block;
+
+    table.controls {
+        width: 100%;
+        margin-bottom: @table-condensed-cell-padding;
+
+        th:first-child, th:last-child {
+            width: 20%;
+        }
+    }
+
     .sl-icon-previous::before {
         content: @icon-calendar-previous;
     }
@@ -7,24 +30,9 @@
         content: @icon-calendar-next;
     }
 
-    .datepicker-months,
-    .datepicker-days,
-    .datepicker-years {
-        display: block;
-    }
-}
-
-
-@calendar-border-radius-small:        @border-radius-small;
-@calendar-default-color:              @btn-default-color;
-@calendar-disabled-bg:                @input-bg-disabled;
-@calendar-today-bg:                   @state-warning-bg;
-@calendar-selected-bg:                @btn-primary-bg;
-@calendar-selected-color:             @btn-primary-color;
-@calendar-focus-bg:                   @table-bg-active;
-
-.sl-ember-components.calendar {
     table {
+        border-collapse: separate;
+
         th, td {
             text-align: center;
         }
@@ -35,6 +43,12 @@
 
         td.today {
             background-color: @calendar-today-bg;
+            border: 1px solid @calendar-today-border;
+        }
+
+        td:focus, td.focused, td:hover {
+            background-color: @calendar-focus-bg;
+            /*color: @calendar-default-color;*/
         }
 
         td.selected {
@@ -42,18 +56,23 @@
             color: @calendar-selected-color;
         }
 
-        td:focus, td.focused, td:hover {
-            background-color: @calendar-focus-bg;
-            color: @calendar-default-color;
-        }
-
-        td.disabled, td.old, td.new {
-            color: @gray-light;
+        td.old, td.new {
+            /*color: @gray-light;*/
+            opacity: .5;
         }
 
         td.disabled {
             background-color: @calendar-disabled-bg;
             border-radius: 0;
+
+            &.old, &.new {
+                //background-color: lighten( @calendar-disabled-bg, 4%, relative );
+            }
+        }
+
+        & > tbody > tr > td > span {
+            width: 25%;
+            display: inline-block;
         }
     }
 }
@@ -64,4 +83,14 @@
 
 .sl-icon-next {
     &:extend(.sl-ember-components-icons all);
+}
+
+
+.datepicker-days td {
+    width: 2.2em;
+    height: 2.2em;
+}
+.datepicker-months td, .datepicker-years td {
+    width: 3.875em;
+    height: 4.25em;
 }

@@ -98,7 +98,6 @@ Provides a way for individual components to throw errors that are able to be rec
 All of this functionality is provided through a combination of leveraging the best-of-breed of other component offerings as well as our own implementations when the existing offerings were deficient. Existing offerings that were leveraged include:
 
 * [Twitter Bootstrap](http://getbootstrap.com/)
-* [Bootstrap-Datepicker](http://bootstrap-datepicker.readthedocs.org/en/release/#)
 * [Highcharts](http://www.highcharts.com/)
 * [Select2](http://ivaynberg.github.io/select2/)
 * [typeahead.js](https://twitter.github.io/typeahead.js/)

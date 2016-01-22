@@ -37,6 +37,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         inputBlurred() {
             this.trigger( 'focusOut' );
 
+            console.log( '(inputBlurred) format: ', this.get( 'format' ) );
             this.updateValue();
         },
 
@@ -108,10 +109,15 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     init() {
         this._super( ...arguments );
 
+        console.log( 'formatting inside of init', this.get( 'format' ) );
+
         if ( !this.get( 'format' ) ) {
+            console.log( 'setting format' );
             const format = window.moment().localeData().longDateFormat( 'L' );
             this.set( 'format', format );
         }
+
+        console.log( this.get( 'format' ) );
     },
 
     keyPress() {
@@ -350,6 +356,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     dateSelected: Ember.observer(
         'selectedDate',
         function() {
+            console.log( '(selectedDate) format: ', this.get( 'format' ) );
             this.updateValue();
             //this.$( '> input' ).focus();
             //this.set( 'hasFocus', false );
@@ -484,6 +491,8 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     updateValue() {
         const date = this.get( 'selectedDate' );
         const format = this.get( 'format' );
+
+        console.log( 'updateValue', format );
 
         if ( date === null ) {
             return;

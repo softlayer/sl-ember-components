@@ -65,7 +65,6 @@ module.exports = {
         // Javascript
 
         app.import( app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js' );
-        app.import( app.bowerDirectory + '/bootstrap-datepicker/js/bootstrap-datepicker.js' );
         app.import( app.bowerDirectory + '/highcharts/highcharts.src.js' );
         app.import( app.bowerDirectory + '/jquery-mousewheel/jquery.mousewheel.js' );
         app.import( app.bowerDirectory + '/moment/min/moment-with-locales.js' );

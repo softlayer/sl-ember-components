@@ -15,7 +15,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNameBindings: [
-        'active',
+        'active:selected',
         'new',
         'old'
     ],
@@ -24,7 +24,7 @@ export default Ember.Component.extend({
     layout,
 
     /** @type {String} */
-    tagName: 'span',
+    tagName: 'td',
 
     // -------------------------------------------------------------------------
     // Actions

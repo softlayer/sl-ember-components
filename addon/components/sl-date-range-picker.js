@@ -36,19 +36,23 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      *
      * @returns {undefined}
      */
-    didInsertElement() {
+   /* didInsertElement() {
         this._super( ...arguments );
-        this.setupFocusTransition();
-    },
+        //this.setupFocusTransition();
+    },*/
 
     /**
      * willClearRender event hook
      *
      * @returns {undefined}
      */
-    willClearRender() {
+    /*willClearRender() {
         this._super( ...arguments );
-        this.unregisterEvents();
+        //this.unregisterEvents();
+    },*/
+
+    init() {
+        this._super( ...arguments );
     },
 
     // -------------------------------------------------------------------------
@@ -66,7 +70,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      *
      * @type {String}
      */
-    format: 'mm/dd/yyyy',
+    format: null,
 
     /**
      * The last valid date for the date range
@@ -89,8 +93,20 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      */
     startDateValue: null,
 
+    selectConstraint: {
+        start: null,
+        end: null
+    },
+
     // -------------------------------------------------------------------------
     // Observers
+
+    fubar: Ember.observer(
+        'format',
+        function() {
+            console.log( '(RANGE obs) format: ', this.get( 'format' ) );
+        }
+    ),
 
     // -------------------------------------------------------------------------
     // Methods
@@ -106,7 +122,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
         'minDate',
         'startDateValue',
         function() {
-            const minDate = this.get( 'minDate' );
+            /*const minDate = this.get( 'minDate' );
             const startDateValue = this.get( 'startDateValue' );
 
             if ( startDateValue ) {
@@ -117,7 +133,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
                 return minDate;
             }
 
-            return null;
+            return null;*/
         }
     ),
 
@@ -132,7 +148,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
         'endDateValue',
         'maxDate',
         function() {
-            const endDateValue = this.get( 'endDateValue' );
+            /*const endDateValue = this.get( 'endDateValue' );
             const maxDate = this.get( 'maxDate' );
 
             if ( endDateValue ) {
@@ -143,7 +159,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
                 return maxDate;
             }
 
-            return null;
+            return null;*/
         }
     ),
 
@@ -155,11 +171,11 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      * @returns {undefined}
      */
     setupFocusTransition() {
-        this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
+        /*this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
         this.set( 'endDateInput', this.$( '.sl-daterange-end-date input' ) );
         this.get( 'startDateInput' ).on( this.namespaceEvent( 'changeDate' ), () => {
             this.get( 'endDateInput' ).trigger( 'focus' );
-        });
+        });*/
     },
 
     /**
@@ -169,7 +185,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      * @returns {undefined}
      */
     unregisterEvents() {
-        this.get( 'startDateInput' ).off( this.namespaceEvent( 'changeDate' ) );
+        //this.get( 'startDateInput' ).off( this.namespaceEvent( 'changeDate' ) );
     }
 
 });

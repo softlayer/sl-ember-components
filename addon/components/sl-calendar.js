@@ -159,6 +159,7 @@ export default Ember.Component.extend({
             }
 
             this.set( 'viewMode', view );
+            this.$().focus();
         }
     },
 
@@ -363,6 +364,13 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Observers
 
+    fubar: Ember.observer(
+        'viewingDate',
+        function() {
+            console.log( this.get('viewingDate') );
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
@@ -375,6 +383,8 @@ export default Ember.Component.extend({
         if ( this.get( 'locked' ) ) {
             return;
         }
+
+        console.log( 'setmonth', month );
 
         const viewingDate = this.get( 'viewingDate' );
 
@@ -536,21 +546,29 @@ export default Ember.Component.extend({
             const m = window.moment().locale( this.get( 'locale' ) );
             const monthNames = window.moment.monthsShort();
             const months = Ember.A();
+            let monthCount = 1;
 
-            for ( let month = 1; month <= 12; month++ ) {
-                let isActive = false;
+            for ( let rowCount = 1; rowCount <= 3; rowCount++ ) {
+                const row = Ember.A();
 
-                if ( selectedDate ) {
-                    isActive = ( selectedDate.month() + 1 ) === month && selectedDate.year() === showingYear;
+                for ( let colCount = 1; colCount <= 4; colCount++ ) {
+                    let isActive = false;
+
+                    if ( selectedDate ) {
+                        isActive = ( selectedDate.month() + 1 ) === monthCount && selectedDate.year() === showingYear;
+                    }
+
+                    row.push({
+                        active: isActive,
+                        monthName: monthNames[ monthCount - 1 ],
+                        month: monthCount
+                    });
+
+                    monthCount++;
                 }
 
-                months.push({
-                    active: isActive,
-                    monthName: monthNames[ month - 1 ],
-                    month
-                });
+                months.push( row );
             }
-
             return months;
         }
     ),
@@ -668,13 +686,13 @@ export default Ember.Component.extend({
 
                 for ( let k = 0; k < 7; k++ ) {
                     let isActive = false;
-                    let inNextMonth = nextDayToShow.month() === showingMonth;
-                    let inPrevMonth = nextDayToShow.month() === showingMonth - 2;
+                    let inNextMonth = nextDayToShow.isAfter( viewingDate, 'month' );//month() === showingMonth;
+                    let inPrevMonth = nextDayToShow.isBefore( viewingDate, 'month' );//.month() === showingMonth - 2;
                     let isRestricted = false;
 
-                    if ( showingMonth === 1 && nextDayToShow.month() === 11 ) {
+                    /*if ( showingMonth === 1 && nextDayToShow.month() === 11 ) {
                         inPrevMonth = true;
-                    }
+                    }*/
 
                     if ( selectedDate ) {
                         isActive = nextDayToShow.isSame( selectedDate, 'day' );
@@ -733,20 +751,29 @@ export default Ember.Component.extend({
             const decadeEnd = this.get( 'decadeEnd' );
             const selectedDate = this.get( 'selectedDate' );
             const years = Ember.A();
+            let yearCount = decadeStart - 1;
 
-            for ( let year = decadeStart - 1; year <= decadeEnd + 1; year++ ) {
-                let isActive = false;
+            for ( let rowCount = 1; rowCount <= 3; rowCount++ ) {
+                const row = Ember.A();
 
-                if ( selectedDate ) {
-                    isActive = year === selectedDate.year();
+                for ( let colCount = 1; colCount <= 4; colCount++ ) {
+                    let isActive = false;
+
+                    if ( selectedDate ) {
+                        isActive = yearCount === selectedDate.year();
+                    }
+
+                    row.push({
+                        active: isActive,
+                        'new': yearCount > decadeEnd,
+                        old: yearCount < decadeStart,
+                        year: yearCount
+                    });
+
+                    yearCount++;
                 }
 
-                years.push({
-                    active: isActive,
-                    'new': year > decadeEnd,
-                    old: year < decadeStart,
-                    year
-                });
+                years.push( row );
             }
 
             return years;

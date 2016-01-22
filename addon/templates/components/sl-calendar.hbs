@@ -1,116 +1,140 @@
-<div class="datepicker datepicker-inline">
-    {{#if viewingDays}}
-        <div class="datepicker-days">
-            <table class="table-condensed" role="grid">
-                <thead>
+{{#if viewingDays}}
+    <div class="datepicker-days">
+
+        <table class="controls">
+            <tr>
+                <th>
+                    <button {{action "changeMonth" -1}} class="btn btn-xs btn-default">
+                        <span class="sl-icon-previous">previous month</span>
+                    </button>
+                </th>
+                <th>
+                    <a href="#" {{action "setView" "months"}}>
+                        {{showingMonthString}} {{showingYear}}
+                    </a>
+                </th>
+                <th>
+                    <button {{action "changeMonth" 1}} class="btn btn-xs btn-default">
+                        <span class="sl-icon-next">next month</span>
+                    </button>
+                </th>
+            </tr>
+        </table>
+
+        <table role="grid">
+            <thead>
+                <tr>
+                    {{#each shortWeekDayNames as |dayName|}}
+                        <th class="dow" role="columnheader">{{dayName}}</th>
+                    {{/each}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#each weeksInMonthView as |weekDays|}}
                     <tr>
-                        <th {{action "changeMonth" -1}}>
-                            <span class="sl-icon-previous">previous month</span>
-                        </th>
-                        <th {{action "setView" "months"}} colspan="5">
-                            {{showingMonthString}} {{showingYear}}
-                        </th>
-                        <th {{action "changeMonth" 1}}>
-                            <span class="sl-icon-next">next month</span>
-                        </th>
-                    </tr>
-                    <tr>
-                        {{#each shortWeekDayNames as |dayName|}}
-                            <th class="dow" role="columnheader">{{dayName}}</th>
+                        {{#each weekDays as |day|}}
+                            {{sl-calendar-day
+                                action="selectDate"
+                                active=day.active
+                                content=day.content
+                                day=day.day
+                                new=day.new
+                                old=day.old
+                                date=day.date
+                                focused=day.focused
+                                restricted=day.restricted
+                            }}
                         {{/each}}
                     </tr>
-                </thead>
-                <tbody>
-                    {{#each weeksInMonthView as |weekDays|}}
-                        <tr>
-                            {{#each weekDays as |day|}}
-                                {{sl-calendar-day
-                                    action="selectDate"
-                                    active=day.active
-                                    content=day.content
-                                    day=day.day
-                                    new=day.new
-                                    old=day.old
-                                    date=day.date
-                                    focused=day.focused
-                                    restricted=day.restricted
-                                }}
-                            {{/each}}
-                        </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-    {{/if}}
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+{{/if}}
 
-    {{#if viewingMonths}}
-        <div class="datepicker-months">
-            <table class="table-condensed" role="grid">
-                <thead>
-                    <tr>
-                        <th {{action "changeYear" -1}}>
-                            <span class="sl-icon-previous">previous year</span>
-                        </th>
-                        <th {{action "setView" "years"}} class="datepicker-switch" colspan="5">
-                            {{showingYear}}
-                        </th>
-                        <th {{action "changeYear" 1}}>
-                            <span class="sl-icon-next">next year</span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="7">
-                            {{#each monthsInYearView as |month|}}
-                                {{#sl-calendar-month
-                                    action="selectMonth"
-                                    active=month.active
-                                    locale=locale
-                                    month=month.month
-                                }}
-                                    {{month.monthName}}
-                                {{/sl-calendar-month}}
-                            {{/each}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    {{/if}}
+{{#if viewingMonths}}
+    <div class="datepicker-months">
 
-    {{#if viewingYears}}
-        <div class="datepicker-years">
-            <table class="table-condensed" role="grid">
-                <thead>
+        <table class="controls">
+            <tr>
+                <th>
+                    <button {{action "changeYear" -1}} class="btn btn-xs btn-default">
+                        <span class="sl-icon-previous">previous year</span>
+                    </button>
+                </th>
+                <th>
+                    <a href="#" {{action "setView" "years"}}>
+                        {{showingYear}}
+                    </a>
+                </th>
+                <th>
+                    <button {{action "changeYear" 1}} class="btn btn-xs btn-default">
+                        <span class="sl-icon-next">next year</span>
+                    </button>
+                </th>
+            </tr>
+        </table>
+
+        <table role="grid">
+            <tbody>
+                {{#each monthsInYearView as |monthRow|}}
                     <tr>
-                        <th {{action "changeDecade" -1}}>
-                            <span class="sl-icon-previous">previous decade</span>
-                        </th>
-                        <th class="datepicker-switch" colspan="5">
-                            {{decadeStart}}-{{decadeEnd}}
-                        </th>
-                        <th {{action "changeDecade" 1}}>
-                            <span class="sl-icon-next">next decade</span>
-                        </th>
+                        {{#each monthRow as |month|}}
+                            {{#sl-calendar-month
+                                action="selectMonth"
+                                active=month.active
+                                locale=locale
+                                month=month.month
+                            }}
+                                {{month.monthName}}
+                            {{/sl-calendar-month}}
+                        {{/each}}
                     </tr>
-                </thead>
-                <tbody>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+{{/if}}
+
+{{#if viewingYears}}
+    <div class="datepicker-years">
+
+        <table class="controls">
+            <tr>
+                <th>
+                    <button {{action "changeDecade" -1}} class="btn btn-xs btn-default">
+                        <span class="sl-icon-previous">previous decade</span>
+                    </button>
+                </th>
+                <th>
+                    <span>
+                        {{decadeStart}}-{{decadeEnd}}
+                    </span>
+                </th>
+                <th>
+                    <button {{action "changeDecade" 1}} class="btn btn-xs btn-default">
+                        <span class="sl-icon-next">next decade</span>
+                    </button>
+                </th>
+            </tr>
+        </table>
+
+        <table role="grid">
+            <tbody>
+                {{#each yearsInDecadeView as |yearRow|}}
                     <tr>
-                        <td colspan="7">
-                            {{#each yearsInDecadeView as |year|}}
-                                {{sl-calendar-year
-                                    action="selectYear"
-                                    active=year.active
-                                    old=year.old
-                                    new=year.new
-                                    year=year.year
-                                }}
-                            {{/each}}
-                        </td>
+                        {{#each yearRow as |year|}}
+                            {{sl-calendar-year
+                                action="selectYear"
+                                active=year.active
+                                old=year.old
+                                new=year.new
+                                year=year.year
+                            }}
+                        {{/each}}
                     </tr>
-                </tbody>
-            </table>
-        </div>
-    {{/if}}
-</div>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+{{/if}}
