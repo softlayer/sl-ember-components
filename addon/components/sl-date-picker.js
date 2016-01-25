@@ -37,7 +37,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         inputBlurred() {
             this.trigger( 'focusOut' );
 
-            this.updateValue();
+            //this.updateValue();
         },
 
         inputFocused() {
@@ -61,17 +61,6 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
     // -------------------------------------------------------------------------
     // Events
-
-    /**
-     * didInsertElement event hook
-     *
-     * @returns {undefined}
-     */
-    didInsertElement() {
-        this._super( ...arguments );
-        this.setupDatepicker();
-        this.checkInput();
-    },
 
     focusIn( event ) {
         this._super( ...arguments );
@@ -106,19 +95,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         this.set( 'losingFocus', runNext );
     },
 
-    keyPress() {
+    /*keyPress() {
         console.log( 'date picker: keypress' );
-    },
-
-    /**
-     * willClearRender event hook
-     *
-     * @returns {undefined}
-     */
-    willClearRender() {
-        this._super( ...arguments );
-        //this.unregisterEvents();
-    },
+    },*/
 
     // -------------------------------------------------------------------------
     // Properties
@@ -129,14 +108,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean}
      */
-    autoclose: true,
+    //autoclose: true,
 
     /**
      * Whether or not to show week numbers to the left of week rows
      *
      * @type {Boolean}
      */
-    calendarWeeks: false,
+    //calendarWeeks: false,
 
     /**
      * When true, displays a "Clear" button at the bottom of the datepicker
@@ -146,7 +125,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean}
      */
-    clearBtn: false,
+    //clearBtn: false,
 
     /**
      * Days of the week that should be disabled
@@ -219,14 +198,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {?Array}
      */
-    inputs: null,
+    //inputs: null,
 
     /**
      * Whether or not to allow date navigation by arrow keys
      *
      * @type {Boolean}
      */
-    keyboardNavigation: true,
+    //keyboardNavigation: true,
 
     /**
      * The label text above the datepicker's input field
@@ -240,14 +219,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {String}
      */
-    language: 'en',
+    //language: 'en',
 
     /**
      * Set a limit for the view mode; accepts "days", "months", or "years"
      *
      * @type {String}
      */
-    minViewMode: 'days',
+    //minViewMode: 'days',
 
     /**
      * Enable multidate picking
@@ -261,7 +240,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean|Number}
      */
-    multidate: false,
+    //multidate: false,
 
     /**
      * A space-separated string for the popup's anchor position
@@ -271,7 +250,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {String}
      */
-    orientation: 'auto',
+    //orientation: 'auto',
 
     /**
      * The placeholder text that the datepicker should show
@@ -319,7 +298,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {?String}
      */
-    value: null,
+    //value: null,
 
     /**
      * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
@@ -344,75 +323,12 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     // -------------------------------------------------------------------------
     // Observers
 
-    // close calendar and set value with formatting
-    dateSelected: Ember.observer(
-        'selectedDate',
-        function() {
-            this.updateValue();
-            //this.$( '> input' ).focus();
-            //this.set( 'hasFocus', false );
-        }
-    ),
-
-    /**
-     * Datepicker plugin options
-     *
-     * @function
-     * @returns {Object}
-     */
-    options: Ember.computed(
-        function() {
-            return {
-                /*autoclose: this.get( 'autoclose' ),
-                calendarWeeks: this.get( 'calendarWeeks' ),
-                clearBtn: this.get( 'clearBtn' ),
-                daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
-                endDate: this.get( 'endDate' ),
-                forceParse: this.get( 'forceParse' ),
-                format: this.get( 'format' ),
-                inputs: this.get( 'inputs' ),
-                keyboardNavigation: this.get( 'keyboardNavigation' ),
-                language: this.get( 'language' ),
-                minViewMode: this.get( 'minViewMode' ),
-                multidate: this.get( 'multidate' ),
-                orientation: this.get( 'orientation' ),
-                startDate: this.get( 'startDate' ),
-                startView: this.get( 'startView' ),
-                todayBtn: this.get( 'todayBtn' ),
-                todayHighlight: this.get( 'todayHighlight' ),
-                weekStart: this.get( 'weekStart' )*/
-            };
-        }
-    ),
-
-    /**
-     * Dynamically update the startDate and endDate values for the datepicker
-     *
-     * @function
-     * @returns {undefined}
-     */
-    updateDateRange: Ember.observer(
-        'endDate',
-        'startDate',
-        function() {
-            /*const input = this.$( 'input.date-picker' );
-            const datepicker = input.data( 'datepicker' );
-
-            datepicker.setStartDate( this.get( 'startDate' ) );
-            datepicker.setEndDate( this.get( 'endDate' ) );
-
-            if ( 'Invalid Date' === datepicker.getDate().toString() ) {
-                input.val( '' );
-            }*/
-        }
-    ),
-
     // -------------------------------------------------------------------------
     // Methods
 
     checkInput() {
         let value = this.get( 'value' );
-        const format = this.get( 'format' );
+        //const format = this.get( 'format' );
         const parseFormats = this.get( 'parseFormats' );
         const selectConstraint = this.get( 'selectConstraint' );
 
@@ -473,39 +389,19 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         this.set( 'selectedDate', date );
     },
 
-    /**
-     * Setup the bootstrap-datepicker plugin and events
-     *
-     * @private
-     * @returns {undefined}
-     */
-    setupDatepicker() {
-        /*const datepicker = this.$( 'input.date-picker' )
-            .datepicker( this.get( 'options' ) );
+    value: Ember.computed(
+        'selectedDate',
+        'formatString',
+        function() {
+            const selectedDate = this.get( 'selectedDate' );
+            const format = this.get( 'formatString' );
 
-        datepicker.on( this.namespaceEvent( 'changeDate' ), () => {
-            this.sendAction();
-        });*/
-    },
+            if ( selectedDate === null ) {
+                return;
+            }
 
-    /**
-     * Remove events
-     *
-     * @private
-     * @returns {undefined}
-     */
-    unregisterEvents() {
-        //this.$( 'input.date-picker' ).off( this.namespaceEvent( 'changeDate' ) );
-    },
-
-    updateValue() {
-        const date = this.get( 'selectedDate' );
-        const format = this.get( 'formatString' );
-
-        if ( date === null ) {
-            return;
+            return selectedDate.format( format );
         }
+    )
 
-        this.set( 'value', date.format( format ) );
-    }
 });

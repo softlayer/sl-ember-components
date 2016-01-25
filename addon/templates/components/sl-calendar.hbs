@@ -4,17 +4,17 @@
         <table class="controls">
             <tr>
                 <th>
-                    <button {{action "changeMonth" -1}} class="btn btn-xs btn-default">
+                    <button tabIndex="-1" {{action "changeMonth" -1}} class="btn btn-xs btn-default">
                         <span class="sl-icon-previous">previous month</span>
                     </button>
                 </th>
                 <th>
-                    <a href="#" {{action "setView" "months"}}>
-                        {{showingMonthString}} {{showingYear}}
+                    <a href="#" tabIndex="-1" {{action "setView" "months"}}>
+                        {{calendarTitle}}
                     </a>
                 </th>
                 <th>
-                    <button {{action "changeMonth" 1}} class="btn btn-xs btn-default">
+                    <button tabIndex="-1" {{action "changeMonth" 1}} class="btn btn-xs btn-default">
                         <span class="sl-icon-next">next month</span>
                     </button>
                 </th>
@@ -33,17 +33,18 @@
                 {{#each weeksInMonthView as |weekDays|}}
                     <tr>
                         {{#each weekDays as |day|}}
-                            {{sl-calendar-day
+                            {{#sl-calendar-day
                                 action="selectDate"
                                 active=day.active
                                 content=day.content
-                                day=day.day
                                 new=day.new
                                 old=day.old
                                 date=day.date
                                 focused=day.focused
                                 restricted=day.restricted
                             }}
+                                {{day.dayName}}
+                            {{/sl-calendar-day}}
                         {{/each}}
                     </tr>
                 {{/each}}
@@ -58,17 +59,17 @@
         <table class="controls">
             <tr>
                 <th>
-                    <button {{action "changeYear" -1}} class="btn btn-xs btn-default">
+                    <button tabIndex="-1" {{action "changeYear" -1}} class="btn btn-xs btn-default">
                         <span class="sl-icon-previous">previous year</span>
                     </button>
                 </th>
                 <th>
-                    <a href="#" {{action "setView" "years"}}>
-                        {{showingYear}}
+                    <a href="#" tabIndex="-1" {{action "setView" "years"}}>
+                        {{calendarTitle}}
                     </a>
                 </th>
                 <th>
-                    <button {{action "changeYear" 1}} class="btn btn-xs btn-default">
+                    <button tabIndex="-1" {{action "changeYear" 1}} class="btn btn-xs btn-default">
                         <span class="sl-icon-next">next year</span>
                     </button>
                 </th>
@@ -102,17 +103,17 @@
         <table class="controls">
             <tr>
                 <th>
-                    <button {{action "changeDecade" -1}} class="btn btn-xs btn-default">
+                    <button tabIndex="-1" {{action "changeDecade" -1}} class="btn btn-xs btn-default">
                         <span class="sl-icon-previous">previous decade</span>
                     </button>
                 </th>
                 <th>
                     <span>
-                        {{decadeStart}}-{{decadeEnd}}
+                        {{calendarTitle}}
                     </span>
                 </th>
                 <th>
-                    <button {{action "changeDecade" 1}} class="btn btn-xs btn-default">
+                    <button tabIndex="-1" {{action "changeDecade" 1}} class="btn btn-xs btn-default">
                         <span class="sl-icon-next">next decade</span>
                     </button>
                 </th>

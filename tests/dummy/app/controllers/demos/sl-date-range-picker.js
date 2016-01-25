@@ -12,6 +12,6 @@ export default Ember.Controller.extend({
         end: '02/05/2016'
     },
 
-    startDate: '01/07/2016',
-    endDate: '01/28/2016'
+    startDate: window.moment( '01/07/2016', 'MM/DD/YYYY' ),
+    endDate: window.moment( '01/28/2016', 'MM/DD/YYYY' )
 });

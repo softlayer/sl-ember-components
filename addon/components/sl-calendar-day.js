@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/sl-calendar-day';
+//import layout from '../templates/components/sl-calendar-day';
 
 /**
  * @module
@@ -33,7 +33,7 @@ export default Ember.Component.extend({
     ],
 
     /** @type {Object} */
-    layout,
+    //layout,
 
     /** @type {String} */
     tagName: 'td',
@@ -62,7 +62,7 @@ export default Ember.Component.extend({
     didInsertElement() {
         this._super( ...arguments );
 
-        this.applyFocus();
+        this.focus();
     },
 
     // -------------------------------------------------------------------------
@@ -110,14 +110,19 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Observers
 
+    focus: Ember.observer(
+        'tabIndex',
+        function() {
+            if ( this.get( 'focused' ) ) {
+                Ember.run.scheduleOnce( 'afterRender', this, function() {
+                    this.$().get( 0 ).focus();
+                });
+            }
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
-
-    applyFocus() {
-        if ( this.get( 'focused' ) ) {
-            this.$().get( 0 ).focus();
-        }
-    },
 
     ariaSelected: Ember.computed(
         'active',

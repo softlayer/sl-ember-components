@@ -12,5 +12,5 @@ export default Ember.Controller.extend({
         end: '02/05/2016'
     },
 
-    tempValue: '01/11/2016'
+    selectedDate: window.moment( '01/11/2016', 'MM/DD/YYYY' )
 });
