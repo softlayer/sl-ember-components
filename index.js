@@ -13,7 +13,7 @@ var fingerprintDefaults = require( 'broccoli-asset-rev/lib/default-options' );
  * @param {Array} array
  * @returns {Array} uniqueArray
  */
-const unique = function( array ) {
+var unique = function( array ) {
     const isDuplicateElement = {};
     const uniqueArray = [];
     for( let i = 0; i < array.length; i++ ) {
