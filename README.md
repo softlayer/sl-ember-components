@@ -191,6 +191,36 @@ Ember.onerror = function( error ) {
 };
 ```
 
+## Fingerprinting Assets
+If fingerprinting is enabled in the consuming application, then by default the following font types are fingerprinted:
+
+    eot, svg, ttf, woff, woff2
+
+**IMPORTANT**: If in the consuming application the font extensions are specified to anything other than
+the default extension [settings](https://github.com/rickharrison/broccoli-asset-rev/blob/master/lib/default-options.js)
+(specified by broccoli-asset-rev), then if font file fingerprinting is desired, it will need to be added to the `extensions`
+property in the consuming application's fingerprinting settings in `ember-cli-build.js`:
+
+```
+const EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
+const env = require( './config/environment' );
+
+module.exports = function( defaults ) {
+    const app = new EmberApp( defaults, {
+    // Add options here
+        fingerprint: {
+            enabled: true,
+            exclude: [],
+            extensions: [ 'png', 'jpg', 'gif', 'eot', 'svg', 'ttf', 'woff', 'woff2' ],
+            prepend: env().baseAssetsURL,
+            replaceExtensions: [ 'html', 'css', 'js' ]
+        }
+    });
+    ...
+    return app.toTree();
+};
+```
+
 ## Styling
 
 If you wish to modify the styling of the components you have two options for doing so.
