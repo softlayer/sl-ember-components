@@ -31,6 +31,22 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     // -------------------------------------------------------------------------
     // Events
 
+    init() {
+        this._super( ...arguments );
+
+        // wish this didn't need to be here.... it's copied from calendar
+        // currently this needs to exist here as well
+        const selectConstraint = this.get( 'selectConstraint' );
+
+        for ( let i in selectConstraint ) {
+            selectConstraint[ i ] = window.moment( selectConstraint[i] );
+            if ( !selectConstraint[ i ].isValid ) {
+                // throw an error or warning here
+            }
+        }
+        this.set( 'selectConstraint', selectConstraint );
+    },
+
     /**
      * didInsertElement event hook
      *
@@ -50,10 +66,6 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
         this._super( ...arguments );
         //this.unregisterEvents();
     },*/
-
-    init() {
-        this._super( ...arguments );
-    },
 
     // -------------------------------------------------------------------------
     // Properties
@@ -77,14 +89,14 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      *
      * @type {?Date|String}
      */
-    maxDate: null,
+    //maxDate: null,
 
     /**
      * The earliest date selectable in the range
      *
      * @type {?Date|String}
      */
-    minDate: null,
+    //minDate: null,
 
     /**
      * The value for the startDate input
@@ -93,23 +105,50 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      */
     startDateValue: null,
 
+    startDate: null,
+
+    endDate: null,
+
     selectConstraint: {
         start: null,
         end: null
     },
 
+    locale: 'en',
+
     // -------------------------------------------------------------------------
     // Observers
 
-    fubar: Ember.observer(
-        'format',
+    // -------------------------------------------------------------------------
+    // Methods
+
+    endSelectConstraint: Ember.computed(
+        'endDate',
+        'selectConstraint',
         function() {
-            console.log( '(RANGE obs) format: ', this.get( 'format' ) );
+            const endDate = this.get( 'endDate' );
+            const selectConstraint = this.get( 'selectConstraint' );
+
+            return {
+                start: selectConstraint.start,
+                end: endDate ? endDate : selectConstraint.end
+            };
         }
     ),
 
-    // -------------------------------------------------------------------------
-    // Methods
+    startSelectConstraint: Ember.computed(
+        'startDate',
+        'selectConstraint',
+        function() {
+            const startDate = this.get( 'startDate' );
+            const selectConstraint = this.get( 'selectConstraint' );
+
+            return {
+                start: startDate ? startDate : selectConstraint.start,
+                end: selectConstraint.end
+            };
+        }
+    ),
 
     /**
      * The earliest selectable endDate, based on minDate and

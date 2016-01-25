@@ -37,7 +37,6 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         inputBlurred() {
             this.trigger( 'focusOut' );
 
-            console.log( '(inputBlurred) format: ', this.get( 'format' ) );
             this.updateValue();
         },
 
@@ -71,6 +70,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     didInsertElement() {
         this._super( ...arguments );
         this.setupDatepicker();
+        this.checkInput();
     },
 
     focusIn( event ) {
@@ -104,20 +104,6 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         });
 
         this.set( 'losingFocus', runNext );
-    },
-
-    init() {
-        this._super( ...arguments );
-
-        console.log( 'formatting inside of init', this.get( 'format' ) );
-
-        if ( !this.get( 'format' ) ) {
-            console.log( 'setting format' );
-            const format = window.moment().localeData().longDateFormat( 'L' );
-            this.set( 'format', format );
-        }
-
-        console.log( this.get( 'format' ) );
     },
 
     keyPress() {
@@ -184,7 +170,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {?Date|String}
      */
-    endDate: null,
+    //endDate: null,
 
     /**
      * Whether or not to force parsing of the input value when the picker is
@@ -196,7 +182,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean}
      */
-    forceParse: true,
+    //forceParse: true,
 
     /**
      * The date format
@@ -211,6 +197,12 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      * @type {?String}
      */
     format: null,
+
+    formatString: Ember.computed(
+        function() {
+           return this.get( 'format' ) || window.moment().localeData().longDateFormat( 'L' );
+        }
+    ),
 
     /**
      * The help text below the datepicker
@@ -294,7 +286,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {?Date|String}
      */
-    startDate: null,
+    //startDate: null,
 
     /**
      * The view that the datepicker should show when it is opened; accepts
@@ -356,7 +348,6 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     dateSelected: Ember.observer(
         'selectedDate',
         function() {
-            console.log( '(selectedDate) format: ', this.get( 'format' ) );
             this.updateValue();
             //this.$( '> input' ).focus();
             //this.set( 'hasFocus', false );
@@ -423,6 +414,11 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         let value = this.get( 'value' );
         const format = this.get( 'format' );
         const parseFormats = this.get( 'parseFormats' );
+        const selectConstraint = this.get( 'selectConstraint' );
+
+        if ( !value ) {
+            return;
+        }
 
         //console.log( 'from value observer: ', this.get( 'value' ) );
 
@@ -431,9 +427,23 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         const date = window.moment( value, parseFormats, this.get( 'locale' ), true );
         //console.log( 'date entered: ', date.format( format ) );
         //return;
-        if ( date.isValid() ) {
-            this.set( 'selectedDate', date );
+        if ( selectConstraint.start ) {
+            if ( date.isBefore( selectConstraint.start ) ) {
+                return;
+            }
         }
+
+        if ( selectConstraint.end ) {
+            if ( date.isAfter( selectConstraint.end ) ) {
+                return;
+            }
+        }
+
+        if ( !date.isValid() ) {
+            return;
+        }
+
+        this.set( 'selectedDate', date );
     },
 
     parseFormats: Ember.computed(
@@ -490,9 +500,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
     updateValue() {
         const date = this.get( 'selectedDate' );
-        const format = this.get( 'format' );
-
-        console.log( 'updateValue', format );
+        const format = this.get( 'formatString' );
 
         if ( date === null ) {
             return;

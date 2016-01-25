@@ -116,9 +116,11 @@ export default Ember.Component.extend({
         },
 
         selectDate( date, data ) {
-            this.setDate( date );
+            const isValid = this.setDate( date );
 
-            this.sendAction( 'action', date, data );
+            if ( isValid ) {
+                this.sendAction( 'action', date, data );
+            }
         },
 
         /**
@@ -243,7 +245,8 @@ export default Ember.Component.extend({
             case 32: // space
 
             case 13: // enter
-                this.set( 'selectedDate', viewingDate );
+                //this.set( 'selectedDate', viewingDate );
+                this.setDate( viewingDate );
                 break;
 
             default:
@@ -375,6 +378,20 @@ export default Ember.Component.extend({
     // Methods
 
     setDate( date ) {
+        const selectConstraint = this.get( 'selectConstraint' );
+
+        if ( selectConstraint.start ) {
+            if ( date.isBefore( selectConstraint.start ) ) {
+                return;
+            }
+        }
+
+        if ( selectConstraint.end ) {
+            if ( date.isAfter( selectConstraint.end ) ) {
+                return;
+            }
+        }
+
         this.set( 'selectedDate', window.moment( date ) );
         this.set( 'viewingDate', window.moment( date ) );
     },

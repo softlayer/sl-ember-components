@@ -53,7 +53,9 @@ export default Ember.Component.extend({
         const date = this.get( 'date' );
 
         //if ( content ) {
+        //if ( !this.get( 'restricted' ) ) {
             this.sendAction( 'action', date, content );
+        //}
         //}
     },
 

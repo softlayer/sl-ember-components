@@ -5,14 +5,24 @@
 <div class="row">
     {{sl-date-picker
         class="sl-daterange-start-date col-md-6"
-        endDate=latestStartDate
         placeholder=startDatePlaceholder
-        startDate=minDate
         value=startDateValue
         inputId=inputId
+
         format=format
+        selectConstraint=endSelectConstraint
+        selectedDate=startDate
     }}
 
+    {{sl-date-picker
+        class="sl-daterange-end-date col-md-6"
+        placeholder=endDatePlaceholder
+        value=endDateValue
+
+        format=format
+        selectConstraint=startSelectConstraint
+        selectedDate=endDate
+    }}
 </div>
 
 {{#if helpText}}
