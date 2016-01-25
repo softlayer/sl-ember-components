@@ -4,14 +4,14 @@
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeMonth" -1}} class="sl-icon-prev">
-                            <span class="sr-only">previous month</span>
+                        <th {{action "changeMonth" -1}}>
+                            <span class="sl-icon-previous">previous month</span>
                         </th>
                         <th {{action "setView" "months"}} class="datepicker-switch" colspan="5">
                             {{currentMonthString}} {{currentYear}}
                         </th>
-                        <th {{action "changeMonth" 1}} class="sl-icon-next">
-                            <span class="sr-only">next month</span>
+                        <th {{action "changeMonth" 1}}>
+                            <span class="sl-icon-next">next month</span>
                         </th>
                     </tr>
                     <tr>
@@ -45,14 +45,14 @@
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeYear" -1}} class="sl-icon-prev">
-                            <span class="sr-only">previous year</span>
+                        <th {{action "changeYear" -1}}>
+                            <span class="sl-icon-previous">previous year</span>
                         </th>
                         <th {{action "setView" "years"}} class="datepicker-switch" colspan="5">
                             {{currentYear}}
                         </th>
-                        <th {{action "changeYear" 1}} class="sl-icon-next">
-                            <span class="sr-only">next year</span>
+                        <th {{action "changeYear" 1}}>
+                            <span class="sl-icon-next">next year</span>
                         </th>
                     </tr>
                 </thead>
@@ -79,14 +79,14 @@
             <table class="table-condensed">
                 <thead>
                     <tr>
-                        <th {{action "changeDecade" -1}} class="sl-icon-prev">
-                            <span class="sr-only">previous decade</span>
+                        <th {{action "changeDecade" -1}}>
+                            <span class="sl-icon-previous">previous decade</span>
                         </th>
                         <th class="datepicker-switch" colspan="5">
                             {{decadeStart}}-{{decadeEnd}}
                         </th>
-                        <th {{action "changeDecade" 1}} class="sl-icon-next">
-                            <span class="sr-only">next decade</span>
+                        <th {{action "changeDecade" 1}}>
+                            <span class="sl-icon-next">next decade</span>
                         </th>
                     </tr>
                 </thead>
