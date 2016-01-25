@@ -3,8 +3,6 @@ import mixinUnderTest from 'sl-ember-components/mixins/sl-component-class-prefix
 import { module, test } from 'qunit';
 import config from 'ember-get-config';
 
-config.componentClassPrefix = 'test-prefix';
-
 module( 'Unit | Mixin | sl component class prefix' );
 
 test( 'Can be successfully mixed', function( assert ) {
@@ -17,6 +15,9 @@ test( 'Can be successfully mixed', function( assert ) {
 });
 
 test( 'getComponentClassName() returns correct class', function( assert ) {
+    const prefix =  config.componentClassPrefix;
+    config.componentClassPrefix = 'test-prefix';
+
     const testObject = Ember.Component.extend( mixinUnderTest, {
         componentClass: 'test-component'
     });
@@ -28,9 +29,15 @@ test( 'getComponentClassName() returns correct class', function( assert ) {
         subject.getComponentClassName(),
         prefixedComponentClass
     );
+
+    //restore prefix to prevent pollution of global config
+    config.componentClassPrefix = prefix;
 });
 
 test( 'Component class is present in classNames array', function( assert ) {
+    const prefix =  config.componentClassPrefix;
+    config.componentClassPrefix = 'test-prefix';
+
     const testObject = Ember.Component.extend( mixinUnderTest, {
         componentClass: 'test-component'
     });
@@ -41,4 +48,7 @@ test( 'Component class is present in classNames array', function( assert ) {
     assert.ok(
         subject.classNames.contains( prefixedComponentClass )
     );
+
+    //restore prefix to prevent pollution of global config
+    config.componentClassPrefix = prefix;
 });

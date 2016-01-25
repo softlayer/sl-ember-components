@@ -158,15 +158,15 @@ test( "Inline true sets sl-radio children's inline property to true", function( 
             {{sl-radio label="Three" value="three"}}
         {{/sl-radio-group}}
     ` );
-    debugger;
+
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.radio' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio' ).length,
         0,
         'Rendered component children buttons are not inline'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.radio-inline' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio-inline' ).length,
         3,
         'Rendered component children buttons are inline'
     );
@@ -182,13 +182,13 @@ test( "Inline false sets sl-radio children's inline property to false", function
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.radio-inline' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio-inline' ).length,
         0,
         'Rendered component has zero inline radio buttons'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.radio' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio' ).length,
         3,
         'Rendered component has three default (non-inline) radio buttons'
     );

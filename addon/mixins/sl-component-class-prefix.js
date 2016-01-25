@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import config from 'ember-get-config';
+import prefix from '../utils/class-prefix';
 
 export default Ember.Mixin.create({
 
@@ -39,7 +39,7 @@ export default Ember.Mixin.create({
      * @returns {String}
      */
     getComponentClassName() {
-        return `${config.componentClassPrefix}-${this.componentClass}`;
+        return prefix( this.componentClass );
     }
 
 });

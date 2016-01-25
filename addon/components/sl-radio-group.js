@@ -5,6 +5,7 @@ import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-radio-group';
 import Namespace from '../mixins/sl-namespace';
 import { throwRadioGroupError } from '../utils/error';
+import prefix from '../utils/class-prefix';
 
 /**
  * @module
@@ -67,7 +68,8 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespa
     // Properties
 
     /**
-     * Component class that will be prefixed with base component class
+     * Component class that will be prefixed
+     * with base component class
      *
      * @type {String}
      */
@@ -122,6 +124,7 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespa
         const value = this.get( 'value' );
         const isDisabled = this.get( 'disabled' );
         const isInline = this.get( 'inline' );
+        const radioComponentClassSelector = `.${prefix( 'radio' )}`;
 
         /**
          * To each sl-radio component apply...
@@ -129,13 +132,14 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespa
          * - Attributes: name, disabled
          * - Classes: radio, radio-inline
          */
-        this.$( 'input:radio' ).each( function() {
+        this.$( radioComponentClassSelector ).each( function() {
             const radio = Ember.$( this );
+            const input = Ember.$( 'input', this );
 
-            radio.attr( 'name', name );
+            input.attr( 'name', name );
 
             if ( isDisabled ) {
-                radio.prop( 'disabled', true );
+                input.prop( 'disabled', true );
                 radio.addClass( 'disabled' );
             }
 
