@@ -31,8 +31,7 @@ export default Ember.Component.extend( ComponentClassPrefix, {
     // Properties
 
     /**
-     * Component class that will be prefixed
-     * with base component class
+     * Component class that will be prefixed with base component class
      *
      * @type {String}
      */

@@ -67,8 +67,7 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespa
     // Properties
 
     /**
-     * Component class that will be prefixed
-     * with base component class
+     * Component class that will be prefixed with base component class
      *
      * @type {String}
      */
@@ -130,14 +129,13 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespa
          * - Attributes: name, disabled
          * - Classes: radio, radio-inline
          */
-        this.$( '.sl-radio' ).each( function() {
+        this.$( 'input:radio' ).each( function() {
             const radio = Ember.$( this );
-            const input = Ember.$( 'input', this );
 
-            input.attr( 'name', name );
+            radio.attr( 'name', name );
 
             if ( isDisabled ) {
-                input.prop( 'disabled', true );
+                radio.prop( 'disabled', true );
                 radio.addClass( 'disabled' );
             }
 

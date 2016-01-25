@@ -22,11 +22,6 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, {
         'inline::form-group'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'sl-radio'
-    ],
-
     /** @type {Object} */
     layout,
 
@@ -41,6 +36,13 @@ export default Ember.Component.extend( ComponentClassPrefix, InputBased, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'radio',
 
     /**
      * Whether to show the component in-line

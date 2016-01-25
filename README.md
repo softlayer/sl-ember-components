@@ -217,13 +217,13 @@ Each component has its own unique CSS class selector so that it is easy to targe
 for these values.
 
 ### Customizing a component's CSS prefix
-All components share a common CSS prefix, namely, `sl-ember-components`. To target and style a particular component for example the `sl-grid` component, one would use the CSS class selector `.sl-ember-components-grid`. The reason for such a verbose selector is to prevent styling conflicts with other libraries. You can customize the prefix value and change it from the default `sl-ember-components` to whatever you would like. Depending on what option you picked in the [Styling](#styling) section, the steps below describe how you would go about customizing the CSS prefix.
+All components share a common CSS prefix, namely, `sl-ember-components`. To target and style a particular component, for example the `sl-grid` component, one would use the CSS class selector `.sl-ember-components-grid`. The reason for such a verbose selector is to prevent styling conflicts with other libraries. You can customize the prefix value and change it from the default `sl-ember-components` to whatever you would like. Depending on what option you picked in the [Styling](#styling) section, the steps below describe how you would go about customizing the CSS prefix.
 
 To get started, you will need to add a config value to your `ember-cli-build.js`
 
 ```
 var app = new EmberApp(defaults, {
-    slEmberComponents: {
+    'sl-ember-components': {
         componentClassPrefix: 'custom-prefix' // specify your custom prefix here
     }
 });

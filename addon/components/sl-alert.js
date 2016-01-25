@@ -79,8 +79,7 @@ export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
     // Properties
 
     /**
-     * Component class that will be prefixed
-     * with base class
+     * Component class that will be prefixed with base class
      *
      * @type {String}
      */

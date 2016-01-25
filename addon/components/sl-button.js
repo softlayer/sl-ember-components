@@ -112,7 +112,6 @@ export default Ember.Component.extend( ComponentClassPrefix, StreamEnabled, Tool
     // -------------------------------------------------------------------------
     // Properties
 
-
     /**
      * Whether or not the button should bubble actions to its parent
      *
@@ -121,8 +120,7 @@ export default Ember.Component.extend( ComponentClassPrefix, StreamEnabled, Tool
     bubbles: true,
 
     /**
-     * Component class that will be prefixed
-     * with base class
+     * Component class that will be prefixed with base class
      *
      * @type {String}
      */

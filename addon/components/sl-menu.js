@@ -110,8 +110,7 @@ export default Ember.Component.extend( StreamEnabled, ComponentClassPrefix, {
     allowShowAll: false,
 
     /**
-     * Component class that will be prefixed
-     * with base component class
+     * Component class that will be prefixed with base component class
      *
      * @type {String}
      */
