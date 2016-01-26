@@ -51,10 +51,6 @@ export default Ember.Controller.extend({
             lib: { 'twb': true, 'ta': true }
         },
         {
-            name: 'loading-icon',
-            lib: { 'sec': true }
-        },
-        {
             name: 'menu',
             lib: { 'sec': true }
         },
