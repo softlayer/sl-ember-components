@@ -15,9 +15,9 @@ test( 'Default state of calendar-day is not active, new or old', function( asser
     );
 
     assert.strictEqual(
-        this.$().hasClass( 'active' ),
+        this.$().hasClass( 'selected' ),
         false,
-        'Default component does not have "active" class'
+        'Default component does not have "selected" class'
     );
 
     assert.strictEqual(
@@ -54,8 +54,8 @@ test( 'Active state is applied correctly', function( assert ) {
     );
 
     assert.ok(
-        this.$().hasClass( 'active' ),
-        'Component element has class "active"'
+        this.$().hasClass( 'selected' ),
+        'Component element has class "selected"'
     );
 });
 
@@ -84,16 +84,6 @@ test( 'Old state is applied correctly', function( assert ) {
     assert.ok(
         this.$().hasClass( 'old' ),
         'Component element has class "old"'
-    );
-});
-
-test( 'Property "day" populates component content', function( assert ) {
-    this.subject({ day: 42 });
-
-    assert.strictEqual(
-        Ember.$.trim( this.$().text() ),
-        '42',
-        '"day" value is set to element content'
     );
 });
 

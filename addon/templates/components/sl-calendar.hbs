@@ -1,7 +1,7 @@
-{{#if viewingDays}}
-    <div class="datepicker-days">
+<div class="calendar-{{viewMode}}">
 
-        <table class="controls">
+    {{#if viewingDays}}
+        <table class="calendar-controls">
             <tr>
                 <th>
                     <button tabIndex="-1" {{action "changeMonth" -1}} class="btn btn-xs btn-default">
@@ -50,13 +50,10 @@
                 {{/each}}
             </tbody>
         </table>
-    </div>
-{{/if}}
+    {{/if}}
 
-{{#if viewingMonths}}
-    <div class="datepicker-months">
-
-        <table class="controls">
+    {{#if viewingMonths}}
+        <table class="calendar-controls">
             <tr>
                 <th>
                     <button tabIndex="-1" {{action "changeYear" -1}} class="btn btn-xs btn-default">
@@ -94,13 +91,10 @@
                 {{/each}}
             </tbody>
         </table>
-    </div>
-{{/if}}
+    {{/if}}
 
-{{#if viewingYears}}
-    <div class="datepicker-years">
-
-        <table class="controls">
+    {{#if viewingYears}}
+        <table class="calendar-controls">
             <tr>
                 <th>
                     <button tabIndex="-1" {{action "changeDecade" -1}} class="btn btn-xs btn-default">
@@ -137,5 +131,6 @@
                 {{/each}}
             </tbody>
         </table>
-    </div>
-{{/if}}
+    {{/if}}
+
+</div>

@@ -17,9 +17,9 @@ test( 'Default state is inactive', function( assert ) {
     );
 
     assert.strictEqual(
-        this.$().hasClass( 'active' ),
+        this.$().hasClass( 'selected' ),
         false,
-        'Component does not have "active" class'
+        'Component does not have "selected" class'
     );
 });
 
@@ -39,8 +39,8 @@ test( 'Active state is set correctly', function( assert ) {
     );
 
     assert.ok(
-        this.$().hasClass( 'active' ),
-        '"active" class is present'
+        this.$().hasClass( 'selected' ),
+        '"selected" class is present'
     );
 });
 
@@ -63,38 +63,3 @@ test( 'Action binding sends action with month', function( assert ) {
 
     this.$().trigger( 'click' );
 });
-
-test( 'Short name property is invalid without month', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'shortName' ),
-        'Invalid date',
-        'Invalid month results in invalid shortName'
-    );
-});
-
-test( 'Short name property is defined with valid month', function( assert ) {
-    const component = this.subject({ month: 1 });
-
-    assert.strictEqual(
-        component.get( 'shortName' ),
-        'Jan',
-        'Valid shortName with valid month'
-    );
-});
-
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const shortNameDependentKeys = [
-        'month'
-    ];
-
-    assert.deepEqual(
-        component.shortName._dependentKeys,
-        shortNameDependentKeys,
-        'Dependent keys are correct for shortName()'
-    );
-});
-

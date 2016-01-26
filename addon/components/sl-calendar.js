@@ -289,6 +289,15 @@ export default Ember.Component.extend({
      */
     dateValuePath: 'date',
 
+    // if true, always shows 6 weeks
+    fixedWeekCount: true,
+
+    // boolean: whether calendar is focusable for keyboard navigation
+    focusable: true,
+
+    // whether or not the calendar currently has focus
+    hasFocus: false,
+
     /**
      * The locale string to use for moment date values
      *
@@ -304,33 +313,24 @@ export default Ember.Component.extend({
      */
     locked: false,
 
-    // today: represented by moment object
-    today: null,
-
-    // if true, always shows 6 weeks
-    fixedWeekCount: true,
-
-    // currently viewed date: represented by moment object
-    viewingDate: null,
-
-    // currently selected date: represented by moment object
-    selectedDate: null,
-
-    // boolean: whether calendar is focusable for keyboard navigation
-    focusable: true,
-
-    // whether or not the calendar currently has focus
-    hasFocus: false,
-
     // constrain selectable dates
     selectConstraint: {
         start: null,
         end: null
     },
 
+    // currently selected date: represented by moment object
+    selectedDate: null,
+
     // the currently shown month
     // used as a computed trigger for building list of weeks in month
     showingMonth: null,
+
+    // today: represented by moment object
+    today: null,
+
+    // currently viewed date: represented by moment object
+    viewingDate: null,
 
     /**
      * The current view mode for the calendar
@@ -382,15 +382,15 @@ export default Ember.Component.extend({
         }
     ),
 
-    // -------------------------------------------------------------------------
-    // Methods
-
     updateShowingMonth: Ember.observer(
         'viewingDate',
         function() {
             this.set( 'showingMonth', this.get( 'viewingDate' ).month() );
         }
     ),
+
+    // -------------------------------------------------------------------------
+    // Methods
 
     setDate( date ) {
         const selectConstraint = this.get( 'selectConstraint' );
@@ -409,6 +409,7 @@ export default Ember.Component.extend({
 
         this.set( 'selectedDate', window.moment( date ) );
         this.set( 'viewingDate', window.moment( date ) );
+        return true;
     },
 
     setMonth( month ) {
@@ -431,10 +432,36 @@ export default Ember.Component.extend({
         this.set( 'viewingDate', window.moment( viewingDate ).year( year ) );
     },
 
-    tabIndex: Ember.computed(
-        'focusable',
+    /**
+     * Locale and viewMode based string title for the calendar
+     *
+     * @function
+     * @returns {String}
+     */
+    calendarTitle: Ember.computed(
+        'viewingDate',
+        'locale',
+        'viewMode',
         function() {
-            return this.get( 'focusable' ) ? 0 : -1;
+            const viewMode = this.get( 'viewMode' );
+            const locale = this.get( 'locale' );
+            const viewingDate = this.get( 'viewingDate' ).locale( locale );
+            let title = '';
+
+            switch( viewMode ) {
+                case View.DAYS:
+                    title = viewingDate.format( 'MMMM YYYY' );
+                    break;
+                case View.MONTHS:
+                    title = viewingDate.format( 'YYYY' );
+                    break;
+                case View.YEARS:
+                    let decadeMod = viewingDate.year() % 10;
+                    title = viewingDate.subtract( decadeMod, 'years' ).format( 'YYYY' );
+                    title += ' - ' + viewingDate.add( 9, 'years' ).format( 'YYYY' );
+                    break;
+            }
+            return title;
         }
     ),
 
@@ -477,39 +504,6 @@ export default Ember.Component.extend({
             }
 
             return dates;
-        }
-    ),
-
-    /**
-     * Locale and viewMode based string title for the calendar
-     *
-     * @function
-     * @returns {String}
-     */
-    calendarTitle: Ember.computed(
-        'viewingDate',
-        'locale',
-        'viewMode',
-        function() {
-            const viewMode = this.get( 'viewMode' );
-            const locale = this.get( 'locale' );
-            const viewingDate = this.get( 'viewingDate' ).locale( locale );
-            let title = '';
-
-            switch( viewMode ) {
-                case View.DAYS:
-                    title = viewingDate.format( 'MMMM YYYY' );
-                    break;
-                case View.MONTHS:
-                    title = viewingDate.format( 'YYYY' );
-                    break;
-                case View.YEARS:
-                    let decadeMod = viewingDate.year() % 10;
-                    title = viewingDate.subtract( decadeMod, 'years' ).format( 'YYYY' );
-                    title += ' - ' + viewingDate.add( 9, 'years' ).format( 'YYYY' );
-                    break;
-            }
-            return title;
         }
     ),
 
@@ -583,6 +577,13 @@ export default Ember.Component.extend({
         }
     ),
 
+    tabIndex: Ember.computed(
+        'focusable',
+        function() {
+            return this.get( 'focusable' ) ? 0 : -1;
+        }
+    ),
+
     /**
      * Whether the current view is "days"
      *
@@ -639,11 +640,11 @@ export default Ember.Component.extend({
         //'contentDates',
         //'showingYear',
         //'selectedDate',
-        'viewingDays',
-        'showingMonth',
         'fixedWeekCount',
         'locale',
         'selectConstraint',
+        'showingMonth',
+        'viewingDays',
         function() {
             const weeks = Ember.A();
 
