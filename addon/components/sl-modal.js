@@ -2,7 +2,8 @@ import Ember from 'ember';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
 import Namespace from '../mixins/sl-namespace';
-import { containsValue, warn } from '../utils/all';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 
 /**
  * Valid size values for the sl-modal component
@@ -40,7 +41,8 @@ export default Ember.Component.extend( StreamEnabled, Namespace, {
 
     /** @type {String[]} */
     classNames: [
-        'modal'
+        'modal',
+        'sl-ember-components'
     ],
 
     /** @type {String[]} */
@@ -56,6 +58,37 @@ export default Ember.Component.extend( StreamEnabled, Namespace, {
 
     // -------------------------------------------------------------------------
     // Events
+
+    /**
+     * init event hook
+     *
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+        this.setLabelledby();
+        this.setupStreamActions();
+    },
+
+    /**
+     * didInsertElement event hook
+     *
+     * @returns {undefined}
+     */
+    didInsertElement() {
+        this._super( ...arguments );
+        this.setupModal();
+    },
+
+    /**
+     * willClearRender event hook
+     *
+     * @returns {undefined}
+     */
+    willClearRender() {
+        this._super( ...arguments );
+        this.unbindHandlers();
+    },
 
     // -------------------------------------------------------------------------
     // Properties
@@ -131,102 +164,89 @@ export default Ember.Component.extend( StreamEnabled, Namespace, {
     // -------------------------------------------------------------------------
     // Observers
 
-    /**
-     * Set ariaLabelledBy target element id
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setLabelledby: Ember.on(
-        'init',
-        function() {
-            this.set( 'ariaLabelledBy', 'modalTitle-' + this.get( 'elementId' ) );
-        }
-    ),
-
-    /**
-     * Setup stream actions bindings
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupStreamActions: Ember.on(
-        'init',
-        function() {
-            const stream = this.get( 'stream' );
-
-            if ( !stream ) {
-                return;
-            }
-
-            stream.on( 'hide', () => {
-                this.hide();
-            });
-
-            stream.on( 'show', () => {
-                this.show();
-            });
-        }
-    ),
-
-    /**
-     * Set up the component as a Bootstrap Modal and listen for events
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupModal: Ember.on(
-        'didInsertElement',
-        function() {
-            const modal = this.$().modal({
-                keyboard: true,
-                show: false,
-                backdrop: this.get( 'backdrop' )
-            });
-
-            modal.on( this.namespaceEvent( 'show.bs.modal' ), () => {
-                this.sendAction( 'beforeShow' );
-            });
-
-            modal.on( this.namespaceEvent( 'shown.bs.modal' ), () => {
-                this.set( 'isOpen', true );
-                this.sendAction( 'afterShow' );
-            });
-
-            modal.on( this.namespaceEvent( 'hide.bs.modal' ), () => {
-                this.sendAction( 'beforeHide' );
-            });
-
-            modal.on( this.namespaceEvent( 'hidden.bs.modal' ), () => {
-                this.set( 'isOpen', false );
-                this.sendAction( 'afterHide' );
-            });
-        }
-    ),
-
-    /**
-     * Unbind bootstrap event handlers
-     *
-     * @function
-     * @returns {undefined}
-     */
-    unbindHandlers: Ember.on(
-        'willClearRender',
-        function() {
-            this.$().off( this.namespaceEvent( 'show.bs.modal' ) );
-            this.$().off( this.namespaceEvent( 'shown.bs.modal' ) );
-            this.$().off( this.namespaceEvent( 'hide.bs.modal' ) );
-            this.$().off( this.namespaceEvent( 'hidden.bs.modal' ) );
-        }
-    ),
-
     // -------------------------------------------------------------------------
     // Methods
 
     /**
+     * Set ariaLabelledBy target element id
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setLabelledby() {
+        this.set( 'ariaLabelledBy', 'modalTitle-' + this.get( 'elementId' ) );
+    },
+
+    /**
+     * Setup stream actions bindings
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupStreamActions() {
+        const stream = this.get( 'stream' );
+
+        if ( !stream ) {
+            return;
+        }
+
+        stream.on( 'hide', () => {
+            this.hide();
+        });
+
+        stream.on( 'show', () => {
+            this.show();
+        });
+    },
+
+    /**
+     * Set up the component as a Bootstrap Modal and listen for events
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupModal() {
+        const modal = this.$().modal({
+            keyboard: true,
+            show: false,
+            backdrop: this.get( 'backdrop' )
+        });
+
+        modal.on( this.namespaceEvent( 'show.bs.modal' ), () => {
+            this.sendAction( 'beforeShow' );
+        });
+
+        modal.on( this.namespaceEvent( 'shown.bs.modal' ), () => {
+            this.set( 'isOpen', true );
+            this.sendAction( 'afterShow' );
+        });
+
+        modal.on( this.namespaceEvent( 'hide.bs.modal' ), () => {
+            this.sendAction( 'beforeHide' );
+        });
+
+        modal.on( this.namespaceEvent( 'hidden.bs.modal' ), () => {
+            this.set( 'isOpen', false );
+            this.sendAction( 'afterHide' );
+        });
+    },
+
+    /**
+     * Unbind bootstrap event handlers
+     *
+     * @private
+     * @returns {undefined}
+     */
+    unbindHandlers() {
+        this.$().off( this.namespaceEvent( 'show.bs.modal' ) );
+        this.$().off( this.namespaceEvent( 'shown.bs.modal' ) );
+        this.$().off( this.namespaceEvent( 'hide.bs.modal' ) );
+        this.$().off( this.namespaceEvent( 'hidden.bs.modal' ) );
+    },
+
+    /**
      * Hide the modal by triggering Bootstrap's modal( hide )
      *
-     * @function
      * @returns {undefined}
      */
     hide() {
@@ -236,7 +256,6 @@ export default Ember.Component.extend( StreamEnabled, Namespace, {
     /**
      * Show the modal by triggering Bootstrap's modal( show )
      *
-     * @function
      * @returns {undefined}
      */
     show() {

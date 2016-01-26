@@ -17,21 +17,15 @@ test( 'Default rendered state', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),
-        'menuitem',
-        'ARIA role is properly set to "menuitem"'
+        'separator',
+        'ARIA role is properly set to "separator"'
     );
 });
 
-test( 'Option type class value depends on `label` value', function( assert ) {
+test( 'divider class depends on `label` value', function( assert ) {
     this.render( hbs`
         {{sl-drop-option}}
     ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'presentation' ),
-        false,
-        'Rendered component initially does not have class "presentation"'
-    );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'divider' ),
@@ -42,15 +36,21 @@ test( 'Option type class value depends on `label` value', function( assert ) {
         {{sl-drop-option label="test"}}
     ` );
 
-    assert.strictEqual(
+    assert.notOk(
         this.$( '>:first-child' ).hasClass( 'divider' ),
-        false,
         'Rendered component does not have class "divider"'
     );
+});
 
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'presentation' ),
-        'Rendered compnonet has class "presentation" with valid "label" value'
+test( 'aria-role properly set for non-separator', function( assert ) {
+    this.render( hbs`
+        {{sl-drop-option label="test"}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'role' ),
+        'menuitem',
+        'ARIA role is properly set to "menuitem"'
     );
 });
 
@@ -105,6 +105,8 @@ test( 'if label is present and icon is set icon image tag is rendered with sampl
 test( 'Action is wired into template hyperlink tag', function( assert ) {
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.render( hbs`
         {{sl-drop-option action="testAction" label="test"}}
     ` );
@@ -114,6 +116,8 @@ test( 'Action is wired into template hyperlink tag', function( assert ) {
             true,
             'The test action was called'
         );
+
+        done();
     });
 
     this.$( '>:first-child' ).find( 'a' ).click();

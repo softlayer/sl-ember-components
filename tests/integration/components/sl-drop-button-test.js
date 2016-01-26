@@ -93,15 +93,9 @@ test( 'Icon class property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span' ).hasClass( 'caret' ),
-        true,
-        'Default component has iconClass "caret"'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'span.caret' ).length,
+        this.$( '>:first-child' ).find( 'span.sl-icon-dropdown' ).length,
         1,
-        'Default rendered component includes caret icon span'
+        'Default rendered component includes sl-icon-dropdown icon span'
     );
 
     this.render( hbs`
@@ -182,6 +176,8 @@ test( 'sl-drop-option label is supported', function( assert ) {
 test( 'Click action triggers bound action', function( assert ) {
     assert.expect( 1 );
 
+    const done = assert.async();
+
     this.render( hbs`
         {{#sl-drop-button}}
             {{sl-drop-option action="testAction" label="red"}}
@@ -193,6 +189,8 @@ test( 'Click action triggers bound action', function( assert ) {
             true,
             'The test action was called'
         );
+
+        done();
     });
 
     this.$( '>:first-child' ).find( 'a' ).click();

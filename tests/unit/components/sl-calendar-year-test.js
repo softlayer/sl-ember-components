@@ -45,9 +45,11 @@ test( 'Default state is not active, new, or old', function( assert ) {
 });
 
 test( 'Click event sends action with year value', function( assert ) {
-    const exampleYear = 2000;
-
     assert.expect( 1 );
+
+    const done = assert.async();
+
+    const exampleYear = 2000;
 
     this.subject({
         action: 'test',
@@ -59,6 +61,8 @@ test( 'Click event sends action with year value', function( assert ) {
                     exampleYear,
                     'Received year'
                 );
+
+                done();
             }
         },
 

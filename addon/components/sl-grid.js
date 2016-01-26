@@ -210,6 +210,30 @@ export default Ember.Component.extend( Namespace, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event hook
+     *
+     * @returns {undefined}
+     */
+    didInsertElement() {
+        this._super( ...arguments );
+
+        this.setupFixedHeader();
+        this.setupCalculatedHeight();
+        this.setupContinuousPaging();
+    },
+
+    /**
+     * willClearRender event hook
+     *
+     * @returns {undefined}
+     */
+    willClearRender() {
+        this._super( ...arguments );
+
+        this.clearEvents();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -419,86 +443,98 @@ export default Ember.Component.extend( Namespace, {
         }
     ),
 
-    /**
-     * Cleanup bound events
-     *
-     * @function
-     * @returns {undefined}
-     */
-    clearEvents: Ember.on(
-        'willClearRender',
-        function() {
-            Ember.$( window ).off( this.namespaceEvent( 'resize' ) );
-            this.disableContinuousPaging();
-        }
-    ),
-
-    /**
-     * Setup the "continuous paging" functionality, if the data set is
-     * not complete
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupContinuousPaging: Ember.on(
-        'didInsertElement',
-        function() {
-            if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
-                this.enableContinuousPaging();
-            }
-        }
-    ),
-
-    /**
-     * Setup fixed position table header
-     *
-     * Also creates a window resize event to ensure grid acts fluid.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupFixedHeader: Ember.on(
-        'didInsertElement',
-        function() {
-            if ( this.get( 'fixedHeader' ) ) {
-                this.resetFixedHeaderWidths();
-                Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
-                    this.resetFixedHeaderWidths();
-                });
-            }
-        }
-    ),
-
-    /**
-     * Setup height of the grid table
-     *
-     * Also creates a window resize event to ensure grid acts fluid.
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupCalculatedHeight: Ember.on(
-        'didInsertElement',
-        function() {
-            this.updateHeight();
-            Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
-                this.updateHeight();
-            });
-        }
-    ),
-
     // -------------------------------------------------------------------------
     // Methods
 
     /**
-     * Namespace event per instance
+     * Cleanup bound events
+     *
+     * @private
+     * @returns {undefined}
+     */
+    clearEvents() {
+        Ember.$( window ).off( this.namespaceEvent( 'resize' ) );
+        this.disableContinuousPaging();
+    },
+
+    /**
+     * Disables the scroll event handling for continuous paging
+     *
+     * @private
+     * @returns {undefined}
+     */
+    disableContinuousPaging() {
+        this.$( '> header + div' ).off( this.namespaceEvent( 'scroll' ) );
+    },
+
+    /**
+     * Enables the scroll event handling for continuous paging
+     *
+     * @returns {undefined}
+     */
+    enableContinuousPaging() {
+        this.$( '> div > table' ).parent().on( this.namespaceEvent( 'scroll' ), ( event ) => {
+            this.handleListContentScroll( event );
+        });
+    },
+
+    /**
+     * For `continuous` grids; callback to the list content scrolling, which is
+     * responsible for determining when triggering requestData is necessary by
+     * checking the scroll location of the content
+     *
+     * @param {jQuery.Event} event - The scroll trigger event
+     * @returns {undefined}
+     */
+    handleListContentScroll( event ) {
+        const listContent = this.$( event.target );
+        const loading = this.get( 'loading' );
+        const nextPageScrollPoint = this.get( 'nextPageScrollPoint' );
+        const scrollBottom = listContent.scrollTop() + listContent.height();
+
+        if ( scrollBottom >= nextPageScrollPoint && !loading ) {
+            this.requestMoreData();
+        }
+    },
+
+    /**
+     * Whether the content has more available data to page in
      *
      * @function
-     * @param {String} - event name
-     * @returns {String}
+     * @returns {Boolean} - True if more content pages are available
      */
-    namespaceEvent( eventName ) {
-        return `${ eventName }.${ this.get( 'elementId' ) }`;
+    hasMoreData: Ember.computed(
+        'content.length',
+        'totalCount',
+        function() {
+            const contentLength = this.get( 'content.length' );
+            const totalCount = this.get( 'totalCount' );
+
+            if ( contentLength && totalCount ) {
+                return contentLength < totalCount;
+            }
+
+            return false;
+        }
+    ),
+
+    /**
+     * Trigger the bound `requestData` action for more content data
+     *
+     * @returns {undefined}
+     */
+    requestMoreData() {
+        if ( this.get( 'hasMoreData' ) ) {
+            const nextPageScrollPoint = this.$( '> div > table' ).parent()[ 0 ]
+                .scrollHeight;
+
+            this.setProperties({
+                'loading': true,
+                nextPageScrollPoint
+            });
+
+            this.sendAction( 'requestData' );
+        }
     },
 
     /**
@@ -522,6 +558,51 @@ export default Ember.Component.extend( Namespace, {
             return context.$( this ).width();
         });
         table.addClass( 'fixed-header' );
+    },
+
+    /**
+     * Setup height of the grid table
+     *
+     * Also creates a window resize event to ensure grid acts fluid.
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupCalculatedHeight() {
+        this.updateHeight();
+        Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+            this.updateHeight();
+        });
+    },
+
+    /**
+     * Setup the "continuous paging" functionality, if the data set is
+     * not complete
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupContinuousPaging() {
+        if ( this.get( 'continuous' ) && this.get( 'hasMoreData' ) ) {
+            this.enableContinuousPaging();
+        }
+    },
+
+    /**
+     * Setup fixed position table header
+     *
+     * Also creates a window resize event to ensure grid acts fluid.
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupFixedHeader() {
+        if ( this.get( 'fixedHeader' ) ) {
+            this.resetFixedHeaderWidths();
+            Ember.$( window ).on( this.namespaceEvent( 'resize' ), () => {
+                this.resetFixedHeaderWidths();
+            });
+        }
     },
 
     /**
@@ -564,89 +645,6 @@ export default Ember.Component.extend( Namespace, {
             return null;
         }
     ),
-
-    /**
-     * Disables the scroll event handling for continuous paging
-     *
-     * @function
-     * @returns {undefined}
-     */
-    disableContinuousPaging() {
-        this.$( '> header + div' ).off( this.namespaceEvent( 'scroll' ) );
-    },
-
-    /**
-     * Enables the scroll event handling for continuous paging
-     *
-     * @function
-     * @returns {undefined}
-     */
-    enableContinuousPaging() {
-        this.$( '> div > table' ).parent().on( this.namespaceEvent( 'scroll' ), ( event ) => {
-            this.handleListContentScroll( event );
-        });
-    },
-
-    /**
-     * For `continuous` grids; callback to the list content scrolling, which is
-     * responsible for determining when triggering requestData is necessary by
-     * checking the scroll location of the content
-     *
-     * @function
-     * @param {jQuery.Event} event - The scroll trigger event
-     * @returns {undefined}
-     */
-    handleListContentScroll( event ) {
-        const listContent = this.$( event.target );
-        const loading = this.get( 'loading' );
-        const nextPageScrollPoint = this.get( 'nextPageScrollPoint' );
-        const scrollBottom = listContent.scrollTop() + listContent.height();
-
-        if ( scrollBottom >= nextPageScrollPoint && !loading ) {
-            this.requestMoreData();
-        }
-    },
-
-    /**
-     * Whether the content has more available data to page in
-     *
-     * @function
-     * @returns {Boolean} - True if more content pages are available
-     */
-    hasMoreData: Ember.computed(
-        'content.length',
-        'totalCount',
-        function() {
-            const contentLength = this.get( 'content.length' );
-            const totalCount = this.get( 'totalCount' );
-
-            if ( contentLength && totalCount ) {
-                return contentLength < totalCount;
-            }
-
-            return false;
-        }
-    ),
-
-    /**
-     * Trigger the bound `requestData` action for more content data
-     *
-     * @function
-     * @returns {undefined}
-     */
-    requestMoreData() {
-        if ( this.get( 'hasMoreData' ) ) {
-            const nextPageScrollPoint = this.$( '> div > table' ).parent()[ 0 ]
-                .scrollHeight;
-
-            this.setProperties({
-                'loading': true,
-                nextPageScrollPoint
-            });
-
-            this.sendAction( 'requestData' );
-        }
-    },
 
     /**
      * Assigns the table part of the grid a calculated height

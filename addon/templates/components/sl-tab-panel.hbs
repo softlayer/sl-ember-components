@@ -1,9 +1,9 @@
 <ul class="nav nav-tabs" role="tablist">
-    {{#each tabs as |tab|}}<!-- commenting to prevent white space nodes
-        --><li class="{{if tab.active "active"}}" data-tab-name={{tab.name}}>
-            <a href="{{tab.link}}" role="tab" data-toggle="tab">{{tab.label}}</a>
-        </li><!--
-    -->{{/each}}
+    {{~#each tabs as |tab|~}}
+      <li class="{{if tab.active "active"}}" data-tab-name={{tab.name}}>
+          <a href="{{tab.link}}" role="tab" data-toggle="tab">{{tab.label}}</a>
+      </li>
+    {{~/each~}}
 </ul>
 
 <div class="tab-content">

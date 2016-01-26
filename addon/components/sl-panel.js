@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/sl-panel';
-import { containsValue, warn } from '../utils/all';
+import containsValue from '../utils/containsValue';
+import warn from '../utils/warn';
 import {
     Theme as TWBSTheme
 } from '../utils/bootstrap-naming';

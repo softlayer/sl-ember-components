@@ -5,7 +5,7 @@ import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';
 import { Size as SizeEnum } from 'sl-ember-components/components/sl-button';
-import * as utils from 'sl-ember-components/utils/all';
+import * as warn from 'sl-ember-components/utils/warn';
 
 const Size = {
     EXTRA_SMALL: 'extra-small',
@@ -206,7 +206,7 @@ test( 'themeClass() returns the correct class', function( assert ) {
         );
     });
 
-    const spy = sinon.spy( utils, 'warn' );
+    const spy = sinon.spy( warn, 'default' );
 
     component.set( 'theme', 'invalid value' );
     component.get( 'themeClass' );
@@ -216,7 +216,7 @@ test( 'themeClass() returns the correct class', function( assert ) {
         'warn() was called when invalid theme was set'
     );
 
-    utils.warn.restore();
+    warn.default.restore();
 });
 
 test( 'sizeClass() returns the correct class', function( assert ) {
@@ -246,7 +246,7 @@ test( 'sizeClass() returns the correct class', function( assert ) {
         );
     });
 
-    const spy = sinon.spy( utils, 'warn' );
+    const spy = sinon.spy( warn, 'default' );
 
     component.set( 'size', 'invalid value' );
     component.get( 'sizeClass' );
@@ -256,7 +256,7 @@ test( 'sizeClass() returns the correct class', function( assert ) {
         'warn() was called when invalid size was set'
     );
 
-    utils.warn.restore();
+    warn.default.restore();
 });
 
 test( 'send() and sendAction() are called when component click() is invoked', function( assert ) {

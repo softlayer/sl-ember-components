@@ -53,6 +53,27 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event hook
+     *
+     * @returns {undefined}
+     */
+    didInsertElement() {
+        this._super( ...arguments );
+        this.setupInputEvents();
+        this.setupTypeahead();
+    },
+
+    /**
+     * willClearRender event hook
+     *
+     * @returns {undefined}
+     */
+    willClearRender() {
+        this._super( ...arguments );
+        this.unregisterEvents();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -95,103 +116,16 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     // Observers
 
     /**
-     * Sets up the input event listeners exposed to the component's
-     * parent controller
+     * Observe `suggestions` and reinitialize typeahead
      *
+     * @private
      * @function
      * @returns {undefined}
      */
-    setupInputEvents: Ember.on(
-        'didInsertElement',
-        function() {
-            if ( this.get( 'blur' ) ) {
-                this.getInput().on( this.namespaceEvent( 'blur' ), () => {
-                    this.sendAction( 'blur' );
-                });
-            }
-        }
-    ),
-
-    /**
-     * Sets up the typeahead behavior when `suggestions` are supplied
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupTypeahead: Ember.observer(
+    setupTypeaheadObserver: Ember.observer(
         'suggestions',
-        Ember.on(
-            'didInsertElement',
-            function() {
-                if (
-                    this.get( 'suggestions' ) &&
-                    !this.get( 'isTypeaheadSetup' )
-                ) {
-                    const namePath = this.get( 'suggestionNamePath' );
-
-                    const typeahead = this.getInput().typeahead({
-                        highlight: true,
-                        hint: true
-                    }, {
-                        displayKey: item => {
-                            if ( 'object' === Ember.typeOf( item ) ) {
-                                return Ember.get( item, namePath );
-                            }
-
-                            return item;
-                        },
-
-                        source: ( query, callback ) => {
-                            const pattern = new RegExp( query, 'i' );
-
-                            callback( this.get( 'suggestions' )
-                                .filter( ( suggestion ) => {
-                                    let searchCandidate;
-
-                                    if (
-                                        'object' === Ember.typeOf( suggestion )
-                                    ) {
-                                        searchCandidate = Ember.get(
-                                            suggestion,
-                                            namePath
-                                        );
-                                    } else {
-                                        searchCandidate = suggestion;
-                                    }
-
-                                    return searchCandidate ?
-                                        searchCandidate.match( pattern ) :
-                                        false;
-                                })
-                            );
-                        }
-                    });
-
-                    const selectItem = ( event, item ) => {
-                        const value = 'object' === Ember.typeOf( item ) ?
-                            Ember.get( item, namePath ) : item;
-                        this.set( 'value', value );
-                    };
-
-                    typeahead.on( 'typeahead:autocomplete', selectItem );
-                    typeahead.on( 'typeahead:select', selectItem );
-
-                    this.set( 'isTypeaheadSetup', true );
-                }
-            }
-        )
-    ),
-
-    /**
-     * Remove events
-     *
-     * @function
-     * @returns {undefined}
-     */
-    unregisterEvents: Ember.on(
-        'willClearRender',
         function() {
-            this.getInput().off( this.namespaceEvent( 'blur' ) );
+            this.setupTypeahead();
         }
     ),
 
@@ -199,9 +133,97 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
     // Methods
 
     /**
+     * Sets up the typeahead behavior are supplied
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupTypeahead() {
+        if (
+            this.get( 'suggestions' ) &&
+            !this.get( 'isTypeaheadSetup' )
+        ) {
+            const namePath = this.get( 'suggestionNamePath' );
+
+            const typeahead = this.getInput().typeahead({
+                highlight: true,
+                hint: true
+            }, {
+                displayKey: item => {
+                    if ( 'object' === Ember.typeOf( item ) ) {
+                        return Ember.get( item, namePath );
+                    }
+
+                    return item;
+                },
+
+                source: ( query, callback ) => {
+                    const pattern = new RegExp( query, 'i' );
+
+                    callback( this.get( 'suggestions' )
+                        .filter( ( suggestion ) => {
+                            let searchCandidate;
+
+                            if (
+                                'object' === Ember.typeOf( suggestion )
+                            ) {
+                                searchCandidate = Ember.get(
+                                    suggestion,
+                                    namePath
+                                );
+                            } else {
+                                searchCandidate = suggestion;
+                            }
+
+                            return searchCandidate ?
+                                searchCandidate.match( pattern ) :
+                                false;
+                        })
+                    );
+                }
+            });
+
+            const selectItem = ( event, item ) => {
+                const value = 'object' === Ember.typeOf( item ) ?
+                    Ember.get( item, namePath ) : item;
+                this.set( 'value', value );
+            };
+
+            typeahead.on( 'typeahead:autocomplete', selectItem );
+            typeahead.on( 'typeahead:select', selectItem );
+
+            this.set( 'isTypeaheadSetup', true );
+        }
+    },
+
+    /**
+     * Sets up the input event listeners exposed to the component's
+     * parent controller
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupInputEvents() {
+        if ( this.get( 'blur' ) ) {
+            this.getInput().on( this.namespaceEvent( 'blur' ), () => {
+                this.sendAction( 'blur' );
+            });
+        }
+    },
+
+    /**
+     * Remove events
+     *
+     * @private
+     * @returns {undefined}
+     */
+    unregisterEvents() {
+        this.getInput().off( this.namespaceEvent( 'blur' ) );
+    },
+
+    /**
      * Get a reference to the internal input element
      *
-     * @function
      * @returns {jQuery.Object}
      */
     getInput() {
