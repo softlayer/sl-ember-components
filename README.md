@@ -117,7 +117,7 @@ Other libraries that are not MIT licensed, though it should not pose a problem, 
 
 # Supported browsers
 
-See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softlayer.github.io/sl-ember-components/browsers.html)
+See [http://softlayer.github.io/sl-ember-components/#/browsers](http://softlayer.github.io/sl-ember-components/#/browsers)
 
 
 
