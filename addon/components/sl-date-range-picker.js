@@ -49,25 +49,13 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     format: null,
 
     /**
-     * The last valid date for the date range
-     *
-     * @type {?Date|String}
-     */
-    //maxDate: null,
-
-    /**
-     * The earliest date selectable in the range
-     *
-     * @type {?Date|String}
-     */
-    //minDate: null,
-
-    /**
      * The value for the startDate input
      *
      * @type {?String}
      */
     //startDateValue: null,
+
+    label: null,
 
     startDate: null,
 
@@ -79,6 +67,10 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     },
 
     locale: 'en',
+
+    startDatePlaceholder: null,
+
+    endDatePlaceholder: null,
 
     // -------------------------------------------------------------------------
     // Observers

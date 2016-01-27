@@ -55,6 +55,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
         selectDate( date ) {
             this.selectDate( date );
+            this.sendAction( 'action', date );
         }
 
     },
@@ -273,7 +274,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {String}
      */
-    startView: 'month',
+    //startView: 'month',
 
     /**
      * When true or "linked", displays a "Today" button at the bottom of the
@@ -284,14 +285,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean|String}
      */
-    todayBtn: false,
+    //todayBtn: false,
 
     /**
      * Whether to highlight the current date or not
      *
      * @type {Boolean}
      */
-    todayHighlight: false,
+    //todayHighlight: false,
 
     /**
      * The date either selected by the datepicker or entered by the user
@@ -305,7 +306,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Number}
      */
-    weekStart: 0,
+    //weekStart: 0,
 
     locale: 'en',
 
@@ -378,13 +379,6 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         }
     ),
 
-    viewingDate: Ember.computed(
-        'selectedDate',
-        function() {
-            return this.get( 'selectedDate' );
-        }
-    ),
-
     selectDate( date ) {
         this.set( 'selectedDate', date );
     },
@@ -402,6 +396,12 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
             return selectedDate.format( format );
         }
-    )
+    ),
 
+    viewingDate: Ember.computed(
+        'selectedDate',
+        function() {
+            return this.get( 'selectedDate' );
+        }
+    )
 });

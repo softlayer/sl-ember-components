@@ -1,18 +1,14 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import sinon from 'sinon';
+import { skip } from 'qunit';
 
 const defaultTemplate = hbs`
     {{sl-date-picker}}
 `;
 
 moduleForComponent( 'sl-date-picker', 'Integration | Component | sl date picker', {
-    integration: true,
-
-    afterEach() {
-        Ember.$( '.datepicker' ).remove();
-    }
+    integration: true
 });
 
 test( 'Default rendered state', function( assert ) {
@@ -91,7 +87,8 @@ test( 'helpText is accepted as a parameter', function( assert ) {
     );
 });
 
-test( 'value is accepted as a parameter', function( assert ) {
+// not proper way to seed value
+skip( 'value is accepted as a parameter', function( assert ) {
     this.render( defaultTemplate );
 
     let input = this.$( '>:first-child' ).find( 'input' );
@@ -176,118 +173,113 @@ test( 'placeholder is accepted as a parameter', function( assert ) {
     );
 });
 
+test( 'properties are properly passed to sl-calendar', function( assert ) {
+    const mockCalendarTemplate = hbs`
+        <span class="testAttrs">{{testAttrs}}</span>
+    `;
+
+    this.registry.register( 'template:sl-calendar', mockCalendarTemplate );
+
+    this.registry.register( 'component:sl-calendar',
+        Ember.Component.extend({
+            layoutName: 'sl-calendar',
+
+            testAttrs: null,
+
+            init() {
+                this._super( ...arguments );
+
+                const attrs = this.get( 'attrs' );
+
+                this.set( 'testAttrs', JSON.stringify( attrs ) );
+            }
+        })
+    );
+
+    const locale = 'fr';
+    const selectedDate = window.moment( [ 2015, 0, 1 ] );
+    const viewingDate = window.moment( [ 2015, 0, 1 ] );
+    const selectConstraint = {
+        start: window.moment( [ 2015, 0, 1 ] ),
+        end: window.moment( [ 2015, 0, 5 ] )
+    };
+
+    this.set( 'locale', locale );
+    this.set( 'selectedDate', selectedDate );
+    this.set( 'viewingDate', viewingDate );
+    this.set( 'selectConstraint', selectConstraint );
+
+    this.render( hbs`
+        {{sl-date-picker
+            locale=locale
+            selectedDate=selectedDate
+            viewingDate=viewingDate
+            selectConstraint=selectConstraint
+            hasFocus=true
+        }}
+    ` );
+
+    const testAttrs = {
+        locale: locale,
+        selectedDate: selectedDate,
+        viewingDate: viewingDate,
+        selectConstraint: selectConstraint
+    };
+
+    const assertAttrs = JSON.parse( JSON.stringify( testAttrs ) );
+
+    const attrs = JSON.parse( this.$( '>:first-child' ).find( 'span.testAttrs' ).text() );
+
+    assert.strictEqual(
+        attrs.fixedWeekCount,
+        true,
+        'fixedWeekCount is passed through to calendar'
+    );
+
+    assert.strictEqual(
+        attrs.locale.value,
+        assertAttrs.locale,
+        'locale is passed through to calendar'
+    );
+
+    assert.strictEqual(
+        attrs.selectedDate.value,
+        assertAttrs.selectedDate,
+        'selectedDate is passed through to calendar'
+    );
+
+    assert.strictEqual(
+        attrs.viewingDate.value,
+        assertAttrs.viewingDate,
+        'viewingDate is passed through to calendar'
+    );
+
+    assert.deepEqual(
+        attrs.selectConstraint.value,
+        assertAttrs.selectConstraint,
+        'selectConstraint is passed through to calendar'
+    );
+});
+
 test( 'action is fired when date changes on datepicker', function( assert ) {
     assert.expect( 1 );
 
     const done = assert.async();
 
-    this.on( 'action', function() {
+    this.render( hbs`
+        {{sl-date-picker action="testAction" hasFocus=true}}
+    ` );
+
+    this.on( 'testAction', function() {
         assert.ok(
+            true,
             'Action was fired'
         );
 
         done();
     });
 
-    this.render( hbs`
-        {{sl-date-picker action="action"}}
-    ` );
-
-    this.$( '>:first-child' )
-        .find( 'input.date-picker' )
-        .triggerHandler( 'focus' );
-
-    Ember.$( '.day:first' ).click();
-});
-
-test( 'updateDateRange() - clears input date when outside of startDate range', function( assert ) {
-    this.set( 'startDate' );
-
-    this.render( hbs`
-        {{sl-date-picker startDate=startDate }}
-    ` );
-
-    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-
-    input.triggerHandler( 'focus' );
-
-    Ember.$( '.day:first' ).click();
-
-    this.set( 'startDate', window.moment().add( 30, 'days' ).toDate() );
-
-    assert.strictEqual(
-        input.datepicker().val(),
-        '',
-        'The datepicker input value was cleared successfully'
-    );
-});
-
-test( 'updateDateRange() - clears input date when outside of endDate range', function( assert ) {
-    this.set( 'endDate' );
-
-    this.render( hbs`
-        {{sl-date-picker endDate=endDate}}
-    ` );
-
-    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-
-    input.triggerHandler( 'focus' );
-
-    Ember.$( '.day:first' ).click();
-
-    this.set( 'endDate', window.moment().subtract( 60, 'days' ).toDate() );
-
-    assert.strictEqual(
-        input.datepicker().val(),
-        '',
-        'The datepicker input value was cleared successfully'
-    );
-});
-
-test( 'End date is set on datepicker when endDate property is updated', function( assert ) {
-    const endDate = window.moment( '2016-01-01' ).toDate();
-    const endDateTwo = window.moment( '2016-02-02' ).toDate();
-
-    this.set( 'endDate', endDate );
-
-    this.render( hbs`
-        {{sl-date-picker endDate=endDate}}
-    ` );
-
-    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = input.data( 'datepicker' );
-    const spy = sinon.spy( Object.getPrototypeOf( datePicker ), 'setEndDate' );
-
-    this.set( 'endDate', endDateTwo );
-
-    assert.ok(
-        spy.calledWith( endDateTwo )
-    );
-
-    datePicker.setEndDate.restore();
-});
-
-test( 'Start date is set on datepicker when startDate property is updated', function( assert ) {
-    const startDate = window.moment( '2016-01-01' ).toDate();
-    const startDateTwo = window.moment( '2016-02-02' ).toDate();
-
-    this.set( 'startDate', startDate );
-
-    this.render( hbs`
-        {{sl-date-picker startDate=startDate}}
-    ` );
-
-    const input = this.$( '>:first-child' ).find( 'input.date-picker' );
-    const datePicker = input.data( 'datepicker' );
-    const spy = sinon.spy( Object.getPrototypeOf( datePicker ), 'setStartDate' );
-
-    this.set( 'startDate', startDateTwo );
-
-    assert.ok(
-        spy.calledWith( startDateTwo )
-    );
-
-    datePicker.setStartDate.restore();
+    this.$( 'td.day:first' ).click();
 });
 
 test( 'Tooltip properties are set correctly when title parameter is set', function( assert ) {

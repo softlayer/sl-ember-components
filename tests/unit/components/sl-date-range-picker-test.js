@@ -27,33 +27,51 @@ test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
-        component.get( 'endDateValue' ),
+        component.get( 'endDate' ),
         null,
-        'endDateValue: null'
+        'endDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'endDatePlaceholder' ),
+        null,
+        'endDatePlaceholder: null'
     );
 
     assert.strictEqual(
         component.get( 'format' ),
-        'mm/dd/yyyy',
-        'format: "mm/dd/yyyy"'
+        null,
+        'format: null'
     );
 
     assert.strictEqual(
-        component.get( 'maxDate' ),
+        component.get( 'label' ),
         null,
-        'maxDate: null'
+        'label: null'
     );
 
     assert.strictEqual(
-        component.get( 'minDate' ),
-        null,
-        'minDate: null'
+        component.get( 'locale' ),
+        'en',
+        'locale: "en"'
     );
 
     assert.strictEqual(
-        component.get( 'startDateValue' ),
+        component.get( 'selectConstraint' ),
+        true,
+        'selectConstraint: ?'
+    );
+
+    assert.strictEqual(
+        component.get( 'startDate' ),
         null,
-        'startDateValue: null'
+        'startDate: null'
+    );
+
+    assert.strictEqual(
+        component.get( 'startDatePlaceholder' ),
+        null,
+        'startDatePlaceholder: null'
     );
 });
 
@@ -75,119 +93,67 @@ test( 'Change focus to end date input upon start date change', function( assert 
     daterangeEndDate.trigger.restore();
 });
 
-test( 'Earliest end date is the based on min date and start date', function( assert ) {
+test( 'Earliest end date is based on selectConstraint and startDate', function( assert ) {
     const component = this.subject();
 
+    const startConstraint = window.moment( [ 2015, 0, 1 ] );
+    const startDate = window.moment( [ 2015, 1, 1 ] );
+
     assert.strictEqual(
-        component.get( 'earliestEndDate' ),
-        null
+        component.get( 'startSelectConstraint' ).start,
+        null,
+        'Earliest end date is null by default'
     );
 
-    Ember.run( () => {
-        component.set( 'minDate', '01/01/2001' );
-    });
+    component.set( 'selectConstraint', {
+        start: startConstraint,
+        end: null
+    } );
 
-    assert.equal(
-        component.get( 'earliestEndDate' ),
-        '01/01/2001'
+    assert.strictEqual(
+        component.get( 'startSelectConstraint' ).start,
+        startConstraint,
+        'Earliest end date is selectConstraint.start if there is one'
     );
 
-    Ember.run( () => {
-        component.set( 'startDateValue', '01/01/2015' );
-    });
+    component.set( 'startDate', startDate );
 
-    assert.equal(
-        component.get( 'earliestEndDate' ),
-        '01/01/2015'
+    assert.strictEqual(
+        component.get( 'startSelectConstraint' ).start,
+        startDate,
+        'Earliest end date is startDate if there is one'
     );
 });
 
-test( 'Latest start date is the based on max date and end date', function( assert ) {
+test( 'Latest start date is based on selectConstraint and endDate', function( assert ) {
     const component = this.subject();
 
-    assert.strictEqual(
-        component.get( 'latestStartDate' ),
-        null
-    );
-
-    Ember.run( () => {
-        component.set( 'maxDate', '01/01/2029' );
-    });
-
-    assert.equal(
-        component.get( 'latestStartDate' ),
-        '01/01/2029'
-    );
-
-    Ember.run( () => {
-        component.set( 'endDateValue', '01/01/2015' );
-    });
-
-    assert.equal(
-        component.get( 'latestStartDate' ),
-        '01/01/2015'
-    );
-});
-
-test( 'Events from start date input are removed upon willClearRender', function( assert ) {
-    const spyOn = sinon.spy( Ember.$.fn, 'on' );
-    const spyOff = sinon.spy( Ember.$.fn, 'off' );
-
-    const component = this.subject();
-
-    this.render();
-
-    spyOn.reset();
-
-    component.trigger( 'didInsertElement' );
-
-    assert.ok(
-        spyOn.calledWith( component.namespaceEvent( 'changeDate' ) ),
-        'changeDate bootstrap date picker event bound'
-    );
-
-    assert.ok(
-        spyOn.alwaysCalledOn( component.get( 'startDateInput' ) ),
-        'changeDate bind was called on startDateInput'
-    );
-
-    spyOff.reset();
-
-    component.trigger( 'willClearRender' );
-
-    assert.ok(
-        spyOff.calledWith( component.namespaceEvent( 'changeDate' ) ),
-        'changeDate bootstrap date picker event unbound'
-    );
-
-    assert.ok(
-        spyOff.alwaysCalledOn( component.get( 'startDateInput' ) ),
-        'changeDate unbind was called on startDateInput'
-    );
-
-    Ember.$.fn.on.restore();
-    Ember.$.fn.off.restore();
-});
-
-test( 'label, startDatePlaceholder, and endDatePlaceholder are undefined by default', function( assert ) {
-    const component = this.subject();
+    const endConstraint = window.moment( [ 2015, 1, 1 ] );
+    const endDate = window.moment( [ 2015, 0, 1 ] );
 
     assert.strictEqual(
-        component.get( 'label' ),
-        undefined,
-        'label is undefined by default'
+        component.get( 'endSelectConstraint' ).end,
+        null,
+        'Latest start date is null by default'
     );
 
-    assert.strictEqual(
-        component.get( 'startDatePlaceholder' ),
-        undefined,
-        'startDatePlaceholder is undefined by default'
-    );
+    component.set( 'selectConstraint', {
+        start: null,
+        end: endConstraint
+    } );
 
     assert.strictEqual(
-        component.get( 'endDatePlaceholder' ),
-        undefined,
-        'endDatePlaceholder is undefined by default'
+        component.get( 'endSelectConstraint' ).end,
+        endConstraint,
+        'Latest start date is selectConstraint.end if there is one'
+    );
+
+    component.set( 'endDate', endDate );
+
+    assert.strictEqual(
+        component.get( 'endSelectConstraint' ).end,
+        endDate,
+        'Latest start date is endDate if there is one'
     );
 });
 
@@ -212,84 +178,4 @@ test( 'label is accepted as a parameter', function( assert ) {
         this.$( '.sl-daterange-start-date input' ).prop( 'id' ),
         'label is used for start date input'
     );
-});
-
-test( 'Default format gets passed to child date pickers', function( assert ) {
-    const component = this.subject();
-
-    assert.equal(
-        this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.format,
-        component.get( 'format' ),
-        'Default format gets passed to start date picker'
-    );
-
-    assert.equal(
-        this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.format,
-        component.get( 'format' ),
-        'Default format gets passed to end date picker'
-    );
-});
-
-test( 'Format parameter gets passed to child date pickers', function( assert ) {
-    const format = 'yyyy/mm/dd';
-
-    this.subject({ format: format });
-
-    assert.equal(
-        this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.format,
-        format,
-        'Format parameter gets passed to start date picker'
-    );
-
-    assert.equal(
-        this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.format,
-        format,
-        'Format parameter gets passed to end date picker'
-    );
-});
-
-// @todo This needs to be updated when upgrading to 1.13 to spy on the child
-// sl-date-pickers rather than directly accessing bootstrap-datepicker values
-test( 'Date pickers have unbound start and end dates by default', function( assert ) {
-    this.subject();
-
-    assert.equal(
-        this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.startDate,
-        -Infinity,
-        'Start date picker start date is unboundt'
-    );
-
-    assert.equal(
-        this.$( '.sl-daterange-start-date input.date-picker' ).data().datepicker.o.endDate,
-        Infinity,
-        'Start date picker end date is unbound'
-    );
-
-    assert.equal(
-        this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.startDate,
-        -Infinity,
-        'End date picker start date is unbound'
-    );
-
-    assert.equal(
-        this.$( '.sl-daterange-end-date input.date-picker' ).data().datepicker.o.endDate,
-        Infinity,
-        'End date picker end date is unbound'
-    );
-});
-
-skip( 'Date pickers respects minDate', function() {
-    // waiting for 1.13 for a way to mock and spy on child components
-});
-
-skip( 'Date pickers respects maxDate', function() {
-    // waiting for 1.13 for a way to mock and spy on child components
-});
-
-skip( 'End date picker respects startDateValue over minDate due to earliestEndDate', function() {
-    // waiting for 1.13 for a way to mock and spy on child components
-});
-
-skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function() {
-    // waiting for 1.13 for a way to mock and spy on child components
 });
