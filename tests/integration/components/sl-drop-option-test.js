@@ -81,27 +81,6 @@ test( 'label is present thus hyperlink tag is rendered', function( assert ) {
     );
 });
 
-test( 'if label is present and icon is set icon image tag is rendered with sample path', function( assert ) {
-    this.render( hbs`
-        {{sl-drop-option label="test"}}
-    ` );
-
-    assert.notOk(
-        this.$( '>:first-child' ).find( 'img' ).attr( 'src' ),
-        'Icon is not present thus img tag not set'
-    );
-
-    this.render( hbs`
-        {{sl-drop-option label="test" icon="testDir/testImg.jpeg"}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( 'img' ).attr( 'src' ),
-        'testDir/testImg.jpeg',
-        'Icon is present with correct path and img tag is rendered with same path'
-    );
-});
-
 test( 'Action is wired into template hyperlink tag', function( assert ) {
     assert.expect( 1 );
 
