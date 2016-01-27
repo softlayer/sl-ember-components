@@ -30,7 +30,7 @@ test( 'getComponentClassName() returns correct class', function( assert ) {
         prefixedComponentClass
     );
 
-    //restore prefix to prevent pollution of global config
+    // restore prefix to prevent pollution of global config
     config.componentClassPrefix = prefix;
 });
 
@@ -49,6 +49,6 @@ test( 'Component class is present in classNames array', function( assert ) {
         subject.classNames.contains( prefixedComponentClass )
     );
 
-    //restore prefix to prevent pollution of global config
+    // restore prefix to prevent pollution of global config
     config.componentClassPrefix = prefix;
 });
