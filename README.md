@@ -196,10 +196,8 @@ If fingerprinting is enabled in the consuming application, then by default the f
 
     eot, svg, ttf, woff, woff2
 
-**IMPORTANT**: If in the consuming application the font extensions are specified to anything other than
-the default extension [settings](https://github.com/rickharrison/broccoli-asset-rev/blob/master/lib/default-options.js)
-(specified by broccoli-asset-rev), then if font file fingerprinting is desired, it will need to be added to the `extensions`
-property in the consuming application's fingerprinting settings in `ember-cli-build.js`:
+**IMPORTANT**: If you list extensions that are not exact matches to [the default ones](https://github.com/rickharrison/broccoli-asset-rev/blob/master/lib/default-options.js)
+set by broccoli-asset-rev, you will need to add the desired font extensions to the extensions property in the consuming application's fingerprinting settings in the `ember-cli-build.js` file, as demonstrated below:
 
 ```
 const EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
@@ -207,7 +205,6 @@ const env = require( './config/environment' );
 
 module.exports = function( defaults ) {
     const app = new EmberApp( defaults, {
-    // Add options here
         fingerprint: {
             enabled: true,
             exclude: [],
@@ -216,7 +213,7 @@ module.exports = function( defaults ) {
             replaceExtensions: [ 'html', 'css', 'js' ]
         }
     });
-    ...
+
     return app.toTree();
 };
 ```

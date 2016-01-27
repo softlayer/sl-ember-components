@@ -11,17 +11,20 @@ var fingerprintDefaults = require( 'broccoli-asset-rev/lib/default-options' );
  * Traverses an array and removes duplicate elements
  *
  * @param {Array} array
- * @returns {Array} uniqueArray
+ * @returns {Array}
  */
 var unique = function( array ) {
     var isDuplicateElement = {};
     var uniqueArray = [];
-    for( var i = 0; i < array.length; i++ ) {
+    var arrayLength = array.length;
+
+    for( var i = 0; i < arrayLength; i++ ) {
         if ( !isDuplicateElement[ array[ i ] ] ) {
             isDuplicateElement[ array[ i ] ] = true;
             uniqueArray.push( array[ i ] );
         }
     }
+
     return uniqueArray;
 };
 
@@ -78,12 +81,12 @@ module.exports = {
         if ( fingerprintOptions.enabled ) {
             var fingerprintDefaultsSorted = fingerprintDefaults.extensions.sort();
             var fingerprintOptionsSorted = fingerprintOptions.extensions.sort();
-            var is_same = ( fingerprintOptionsSorted.length === fingerprintDefaultsSorted.length ) &&
+            var fingerprintExtensionsSetToDefaults = ( fingerprintOptionsSorted.length === fingerprintDefaultsSorted.length ) &&
                 fingerprintOptionsSorted.every( function( element, index ) {
                     return element === fingerprintDefaultsSorted[ index ];
-            } );
+                });
 
-            if ( is_same ) {
+            if ( fingerprintExtensionsSetToDefaults ) {
                 app.options.fingerprint.extensions.push( 'eot', 'svg', 'ttf', 'woff', 'woff2' );
                 app.options.fingerprint.extensions = unique( app.options.fingerprint.extensions );
             }
