@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import sinon from 'sinon';
 import { skip } from 'qunit';
 
@@ -24,6 +25,11 @@ test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
         ComponentInputId.detect( this.subject() ),
         'ComponentInputId Mixin is present'
+    );
+
+    assert.ok(
+        ComponentClassPrefix.detect( this.subject() ),
+        'ComponentClassPrefix Mixin is present'
     );
 });
 

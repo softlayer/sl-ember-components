@@ -16,6 +16,12 @@ test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
+        component.get( 'componentClass' ),
+        'loading-icon',
+        'componentClass is set to loading-icon'
+    );
+
+    assert.strictEqual(
         component.get( 'inverse' ),
         false,
         '"inverse" property defaults to false'

@@ -34,8 +34,8 @@ test( 'Default property values are set correctly', function( assert ) {
 
     assert.strictEqual(
         component.get( 'componentClass' ),
-        'daterange-picker',
-        'componentClass is set to daterange-picker'
+        'date-range-picker',
+        'componentClass is set to date-range-picker'
     );
 
     assert.strictEqual(

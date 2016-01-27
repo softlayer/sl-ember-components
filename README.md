@@ -229,7 +229,7 @@ var app = new EmberApp(defaults, {
 });
 ```
 
-If you are *not* using LESS as a preprocessor then nothing else needs to be done on your part. You should now be able to target components using your custom prefix e.g in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`.
+If you are *not* using LESS as a preprocessor then nothing else needs to be done on your part. You should now be able to target components using your custom prefix (e.g) in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`.
 
 If you are using LESS then you will need to set a `@component-class-prefix` variable *below* the line of code which imports the `sl-ember-components` as shown below.
 
@@ -238,7 +238,7 @@ If you are using LESS then you will need to set a `@component-class-prefix` vari
 @component-class-prefix: custom-prefix;
 ```
 
-You should now be able to target components using your custom prefix e.g in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`.
+You should now be able to target components using your custom prefix (e.g) in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`.
 
 *Note: If you have already served your application, remember to re-serve after making changes to the `ember-cli-build.js` file so changes can take affect.*
 

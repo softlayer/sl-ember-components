@@ -11,17 +11,6 @@ moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date r
     integration: true
 });
 
-test( 'Default rendered state', function( assert ) {
-    this.render( hbs`
-        {{sl-date-range-picker}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-date-range-picker' ),
-        'Has class "sl-date-range-picker"'
-    );
-});
-
 test( 'placeholders are accepted', function( assert ) {
     this.render( hbs`
         {{sl-date-range-picker

@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
-import layout from '../templates/components/sl-date-time';
 import { throwDateTimeError } from '../utils/error';
+import layout from '../templates/components/sl-date-time';
 
 /**
  * Valid date format strings
