@@ -116,10 +116,13 @@ export default Ember.Component.extend({
         'column',
         'record',
         function() {
-            return Ember.get(
-                this.get( 'record.model' ) || this.get( 'record' ),
-                this.get( 'column.valuePath' )
-            );
+            const record = this.get( 'record' );
+            if ( record ) {
+                return Ember.get(
+                    this.get( 'record.model' ) || this.get( 'record' ),
+                    this.get( 'column.valuePath' )
+                );
+            }
         }
     )
 

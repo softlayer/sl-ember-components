@@ -19,13 +19,11 @@ test( 'Column alignment class is applied', function( assert ) {
     const column = defaultColumn.create({
         align: 'right'
     });
-    const record = defaultRecord.create();
 
     this.set( 'column', column );
-    this.set( 'record', record );
 
     this.render( hbs`
-        {{sl-grid-cell column=column record=record}}
+        {{sl-grid-cell column=column}}
     ` );
 
     assert.ok(
@@ -38,13 +36,11 @@ test( 'Primary column class is applied', function( assert ) {
     const column = defaultColumn.create({
         primary: true
     });
-    const record = defaultRecord.create();
 
     this.set( 'column', column );
-    this.set( 'record', record );
 
     this.render( hbs`
-        {{sl-grid-cell column=column record=record}}
+        {{sl-grid-cell column=column}}
     ` );
 
     assert.ok(
