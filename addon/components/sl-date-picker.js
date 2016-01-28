@@ -37,7 +37,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         inputBlurred() {
             this.trigger( 'focusOut' );
 
-            //this.updateValue();
+            // this.updateValue();
         },
 
         inputFocused() {
@@ -67,7 +67,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         this._super( ...arguments );
 
         this.set( 'hasFocus', true );
-        //this.set( 'isOpen', true );
+        // this.set( 'isOpen', true );
 
         const losingFocus = this.get( 'losingFocus' );
         Ember.run.cancel( losingFocus );
@@ -109,14 +109,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean}
      */
-    //autoclose: true,
+    // autoclose: true,
 
     /**
      * Whether or not to show week numbers to the left of week rows
      *
      * @type {Boolean}
      */
-    //calendarWeeks: false,
+    // calendarWeeks: false,
 
     /**
      * When true, displays a "Clear" button at the bottom of the datepicker
@@ -126,7 +126,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean}
      */
-    //clearBtn: false,
+    // clearBtn: false,
 
     /**
      * Days of the week that should be disabled
@@ -150,7 +150,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {?Date|String}
      */
-    //endDate: null,
+    // endDate: null,
 
     /**
      * Whether or not to force parsing of the input value when the picker is
@@ -162,7 +162,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean}
      */
-    //forceParse: true,
+    // forceParse: true,
 
     /**
      * The date format
@@ -180,7 +180,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
     formatString: Ember.computed(
         function() {
-           return this.get( 'format' ) || window.moment().localeData().longDateFormat( 'L' );
+            return this.get( 'format' ) || window.moment().localeData().longDateFormat( 'L' );
         }
     ),
 
@@ -199,14 +199,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {?Array}
      */
-    //inputs: null,
+    // inputs: null,
 
     /**
      * Whether or not to allow date navigation by arrow keys
      *
      * @type {Boolean}
      */
-    //keyboardNavigation: true,
+    // keyboardNavigation: true,
 
     /**
      * The label text above the datepicker's input field
@@ -220,14 +220,14 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {String}
      */
-    //language: 'en',
+    // language: 'en',
 
     /**
      * Set a limit for the view mode; accepts "days", "months", or "years"
      *
      * @type {String}
      */
-    //minViewMode: 'days',
+    // minViewMode: 'days',
 
     /**
      * Enable multidate picking
@@ -241,7 +241,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean|Number}
      */
-    //multidate: false,
+    // multidate: false,
 
     /**
      * A space-separated string for the popup's anchor position
@@ -251,7 +251,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {String}
      */
-    //orientation: 'auto',
+    // orientation: 'auto',
 
     /**
      * The placeholder text that the datepicker should show
@@ -266,7 +266,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {?Date|String}
      */
-    //startDate: null,
+    // startDate: null,
 
     /**
      * The view that the datepicker should show when it is opened; accepts
@@ -274,7 +274,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {String}
      */
-    //startView: 'month',
+    // startView: 'month',
 
     /**
      * When true or "linked", displays a "Today" button at the bottom of the
@@ -285,28 +285,28 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @type {Boolean|String}
      */
-    //todayBtn: false,
+    // todayBtn: false,
 
     /**
      * Whether to highlight the current date or not
      *
      * @type {Boolean}
      */
-    //todayHighlight: false,
+    // todayHighlight: false,
 
     /**
      * The date either selected by the datepicker or entered by the user
      *
      * @type {?String}
      */
-    //value: null,
+    // value: null,
 
     /**
      * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
      *
      * @type {Number}
      */
-    //weekStart: 0,
+    // weekStart: 0,
 
     locale: 'en',
 
@@ -329,7 +329,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
     checkInput() {
         let value = this.get( 'value' );
-        //const format = this.get( 'format' );
+        // const format = this.get( 'format' );
         const parseFormats = this.get( 'parseFormats' );
         const selectConstraint = this.get( 'selectConstraint' );
 
@@ -337,13 +337,13 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
             return;
         }
 
-        //console.log( 'from value observer: ', this.get( 'value' ) );
+        // console.log( 'from value observer: ', this.get( 'value' ) );
 
-        value = value.replace(/\W+/g, "-");
+        value = value.replace( /\W+/g, "-" );
 
         const date = window.moment( value, parseFormats, this.get( 'locale' ), true );
-        //console.log( 'date entered: ', date.format( format ) );
-        //return;
+        // console.log( 'date entered: ', date.format( format ) );
+        // return;
         if ( selectConstraint.start ) {
             if ( date.isBefore( selectConstraint.start ) ) {
                 return;
@@ -370,9 +370,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
             const localeData = window.moment().localeData();
 
             formats.push(
-                localeData.longDateFormat('L').replace(/\W+/g, "-"),
-                localeData.longDateFormat('LL').replace(/\W+/g, "-"),
-                localeData.longDateFormat('L').replace('DD', 'D').replace('MM', 'M').replace(/\W+/g, "-")
+                localeData.longDateFormat( 'L' ).replace( /\W+/g, "-" ),
+                localeData.longDateFormat( 'LL' ).replace( /\W+/g, "-" ),
+                localeData.longDateFormat( 'L' ).replace( 'DD', 'D' ).replace( 'MM', 'M' ).replace( /\W+/g, "-" )
             );
 
             return formats;
@@ -390,7 +390,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
             const selectedDate = this.get( 'selectedDate' );
             const format = this.get( 'formatString' );
 
-            if ( selectedDate === null ) {
+            if ( null === selectedDate ) {
                 return;
             }
 

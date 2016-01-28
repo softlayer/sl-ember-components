@@ -351,7 +351,7 @@ export default Ember.Component.extend({
             for ( let week = 0; week < weeksInMonthView.length; week++ ) {
                 for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
                     if ( Ember.get( weeksInMonthView[ week ][ day ], 'active' ) ) {
-                        Ember.set( weeksInMonthView[ week ][ day ], 'active', false )
+                        Ember.set( weeksInMonthView[ week ][ day ], 'active', false );
                     }
 
                     if ( selectedDate.isSame( Ember.get( weeksInMonthView[ week ][ day ], 'date' ), 'day' ) ) {
@@ -371,7 +371,7 @@ export default Ember.Component.extend({
             for ( let week = 0; week < weeksInMonthView.length; week++ ) {
                 for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
                     if ( Ember.get( weeksInMonthView[ week ][ day ], 'focused' ) ) {
-                        Ember.set( weeksInMonthView[ week ][ day ], 'focused', false )
+                        Ember.set( weeksInMonthView[ week ][ day ], 'focused', false );
                     }
 
                     if ( viewingDate.isSame( Ember.get( weeksInMonthView[ week ][ day ], 'date' ), 'day' ) ) {
@@ -456,7 +456,7 @@ export default Ember.Component.extend({
                     title = viewingDate.format( 'YYYY' );
                     break;
                 case View.YEARS:
-                    let decadeMod = viewingDate.year() % 10;
+                    const decadeMod = viewingDate.year() % 10;
                     title = viewingDate.subtract( decadeMod, 'years' ).format( 'YYYY' );
                     title += ' - ' + viewingDate.add( 9, 'years' ).format( 'YYYY' );
                     break;
@@ -567,7 +567,7 @@ export default Ember.Component.extend({
         function() {
             const m = window.moment().locale( this.get( 'locale' ) );
 
-            let weekdays = window.moment.weekdaysMin();
+            const weekdays = window.moment.weekdaysMin();
 
             for ( let i = m.localeData().firstDayOfWeek(); i > 0; i-- ) {
                 weekdays.push( weekdays.shift() );
@@ -637,9 +637,9 @@ export default Ember.Component.extend({
      * @returns {ember.Array}
      */
     weeksInMonthView: Ember.computed(
-        //'contentDates',
-        //'showingYear',
-        //'selectedDate',
+        // 'contentDates',
+        // 'showingYear',
+        // 'selectedDate',
         'fixedWeekCount',
         'locale',
         'selectConstraint',
@@ -654,9 +654,11 @@ export default Ember.Component.extend({
             const showingYear = viewingDate.year();
             const selectConstraint = this.get( 'selectConstraint' );
 
-            let firstOfMonth = window.moment( '01-' + showingMonth + '-' + showingYear, 'DD-MM-YYYY' ).locale( this.get( 'locale' ) );
-            let firstDayOfWeek = firstOfMonth.localeData().firstDayOfWeek();
-            let nextDayToShow = window.moment( firstOfMonth ).subtract( firstOfMonth.day(), 'days' );
+            const firstOfMonth = window.moment( '01-' + showingMonth + '-' + showingYear, 'DD-MM-YYYY' ).locale(
+                this.get( 'locale' )
+            );
+            const firstDayOfWeek = firstOfMonth.localeData().firstDayOfWeek();
+            const nextDayToShow = window.moment( firstOfMonth ).subtract( firstOfMonth.day(), 'days' );
 
             // support firstDayOfWeek via locale
             nextDayToShow.add( firstDayOfWeek, 'days' );
@@ -669,7 +671,10 @@ export default Ember.Component.extend({
             let weeksToShow = 6;
 
             if ( !this.get( 'fixedWeekCount' ) ) {
-                weeksToShow = window.moment( firstOfMonth ).add( 1, 'months' ).subtract( 1, 'days' ).diff( nextDayToShow, 'weeks' ) + 1;
+                weeksToShow = window.moment( firstOfMonth ).add(
+                    1,
+                    'months'
+                ).subtract( 1, 'days' ).diff( nextDayToShow, 'weeks' ) + 1;
             }
 
             for ( let i = 1; i <= weeksToShow; i++ ) {
@@ -677,8 +682,8 @@ export default Ember.Component.extend({
 
                 for ( let k = 0; k < 7; k++ ) {
                     let isActive = false;
-                    let inNextMonth = nextDayToShow.isAfter( viewingDate, 'month' );
-                    let inPrevMonth = nextDayToShow.isBefore( viewingDate, 'month' );
+                    const inNextMonth = nextDayToShow.isAfter( viewingDate, 'month' );
+                    const inPrevMonth = nextDayToShow.isBefore( viewingDate, 'month' );
                     let isRestricted = false;
 
                     if ( selectedDate ) {

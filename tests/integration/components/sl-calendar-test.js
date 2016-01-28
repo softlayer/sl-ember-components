@@ -149,7 +149,7 @@ test( 'Next and Previous buttons have appropriate classes', function( assert ) {
 });
 
 test( 'Check for classes set on items outside of range in picker', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2015, 1, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 1, 1 ] ) );
     this.set( 'viewMode', 'days' );
 
     this.render( hbs`
@@ -243,7 +243,7 @@ test( 'Check for classes set on items outside of range in picker', function( ass
 });
 
 test( 'Setting viewingDate modifies the view correctly', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2025, 3, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2025, 3, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar viewingDate=viewingDate}}
@@ -288,8 +288,8 @@ skip( 'Setting dateValuePath modifies the view correctly', function( assert ) {
 });
 
 test( 'selectedDate is set correctly', function( assert ) {
-    this.set( 'selectedDate', window.moment( [2015, 1, 15] ) );
-    this.set( 'viewingDate', window.moment( [2015, 1, 1] ) );
+    this.set( 'selectedDate', window.moment( [ 2015, 1, 15 ] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 1, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
@@ -311,13 +311,13 @@ test( 'selectedDate is set correctly', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'td.selected' ).text().trim(),
-        "15",
+        '15',
         'Proper date is set as selected'
     );
 });
 
 test( 'Setting locale to Spanish modifies the view correctly', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2022, 8, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2022, 8, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
@@ -436,8 +436,8 @@ skip( 'Action passes through expected objects in content array', function( asser
 });
 
 test( 'Setting viewMode modifies the view correctly', function( assert ) {
-    this.set( 'selectedDate', window.moment( [2015, 1, 15] ) );
-    this.set( 'viewingDate', window.moment( [2015, 1, 1] ) );
+    this.set( 'selectedDate', window.moment( [ 2015, 1, 15 ] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 1, 1 ] ) );
     this.set( 'viewMode', 'days' );
 
     this.render( hbs`
@@ -450,7 +450,7 @@ test( 'Setting viewMode modifies the view correctly', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.selected' ).text().trim(),
-        "15",
+        '15',
         '"viewMode" of days renders'
     );
 
@@ -458,7 +458,7 @@ test( 'Setting viewMode modifies the view correctly', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.selected' ).text().trim(),
-        "Feb",
+        'Feb',
         '"viewMode" of months renders'
     );
 
@@ -466,13 +466,13 @@ test( 'Setting viewMode modifies the view correctly', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.selected' ).text().trim(),
-        "2015",
+        '2015',
         '"viewMode" of years renders'
     );
 });
 
 test( 'Navigating Forward and Backward by Month', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2015, 8, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
@@ -502,7 +502,7 @@ test( 'Navigating Forward and Backward by Month', function( assert ) {
         'The previous month is set correctly'
     );
 
-    this.set( 'viewingDate', window.moment( [2015, 11, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 11, 1 ] ) );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
@@ -528,7 +528,7 @@ test( 'Navigating Forward and Backward by Month', function( assert ) {
 });
 
 test( 'Navigating Forward and Backward by Year', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2015, 8, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
     this.set( 'viewMode', 'months' );
 
     this.render( hbs`
@@ -562,7 +562,7 @@ test( 'Navigating Forward and Backward by Year', function( assert ) {
 });
 
 test( 'Navigating Forward and Backward by Decade', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2015, 8, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
     this.set( 'viewMode', 'years' );
 
     this.render( hbs`
@@ -657,7 +657,7 @@ skip( 'When Locked, interacting with the view is not Possible', function( assert
 });
 
 test( 'Changing viewMode by View Switcher', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2015, 8, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
     this.set( 'viewMode', 'days' );
 
     this.render( hbs`
@@ -691,8 +691,8 @@ test( 'Changing viewMode by View Switcher', function( assert ) {
 });
 
 test( 'Changing viewMode by Selection', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2015, 8, 1] ) );
-    this.set( 'selectedDate', window.moment( [2015, 8, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
+    this.set( 'selectedDate', window.moment( [ 2015, 8, 1 ] ) );
     this.set( 'viewMode', 'years' );
 
     this.render( hbs`
@@ -727,7 +727,7 @@ test( 'Changing viewMode by Selection', function( assert ) {
 });
 
 test( 'All Days are Displayed in Order', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2015, 0, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 0, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
@@ -735,7 +735,7 @@ test( 'All Days are Displayed in Order', function( assert ) {
         }}
     ` );
 
-    let daysString = "";
+    let daysString = '';
 
     this.$( '>:first-child' ).find( 'td.day' ).each( function() {
         daysString += $( this ).text().trim();
@@ -756,7 +756,7 @@ test( 'All Twelve Months are Displayed in Order', function( assert ) {
         }}
     ` );
 
-    let monthsString = "";
+    let monthsString = '';
 
     this.$( '>:first-child' ).find( 'td.month' ).each( function() {
         monthsString += $( this ).text().trim();
@@ -770,7 +770,7 @@ test( 'All Twelve Months are Displayed in Order', function( assert ) {
 });
 
 test( 'Twelve Years are Displayed in Order', function( assert ) {
-    this.set( 'viewingDate', window.moment( [2022, 0, 1] ) );
+    this.set( 'viewingDate', window.moment( [ 2022, 0, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
@@ -779,7 +779,7 @@ test( 'Twelve Years are Displayed in Order', function( assert ) {
         }}
     ` );
 
-    let yearsString = "";
+    let yearsString = '';
 
     this.$( '>:first-child' ).find( 'td.year' ).each( function() {
         yearsString += $( this ).text().trim();

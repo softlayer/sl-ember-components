@@ -39,7 +39,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      *
      * @type {?String}
      */
-    //endDateValue: null,
+    // endDateValue: null,
 
     /**
      * The string format for date values
@@ -53,7 +53,7 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
      *
      * @type {?String}
      */
-    //startDateValue: null,
+    // startDateValue: null,
 
     label: null,
 

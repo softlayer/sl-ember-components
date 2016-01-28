@@ -1,5 +1,4 @@
 import Ember from 'ember';
-//import layout from '../templates/components/sl-calendar-day';
 
 /**
  * @module
@@ -32,9 +31,6 @@ export default Ember.Component.extend({
         'day'
     ],
 
-    /** @type {Object} */
-    //layout,
-
     /** @type {String} */
     tagName: 'td',
 
@@ -52,11 +48,7 @@ export default Ember.Component.extend({
         const content = this.get( 'content' );
         const date = this.get( 'date' );
 
-        //if ( content ) {
-        //if ( !this.get( 'restricted' ) ) {
-            this.sendAction( 'action', date, content );
-        //}
-        //}
+        this.sendAction( 'action', date, content );
     },
 
     didInsertElement() {
