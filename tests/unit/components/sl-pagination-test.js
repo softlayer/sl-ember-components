@@ -22,9 +22,21 @@ test( 'Default property values', function( assert ) {
     );
 
     assert.strictEqual(
+        component.get( 'changePage' ),
+        null,
+        'changePage is null by default'
+    );
+
+    assert.strictEqual(
         component.get( 'currentPage' ),
         1,
         'currentPage is 1 by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'isResponsive' ),
+        true,
+        'isResponsive is true by default'
     );
 
     assert.strictEqual(
@@ -35,7 +47,10 @@ test( 'Default property values', function( assert ) {
 });
 
 test( 'nextPage action increments currentPage', function( assert ) {
-    const component = this.subject({ totalPages: 2 });
+    const component = this.subject({
+        totalPages: 2,
+        updateResponsivePlugin: function() {}
+    });
 
     Ember.run( () => {
         component.send( 'nextPage' );
@@ -49,7 +64,11 @@ test( 'nextPage action increments currentPage', function( assert ) {
 });
 
 test( 'previousPage action decrements currentPage', function( assert ) {
-    const component = this.subject({ totalPages: 2, currentPage: 2 });
+    const component = this.subject({
+        totalPages: 2,
+        currentPage: 2,
+        updateResponsivePlugin: function() {}
+    });
 
     Ember.run( () => {
         component.send( 'previousPage' );
@@ -65,7 +84,8 @@ test( 'previousPage action decrements currentPage', function( assert ) {
 test( 'onFirstPage property returns the expected values', function( assert ) {
     const component = this.subject({
         currentPage: 2,
-        totalPages: 3
+        totalPages: 3,
+        updateResponsivePlugin: function() {}
     });
 
     assert.strictEqual(
@@ -88,7 +108,9 @@ test( 'onFirstPage property returns the expected values', function( assert ) {
 test( 'onLastPage property returns the expected values', function( assert ) {
     const component = this.subject({
         currentPage: 1,
-        totalPages: 2
+        totalPages: 2,
+        updateResponsivePlugin: function() {},
+        setupResponsivePlugin: function() {}
     });
 
     assert.strictEqual(
@@ -120,7 +142,8 @@ test( 'onLastPage property returns the expected values', function( assert ) {
 
 test( 'changePageBy() adds to currentPage when positive', function( assert ) {
     const component = this.subject({
-        totalPages: 2
+        totalPages: 2,
+        updateResponsivePlugin: function() {}
     });
 
     Ember.run( () => {
@@ -137,7 +160,8 @@ test( 'changePageBy() adds to currentPage when positive', function( assert ) {
 test( 'changePageBy() subtracts from currentPage when negative', function( assert ) {
     const component = this.subject({
         totalPages: 2,
-        currentPage: 2
+        currentPage: 2,
+        updateResponsivePlugin: function() {}
     });
 
     Ember.run( () => {
@@ -159,6 +183,7 @@ test( 'gotoPage() sends the changePage action', function( assert ) {
     const component = this.subject({
         totalPages: 2,
         changePage: 'testAction',
+        updateResponsivePlugin: function() {},
         targetObject: targetObject
     });
 

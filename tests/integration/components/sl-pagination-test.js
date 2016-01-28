@@ -235,3 +235,28 @@ test( 'Responsive plugin is updated when currentPage changes', function( assert 
 
     Ember.$.fn.twbsResponsivePagination.restore();
 });
+
+test( 'Responsive plugin is not used when isResponsive is false', function( assert ) {
+    const spy = sinon.spy( Ember.$.fn, 'twbsResponsivePagination' );
+
+    this.set( 'currentPage', 1 );
+    this.set( 'totalPages', 2 );
+
+    this.render( hbs`
+        {{sl-pagination
+            totalPages=totalPages
+            currentPage=currentPage
+            isResponsive=false
+        }}
+    ` );
+
+    this.set( 'totalPages', 3 );
+    this.set( 'currentPage', 2 );
+
+    assert.notOk(
+        spy.called,
+        'Responsive plugin is never called'
+    );
+
+    Ember.$.fn.twbsResponsivePagination.restore();
+});

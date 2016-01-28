@@ -89,11 +89,25 @@ export default Ember.Component.extend({
     busy: false,
 
     /**
+     * An action to send
+     *
+     * @type {?String}
+     */
+    changePage: null,
+
+    /**
      * The current page number
      *
      * @type {Number}
      */
     currentPage: 1,
+
+    /**
+     * Whether to use the responsive plugin
+     *
+     * @type {Boolean}
+     */
+    isResponsive: true,
 
     /**
      * The total number of pages
@@ -146,7 +160,7 @@ export default Ember.Component.extend({
         'currentPage',
         function() {
             Ember.run.scheduleOnce( 'afterRender', this, function() {
-                if ( this.$() ) {
+                if ( this.get( 'isResponsive' ) ) {
                     this.$().twbsResponsivePagination( 'update' );
                 }
             });
@@ -251,7 +265,7 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     setupResponsivePlugin: function() {
-        if ( this.$() ) {
+        if ( this.get( 'isResponsive' ) ) {
             this.$().twbsResponsivePagination();
         }
     }
