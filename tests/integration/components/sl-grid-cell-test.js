@@ -15,6 +15,10 @@ const defaultRecord = Ember.Object.extend({
     value: 'Test'
 });
 
+const columnTemplate = hbs`
+        {{sl-grid-cell column=column}}
+`;
+
 test( 'Column alignment class is applied', function( assert ) {
     const column = defaultColumn.create({
         align: 'right'
@@ -22,9 +26,7 @@ test( 'Column alignment class is applied', function( assert ) {
 
     this.set( 'column', column );
 
-    this.render( hbs`
-        {{sl-grid-cell column=column}}
-    ` );
+    this.render( columnTemplate );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'text-right' ),
@@ -39,9 +41,7 @@ test( 'Primary column class is applied', function( assert ) {
 
     this.set( 'column', column );
 
-    this.render( hbs`
-        {{sl-grid-cell column=column}}
-    ` );
+    this.render( columnTemplate );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'primary-column' ),
