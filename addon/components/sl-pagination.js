@@ -167,30 +167,6 @@ export default Ember.Component.extend({
         }
     ),
 
-    /**
-     * Array of simple objects representing the pages
-     *
-     * @function
-     * @returns {Array}
-     */
-    range: Ember.computed(
-        'totalPages',
-        function() {
-            const pages = [];
-            const totalPages = this.get( 'totalPages' );
-            const currentPage = this.get( 'currentPage' );
-
-            for( let i = 1; i <= totalPages; i++ ) {
-                pages.push({
-                    index: i,
-                    active: i === currentPage
-                });
-            }
-
-            return pages;
-        }
-    ),
-
     // -------------------------------------------------------------------------
     // Methods
 
@@ -254,6 +230,30 @@ export default Ember.Component.extend({
         'totalPages',
         function() {
             return this.get( 'currentPage' ) === this.get( 'totalPages' );
+        }
+    ),
+
+    /**
+     * Array of simple objects representing the pages
+     *
+     * @function
+     * @returns {Array}
+     */
+    range: Ember.computed(
+        'totalPages',
+        function() {
+            const pages = [];
+            const totalPages = this.get( 'totalPages' );
+            const currentPage = this.get( 'currentPage' );
+
+            for( let i = 1; i <= totalPages; i++ ) {
+                pages.push({
+                    index: i,
+                    active: i === currentPage
+                });
+            }
+
+            return pages;
         }
     ),
 
