@@ -26,14 +26,14 @@ test( 'Default property values', function( assert ) {
 
     assert.strictEqual(
         component.get( 'column' ),
-        null,
-        'column is null'
+        {},
+        'column is an empty object'
     );
 
     assert.strictEqual(
         component.get( 'record' ),
-        null,
-        'record is null'
+        {},
+        'record is an empty object'
     );
 
     assert.deepEqual(
