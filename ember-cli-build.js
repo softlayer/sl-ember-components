@@ -13,7 +13,7 @@ module.exports = function( defaults ) {
         fingerprint: {
             enabled: true,
             exclude: [],
-            extensions: [ 'png', 'jpg', 'gif' ],
+            extensions: [ 'png', 'jpg', 'gif', 'eot', 'svg', 'ttf', 'woff', 'woff2' ],
             prepend: env().baseAssetsURL,
             replaceExtensions: [ 'html', 'css', 'js' ]
         }

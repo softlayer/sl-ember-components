@@ -53,7 +53,7 @@
     "ember-stream": "^0.7.3"
   },
   "devDependencies": {
-    "broccoli-asset-rev": "^2.1.2",
+    "broccoli-asset-rev": "^2.4.2",
     "broccoli-string-replace": "0.1.0",
     "ember-cli": "1.13.8",
     "ember-cli-app-version": "0.5.0",
