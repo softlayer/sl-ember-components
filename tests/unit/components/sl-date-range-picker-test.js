@@ -29,49 +29,49 @@ test( 'Default property values are set correctly', function( assert ) {
     assert.strictEqual(
         component.get( 'endDate' ),
         null,
-        'endDate: null'
+        'endDate is null by default'
     );
 
     assert.strictEqual(
         component.get( 'endDatePlaceholder' ),
         null,
-        'endDatePlaceholder: null'
+        'endDatePlaceholder is null by default'
     );
 
     assert.strictEqual(
         component.get( 'format' ),
         null,
-        'format: null'
+        'format is null by default'
     );
 
     assert.strictEqual(
         component.get( 'label' ),
         null,
-        'label: null'
+        'label is null by default'
     );
 
     assert.strictEqual(
         component.get( 'locale' ),
         'en',
-        'locale: "en"'
+        'locale is "en" by default'
     );
 
     assert.strictEqual(
         component.get( 'selectConstraint' ),
         true,
-        'selectConstraint: ?'
+        'selectConstraint is ? by default'
     );
 
     assert.strictEqual(
         component.get( 'startDate' ),
         null,
-        'startDate: null'
+        'startDate is null by default'
     );
 
     assert.strictEqual(
         component.get( 'startDatePlaceholder' ),
         null,
-        'startDatePlaceholder: null'
+        'startDatePlaceholder is null by default'
     );
 });
 
@@ -177,5 +177,31 @@ test( 'label is accepted as a parameter', function( assert ) {
         this.$( 'label' ).prop( 'for' ),
         this.$( '.sl-daterange-start-date input' ).prop( 'id' ),
         'label is used for start date input'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const endSelectConstraintDependentKeys = [
+        'endDate',
+        'selectConstraint'
+    ];
+
+    const startSelectConstraintDependentKeys = [
+        'startDate',
+        'selectConstraint'
+    ];
+
+    assert.deepEqual(
+        component.endSelectConstraint._dependentKeys,
+        endSelectConstraintDependentKeys,
+        'Dependent keys are correct for endSelectConstraint()'
+    );
+
+    assert.deepEqual(
+        component.startSelectConstraint._dependentKeys,
+        startSelectConstraintDependentKeys,
+        'Dependent keys are correct for startSelectConstraint()'
     );
 });

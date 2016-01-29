@@ -54,7 +54,7 @@ export default Ember.Component.extend({
     didInsertElement() {
         this._super( ...arguments );
 
-        this.focus();
+        //this.focus();
     },
 
     // -------------------------------------------------------------------------
@@ -67,6 +67,8 @@ export default Ember.Component.extend({
      */
     active: false,
 
+    ariaRole: 'gridcell',
+
     /**
      * The various data representing the day (created and passed in through
      * sl-calendar)
@@ -74,6 +76,10 @@ export default Ember.Component.extend({
      * @type {?Object}
      */
     content: null,
+
+    date: null,
+
+    focused: false,
 
     /**
      * Whether the calendar day this cell represents is part of the next month
@@ -90,12 +96,6 @@ export default Ember.Component.extend({
      * @type {Boolean}
      */
     old: false,
-
-    date: null,
-
-    focused: false,
-
-    ariaRole: 'gridcell',
 
     restricted: false,
 

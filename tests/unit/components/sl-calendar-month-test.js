@@ -7,43 +7,23 @@ moduleForComponent(
     }
 );
 
-test( 'Default state is inactive', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
         false,
-        'Component is not active'
+        'active is false by default'
     );
 
     assert.strictEqual(
-        this.$().hasClass( 'selected' ),
-        false,
-        'Component does not have "selected" class'
+        component.get( 'month' ),
+        null,
+        'month is null by default'
     );
 });
 
-test( 'Component has "month" class by default', function( assert ) {
-    assert.ok(
-        this.$().hasClass( 'month' ),
-        '"month" class is present'
-    );
-});
-
-test( 'Active state is set correctly', function( assert ) {
-    const component = this.subject({ active: true });
-
-    assert.ok(
-        component.get( 'active' ),
-        'Component is active'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'selected' ),
-        '"selected" class is present'
-    );
-});
-
+//need to re-visit this one
 test( 'Action binding sends action with month', function( assert ) {
     this.subject({
         action: 'test',

@@ -19,76 +19,76 @@ test( 'Default property values are set correctly', function( assert ) {
     assert.deepEqual(
         component.get( 'content' ),
         [],
-        'content: []'
+        'content is [] by default'
     );
 
     assert.strictEqual(
         component.get( 'dateValuePath' ),
         'date',
-        'dateValuePath: "date"'
+        'dateValuePath is "date" by default'
     );
 
     assert.ok(
         component.get( 'fixedWeekCount' ),
-        'fixedWeekCount: true'
+        'fixedWeekCount is true by default'
     );
 
     assert.ok(
         component.get( 'focusable' ),
-        'focusable: true'
+        'focusable is true by default'
     );
 
     assert.notOk(
         component.get( 'hasFocus' ),
-        'hasFocus: false'
+        'hasFocus is false by default'
     );
 
     assert.strictEqual(
         component.get( 'locale' ),
         'en',
-        'locale: "en"'
+        'locale is "en" by default'
     );
 
     assert.strictEqual(
         component.get( 'locked' ),
         false,
-        'locked: false'
+        'locked is false by default'
     );
 
     assert.strictEqual(
         component.get( 'selectConstraint' ),
         true,
-        'selectConstraint: ?'
+        'selectConstraint is ? by default'
     );
 
     assert.strictEqual(
         component.get( 'selectedDate' ),
         null,
-        'selectedDate: null'
+        'selectedDate is null by default'
     );
 
     assert.strictEqual(
         component.get( 'showingMonth' ),
         null,
-        'showingMonth: null'
+        'showingMonth is null by default'
     );
 
     assert.strictEqual(
         component.get( 'today' ),
         null,
-        'today: null'
+        'today is null by default'
     );
 
     assert.strictEqual(
         component.get( 'viewingDate' ),
         null,
-        'viewingDate: null'
+        'viewingDate is null by default'
     );
 
     assert.strictEqual(
         component.get( 'viewMode' ),
         'days',
-        'viewMode: "days"'
+        'viewMode is "days" by default'
     );
 });
 

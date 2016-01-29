@@ -4,46 +4,29 @@ moduleForComponent( 'sl-calendar-year', 'Unit | Component | sl calendar year', {
     unit: true
 });
 
-test( 'Default state is not active, new, or old', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
         false,
-        'Default component is not active'
+        'active is false by default'
     );
 
     assert.strictEqual(
         component.get( 'new' ),
         false,
-        'Default component is not in new state'
+        'new is false by default'
     );
 
     assert.strictEqual(
         component.get( 'old' ),
         false,
-        'Default component is not in old state'
-    );
-
-    assert.strictEqual(
-        this.$().hasClass( 'active' ),
-        false,
-        'Default rendered component does not have class "active"'
-    );
-
-    assert.strictEqual(
-        this.$().hasClass( 'new' ),
-        false,
-        'Default rendered component does not have class "new"'
-    );
-
-    assert.strictEqual(
-        this.$().hasClass( 'old' ),
-        false,
-        'Default rendered component does not have class "old"'
+        'old is false by default'
     );
 });
 
+//need to re-visit this one
 test( 'Click event sends action with year value', function( assert ) {
     assert.expect( 1 );
 
