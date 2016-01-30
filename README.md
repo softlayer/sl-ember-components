@@ -91,6 +91,13 @@ Provides a mechanism for initiating `console.warn()`s
 Provides a way for individual components to throw errors that are able to be recognized by methods inside of a consuming application's `Ember.onerror()` function. For more details reference the [Error Handling](#error-handling) section below.
 
 
+**CSS Classes provided**
+
+*sl-loading*
+
+Apply a loading indicator to an element.  See the [Loading Indicator section](#loading-indicator) for more information.
+
+
 ---
 
 
@@ -284,6 +291,17 @@ previously explained above:
 }
 ```
 
+### Loading indicator
+
+A loading indicator can be made to display over an element's content, masking it from view, by simply adding the
+*sl-loading* class to it.  This class blurs the content via a dark-colored mask.  If a lighter mask is desired then add
+the additional *inverse* class to the same element.
+
+*Dark Mask Example*
+![Dark Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskDark.png)
+
+*Light Mask Example*
+![Light Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskLight.png)
 
 
 
