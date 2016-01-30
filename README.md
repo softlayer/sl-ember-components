@@ -297,9 +297,9 @@ A loading indicator can be made to display over an element's content, masking it
 *"sl-loading"* class to it.  This class blurs the content via a dark-colored mask.  If a lighter mask is desired then add
 the additional *"inverse"* class to the same element.
 
-![Dark Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskDark.png "Dark Mask Example")
+*Examples*
 
-![Light Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskLight.png "Light Mask Example")
+![Dark Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskDark.png "Dark Mask Example") ![Light Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskLight.png "Light Mask Example")
 
 
 
