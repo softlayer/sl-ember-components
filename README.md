@@ -37,7 +37,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-drop-button
 * sl-grid
 * sl-input
-* sl-loading-icon
 * sl-menu
 * sl-modal
 * sl-pagination
