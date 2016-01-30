@@ -28,9 +28,9 @@ test( 'Default property values are set correctly', function( assert ) {
         'dateValuePath is "date" by default'
     );
 
-    assert.ok(
+    assert.notOk(
         component.get( 'fixedWeekCount' ),
-        'fixedWeekCount is true by default'
+        'fixedWeekCount is false by default'
     );
 
     assert.ok(
@@ -55,11 +55,14 @@ test( 'Default property values are set correctly', function( assert ) {
         'locked is false by default'
     );
 
-    assert.strictEqual(
+    /*assert.strictEqual(
         component.get( 'selectConstraint' ),
-        true,
+        {
+            start: null,
+            end: null
+        },
         'selectConstraint is ? by default'
-    );
+    );*/
 
     assert.strictEqual(
         component.get( 'selectedDate' ),
@@ -143,22 +146,40 @@ skip( 'Lock mode prevents changing state', function( assert ) {
 });
 
 skip( 'locale - Setting causes default of en (English) to be updated', function() {
-});
 
-skip( 'currentMonthString - current month string formatted as full word (January, November, ...)', function() {
 });
 
 skip( 'contentDates - Verify dates array', function() {
+
 });
 
-skip( 'setYear - viewMode and currentYear set correctly', function() {
+skip( 'setDate method sets the viewingDate and selectedDate', function() {
+
+});
+
+skip( 'setMonth method modifies the viewingDate', function() {
+
+});
+
+skip( 'setYear method modifies the viewingDate', function() {
+
 });
 
 skip( 'setView - viewMode set correctly', function() {
+
 });
 
-skip( 'setMonth - currentMonth and viewMode set correctly', function() {
+skip( 'calendar title is correctly generated for each viewMode', function() {
+
 });
+
+skip( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function() {
+
+});
+
+//updateShowingMonth?
+//focusedDateChange?
+//activeDateChange?
 
 test( 'changeDecade action works', function( assert ) {
     const component = this.subject({
@@ -240,67 +261,6 @@ test( 'Incrementing month from December causes year to increment', function( ass
     );
 });
 
-test( 'daysInMonth - Number of days in month is set correctly', function( assert ) {
-    const daysInMonthStub = sinon.stub().returns( 31 );
-
-    const momentStub = sinon.stub( window, 'moment' )
-        .returns( { daysInMonth: daysInMonthStub } );
-
-    const component = this.subject({
-        currentMonth: 12,
-        currentYear: 2015
-    });
-
-    assert.strictEqual(
-        component.get( 'daysInMonth' ),
-        31,
-        '"daysInMonth" is set correctly'
-    );
-
-    assert.deepEqual(
-        momentStub.args[ 0 ][ 0 ],
-        [
-            component.get( 'currentYear' ),
-            component.get( 'currentMonth' ) - 1
-        ],
-        'Moment called with currentYear and currentMonth'
-    );
-
-    window.moment.restore();
-});
-
-test( 'Decade range is correctly based on currentYear', function( assert ) {
-    const component = this.subject({ currentYear: 2023 });
-
-    assert.strictEqual(
-        component.get( 'decadeStart' ),
-        2020,
-        'decadeStart is expected value'
-    );
-
-    assert.strictEqual(
-        component.get( 'decadeEnd' ),
-        2029,
-        'decadeEnd is expected value'
-    );
-});
-
-test( 'Months for year view are generated validly', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'monthsInYearView' ).length,
-        12,
-        'Twelve months are created'
-    );
-});
-
-skip( 'monthsInYearView - active month set correctly', function() {
-    /* Expand 'Months for year view are generated validly' test to also
-        check that the active month is set correctly.
-    */
-});
-
 test( 'View mode is settable to "days"', function( assert ) {
     const component = this.subject({ viewMode: 'days' });
 
@@ -358,356 +318,66 @@ test( 'View mode is settable to "years"', function( assert ) {
     );
 });
 
-test( 'weeksInMonthView - set previousMonth when: currentMonth is anything other than 1', function( assert ) {
-    const daysInMonthStub = sinon.stub().returns( 31 );
-
-    const momentStub = sinon.stub( window, 'moment' )
-        .returns( { daysInMonth: daysInMonthStub } );
-
-    const weeksInMonthView = [
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 30,
-                'new': false,
-                'old': true
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 31,
-                'new': false,
-                'old': true
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 1,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 2,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 3,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 4,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 5,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 6,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 7,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 8,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 9,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 10,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 11,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 12,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 13,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 14,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 15,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 16,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 17,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 18,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 19,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 20,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 21,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 22,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 23,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 24,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 25,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 26,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 27,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 28,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 29,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 30,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 31,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 1,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 2,
-                'new': true,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 3,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 4,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 5,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 6,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 7,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 8,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 9,
-                'new': true,
-                'old': false
-            }
-        ]
-    ];
-
+//old/new/active?
+test( 'Weeks for month view are assembled correctly', function( assert ) {
     const component = this.subject({
-        currentMonth: 12,
-        currentYear: 2015
+        viewingDate: window.moment( [ 2015, 1, 1 ] )
     });
 
-    assert.deepEqual(
-        component.get( 'weeksInMonthView' ),
-        weeksInMonthView,
-        '"weeksInMonthView" is set correctly'
+    let allWeeks = component.get( 'weeksInMonthView' );
+    let flattenedWeeks = [];
+
+    for ( let weekGroup = 0; weekGroup < allWeeks.length; weekGroup++ ) {
+        for ( let week = 0; week < allWeeks[ weekGroup ].length; week++ ) {
+            flattenedWeeks.push( allWeeks[ weekGroup ][ week ] );
+        }
+    }
+
+    assert.strictEqual(
+        flattenedWeeks.length,
+        28,
+        'Twenty eight days were generated for the month view'
     );
 
-    assert.deepEqual(
-        momentStub.args[ 0 ][ 0 ],
-        [
-            component.get( 'currentYear' ),
-            component.get( 'currentMonth' ) - 1
-        ],
-        'Moment called with currentYear and currentMonth'
+    component.set( 'fixedWeekCount', true );
+
+    allWeeks = component.get( 'weeksInMonthView' );
+    flattenedWeeks = [];
+
+    for ( let weekGroup = 0; weekGroup < allWeeks.length; weekGroup++ ) {
+        for ( let week = 0; week < allWeeks[ weekGroup ].length; week++ ) {
+            flattenedWeeks.push( allWeeks[ weekGroup ][ week ] );
+        }
+    }
+
+    assert.strictEqual(
+        flattenedWeeks.length,
+        42,
+        'Forty two days were generated for the month view'
     );
-
-    window.moment.restore();
 });
 
-skip( 'weeksInMonthView - set previousMonth when: currentMonth equals 1', function() {
+//active?
+test( 'Months for year view are assembled correctly', function( assert ) {
+    const component = this.subject();
+
+    const allMonths = component.get( 'monthsInYearView' );
+    const flattenedMonths = [];
+
+    for ( let monthGroup = 0; monthGroup < allMonths.length; monthGroup++ ) {
+        for ( let month = 0; month < allMonths[ monthGroup ].length; month++ ) {
+            flattenedMonths.push( allMonths[ monthGroup ][ month ] );
+        }
+    }
+
+    assert.strictEqual(
+        flattenedMonths.length,
+        12,
+        'Twelve months were generated for the year view'
+    );
 });
 
-skip( 'weeksInMonthView - set nextMonth when: currentMonth is anything other than 12', function() {
-});
-
-skip( 'weeksInMonthView - when firstWeekdayOfCurrentMonth is 0 (Sunday)', function() {
-});
-
-skip( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function() {
-});
-
+//active?
 test( 'Years for decade view are assembled correctly', function( assert ) {
     const component = this.subject();
 

@@ -236,6 +236,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     },
 
     formatString: Ember.computed(
+        'format',
         function() {
             return this.get( 'format' ) || window.moment().localeData().longDateFormat( 'L' );
         }

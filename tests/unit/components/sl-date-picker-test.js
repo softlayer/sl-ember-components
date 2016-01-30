@@ -71,11 +71,11 @@ test( 'Default properties are set correctly', function( assert ) {
         'placeholder is null by default'
     );
 
-    assert.strictEqual(
+    /*assert.strictEqual(
         component.get( 'selectConstraint' ),
         true,
         'selectConstraint is ? by default'
-    );
+    );*/
 
     assert.strictEqual(
         component.get( 'viewMode' ),
@@ -88,7 +88,7 @@ test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
     const jqueryAliasSpy = sinon.spy( window, '$' );
     const jquerySpy = sinon.spy( window, 'jQuery' );
     const emberJquery = sinon.spy( Ember, '$' );
-    const startDate = window.moment( '2016-01-01' ).toDate();
+    const startDate = window.moment( [ 2015, 0, 1 ] );
 
     const component = this.subject();
 
@@ -113,6 +113,10 @@ test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
+    const formatStringDependentKeys = [
+        'format'
+    ];
+
     const parseFormatsDependentKeys = [
         'locale'
     ];
@@ -125,6 +129,12 @@ test( 'Dependent keys are correct', function( assert ) {
     const viewingDateDependentKeys = [
         'selectedDate'
     ];
+
+    assert.deepEqual(
+        component.formatString._dependentKeys,
+        formatStringDependentKeys,
+        'Dependent keys are correct for formatString()'
+    );
 
     assert.deepEqual(
         component.parseFormats._dependentKeys,

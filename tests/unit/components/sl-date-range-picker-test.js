@@ -56,11 +56,11 @@ test( 'Default property values are set correctly', function( assert ) {
         'locale is "en" by default'
     );
 
-    assert.strictEqual(
+    /*assert.strictEqual(
         component.get( 'selectConstraint' ),
         true,
         'selectConstraint is ? by default'
-    );
+    );*/
 
     assert.strictEqual(
         component.get( 'startDate' ),

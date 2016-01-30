@@ -32,9 +32,24 @@ test( 'Selected class is present when in active state', function( assert ) {
 });
 
 test( 'Default action is triggered when element is clicked', function( assert ) {
-    assert.ok(
-        false
-    );
+    assert.expect( 1 );
+
+    const done = assert.async();
+
+    this.render( hbs`
+        {{sl-calendar-month action="testAction"}}
+    ` );
+
+    this.on( 'testAction', function() {
+        assert.ok(
+            true,
+            'Action was fired'
+        );
+
+        done();
+    });
+
+    this.$( '>:first-child' ).click();
 });
 
 test( 'Content is yielded', function( assert ) {

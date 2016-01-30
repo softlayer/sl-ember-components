@@ -290,7 +290,7 @@ export default Ember.Component.extend({
     dateValuePath: 'date',
 
     // if true, always shows 6 weeks
-    fixedWeekCount: true,
+    fixedWeekCount: false,
 
     // boolean: whether calendar is focusable for keyboard navigation
     focusable: true,

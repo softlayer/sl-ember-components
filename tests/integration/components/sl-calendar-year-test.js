@@ -54,17 +54,22 @@ test( 'Old class is present when old is true', function( assert ) {
 });
 
 test( 'Default action is triggered when element is clicked', function( assert ) {
-    assert.ok(
-        false
-    );
-});
+    assert.expect( 1 );
 
-test( 'Content is yielded', function( assert ) {
-    this.render( template );
+    const done = assert.async();
 
-    assert.strictEqual(
-        this.$( '>:first-child' ).text().trim(),
-        '1999',
-        'Content yields successfully'
-    );
+    this.render( hbs`
+        {{sl-calendar-year action="testAction"}}
+    ` );
+
+    this.on( 'testAction', function() {
+        assert.ok(
+            true,
+            'Action was fired'
+        );
+
+        done();
+    });
+
+    this.$( '>:first-child' ).click();
 });

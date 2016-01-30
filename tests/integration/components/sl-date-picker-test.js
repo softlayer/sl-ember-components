@@ -135,7 +135,7 @@ test( 'label is accepted as a parameter', function( assert ) {
     const first = this.$( '>:first-child' );
 
     assert.strictEqual(
-        first.find( 'label' ).html(),
+        first.find( 'label' ).text().trim(),
         labeltext,
         'label element was created with label parameter text'
     );
@@ -170,6 +170,39 @@ test( 'placeholder is accepted as a parameter', function( assert ) {
     assert.strictEqual(
         input.prop( 'placeholder' ),
         placeholder
+    );
+});
+
+test( 'Selected day is set in the input field', function( assert ) {
+    const selectedDate = window.moment( [ 2015, 0, 5 ] );
+    const format = "MM/DD/YYYY";
+
+    this.set( 'selectedDate', selectedDate );
+    this.set( 'format', format );
+
+    this.render( hbs`
+        {{sl-date-picker
+            selectedDate=selectedDate
+            format=format
+        }}
+    ` );
+
+    const input = this.$( '>:first-child' ).find( 'input' );
+
+    assert.strictEqual(
+        input.val(),
+        '01/05/2015',
+        'The selected day is set in the input field'
+    );
+
+    const newDate = window.moment( selectedDate.add( 5, 'months' ) );
+
+    this.set( 'selectedDate', newDate );
+
+    assert.strictEqual(
+        input.val(),
+        '06/05/2015',
+        'The selected day is updated in the input field'
     );
 });
 

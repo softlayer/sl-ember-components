@@ -18,6 +18,12 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'day' ),
         'Has class "day"'
     );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'role' ),
+        'gridcell',
+        'Has role "gridcell"'
+    );
 });
 
 test( 'Selected class is present when in active state', function( assert ) {
@@ -76,26 +82,47 @@ test( 'Disabled class is present when in restricted state', function( assert ) {
 });
 
 test( 'Default action is triggered when element is clicked', function( assert ) {
-    assert.ok(
-        false
-    );
-});
+    assert.expect( 1 );
 
-test( 'ariaRole', function( assert ) {
-    assert.ok(
-        false
-    );
+    const done = assert.async();
+
+    this.render( hbs`
+        {{sl-calendar-day action="testAction"}}
+    ` );
+
+    this.on( 'testAction', function() {
+        assert.ok(
+            true,
+            'Action was fired'
+        );
+
+        done();
+    });
+
+    this.$( '>:first-child' ).click();
 });
 
 test( 'ariaSelected', function( assert ) {
-    assert.ok(
-        false
+    this.render( hbs`
+        {{sl-calendar-day active=true}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'aria-selected' ),
+        'true',
+        'aria-selected is true when calendar-day is active'
     );
 });
 
 test( 'tabIndex', function( assert ) {
-    assert.ok(
-        false
+    this.render( hbs`
+        {{sl-calendar-day focused=true}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).attr( 'tabIndex' ),
+        '0',
+        'tabIndex is set when calendar-day has focus'
     );
 });
 
