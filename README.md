@@ -302,6 +302,25 @@ the additional *"inverse"* class to the same element.
 ![Dark Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskDark.png "Dark Mask Example") ![Light Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskLight.png "Light Mask Example")
 
 
+If you wish to modify the loading image displayed when applying the *"sl-loading"* class you can do so by either
+defining CSS declarations or setting LESS variable values, depending on which [Styling](#styling) approach you are using
+in your application.
+
+To do so via CSS declarations, define the `background-image` property for the `.sl-loading:after` and
+`.sl-loading.inverse:after` selectors.
+
+To do so via LESS, assign values to the `@loading-spinner-light` and `@loading-spinner-dark` variables.
+
+Additional modifications can be applied to any of these selectors as well:
+
+* .sl-loading
+* .sl-loading:before
+* .sl-loading:after
+* .sl-loading.inverse:before
+* .sl-loading.inverse:after
+
+
+
 
 ## Examples and documentation on how to use each component
 
