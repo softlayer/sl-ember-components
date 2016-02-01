@@ -252,7 +252,15 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     });
 
     const setupSpy = sinon.spy( component, 'setupChart' );
-    const updateSpy = sinon.spy( component, 'updateData' );
+    const optionsMatcher = ( options ) => {
+        const optionsFromMethod = component.highchartsOptions();
+
+        // Highcharts modifies options.chart and adds a options.chart.renderTo method
+        // Since this is not a property that we pass in, copy over that property before doing a deepEqual
+        optionsFromMethod.chart.renderTo = options.chart.renderTo;
+
+        return sinon.deepEqual( optionsFromMethod, options );
+    };
 
     assert.strictEqual(
         component.get( 'chart' ),
@@ -268,18 +276,13 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     );
 
     assert.ok(
-        updateSpy.calledOnce,
-        'updateData was called once upon render'
+        spyHighcharts.calledOnce,
+        'highcharts was called once upon render'
     );
 
     assert.ok(
-        spyHighcharts.calledTwice,
-        'highcharts was called twice upon render'
-    );
-
-    assert.ok(
-        spyHighcharts.calledWithExactly(),
-        'highcharts was called once with no parameters'
+        spyHighcharts.calledWithMatch( optionsMatcher ),
+        'highcharts was called once with options'
     );
 });
 
@@ -321,6 +324,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
                 animation: false
             }
         },
+        series: testSeries,
         tooltip: {
             animation: false,
             backgroundColor: 'rgba(0, 0, 0, 0.8)',

@@ -192,6 +192,7 @@ export default Ember.Component.extend({
                     animation: false
                 }
             },
+            series: this.get( 'series' ),
             tooltip: {
                 animation: false,
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -259,9 +260,8 @@ export default Ember.Component.extend({
         this.setHeight();
         this.setWidth();
 
-        chartDiv.highcharts( this.highchartsOptions() );
-        this.set( 'chart', chartDiv.highcharts() );
-        this.updateData();
+        const highCharts = chartDiv.highcharts( this.highchartsOptions() );
+        this.set( 'chart', highCharts );
     }
 
 });
