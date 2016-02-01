@@ -10,9 +10,14 @@
         <h6>Template</h6>
         <pre>\{{#sl-drop-button label="Select a color"}}
     \{{sl-drop-option action="logRed" label="Red"}}
-    \{{sl-drop-option action="logGreen" label="Green"}}
-    \{{sl-drop-option action="logBlue" label="Blue"}}
-    \{{sl-drop-option}}
+    \{{#sl-drop-option action="logGreen"}}
+        Green
+        &lt;i class=&quot;fa fa-cubes&quot;&gt;&lt;/i&gt;
+    \{{/sl-drop-option}}
+    \{{#sl-drop-option action="logBlue" label="Blue"}}
+        &lt;i class=&quot;fa fa-book&quot;&gt;&lt;/i&gt;
+    \{{/sl-drop-option}}
+    \{{sl-drop-option-divider}}
     \{{sl-drop-option action="logWhite" label="White"}}
 \{{/sl-drop-button}}</pre>
     </div>
@@ -21,9 +26,14 @@
         <h6>Rendered Component</h6>
         {{#sl-drop-button label="Select a color"}}
             {{sl-drop-option action="logRed" label="Red"}}
-            {{sl-drop-option action="logGreen" label="Green"}}
-            {{sl-drop-option action="logBlue" label="Blue"}}
-            {{sl-drop-option}}
+            {{#sl-drop-option action="logGreen"}}
+                Green
+                <i class="fa fa-cubes"></i>
+            {{/sl-drop-option}}
+            {{#sl-drop-option action="logBlue" label="Blue"}}
+                <i class="fa fa-book"></i>
+            {{/sl-drop-option}}
+            {{sl-drop-option-divider}}
             {{sl-drop-option action="logWhite" label="White"}}
         {{/sl-drop-button}}
     </div>
