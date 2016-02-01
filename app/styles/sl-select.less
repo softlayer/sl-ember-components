@@ -260,7 +260,7 @@ html[dir="rtl"] {
         opacity: 0;
         z-index: 9998;
         /* styles required for IE to work */
-        background-color: @input-bg;
+        background-color: #fff;
         filter: alpha(opacity=0);
     }
 
@@ -426,8 +426,8 @@ html[dir="rtl"] {
     }
 
     .select2-highlighted {
-        background: @brand-primary;
-        color: @input-bg;
+        background: @component-active-color;
+        color: @@component-active-bg;
 
         em {
             background: transparent;
@@ -439,7 +439,7 @@ html[dir="rtl"] {
         }
 
         .text-muted {
-            color: @input-bg;
+            color: @text-muted;
         }
     }
 
@@ -531,9 +531,9 @@ html[dir="rtl"] {
         }
 
         .select2-search-choice {
-            border: 1px solid @input-border;
-            border-radius: @border-radius-base;
-            color: @text-color;
+            border: @btn-default-border;
+            border-radius: @btn-border-radius-small;
+            color: @btn-default-color;
             cursor: default;
             line-height: 13px;
             margin: 4px 0 0 5px;
@@ -544,17 +544,18 @@ html[dir="rtl"] {
             -ms-user-select: none;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
+            background-color: @btn-default-bg;
 
             &.select2-search-choice-focus {
-                background-color: @brand-primary;
-                border-color: @brand-primary;
-                color: @input-bg;
+                background-color: darken(@btn-default-bg, 10%);
+                border-color: darken(@btn-default-border, 12%);
+                color: @btn-default-color;
 
                 .select2-search-choice-close {
-                    color: @input-bg;
+                    color: @text-muted;
 
                     &:hover {
-                        color: @input-bg;
+                        color: @text-color;
                     }
                 }
             }
