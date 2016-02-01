@@ -5,6 +5,28 @@ var path = require( 'path' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
 var compileLess = require( 'broccoli-less-single' );
+var fingerprintDefaults = require( 'broccoli-asset-rev/lib/default-options' );
+
+/**
+ * Traverses an array and removes duplicate elements
+ *
+ * @param {Array} array
+ * @returns {Array}
+ */
+var unique = function( array ) {
+    var isDuplicateElement = {};
+    var uniqueArray = [];
+    var arrayLength = array.length;
+
+    for( var i = 0; i < arrayLength; i++ ) {
+        if ( !isDuplicateElement[ array[ i ] ] ) {
+            isDuplicateElement[ array[ i ] ] = true;
+            uniqueArray.push( array[ i ] );
+        }
+    }
+
+    return uniqueArray;
+};
 
 module.exports = {
     name: 'sl-ember-components',
@@ -54,6 +76,22 @@ module.exports = {
     included: function( app ) {
         this._super.included( app );
 
+        var fingerprintOptions = app.options.fingerprint;
+
+        if ( fingerprintOptions.enabled ) {
+            var fingerprintDefaultsSorted = fingerprintDefaults.extensions.sort();
+            var fingerprintOptionsSorted = fingerprintOptions.extensions.sort();
+            var fingerprintExtensionsSetToDefaults = ( fingerprintOptionsSorted.length === fingerprintDefaultsSorted.length ) &&
+                fingerprintOptionsSorted.every( function( element, index ) {
+                    return element === fingerprintDefaultsSorted[ index ];
+                });
+
+            if ( fingerprintExtensionsSetToDefaults ) {
+                app.options.fingerprint.extensions.push( 'eot', 'svg', 'ttf', 'woff', 'woff2' );
+                app.options.fingerprint.extensions = unique( app.options.fingerprint.extensions );
+            }
+        }
+
         // -------------------------------------------------------------------------
         // CSS
 
@@ -73,6 +111,7 @@ module.exports = {
         app.import( app.bowerDirectory + '/rxjs/dist/rx.all.js' );
         app.import( app.bowerDirectory + '/select2/select2.js' );
         app.import( app.bowerDirectory + '/typeahead.js/dist/typeahead.bundle.js' );
+        app.import( app.bowerDirectory + '/jquery.fn.twbs-responsive-pagination/src/twbsResponsivePagination.js' );
     },
 
     /**
@@ -82,7 +121,7 @@ module.exports = {
      * @param {Object} tree
      * @returns {Object}
      */
-    postprocessTree: function( type, tree ) {
+    preprocessTree: function( type, tree ) {
         var fonts = new Funnel( 'bower_components/bootstrap', {
             srcDir: 'fonts',
             destDir: this.name + '/assets/fonts',

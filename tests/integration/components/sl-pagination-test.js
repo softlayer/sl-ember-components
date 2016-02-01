@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -166,4 +167,96 @@ test( 'Previous button click decrements the current page and calls the changePag
         1,
         'The changePage action is called with the correct argument'
     );
+});
+
+test( 'Responsive plugin is initialized', function( assert ) {
+    const spy = sinon.spy( Ember.$.fn, 'twbsResponsivePagination' );
+
+    this.set( 'totalPages', 2 );
+
+    this.render( hbs`
+        {{sl-pagination totalPages=totalPages currentPage=1}}
+    ` );
+
+    assert.deepEqual(
+        spy.thisValues[0].get( 0 ),
+        this.$( '>:first-child' ).get( 0 ),
+        'Correct jQuery object was used to call the responsive plugin'
+    );
+
+    // init called directly || initialized with options object || initialized with no params
+    assert.ok(
+        spy.calledWith( 'init' ) || spy.calledWithMatch( {} ) || spy.calledWithExactly(),
+        'Responsive plugin was initialized on creation'
+    );
+
+    spy.reset();
+
+    this.set( 'totalPages', 3 );
+
+    assert.deepEqual(
+        spy.thisValues[0].get( 0 ),
+        this.$( '>:first-child' ).get( 0 ),
+        'Correct jQuery object was used to call the responsive plugin'
+    );
+
+    // init called directly || initialized with options object || initialized with no params
+    assert.ok(
+        spy.calledWith( 'init' ) || spy.calledWithMatch( {} ) || spy.calledWithExactly(),
+        'Responsive plugin was initialized on totalPages change'
+    );
+
+    Ember.$.fn.twbsResponsivePagination.restore();
+});
+
+test( 'Responsive plugin is updated when currentPage changes', function( assert ) {
+    const spy = sinon.spy( Ember.$.fn, 'twbsResponsivePagination' );
+
+    this.set( 'currentPage', 1 );
+
+    this.render( hbs`
+        {{sl-pagination totalPages=3 currentPage=currentPage}}
+    ` );
+
+    spy.reset();
+
+    this.set( 'currentPage', 2 );
+
+    assert.deepEqual(
+        spy.thisValues[0].get( 0 ),
+        this.$( '>:first-child' ).get( 0 ),
+        'Correct jQuery object was used to call the responsive plugin'
+    );
+
+    assert.ok(
+        spy.calledWith( 'update' ),
+        'Responsive plugin was updated'
+    );
+
+    Ember.$.fn.twbsResponsivePagination.restore();
+});
+
+test( 'Responsive plugin is not used when isResponsive is false', function( assert ) {
+    const spy = sinon.spy( Ember.$.fn, 'twbsResponsivePagination' );
+
+    this.set( 'currentPage', 1 );
+    this.set( 'totalPages', 2 );
+
+    this.render( hbs`
+        {{sl-pagination
+            totalPages=totalPages
+            currentPage=currentPage
+            isResponsive=false
+        }}
+    ` );
+
+    this.set( 'totalPages', 3 );
+    this.set( 'currentPage', 2 );
+
+    assert.notOk(
+        spy.called,
+        'Responsive plugin is never called'
+    );
+
+    Ember.$.fn.twbsResponsivePagination.restore();
 });

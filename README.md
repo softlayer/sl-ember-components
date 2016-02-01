@@ -37,7 +37,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-drop-button
 * sl-grid
 * sl-input
-* sl-loading-icon
 * sl-menu
 * sl-modal
 * sl-pagination
@@ -117,7 +116,7 @@ Other libraries that are not MIT licensed, though it should not pose a problem, 
 
 # Supported browsers
 
-See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softlayer.github.io/sl-ember-components/browsers.html)
+See [http://softlayer.github.io/sl-ember-components/#/browsers](http://softlayer.github.io/sl-ember-components/#/browsers)
 
 
 
@@ -188,6 +187,33 @@ Ember.onerror = function( error ) {
     would replace "radioGroup" with "menu". To see what can be used look at addon/utils/error.js.
 
     console.error( error ); // Still send the error to the console
+};
+```
+
+## Fingerprinting Assets
+If fingerprinting is enabled in the consuming application, then by default the following font types are fingerprinted:
+
+    eot, svg, ttf, woff, woff2
+
+**IMPORTANT**: If you list extensions that are not exact matches to [the default ones](https://github.com/rickharrison/broccoli-asset-rev/blob/master/lib/default-options.js)
+set by broccoli-asset-rev, you will need to add the desired font extensions to the extensions property in the consuming application's fingerprinting settings in the `ember-cli-build.js` file, as demonstrated below:
+
+```
+const EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
+const env = require( './config/environment' );
+
+module.exports = function( defaults ) {
+    const app = new EmberApp( defaults, {
+        fingerprint: {
+            enabled: true,
+            exclude: [],
+            extensions: [ 'png', 'jpg', 'gif', 'eot', 'svg', 'ttf', 'woff', 'woff2' ],
+            prepend: env().baseAssetsURL,
+            replaceExtensions: [ 'html', 'css', 'js' ]
+        }
+    });
+
+    return app.toTree();
 };
 ```
 
