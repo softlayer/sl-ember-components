@@ -33,11 +33,6 @@ export default Ember.Component.extend({
     ],
 
     /** @type {String[]} */
-    classNameBindings: [
-        'locked:sl-calendar-locked'
-    ],
-
-    /** @type {String[]} */
     classNames: [
         'sl-ember-components',
         'calendar'
@@ -97,21 +92,21 @@ export default Ember.Component.extend({
         },
 
         /**
-         * Action to trigger component's bound action and pass back content
+         * Action to trigger component's bound action and pass back events
          * associated with the clicked date
          *
          * @function actions:selectDate
          * @param {Object} date - Moment date object representing the clicked
          *        date
-         * @param {Array} data - Collection of content objects with date
-         *        values of the clicked date
+         * @param {Array} events - Collection of event objects associated with
+         *        the clicked date
          * @returns {undefined}
          */
-        selectDate( date, data ) {
+        selectDate( date, events ) {
             const isValid = this.setDate( date );
 
             if ( isValid ) {
-                this.sendAction( 'action', date, data );
+                this.sendAction( 'action', date, events );
             }
         },
 
@@ -148,10 +143,6 @@ export default Ember.Component.extend({
          * @returns {undefined}
          */
         setView( view ) {
-            if ( this.get( 'locked' ) ) {
-                return;
-            }
-
             this.set( 'viewMode', view );
             this.$().focus();
         }
@@ -174,10 +165,6 @@ export default Ember.Component.extend({
 
     keyDown( event ) {
         this._super( ...arguments );
-
-        // handle wai-aria here
-        // https://www.w3.org/TR/2009/WD-wai-aria-practices-20090224/#datepicker
-        // https://web.archive.org/web/20130127091925/http://codetalks.org/source/widgets/datepicker/datepicker.sample.html
 
         const viewingDate = window.moment( this.get( 'viewingDate' ) );
 
@@ -257,37 +244,30 @@ export default Ember.Component.extend({
         const today = window.moment();
         const selectConstraint = this.get( 'selectConstraint' );
 
-        this.set( 'today', today );
-
         if ( !this.get( 'viewingDate' ) ) {
             this.set( 'viewingDate', today );
         }
 
-        for ( let constraint in selectConstraint ) {
+        /*for ( let constraint in selectConstraint ) {
             selectConstraint[ constraint ] = window.moment( selectConstraint[ constraint ] );
             if ( !selectConstraint[ constraint ].isValid ) {
                 // throw an error or warning here
             }
         }
-        this.set( 'selectConstraint', selectConstraint );
+        this.set( 'selectConstraint', selectConstraint );*/
+
+        this.applyEvents();
     },
 
     // -------------------------------------------------------------------------
     // Properties
 
     /**
-     * Array of date value objects
+     * Array of events to represent on the calendar
      *
      * @type {Object[]}
      */
-    content: [],
-
-    /**
-     * String lookup for the date value on the content objects
-     *
-     * @type {String}
-     */
-    dateValuePath: 'date',
+    events: [],
 
     // if true, always shows 6 weeks
     fixedWeekCount: false,
@@ -305,14 +285,6 @@ export default Ember.Component.extend({
      */
     locale: 'en',
 
-    /**
-     * When true, the view mode is locked and users cannot navigate forward
-     * and back
-     *
-     * @type {Boolean}
-     */
-    locked: false,
-
     // constrain selectable dates
     selectConstraint: {
         start: null,
@@ -322,12 +294,11 @@ export default Ember.Component.extend({
     // currently selected date: represented by moment object
     selectedDate: null,
 
+    showControls: true,
+
     // the currently shown month
     // used as a computed trigger for building list of weeks in month
     showingMonth: null,
-
-    // today: represented by moment object
-    today: null,
 
     // currently viewed date: represented by moment object
     viewingDate: null,
@@ -357,6 +328,58 @@ export default Ember.Component.extend({
                     if ( selectedDate.isSame( Ember.get( weeksInMonthView[ week ][ day ], 'date' ), 'day' ) ) {
                         Ember.set( weeksInMonthView[ week ][ day ], 'active', true );
                     }
+                }
+            }
+        }
+    ),
+
+    applyEvents: Ember.observer(
+        'events',
+        'weeksInMonthView',
+        function() {
+            const events = this.get( 'events' );
+            const viewingDate = this.get( 'viewingDate' );
+            const weeksInMonthView = this.get( 'weeksInMonthView' );
+            const eventsPerDay = [];
+
+            for ( let event = 0; event < events.length; event++ ) {
+                const currentEvent = events[ event ];
+                if ( currentEvent.startDate.isAfter( viewingDate, 'month' ) ) {
+                    continue;
+                }
+
+                if ( currentEvent.endDate ) {
+                    if ( currentEvent.endDate.isBefore( viewingDate, 'month' ) ) {
+                        continue;
+                    }
+                }
+
+                for ( let day = 0; day < eventsPerDay.length; day++ ) {
+                    if ( currentEvent.startDate.isSame( eventsPerDay[ day ].date ) ) {
+                        eventsPerDay[ day ].events.push( currentEvent );
+                        continue;
+                    }
+                }
+
+                eventsPerDay.push( {
+                    date: currentEvent.startDate,
+                    events: [].push( currentEvent )
+                });
+            }
+
+            for ( let week = 0; week < weeksInMonthView.length; week++ ) {
+                daysLoop:
+                for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
+                    const date = Ember.get( weeksInMonthView[ week ][ day ], 'date' );
+
+                    eventsLoop:
+                    for ( let eventDay = 0; eventDay < eventsPerDay.length; eventDay++ ) {
+                        if ( date.isSame( eventsPerDay[ eventDay ].date, 'day' ) ) {
+                            Ember.set( weeksInMonthView[ week ][ day ], 'events', eventsPerDay[ eventDay ].events );
+                            continue daysLoop;
+                        }
+                    }
+                    Ember.set( weeksInMonthView[ week ][ day ], 'events', null );
                 }
             }
         }
@@ -397,12 +420,14 @@ export default Ember.Component.extend({
 
         if ( selectConstraint.start ) {
             if ( date.isBefore( selectConstraint.start ) ) {
+                console.log( 'start' );
                 return;
             }
         }
 
         if ( selectConstraint.end ) {
             if ( date.isAfter( selectConstraint.end ) ) {
+                console.log( 'end' );
                 return;
             }
         }
@@ -413,20 +438,12 @@ export default Ember.Component.extend({
     },
 
     setMonth( month ) {
-        if ( this.get( 'locked' ) ) {
-            return;
-        }
-
         const viewingDate = this.get( 'viewingDate' );
 
         this.set( 'viewingDate', window.moment( viewingDate ).month( month - 1 ) );
     },
 
     setYear( year ) {
-        if ( this.get( 'locked' ) ) {
-            return;
-        }
-
         const viewingDate = this.get( 'viewingDate' );
 
         this.set( 'viewingDate', window.moment( viewingDate ).year( year ) );
@@ -466,53 +483,12 @@ export default Ember.Component.extend({
     ),
 
     /**
-     * Object of nested year, month, and day values, representing the dates
-     * supplied by the calendar's content values
-     *
-     * @function
-     * @returns {Object}
-     */
-    contentDates: Ember.computed(
-        'content',
-        'dateValuePath',
-        function() {
-            const content = this.get( 'content' );
-            const dates = {};
-            const dateValuePath = this.get( 'dateValuePath' );
-
-            if ( content ) {
-                content.forEach( ( item ) => {
-                    const date = new Date( Ember.get( item, dateValuePath ) );
-                    const year = date.getFullYear();
-                    const month = date.getMonth() + 1;
-                    const day = date.getDate();
-
-                    if ( !dates.hasOwnProperty( year ) ) {
-                        dates[ year ] = {};
-                    }
-
-                    if ( !dates[ year ].hasOwnProperty( month ) ) {
-                        dates[ year ][ month ] = {};
-                    }
-
-                    if ( !dates[ year ][ month ].hasOwnProperty( day ) ) {
-                        dates[ year ][ month ][ day ] = [];
-                    }
-
-                    dates[ year ][ month ][ day ].push( item );
-                });
-            }
-
-            return dates;
-        }
-    ),
-
-    /**
      * Get an array of objects representing months in the year view
      *
      * Each item contains the following values:
-     * - {Boolean} active - Whether a content item's date occurs on this month
+     * - {Boolean} active - Whether the month is currently selected
      * - {Number} month - The month number in the year (1-12)
+     * - {String} monthName - The localized string representation of the month
      *
      * @function
      * @returns {Object[]}
@@ -560,7 +536,7 @@ export default Ember.Component.extend({
      * An array of abbreviated, formatted day names of each week day
      *
      * @function
-     * @returns {ember/Array}
+     * @returns {Array}
      */
     shortWeekDayNames: Ember.computed(
         'locale',
@@ -627,19 +603,19 @@ export default Ember.Component.extend({
      * An array of objects representing weeks and days in the month view
      *
      * Each day object contains the following values:
-     * - {Boolean} active - Whether a content item occurs on this date
-     * - {Array} content - Collection of content items occurring on this date
-     * - {Number} day - The day number of the month (1-31)
+     * - {Boolean} active - Whether the day is currently selected
+     * - {Array} events - Collection of event items occurring on this date
+     * - {Number} dayName - The day number of the month (1-31)
+     * - {Object} date - A moment object representing the date
      * - {Boolean} new - Whether the day occurs in the next month
      * - {Boolean} old - Whether the day occurs in the previous month
+     * - {Boolean} focused - Whether the day is currently focused
+     * - {Boolean} restricted - Whether the day is outside of the selectConstraint
      *
      * @function
      * @returns {ember.Array}
      */
     weeksInMonthView: Ember.computed(
-        // 'contentDates',
-        // 'showingYear',
-        // 'selectedDate',
         'fixedWeekCount',
         'locale',
         'selectConstraint',
@@ -726,7 +702,7 @@ export default Ember.Component.extend({
      * An array of objects representing years in the decade view
      *
      * Each object contains the following values:
-     * - {Boolean} active - Whether a content item occurs on this year
+     * - {Boolean} active - Whether the selected date is in the year
      * - {Boolean} new - Whether this year is in the next decade range
      * - {Boolean} old - Whether this year is in the previous decade range
      * - {Number} year - The year number

@@ -81,6 +81,25 @@ test( 'Disabled class is present when in restricted state', function( assert ) {
     );
 });
 
+test( 'has-events class is present when events are present', function( assert ) {
+    const events = [
+        {
+            startDate: window.moment( [ 2015, 0, 1 ] )
+        }
+    ];
+
+    this.set( 'events', events );
+
+    this.render( hbs`
+        {{sl-calendar-day events=events}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'has-events' ),
+        'Has class "has-events" when events are present'
+    );
+});
+
 test( 'Default action is triggered when element is clicked', function( assert ) {
     assert.expect( 1 );
 

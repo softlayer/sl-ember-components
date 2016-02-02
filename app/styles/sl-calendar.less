@@ -13,6 +13,13 @@
 
     display: inline-block;
 
+    & > div > span.calendar-title {
+        display: block;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: @table-condensed-cell-padding;
+    }
+
     table.calendar-controls {
         width: 100%;
         margin-bottom: @table-condensed-cell-padding;
@@ -67,6 +74,21 @@
 
             &.old, &.new {
                 //background-color: lighten( @calendar-disabled-bg, 4%, relative );
+            }
+        }
+
+        td.has-events {
+            position: relative;
+
+            &::after {
+                content: '';
+                display: block;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                height: 3px;
+                background-color: @brand-info;
+                border-radius: 0 0 @calendar-border-radius-small @calendar-border-radius-small;
             }
         }
 

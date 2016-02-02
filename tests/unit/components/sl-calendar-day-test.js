@@ -21,15 +21,15 @@ test( 'Default property values', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'content' ),
-        null,
-        'content is null by default'
-    );
-
-    assert.strictEqual(
         component.get( 'date' ),
         null,
         'date is null by default'
+    );
+
+    assert.deepEqual(
+        component.get( 'events' ),
+        [],
+        'events is an empty array by default'
     );
 
     assert.strictEqual(
@@ -63,16 +63,20 @@ test( 'Action bindings sends action with expected day content', function( assert
 
     const done = assert.async();
 
-    const dayContent = { day: 42 };
+    const events = [
+        {
+            startDate: window.moment( [ 2015, 0, 1 ] )
+        }
+    ];
 
     this.subject({
         action: 'test',
-        content: dayContent,
+        events: events,
         targetObject: {
-            test( content ) {
+            test( date, eventData ) {
                 assert.strictEqual(
-                    content,
-                    dayContent,
+                    eventData,
+                    events,
                     'Test action fired with expected value'
                 );
 
@@ -105,6 +109,10 @@ test( 'Dependent keys are correct', function( assert ) {
         'active'
     ];
 
+    const hasEventsDependentKeys = [
+        'events'
+    ];
+
     const isTodayDependentKeys = [
         'date'
     ];
@@ -117,6 +125,12 @@ test( 'Dependent keys are correct', function( assert ) {
         component.ariaSelected._dependentKeys,
         ariaSelectedDependentKeys,
         'Dependent keys are correct for ariaSelected()'
+    );
+
+    assert.deepEqual(
+        component.hasEvents._dependentKeys,
+        hasEventsDependentKeys,
+        'Dependent keys are correct for hasEvents()'
     );
 
     assert.deepEqual(

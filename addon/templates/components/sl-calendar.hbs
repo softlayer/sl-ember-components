@@ -1,25 +1,29 @@
 <div class="calendar-{{viewMode}}">
 
     {{#if viewingDays}}
-        <table class="calendar-controls">
-            <tr>
-                <th>
-                    <button tabIndex="-1" {{action "changeMonth" -1}} class="btn btn-xs btn-default">
-                        <span class="sl-icon-previous">previous month</span>
-                    </button>
-                </th>
-                <th>
-                    <a href="#" tabIndex="-1" {{action "setView" "months"}}>
-                        {{calendarTitle}}
-                    </a>
-                </th>
-                <th>
-                    <button tabIndex="-1" {{action "changeMonth" 1}} class="btn btn-xs btn-default">
-                        <span class="sl-icon-next">next month</span>
-                    </button>
-                </th>
-            </tr>
-        </table>
+        {{#if showControls}}
+            <table class="calendar-controls">
+                <tr>
+                    <th>
+                        <button tabIndex="-1" {{action "changeMonth" -1}} class="btn btn-xs btn-default">
+                            <span class="sl-icon-previous">previous month</span>
+                        </button>
+                    </th>
+                    <th>
+                        <a href="#" tabIndex="-1" {{action "setView" "months"}}>
+                            <span class='calendar-title'>{{calendarTitle}}</span>
+                        </a>
+                    </th>
+                    <th>
+                        <button tabIndex="-1" {{action "changeMonth" 1}} class="btn btn-xs btn-default">
+                            <span class="sl-icon-next">next month</span>
+                        </button>
+                    </th>
+                </tr>
+            </table>
+        {{else}}
+            <span class='calendar-title'>{{calendarTitle}}</span>
+        {{/if}}
 
         <table role="grid">
             <thead>
@@ -36,7 +40,7 @@
                             {{#sl-calendar-day
                                 action="selectDate"
                                 active=day.active
-                                content=day.content
+                                events=day.events
                                 new=day.new
                                 old=day.old
                                 date=day.date
@@ -53,25 +57,29 @@
     {{/if}}
 
     {{#if viewingMonths}}
-        <table class="calendar-controls">
-            <tr>
-                <th>
-                    <button tabIndex="-1" {{action "changeYear" -1}} class="btn btn-xs btn-default">
-                        <span class="sl-icon-previous">previous year</span>
-                    </button>
-                </th>
-                <th>
-                    <a href="#" tabIndex="-1" {{action "setView" "years"}}>
-                        {{calendarTitle}}
-                    </a>
-                </th>
-                <th>
-                    <button tabIndex="-1" {{action "changeYear" 1}} class="btn btn-xs btn-default">
-                        <span class="sl-icon-next">next year</span>
-                    </button>
-                </th>
-            </tr>
-        </table>
+        {{#if showControls}}
+            <table class="calendar-controls">
+                <tr>
+                    <th>
+                        <button tabIndex="-1" {{action "changeYear" -1}} class="btn btn-xs btn-default">
+                            <span class="sl-icon-previous">previous year</span>
+                        </button>
+                    </th>
+                    <th>
+                        <a href="#" tabIndex="-1" {{action "setView" "years"}}>
+                            <span class='calendar-title'>{{calendarTitle}}</span>
+                        </a>
+                    </th>
+                    <th>
+                        <button tabIndex="-1" {{action "changeYear" 1}} class="btn btn-xs btn-default">
+                            <span class="sl-icon-next">next year</span>
+                        </button>
+                    </th>
+                </tr>
+            </table>
+        {{else}}
+            <span class='calendar-title'>{{calendarTitle}}</span>
+        {{/if}}
 
         <table role="grid">
             <tbody>
@@ -94,25 +102,29 @@
     {{/if}}
 
     {{#if viewingYears}}
-        <table class="calendar-controls">
-            <tr>
-                <th>
-                    <button tabIndex="-1" {{action "changeDecade" -1}} class="btn btn-xs btn-default">
-                        <span class="sl-icon-previous">previous decade</span>
-                    </button>
-                </th>
-                <th>
-                    <span>
-                        {{calendarTitle}}
-                    </span>
-                </th>
-                <th>
-                    <button tabIndex="-1" {{action "changeDecade" 1}} class="btn btn-xs btn-default">
-                        <span class="sl-icon-next">next decade</span>
-                    </button>
-                </th>
-            </tr>
-        </table>
+        {{#if showControls}}
+            <table class="calendar-controls">
+                <tr>
+                    <th>
+                        <button tabIndex="-1" {{action "changeDecade" -1}} class="btn btn-xs btn-default">
+                            <span class="sl-icon-previous">previous decade</span>
+                        </button>
+                    </th>
+                    <th>
+                        <span>
+                            <span class='calendar-title'>{{calendarTitle}}</span>
+                        </span>
+                    </th>
+                    <th>
+                        <button tabIndex="-1" {{action "changeDecade" 1}} class="btn btn-xs btn-default">
+                            <span class="sl-icon-next">next decade</span>
+                        </button>
+                    </th>
+                </tr>
+            </table>
+        {{else}}
+            <span class='calendar-title'>{{calendarTitle}}</span>
+        {{/if}}
 
         <table role="grid">
             <tbody>

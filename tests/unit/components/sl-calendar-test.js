@@ -17,15 +17,9 @@ test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.deepEqual(
-        component.get( 'content' ),
+        component.get( 'events' ),
         [],
         'content is [] by default'
-    );
-
-    assert.strictEqual(
-        component.get( 'dateValuePath' ),
-        'date',
-        'dateValuePath is "date" by default'
     );
 
     assert.notOk(
@@ -49,20 +43,14 @@ test( 'Default property values are set correctly', function( assert ) {
         'locale is "en" by default'
     );
 
-    assert.strictEqual(
-        component.get( 'locked' ),
-        false,
-        'locked is false by default'
-    );
-
-    /*assert.strictEqual(
+    assert.deepEqual(
         component.get( 'selectConstraint' ),
         {
             start: null,
             end: null
         },
-        'selectConstraint is ? by default'
-    );*/
+        'selectConstraint is an object with start and end properties by default'
+    );
 
     assert.strictEqual(
         component.get( 'selectedDate' ),
@@ -71,21 +59,20 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
+        component.get( 'showControls' ),
+        true,
+        'showControls is true by default'
+    );
+
+    assert.strictEqual(
         component.get( 'showingMonth' ),
         null,
         'showingMonth is null by default'
     );
 
-    assert.strictEqual(
-        component.get( 'today' ),
-        null,
-        'today is null by default'
-    );
-
-    assert.strictEqual(
-        component.get( 'viewingDate' ),
-        null,
-        'viewingDate is null by default'
+    assert.ok(
+        window.moment().isSame( component.get( 'viewingDate' ), 'day' ),
+        'viewingDate is a moment object representing today by default'
     );
 
     assert.strictEqual(
@@ -95,91 +82,206 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 });
 
-skip( 'Lock mode prevents changing state', function( assert ) {
-    const component = this.subject({ locked: true });
+skip( 'locale - Setting causes default of en (English) to be updated', function( assert ) {
 
-    const initialDecadeStart = component.get( 'decadeStart' );
-    component.send( 'changeDecade', 1 );
-    assert.strictEqual(
-        initialDecadeStart,
-        component.get( 'decadeStart' ),
-        'Value decadeStart is unchanged from actions.changeDecade'
+});
+
+skip( 'contentDates - Verify dates array', function( assert ) {
+
+});
+
+test( 'setDate method sets the viewingDate and selectedDate', function( assert ) {
+    const selectConstraint = {
+        start: window.moment( [ 2014, 2, 1 ] )
+    };
+
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        selectConstraint: selectConstraint
+    });
+
+    const newDate = window.moment( [ 2014, 3, 3 ] );
+
+    component.setDate( newDate );
+
+    assert.ok(
+        component.get( 'selectedDate' ).isSame( newDate, 'day' ),
+        'selectedDate was set to the new date'
     );
 
-    const initialMonth = component.get( 'currentMonth' );
-    component.send( 'changeMonth', 1 );
-    assert.strictEqual(
-        initialMonth,
-        component.get( 'currentMonth' ),
-        'Value currentMonth is unchanged from actions.changeMonth'
+    assert.ok(
+        component.get( 'viewingDate' ).isSame( newDate, 'day' ),
+        'viewingDate was set to the new date'
     );
 
-    const initialYear = component.get( 'currentYear' );
-    component.send( 'changeYear', 1 );
-    assert.strictEqual(
-        initialYear,
-        component.get( 'currentYear' ),
-        'Value currentYear is unchanged from actions.changeYear'
+    const tooEarlyDate = window.moment( [ 2014, 1, 1 ] );
+
+    component.setDate( tooEarlyDate );
+
+    assert.notOk(
+        component.get( 'selectedDate' ).isSame( tooEarlyDate, 'day' ),
+        'selectedDate was not set to the new date'
     );
 
-    component.send( 'setMonth', initialMonth + 1 );
-    assert.strictEqual(
-        initialMonth,
-        component.get( 'currentMonth' ),
-        'Value currentMonth is unchanged from actions.setMonth'
-    );
-
-    const initialViewMode = component.get( 'viewMode' );
-    component.send( 'setView', 'something' );
-    assert.strictEqual(
-        initialViewMode,
-        component.get( 'viewMode' ),
-        'Value viewMode is unchanged from actions.setView'
-    );
-
-    component.send( 'setYear', initialYear + 1 );
-    assert.strictEqual(
-        initialYear,
-        component.get( 'currentYear' ),
-        'Value currentYear is unchanged from actions.setYear'
+    assert.notOk(
+        component.get( 'viewingDate' ).isSame( tooEarlyDate, 'day' ),
+        'viewingDate was not set to the new date'
     );
 });
 
-skip( 'locale - Setting causes default of en (English) to be updated', function() {
+test( 'setMonth method modifies the viewingDate', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
+
+    const newMonth = 4;
+
+    component.setMonth( newMonth );
+
+    assert.strictEqual(
+        component.get( 'viewingDate' ).month() + 1,
+        newMonth,
+        'view set to the selected month'
+    );
+});
+
+test( 'setYear method modifies the viewingDate', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
+
+    const newYear = 2013;
+
+    component.setYear( newYear );
+
+    assert.strictEqual(
+        component.get( 'viewingDate' ).year(),
+        newYear,
+        'view set to the selected year'
+    );
+});
+
+test( 'calendar title is correctly generated for each viewMode', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 15 ] ),
+        viewMode: 'days'
+    });
+
+    assert.strictEqual(
+        component.get( 'calendarTitle' ),
+        'March 2015',
+        'Calendar title is correct in days view'
+    );
+
+    component.set( 'viewMode', 'months' );
+
+    assert.strictEqual(
+        component.get( 'calendarTitle' ),
+        '2015',
+        'Calendar title is correct in days view'
+    );
+
+    component.set( 'viewMode', 'years' );
+
+    assert.strictEqual(
+        component.get( 'calendarTitle' ),
+        '2010 - 2019',
+        'Calendar title is correct in days view'
+    );
+});
+
+test( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function( assert ) {
+    const component = this.subject({});
+
+    assert.deepEqual(
+        component.get( 'shortWeekDayNames' ),
+        [ 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa' ],
+        'short week day names are generated correctly'
+    );
+});
+
+test( 'activeDateChange - active property is set on the correct day object', function( assert ) {
+    const startingSelected = window.moment( [ 2015, 0, 15 ] );
+
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        selectedDate: startingSelected
+    });
+
+    function findDay( dateNeedle ) {
+        const weeksInMonthView = component.get( 'weeksInMonthView' );
+
+        for ( let week = 0; week < weeksInMonthView.length; week++ ) {
+            for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
+                if ( weeksInMonthView[ week ][ day ].date.isSame( dateNeedle, 'day' ) ) {
+                    return weeksInMonthView[ week ][ day ];
+                }
+            }
+        }
+    };
+
+    assert.ok(
+        findDay( startingSelected ).active,
+        'the correct day is set to "active"'
+    );
+
+    const newSelected = window.moment( [ 2015, 1, 12 ] );
+
+    component.set( 'viewingDate', newSelected );
+    component.set( 'selectedDate', newSelected );
+
+    assert.ok(
+        findDay( newSelected ).active,
+        'the correct day is set to "active"'
+    );
+});
+
+skip( 'applyEvents - events are set on each day object', function() {
 
 });
 
-skip( 'contentDates - Verify dates array', function() {
+test( 'focusedDateChange - focused property is set on the correct day object', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
 
+    const newViewing = window.moment( [ 2015, 0, 15 ] );
+
+    component.set( 'viewingDate', newViewing );
+
+    function findDay( dateNeedle ) {
+        const weeksInMonthView = component.get( 'weeksInMonthView' );
+
+        for ( let week = 0; week < weeksInMonthView.length; week++ ) {
+            for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
+                if ( weeksInMonthView[ week ][ day ].date.isSame( dateNeedle, 'day' ) ) {
+                    return weeksInMonthView[ week ][ day ];
+                }
+            }
+        }
+    };
+
+    assert.ok(
+        findDay( newViewing ).focused,
+        'the correct day is set to "focused"'
+    );
 });
 
-skip( 'setDate method sets the viewingDate and selectedDate', function() {
+test( 'updateShowingMonth - showingMonth is updated', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
 
+    const newMonth = 5;
+
+    component.set( 'viewingDate', window.moment( [ 2015, newMonth, 1 ] ) );
+
+    assert.strictEqual(
+        component.get( 'showingMonth' ),
+        newMonth,
+        'showingMonth updated correctly'
+    );
 });
-
-skip( 'setMonth method modifies the viewingDate', function() {
-
-});
-
-skip( 'setYear method modifies the viewingDate', function() {
-
-});
-
-skip( 'setView - viewMode set correctly', function() {
-
-});
-
-skip( 'calendar title is correctly generated for each viewMode', function() {
-
-});
-
-skip( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function() {
-
-});
-
-//updateShowingMonth?
-//focusedDateChange?
-//activeDateChange?
 
 test( 'changeDecade action works', function( assert ) {
     const component = this.subject({
@@ -226,6 +328,113 @@ test( 'changeYear action works', function( assert ) {
         component.get( 'viewingDate' ).year(),
         2016,
         'Altered viewingDate is expected value'
+    );
+});
+
+skip( 'selectDate action works', function( assert ) {
+
+});
+
+test( 'selectMonth action works', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        $: function() {
+            return {
+                focus: sinon.spy()
+            }
+        }
+    });
+
+    const newMonth = 8;
+
+    component.send( 'selectMonth', newMonth );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'days',
+        'viewMode is switched to "days" when a month is selected'
+    );
+
+    assert.strictEqual(
+        component.get( 'viewingDate' ).month() + 1,
+        newMonth,
+        'viewingDate was changed to the selected month'
+    );
+});
+
+test( 'selectYear action works', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        $: function() {
+            return {
+                focus: sinon.spy()
+            }
+        }
+    });
+
+    const newYear = 2013;
+
+    component.send( 'selectYear', newYear );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'months',
+        'viewMode is switched to "months" when a year is selected'
+    );
+
+    assert.strictEqual(
+        component.get( 'viewingDate' ).year(),
+        newYear,
+        'viewingDate was changed to the selected year'
+    );
+});
+
+test( 'setView action works', function( assert ) {
+    const focusSpy = sinon.spy();
+
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        $: function() {
+            return {
+                focus: focusSpy
+            }
+        }
+    });
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'days',
+        'viewMode is "days"'
+    );
+
+    component.send( 'setView', 'months' );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'months',
+        'viewMode is "months"'
+    );
+
+    component.send( 'setView', 'years' );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'years',
+        'viewMode is "years"'
+    );
+
+    component.send( 'setView', 'days' );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'days',
+        'viewMode is "days"'
+    );
+
+    assert.strictEqual(
+        focusSpy.callCount,
+        3,
+        'component was focused 3 times'
     );
 });
 
@@ -404,6 +613,11 @@ test( 'Observer keys are correct', function( assert ) {
         'selectedDate'
     ];
 
+    const applyEventsKeys = [
+        'events',
+        'weeksInMonthView'
+    ];
+
     const focusedDateChangeKeys = [
         'viewingDate'
     ];
@@ -416,6 +630,12 @@ test( 'Observer keys are correct', function( assert ) {
         component.activeDateChange.__ember_observes__,
         activeDateChangeKeys,
         'Observer keys are correct for activeDateChange()'
+    );
+
+    assert.deepEqual(
+        component.applyEvents.__ember_observes__,
+        applyEventsKeys,
+        'Observer keys are correct for applyEvents()'
     );
 
     assert.deepEqual(
@@ -438,11 +658,6 @@ test( 'Dependent keys are correct', function( assert ) {
         'viewingDate',
         'locale',
         'viewMode'
-    ];
-
-    const contentDatesDependentKeys = [
-        'content',
-        'dateValuePath'
     ];
 
     const monthsInYearViewDependentKeys = [
@@ -488,12 +703,6 @@ test( 'Dependent keys are correct', function( assert ) {
         component.calendarTitle._dependentKeys,
         calendarTitleDependentKeys,
         'Dependent keys are correct for calendarTitle()'
-    );
-
-    assert.deepEqual(
-        component.contentDates._dependentKeys,
-        contentDatesDependentKeys,
-        'Dependent keys are correct for contentDates()'
     );
 
     assert.deepEqual(

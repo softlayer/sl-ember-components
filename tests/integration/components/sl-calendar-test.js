@@ -4,29 +4,22 @@ import hbs from 'htmlbars-inline-precompile';
 import { skip } from 'qunit';
 import sinon from 'sinon';
 
-const testContent = Ember.A([
-    {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Today!'
-    }
-]);
-
 const multipleTestContent = Ember.A([
     {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Event 1 Today!'
+        startDate: moment( [ 2022, 8, 12 ] ),
+        title: 'Event 1 Today!'
     },
     {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Event 2 Today!'
+        startDate: moment( [ 2022, 8, 12 ] ),
+        title: 'Event 2 Today!'
     },
     {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Event 3 Today!'
+        startDate: moment( [ 2022, 8, 17 ] ),
+        title: 'Event 3 Today!'
     },
     {
-        date: new Date( 2022, 8, 20 ),
-        label: 'Event 1 Another Day!'
+        startDate: moment( [ 2022, 8, 20 ] ),
+        title: 'Event 1 Another Day!'
     }
 ]);
 
@@ -84,67 +77,79 @@ test( 'Next and Previous buttons have appropriate classes', function( assert ) {
     };
 
     assert.ok(
-        hasButtonClasses( this.$( '.calendar-controls button' ).first() ),
+        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).first() ),
         'day view previous button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
+        this.$( '>:first-child' ).find( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
         'day view previous button has span with "sl-icon-previous" class'
     );
 
     assert.ok(
-        hasButtonClasses( this.$( '.calendar-controls button' ).last() ),
+        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).last() ),
         'day view next button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
+        this.$( '>:first-child' ).find( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
         'day view previous button has span with "sl-icon-next" class'
     );
 
-    this.$( '.calendar-controls a' ).click();
+    this.$( '>:first-child' ).find( '.calendar-controls a' ).click();
 
     assert.ok(
-        hasButtonClasses( this.$( '.calendar-controls button' ).first() ),
+        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).first() ),
         'month view previous button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
+        this.$( '>:first-child' ).find( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
         'month view previous button has span with "sl-icon-previous" class'
     );
 
     assert.ok(
-        hasButtonClasses( this.$( '.calendar-controls button' ).last() ),
+        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).last() ),
         'month view next button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
+        this.$( '>:first-child' ).find( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
         'month view previous button has span with "sl-icon-next" class'
     );
 
-    this.$( '.calendar-controls a' ).click();
+    this.$( '>:first-child' ).find( '.calendar-controls a' ).click();
 
     assert.ok(
-        hasButtonClasses( this.$( '.calendar-controls button' ).first() ),
+        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).first() ),
         'year view previous button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
+        this.$( '>:first-child' ).find( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
         'year view previous button has span with "sl-icon-previous" class'
     );
 
     assert.ok(
-        hasButtonClasses( this.$( '.calendar-controls button' ).last() ),
+        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).last() ),
         'year view next button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
+        this.$( '>:first-child' ).find( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
         'year view previous button has span with "sl-icon-next" class'
+    );
+});
+
+test( 'Controls are not available when showControls is false', function( assert ) {
+    this.render( hbs`
+        {{sl-calendar showControls=false}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.calendar-controls' ).length,
+        0,
+        'calendar controls not available when showControls is false'
     );
 });
 
@@ -253,37 +258,6 @@ test( 'Setting viewingDate modifies the view correctly', function( assert ) {
         this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
         'April 2025',
         'Current month and year are set correctly in the view'
-    );
-});
-
-skip( 'Setting dateValuePath modifies the view correctly', function( assert ) {
-
-    const modifiedValuePath = Ember.A([
-        {
-            modifiedDatePath: new Date( 2022, 8, 17 ),
-            label: 'Today!'
-        }
-    ]);
-
-    this.set( 'currentYear', 2022 );
-
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', modifiedValuePath );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            dateValuePath="modifiedDatePath"
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.active' ).text().trim(),
-        17,
-        'Active day is set correctly'
     );
 });
 
@@ -595,67 +569,6 @@ test( 'Navigating Forward and Backward by Decade', function( assert ) {
     );
 });
 
-skip( 'When Locked, interacting with the view is not Possible', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 8 );
-
-    this.render( hbs`
-        {{sl-calendar}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'sl-calendar-locked' ),
-        false,
-        'Default rendered component does not have class "sl-calendar-locked"'
-    );
-
-    this.render( hbs`
-        {{sl-calendar
-            locked=true
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-calendar-locked' ),
-        'Locked, rendered component has class "sl-calendar-locked"'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The current month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The next month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The next month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.datepicker-switch' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The next month is set correctly'
-    );
-});
-
 test( 'Changing viewMode by View Switcher', function( assert ) {
     this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
     this.set( 'viewMode', 'days' );
@@ -726,12 +639,13 @@ test( 'Changing viewMode by Selection', function( assert ) {
     );
 });
 
-//add assert for fixedweek
 test( 'All Days are Displayed in Order', function( assert ) {
     this.set( 'viewingDate', window.moment( [ 2015, 0, 1 ] ) );
+    this.set( 'fixedWeekCount', false );
 
     this.render( hbs`
         {{sl-calendar
+            fixedWeekCount=fixedWeekCount
             viewingDate=viewingDate
         }}
     ` );
@@ -744,8 +658,22 @@ test( 'All Days are Displayed in Order', function( assert ) {
 
     assert.strictEqual(
         daysString,
-        '28293031123456789101112131415161718192021222324252627282930311234567',
+        '2829303112345678910111213141516171819202122232425262728293031',
         'All days listed in order for specified month as expected'
+    );
+
+    this.set( 'fixedWeekCount', true );
+
+    daysString = '';
+
+    this.$( '>:first-child' ).find( 'td.day' ).each( function() {
+        daysString += $( this ).text().trim();
+    });
+
+    assert.strictEqual(
+        daysString,
+        '28293031123456789101112131415161718192021222324252627282930311234567',
+        'All days listed in order for specified month when fixedWeekCount as expected'
     );
 });
 
@@ -791,4 +719,8 @@ test( 'Twelve Years are Displayed in Order', function( assert ) {
         '201920202021202220232024202520262027202820292030',
         'Twelve years are listed in order'
     );
+});
+
+skip( 'Wai-Aria keyboard navigation', function( assert ) {
+    // make sure to include moving across months and retaining focus
 });

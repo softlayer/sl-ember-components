@@ -23,7 +23,8 @@ export default Ember.Component.extend({
         'new',
         'old',
         'isToday:today',
-        'restricted:disabled'
+        'restricted:disabled',
+        'hasEvents'
     ],
 
     /** @type {String[]} */
@@ -37,6 +38,8 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Actions
 
+    actions: {},
+
     // -------------------------------------------------------------------------
     // Events
 
@@ -45,10 +48,10 @@ export default Ember.Component.extend({
      * @returns {undefined}
      */
     click() {
-        const content = this.get( 'content' );
+        const events = this.get( 'events' );
         const date = this.get( 'date' );
 
-        this.sendAction( 'action', date, content );
+        this.sendAction( 'action', date, events );
     },
 
     didInsertElement() {
@@ -69,15 +72,9 @@ export default Ember.Component.extend({
 
     ariaRole: 'gridcell',
 
-    /**
-     * The various data representing the day (created and passed in through
-     * sl-calendar)
-     *
-     * @type {?Object}
-     */
-    content: null,
-
     date: null,
+
+    events: [],
 
     focused: false,
 
@@ -121,6 +118,13 @@ export default Ember.Component.extend({
         function() {
             const active = this.get( 'active' );
             return active ? active : null;
+        }
+    ),
+
+    hasEvents: Ember.computed(
+        'events',
+        function() {
+            return !Ember.isEmpty( this.get( 'events' ) );
         }
     ),
 
