@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-tooltip', 'Unit | Component | sl tooltip', {
     unit: true
@@ -189,4 +190,22 @@ test( '"popover" property needs to be a string or undefined', function( assert )
         callSubject(),
         'Property was a string'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject({
+        title: 'tooltip'
+    });
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called()
+    );
+
+    globalLibraries.restoreSpies();
 });
