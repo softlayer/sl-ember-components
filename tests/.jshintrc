@@ -1,6 +1,8 @@
 {
     "predef": [
         "contains",
+        "requires",
+        "contains",
         "document",
         "window",
         "location",
