@@ -28,6 +28,26 @@ var unique = function( array ) {
     return uniqueArray;
 };
 
+/**
+ * Determines whether the ember-cli-less addon is employed by the consuming application
+ *
+ * @param {Object} this.project
+ * @returns {Boolean}
+ */
+var isLessAddonInstalled = function( project ) {
+    var addonName = 'ember-cli-less';
+    var isInstalled = false;
+
+    if (
+        ( project.pkg.dependencies && project.pkg.dependencies[ addonName ] ) ||
+        ( project.pkg.devDependencies && project.pkg.devDependencies[ addonName ] )
+    ) {
+        isInstalled = true;
+    }
+
+    return isInstalled;
+};
+
 module.exports = {
     name: 'sl-ember-components',
 
@@ -54,13 +74,15 @@ module.exports = {
     /**
      * Adds LESS-generated CSS into vendor tree of consuming app to be imported in included()
      *
+     * Only does so if the consuming app is not making use of the ember-cli-less addon
+     *
      * @param {Object} tree
      * @returns {Object}
      */
     treeForVendor: function( tree ) {
         var vendorTree = tree;
 
-        if ( !this.isAddon() ) {
+        if ( !this.isAddon() && !isLessAddonInstalled( this.project ) ) {
             var compiledLessTree = compileLess(
                 new Funnel( path.join( this.nodeModulesPath, '../', 'app' ) ),
                 'styles/' + this.name + '.less',
@@ -95,7 +117,7 @@ module.exports = {
         // -------------------------------------------------------------------------
         // CSS
 
-        if ( !this.isAddon() ) {
+        if ( !this.isAddon() && !isLessAddonInstalled( this.project ) ) {
             app.import( 'vendor/' + this.getCssFileName() );
         }
 
