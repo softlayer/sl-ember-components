@@ -136,25 +136,6 @@ test( 'Content is yielded when label is not set', function( assert ) {
     );
 });
 
-test( 'sl-drop-option icon is supported', function( assert ) {
-    const testContent = {
-        label : 'test',
-        icon : 'caret'
-    };
-
-    this.set( 'content', [ testContent ] );
-
-    this.render( hbs`
-        {{sl-drop-button content=content}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( ':first-child' ).find( 'img' ).attr( 'src' ),
-        'caret',
-        '"icon" property on sl-drop-option is supported'
-    );
-});
-
 test( 'sl-drop-option label is supported', function( assert ) {
     const testContent = {
         label : 'test'
