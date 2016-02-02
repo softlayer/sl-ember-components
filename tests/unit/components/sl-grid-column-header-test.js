@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-grid-column-header', 'Unit | Component | sl grid column header', {
     unit: true
@@ -124,4 +125,20 @@ test( 'Dependent keys are correct', function( assert ) {
         component.sortedClass._dependentKeys,
         sortedClassDependentKeys
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called()
+    );
+
+    globalLibraries.restoreSpies();
 });
