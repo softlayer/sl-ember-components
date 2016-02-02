@@ -5,6 +5,7 @@ import {
     Size as ButtonSize,
     Theme as ButtonTheme
 } from 'sl-ember-components/components/sl-button';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
     needs: [
@@ -109,4 +110,20 @@ test( 'rightAligned() returns expected boolean based on right and left alignment
         false,
         'rightAligned() returns expected boolean'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called()
+    );
+
+    globalLibraries.restoreSpies();
 });
