@@ -2,6 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
@@ -74,4 +75,20 @@ test( 'Dependent keys are correct', function( assert ) {
         themeClassNameDependentKeys,
         'Dependent keys are correct for themeClassName()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called()
+    );
+
+    globalLibraries.restoreSpies();
 });
