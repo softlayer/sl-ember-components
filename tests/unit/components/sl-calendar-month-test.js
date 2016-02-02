@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent(
     'sl-calendar-month',
@@ -98,3 +99,18 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called()
+    );
+
+    globalLibraries.restoreSpies();
+});
