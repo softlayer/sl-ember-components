@@ -28,6 +28,14 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     // -------------------------------------------------------------------------
     // Actions
 
+    actions: {
+
+        startSelected( date ) {
+            this.$( '.sl-daterange-end-date input' ).focus();
+        }
+
+    },
+
     // -------------------------------------------------------------------------
     // Events
 

@@ -3,6 +3,25 @@ import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 import { skip } from 'qunit';
 
+const testEvents = Ember.A([
+    {
+        startDate: moment( [ 2015, 2, 12 ] ),
+        title: 'Event 1 Today!'
+    },
+    {
+        startDate: moment( [ 2015, 2, 12 ] ),
+        title: 'Event 2 Today!'
+    },
+    {
+        startDate: moment( [ 2015, 2, 17 ] ),
+        title: 'Event 3 Today!'
+    },
+    {
+        startDate: moment( [ 2015, 2, 20 ] ),
+        title: 'Event 1 Another Day!'
+    }
+]);
+
 moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     needs: [
         'component:sl-calendar-day',
@@ -236,8 +255,35 @@ test( 'activeDateChange - active property is set on the correct day object', fun
     );
 });
 
-skip( 'applyEvents - events are set on each day object', function() {
+test( 'applyEvents - events are set on each day object', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 1 ] ),
+        events: testEvents
+    });
 
+    function findDay( dateNeedle ) {
+        const weeksInMonthView = component.get( 'weeksInMonthView' );
+
+        for ( let week = 0; week < weeksInMonthView.length; week++ ) {
+            for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
+                if ( weeksInMonthView[ week ][ day ].date.isSame( dateNeedle, 'day' ) ) {
+                    return weeksInMonthView[ week ][ day ];
+                }
+            }
+        }
+    };
+
+    assert.strictEqual(
+        findDay( testEvents[ 0 ].startDate ).events.length,
+        2,
+        'event day has 3 events as expected'
+    );
+
+    assert.strictEqual(
+        findDay( testEvents[ 3 ].startDate ).events.length,
+        1,
+        'event day has 1 event as expected'
+    );
 });
 
 test( 'focusedDateChange - focused property is set on the correct day object', function( assert ) {

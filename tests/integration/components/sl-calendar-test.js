@@ -4,21 +4,21 @@ import hbs from 'htmlbars-inline-precompile';
 import { skip } from 'qunit';
 import sinon from 'sinon';
 
-const multipleTestContent = Ember.A([
+const testEvents = Ember.A([
     {
-        startDate: moment( [ 2022, 8, 12 ] ),
+        startDate: moment( [ 2015, 2, 12 ] ),
         title: 'Event 1 Today!'
     },
     {
-        startDate: moment( [ 2022, 8, 12 ] ),
+        startDate: moment( [ 2015, 2, 12 ] ),
         title: 'Event 2 Today!'
     },
     {
-        startDate: moment( [ 2022, 8, 17 ] ),
+        startDate: moment( [ 2015, 2, 17 ] ),
         title: 'Event 3 Today!'
     },
     {
-        startDate: moment( [ 2022, 8, 20 ] ),
+        startDate: moment( [ 2015, 2, 20 ] ),
         title: 'Event 1 Another Day!'
     }
 ]);
@@ -328,85 +328,36 @@ test( 'Action fires when day is clicked', function( assert ) {
     this.$( '>:first-child' ).find( '.today' ).click();
 });
 
-skip( 'Action passes through expected objects in content array', function( assert ) {
-
-    assert.expect( 8 );
+test( 'Action passes through expected objects in content array', function( assert ) {
+    assert.expect( 1 );
 
     const done = assert.async();
 
-    this.set( 'currentYear', 2022 );
+    this.set( 'viewingDate', window.moment( [ 2015, 2, 15 ] ) );
+    this.set( 'selectedDate', window.moment( [ 2015, 2, 12 ] ) );
 
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', multipleTestContent );
+    this.set( 'events', testEvents );
 
     this.render( hbs`
         {{sl-calendar
             action="testAction"
-            content=content
-            currentYear=currentYear
-            currentMonth=currentMonth
+            events=events
+            viewingDate=viewingDate
+            selectedDate=selectedDate
         }}
     ` );
 
-    this.on( 'testAction', ( dateContent ) => {
-
-        // This group of asserts verifies the multiple events on Sep. 17th
-        if ( 'Event 1 Today!' === dateContent[ 0 ].label ) {
-            assert.strictEqual(
-                dateContent[ 0 ].date.toString(),
-                'Sat Sep 17 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 0 ].label,
-                'Event 1 Today!',
-                'The label property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 1 ].date.toString(),
-                'Sat Sep 17 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 1 ].label,
-                'Event 2 Today!',
-                'The label property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 2 ].date.toString(),
-                'Sat Sep 17 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 2 ].label,
-                'Event 3 Today!',
-                'The label property was passed through'
-            );
-        // This group of asserts verifies the event on Sep. 20th
-        } else {
-            assert.strictEqual(
-                dateContent[ 0 ].date.toString(),
-                'Tue Sep 20 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 0 ].label,
-                'Event 1 Another Day!',
-                'The label property was passed through'
-            );
-        }
+    this.on( 'testAction', ( date, events ) => {
+        assert.strictEqual(
+            events.length,
+            2,
+            'two events retrieved'
+        );
 
         done();
     });
 
-    this.$( '>:first-child' ).find( '.active' ).click();
+    this.$( '>:first-child' ).find( '.selected' ).click();
 });
 
 test( 'Setting viewMode modifies the view correctly', function( assert ) {

@@ -342,6 +342,7 @@ export default Ember.Component.extend({
             const weeksInMonthView = this.get( 'weeksInMonthView' );
             const eventsPerDay = [];
 
+            eventsLoop:
             for ( let event = 0; event < events.length; event++ ) {
                 const currentEvent = events[ event ];
                 if ( currentEvent.startDate.isAfter( viewingDate, 'month' ) ) {
@@ -357,13 +358,13 @@ export default Ember.Component.extend({
                 for ( let day = 0; day < eventsPerDay.length; day++ ) {
                     if ( currentEvent.startDate.isSame( eventsPerDay[ day ].date ) ) {
                         eventsPerDay[ day ].events.push( currentEvent );
-                        continue;
+                        continue eventsLoop;
                     }
                 }
 
                 eventsPerDay.push( {
                     date: currentEvent.startDate,
-                    events: [].push( currentEvent )
+                    events: [ currentEvent ]
                 });
             }
 
@@ -372,7 +373,6 @@ export default Ember.Component.extend({
                 for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
                     const date = Ember.get( weeksInMonthView[ week ][ day ], 'date' );
 
-                    eventsLoop:
                     for ( let eventDay = 0; eventDay < eventsPerDay.length; eventDay++ ) {
                         if ( date.isSame( eventsPerDay[ eventDay ].date, 'day' ) ) {
                             Ember.set( weeksInMonthView[ week ][ day ], 'events', eventsPerDay[ eventDay ].events );

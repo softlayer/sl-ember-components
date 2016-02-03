@@ -75,24 +75,6 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 });
 
-test( 'Change focus to end date input upon start date change', function( assert ) {
-    const component = this.subject();
-    this.render();
-
-    const daterangeEndDate = component.get( 'endDateInput' );
-    const spy = sinon.spy( daterangeEndDate, 'trigger' );
-
-    component.get( 'startDateInput' ).trigger( 'changeDate' );
-
-    assert.ok(
-        spy.calledWithExactly( 'focus' ),
-        'End date input was given focus on start date change'
-    );
-
-    $( '.datepicker' ).remove();
-    daterangeEndDate.trigger.restore();
-});
-
 test( 'Earliest end date is based on selectConstraint and startDate', function( assert ) {
     const component = this.subject();
 

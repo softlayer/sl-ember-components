@@ -219,3 +219,28 @@ test( 'helpText is accepted as a parameter', function( assert ) {
         'The "helpText" property text was set'
     );
 });
+
+test( 'Change focus to end date input upon start date selection', function( assert ) {
+    assert.expect( 1 );
+
+    const done = assert.async();
+
+    this.render( hbs`
+        {{sl-date-range-picker}}
+    ` );
+
+    this.$( '>:first-child' ).find( '.sl-daterange-end-date input' ).on( 'focus', function() {
+        assert.ok(
+            true,
+            'focus was given to the end date input'
+        );
+
+        done();
+    });
+
+    const startDatePicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' );
+
+    startDatePicker.find( 'input' ).on( 'focus', function() {
+        startDatePicker.find( 'td.day:first' ).click();
+    }).trigger( 'focus' );
+});
