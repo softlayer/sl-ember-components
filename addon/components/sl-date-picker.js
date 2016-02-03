@@ -123,7 +123,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      *
      * @returns {undefined}
      */
-    focusOut( event ) {
+    focusOut() {
         this._super( ...arguments );
 
         const runNext = Ember.run.next( this, () => {
@@ -246,7 +246,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
             return;
         }
 
-        value = value.replace( /\W+/g, "-" );
+        value = value.replace( /\W+/g, '-' );
 
         const date = window.moment( value, parseFormats, this.get( 'locale' ), true );
 
@@ -295,9 +295,9 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
             const localeData = window.moment().localeData();
 
             formats.push(
-                localeData.longDateFormat( 'L' ).replace( /\W+/g, "-" ),
-                localeData.longDateFormat( 'LL' ).replace( /\W+/g, "-" ),
-                localeData.longDateFormat( 'L' ).replace( 'DD', 'D' ).replace( 'MM', 'M' ).replace( /\W+/g, "-" )
+                localeData.longDateFormat( 'L' ).replace( /\W+/g, '-' ),
+                localeData.longDateFormat( 'LL' ).replace( /\W+/g, '-' ),
+                localeData.longDateFormat( 'L' ).replace( 'DD', 'D' ).replace( 'MM', 'M' ).replace( /\W+/g, '-' )
             );
 
             return formats;

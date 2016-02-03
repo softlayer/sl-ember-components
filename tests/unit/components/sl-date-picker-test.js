@@ -71,11 +71,14 @@ test( 'Default properties are set correctly', function( assert ) {
         'placeholder is null by default'
     );
 
-    /*assert.strictEqual(
+    assert.deepEqual(
         component.get( 'selectConstraint' ),
-        true,
-        'selectConstraint is ? by default'
-    );*/
+        {
+            start: null,
+            end: null
+        },
+        'selectConstraint is an object with start and end properties by default'
+    );
 
     assert.strictEqual(
         component.get( 'viewMode' ),

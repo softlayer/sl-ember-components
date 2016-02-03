@@ -175,7 +175,7 @@ test( 'placeholder is accepted as a parameter', function( assert ) {
 
 test( 'Selected day is set in the input field', function( assert ) {
     const selectedDate = window.moment( [ 2015, 0, 5 ] );
-    const format = "MM/DD/YYYY";
+    const format = 'MM/DD/YYYY';
 
     this.set( 'selectedDate', selectedDate );
     this.set( 'format', format );

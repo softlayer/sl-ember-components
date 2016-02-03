@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { skip } from 'qunit';
 
 moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date range picker', {
     afterEach() {
@@ -235,7 +234,7 @@ test( 'Change focus to end date input upon start date selection', function( asse
     };
 
     this.set( 'mock', function() {
-        return { focus: mockFocus }
+        return { focus: mockFocus };
     } );
 
     this.render( hbs`

@@ -2,7 +2,6 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { skip } from 'qunit';
-import sinon from 'sinon';
 
 const testEvents = Ember.A([
     {
@@ -76,68 +75,77 @@ test( 'Next and Previous buttons have appropriate classes', function( assert ) {
         return hasClasses;
     };
 
+    let previousButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).first();
+    let nextButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).last();
+
     assert.ok(
-        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).first() ),
+        hasButtonClasses( previousButton ),
         'day view previous button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
+        previousButton.find( 'span' ).hasClass( 'sl-icon-previous' ),
         'day view previous button has span with "sl-icon-previous" class'
     );
 
     assert.ok(
-        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).last() ),
+        hasButtonClasses( nextButton ),
         'day view next button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
-        'day view previous button has span with "sl-icon-next" class'
+        nextButton.find( 'span' ).hasClass( 'sl-icon-next' ),
+        'day view next button has span with "sl-icon-next" class'
     );
 
     this.$( '>:first-child' ).find( '.calendar-controls a' ).click();
 
+    previousButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).first();
+    nextButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).last();
+
     assert.ok(
-        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).first() ),
+        hasButtonClasses( previousButton ),
         'month view previous button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
+        previousButton.find( 'span' ).hasClass( 'sl-icon-previous' ),
         'month view previous button has span with "sl-icon-previous" class'
     );
 
     assert.ok(
-        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).last() ),
+        hasButtonClasses( nextButton ),
         'month view next button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
-        'month view previous button has span with "sl-icon-next" class'
+        nextButton.find( 'span' ).hasClass( 'sl-icon-next' ),
+        'month view next button has span with "sl-icon-next" class'
     );
 
     this.$( '>:first-child' ).find( '.calendar-controls a' ).click();
 
+    previousButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).first();
+    nextButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).last();
+
     assert.ok(
-        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).first() ),
+        hasButtonClasses( previousButton ),
         'year view previous button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.calendar-controls button' ).first().find( 'span' ).hasClass( 'sl-icon-previous' ),
+        previousButton.find( 'span' ).hasClass( 'sl-icon-previous' ),
         'year view previous button has span with "sl-icon-previous" class'
     );
 
     assert.ok(
-        hasButtonClasses( this.$( '>:first-child' ).find( '.calendar-controls button' ).last() ),
+        hasButtonClasses( nextButton ),
         'year view next button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '.calendar-controls button' ).last().find( 'span' ).hasClass( 'sl-icon-next' ),
-        'year view previous button has span with "sl-icon-next" class'
+        nextButton.find( 'span' ).hasClass( 'sl-icon-next' ),
+        'year view next button has span with "sl-icon-next" class'
     );
 });
 

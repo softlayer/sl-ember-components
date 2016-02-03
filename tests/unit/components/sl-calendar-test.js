@@ -237,7 +237,7 @@ test( 'activeDateChange - active property is set on the correct day object', fun
                 }
             }
         }
-    };
+    }
 
     assert.ok(
         findDay( startingSelected ).active,
@@ -271,7 +271,7 @@ test( 'applyEvents - events are set on each day object', function( assert ) {
                 }
             }
         }
-    };
+    }
 
     assert.strictEqual(
         findDay( testEvents[ 0 ].startDate ).events.length,
@@ -305,7 +305,7 @@ test( 'focusedDateChange - focused property is set on the correct day object', f
                 }
             }
         }
-    };
+    }
 
     assert.ok(
         findDay( newViewing ).focused,
@@ -387,7 +387,7 @@ test( 'selectMonth action works', function( assert ) {
         $: function() {
             return {
                 focus: sinon.spy()
-            }
+            };
         }
     });
 
@@ -414,7 +414,7 @@ test( 'selectYear action works', function( assert ) {
         $: function() {
             return {
                 focus: sinon.spy()
-            }
+            };
         }
     });
 
@@ -443,7 +443,7 @@ test( 'setView action works', function( assert ) {
         $: function() {
             return {
                 focus: focusSpy
-            }
+            };
         }
     });
 

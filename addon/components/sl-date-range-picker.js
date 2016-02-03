@@ -35,10 +35,9 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
          * Move focus to the endDate picker when startDate is selected
          *
          * @function actions:startSelected
-         * @param {moment} date - The date that was selected
          * @returns {undefined}
          */
-        startSelected( date ) {
+        startSelected() {
             this.$( '.sl-daterange-end-date input' ).focus();
         }
 

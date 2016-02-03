@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('sl-calendar-year', 'Integration | Component | sl calendar year', {
+moduleForComponent( 'sl-calendar-year', 'Integration | Component | sl calendar year', {
     integration: true
 });
 

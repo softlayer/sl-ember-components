@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-calendar-day', 'Unit | Component | sl calendar day', {
@@ -16,7 +15,7 @@ test( 'Default property values', function( assert ) {
 
     assert.strictEqual(
         component.get( 'ariaRole' ),
-        "gridcell",
+        'gridcell',
         'ariaRole is "gridcell" by default'
     );
 

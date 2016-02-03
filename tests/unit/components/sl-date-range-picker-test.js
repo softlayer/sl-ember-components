@@ -1,7 +1,4 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { skip } from 'qunit';
-import sinon from 'sinon';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 
 moduleForComponent(
@@ -56,11 +53,14 @@ test( 'Default property values are set correctly', function( assert ) {
         'locale is "en" by default'
     );
 
-    /*assert.strictEqual(
+    assert.deepEqual(
         component.get( 'selectConstraint' ),
-        true,
-        'selectConstraint is ? by default'
-    );*/
+        {
+            start: null,
+            end: null
+        },
+        'selectConstraint is an object with start and end properties by default'
+    );
 
     assert.strictEqual(
         component.get( 'startDate' ),
