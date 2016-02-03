@@ -14,12 +14,6 @@ test( 'Default rendered state', function( assert ) {
         this.$( '>:first-child' ).hasClass( 'sl-drop-option' ),
         'Rendered component has class "sl-drop-option"'
     );
-});
-
-test( 'ARIA role is set when "label" attribute is set', function( assert ) {
-    this.render( hbs`
-        {{sl-drop-option label="test"}}
-    ` );
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'a' ).attr( 'role' ),
