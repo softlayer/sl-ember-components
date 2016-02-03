@@ -965,7 +965,7 @@ test( 'All Days are Displayed in Order', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.day' ).text().trim(),
+        this.$( '>:first-child' ).find( 'td' ).text().trim(),
         '28293031123456789101112131415161718192021222324252627282930311234567',
         'All days listed in order for specified month as expected'
     );
