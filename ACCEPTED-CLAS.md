@@ -4,4 +4,3 @@ against PRs received from developers.
 
 * jkgisme 
 * notmessenger
-* 
