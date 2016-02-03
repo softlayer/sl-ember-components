@@ -18,6 +18,6 @@ test( 'Default rendered state', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'role' ),
         'separator',
-        'ARIA role is properly set to "menuitem"'
+        'ARIA role is properly set to "separator"'
     );
 });
