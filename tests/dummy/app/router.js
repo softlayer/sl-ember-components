@@ -29,7 +29,6 @@ Router.map( function() {
         this.route( 'sl-drop-button' );
         this.route( 'sl-input' );
         this.route( 'sl-grid' );
-        this.route( 'sl-loading-icon' );
         this.route( 'sl-menu' );
         this.route( 'sl-pagination' );
         this.route( 'sl-panel' );

@@ -66,6 +66,18 @@ export default Ember.Component.extend( ComponentClassPrefix, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * didInsertElement event handler
+     *
+     * @function
+     * @returns {undefined}
+     */
+    didInsertElement() {
+        this._super( ...arguments );
+
+        this.setupResponsivePlugin();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -84,11 +96,25 @@ export default Ember.Component.extend( ComponentClassPrefix, {
     componentClass: 'pagination',
 
     /**
+     * An action to send
+     *
+     * @type {?String}
+     */
+    changePage: null,
+
+    /**
      * The current page number
      *
      * @type {Number}
      */
     currentPage: 1,
+
+    /**
+     * Whether to use the responsive plugin
+     *
+     * @type {Boolean}
+     */
+    isResponsive: true,
 
     /**
      * The total number of pages
@@ -101,54 +127,50 @@ export default Ember.Component.extend( ComponentClassPrefix, {
     // Observers
 
     /**
-     * Whether the current page is the first page
+     * Re-initialize the responsive plugin if total page count changes
      *
      * @function
-     * @returns {Boolean}
+     * @returns {undefined}
      */
-    onFirstPage: Ember.computed(
-        'currentPage',
+    reinitializeResponsivePlugin: Ember.observer(
+        'totalPages',
         function() {
-            return 1 === this.get( 'currentPage' );
+            this.setupResponsivePlugin();
         }
     ),
 
     /**
-     * Whether the current page is the last page
+     * Modify the active property of the currently active page object
      *
      * @function
-     * @returns {Boolean}
+     * @returns {undefined}
      */
-    onLastPage: Ember.computed(
+    updateCurrentPage: Ember.observer(
         'currentPage',
-        'totalPages',
         function() {
-            return this.get( 'currentPage' ) === this.get( 'totalPages' );
-        }
-    ),
-
-    /**
-     * Array of simple objects representing the pages
-     *
-     * @function
-     * @returns {Array}
-     */
-    range: Ember.computed(
-        'currentPage',
-        'totalPages',
-        function() {
-            const pages = [];
-            const totalPages = this.get( 'totalPages' );
+            const pages = this.get( 'range' );
             const currentPage = this.get( 'currentPage' );
+            const previousPage = pages.find( ( page ) => page.active );
 
-            for( let i = 1; i <= totalPages; i++ ) {
-                pages.push({
-                    index: i,
-                    active: i === currentPage
-                });
-            }
+            Ember.set( previousPage, 'active', false );
+            Ember.set( pages[ currentPage - 1 ], 'active', true );
+        }
+    ),
 
-            return pages;
+    /**
+     * Update the responsive plugin if current page changes
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateResponsivePlugin: Ember.observer(
+        'currentPage',
+        function() {
+            Ember.run.scheduleOnce( 'afterRender', this, function() {
+                if ( this.get( 'isResponsive' ) ) {
+                    this.$().twbsResponsivePagination( 'update' );
+                }
+            });
         }
     ),
 
@@ -188,6 +210,70 @@ export default Ember.Component.extend( ComponentClassPrefix, {
 
         if ( this.get( 'changePage' ) ) {
             this.sendAction( 'changePage', page );
+        }
+    },
+
+    /**
+     * Whether the current page is the first page
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    onFirstPage: Ember.computed(
+        'currentPage',
+        function() {
+            return 1 === this.get( 'currentPage' );
+        }
+    ),
+
+    /**
+     * Whether the current page is the last page
+     *
+     * @function
+     * @returns {Boolean}
+     */
+    onLastPage: Ember.computed(
+        'currentPage',
+        'totalPages',
+        function() {
+            return this.get( 'currentPage' ) === this.get( 'totalPages' );
+        }
+    ),
+
+    /**
+     * Array of simple objects representing the pages
+     *
+     * @function
+     * @returns {Array}
+     */
+    range: Ember.computed(
+        'totalPages',
+        function() {
+            const pages = [];
+            const totalPages = this.get( 'totalPages' );
+            const currentPage = this.get( 'currentPage' );
+
+            for( let i = 1; i <= totalPages; i++ ) {
+                pages.push({
+                    index: i,
+                    active: i === currentPage
+                });
+            }
+
+            return pages;
+        }
+    ),
+
+    /**
+     * Initialize the responsive pagination jQuery plugin
+     *
+     * @function
+     * @private
+     * @returns {undefined}
+     */
+    setupResponsivePlugin: function() {
+        if ( this.get( 'isResponsive' ) ) {
+            this.$().twbsResponsivePagination();
         }
     }
 

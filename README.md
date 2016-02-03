@@ -37,7 +37,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-drop-button
 * sl-grid
 * sl-input
-* sl-loading-icon
 * sl-menu
 * sl-modal
 * sl-pagination
@@ -90,6 +89,13 @@ Provides a mechanism for initiating `console.warn()`s
 *error*
 
 Provides a way for individual components to throw errors that are able to be recognized by methods inside of a consuming application's `Ember.onerror()` function. For more details reference the [Error Handling](#error-handling) section below.
+
+
+**CSS Classes provided**
+
+*sl-loading*
+
+Apply a loading indicator to an element.  See the [Loading Indicator section](#loading-indicator) for more information.
 
 
 ---
@@ -191,6 +197,33 @@ Ember.onerror = function( error ) {
 };
 ```
 
+## Fingerprinting Assets
+If fingerprinting is enabled in the consuming application, then by default the following font types are fingerprinted:
+
+    eot, svg, ttf, woff, woff2
+
+**IMPORTANT**: If you list extensions that are not exact matches to [the default ones](https://github.com/rickharrison/broccoli-asset-rev/blob/master/lib/default-options.js)
+set by broccoli-asset-rev, you will need to add the desired font extensions to the extensions property in the consuming application's fingerprinting settings in the `ember-cli-build.js` file, as demonstrated below:
+
+```
+const EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
+const env = require( './config/environment' );
+
+module.exports = function( defaults ) {
+    const app = new EmberApp( defaults, {
+        fingerprint: {
+            enabled: true,
+            exclude: [],
+            extensions: [ 'png', 'jpg', 'gif', 'eot', 'svg', 'ttf', 'woff', 'woff2' ],
+            prepend: env().baseAssetsURL,
+            replaceExtensions: [ 'html', 'css', 'js' ]
+        }
+    });
+
+    return app.toTree();
+};
+```
+
 ## Styling
 
 If you wish to modify the styling of the components you have two options for doing so.
@@ -281,6 +314,34 @@ previously explained above:
     content: "\f270";
 }
 ```
+
+### Loading indicator
+
+A loading indicator can be made to display over an element's content, masking it from view, by simply adding the
+*"sl-loading"* class to it.  This class blurs the content via a dark-colored mask.  If a lighter mask is desired then add
+the additional *"inverse"* class to the same element.
+
+*Examples*
+
+![Dark Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskDark.png "Dark Mask Example") ![Light Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskLight.png "Light Mask Example")
+
+
+If you wish to modify the loading image displayed when applying the *"sl-loading"* class you can do so by either
+defining CSS declarations or setting LESS variable values, depending on which [Styling](#styling) approach you are using
+in your application.
+
+To do so via CSS declarations, define the `background-image` property for the `.sl-loading:after` and
+`.sl-loading.inverse:after` selectors.
+
+To do so via LESS, assign values to the `@loading-spinner-light` and `@loading-spinner-dark` variables.
+
+Additional modifications can be applied to any of these selectors as well:
+
+* .sl-loading
+* .sl-loading:before
+* .sl-loading:after
+* .sl-loading.inverse:before
+* .sl-loading.inverse:after
 
 
 

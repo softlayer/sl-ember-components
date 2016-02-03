@@ -219,7 +219,7 @@ test( 'Action requestData is fired with correct arguments in paging mode', funct
 
     const first = $( '>:first-child' );
 
-    first.find( '.pagination :nth-child(3) a' ).click();
+    first.find( '.sl-ember-components.pagination li:last-child a' ).click();
 
     assert.ok(
         spy.calledOnce,
