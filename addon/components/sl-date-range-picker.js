@@ -28,8 +28,16 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {
 
+        /**
+         * Move focus to the endDate picker when startDate is selected
+         *
+         * @function actions:startSelected
+         * @param {moment} date - The date that was selected
+         * @returns {undefined}
+         */
         startSelected( date ) {
             this.$( '.sl-daterange-end-date input' ).focus();
         }
@@ -43,11 +51,18 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     // Properties
 
     /**
-     * The value for the endDate input
+     * The currently selected date in the end datepicker
+     *
+     * @type {moment}
+     */
+    endDate: null,
+
+    /**
+     * The placeholder text that the end datepicker input should show
      *
      * @type {?String}
      */
-    // endDateValue: null,
+    endDatePlaceholder: null,
 
     /**
      * The string format for date values
@@ -57,28 +72,50 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     format: null,
 
     /**
-     * The value for the startDate input
+     * The help text below the date-range-pickers
      *
      * @type {?String}
      */
-    // startDateValue: null,
+    helpText: null,
 
+    /**
+     * The label text above the date-range-pickers' input fields
+     *
+     * @type {?String}
+     */
     label: null,
 
-    startDate: null,
+    /**
+     * The locale string to use for moment date values
+     *
+     * @type {String}
+     */
+    locale: 'en',
 
-    endDate: null,
-
+    /**
+     * Constraints to enforce against selection of dates.
+     * An object of start and end Moment properties.
+     *
+     * @type {Object}
+     */
     selectConstraint: {
         start: null,
         end: null
     },
 
-    locale: 'en',
+    /**
+     * The currently selected date in the start datepicker
+     *
+     * @type {moment}
+     */
+    startDate: null,
 
+    /**
+     * The placeholder text that the start datepicker input should show
+     *
+     * @type {?String}
+     */
     startDatePlaceholder: null,
-
-    endDatePlaceholder: null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -86,6 +123,12 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
     // -------------------------------------------------------------------------
     // Methods
 
+    /**
+     * Modification of selectConstraint for the startDate picker
+     *
+     * @function
+     * @returns {Object}
+     */
     endSelectConstraint: Ember.computed(
         'endDate',
         'selectConstraint',
@@ -100,6 +143,12 @@ export default Ember.Component.extend( ComponentInputId, Namespace, {
         }
     ),
 
+    /**
+     * Modification of selectConstraint for the endDate picker
+     *
+     * @function
+     * @returns {Object}
+     */
     startSelectConstraint: Ember.computed(
         'startDate',
         'selectConstraint',

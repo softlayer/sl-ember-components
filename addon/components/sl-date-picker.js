@@ -37,25 +37,50 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     /** @type {Object} */
     actions: {
 
+        /**
+         * Watch focus-out from input helper
+         *
+         * @function actions:inputBlurred
+         * @returns {undefined}
+         */
         inputBlurred() {
             this.trigger( 'focusOut' );
-
-            // this.updateValue();
         },
 
+        /**
+         * Watch focus-in from input helper
+         *
+         * @function actions:inputFocused
+         * @returns {undefined}
+         */
         inputFocused() {
             this.trigger( 'focusIn' );
         },
 
+        /**
+         * Watch for keyUp events from input helper
+         * Triggers parsing of input value if a non-command key was pressed
+         *
+         * @function actions:inputKeyUp
+         * @param {String} value - Current value property of the input
+         * @param {Event} event - keyUp event object
+         * @returns {undefined}
+         */
         inputKeyUp( value, event ) {
-            console.log( 'input key up' );
-
             // not a tab or modifier key
             if ( event.keyCode !== 9 && ( event.keyCode > 18 || event.keyCode < 16 ) ) {
                 this.checkInput();
             }
         },
 
+        /**
+         * sl-calendar has triggered a date selection
+         * Triggers bound action "action"
+         *
+         * @function actions:selectDate
+         * @param {moment} date - date selected by sl-calendar
+         * @returns {undefined}
+         */
         selectDate( date ) {
             this.selectDate( date );
 
@@ -71,11 +96,15 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * Track focus on the component for opening sl-calendar
+     *
+     * @returns {undefined}
+     */
     focusIn( event ) {
         this._super( ...arguments );
 
         this.set( 'hasFocus', true );
-        // this.set( 'isOpen', true );
 
         const losingFocus = this.get( 'losingFocus' );
         Ember.run.cancel( losingFocus );
@@ -89,31 +118,26 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         }
     },
 
+    /**
+     * Track focus on the component for closing sl-calendar
+     *
+     * @returns {undefined}
+     */
     focusOut( event ) {
         this._super( ...arguments );
 
-
         const runNext = Ember.run.next( this, () => {
-            /*if ( !this.get( 'hasFocus' ) ) {
-                this.set( 'isOpen', false );
-            }*/
-
             this.set( 'hasFocus', false );
         });
 
         this.set( 'losingFocus', runNext );
     },
 
-    /*keyPress() {
-        console.log( 'date picker: keypress' );
-    },*/
-
     // -------------------------------------------------------------------------
     // Properties
 
     /**
-     * Whether or not to close the datepicker immediately when a date
-     * is selected
+     * Whether to close the datepicker immediately when a date is selected
      *
      * @type {Boolean}
      */
@@ -127,31 +151,19 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     disabled: false,
 
     /**
-     * Whether or not to force parsing of the input value when the picker is
-     * closed
-     *
-     * When an invalid date is left in the input field by the user, the picker
-     * will forcibly parse that value, and set the input's value to the new,
-     * valid date, conforming to the given _format_.
-     *
-     * @type {Boolean}
-     */
-    // forceParse: true,
-
-    /**
-     * The date format
-     *
-     * Combination of the following:
-     * - d, dd: Numeric date, no leading zero and leading zero, respectively
-     * - D, DD: Abbreviated and full weekday names, respectively
-     * - m, mm: Numeric month, no leading zero and leading zero, respectively
-     * - M, MM: Abbreviated and full month names, respectively
-     * - yy, yyyy: 2- and 4-digit years, respectively
+     * The date format for input field
+     * Only effects how selected day is represented in the input value
+     * This is a moment-based format string
      *
      * @type {?String}
      */
     format: null,
 
+    /**
+     * Whether the component has focus and should display the sl-calendar
+     *
+     * @type {Boolean}
+     */
     hasFocus: false,
 
     /**
@@ -168,8 +180,19 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      */
     label: null,
 
+    /**
+     * The locale string to use for moment date values
+     *
+     * @type {String}
+     */
     locale: 'en',
 
+    /**
+     * An Ember.run object for cancelling closing of sl-calendar
+     *
+     * @private
+     * @type {Boolean|Object}
+     */
     losingFocus: false,
 
     /**
@@ -179,11 +202,21 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
      */
     placeholder: null,
 
+    /**
+     * A constraint object to pass throught to sl-calendar
+     *
+     * @type {Object}
+     */
     selectConstraint: {
         start: null,
         end: null
     },
 
+    /**
+     * The currently selected date
+     *
+     * @type {moment}
+     */
     selectedDate: null,
 
     /**
@@ -199,9 +232,13 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     // -------------------------------------------------------------------------
     // Methods
 
+    /**
+     * Check if the client entered string can be parsed to a moment
+     *
+     * @returns {undefined}
+     */
     checkInput() {
         let value = this.get( 'value' );
-        // const format = this.get( 'format' );
         const parseFormats = this.get( 'parseFormats' );
         const selectConstraint = this.get( 'selectConstraint' );
 
@@ -209,13 +246,10 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
             return;
         }
 
-        // console.log( 'from value observer: ', this.get( 'value' ) );
-
         value = value.replace( /\W+/g, "-" );
 
         const date = window.moment( value, parseFormats, this.get( 'locale' ), true );
-        // console.log( 'date entered: ', date.format( format ) );
-        // return;
+
         if ( selectConstraint.start ) {
             if ( date.isBefore( selectConstraint.start ) ) {
                 return;
@@ -235,6 +269,13 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         this.set( 'selectedDate', date );
     },
 
+
+    /**
+     * The string to parse client input against
+     * Defaults to long format from moment
+     *
+     * @returns {String}
+     */
     formatString: Ember.computed(
         'format',
         function() {
@@ -242,6 +283,11 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         }
     ),
 
+    /**
+     * Create an array of format strings to compare typed input against.
+     *
+     * @returns {String[]}
+     */
     parseFormats: Ember.computed(
         'locale',
         function() {
@@ -258,10 +304,21 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         }
     ),
 
+    /**
+     * Select a date.
+     *
+     * @param {moment} date - date to select
+     * @returns {undefined}
+     */
     selectDate( date ) {
         this.set( 'selectedDate', date );
     },
 
+    /**
+     * Generate value for input field.
+     *
+     * @returns {String}
+     */
     value: Ember.computed(
         'selectedDate',
         'formatString',
@@ -277,6 +334,11 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
         }
     ),
 
+    /**
+     * Sets the viewingDate to the selectedDate.
+     *
+     * @returns {moment}
+     */
     viewingDate: Ember.computed(
         'selectedDate',
         function() {

@@ -32,7 +32,8 @@ export default Ember.Component.extend({
     // Events
 
     /**
-     * @function
+     * Send the click event up to sl-calendar
+     *
      * @returns {undefined}
      */
     click() {
@@ -43,8 +44,7 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * Whether the month that this component represents is selected by the
-     * overall calendar component
+     * Whether the month that this component represents is actively selected
      *
      * @type {Boolean}
      */

@@ -12,6 +12,7 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [
         'ariaSelected:aria-selected',
         'tabIndex'
@@ -38,13 +39,15 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
     actions: {},
 
     // -------------------------------------------------------------------------
     // Events
 
     /**
-     * @function
+     * Send the click event up to sl-calendar
+     *
      * @returns {undefined}
      */
     click() {
@@ -54,6 +57,12 @@ export default Ember.Component.extend({
         this.sendAction( 'action', date, events );
     },
 
+    /**
+     * Focus this date on insert.
+     * Needed for keyboard navigation across months.
+     *
+     * @returns {undefined}
+     */
     didInsertElement() {
         this._super( ...arguments );
 
@@ -64,18 +73,39 @@ export default Ember.Component.extend({
     // Properties
 
     /**
-     * Whether the calendar day this cell represents is actively selected day
+     * Whether the calendar day this cell represents is actively selected
      *
      * @type {Boolean}
      */
     active: false,
 
+    /**
+     * The role attribute to apply
+     *
+     * @private
+     * @type {String}
+     */
     ariaRole: 'gridcell',
 
+    /**
+     * The specific moment date that this cell represents
+     *
+     * @type {?moment}
+     */
     date: null,
 
+    /**
+     * An array of events bound to the date this cell represents
+     *
+     * @type {Object[]}
+     */
     events: [],
 
+    /**
+     * Whether this day is currently focused by keyboard navigation
+     *
+     * @type {Boolean}
+     */
     focused: false,
 
     /**
@@ -94,11 +124,23 @@ export default Ember.Component.extend({
      */
     old: false,
 
+    /**
+     * Whether the calendar day this cell represents is restricted by parent
+     * calendar's selectConstraint
+     *
+     * @type {Boolean}
+     */
     restricted: false,
 
     // -------------------------------------------------------------------------
     // Observers
 
+    /**
+     * When tabIndex changes, check if we should apply focus.
+     *
+     * @function
+     * @returns {undefined}
+     */
     focus: Ember.observer(
         'tabIndex',
         function() {
@@ -113,6 +155,12 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Methods
 
+    /**
+     * Sets aria-selected attribute when active state is true.
+     *
+     * @function
+     * @returns {?Boolean}
+     */
     ariaSelected: Ember.computed(
         'active',
         function() {
@@ -121,6 +169,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Whether there are events bound to this date.
+     *
+     * @function
+     * @returns {Boolean}
+     */
     hasEvents: Ember.computed(
         'events',
         function() {
@@ -128,6 +182,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Calculate if this day is today's date.
+     *
+     * @function
+     * @returns {Boolean}
+     */
     isToday: Ember.computed(
         'date',
         function() {
@@ -135,6 +195,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Sets tabIndex attribute based on focused property.
+     *
+     * @function
+     * @returns {Number}
+     */
     tabIndex: Ember.computed(
         'focused',
         function() {

@@ -225,22 +225,27 @@ test( 'Change focus to end date input upon start date selection', function( asse
 
     const done = assert.async();
 
-    this.render( hbs`
-        {{sl-date-range-picker}}
-    ` );
-
-    this.$( '>:first-child' ).find( '.sl-daterange-end-date input' ).on( 'focus', function() {
+    const mockFocus = function() {
         assert.ok(
             true,
             'focus was given to the end date input'
         );
 
         done();
-    });
+    };
+
+    this.set( 'mock', function() {
+        return { focus: mockFocus }
+    } );
+
+    this.render( hbs`
+        {{sl-date-range-picker
+          $=mock
+        }}
+    ` );
 
     const startDatePicker = this.$( '>:first-child' ).find( '.sl-daterange-start-date' );
 
-    startDatePicker.find( 'input' ).on( 'focus', function() {
-        startDatePicker.find( 'td.day:first' ).click();
-    }).trigger( 'focus' );
+    startDatePicker.find( 'input' ).trigger( 'focusin' );
+    startDatePicker.find( 'td.day:first' ).click();
 });

@@ -28,6 +28,7 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
     attributeBindings: [
         'tabIndex'
     ],
@@ -151,18 +152,33 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * Track focus on the component
+     *
+     * @returns {undefined}
+     */
     focusIn() {
         this._super( ...arguments );
 
         this.set( 'hasFocus', true );
     },
 
+    /**
+     * Track focus on the component
+     *
+     * @returns {undefined}
+     */
     focusOut() {
         this._super( ...arguments );
 
         this.set( 'hasFocus', false );
     },
 
+    /**
+     * Capture keyDown events for WAI-ARIA
+     *
+     * @returns {undefined}
+     */
     keyDown( event ) {
         this._super( ...arguments );
 
@@ -269,13 +285,26 @@ export default Ember.Component.extend({
      */
     events: [],
 
-    // if true, always shows 6 weeks
+    /**
+     * Whether to always show six weeks or a minimum of weeks.
+     *
+     * @type {Boolean}
+     */
     fixedWeekCount: false,
 
-    // boolean: whether calendar is focusable for keyboard navigation
+    /**
+     * Whether to allow the calendar to receive focus.
+     * Required for keyboard navigation.
+     *
+     * @type {Boolean}
+     */
     focusable: true,
 
-    // whether or not the calendar currently has focus
+    /**
+     * Whether the calendar currently has focus.
+     *
+     * @type {Boolean}
+     */
     hasFocus: false,
 
     /**
@@ -285,22 +314,46 @@ export default Ember.Component.extend({
      */
     locale: 'en',
 
-    // constrain selectable dates
+    /**
+     * Constraints to enforce against selection of dates.
+     * An object of start and end Moment properties.
+     *
+     * @type {Object}
+     */
     selectConstraint: {
         start: null,
         end: null
     },
 
-    // currently selected date: represented by moment object
+    /**
+     * The currently selected date.
+     *
+     * @type {moment}
+     */
     selectedDate: null,
 
+    /**
+     * Whether to show controls for changing the view.
+     *
+     * @type {Boolean}
+     */
     showControls: true,
 
-    // the currently shown month
-    // used as a computed trigger for building list of weeks in month
+    /**
+     * The currently shown month number.
+     * Helps determine if the calendar should be re-rendered.
+     *
+     * @private
+     * @type {?Number}
+     */
     showingMonth: null,
 
-    // currently viewed date: represented by moment object
+    /**
+     * The currently viewed date.
+     * Determines what month and year to display.
+     *
+     * @type {moment}
+     */
     viewingDate: null,
 
     /**
@@ -313,6 +366,12 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Observers
 
+    /**
+     * Keeps the day sub components up to date with the currently selected date.
+     *
+     * @function
+     * @returns {undefined}
+     */
     activeDateChange: Ember.observer(
         'selectedDate',
         function() {
@@ -333,6 +392,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Keeps the day sub components up to date with the events array.
+     *
+     * @function
+     * @returns {undefined}
+     */
     applyEvents: Ember.observer(
         'events',
         'weeksInMonthView',
@@ -385,6 +450,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Keeps the day sub components up to date with the currently viewed date.
+     *
+     * @function
+     * @returns {undefined}
+     */
     focusedDateChange: Ember.observer(
         'viewingDate',
         function() {
@@ -405,6 +476,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Updates the showingMonth property to track when the calendar switches month.
+     *
+     * @function
+     * @returns {undefined}
+     */
     updateShowingMonth: Ember.observer(
         'viewingDate',
         function() {
@@ -414,40 +491,6 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Methods
-
-    setDate( date ) {
-        const selectConstraint = this.get( 'selectConstraint' );
-
-        if ( selectConstraint.start ) {
-            if ( date.isBefore( selectConstraint.start ) ) {
-                console.log( 'start' );
-                return;
-            }
-        }
-
-        if ( selectConstraint.end ) {
-            if ( date.isAfter( selectConstraint.end ) ) {
-                console.log( 'end' );
-                return;
-            }
-        }
-
-        this.set( 'selectedDate', window.moment( date ) );
-        this.set( 'viewingDate', window.moment( date ) );
-        return true;
-    },
-
-    setMonth( month ) {
-        const viewingDate = this.get( 'viewingDate' );
-
-        this.set( 'viewingDate', window.moment( viewingDate ).month( month - 1 ) );
-    },
-
-    setYear( year ) {
-        const viewingDate = this.get( 'viewingDate' );
-
-        this.set( 'viewingDate', window.moment( viewingDate ).year( year ) );
-    },
 
     /**
      * Locale and viewMode based string title for the calendar
@@ -533,6 +576,58 @@ export default Ember.Component.extend({
     ),
 
     /**
+     * Sets the viewingDate to the specified date.
+     *
+     * @param {moment} date - the date to set
+     * @returns {Boolean} - true if date passes constraint check
+     */
+    setDate( date ) {
+        const selectConstraint = this.get( 'selectConstraint' );
+
+        if ( selectConstraint.start ) {
+            if ( date.isBefore( selectConstraint.start ) ) {
+                console.log( 'start' );
+                return false;
+            }
+        }
+
+        if ( selectConstraint.end ) {
+            if ( date.isAfter( selectConstraint.end ) ) {
+                console.log( 'end' );
+                return false;
+            }
+        }
+
+        this.set( 'selectedDate', window.moment( date ) );
+        this.set( 'viewingDate', window.moment( date ) );
+        return true;
+    },
+
+    /**
+     * Sets the viewingDate to the specified month.
+     *
+     * @param {Number} month - the month to set
+     * @returns {undefined}
+     */
+    setMonth( month ) {
+        const viewingDate = this.get( 'viewingDate' );
+
+        this.set( 'viewingDate', window.moment( viewingDate ).month( month - 1 ) );
+    },
+
+    /**
+     * Sets the viewingDate to the specified year.
+     *
+     * @param {Number} year - the year to set
+     * @returns {undefined}
+     */
+    setYear( year ) {
+        const viewingDate = this.get( 'viewingDate' );
+
+        this.set( 'viewingDate', window.moment( viewingDate ).year( year ) );
+    },
+
+    /**
      * An array of abbreviated, formatted day names of each week day
      *
      * @function
@@ -553,6 +648,12 @@ export default Ember.Component.extend({
         }
     ),
 
+    /**
+     * Sets tabIndex attribute based on focusable property.
+     *
+     * @function
+     * @returns {Number}
+     */
     tabIndex: Ember.computed(
         'focusable',
         function() {
