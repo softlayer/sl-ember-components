@@ -4,12 +4,12 @@
     aria-valuenow={{value}}
     class="progress-bar
         {{if striped "progress-bar-striped"}}
-        {{if isLowPercentage  lowPercentageClass}}
-        {{if animated "active"}} {{themeClassName}}"
+        {{if animated "active"}}
+        {{themeClassName}}"
     role="progressbar"
 >
     {{#if label}}
-        <span class="sl-progress-bar-value">{{value}}%</span>
+        <span class="progress-bar-value">{{value}}%</span>
     {{else}}
         <span class="sr-only">{{value}}% Complete</span>
     {{/if}}

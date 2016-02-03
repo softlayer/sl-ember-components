@@ -29,7 +29,7 @@ test( 'Default property values', function( assert ) {
     assert.strictEqual(
         component.get( 'componentClass' ),
         'date-time',
-        'componentClass is set to date-picker'
+        '"componentClass" property defaults to date-time'
     );
 });
 

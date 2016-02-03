@@ -45,6 +45,7 @@ test( 'The disabled state applies to sl-radio children', function( assert ) {
             {{sl-radio label="Three" value="three"}}
         {{/sl-radio-group}}
     ` );
+
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'input[disabled]' ).length,
         3,

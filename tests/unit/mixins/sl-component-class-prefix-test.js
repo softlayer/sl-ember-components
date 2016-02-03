@@ -3,7 +3,15 @@ import mixinUnderTest from 'sl-ember-components/mixins/sl-component-class-prefix
 import { module, test } from 'qunit';
 import config from 'ember-get-config';
 
-module( 'Unit | Mixin | sl component class prefix' );
+module( 'Unit | Mixin | sl component class prefix', {
+    beforeEach: function() {
+        config.componentClassPrefix = 'test-prefix';
+    },
+    afterEach: function() {
+        const prefix =  config.componentClassPrefix;
+        config.componentClassPrefix = prefix;
+    }
+});
 
 test( 'Can be successfully mixed', function( assert ) {
     const testObject = Ember.Component.extend( mixinUnderTest );
@@ -15,9 +23,6 @@ test( 'Can be successfully mixed', function( assert ) {
 });
 
 test( 'getComponentClassName() returns correct class', function( assert ) {
-    const prefix =  config.componentClassPrefix;
-    config.componentClassPrefix = 'test-prefix';
-
     const testObject = Ember.Component.extend( mixinUnderTest, {
         componentClass: 'test-component'
     });
@@ -25,30 +30,24 @@ test( 'getComponentClassName() returns correct class', function( assert ) {
     const subject = testObject.create();
     const prefixedComponentClass = `${config.componentClassPrefix}-test-component`;
 
-    assert.equal(
+    assert.strictEqual(
         subject.getComponentClassName(),
-        prefixedComponentClass
+        prefixedComponentClass,
+        'getComponentClassName() returns correct class'
     );
-
-    // restore prefix to prevent pollution of global config
-    config.componentClassPrefix = prefix;
 });
 
 test( 'Component class is present in classNames array', function( assert ) {
-    const prefix =  config.componentClassPrefix;
-    config.componentClassPrefix = 'test-prefix';
-
     const testObject = Ember.Component.extend( mixinUnderTest, {
         componentClass: 'test-component'
     });
 
     const subject = testObject.create();
-    const prefixedComponentClass = `${config.componentClassPrefix}-test-component`;
+    const prefixedComponentClass = `test-prefix-test-component`;
 
-    assert.ok(
-        subject.classNames.contains( prefixedComponentClass )
+    assert.strictEqual(
+        subject.get( 'classNames' )[1],
+        prefixedComponentClass,
+        'Prefixed component base class is present in classNames array'
     );
-
-    // restore prefix to prevent pollution of global config
-    config.componentClassPrefix = prefix;
 });
