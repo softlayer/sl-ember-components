@@ -1,14 +1,7 @@
-{{#if hasBlock}}
-    <a href="#" {{action "click" action}} role="menuitem" tab-index="-1">
+<a href="#" {{action "click" action}} role="menuitem" tab-index="-1">
+    {{#if hasBlock}}
         {{yield}}
-        {{#if label}}
-            {{label}}
-        {{/if}}
-    </a>
-{{else}}
-    {{#if label}}
-        <a href="#" {{action "click" action}} role="menuitem" tab-index="-1">
-            {{label}}
-        </a>
+    {{else}}
+        {{label}}
     {{/if}}
-{{/if}}
+</a>
