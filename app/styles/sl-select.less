@@ -241,7 +241,7 @@ html[dir="rtl"] {
     top: 100%;
 
     color: @text-color;
-    background: #fff;
+    background: @input-bg;
     border: 1px solid @input-border;
 
     border-radius: 0 0 @border-radius-base @border-radius-base;
@@ -269,7 +269,7 @@ html[dir="rtl"] {
         border-top-color: @input-border;
 
         &.select2-drop-multi {
-            background: #fff;
+            background: @input-bg;
             //border-top-width: 0;
         }
     }
@@ -315,7 +315,7 @@ html[dir="rtl"] {
         width: 100%;
 
         &.select2-active {
-            background: #fff no-repeat 100%;
+            background: @input-bg no-repeat 100%;
         }
     }
 }
@@ -426,20 +426,20 @@ html[dir="rtl"] {
     }
 
     .select2-highlighted {
-        background: @brand-primary;
-        color: #fff;
+        background: @component-active-bg;
+        color: @component-active-color;
 
         em {
             background: transparent;
         }
 
         ul {
-            background: #fff;
+            background: @input-bg;
             color: @text-color;
         }
 
         .text-muted {
-            color: #fff;
+            color: @text-muted;
         }
     }
 
@@ -494,7 +494,7 @@ html[dir="rtl"] {
 
 .select2-container-multi {
     .select2-choices {
-        background-color: #fff;
+        background-color: @input-bg;
         border: 1px solid @input-border;
         .box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
         cursor: text;
@@ -525,15 +525,15 @@ html[dir="rtl"] {
                 padding: 5px;
 
                 &.select2-active {
-                    background: #fff no-repeat 100% !important;
+                    background: @input-bg no-repeat 100% !important;
                 }
             }
         }
 
         .select2-search-choice {
-            border: 1px solid @input-border;
-            border-radius: @border-radius-base;
-            color: @text-color;
+            border: 1px solid @btn-default-border;
+            border-radius: @btn-border-radius-small;
+            color: @btn-default-color;
             cursor: default;
             line-height: 13px;
             margin: 4px 0 0 5px;
@@ -544,17 +544,18 @@ html[dir="rtl"] {
             -ms-user-select: none;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
+            background-color: @btn-default-bg;
 
             &.select2-search-choice-focus {
-                background-color: @brand-primary;
-                border-color: @brand-primary;
-                color: #fff;
+                background-color: darken(@btn-default-bg, 10%);
+                border-color: darken(@btn-default-border, 12%);
+                color: @btn-default-color;
 
                 .select2-search-choice-close {
-                    color: #fff;
+                    color: @text-muted;
 
                     &:hover {
-                        color: #fff;
+                        color: @text-color;
                     }
                 }
             }
