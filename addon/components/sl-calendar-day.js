@@ -204,7 +204,7 @@ export default Ember.Component.extend({
     tabIndex: Ember.computed(
         'focused',
         function() {
-            return this.get( 'focused' ) ? 0 : null;
+            return this.get( 'focused' ) ? 0 : -1;
         }
     )
 

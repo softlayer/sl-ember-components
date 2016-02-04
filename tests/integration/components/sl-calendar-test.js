@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { skip } from 'qunit';
 
 const testEvents = Ember.A([
     {
@@ -680,6 +679,130 @@ test( 'Twelve Years are Displayed in Order', function( assert ) {
     );
 });
 
-skip( 'Wai-Aria keyboard navigation', function( assert ) {
-    // make sure to include moving across months and retaining focus
+test( 'Wai-Aria keyboard navigation', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2016, 0, 15 ] ) );
+    this.set( 'selectedDate', window.moment( [ 2016, 0, 15 ] ) );
+
+    this.render( hbs`
+        {{sl-calendar
+            viewingDate=viewingDate
+            selectedDate=selectedDate
+        }}
+    ` );
+
+    const calendar = this.$( '>:first-child' );
+
+    calendar.trigger( 'focusin' );
+
+    let event = new jQuery.Event( 'keydown' );
+    event.keyCode = 33;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 15 ] ), 'day' ),
+        'correctly decreased the date by one month'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 34;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 15 ] ), 'day' ),
+        'correctly increased the date by one month'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 35;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 31 ] ), 'day' ),
+        'correctly moved to the last day in the current month'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 36;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly moved to the first day in the current month'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 37;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 31 ] ), 'day' ),
+        'correctly decreased the date by one day'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 38;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 24 ] ), 'day' ),
+        'correctly decreased the date by one week'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 39;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 25 ] ), 'day' ),
+        'correctly increased the date by one day'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 40;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly increased the date by one week'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 33;
+    event.ctrlKey = true;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 0, 1 ] ), 'day' ),
+        'correctly decreased the date by one year'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 34;
+    event.ctrlKey = true;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly increased the date by one year'
+    );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 32;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'selectedDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly set the selectedDate to the currently focused date'
+    );
+
+    this.set( 'viewingDate', window.moment( [ 2016, 0, 15 ] ) );
+
+    event = new jQuery.Event( 'keydown' );
+    event.keyCode = 13;
+    calendar.trigger( event );
+
+    assert.ok(
+        this.get( 'selectedDate' ).isSame( window.moment( [ 2016, 0, 15 ] ), 'day' ),
+        'correctly set the selectedDate to the currently focused date'
+    );
 });

@@ -26,7 +26,6 @@ test( 'Default property values', function( assert ) {
     );
 });
 
-//need to re-visit this one
 test( 'Click event sends action with year value', function( assert ) {
     assert.expect( 1 );
 

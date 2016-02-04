@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
-import { skip } from 'qunit';
 
 const testEvents = Ember.A([
     {
@@ -99,14 +98,6 @@ test( 'Default property values are set correctly', function( assert ) {
         'days',
         'viewMode is "days" by default'
     );
-});
-
-skip( 'locale - Setting causes default of en (English) to be updated', function( assert ) {
-
-});
-
-skip( 'contentDates - Verify dates array', function( assert ) {
-
 });
 
 test( 'setDate method sets the viewingDate and selectedDate', function( assert ) {
@@ -377,8 +368,42 @@ test( 'changeYear action works', function( assert ) {
     );
 });
 
-skip( 'selectDate action works', function( assert ) {
+test( 'selectDate action works', function( assert ) {
+    assert.expect( 2 );
 
+    const done = assert.async();
+
+    const selectedDate = window.moment( [ 2015, 0, 1 ] );
+    const events = [
+        {
+            startDate: window.moment( [ 2015, 1, 4 ] )
+        }
+    ];
+
+    const component = this.subject({
+        action: 'test',
+        events: events,
+        date: selectedDate,
+        targetObject: {
+            test( sentDate, sentEvents ) {
+                assert.strictEqual(
+                    sentDate,
+                    selectedDate,
+                    'date value is as expected'
+                );
+
+                assert.deepEqual(
+                    sentEvents,
+                    events,
+                    'events are sent as expected'
+                );
+
+                done();
+            }
+        }
+    });
+
+    component.send( 'selectDate', selectedDate, events );
 });
 
 test( 'selectMonth action works', function( assert ) {
@@ -573,7 +598,6 @@ test( 'View mode is settable to "years"', function( assert ) {
     );
 });
 
-//old/new/active?
 test( 'Weeks for month view are assembled correctly', function( assert ) {
     const component = this.subject({
         viewingDate: window.moment( [ 2015, 1, 1 ] )
@@ -612,9 +636,50 @@ test( 'Weeks for month view are assembled correctly', function( assert ) {
     );
 });
 
-//active?
+test( 'Weeks for month view are assembled with correct properties', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2016, 2, 1 ] ),
+        selectedDate: window.moment( [ 2016, 2, 16 ] ),
+        fixedWeekCount: true
+    });
+
+    const allWeeks = component.get( 'weeksInMonthView' );
+    const flattenedWeeks = [];
+
+    for ( let weekGroup = 0; weekGroup < allWeeks.length; weekGroup++ ) {
+        for ( let week = 0; week < allWeeks[ weekGroup ].length; week++ ) {
+            flattenedWeeks.push( allWeeks[ weekGroup ][ week ] );
+        }
+    }
+
+    const firstTwo = flattenedWeeks.slice( 0, 1 );
+    const lastTwo = flattenedWeeks.slice( 33 );
+
+    assert.ok(
+        firstTwo.every( ( day ) => {
+            return day.old;
+        }),
+        'Expected days have the old property set'
+    );
+
+    assert.ok(
+        lastTwo.every( ( day ) => {
+            return day.new;
+        }),
+        'Expected days have the new property set'
+    );
+
+    assert.ok(
+        flattenedWeeks[ 17 ].active,
+        'Expected day has active property set'
+    );
+});
+
 test( 'Months for year view are assembled correctly', function( assert ) {
-    const component = this.subject();
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 1 ] ),
+        selectedDate: window.moment( [ 2015, 2, 1 ] )
+    });
 
     const allMonths = component.get( 'monthsInYearView' );
     const flattenedMonths = [];
@@ -630,11 +695,18 @@ test( 'Months for year view are assembled correctly', function( assert ) {
         12,
         'Twelve months were generated for the year view'
     );
+
+    assert.ok(
+        flattenedMonths[2].active,
+        'Expected month is set as active'
+    );
 });
 
-//active?
 test( 'Years for decade view are assembled correctly', function( assert ) {
-    const component = this.subject();
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 1 ] ),
+        selectedDate: window.moment( [ 2015, 2, 1 ] )
+    });
 
     const allYears = component.get( 'yearsInDecadeView' );
     const flattenedYears = [];
@@ -649,6 +721,11 @@ test( 'Years for decade view are assembled correctly', function( assert ) {
         flattenedYears.length,
         12,
         'Twelve years were generated for the decade view'
+    );
+
+    assert.ok(
+        flattenedYears[6].active,
+        'Expected year is set as active'
     );
 });
 

@@ -23,7 +23,6 @@ test( 'Default property values', function( assert ) {
     );
 });
 
-//need to re-visit this one
 test( 'Action binding sends action with month', function( assert ) {
     this.subject({
         action: 'test',

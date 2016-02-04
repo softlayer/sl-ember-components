@@ -56,9 +56,8 @@ test( 'Default property values', function( assert ) {
     );
 });
 
-//need to re-visit this one
 test( 'Action bindings sends action with expected day content', function( assert ) {
-    assert.expect( 1 );
+    assert.expect( 2 );
 
     const done = assert.async();
 
@@ -68,15 +67,24 @@ test( 'Action bindings sends action with expected day content', function( assert
         }
     ];
 
+    const currentDate = window.moment( [ 2014, 1, 4 ] );
+
     this.subject({
         action: 'test',
         events: events,
+        date: currentDate,
         targetObject: {
             test( date, eventData ) {
                 assert.strictEqual(
+                    date,
+                    currentDate,
+                    'Test action fired with proper date'
+                );
+
+                assert.strictEqual(
                     eventData,
                     events,
-                    'Test action fired with expected value'
+                    'Test action fired with expected events'
                 );
 
                 done();

@@ -205,7 +205,7 @@ export default Ember.Component.extend({
 
             case 33: // page up
                 timePeriod = 'months';
-                if ( event.shiftKey ) {
+                if ( event.ctrlKey ) {
                     timePeriod = 'years';
                 }
                 this.set( 'viewingDate', viewingDate.subtract( 1, timePeriod ) );
@@ -213,26 +213,18 @@ export default Ember.Component.extend({
 
             case 34: // page down
                 timePeriod = 'months';
-                if ( event.shiftKey ) {
+                if ( event.ctrlKey ) {
                     timePeriod = 'years';
                 }
                 this.set( 'viewingDate', viewingDate.add( 1, timePeriod ) );
                 break;
 
             case 35: // end
-                timePeriod = 'month';
-                if ( event.ctrlKey ) {
-                    timePeriod = 'year';
-                }
-                this.set( 'viewingDate', viewingDate.endOf( timePeriod ) );
+                this.set( 'viewingDate', viewingDate.endOf( 'month' ) );
                 break;
 
             case 36: // home
-                timePeriod = 'month';
-                if ( event.ctrlKey ) {
-                    timePeriod = 'year';
-                }
-                this.set( 'viewingDate', viewingDate.startOf( timePeriod ) );
+                this.set( 'viewingDate', viewingDate.startOf( 'month' ) );
                 break;
 
             case 32: // space
@@ -258,19 +250,10 @@ export default Ember.Component.extend({
         this._super( ...arguments );
 
         const today = window.moment();
-        const selectConstraint = this.get( 'selectConstraint' );
 
         if ( !this.get( 'viewingDate' ) ) {
             this.set( 'viewingDate', today );
         }
-
-        /*for ( let constraint in selectConstraint ) {
-            selectConstraint[ constraint ] = window.moment( selectConstraint[ constraint ] );
-            if ( !selectConstraint[ constraint ].isValid ) {
-                // throw an error or warning here
-            }
-        }
-        this.set( 'selectConstraint', selectConstraint );*/
 
         this.applyEvents();
     },
@@ -586,14 +569,12 @@ export default Ember.Component.extend({
 
         if ( selectConstraint.start ) {
             if ( date.isBefore( selectConstraint.start ) ) {
-                console.log( 'start' );
                 return false;
             }
         }
 
         if ( selectConstraint.end ) {
             if ( date.isAfter( selectConstraint.end ) ) {
-                console.log( 'end' );
                 return false;
             }
         }
