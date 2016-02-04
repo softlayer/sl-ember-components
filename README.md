@@ -107,9 +107,6 @@ All of this functionality is provided through a combination of leveraging the be
 While this library is MIT licensed not all of the third-party component libraries are. Specifically, Highcharts is only free for non-commercial use and requires a license for any other use. See
 [this FAQ page](http://shop.highsoft.com/faq/non-commercial#what-is-commercial-website) for more information.
 
-Other libraries that are not MIT licensed, though it should not pose a problem, are:
-
-* [Bootstrap-Datepicker](https://github.com/eternicode/bootstrap-datepicker/blob/release/LICENSE)
 
 
 
