@@ -8,7 +8,22 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-date-picker label="Date picker"}}</pre>
+        <pre>\{{sl-date-picker action="logLabel" label="Date picker" selectedDate=selectedDate}}</pre>
+
+        <h6>Controller</h6>
+<pre>actions: {
+    logLabel( date, data ) {
+        window.console.log( 'logLabel: ', date, data );
+    }
+},
+
+selectConstraint: {
+    start: '01/05/2016',
+    end: '02/05/2016'
+},
+
+selectedDate: window.moment( '01/11/2016', 'MM/DD/YYYY' )
+</pre>
     </div>
 
     <div class="col-lg-6">

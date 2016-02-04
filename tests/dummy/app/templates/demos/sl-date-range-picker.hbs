@@ -8,11 +8,24 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-date-range-picker
-            label="Select date range"
-            startDatePlaceholder="Select start date"
-            endDatePlaceholder="Select end date"
-        }}</pre>
+<pre>\{{sl-date-range-picker
+    label="Select date range"
+    selectConstraint=selectConstraint
+    startDatePlaceholder="Select start date"
+    endDatePlaceholder="Select end date"
+    startDate=startDate
+    endDate=endDate
+}}</pre>
+
+        <h6>Controller</h6>
+<pre>selectConstraint: {
+    start: '01/05/2016',
+    end: '02/05/2016'
+},
+
+startDate: window.moment( '01/07/2016', 'MM/DD/YYYY' ),
+endDate: window.moment( '01/28/2016', 'MM/DD/YYYY' )
+</pre>
     </div>
 
     <div class="col-lg-6">
