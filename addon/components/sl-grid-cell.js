@@ -60,14 +60,14 @@ export default Ember.Component.extend({
     /**
      * The column object, passed in through the sl-grid component
      *
-     * @type {?Object}
+     * @type {Object}
      */
     column: {},
 
     /**
      * The row record model instance, passed in through the sl-grid-component
      *
-     * @type {?Object}
+     * @type {Object}
      */
     record: {},
 
