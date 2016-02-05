@@ -4,19 +4,19 @@ import sinon from 'sinon';
 
 const testEvents = Ember.A([
     {
-        startDate: moment( [ 2015, 2, 12 ] ),
+        startDate: window.moment( [ 2015, 2, 12 ] ),
         title: 'Event 1 Today!'
     },
     {
-        startDate: moment( [ 2015, 2, 12 ] ),
+        startDate: window.moment( [ 2015, 2, 12 ] ),
         title: 'Event 2 Today!'
     },
     {
-        startDate: moment( [ 2015, 2, 17 ] ),
+        startDate: window.moment( [ 2015, 2, 17 ] ),
         title: 'Event 3 Today!'
     },
     {
-        startDate: moment( [ 2015, 2, 20 ] ),
+        startDate: window.moment( [ 2015, 2, 20 ] ),
         title: 'Event 1 Another Day!'
     }
 ]);

@@ -4,19 +4,19 @@ import hbs from 'htmlbars-inline-precompile';
 
 const testEvents = Ember.A([
     {
-        startDate: moment( [ 2015, 2, 12 ] ),
+        startDate: window.moment( [ 2015, 2, 12 ] ),
         title: 'Event 1 Today!'
     },
     {
-        startDate: moment( [ 2015, 2, 12 ] ),
+        startDate: window.moment( [ 2015, 2, 12 ] ),
         title: 'Event 2 Today!'
     },
     {
-        startDate: moment( [ 2015, 2, 17 ] ),
+        startDate: window.moment( [ 2015, 2, 17 ] ),
         title: 'Event 3 Today!'
     },
     {
-        startDate: moment( [ 2015, 2, 20 ] ),
+        startDate: window.moment( [ 2015, 2, 20 ] ),
         title: 'Event 1 Another Day!'
     }
 ]);
@@ -694,7 +694,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
 
     calendar.trigger( 'focusin' );
 
-    let event = new jQuery.Event( 'keydown' );
+    let event = new Ember.$.Event( 'keydown' );
     event.keyCode = 33;
     calendar.trigger( event );
 
@@ -703,7 +703,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly decreased the date by one month'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 34;
     calendar.trigger( event );
 
@@ -712,7 +712,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly increased the date by one month'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 35;
     calendar.trigger( event );
 
@@ -721,7 +721,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly moved to the last day in the current month'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 36;
     calendar.trigger( event );
 
@@ -730,7 +730,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly moved to the first day in the current month'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 37;
     calendar.trigger( event );
 
@@ -739,7 +739,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly decreased the date by one day'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 38;
     calendar.trigger( event );
 
@@ -748,7 +748,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly decreased the date by one week'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 39;
     calendar.trigger( event );
 
@@ -757,7 +757,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly increased the date by one day'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 40;
     calendar.trigger( event );
 
@@ -766,7 +766,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly increased the date by one week'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 33;
     event.ctrlKey = true;
     calendar.trigger( event );
@@ -776,7 +776,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly decreased the date by one year'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 34;
     event.ctrlKey = true;
     calendar.trigger( event );
@@ -786,7 +786,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
         'correctly increased the date by one year'
     );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 32;
     calendar.trigger( event );
 
@@ -797,7 +797,7 @@ test( 'Wai-Aria keyboard navigation', function( assert ) {
 
     this.set( 'viewingDate', window.moment( [ 2016, 0, 15 ] ) );
 
-    event = new jQuery.Event( 'keydown' );
+    event = new Ember.$.Event( 'keydown' );
     event.keyCode = 13;
     calendar.trigger( event );
 
