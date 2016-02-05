@@ -2,6 +2,7 @@ import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/sl-component-class-prefix';
 import { module, test } from 'qunit';
 import config from 'ember-get-config';
+import classPrefixUtil from 'sl-ember-components/utils/class-prefix';
 
 module( 'Unit | Mixin | sl component class prefix', {
     beforeEach: function() {
@@ -28,11 +29,11 @@ test( 'getComponentClassName() returns correct class', function( assert ) {
     });
 
     const subject = testObject.create();
-    const prefixedComponentClass = `${config.componentClassPrefix}-test-component`;
+    const classPrefixUtilClass = classPrefixUtil( 'test-component' );
 
     assert.strictEqual(
         subject.getComponentClassName(),
-        prefixedComponentClass,
+        classPrefixUtilClass,
         'getComponentClassName() returns correct class'
     );
 });
