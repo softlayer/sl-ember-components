@@ -44,7 +44,7 @@ export default Ember.Controller.extend({
             valuePath: 'name'
         },
         {
-            extraClass: 'smallWidth',
+            headerClass: 'smallWidth',
             primary: true,
             sortable: true,
             sorted: 'asc',
@@ -52,7 +52,7 @@ export default Ember.Controller.extend({
             valuePath: 'fruit'
         },
         {
-            extraClass: 'smallWidth',
+            headerClass: 'smallWidth',
             sortable: true,
             title: 'Hex Code',
             valuePath: 'hexCode'
