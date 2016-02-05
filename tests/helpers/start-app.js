@@ -12,8 +12,8 @@ export default function startApp( attrs ) {
         application = Application.create( attributes );
         application.setupForTesting();
         slRegisterTestHelpers();
-            application.injectTestHelpers();
-        });
+        application.injectTestHelpers();
+    });
 
     return application;
 }
