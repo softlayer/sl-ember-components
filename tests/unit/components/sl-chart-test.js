@@ -87,7 +87,7 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'highchartsOptions' ).title,
+        component.highchartsOptions().title,
         null,
         `title property in highchartsOptions is set to null in order to
             suppress default behavior for our usage`
@@ -271,7 +271,15 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     });
 
     const setupSpy = sinon.spy( component, 'setupChart' );
-    const updateSpy = sinon.spy( component, 'updateData' );
+    const optionsMatcher = ( options ) => {
+        const optionsFromMethod = component.highchartsOptions();
+
+        // Highcharts modifies options.chart and adds a options.chart.renderTo method
+        // Since this is not a property that we pass in, copy over that property before doing a deepEqual
+        optionsFromMethod.chart.renderTo = options.chart.renderTo;
+
+        return sinon.deepEqual( optionsFromMethod, options );
+    };
 
     assert.strictEqual(
         component.get( 'chart' ),
@@ -287,23 +295,13 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     );
 
     assert.ok(
-        updateSpy.calledOnce,
-        'updateData was called once upon render'
+        spyHighcharts.calledOnce,
+        'highcharts was called once upon render'
     );
 
     assert.ok(
-        spyHighcharts.calledTwice,
-        'highcharts was called twice upon render'
-    );
-
-    assert.ok(
-        spyHighcharts.calledWithExactly( component.get( 'highchartsOptions' ) ),
+        spyHighcharts.calledWithMatch( optionsMatcher ),
         'highcharts was called once with options'
-    );
-
-    assert.ok(
-        spyHighcharts.calledWithExactly(),
-        'highcharts was called once with no parameters'
     );
 });
 
@@ -345,6 +343,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
                 animation: false
             }
         },
+        series: testSeries,
         tooltip: {
             animation: false,
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -368,7 +367,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
 
     assert.deepEqual(
         options,
-        component.get( 'highchartsOptions' ),
+        component.highchartsOptions(),
         'highchartsOptions returns expected options'
     );
 });

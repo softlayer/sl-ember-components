@@ -30,6 +30,26 @@ export default Ember.Component.extend( ComponentClassPrefix, {
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * init event hook
+     *
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+        this.initialize();
+    },
+
+    /**
+     * didInsertElement event hook
+     *
+     * @returns {undefined}
+     */
+    didInsertElement() {
+        this._super( ...arguments );
+        this.setupChart();
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
@@ -79,36 +99,6 @@ export default Ember.Component.extend( ComponentClassPrefix, {
     // Observers
 
     /**
-     * Check passed parameters on initialization
-     *
-     * @function
-     * @throws {sl-ember-components/utils/error/chart} Series property must be an Array
-     * @throws {sl-ember-components/utils/error/chart} Options property must be an Object
-     * @returns {undefined}
-     */
-    initialize: Ember.on(
-        'init',
-        function() {
-            if ( 'array' !== Ember.typeOf( this.get( 'series' ) ) ) {
-                throwChartError( 'Series property must be an array' );
-            }
-
-            /* jshint ignore:start */
-            const options = this.get( 'options' );
-            if (
-                (
-                    'instance' !== Ember.typeOf( options ) &&
-                    'object' !== Ember.typeOf( options )
-                ) ||
-                'symbol' === typeof options
-            ) {
-                throwChartError( 'Options property must be an Object' );
-            }
-            /* jshint ignore:end */
-        }
-    ),
-
-    /**
      * Updates the chart's height
      *
      * @function
@@ -118,26 +108,6 @@ export default Ember.Component.extend( ComponentClassPrefix, {
         'height',
         function() {
             this.$( '> .panel-body > div' ).height( this.get( 'height' ) );
-        }
-    ),
-
-    /**
-     * Sets up Highcharts initialization
-     *
-     * @function
-     * @returns {undefined}
-     */
-    setupChart: Ember.on(
-        'didInsertElement',
-        function() {
-            const chartDiv = this.$( '> .panel-body > div' );
-
-            this.setHeight();
-            this.setWidth();
-
-            chartDiv.highcharts( this.get( 'highchartsOptions' ) );
-            this.set( 'chart', chartDiv.highcharts() );
-            this.updateData();
         }
     ),
 
@@ -189,73 +159,115 @@ export default Ember.Component.extend( ComponentClassPrefix, {
      * @function
      * @returns {Object}
      */
-    highchartsOptions: Ember.computed(
-        function() {
-            const chartStyle = {
-                fontFamily: [
-                    'Helvetica',
-                    'Arial',
-                    'sans-serif'
-                ].join( ', ' ),
-                fontSize: '13px'
-            };
+    highchartsOptions() {
+        const chartStyle = {
+            fontFamily: [
+                'Helvetica',
+                'Arial',
+                'sans-serif'
+            ].join( ', ' ),
+            fontSize: '13px'
+        };
 
-            const options = Ember.$.extend( true, {
-                title: '',
-                chart: {
-                    animation: false,
-                    backgroundColor: 'rgba(255, 255, 255, 0)',
-                    style: chartStyle
+        const options = Ember.$.extend( true, {
+            title: '',
+            chart: {
+                animation: false,
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                style: chartStyle
+            },
+            colors: [
+                '#298fce',
+                '#94302e',
+                '#00a14b',
+                '#f29c1e',
+                '#fadb00',
+                '#34495d'
+            ],
+            credits: {
+                enabled: false
+            },
+            legend: {
+                itemStyle: chartStyle
+            },
+            plotOptions: {
+                bar: {
+                    borderColor: 'transparent'
                 },
-                colors: [
-                    '#298fce',
-                    '#94302e',
-                    '#00a14b',
-                    '#f29c1e',
-                    '#fadb00',
-                    '#34495d'
-                ],
-                credits: {
-                    enabled: false
-                },
-                legend: {
-                    itemStyle: chartStyle
-                },
-                plotOptions: {
-                    bar: {
-                        borderColor: 'transparent'
-                    },
-                    series: {
-                        animation: false
-                    }
-                },
-                tooltip: {
-                    animation: false,
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    borderWidth: 0,
-                    shadow: false,
-                    style: {
-                        color: '#fff'
-                    }
-                },
-                xAxis: {
-                    labels: {
-                        style: chartStyle
-                    }
-                },
-                yAxis: {
-                    labels: {
-                        style: chartStyle
-                    }
+                series: {
+                    animation: false
                 }
-            }, this.get( 'options' ) || {} );
+            },
+            series: this.get( 'series' ),
+            tooltip: {
+                animation: false,
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                borderWidth: 0,
+                shadow: false,
+                style: {
+                    color: '#fff'
+                }
+            },
+            xAxis: {
+                labels: {
+                    style: chartStyle
+                }
+            },
+            yAxis: {
+                labels: {
+                    style: chartStyle
+                }
+            }
+        }, this.get( 'options' ) || {} );
 
-            // Title property in options must be kept null in order to
-            // suppress its default behavior for our specific usage
-            options.title = null;
+        // Title property in options must be kept null in order to
+        // suppress its default behavior for our specific usage
+        options.title = null;
 
-            return options;
+        return options;
+    },
+
+    /**
+     * Check passed parameters on initialization
+     *
+     * @private
+     * @throws {sl-ember-components/utils/error/chart} Series property must be an Array
+     * @throws {sl-ember-components/utils/error/chart} Options property must be an Object
+     * @returns {undefined}
+     */
+    initialize() {
+        if ( 'array' !== Ember.typeOf( this.get( 'series' ) ) ) {
+            throwChartError( 'Series property must be an array' );
         }
-    )
+
+        /* jshint ignore:start */
+        const options = this.get( 'options' );
+        if (
+            (
+                'instance' !== Ember.typeOf( options ) &&
+                'object' !== Ember.typeOf( options )
+            ) ||
+            'symbol' === typeof options
+        ) {
+            throwChartError( 'Options property must be an Object' );
+        }
+        /* jshint ignore:end */
+    },
+
+    /**
+     * Sets up Highcharts initialization
+     *
+     * @private
+     * @returns {undefined}
+     */
+    setupChart() {
+        const chartDiv = this.$( '> .panel-body > div' );
+
+        this.setHeight();
+        this.setWidth();
+
+        const highCharts = chartDiv.highcharts( this.highchartsOptions() );
+        this.set( 'chart', highCharts );
+    }
 
 });

@@ -1,9 +1,7 @@
-{{#if label}}
-    <a href="#" {{action "click" action}} role="menuitem" tab-index="-1">
-        {{#if icon}}
-            <img src={{icon}} />
-        {{/if}}
-
+<a href="#" {{action "click" action}} role="menuitem" tab-index="-1">
+    {{#if hasBlock}}
+        {{yield}}
+    {{else}}
         {{label}}
-    </a>
-{{/if}}
+    {{/if}}
+</a>

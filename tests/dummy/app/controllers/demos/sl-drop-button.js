@@ -10,10 +10,6 @@ export default Ember.Controller.extend({
             window.console.log( 'Green!' );
         },
 
-        logBlue() {
-            window.console.log( 'Blue!' );
-        },
-
         logWhite() {
             window.console.log( 'White!' );
         }

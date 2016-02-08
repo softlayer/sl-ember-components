@@ -13,11 +13,6 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /** @type {String[]} */
-    classNameBindings: [
-        'isDivider:divider'
-    ],
-
     /** @type {Object} */
     layout,
 
@@ -66,36 +61,17 @@ export default Ember.Component.extend({
      */
     data: null,
 
+    /**
+     * Text label for the option
+     *
+     * @type {?String}
+     */
+    label: null
+
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * The aria-role attribute value based on isDivider
-     *
-     * @function
-     * @returns {String}
-     */
-    ariaRole: Ember.computed(
-        'isDivider',
-        function() {
-            return this.get( 'isDivider' ) ? 'separator' : 'menuitem';
-        }
-    ),
-
-    /**
-     * Whether or not the option represents a divider placeholder
-     *
-     * @function
-     * @returns {Boolean}
-     */
-    isDivider: Ember.computed(
-        'label',
-        function() {
-            return Ember.isEmpty( this.get( 'label' ) );
-        }
-    )
 
 });

@@ -49,7 +49,12 @@
 
             & > thead {
                 th {
-                    background-color: #FFF;
+                    background-color: @table-bg;
+                }
+
+                /* if @table-bg is set to "transparent" */
+                th when ( alpha( @table-bg ) = 0 ) {
+                    background-color: @body-bg;
                 }
 
                 .sortable-column {
@@ -141,6 +146,10 @@
         clear: left;
         margin-top: @line-height-computed;
     }
+}
+
+.panel .grid.sl-ember-components > div > table > thead th {
+    background-color: @panel-bg;
 }
 
 .sl-icon-sortable {

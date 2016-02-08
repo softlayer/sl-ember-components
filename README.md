@@ -82,8 +82,6 @@ Check whether a value is a valid value in object.
 
 *warn*
 
-Check whether a value is a valid value in object.
-
 Provides a mechanism for initiating `console.warn()`s
 
 *error*
