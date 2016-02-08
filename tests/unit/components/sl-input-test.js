@@ -277,7 +277,8 @@ test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
     globalLibraries.triggerEvents( component );
 
     assert.notOk(
-        globalLibraries.called()
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
     );
 
     globalLibraries.restoreSpies();
