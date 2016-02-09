@@ -304,7 +304,6 @@ test( 'init() - "timezone" property needs to be valid', function( assert ) {
     );
 
     // valid timezone property
-
     properties.set( 'timezone', 'America/Chicago' );
 
     assert.ok(
