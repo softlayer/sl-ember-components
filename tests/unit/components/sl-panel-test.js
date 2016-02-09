@@ -1,4 +1,4 @@
-import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-panel', 'Unit | Component | sl panel', {
@@ -7,8 +7,8 @@ moduleForComponent( 'sl-panel', 'Unit | Component | sl panel', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        ComponentClassPrefix.detect( this.subject() ),
-        'ComponentClassPrefix Mixin is present'
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
     );
 });
 

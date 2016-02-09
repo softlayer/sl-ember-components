@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-radio-group';
@@ -14,7 +14,7 @@ import prefix from '../utils/class-prefix';
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentClassPrefix, InputBased, Namespace, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, InputBased, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

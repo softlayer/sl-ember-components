@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import TooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import sinon from 'sinon';
@@ -11,8 +11,8 @@ moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        ComponentClassPrefix.detect( this.subject() ),
-        'ComponentClassPrefix Mixin is present'
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
     );
 
     assert.ok(

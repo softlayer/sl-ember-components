@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
 import Namespace from '../mixins/sl-namespace';
@@ -24,7 +24,7 @@ export const Size = Object.freeze({
  * @augments ember-stream/mixins/stream-enabled
  * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend( ComponentClassPrefix, Namespace, StreamEnabled, {
+export default Ember.Component.extend( ClassPrefix, Namespace, StreamEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

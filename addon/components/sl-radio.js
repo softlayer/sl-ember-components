@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import layout from '../templates/components/sl-radio';
 
@@ -8,7 +8,7 @@ import layout from '../templates/components/sl-radio';
  * @augments ember/Component
  * @augments module:mixins/sl-input-based
  */
-export default Ember.Component.extend( ComponentClassPrefix, InputBased, {
+export default Ember.Component.extend( ClassPrefix, InputBased, {
 
     // -------------------------------------------------------------------------
     // Dependencies

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-grid';
 import Namespace from '../mixins/sl-namespace';
 
@@ -21,7 +21,7 @@ export const ColumnAlign = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend( ComponentClassPrefix, Namespace, {
+export default Ember.Component.extend( ClassPrefix, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies

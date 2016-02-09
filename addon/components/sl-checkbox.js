@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-checkbox';
@@ -10,7 +10,7 @@ import layout from '../templates/components/sl-checkbox';
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentClassPrefix, InputBased, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

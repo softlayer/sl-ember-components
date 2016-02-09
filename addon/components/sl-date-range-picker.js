@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import Namespace from '../mixins/sl-namespace';
 import layout from '../templates/components/sl-date-range-picker';
@@ -10,7 +10,7 @@ import layout from '../templates/components/sl-date-range-picker';
  * @augments module:mixins/sl-component-input-id
  * @augments module:mixins/sl-namespace
  */
-export default Ember.Component.extend( ComponentClassPrefix, ComponentInputId, Namespace, {
+export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace, {
 
     // -------------------------------------------------------------------------
     // Dependencies

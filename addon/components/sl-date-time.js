@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import { throwDateTimeError } from '../utils/error';
 import layout from '../templates/components/sl-date-time';
@@ -24,7 +24,7 @@ export const Format = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

@@ -1,12 +1,12 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-pagination';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend( ComponentClassPrefix, {
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies

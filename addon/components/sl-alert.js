@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-alert';
 import containsValue from '../utils/containsValue';
@@ -27,7 +27,7 @@ export const Theme = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

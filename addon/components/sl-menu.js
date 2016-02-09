@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-menu';
 import warn from '../utils/warn';
@@ -10,7 +10,7 @@ import { throwMenuError } from '../utils/error';
  * @augments ember/Component
  * @augments ember-stream/mixins/stream-enabled
  */
-export default Ember.Component.extend( StreamEnabled, ComponentClassPrefix, {
+export default Ember.Component.extend( StreamEnabled, ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies

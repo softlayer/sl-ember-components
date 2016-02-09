@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { Align as alignEnum } from 'sl-ember-components/components/sl-drop-button';
-import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import {
     Size as ButtonSize,
     Theme as ButtonTheme
@@ -17,8 +17,8 @@ moduleForComponent( 'sl-drop-button', 'Unit | Component | sl drop button', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        ComponentClassPrefix.detect( this.subject() ),
-        'ComponentClassPrefix Mixin is present'
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
     );
 });
 

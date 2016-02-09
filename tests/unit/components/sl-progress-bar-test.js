@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-progress-bar';
 import sinon from 'sinon';
@@ -19,8 +19,8 @@ const Theme = {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        ComponentClassPrefix.detect( this.subject() ),
-        'ComponentClassPrefix Mixin is present'
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
     );
 
     assert.ok(

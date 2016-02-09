@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-button';
@@ -54,7 +54,7 @@ export const Theme = Object.freeze({
  * @augments ember-stream/mixins/stream-enabled
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentClassPrefix, StreamEnabled, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, StreamEnabled, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

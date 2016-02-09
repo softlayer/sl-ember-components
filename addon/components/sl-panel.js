@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-panel';
 import containsValue from '../utils/containsValue';
 import warn from '../utils/warn';
@@ -11,7 +11,8 @@ import {
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend( ComponentClassPrefix, {
+export default Ember.Component.extend( ClassPrefix, {
+
     // -------------------------------------------------------------------------
     // Dependencies
 

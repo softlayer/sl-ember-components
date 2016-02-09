@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-progress-bar';
 import containsValue from '../utils/containsValue';
 import warn from '../utils/warn';
@@ -29,7 +29,7 @@ export const Theme = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
 */
-export default Ember.Component.extend( ComponentClassPrefix, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 
 const columns = Ember.A([
@@ -30,8 +30,8 @@ moduleForComponent( 'sl-grid', 'Unit | Component | sl grid', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        ComponentClassPrefix.detect( this.subject() ),
-        'ComponentClassPrefix Mixin is present'
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
     );
 });
 

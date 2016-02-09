@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import { throwChartError } from '../utils/error';
 import layout from '../templates/components/sl-chart';
 
@@ -7,7 +7,7 @@ import layout from '../templates/components/sl-chart';
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend( ComponentClassPrefix, {
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies

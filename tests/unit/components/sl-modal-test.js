@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import streamEnabled from 'ember-stream/mixins/stream-enabled';
 
@@ -28,10 +29,21 @@ test( 'Expected Mixins are present', function( assert ) {
         streamEnabled.detect( this.subject() ),
         'StreamEnabled Mixin is present'
     );
+
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
 });
 
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'modal',
+        'componentClass is set to modal'
+    );
 
     assert.strictEqual(
         component.get( 'animated' ),

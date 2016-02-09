@@ -11,6 +11,11 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-modal-footer' ),
+        'Component has class "sl-ember-components-modal-footer"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'modal-footer' ),
         'Component has class "modal-footer"'
     );

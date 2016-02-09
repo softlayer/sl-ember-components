@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/class-prefix';
+import ClassPrefix from '../mixins/class-prefix';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import Namespace from '../mixins/sl-namespace';
@@ -12,7 +12,7 @@ import layout from '../templates/components/sl-date-picker';
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentClassPrefix, ComponentInputId, Namespace, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies

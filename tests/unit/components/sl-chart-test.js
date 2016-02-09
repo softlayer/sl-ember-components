@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 
@@ -39,8 +39,8 @@ test( 'Expected Mixins are present', function( assert ) {
     });
 
     assert.ok(
-        ComponentClassPrefix.detect( component ),
-        'ComponentClassPrefix Mixin is present'
+        ClassPrefix.detect( component ),
+        'ClassPrefix Mixin is present'
     );
 });
 
