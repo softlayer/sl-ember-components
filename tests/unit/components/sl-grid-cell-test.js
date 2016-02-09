@@ -24,16 +24,16 @@ test( 'Default property values', function( assert ) {
         'tagName is td'
     );
 
-    assert.strictEqual(
+    assert.deepEqual(
         component.get( 'column' ),
-        null,
-        'column is null'
+        {},
+        'column is an empty object'
     );
 
-    assert.strictEqual(
+    assert.deepEqual(
         component.get( 'record' ),
-        null,
-        'record is null'
+        {},
+        'record is an empty object'
     );
 
     assert.deepEqual(
