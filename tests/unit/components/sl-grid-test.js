@@ -692,7 +692,7 @@ test( 'pagination data is handled correctly', function( assert ) {
         'Initial currentPage is 1'
     );
 
-    this.$( '.next-page-button' ).trigger( 'click' );
+    this.$( '.pagination li:last-child a' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'currentPage' ),
@@ -704,7 +704,7 @@ test( 'pagination data is handled correctly', function( assert ) {
         component.set( 'loading', false );
     });
 
-    this.$( '.next-page-button' ).trigger( 'click' );
+    this.$( '.pagination li:last-child a' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'hasMoreData' ),
@@ -716,7 +716,7 @@ test( 'pagination data is handled correctly', function( assert ) {
         component.set( 'loading', false );
     });
 
-    this.$( '.previous-page-button' ).trigger( 'click' );
+    this.$( '.pagination li:first-child a' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'currentPage' ),
