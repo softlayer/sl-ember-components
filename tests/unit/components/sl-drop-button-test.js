@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import { Align as alignEnum } from 'sl-ember-components/components/sl-drop-button';
-import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import {
     Size as ButtonSize,
     Theme as ButtonTheme

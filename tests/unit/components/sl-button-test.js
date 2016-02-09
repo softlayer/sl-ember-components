@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
-import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';

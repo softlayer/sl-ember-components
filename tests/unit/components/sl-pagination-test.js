@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import sinon from 'sinon';
-import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-pagination', 'Unit | Component | sl pagination', {

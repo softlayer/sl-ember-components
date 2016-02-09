@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
+import ComponentClassPrefix from '../mixins/class-prefix';
 import StreamEnabled from 'ember-stream/mixins/stream-enabled';
 import layout from '../templates/components/sl-modal';
 import Namespace from '../mixins/sl-namespace';

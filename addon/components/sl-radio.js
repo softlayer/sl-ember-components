@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
+import ComponentClassPrefix from '../mixins/class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import layout from '../templates/components/sl-radio';
 

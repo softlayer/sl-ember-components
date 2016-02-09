@@ -1,4 +1,4 @@
-import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-panel', 'Unit | Component | sl panel', {

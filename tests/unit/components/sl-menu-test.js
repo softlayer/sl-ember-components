@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import sinon from 'sinon';
 

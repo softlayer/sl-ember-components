@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
-import ComponentClassPrefix from '../mixins/sl-component-class-prefix';
+import ComponentClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-progress-bar';
 import containsValue from '../utils/containsValue';
 import warn from '../utils/warn';

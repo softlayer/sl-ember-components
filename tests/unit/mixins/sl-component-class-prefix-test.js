@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import mixinUnderTest from 'sl-ember-components/mixins/sl-component-class-prefix';
+import mixinUnderTest from 'sl-ember-components/mixins/class-prefix';
 import { module, test } from 'qunit';
 import config from 'ember-get-config';
 import classPrefixUtil from 'sl-ember-components/utils/class-prefix';

@@ -254,7 +254,7 @@ To get started, you will need to add a config value to your `ember-cli-build.js`
 
 ```
 var app = new EmberApp(defaults, {
-    sl-ember-components: {
+    'sl-ember-components': {
         componentClassPrefix: 'custom-prefix' // specify your custom prefix here
     }
 });

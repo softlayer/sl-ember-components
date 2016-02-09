@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-tab-panel';
 import * as warn from 'sl-ember-components/utils/warn';
-import ComponentClassPrefix from 'sl-ember-components/mixins/sl-component-class-prefix';
+import ComponentClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
