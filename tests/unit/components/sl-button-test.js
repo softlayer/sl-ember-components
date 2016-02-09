@@ -45,7 +45,7 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
-test( 'Default property values', function( assert ) {
+test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
