@@ -2,6 +2,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
+import Ember from 'ember';
+import * as warn from 'sl-ember-components/utils/warn';
 
 moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
@@ -74,4 +76,32 @@ test( 'Dependent keys are correct', function( assert ) {
         themeClassNameDependentKeys,
         'Dependent keys are correct for themeClassName()'
     );
+});
+
+test( 'themeClassName() returns the correct class', function( assert ) {
+    const component = this.subject();
+
+    Object.keys( Theme ).forEach( ( key ) => {
+        const theme = Theme[ key ];
+
+        Ember.run( () => component.set( 'theme',  theme ) );
+
+        assert.strictEqual(
+            component.get( 'themeClassName' ),
+            `alert-${theme}`,
+            'themeClassName() returns expected value'
+        );
+    });
+
+    const spy = sinon.spy( warn, 'default' );
+
+    component.set( 'theme', 'invalid value' );
+    component.get( 'themeClassName' );
+
+    assert.ok(
+        spy.calledOnce,
+        'warn() was called when invalid theme was set'
+    );
+
+    warn.default.restore();
 });
