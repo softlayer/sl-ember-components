@@ -1,7 +1,14 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import { Theme } from 'sl-ember-components/components/sl-alert';
+import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
+
+const Theme = {
+    DANGER: 'danger',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
 
 moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
@@ -33,6 +40,12 @@ test( 'Default property values are set correctly', function( assert ) {
         component.get( 'theme' ),
         Theme.INFO,
         `theme: "${Theme.INFO}"`
+    );
+
+    assert.deepEqual(
+        ThemeEnum,
+        Theme,
+        'Theme enum values are correct'
     );
 });
 
