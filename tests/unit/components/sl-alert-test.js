@@ -50,14 +50,13 @@ test( 'Bound "dismiss" action is triggered when dismiss action is triggered', fu
 });
 
 test( 'themeClassName() returns expected value', function( assert ) {
-    const testThemeValue = 'testTheme';
     const component = this.subject({
-        theme: testThemeValue
+        theme: Theme.SUCCESS
     });
 
     assert.strictEqual(
         component.get( 'themeClassName' ),
-        `alert-${testThemeValue}`,
+        'alert-' + Theme.SUCCESS,
         'themeClassName() returns expected value'
     );
 });
