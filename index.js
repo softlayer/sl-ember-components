@@ -116,8 +116,7 @@ module.exports = {
 
         // -------------------------------------------------------------------------
         // CSS
-
-        if ( !this.isAddon() && !isLessAddonInstalled( this.project ) ) {
+        if ( !this.isAddon() && typeof app.registry.availablePlugins[ 'ember-cli-less' ] === 'undefined' ) {
             app.import( 'vendor/' + this.getCssFileName() );
         }
 
