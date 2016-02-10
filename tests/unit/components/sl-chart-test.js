@@ -68,7 +68,7 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        component.highchartsOptions().title,
+        component.get( 'highchartsOptions' ).title,
         null,
         `title property in highchartsOptions is set to null in order to
             suppress default behavior for our usage`
@@ -91,6 +91,25 @@ test( 'updateData() is called after series property is modified', function( asse
     assert.ok(
         spy.calledOnce,
         'updateData() is called once after series modified'
+    );
+});
+
+test( 'updateOptions() is called after options property is modified', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    this.render();
+
+    const spy = sinon.spy( component, 'updateOptions' );
+    const changedTestOptions = {};
+
+    component.set( 'options', changedTestOptions );
+
+    assert.ok(
+        spy.calledOnce,
+        'updateOptions() is called once after options modified'
     );
 });
 
@@ -240,33 +259,19 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 });
 
-test( 'setupChart initializes chart and updates data upon render', function( assert ) {
-    const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
-
+test( 'setupChart initializes chart upon render', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries,
-        updateData: function() {
+        updateOptions: function() {
             return;
         }
     });
 
     const setupSpy = sinon.spy( component, 'setupChart' );
-    const optionsMatcher = ( options ) => {
-        const optionsFromMethod = component.highchartsOptions();
-
-        // Highcharts modifies options.chart and adds a options.chart.renderTo method
-        // Since this is not a property that we pass in, copy over that property before doing a deepEqual
-        optionsFromMethod.chart.renderTo = options.chart.renderTo;
-
-        return sinon.deepEqual( optionsFromMethod, options );
-    };
-
-    assert.strictEqual(
-        component.get( 'chart' ),
-        null,
-        'Chart is null upon initilization'
-    );
+    const setHeightSpy = sinon.spy( component, 'setHeight' );
+    const setWidthSpy = sinon.spy( component, 'setWidth' );
+    const updateOptionsSpy = sinon.spy( component, 'updateOptions' );
 
     this.render();
 
@@ -276,6 +281,54 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     );
 
     assert.ok(
+        setHeightSpy.calledOnce,
+        'setHeight was called once upon render'
+    );
+
+    assert.ok(
+        setWidthSpy.calledOnce,
+        'setWidth was called once upon render'
+    );
+
+    assert.ok(
+        updateOptionsSpy.calledOnce,
+        'updateOptions was called once upon render'
+    );
+});
+
+test( 'updateOptions initializes chart correctly', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+    const originalUpdateOptions = component.updateOptions;
+
+    component.updateOptions = () => {};
+
+    this.render();
+
+    component.updateOptions = originalUpdateOptions;
+
+    assert.strictEqual(
+        component.get( 'chart' ),
+        null,
+        'Chart is null before options are updated'
+    );
+
+    const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
+    const optionsMatcher = ( options ) => {
+        const optionsFromMethod = component.get( 'highchartsOptions' );
+
+        // Highcharts modifies options.chart and adds a options.chart.renderTo method
+        // Since this is not a property that we pass in, copy over that property before doing a deepEqual
+        optionsFromMethod.chart.renderTo = options.chart.renderTo;
+
+        return sinon.deepEqual( optionsFromMethod, options );
+    };
+
+    component.updateOptions();
+
+    assert.ok(
         spyHighcharts.calledOnce,
         'highcharts was called once upon render'
     );
@@ -283,6 +336,12 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     assert.ok(
         spyHighcharts.calledWithMatch( optionsMatcher ),
         'highcharts was called once with options'
+    );
+
+    assert.strictEqual(
+        Ember.typeOf( component.get( 'chart' ) ),
+        'object',
+        'chart is set after options are updated'
     );
 });
 
@@ -348,7 +407,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
 
     assert.deepEqual(
         options,
-        component.highchartsOptions(),
+        component.get( 'highchartsOptions' ),
         'highchartsOptions returns expected options'
     );
 });
@@ -369,6 +428,16 @@ test( 'Observer keys are correct', function( assert ) {
         'Observer keys are correct for updateData()'
     );
 
+    const updateOptionsKeys = [
+        'highchartsOptions'
+    ];
+
+    assert.deepEqual(
+        component.updateOptions.__ember_observes__,
+        updateOptionsKeys,
+        'Observer keys are correct for updateOptions()'
+    );
+
     const setHeightKeys = [
         'height'
     ];
@@ -387,5 +456,22 @@ test( 'Observer keys are correct', function( assert ) {
         component.setWidth.__ember_observes__,
         setWidthKeys,
         'Observer keys are correct for setWidth()'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    const highchartsOptionsDependentKeys = [
+        'options'
+    ];
+
+    assert.deepEqual(
+        component.highchartsOptions._dependentKeys,
+        highchartsOptionsDependentKeys,
+        'Dependent keys are correct for highchartsOptions()'
     );
 });
