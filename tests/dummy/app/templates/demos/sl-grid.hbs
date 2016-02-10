@@ -45,7 +45,7 @@
         valuePath: 'name'
     },
     {
-        extraClass: 'smallWidth',
+        headerClass: 'smallWidth',
         primary: true,
         sortable: true,
         sorted: 'asc',
@@ -53,7 +53,7 @@
         valuePath: 'fruit'
     },
     {
-        extraClass: 'smallWidth',
+        headerClass: 'smallWidth',
         sortable: true,
         title: 'Hex Code',
         valuePath: 'hexCode'
@@ -99,7 +99,7 @@ rowActions: [
         <ul>
             <li><strong>align</strong> - A <em>string</em> that determines which direction to align the column's text (default: "left")</li>
             <li><strong>primary</strong> - A <em>boolean</em> that determines whether the column remains shown when the detail pane is visible (default: <em>false</em>)</li>
-            <li><strong>extraClass</strong> - A class to pass through to the column header.  Allows for CSS control of column widths</li>
+            <li><strong>headerClass</strong> - A class to pass through to the column header.  Allows for CSS control of column widths</li>
             <li><strong>sortable</strong> - A <em>boolean</em> that determines whether the column is sortable or not (default: <em>false</em>)</li>
             <li><strong>sorted</strong> - A <em>string</em> that determines which direction the column is sorted (default: <em>null</em>)</li>
             <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content; uses the <code>rowController</code> as its controller</li>
@@ -109,7 +109,7 @@ rowActions: [
     {{/property-text}}
 
     {{#property-text name="content" type="Array" required=true}}
-        Array of records to display as the rows.
+        Array of record objects to display as the rows.
     {{/property-text}}
 
     {{#property-text name="actionButtonLabel" type="String" default="\"Actions\""}}

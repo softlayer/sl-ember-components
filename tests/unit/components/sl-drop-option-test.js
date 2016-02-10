@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
@@ -26,47 +25,6 @@ test( 'Default property values', function( assert ) {
         component.get( 'tagName' ),
         'li',
         '"tagName" property defaults to li'
-    );
-});
-
-test( 'isDivider function returns expected values', function( assert ) {
-    const component = this.subject();
-
-    assert.ok(
-        component.get( 'isDivider' ),
-        '"isDivider" defaults to true if label isnt set'
-    );
-
-    Ember.run ( () => {
-        component.set( 'label', '' );
-    });
-
-    assert.ok(
-        component.get( 'isDivider' ),
-        '"isDivider" defaults to true if label is empty'
-    );
-
-    Ember.run ( () => {
-        component.set( 'label', 'testLabel' );
-    });
-
-    assert.notOk(
-        component.get( 'isDivider' ),
-        '"isDivider" returns false when label exists'
-    );
-});
-
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const isDividerDependentKeys = [
-        'label'
-    ];
-
-    assert.deepEqual(
-        component.isDivider._dependentKeys,
-        isDividerDependentKeys,
-        'Dependent keys are correct for isDivider()'
     );
 });
 
