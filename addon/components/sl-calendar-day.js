@@ -20,6 +20,11 @@ export default Ember.Component.extend({
         'old'
     ],
 
+    /** @type {String[]} */
+    classNames: [
+        'day'
+    ],
+
     /** @type {Object} */
     layout,
 

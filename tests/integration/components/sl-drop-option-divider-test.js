@@ -11,6 +11,11 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-drop-option-divider' ),
+        'Has class "sl-ember-components-drop-option-divider"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'divider' ),
         'Rendered component initially has class "divider"'
     );
@@ -21,3 +26,4 @@ test( 'Default rendered state', function( assert ) {
         'ARIA role is properly set to "separator"'
     );
 });
+

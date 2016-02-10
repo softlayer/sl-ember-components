@@ -13,6 +13,11 @@ test( 'Default classes are applied', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-pagination' ),
+        'Default rendered component has class "sl-ember-components-pagination"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'pagination' ),
         'Default rendered component has class "pagination"'
     );

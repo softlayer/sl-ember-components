@@ -15,6 +15,11 @@ test( 'Default rendered state', function( assert ) {
     this.render( template );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-button' ),
+        'Has class "sl-ember-components-button"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'btn' ),
         'Has class "btn"'
     );

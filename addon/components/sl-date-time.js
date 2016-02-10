@@ -37,11 +37,6 @@ export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
         'datetime'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'sl-datetime'
-    ],
-
     /** @type {Object} */
     layout,
 

@@ -11,6 +11,11 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-drop-button' ),
+        'Has class "sl-ember-components-drop-button"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'btn-group' ),
         'Has class "btn-group"'
     );

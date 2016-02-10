@@ -11,6 +11,21 @@ moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date r
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( hbs`
+        {{sl-date-range-picker
+            label="Select date range"
+            startDatePlaceholder="__StartPlaceholder__"
+            endDatePlaceholder="__EndPlaceholder__"
+        }}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-date-range-picker' ),
+        'Has class "sl-ember-components-date-range-picker"'
+    );
+});
+
 test( 'placeholders are accepted', function( assert ) {
     this.render( hbs`
         {{sl-date-range-picker

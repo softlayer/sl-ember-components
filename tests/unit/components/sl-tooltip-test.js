@@ -1,6 +1,7 @@
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-tooltip', 'Unit | Component | sl tooltip', {
     unit: true
@@ -11,10 +12,21 @@ test( 'Expected Mixins are present', function( assert ) {
         TooltipEnabledMixin.detect( this.subject( { title: 'Tooltip Text' } ) ),
         'Expected Mixin is present'
     );
+
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
 });
 
 test( 'Default property values', function( assert ) {
     const component = this.subject( { title: 'test' } );
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'tooltip',
+        'componentClass is set to tooltip'
+    );
 
     assert.equal(
         component.get( 'tagName' ),

@@ -37,6 +37,15 @@ moduleForComponent( 'sl-grid', 'Integration | Component | sl grid', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( defaultTemplate );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-grid' ),
+        'Has class "sl-ember-components-grid"'
+    );
+});
+
 test( 'Content is yielded', function( assert ) {
     this.render( defaultTemplate );
 

@@ -18,6 +18,11 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-radio' ),
+        'Has class "sl-ember-components-radio"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'radio' ),
         'Has class "radio"'
     );

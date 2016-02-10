@@ -30,6 +30,12 @@ test( 'Default properties are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.equal(
+        component.get( 'componentClass' ),
+        'date-picker',
+        'componentClass is set to date-picker'
+    );
+
+    assert.equal(
         component.get( 'autoclose' ),
         true,
         '"autoclose" default vaue is correct'

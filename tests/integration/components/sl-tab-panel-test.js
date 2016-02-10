@@ -20,6 +20,11 @@ test( 'Default rendered state', function( assert ) {
     const wrapper = this.$( '>:first-child' );
 
     assert.ok(
+        wrapper.hasClass( 'sl-ember-components-tab-panel' ),
+        'Has class "sl-ember-components-tab-panel"'
+    );
+
+    assert.ok(
         wrapper.hasClass( 'sl-align-tabs-left' ),
         'Has class "sl-align-tabs-left"'
     );

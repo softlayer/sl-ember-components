@@ -5,6 +5,19 @@ moduleForComponent( 'sl-tooltip', 'Integration | Component | sl tooltip', {
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.set( 'title', 'test title' );
+
+    this.render( hbs`
+        {{sl-tooltip title=title}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-tooltip' ),
+        'Has class "sl-ember-components-tooltip"'
+    );
+});
+
 test( '"Title" capabilities are supported', function( assert ) {
     this.set( 'title', 'test title' );
 

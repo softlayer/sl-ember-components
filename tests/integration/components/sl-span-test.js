@@ -10,6 +10,11 @@ test( 'Default rendered state', function( assert ) {
         {{sl-span}}
     ` );
 
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-span' ),
+        'Has class "sl-ember-components-span"'
+    );
+
     assert.strictEqual(
         this.$( '>:first-child' ).text().trim(),
         '',
