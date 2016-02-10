@@ -3,7 +3,7 @@ module.exports = {
         return this.addBowerPackagesToProject([
             {
                 name: 'bootstrap',
-                target: '~3.2.0'
+                target: '~3.3.5'
             }, {
                 name: 'bootstrap-datepicker',
                 target: '~1.3.0'
