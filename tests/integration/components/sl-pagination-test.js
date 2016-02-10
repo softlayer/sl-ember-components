@@ -154,7 +154,7 @@ test( 'Previous button click decrements the current page and calls the changePag
         {{sl-pagination totalPages=2 currentPage=2 changePage="testAction"}}
     ` );
 
-    this.$( '>:first-child' ).find( '.previous-page-button' ).click();
+    this.$( '>:first-child' ).find( 'li:first-child a' ).click();
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'li.active a' ).text().trim(),

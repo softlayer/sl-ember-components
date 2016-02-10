@@ -1,8 +1,17 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import { Theme } from 'sl-ember-components/components/sl-alert';
+import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
+import Ember from 'ember';
+import * as warn from 'sl-ember-components/utils/warn';
+
+const Theme = {
+    DANGER: 'danger',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
 
 moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
@@ -46,6 +55,12 @@ test( 'Default property values are set correctly', function( assert ) {
         Theme.INFO,
         `theme: "${Theme.INFO}"`
     );
+
+    assert.deepEqual(
+        ThemeEnum,
+        Theme,
+        'Theme enum values are correct'
+    );
 });
 
 test( 'Bound "dismiss" action is triggered when dismiss action is triggered', function( assert ) {
@@ -86,4 +101,32 @@ test( 'Dependent keys are correct', function( assert ) {
         themeClassNameDependentKeys,
         'Dependent keys are correct for themeClassName()'
     );
+});
+
+test( 'themeClassName() returns the correct class', function( assert ) {
+    const component = this.subject();
+
+    Object.keys( Theme ).forEach( ( key ) => {
+        const theme = Theme[ key ];
+
+        Ember.run( () => component.set( 'theme',  theme ) );
+
+        assert.strictEqual(
+            component.get( 'themeClassName' ),
+            `alert-${theme}`,
+            'themeClassName() returns expected value'
+        );
+    });
+
+    const spy = sinon.spy( warn, 'default' );
+
+    component.set( 'theme', 'invalid value' );
+    component.get( 'themeClassName' );
+
+    assert.ok(
+        spy.calledOnce,
+        'warn() was called when invalid theme was set'
+    );
+
+    warn.default.restore();
 });
