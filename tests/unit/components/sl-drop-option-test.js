@@ -1,3 +1,4 @@
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
 
@@ -5,8 +6,21 @@ moduleForComponent( 'sl-drop-option', 'Unit | Component | sl drop option', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'drop-option',
+        'componentClass is set to drop-option'
+    );
 
     assert.strictEqual(
         component.get( 'data' ),
