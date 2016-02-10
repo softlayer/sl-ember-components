@@ -52,6 +52,11 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-menu' ),
+        'Has class "list-unstyled"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).find( 'ul' ).hasClass( 'list-unstyled' ),
         'Has class "list-unstyled"'
     );

@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/class-prefix';
-import { module, test } from 'qunit';
 import config from 'ember-get-config';
-import classPrefixUtil from 'sl-ember-components/utils/class-prefix';
+import * as prefixModule from 'sl-ember-components/utils/class-prefix';
+import sinon from 'sinon';
+import { module, test } from 'qunit';
 
 module( 'Unit | Mixin | sl component class prefix', {
     beforeEach: function() {
@@ -23,32 +24,33 @@ test( 'Can be successfully mixed', function( assert ) {
     );
 });
 
-test( 'getComponentClassName() returns correct class', function( assert ) {
+test( 'prefix() is called when getComponentClassName() invoked', function( assert ) {
     const testObject = Ember.Component.extend( mixinUnderTest, {
         componentClass: 'test-component'
     });
 
     const subject = testObject.create();
-    const classPrefixUtilClass = classPrefixUtil( 'test-component' );
+    const prefixSpy = sinon.spy( prefixModule, 'default' );
 
-    assert.strictEqual(
-        subject.getComponentClassName(),
-        classPrefixUtilClass,
-        'getComponentClassName() returns correct class'
+    subject.getComponentClassName();
+
+    assert.ok(
+        prefixSpy.called,
+        'prefix() was called'
     );
 });
 
-test( 'Component class is present in classNames array', function( assert ) {
+test( 'Prefixed component class is present in classNames array', function( assert ) {
     const testObject = Ember.Component.extend( mixinUnderTest, {
         componentClass: 'test-component'
     });
 
     const subject = testObject.create();
-    const prefixedComponentClass = `test-prefix-test-component`;
+    const prefix = prefixModule.default;
+    const prefixedComponentClass = prefix( 'test-component' );
 
-    assert.strictEqual(
-        subject.get( 'classNames' )[1],
-        prefixedComponentClass,
-        'Prefixed component base class is present in classNames array'
+    assert.ok(
+        subject.get( 'classNames' ).contains( prefixedComponentClass ),
+        'Prefixed component class is present in classNames array'
     );
 });
