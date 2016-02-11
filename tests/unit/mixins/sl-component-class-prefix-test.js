@@ -1,19 +1,10 @@
 import Ember from 'ember';
 import mixinUnderTest from 'sl-ember-components/mixins/class-prefix';
-import config from 'ember-get-config';
 import * as prefixModule from 'sl-ember-components/utils/class-prefix';
 import sinon from 'sinon';
 import { module, test } from 'qunit';
 
-module( 'Unit | Mixin | sl component class prefix', {
-    beforeEach: function() {
-        config.componentClassPrefix = 'test-prefix';
-    },
-    afterEach: function() {
-        const prefix =  config.componentClassPrefix;
-        config.componentClassPrefix = prefix;
-    }
-});
+module( 'Unit | Mixin | sl component class prefix' );
 
 test( 'Can be successfully mixed', function( assert ) {
     const testObject = Ember.Component.extend( mixinUnderTest );
