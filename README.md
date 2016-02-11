@@ -281,7 +281,7 @@ the `content` definition for the appropriate styles.  For example, to replace th
 used for the `sl-menu` component, use the following declaration:
 
 ```
-.sl-ember-components.menu .sl-icon-show-all:before {
+.sl-ember-components-menu .sl-icon-show-all:before {
     content: "\e011";
 }
 ```
@@ -308,7 +308,7 @@ Then you only need to redefine the `content` definition in the appropriate style
 previously explained above:
 
 ```
-.sl-ember-components.menu .sl-icon-show-all:before {
+.sl-ember-components-menu .sl-icon-show-all:before {
     content: "\f270";
 }
 ```
