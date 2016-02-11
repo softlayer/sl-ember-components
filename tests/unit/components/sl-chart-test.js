@@ -429,7 +429,7 @@ test( 'Observer keys are correct', function( assert ) {
     );
 
     const updateOptionsKeys = [
-        'highchartsOptions'
+        'options'
     ];
 
     assert.deepEqual(
