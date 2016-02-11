@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 let App;
 
@@ -35,4 +36,21 @@ test( 'Default property values', function( assert ) {
         'Test Name',
         '"data-tab-name" is set to the value of "name"'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

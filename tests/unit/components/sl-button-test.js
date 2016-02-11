@@ -6,6 +6,7 @@ import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';
 import { Size as SizeEnum } from 'sl-ember-components/components/sl-button';
 import * as warn from 'sl-ember-components/utils/warn';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const Size = {
     EXTRA_SMALL: 'extra-small',
@@ -45,7 +46,7 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
-test( 'Default property values', function( assert ) {
+test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
@@ -281,4 +282,21 @@ test( 'send() and sendAction() are called when component click() is invoked', fu
     );
 
     mockStreamService.send.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

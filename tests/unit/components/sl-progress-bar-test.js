@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-progress-bar';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-progress-bar', 'Unit | Component | sl progress bar', {
     unit: true
@@ -151,20 +152,18 @@ test( 'Observer keys are correct', function( assert ) {
 });
 
 test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
-    const jqueryAliasSpy = sinon.spy( window, '$' );
-    const jquerySpy = sinon.spy( window, 'jQuery' );
-    const emberJquery = sinon.spy( Ember, '$' );
+    globalLibraries.setupSpies();
 
-    this.subject();
+    const component = this.subject();
+
     this.render();
 
-    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
+    globalLibraries.triggerEvents( component );
 
     assert.notOk(
-        called
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
     );
 
-    window.$.restore();
-    window.jQuery.restore();
-    Ember.$.restore();
+    globalLibraries.restoreSpies();
 });

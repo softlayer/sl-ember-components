@@ -11,24 +11,22 @@ const defaultColumn = Ember.Object.extend({
     valuePath: 'value'
 });
 
-const defaultRow = Ember.Object.extend({
+const defaultRecord = Ember.Object.extend({
     value: 'Test'
 });
 
-const defaultTemplate = hbs`
-    {{sl-grid-cell column=column row=row}}
+const columnTemplate = hbs`
+        {{sl-grid-cell column=column}}
 `;
 
 test( 'Column alignment class is applied', function( assert ) {
     const column = defaultColumn.create({
         align: 'right'
     });
-    const row = defaultRow.create();
 
     this.set( 'column', column );
-    this.set( 'row', row );
 
-    this.render( defaultTemplate );
+    this.render( columnTemplate );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'text-right' ),
@@ -40,12 +38,10 @@ test( 'Primary column class is applied', function( assert ) {
     const column = defaultColumn.create({
         primary: true
     });
-    const row = defaultRow.create();
 
     this.set( 'column', column );
-    this.set( 'row', row );
 
-    this.render( defaultTemplate );
+    this.render( columnTemplate );
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'primary-column' ),
@@ -55,34 +51,34 @@ test( 'Primary column class is applied', function( assert ) {
 
 test( 'Content value is handled for valuePath', function( assert ) {
     const column = defaultColumn.create();
-    const row = defaultRow.create();
+    const record = defaultRecord.create();
 
     this.set( 'column', column );
-    this.set( 'row', row );
+    this.set( 'record', record );
 
     this.render( hbs`
-        {{sl-grid-cell column=column record=row}}
+        {{sl-grid-cell column=column record=record}}
     ` );
 
     assert.equal(
         this.$( '>:first-child' ).text().trim(),
-        row.get( 'value' ),
-        'row value matches content value'
+        record.get( 'value' ),
+        'record value matches content value'
     );
 });
 
 test( 'Clicking on grid-cell invokes onClick handler', function( assert ) {
     const column = defaultColumn.create();
-    const row = defaultRow.create();
+    const record = defaultRecord.create();
     const spyOnClick = sinon.spy();
 
     this.set( 'column', column );
-    this.set( 'row', row );
+    this.set( 'record', record );
 
     this.on( 'onClick', spyOnClick );
 
     this.render( hbs`
-        {{sl-grid-cell column=column record=row onClick="onClick"}}
+        {{sl-grid-cell column=column record=record onClick="onClick"}}
     ` );
 
     this.$( '>:first-child' ).click();

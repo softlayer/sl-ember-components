@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-pagination', 'Unit | Component | sl pagination', {
     unit: true
@@ -313,4 +314,21 @@ test( 'Observer keys are correct', function( assert ) {
         updateResponsivePluginKeys,
         'Observer keys are correct for updateResponsivePlugin()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

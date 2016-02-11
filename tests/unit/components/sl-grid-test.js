@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const columns = Ember.A([
     { title: 'Name', valuePath: 'name' },
@@ -692,7 +693,7 @@ test( 'pagination data is handled correctly', function( assert ) {
         'Initial currentPage is 1'
     );
 
-    this.$( '.next-page-button' ).trigger( 'click' );
+    this.$( '.pagination li:last-child a' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'currentPage' ),
@@ -704,7 +705,7 @@ test( 'pagination data is handled correctly', function( assert ) {
         component.set( 'loading', false );
     });
 
-    this.$( '.next-page-button' ).trigger( 'click' );
+    this.$( '.pagination li:last-child a' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'hasMoreData' ),
@@ -716,7 +717,7 @@ test( 'pagination data is handled correctly', function( assert ) {
         component.set( 'loading', false );
     });
 
-    this.$( '.previous-page-button' ).trigger( 'click' );
+    this.$( '.pagination li:first-child a' ).trigger( 'click' );
 
     assert.equal(
         component.get( 'currentPage' ),
@@ -872,4 +873,31 @@ test( 'Dependent keys are correct', function( assert ) {
         component.hasMoreData._dependentKeys,
         hasMoreDataDependentKeys
     );
+});
+
+test( 'There are no references to $ or jQuery, and only some references to Ember.$', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.jqueryAliasSpy.called,
+        '"$" was not referenced in code'
+    );
+
+    assert.notOk(
+        globalLibraries.jquerySpy.called,
+        '"jQuery" was not referenced in code'
+    );
+
+    assert.ok(
+        globalLibraries.emberJquerySpy.calledThrice,
+        'Ember.$ was called thrice'
+    );
+
+    globalLibraries.restoreSpies();
 });

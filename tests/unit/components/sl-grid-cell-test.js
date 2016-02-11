@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { ColumnAlign as ColumnAlignEnum } from 'sl-ember-components/components/sl-grid-cell';
 import * as warn from 'sl-ember-components/utils/warn';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-grid-cell', 'Unit | Component | sl grid cell', {
     unit: true
@@ -24,16 +25,16 @@ test( 'Default property values', function( assert ) {
         'tagName is td'
     );
 
-    assert.strictEqual(
+    assert.deepEqual(
         component.get( 'column' ),
-        null,
-        'column is null'
+        {},
+        'column is an empty object'
     );
 
-    assert.strictEqual(
+    assert.deepEqual(
         component.get( 'record' ),
-        null,
-        'record is null'
+        {},
+        'record is an empty object'
     );
 
     assert.deepEqual(
@@ -171,4 +172,27 @@ test( 'Dependent keys are correct', function( assert ) {
         contentValueDependentKeys,
         'Dependent keys are correct for contentValue()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const column = { valuePath: 'value' };
+    const record = { value: 'Test' };
+
+    const component = this.subject({
+        column,
+        record
+    });
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });
