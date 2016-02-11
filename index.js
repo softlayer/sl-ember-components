@@ -66,7 +66,7 @@ module.exports = {
      * @param {Object} tree
      * @returns {Object}
      */
-    treeForVendor: function( tree, app ) {
+    treeForVendor: function( tree ) {
         var vendorTree = tree;
 
         if ( !this.isAddon() && !isLessAddonInstalled ) {
