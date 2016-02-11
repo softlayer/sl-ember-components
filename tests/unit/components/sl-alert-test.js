@@ -92,23 +92,6 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
-test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
-    globalLibraries.setupSpies();
-
-    const component = this.subject();
-
-    this.render();
-
-    globalLibraries.triggerEvents( component );
-
-    assert.notOk(
-        globalLibraries.called(),
-        'Global libraries are not referenced in component'
-    );
-
-    globalLibraries.restoreSpies();
-});
-
 test( 'themeClassName() returns the correct class', function( assert ) {
     const component = this.subject();
 
@@ -135,4 +118,21 @@ test( 'themeClassName() returns the correct class', function( assert ) {
     );
 
     warn.default.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });
