@@ -3,6 +3,7 @@ import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 import { skip } from 'qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     needs: [
@@ -863,4 +864,21 @@ test( 'Dependent keys are correct', function( assert ) {
         yearsInDecadeViewDependentKeys,
         'Dependent keys are correct for yearsInDecadeView()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

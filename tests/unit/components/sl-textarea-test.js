@@ -1,5 +1,6 @@
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Wrap as WrapEnum, Direction as DirectionEnum } from 'sl-ember-components/components/sl-textarea';
@@ -104,4 +105,21 @@ test( 'Default property values', function( assert ) {
         Direction,
         'Direction enum values are correct'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

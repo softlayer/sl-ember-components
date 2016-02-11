@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const mockStream = {
     actions: {},
@@ -640,4 +641,23 @@ test( 'Dependent keys are correct', function( assert ) {
         selectedItemKeys,
         'Dependent keys are correct for selectedItem()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject({
+        items: testItems
+    });
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

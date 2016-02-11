@@ -4,6 +4,7 @@ import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import TooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
@@ -533,4 +534,21 @@ test( 'Observer keys are correct', function( assert ) {
         updateDateRangeKeys,
         'Observer keys are correct for updateDateRange()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

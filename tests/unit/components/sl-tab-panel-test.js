@@ -4,6 +4,7 @@ import * as warn from 'sl-ember-components/utils/warn';
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const template = hbs`
     {{#sl-tab-pane label="One" name="one"}}
@@ -226,4 +227,21 @@ test( 'getActiveTabName returns the correct value after setActiveTab() is called
     );
 
     this.registry.unregister( 'template:test-template' );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

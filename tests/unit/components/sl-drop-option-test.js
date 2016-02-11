@@ -1,6 +1,7 @@
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-drop-option', 'Unit | Component | sl drop option', {
     unit: true
@@ -65,4 +66,21 @@ test( 'Click triggers bound action with correct arguments', function( assert ) {
         testActionSpy.calledWith( testDataObject, 'testActionContext' ),
         'Test action fired correctly with the correct arguments'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

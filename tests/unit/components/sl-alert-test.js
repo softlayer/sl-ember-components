@@ -3,6 +3,7 @@ import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 import Ember from 'ember';
 import * as warn from 'sl-ember-components/utils/warn';
 
@@ -129,4 +130,21 @@ test( 'themeClassName() returns the correct class', function( assert ) {
     );
 
     warn.default.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });
