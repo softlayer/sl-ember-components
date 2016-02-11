@@ -8,6 +8,13 @@ var compileLess = require( 'broccoli-less-single' );
 var fingerprintDefaults = require( 'broccoli-asset-rev/lib/default-options' );
 
 /**
+ * A variable to hold the state of whether ember-cli-less is installed
+ *
+ * @type {Boolean}
+ */
+var isLessAddonInstalled = false;
+
+/**
  * Traverses an array and removes duplicate elements
  *
  * @param {Array} array
@@ -26,26 +33,6 @@ var unique = function( array ) {
     }
 
     return uniqueArray;
-};
-
-/**
- * Determines whether the ember-cli-less addon is employed by the consuming application
- *
- * @param {Object} this.project
- * @returns {Boolean}
- */
-var isLessAddonInstalled = function( project ) {
-    var addonName = 'ember-cli-less';
-    var isInstalled = false;
-
-    if (
-        ( project.pkg.dependencies && project.pkg.dependencies[ addonName ] ) ||
-        ( project.pkg.devDependencies && project.pkg.devDependencies[ addonName ] )
-    ) {
-        isInstalled = true;
-    }
-
-    return isInstalled;
 };
 
 module.exports = {
@@ -79,10 +66,10 @@ module.exports = {
      * @param {Object} tree
      * @returns {Object}
      */
-    treeForVendor: function( tree ) {
+    treeForVendor: function( tree, app ) {
         var vendorTree = tree;
 
-        if ( !this.isAddon() && !isLessAddonInstalled( this.project ) ) {
+        if ( !this.isAddon() && !isLessAddonInstalled ) {
             var compiledLessTree = compileLess(
                 new Funnel( path.join( this.nodeModulesPath, '../', 'app' ) ),
                 'styles/' + this.name + '.less',
@@ -116,7 +103,10 @@ module.exports = {
 
         // -------------------------------------------------------------------------
         // CSS
-        if ( !this.isAddon() && typeof app.registry.availablePlugins[ 'ember-cli-less' ] === 'undefined' ) {
+
+        isLessAddonInstalled = 'ember-cli-less' in app.registry.availablePlugins;
+
+        if ( !this.isAddon() && !isLessAddonInstalled ) {
             app.import( 'vendor/' + this.getCssFileName() );
         }
 
