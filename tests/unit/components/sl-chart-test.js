@@ -68,7 +68,7 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'highchartsOptions' ).title,
+        component.highchartsOptions().title,
         null,
         `title property in highchartsOptions is set to null in order to
             suppress default behavior for our usage`
@@ -317,7 +317,7 @@ test( 'updateOptions initializes chart correctly', function( assert ) {
 
     const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
     const optionsMatcher = ( options ) => {
-        const optionsFromMethod = component.get( 'highchartsOptions' );
+        const optionsFromMethod = component.highchartsOptions();
 
         // Highcharts modifies options.chart and adds a options.chart.renderTo method
         // Since this is not a property that we pass in, copy over that property before doing a deepEqual
@@ -407,7 +407,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
 
     assert.deepEqual(
         options,
-        component.get( 'highchartsOptions' ),
+        component.highchartsOptions(),
         'highchartsOptions returns expected options'
     );
 });
@@ -456,22 +456,5 @@ test( 'Observer keys are correct', function( assert ) {
         component.setWidth.__ember_observes__,
         setWidthKeys,
         'Observer keys are correct for setWidth()'
-    );
-});
-
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject({
-        options: testOptions,
-        series: testSeries
-    });
-
-    const highchartsOptionsDependentKeys = [
-        'options'
-    ];
-
-    assert.deepEqual(
-        component.highchartsOptions._dependentKeys,
-        highchartsOptionsDependentKeys,
-        'Dependent keys are correct for highchartsOptions()'
     );
 });
