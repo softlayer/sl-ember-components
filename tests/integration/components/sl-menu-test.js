@@ -53,7 +53,7 @@ test( 'Default rendered state', function( assert ) {
 
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'sl-ember-components-menu' ),
-        'Has class "list-unstyled"'
+        'Has class "sl-ember-components-menu"'
     );
 
     assert.ok(

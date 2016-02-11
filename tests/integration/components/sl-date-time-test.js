@@ -17,7 +17,7 @@ test( 'Defaults applied correctly', function( assert ) {
 
     assert.ok(
         element.hasClass( 'sl-ember-components-date-time' ),
-        'Default rendered component has class "sl-ember-components-datetime"'
+        'Default rendered component has class "sl-ember-components-date-time"'
     );
 
     const defaultRendered = element.text().trim();

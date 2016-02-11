@@ -37,7 +37,7 @@ test( 'Default property values are set correctly', function( assert ) {
     assert.strictEqual(
         component.get( 'componentClass' ),
         'calendar',
-        '"componentClass" property defaults to calender'
+        '"componentClass" property defaults to calendar'
     );
 
     assert.strictEqual(
