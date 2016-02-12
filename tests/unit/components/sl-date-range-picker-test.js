@@ -3,6 +3,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { skip } from 'qunit';
 import sinon from 'sinon';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent(
     'sl-date-range-picker',
@@ -292,4 +293,21 @@ skip( 'End date picker respects startDateValue over minDate due to earliestEndDa
 
 skip( 'Start date picker respects endDateValue over maxDate due to latestStartDate', function() {
     // waiting for 1.13 for a way to mock and spy on child components
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

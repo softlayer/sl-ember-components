@@ -38,13 +38,13 @@ test( 'Default rendered state', function( assert ) {
 test( 'Theme property is supported', function( assert ) {
 
     this.render( hbs`
-        {{#sl-alert theme="testValue"}}
+        {{#sl-alert theme="warning"}}
             Warning alert
         {{/sl-alert}}
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert-testValue' ),
+        this.$( '>:first-child' ).hasClass( 'alert-warning' ),
         'Warning theme class is applied'
     );
 });
