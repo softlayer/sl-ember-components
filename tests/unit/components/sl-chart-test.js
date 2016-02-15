@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
@@ -32,11 +33,29 @@ moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    assert.ok(
+        ClassPrefix.detect( component ),
+        'ClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
     });
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'chart',
+        'componentClass is set to chart'
+    );
 
     assert.strictEqual(
         component.get( 'chart' ),

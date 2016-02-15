@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-panel';
 import containsValue from '../utils/containsValue';
 import warn from '../utils/warn';
@@ -10,7 +11,8 @@ import {
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
+
     // -------------------------------------------------------------------------
     // Dependencies
 
@@ -24,8 +26,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'panel',
-        'sl-ember-components'
+        'panel'
     ],
 
     /** @type {Object} */
@@ -39,6 +40,13 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'panel',
 
     /**
      * Footer text to display in the footer section of the panel

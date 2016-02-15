@@ -1,9 +1,11 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-radio-group';
 import Namespace from '../mixins/sl-namespace';
 import { throwRadioGroupError } from '../utils/error';
+import prefix from '../utils/class-prefix';
 
 /**
  * @module
@@ -12,7 +14,7 @@ import { throwRadioGroupError } from '../utils/error';
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
+export default Ember.Component.extend( ClassPrefix, InputBased, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -27,8 +29,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
 
     /** @type {String[]} */
     classNames: [
-        'form-group',
-        'sl-radio-group'
+        'form-group'
     ],
 
     /** @type {Object} */
@@ -65,6 +66,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'radio-group',
 
     /**
      * Whether the radio buttons should be put inline together
@@ -115,6 +123,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
         const value = this.get( 'value' );
         const isDisabled = this.get( 'disabled' );
         const isInline = this.get( 'inline' );
+        const radioComponentClassSelector = `.${prefix( 'radio' )}`;
 
         /**
          * To each sl-radio component apply...
@@ -122,7 +131,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, Namespace, {
          * - Attributes: name, disabled
          * - Classes: radio, radio-inline
          */
-        this.$( '.sl-radio' ).each( function() {
+        this.$( radioComponentClassSelector ).each( function() {
             const radio = Ember.$( this );
             const input = Ember.$( 'input', this );
 

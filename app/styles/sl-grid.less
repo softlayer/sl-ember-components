@@ -3,7 +3,7 @@
 @panel-footer-padding-top: extract(@panel-footer-padding, 1);
 @panel-footer-padding-bottom: extract(@panel-footer-padding, 1);
 
-.grid.sl-ember-components {
+.@{component-class-prefix}-grid{
     display: flex;
     flex-flow: row wrap;
     position: relative;
@@ -23,11 +23,9 @@
         }
 
         & > table {
-
-            & > thead th, & > tbody td, & > tbody th {
-            }
-
-            & > thead th:not(.primary-column), & > tbody td:not(.primary-column), & > tbody th:not(.primary-column) {
+            & > thead th:not( .primary-column ),
+            & > tbody td:not( .primary-column ),
+            & > tbody th:not( .primary-column ) {
                 max-width: 0;
                 overflow: hidden;
                 padding-left: 0;
@@ -76,7 +74,7 @@
                 }
             }
 
-            tr.active td {
+            tr.active > td, tr.active:hover td {
                 background-color: @component-active-bg;
                 color: @component-active-color;
             }
@@ -136,10 +134,10 @@
         }
 
         &> header + div {
-            top: calc(1.5em ~"+" @panel-heading-padding-top ~"+" @panel-heading-padding-bottom);
+            top: calc( 1.5em ~"+" @panel-heading-padding-top ~"+" @panel-heading-padding-bottom );
 
             &:nth-last-child(2) {
-                bottom: calc(1.5em ~"+" @panel-footer-padding-top ~"+" @panel-footer-padding-bottom);
+                bottom: calc( 1.5em ~"+" @panel-footer-padding-top ~"+" @panel-footer-padding-bottom );
             }
         }
     }
@@ -148,26 +146,6 @@
         clear: left;
         margin-top: @line-height-computed;
     }
-
-    /* internal div heights based on having component header/footer */
-    div.component > div {
-        /* height: 100%; */
-    }
-
-    /* header only */
-    & > header ~ div {
-        /* height: calc(100% - 2em); */
-    }
-
-    /* footer only */
-    & > div:nth-last-child(3), & > div:nth-last-child(3) + div {
-        /* height: calc(100% - 1.75em); */
-    }
-
-    /* header and footer */
-    & > header + div:nth-last-child(3), & > header + div:nth-last-child(3) + div {
-        /* height: calc(100% - 3.75em); */
-    }
 }
 
 .panel .grid.sl-ember-components > div > table > thead th {
@@ -175,5 +153,5 @@
 }
 
 .sl-icon-sortable {
-    &:extend(.sl-ember-components-icons all);
+    &:extend( .sl-ember-components-icons all );
 }

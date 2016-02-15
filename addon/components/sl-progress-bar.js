@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-progress-bar';
 import containsValue from '../utils/containsValue';
 import warn from '../utils/warn';
@@ -28,7 +29,7 @@ export const Theme = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
 */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -43,8 +44,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'progress',
-        'sl-ember-components'
+        'progress'
     ],
 
     /** @type {Object} */
@@ -75,6 +75,13 @@ export default Ember.Component.extend( TooltipEnabled, {
      * @type {Boolean}
      */
     animated: false,
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'progress-bar',
 
     /**
      * Whether to display a text value over the progress

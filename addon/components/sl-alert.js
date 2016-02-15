@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-alert';
 import containsValue from '../utils/containsValue';
@@ -26,7 +27,7 @@ export const Theme = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -45,8 +46,7 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'alert',
-        'sl-ember-components'
+        'alert'
     ],
 
     /** @type {Object} */
@@ -77,6 +77,13 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base class
+     *
+     * @type {String}
+     */
+    componentClass: 'alert',
 
     /**
      * Whether to make the alert dismissable or not

@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 
 moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
     unit: true
@@ -9,17 +10,27 @@ moduleForComponent( 'sl-date-time', 'Unit | Component | sl date time', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
-        TooltipEnabledMixin.detect( this.subject({ timezone: 'America/Chicago' }) ),
+        ClassPrefix.detect(
+            this.subject({ timezone: 'America/Chicago' })
+        ),
+       'ClassPrefix Mixin is present'
+    );
+
+    assert.ok(
+        TooltipEnabledMixin.detect(
+            this.subject({ timezone: 'America/Chicago' })
+        ),
         'TooltipEnabled Mixin is present'
     );
 });
 
 test( 'Default property values', function( assert ) {
-    this.subject({ timezone: 'America/Chicago' });
+    const component = this.subject({ timezone: 'America/Chicago' });
 
-    assert.ok(
-        this.$().hasClass( 'sl-datetime' ),
-        'Default rendered component has class "sl-datetime"'
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'date-time',
+        '"componentClass" property defaults to date-time'
     );
 });
 

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
@@ -10,9 +11,15 @@ moduleForComponent( 'sl-checkbox', 'Unit | Component | sl checkbox', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+
+    assert.ok(
         InputBasedMixin.detect( this.subject() ),
         'InputBased Mixin is present'
     );
+
     assert.ok(
         TooltipEnabledMixin.detect( this.subject() ),
         'TooltipEnabled Mixin is present'
@@ -21,6 +28,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'checkbox',
+        'componentClass is set to checkbox'
+    );
 
     assert.strictEqual(
         component.get( 'checked' ),

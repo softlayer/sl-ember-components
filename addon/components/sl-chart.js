@@ -1,12 +1,13 @@
 import Ember from 'ember';
-import layout from '../templates/components/sl-chart';
+import ClassPrefix from '../mixins/class-prefix';
 import { throwChartError } from '../utils/error';
+import layout from '../templates/components/sl-chart';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -17,9 +18,7 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNames: [
         'panel',
-        'panel-default',
-        'chart',
-        'sl-ember-components'
+        'panel-default'
     ],
 
     /** @type {Object} */
@@ -60,6 +59,13 @@ export default Ember.Component.extend({
      * @type {?Object}
      */
     chart: null,
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'chart',
 
     /**
      * Height value used for inline style

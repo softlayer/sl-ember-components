@@ -18,27 +18,9 @@ moduleForComponent( 'sl-date-picker', 'Integration | Component | sl date picker'
 test( 'Default rendered state', function( assert ) {
     this.render( defaultTemplate );
 
-    const first = this.$( '>:first-child' );
-    const input = first.find( 'input' );
-
     assert.ok(
-        first.hasClass( 'form-group' ),
-        'Default rendered component has class "form-group"'
-    );
-
-    assert.ok(
-        first.hasClass( 'sl-date-picker' ),
-        'Default rendered component has class "sl-date-picker"'
-    );
-
-    assert.ok(
-        input.hasClass( 'date-picker' ),
-        'Default rendered input has class "date-picker"'
-    );
-
-    assert.ok(
-        input.hasClass( 'form-control' ),
-        'Default rendered input has class "form-control"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-date-picker' ),
+        'Has class "sl-ember-components-date-picker"'
     );
 });
 

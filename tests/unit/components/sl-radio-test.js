@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import{ moduleForComponent, test } from 'ember-qunit';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
@@ -9,6 +10,11 @@ moduleForComponent( 'sl-radio', 'Unit | Component | sl radio', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+
+    assert.ok(
         InputBasedMixin.detect( this.subject() ),
         'InputBased Mixin is present'
     );
@@ -16,6 +22,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'radio',
+        'ComponentClass is set to radio'
+    );
 
     assert.strictEqual(
         component.get( 'label' ),

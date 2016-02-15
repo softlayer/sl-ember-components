@@ -11,6 +11,11 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-checkbox' ),
+        'Has class "sl-ember-components-checkbox"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'checkbox' ),
         'Has class "checkbox"'
     );
@@ -18,11 +23,6 @@ test( 'Default rendered state', function( assert ) {
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'form-group' ),
         'Has class "form-group"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-checkbox' ),
-        'Has class "sl-checkbox"'
     );
 });
 

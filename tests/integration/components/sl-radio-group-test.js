@@ -14,13 +14,13 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'form-group' ),
-        'Has class "form-group"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-radio-group' ),
+        'Has class "sl-ember-components-radio-group"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-radio-group' ),
-        'Has class "sl-radio-group"'
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'Has class "form-group"'
     );
 });
 
@@ -166,13 +166,13 @@ test( "Inline true sets sl-radio children's inline property to true", function( 
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-radio.radio' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio' ).length,
         0,
         'Rendered component children buttons are not inline'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-radio.radio-inline' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio-inline' ).length,
         3,
         'Rendered component children buttons are inline'
     );
@@ -188,13 +188,13 @@ test( "Inline false sets sl-radio children's inline property to false", function
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-radio.radio-inline' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio-inline' ).length,
         0,
         'Rendered component has zero inline radio buttons'
     );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-radio.radio' ).length,
+        this.$( '>:first-child' ).find( '.sl-ember-components-radio.radio' ).length,
         3,
         'Rendered component has three default (non-inline) radio buttons'
     );

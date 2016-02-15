@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-calendar';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -16,12 +17,6 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNameBindings: [
         'locked:sl-calendar-locked'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-ember-components',
-        'calendar'
     ],
 
     /** @type {Object} */
@@ -196,6 +191,13 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'calendar',
 
     /**
      * Array of date value objects

@@ -1,12 +1,7 @@
 import Ember from 'ember';
-import ClassPrefix from '../mixins/class-prefix';
-import layout from '../templates/components/sl-modal-body';
+import prefix from '../utils/class-prefix';
 
-/**
- * @module
- * @augments ember/Component
- */
-export default Ember.Component.extend( ClassPrefix, {
+export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -14,33 +9,37 @@ export default Ember.Component.extend( ClassPrefix, {
     // -------------------------------------------------------------------------
     // Attributes
 
-    /** @type {String[]} */
-    classNames: [
-        'modal-body'
-    ],
-
-    /** @type {Object} */
-    layout: layout,
-
     // -------------------------------------------------------------------------
     // Actions
 
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * init event hook
+     *
+     * @function
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+        this.classNames.push( this.getComponentClassName() );
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
-    /**
-     * Component class that will be prefixed with base component class
-     *
-     * @type {String}
-     */
-    componentClass: 'modal-body'
-
-    // -------------------------------------------------------------------------
-    // Observers
-
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Dynamically prefix component class name
+     *
+     * @function
+     * @returns {String}
+     */
+    getComponentClassName() {
+        return prefix( this.componentClass );
+    }
+
 });

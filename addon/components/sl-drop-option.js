@@ -1,22 +1,18 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-drop-option';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
 
     // -------------------------------------------------------------------------
     // Attributes
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-drop-option'
-    ],
 
     /** @type {Object} */
     layout,
@@ -58,6 +54,13 @@ export default Ember.Component.extend({
      * @type {?*}
      */
     actionContext: null,
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'drop-option',
 
     /**
      * Any data to be passed along with the action

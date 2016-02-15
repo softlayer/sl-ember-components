@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-pagination';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -15,8 +16,7 @@ export default Ember.Component.extend({
 
     /** @type {String[]} */
     classNames: [
-        'pagination',
-        'sl-ember-components'
+        'pagination'
     ],
 
     /** @type {Object} */
@@ -87,6 +87,13 @@ export default Ember.Component.extend({
      * @type {Boolean}
      */
     busy: false,
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'pagination',
 
     /**
      * An action to send

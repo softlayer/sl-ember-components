@@ -20,8 +20,8 @@ test( 'Default rendered state', function( assert ) {
     const wrapper = this.$( '>:first-child' );
 
     assert.ok(
-        wrapper.hasClass( 'sl-tab-panel' ),
-        'Has class "sl-tab-panel"'
+        wrapper.hasClass( 'sl-ember-components-tab-panel' ),
+        'Has class "sl-ember-components-tab-panel"'
     );
 
     assert.ok(
@@ -66,7 +66,7 @@ test( 'setupTabs() sets up tabs correctly', function( assert ) {
     ` );
 
     const wrapper = this.$( '>:first-child' );
-    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
+    const tabPaneA = wrapper.find( '.tab-pane[data-tab-name="a"]' );
     const done = assert.async();
 
     assert.strictEqual(
@@ -76,13 +76,13 @@ test( 'setupTabs() sets up tabs correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        wrapper.find( '.sl-tab-pane[data-tab-name]' ).length,
+        wrapper.find( '.tab-pane[data-tab-name]' ).length,
         3,
         'Three tab panes are rendered'
     );
 
     assert.strictEqual(
-        wrapper.find( '.sl-tab-pane[data-tab-name="b"]' ).text().trim(),
+        wrapper.find( '.tab-pane[data-tab-name="b"]' ).text().trim(),
         'B content',
         'Expected content is present in second tab pane'
     );
@@ -96,7 +96,7 @@ test( 'setupTabs() sets up tabs correctly', function( assert ) {
         );
 
         assert.strictEqual(
-            wrapper.find( '.sl-tab-pane.active[data-tab-name="a"]' ).length,
+            wrapper.find( '.tab-pane.active[data-tab-name="a"]' ).length,
             1,
             'Rendered component has panel for tab "a" as its active panel'
         );
@@ -117,7 +117,7 @@ test( 'initialTabName property is respected', function( assert ) {
     ` );
 
     const wrapper = this.$( '>:first-child' );
-    const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
+    const tabPaneB = wrapper.find( '.tab-pane[data-tab-name="b"]' );
     const done = assert.async();
 
     // queue asserts after animation
@@ -160,8 +160,8 @@ test( 'Clicking tab changes active tab', function( assert ) {
     this.render( template );
 
     const wrapper = this.$( '>:first-child' );
-    const tabPaneB = wrapper.find( '.sl-tab-pane[data-tab-name="b"]' );
-    const tabPaneA = wrapper.find( '.sl-tab-pane[data-tab-name="a"]' );
+    const tabPaneB = wrapper.find( '.tab-pane[data-tab-name="b"]' );
+    const tabPaneA = wrapper.find( '.tab-pane[data-tab-name="a"]' );
 
     const done = assert.async();
 
@@ -171,7 +171,7 @@ test( 'Clicking tab changes active tab', function( assert ) {
     tabPaneA.queue( () => {
         tabPaneB.queue( () => {
             const activeTab = wrapper.find( '> ul > li.active' );
-            const activePane = wrapper.find( '.sl-tab-pane.active' );
+            const activePane = wrapper.find( '.tab-pane.active' );
 
             assert.strictEqual(
                 activeTab.attr( 'data-tab-name' ),

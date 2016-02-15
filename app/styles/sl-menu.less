@@ -1,32 +1,31 @@
-.sl-menu .dropdown-menu {
-    margin-top: 0;
-}
+.@{component-class-prefix}-menu {
+    .dropdown-menu {
+        margin-top: 0;
+    }
 
-.sl-menu .contains-dropdown:hover > .dropdown-menu, .sl-menu .dropdown-toggle:focus ~ .dropdown-menu, .dropdown-menu:hover {
-    display: block;
-}
+    .contains-dropdown:hover > .dropdown-menu, .dropdown-toggle:focus ~ .dropdown-menu {
+        display: block;
+    }
 
-.sl-menu .contains-dropdown.active > .dropdown-menu {
-    display: block;
-}
+    &.show-all .dropdown-menu {
+        display: block;
+    }
 
-.sl-menu.show-all .dropdown-menu {
-    display: block;
-}
+    .contains-dropdown {
+        position: relative;
+    }
 
-.sl-menu .contains-dropdown {
-    position: relative;
-}
+    .contains-dropdown .contains-dropdown .dropdown-menu {
+        left: 100%;
+        top: 0;
+    }
 
-.sl-menu .contains-dropdown .contains-dropdown .dropdown-menu {
-    left: 100%;
-    top: 0;
-}
-
-.sl-menu .sl-icon-show-all:before {
-    content: @icon-menu-show-all;
+    .sl-icon-show-all::before {
+        content: @icon-menu-show-all;
+    }
 }
 
 .sl-icon-show-all {
-    &:extend(.sl-ember-components-icons all);
+    &:extend( .sl-ember-components-icons all );
 }
+

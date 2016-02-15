@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
@@ -28,6 +29,13 @@ moduleForComponent( 'sl-grid', 'Unit | Component | sl grid', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default values are set correctly', function( assert ) {
     const component = this.subject();
 
@@ -47,6 +55,12 @@ test( 'Default values are set correctly', function( assert ) {
         component.get( 'columns' ),
         [],
         'columns is set to an empty array'
+    );
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'grid',
+        'componentClass is set to grid'
     );
 
     assert.strictEqual(

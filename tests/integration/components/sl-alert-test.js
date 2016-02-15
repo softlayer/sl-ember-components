@@ -14,12 +14,12 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'alert' ),
-        'Has class "alert"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-alert' ),
+        'Has class "sl-ember-components-alert"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
+        this.$( '>:first-child' ).hasClass( 'alert' ),
         'Has class "alert"'
     );
 

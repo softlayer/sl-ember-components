@@ -12,13 +12,13 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'form-group' ),
-        'Has class "form-group"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-textarea' ),
+        'Has class "sl-ember-components-textarea"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-textarea' ),
-        'Has class "sl-textarea"'
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'Has class "form-group"'
     );
 
     assert.ok(

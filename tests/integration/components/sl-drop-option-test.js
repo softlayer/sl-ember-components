@@ -11,8 +11,8 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-drop-option' ),
-        'Rendered component has class "sl-drop-option"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-drop-option' ),
+        'Default rendered component has class "sl-ember-components-drop-option"'
     );
 
     assert.strictEqual(

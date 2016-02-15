@@ -18,11 +18,6 @@ export default Ember.Component.extend({
         'active'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-        'month'
-    ],
-
     /** @type {Object} */
     layout,
 

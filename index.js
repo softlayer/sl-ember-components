@@ -5,6 +5,8 @@ var path = require( 'path' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
 var compileLess = require( 'broccoli-less-single' );
+var componentClassPrefix;
+
 var fingerprintDefaults = require( 'broccoli-asset-rev/lib/default-options' );
 
 /**
@@ -38,6 +40,11 @@ var unique = function( array ) {
 module.exports = {
     name: 'sl-ember-components',
 
+    config: function() {
+        return {
+            'componentClassPrefix': componentClassPrefix
+        };
+    },
     /**
      * Name used for LESS-generated CSS file placed in vendor tree
      *
@@ -73,7 +80,11 @@ module.exports = {
             var compiledLessTree = compileLess(
                 new Funnel( path.join( this.nodeModulesPath, '../', 'app' ) ),
                 'styles/' + this.name + '.less',
-                this.getCssFileName()
+                this.getCssFileName(), {
+                    modifyVars: {
+                        'component-class-prefix': componentClassPrefix
+                    }
+                }
             );
 
             vendorTree = ( tree ) ? mergeTrees([ tree, compiledLessTree ]) : compiledLessTree;
@@ -84,6 +95,13 @@ module.exports = {
 
     included: function( app ) {
         this._super.included( app );
+        var addonOptions = app.options[ 'sl-ember-components' ];
+
+        if ( addonOptions && addonOptions.componentClassPrefix ) {
+            componentClassPrefix = addonOptions.componentClassPrefix;
+        } else {
+            componentClassPrefix =  this.name;
+        }
 
         var fingerprintOptions = app.options.fingerprint;
 

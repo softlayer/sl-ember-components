@@ -52,13 +52,8 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-menu' ),
-        'Has class "sl-menu"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "sl-ember-components"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-menu' ),
+        'Has class "sl-ember-components-menu"'
     );
 
     assert.ok(
@@ -104,17 +99,17 @@ test( '"allowShowAll" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-menu-show-all' ).length,
+        this.$( '>:first-child' ).find( 'a:contains("Show All")' ).length,
         0,
-        'menu item with class ".sl-menu-show-all" is not included by default'
+        'menu item is not included by default'
     );
 
     this.set( 'testAllowShowAll', true );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-menu-show-all' ).length,
+        this.$( '>:first-child' ).find( 'a:contains("Show All")' ).length,
         1,
-        'menu item with class ".sl-menu-show-all" is included when "allowShowAll" is true'
+        'menu item is included when "allowShowAll" is true'
     );
 });
 
