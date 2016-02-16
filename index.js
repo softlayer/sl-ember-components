@@ -1,6 +1,7 @@
 /* jshint node: true */
 'use strict';
 
+var autoprefixer = require( 'broccoli-autoprefixer' );
 var path = require( 'path' );
 var mergeTrees = require( 'broccoli-merge-trees' );
 var Funnel = require( 'broccoli-funnel' );
@@ -45,6 +46,7 @@ module.exports = {
             'componentClassPrefix': componentClassPrefix
         };
     },
+
     /**
      * Name used for LESS-generated CSS file placed in vendor tree
      *
@@ -84,6 +86,22 @@ module.exports = {
                     modifyVars: {
                         'component-class-prefix': componentClassPrefix
                     }
+                }
+            );
+
+            compiledLessTree = autoprefixer(
+                compiledLessTree,
+                {
+                    browsers: [
+                        'Android 2.3',
+                        'Android >= 4',
+                        'Chrome >= 20',
+                        'Firefox >= 24',
+                        'Explorer >= 8',
+                        'iOS >= 6',
+                        'Opera >= 12',
+                        'Safari >= 6'
+                    ]
                 }
             );
 
