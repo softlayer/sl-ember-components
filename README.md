@@ -239,11 +239,11 @@ then create a `app/styles/app.less` file and add this to it:
 
     @import 'sl-ember-components';
 
-Finally, you will need to include the [autoprefixer](https://github.com/sindresorhus/broccoli-autoprefixer) ran against the updated Twitter Bootstrap and/or LESS files. To do so, run
+Finally, you will need to run [broccoli-autoprefixer](https://github.com/sindresorhus/broccoli-autoprefixer) against the updated Twitter Bootstrap and/or LESS files.  To do so, run
 
     npm install --save-dev broccoli-autoprefixer
 
-and set the browers option in your `ember-cli-build.js` file to:
+and set the `browsers` option in your *ember-cli-build.js* file to:
 
 ```
 var autoprefixer = require( 'broccoli-autoprefixer' );
