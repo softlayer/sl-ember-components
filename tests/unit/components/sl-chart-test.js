@@ -85,9 +85,8 @@ test( 'updateData() is called after series property is modified', function( asse
     this.render();
 
     const spy = sinon.spy( component, 'updateData' );
-    const changedTestSeries = [];
 
-    component.set( 'series', changedTestSeries );
+    component.set( 'series', [] );
 
     assert.ok(
         spy.calledOnce,
@@ -104,9 +103,8 @@ test( 'updateOptions() is called after options property is modified', function( 
     this.render();
 
     const spy = sinon.spy( component, 'updateOptions' );
-    const changedTestOptions = {};
 
-    component.set( 'options', changedTestOptions );
+    component.set( 'options', {} );
 
     assert.ok(
         spy.calledOnce,
