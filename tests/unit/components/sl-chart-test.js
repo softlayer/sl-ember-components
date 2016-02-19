@@ -104,13 +104,30 @@ test( 'updateData() is called after series property is modified', function( asse
     this.render();
 
     const spy = sinon.spy( component, 'updateData' );
-    const changedTestSeries = [];
 
-    component.set( 'series', changedTestSeries );
+    component.set( 'series', [] );
 
     assert.ok(
         spy.calledOnce,
         'updateData() is called once after series modified'
+    );
+});
+
+test( 'updateOptions() is called after options property is modified', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    this.render();
+
+    const spy = sinon.spy( component, 'updateOptions' );
+
+    component.set( 'options', {} );
+
+    assert.ok(
+        spy.calledOnce,
+        'updateOptions() is called once after options modified'
     );
 });
 
@@ -260,18 +277,63 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 });
 
-test( 'setupChart initializes chart and updates data upon render', function( assert ) {
-    const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
-
+test( 'setupChart initializes chart upon render', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries,
-        updateData: function() {
+        updateOptions: function() {
             return;
         }
     });
 
     const setupSpy = sinon.spy( component, 'setupChart' );
+    const setHeightSpy = sinon.spy( component, 'setHeight' );
+    const setWidthSpy = sinon.spy( component, 'setWidth' );
+    const updateOptionsSpy = sinon.spy( component, 'updateOptions' );
+
+    this.render();
+
+    assert.ok(
+        setupSpy.calledOnce,
+        'setupChart was called once upon render'
+    );
+
+    assert.ok(
+        setHeightSpy.calledOnce,
+        'setHeight was called once upon render'
+    );
+
+    assert.ok(
+        setWidthSpy.calledOnce,
+        'setWidth was called once upon render'
+    );
+
+    assert.ok(
+        updateOptionsSpy.calledOnce,
+        'updateOptions was called once upon render'
+    );
+});
+
+test( 'updateOptions initializes chart correctly', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+    const originalUpdateOptions = component.updateOptions;
+
+    component.updateOptions = () => {};
+
+    this.render();
+
+    component.updateOptions = originalUpdateOptions;
+
+    assert.strictEqual(
+        component.get( 'chart' ),
+        null,
+        'Chart is null before options are updated'
+    );
+
+    const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
     const optionsMatcher = ( options ) => {
         const optionsFromMethod = component.highchartsOptions();
 
@@ -282,18 +344,7 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
         return sinon.deepEqual( optionsFromMethod, options );
     };
 
-    assert.strictEqual(
-        component.get( 'chart' ),
-        null,
-        'Chart is null upon initilization'
-    );
-
-    this.render();
-
-    assert.ok(
-        setupSpy.calledOnce,
-        'setupChart was called once upon render'
-    );
+    component.updateOptions();
 
     assert.ok(
         spyHighcharts.calledOnce,
@@ -303,6 +354,12 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     assert.ok(
         spyHighcharts.calledWithMatch( optionsMatcher ),
         'highcharts was called once with options'
+    );
+
+    assert.strictEqual(
+        Ember.typeOf( component.get( 'chart' ) ),
+        'object',
+        'chart is set after options are updated'
     );
 });
 
@@ -387,6 +444,16 @@ test( 'Observer keys are correct', function( assert ) {
         component.updateData.__ember_observes__,
         updateDataKeys,
         'Observer keys are correct for updateData()'
+    );
+
+    const updateOptionsKeys = [
+        'options'
+    ];
+
+    assert.deepEqual(
+        component.updateOptions.__ember_observes__,
+        updateOptionsKeys,
+        'Observer keys are correct for updateOptions()'
     );
 
     const setHeightKeys = [
