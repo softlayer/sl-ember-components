@@ -25,7 +25,7 @@ export default SlMenuItem.extend({
     // -------------------------------------------------------------------------
     // Actions
 
-        /** @type {Object} */
+    /** @type {Object} */
     actions: {
 
         /**
