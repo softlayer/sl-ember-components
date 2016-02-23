@@ -150,6 +150,22 @@ export default Ember.Component.extend( ClassPrefix, {
         }
     ),
 
+    /**
+     * Update the chart's options
+     *
+     * @function
+     * @returns {undefined}
+     */
+    updateOptions: Ember.observer(
+        'options',
+        function() {
+            const chartDiv = this.$( '> .panel-body > div' );
+
+            const highCharts = chartDiv.highcharts( this.highchartsOptions() );
+            this.set( 'chart', highCharts );
+        }
+    ),
+
     // -------------------------------------------------------------------------
     // Methods
 
@@ -261,13 +277,9 @@ export default Ember.Component.extend( ClassPrefix, {
      * @returns {undefined}
      */
     setupChart() {
-        const chartDiv = this.$( '> .panel-body > div' );
-
         this.setHeight();
         this.setWidth();
-
-        const highCharts = chartDiv.highcharts( this.highchartsOptions() );
-        this.set( 'chart', highCharts );
+        this.updateOptions();
     }
 
 });
