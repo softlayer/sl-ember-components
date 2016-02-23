@@ -187,7 +187,8 @@ test( 'Pending class is present when in pending state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'pending' )
+        this.$( '>:first-child' ).hasClass( 'pending' ),
+        'Pending class is present in pending state'
     );
 });
 

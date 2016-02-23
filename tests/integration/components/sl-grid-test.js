@@ -51,7 +51,8 @@ test( 'Content is yielded', function( assert ) {
 
     assert.strictEqual(
         this.$( '>:first-child' ).find( 'h1' ).text(),
-        'Header'
+        'Header',
+        'Content yields successfully'
     );
 });
 
@@ -91,7 +92,8 @@ test( 'Setting "sortable" property within the columns property to true applies t
         const first = this.$( '>:first-child' );
 
         assert.ok(
-            first.find( 'thead th:nth-child(2)' ).hasClass( 'sortable-column' )
+            first.find( 'thead th:nth-child(2)' ).hasClass( 'sortable-column' ),
+            'Setting columns property to "sortable" true applies the sortable-column class'
         );
     }
 );
