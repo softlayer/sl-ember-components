@@ -243,7 +243,8 @@ test( 'End date is set on datepicker when endDate property is updated', function
     this.set( 'endDate', endDateTwo );
 
     assert.ok(
-        spy.calledWith( endDateTwo )
+        spy.calledWith( endDateTwo ),
+        'endDate is set when property is updated'
     );
 
     datePicker.setEndDate.restore();
@@ -266,7 +267,8 @@ test( 'Start date is set on datepicker when startDate property is updated', func
     this.set( 'startDate', startDateTwo );
 
     assert.ok(
-        spy.calledWith( startDateTwo )
+        spy.calledWith( startDateTwo ),
+        'startDate is set when property is updated'
     );
 
     datePicker.setStartDate.restore();

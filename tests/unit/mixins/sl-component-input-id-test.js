@@ -9,7 +9,8 @@ test( 'Can be successfully mixed', function( assert ) {
     const subject = testObject.create();
 
     assert.ok(
-        subject
+        subject,
+        'sl-component-input-id mixin is present'
     );
 });
 

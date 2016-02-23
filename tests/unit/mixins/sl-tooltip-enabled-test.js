@@ -35,7 +35,8 @@ test( 'Successfully mixed', function( assert ) {
     const subject = testObject.create();
 
     assert.ok(
-        subject
+        subject,
+        'sl-tooltip-enabled mixin is present'
     );
 });
 
