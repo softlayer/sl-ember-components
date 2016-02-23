@@ -25,6 +25,19 @@ export default SlMenuItem.extend({
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
+    actions: {
+
+        /**
+         * Click event handler
+         *
+         * @function actions:click
+         * @returns {undefined}
+         */
+        click() {}
+
+    },
+
     // -------------------------------------------------------------------------
     // Events
 
