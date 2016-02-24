@@ -43,7 +43,7 @@
 * [#864](https://github.com/softlayer/sl-ember-components/issues/864) Add ability to specify initial sorted column and direction
 * [#1173](https://github.com/softlayer/sl-ember-components/issues/1173) Standardize bootstrap glyphs across components
 * [#1179](https://github.com/softlayer/sl-ember-components/issues/1179) Add size support to `sl-modal` component
-* [#1201](https://github.com/softlayer/sl-ember-components/issues/1201) Upgrade version of Twitter Bootstrap to v3.3.5
+* [#1201](https://github.com/softlayer/sl-ember-components/issues/1201) and [#1478](https://github.com/softlayer/sl-ember-components/pull/1478) Upgrade version of Twitter Bootstrap to v3.3.5
 * [#1243](https://github.com/softlayer/sl-ember-components/issues/1243) `sl-select` background color
 * [#1350](https://github.com/softlayer/sl-ember-components/issues/1350) Create error architecture for sl-ember-components
 
@@ -69,6 +69,7 @@
 * [#1430](https://github.com/softlayer/sl-ember-components/issues/1420) Create instructions on swapping base font
 * [#1434](https://github.com/softlayer/sl-ember-components/issues/1434) Link in README.md to support browsers is incorrect.
 * [#1452](https://github.com/softlayer/sl-ember-components/issues/1452) Remove copy/paste error in warn section of *README*
+* [#1344](https://github.com/softlayer/sl-ember-components/pull/1344) Remove `select2` from list of dependencies that are not MIT licensed in *README*
 
 
 **INTERNAL**
