@@ -182,6 +182,15 @@ define('dummy/components/sl-drop-button', ['exports', 'sl-ember-components/compo
 	exports['default'] = sl_drop_button['default'];
 
 });
+define('dummy/components/sl-drop-option-divider', ['exports', 'sl-ember-components/components/sl-drop-option-divider'], function (exports, sl_drop_option_divider) {
+
+	'use strict';
+
+
+
+	exports['default'] = sl_drop_option_divider['default'];
+
+});
 define('dummy/components/sl-drop-option', ['exports', 'sl-ember-components/components/sl-drop-option'], function (exports, sl_drop_option) {
 
 	'use strict';
@@ -234,15 +243,6 @@ define('dummy/components/sl-input', ['exports', 'sl-ember-components/components/
 
 
 	exports['default'] = sl_input['default'];
-
-});
-define('dummy/components/sl-loading-icon', ['exports', 'sl-ember-components/components/sl-loading-icon'], function (exports, sl_loading_icon) {
-
-	'use strict';
-
-
-
-	exports['default'] = sl_loading_icon['default'];
 
 });
 define('dummy/components/sl-menu-item-show-all', ['exports', 'sl-ember-components/components/sl-menu-item-show-all'], function (exports, sl_menu_item_show_all) {
@@ -418,82 +418,79 @@ define('dummy/controllers/browsers', ['exports', 'ember'], function (exports, Em
 
     exports['default'] = Ember['default'].Controller.extend({
         components: Ember['default'].A([{
-            name: 'alert',
+            name: 'sl-alert',
             lib: { 'twb': true }
         }, {
-            name: 'button',
+            name: 'sl-button',
             lib: { 'twb': true }
         }, {
-            name: 'calendar',
+            name: 'sl-calendar',
             lib: { 'sec': true }
         }, {
-            name: 'chart',
+            name: 'sl-chart',
             lib: { 'hc': true }
         }, {
-            name: 'checkbox',
+            name: 'sl-checkbox',
             lib: { 'twb': true }
         }, {
-            name: 'date-picker',
+            name: 'sl-date-picker',
             lib: { 'bd': true }
         }, {
-            name: 'date-range-picker',
+            name: 'sl-date-range-picker',
             lib: { 'bd': true }
         }, {
-            name: 'date-time',
+            name: 'sl-date-time',
             lib: { 'sec': true }
         }, {
-            name: 'drop-button',
+            name: 'sl-drop-button',
             lib: { 'twb': true }
         }, {
-            name: 'drop-option',
+            name: 'sl-drop-option',
             lib: { 'twb': true }
         }, {
-            name: 'grid',
+            name: 'sl-grid',
             lib: { 'sec': true }
         }, {
-            name: 'input',
+            name: 'sl-input',
             lib: { 'twb': true, 'ta': true }
         }, {
-            name: 'loading-icon',
+            name: 'sl-menu',
             lib: { 'sec': true }
         }, {
-            name: 'menu',
+            name: 'sl-modal',
+            lib: { 'twb': true }
+        }, {
+            name: 'sl-pagination',
             lib: { 'sec': true }
         }, {
-            name: 'modal',
+            name: 'sl-panel',
             lib: { 'twb': true }
         }, {
-            name: 'pagination',
+            name: 'sl-progress-bar',
+            lib: { 'twb': true }
+        }, {
+            name: 'sl-radio',
             lib: { 'sec': true }
         }, {
-            name: 'panel',
+            name: 'sl-radio-group',
             lib: { 'twb': true }
         }, {
-            name: 'progress-bar',
-            lib: { 'twb': true }
-        }, {
-            name: 'radio',
-            lib: { 'sec': true }
-        }, {
-            name: 'radio-group',
-            lib: { 'twb': true }
-        }, {
-            name: 'select',
+            name: 'sl-select',
             lib: { 's2': true }
         }, {
-            name: 'span',
+            name: 'sl-span',
             lib: { 'sec': true }
         }, {
-            name: 'tab-pane',
+            name: 'sl-tab-pane',
             lib: { 'twb': true }
         }, {
-            name: 'tab-panel',
+            name: 'sl-tab-panel',
             lib: { 'twb': true }
         }, {
-            name: 'textarea',
+            name: 'sl-textarea',
             lib: { 'sec': true }
         }, {
-            name: 'tooltip',
+            name: 'sl-tooltip',
             lib: { 'twb': true }
         }])
     });
@@ -576,10 +573,6 @@ define('dummy/controllers/demos/sl-drop-button', ['exports', 'ember'], function 
                 window.console.log('Green!');
             },
 
-            logBlue: function logBlue() {
-                window.console.log('Blue!');
-            },
-
             logWhite: function logWhite() {
                 window.console.log('White!');
             }
@@ -604,10 +597,24 @@ define('dummy/controllers/demos/sl-grid', ['exports', 'ember'], function (export
                 window.console.log('Record:', Ember['default'].get(row, 'name'));
             },
 
-            sortColumn: function sortColumn(column, sortAscending) {
+            sortColumn: function sortColumn(column) {
+                var columns = this.get('columns');
+                var currentDir = Ember['default'].get(column, 'sorted');
+
+                var sortDir = 'asc';
+                if ('asc' === currentDir) {
+                    sortDir = 'desc';
+                }
+
+                for (var i = 0; i < columns.length; i++) {
+                    Ember['default'].set(columns[i], 'sorted', null);
+                }
+
+                Ember['default'].set(column, 'sorted', sortDir);
+
                 var columnString = column['valuePath'];
 
-                if (!sortAscending) {
+                if (sortDir !== 'asc') {
                     columnString = columnString + ':desc';
                 }
 
@@ -616,17 +623,17 @@ define('dummy/controllers/demos/sl-grid', ['exports', 'ember'], function (export
         },
 
         columns: Ember['default'].A([{
-            primary: true,
-            size: 'small',
             title: 'Color',
             valuePath: 'name'
         }, {
-            size: 'small',
+            headerClass: 'smallWidth',
+            primary: true,
             sortable: true,
+            sorted: 'asc',
             title: 'Fruit',
             valuePath: 'fruit'
         }, {
-            size: 'small',
+            headerClass: 'smallWidth',
             sortable: true,
             title: 'Hex Code',
             valuePath: 'hexCode'
@@ -920,7 +927,6 @@ define('dummy/router', ['exports', 'ember', 'dummy/config/environment'], functio
             this.route('sl-drop-button');
             this.route('sl-input');
             this.route('sl-grid');
-            this.route('sl-loading-icon');
             this.route('sl-menu');
             this.route('sl-pagination');
             this.route('sl-panel');
@@ -1308,6 +1314,17 @@ define('dummy/sl-ember-components/tests/modules/sl-ember-components/components/s
   });
 
 });
+define('dummy/sl-ember-components/tests/modules/sl-ember-components/components/sl-drop-option-divider.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - modules/sl-ember-components/components');
+  QUnit.test('modules/sl-ember-components/components/sl-drop-option-divider.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'modules/sl-ember-components/components/sl-drop-option-divider.js should pass jshint.');
+  });
+
+});
 define('dummy/sl-ember-components/tests/modules/sl-ember-components/components/sl-drop-option.jshint', function () {
 
   'use strict';
@@ -1371,17 +1388,6 @@ define('dummy/sl-ember-components/tests/modules/sl-ember-components/components/s
   QUnit.test('modules/sl-ember-components/components/sl-input.js should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'modules/sl-ember-components/components/sl-input.js should pass jshint.');
-  });
-
-});
-define('dummy/sl-ember-components/tests/modules/sl-ember-components/components/sl-loading-icon.jshint', function () {
-
-  'use strict';
-
-  QUnit.module('JSHint - modules/sl-ember-components/components');
-  QUnit.test('modules/sl-ember-components/components/sl-loading-icon.js should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'modules/sl-ember-components/components/sl-loading-icon.js should pass jshint.');
   });
 
 });
@@ -1583,6 +1589,17 @@ define('dummy/sl-ember-components/tests/modules/sl-ember-components/components/s
   });
 
 });
+define('dummy/sl-ember-components/tests/modules/sl-ember-components/mixins/class-prefix.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - modules/sl-ember-components/mixins');
+  QUnit.test('modules/sl-ember-components/mixins/class-prefix.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'modules/sl-ember-components/mixins/class-prefix.js should pass jshint.');
+  });
+
+});
 define('dummy/sl-ember-components/tests/modules/sl-ember-components/mixins/sl-component-input-id.jshint', function () {
 
   'use strict';
@@ -1627,14 +1644,25 @@ define('dummy/sl-ember-components/tests/modules/sl-ember-components/mixins/sl-to
   });
 
 });
-define('dummy/sl-ember-components/tests/modules/sl-ember-components/utils/all.jshint', function () {
+define('dummy/sl-ember-components/tests/modules/sl-ember-components/utils/bootstrap-naming.jshint', function () {
 
   'use strict';
 
   QUnit.module('JSHint - modules/sl-ember-components/utils');
-  QUnit.test('modules/sl-ember-components/utils/all.js should pass jshint', function (assert) {
+  QUnit.test('modules/sl-ember-components/utils/bootstrap-naming.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'modules/sl-ember-components/utils/all.js should pass jshint.');
+    assert.ok(true, 'modules/sl-ember-components/utils/bootstrap-naming.js should pass jshint.');
+  });
+
+});
+define('dummy/sl-ember-components/tests/modules/sl-ember-components/utils/class-prefix.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - modules/sl-ember-components/utils');
+  QUnit.test('modules/sl-ember-components/utils/class-prefix.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'modules/sl-ember-components/utils/class-prefix.js should pass jshint.');
   });
 
 });
@@ -1646,6 +1674,17 @@ define('dummy/sl-ember-components/tests/modules/sl-ember-components/utils/contai
   QUnit.test('modules/sl-ember-components/utils/containsValue.js should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'modules/sl-ember-components/utils/containsValue.js should pass jshint.');
+  });
+
+});
+define('dummy/sl-ember-components/tests/modules/sl-ember-components/utils/error.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - modules/sl-ember-components/utils');
+  QUnit.test('modules/sl-ember-components/utils/error.js should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'modules/sl-ember-components/utils/error.js should pass jshint.');
   });
 
 });
@@ -2167,41 +2206,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
               "column": 20
             },
             "end": {
-              "line": 94,
-              "column": 20
-            }
-          },
-          "moduleName": "dummy/templates/application.hbs"
-        },
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("                        sl-loading-icon\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() { return []; },
-        statements: [
-
-        ],
-        locals: [],
-        templates: []
-      };
-    }());
-    var child15 = (function() {
-      return {
-        meta: {
-          "revision": "Ember@1.13.7",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 97,
-              "column": 20
-            },
-            "end": {
-              "line": 97,
+              "line": 92,
               "column": 55
             }
           },
@@ -2224,18 +2229,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child16 = (function() {
+    var child15 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 100,
+              "line": 95,
               "column": 20
             },
             "end": {
-              "line": 100,
+              "line": 95,
               "column": 57
             }
           },
@@ -2258,18 +2263,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child17 = (function() {
+    var child16 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 103,
+              "line": 98,
               "column": 20
             },
             "end": {
-              "line": 103,
+              "line": 98,
               "column": 67
             }
           },
@@ -2292,18 +2297,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child18 = (function() {
+    var child17 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 106,
+              "line": 101,
               "column": 20
             },
             "end": {
-              "line": 106,
+              "line": 101,
               "column": 57
             }
           },
@@ -2326,18 +2331,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child19 = (function() {
+    var child18 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 109,
+              "line": 104,
               "column": 20
             },
             "end": {
-              "line": 111,
+              "line": 106,
               "column": 20
             }
           },
@@ -2360,18 +2365,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child20 = (function() {
+    var child19 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 114,
+              "line": 109,
               "column": 20
             },
             "end": {
-              "line": 114,
+              "line": 109,
               "column": 57
             }
           },
@@ -2394,18 +2399,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child21 = (function() {
+    var child20 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 117,
+              "line": 112,
               "column": 20
             },
             "end": {
-              "line": 117,
+              "line": 112,
               "column": 69
             }
           },
@@ -2428,18 +2433,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child22 = (function() {
+    var child21 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 120,
+              "line": 115,
               "column": 20
             },
             "end": {
-              "line": 120,
+              "line": 115,
               "column": 59
             }
           },
@@ -2462,18 +2467,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child23 = (function() {
+    var child22 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 123,
+              "line": 118,
               "column": 20
             },
             "end": {
-              "line": 123,
+              "line": 118,
               "column": 55
             }
           },
@@ -2496,18 +2501,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child24 = (function() {
+    var child23 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 126,
+              "line": 121,
               "column": 20
             },
             "end": {
-              "line": 126,
+              "line": 121,
               "column": 65
             }
           },
@@ -2530,18 +2535,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child25 = (function() {
+    var child24 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 129,
+              "line": 124,
               "column": 20
             },
             "end": {
-              "line": 129,
+              "line": 124,
               "column": 63
             }
           },
@@ -2564,18 +2569,18 @@ define('dummy/templates/application', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child26 = (function() {
+    var child25 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 132,
+              "line": 127,
               "column": 20
             },
             "end": {
-              "line": 132,
+              "line": 127,
               "column": 61
             }
           },
@@ -2608,7 +2613,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 149,
+            "line": 144,
             "column": 0
           }
         },
@@ -2903,17 +2908,6 @@ define('dummy/templates/application', ['exports'], function (exports) {
         dom.appendChild(el5, el6);
         var el6 = dom.createElement("li");
         dom.setAttribute(el6,"role","presentation");
-        var el7 = dom.createTextNode("\n");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createComment("");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode("                ");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n                ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("li");
-        dom.setAttribute(el6,"role","presentation");
         var el7 = dom.createTextNode("\n                    ");
         dom.appendChild(el6, el7);
         var el7 = dom.createComment("");
@@ -3103,7 +3097,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [2]);
         var element1 = dom.childAt(element0, [1, 1, 1, 3]);
-        var morphs = new Array(28);
+        var morphs = new Array(27);
         morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]),1,1);
         morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]),1,1);
         morphs[2] = dom.createMorphAt(dom.childAt(element1, [7]),1,1);
@@ -3130,8 +3124,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
         morphs[23] = dom.createMorphAt(dom.childAt(element1, [57]),1,1);
         morphs[24] = dom.createMorphAt(dom.childAt(element1, [59]),1,1);
         morphs[25] = dom.createMorphAt(dom.childAt(element1, [61]),1,1);
-        morphs[26] = dom.createMorphAt(dom.childAt(element1, [63]),1,1);
-        morphs[27] = dom.createMorphAt(element0,3,3);
+        morphs[26] = dom.createMorphAt(element0,3,3);
         return morphs;
       },
       statements: [
@@ -3149,23 +3142,22 @@ define('dummy/templates/application', ['exports'], function (exports) {
         ["block","link-to",["demos.sl-drop-button"],[],11,null,["loc",[null,[83,20],[83,81]]]],
         ["block","link-to",["demos.sl-grid"],[],12,null,["loc",[null,[86,20],[86,67]]]],
         ["block","link-to",["demos.sl-input"],[],13,null,["loc",[null,[89,20],[89,69]]]],
-        ["block","link-to",["demos.sl-loading-icon"],[],14,null,["loc",[null,[92,20],[94,32]]]],
-        ["block","link-to",["demos.sl-menu"],[],15,null,["loc",[null,[97,20],[97,67]]]],
-        ["block","link-to",["demos.sl-modal"],[],16,null,["loc",[null,[100,20],[100,69]]]],
-        ["block","link-to",["demos.sl-pagination"],[],17,null,["loc",[null,[103,20],[103,79]]]],
-        ["block","link-to",["demos.sl-panel"],[],18,null,["loc",[null,[106,20],[106,69]]]],
-        ["block","link-to",["demos.sl-progress-bar"],[],19,null,["loc",[null,[109,20],[111,32]]]],
-        ["block","link-to",["demos.sl-radio"],[],20,null,["loc",[null,[114,20],[114,69]]]],
-        ["block","link-to",["demos.sl-radio-group"],[],21,null,["loc",[null,[117,20],[117,81]]]],
-        ["block","link-to",["demos.sl-select"],[],22,null,["loc",[null,[120,20],[120,71]]]],
-        ["block","link-to",["demos.sl-span"],[],23,null,["loc",[null,[123,20],[123,67]]]],
-        ["block","link-to",["demos.sl-tab-panel"],[],24,null,["loc",[null,[126,20],[126,77]]]],
-        ["block","link-to",["demos.sl-textarea"],[],25,null,["loc",[null,[129,20],[129,75]]]],
-        ["block","link-to",["demos.sl-tooltip"],[],26,null,["loc",[null,[132,20],[132,73]]]],
-        ["content","outlet",["loc",[null,[139,4],[139,14]]]]
+        ["block","link-to",["demos.sl-menu"],[],14,null,["loc",[null,[92,20],[92,67]]]],
+        ["block","link-to",["demos.sl-modal"],[],15,null,["loc",[null,[95,20],[95,69]]]],
+        ["block","link-to",["demos.sl-pagination"],[],16,null,["loc",[null,[98,20],[98,79]]]],
+        ["block","link-to",["demos.sl-panel"],[],17,null,["loc",[null,[101,20],[101,69]]]],
+        ["block","link-to",["demos.sl-progress-bar"],[],18,null,["loc",[null,[104,20],[106,32]]]],
+        ["block","link-to",["demos.sl-radio"],[],19,null,["loc",[null,[109,20],[109,69]]]],
+        ["block","link-to",["demos.sl-radio-group"],[],20,null,["loc",[null,[112,20],[112,81]]]],
+        ["block","link-to",["demos.sl-select"],[],21,null,["loc",[null,[115,20],[115,71]]]],
+        ["block","link-to",["demos.sl-span"],[],22,null,["loc",[null,[118,20],[118,67]]]],
+        ["block","link-to",["demos.sl-tab-panel"],[],23,null,["loc",[null,[121,20],[121,77]]]],
+        ["block","link-to",["demos.sl-textarea"],[],24,null,["loc",[null,[124,20],[124,75]]]],
+        ["block","link-to",["demos.sl-tooltip"],[],25,null,["loc",[null,[127,20],[127,73]]]],
+        ["content","outlet",["loc",[null,[134,4],[134,14]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19, child20, child21, child22, child23, child24, child25, child26]
+      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19, child20, child21, child22, child23, child24, child25]
     };
   }()));
 
@@ -4242,7 +4234,7 @@ define('dummy/templates/browsers', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("p");
-        var el3 = dom.createTextNode("Latest versions of browsers plus one version prior. Version 0.10.2 supports Internet Explorer 10+.");
+        var el3 = dom.createTextNode("Latest versions of browsers plus one version prior. Version 0.11.0 supports Internet Explorer 10+.");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -5368,7 +5360,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-loading-icon\n");
+          var el1 = dom.createTextNode("        sl-menu\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5402,7 +5394,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-menu\n");
+          var el1 = dom.createTextNode("        sl-modal\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5436,7 +5428,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-modal\n");
+          var el1 = dom.createTextNode("        sl-pagination\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5470,7 +5462,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-pagination\n");
+          var el1 = dom.createTextNode("        sl-panel\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5504,7 +5496,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-panel\n");
+          var el1 = dom.createTextNode("        sl-progress-bar\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5538,7 +5530,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-progress-bar\n");
+          var el1 = dom.createTextNode("        sl-radio\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5572,7 +5564,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-radio\n");
+          var el1 = dom.createTextNode("        sl-radio-group\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5606,7 +5598,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-radio-group\n");
+          var el1 = dom.createTextNode("        sl-select\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5640,7 +5632,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-select\n");
+          var el1 = dom.createTextNode("        sl-span\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5674,7 +5666,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-span\n");
+          var el1 = dom.createTextNode("        sl-tab-panel\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5708,7 +5700,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-tab-panel\n");
+          var el1 = dom.createTextNode("        sl-textarea\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -5742,40 +5734,6 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        sl-textarea\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() { return []; },
-        statements: [
-
-        ],
-        locals: [],
-        templates: []
-      };
-    }());
-    var child23 = (function() {
-      return {
-        meta: {
-          "revision": "Ember@1.13.7",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 72,
-              "column": 4
-            },
-            "end": {
-              "line": 74,
-              "column": 4
-            }
-          },
-          "moduleName": "dummy/templates/demos/index.hbs"
-        },
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
           var el1 = dom.createTextNode("        sl-tooltip\n");
           dom.appendChild(el0, el1);
           return el0;
@@ -5798,7 +5756,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 86,
+            "line": 124,
             "column": 0
           }
         },
@@ -5865,7 +5823,98 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Mixins");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("sl-component-input-id");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Provides unique id that a component can assign to an input and a label's \"for\" attribute.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("sl-input-based");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Provides state properties for input element based components.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("sl-namespace");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Namespace component events by elementId.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("sl-tooltip-enabled");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -5889,19 +5938,87 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h6");
-        var el4 = dom.createTextNode("sl-menu-key-adapter");
+        var el4 = dom.createTextNode("containsValue");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("Provides an abstraction between the events the ");
+        var el4 = dom.createTextNode("Check whether a value is a valid value in object.");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("em");
-        var el5 = dom.createTextNode("sl-menu");
-        dom.appendChild(el4, el5);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("error");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode(" component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Provides a way for individual components to throw errors that are able to be recognized by methods\n        inside of a consuming application's Ember.onerror() function.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("warn");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Provides a mechanism for initiating console.warn()s.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("CSS Classes");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("sl-loading");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Apply a loading indicator to an element.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -5916,7 +6033,7 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [2]);
-        var morphs = new Array(24);
+        var morphs = new Array(23);
         morphs[0] = dom.createMorphAt(element0,1,1);
         morphs[1] = dom.createMorphAt(element0,2,2);
         morphs[2] = dom.createMorphAt(element0,3,3);
@@ -5940,7 +6057,6 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         morphs[20] = dom.createMorphAt(element0,21,21);
         morphs[21] = dom.createMorphAt(element0,22,22);
         morphs[22] = dom.createMorphAt(element0,23,23);
-        morphs[23] = dom.createMorphAt(element0,24,24);
         return morphs;
       },
       statements: [
@@ -5955,22 +6071,21 @@ define('dummy/templates/demos/index', ['exports'], function (exports) {
         ["block","link-to",["demos.sl-drop-button"],["class","list-group-item"],8,null,["loc",[null,[27,4],[29,16]]]],
         ["block","link-to",["demos.sl-grid"],["class","list-group-item"],9,null,["loc",[null,[30,4],[32,16]]]],
         ["block","link-to",["demos.sl-input"],["class","list-group-item"],10,null,["loc",[null,[33,4],[35,16]]]],
-        ["block","link-to",["demos.sl-loading-icon"],["class","list-group-item"],11,null,["loc",[null,[36,4],[38,16]]]],
-        ["block","link-to",["demos.sl-menu"],["class","list-group-item"],12,null,["loc",[null,[39,4],[41,16]]]],
-        ["block","link-to",["demos.sl-modal"],["class","list-group-item"],13,null,["loc",[null,[42,4],[44,16]]]],
-        ["block","link-to",["demos.sl-pagination"],["class","list-group-item"],14,null,["loc",[null,[45,4],[47,16]]]],
-        ["block","link-to",["demos.sl-panel"],["class","list-group-item"],15,null,["loc",[null,[48,4],[50,16]]]],
-        ["block","link-to",["demos.sl-progress-bar"],["class","list-group-item"],16,null,["loc",[null,[51,4],[53,16]]]],
-        ["block","link-to",["demos.sl-radio"],["class","list-group-item"],17,null,["loc",[null,[54,4],[56,16]]]],
-        ["block","link-to",["demos.sl-radio-group"],["class","list-group-item"],18,null,["loc",[null,[57,4],[59,16]]]],
-        ["block","link-to",["demos.sl-select"],["class","list-group-item"],19,null,["loc",[null,[60,4],[62,16]]]],
-        ["block","link-to",["demos.sl-span"],["class","list-group-item"],20,null,["loc",[null,[63,4],[65,16]]]],
-        ["block","link-to",["demos.sl-tab-panel"],["class","list-group-item"],21,null,["loc",[null,[66,4],[68,16]]]],
-        ["block","link-to",["demos.sl-textarea"],["class","list-group-item"],22,null,["loc",[null,[69,4],[71,16]]]],
-        ["block","link-to",["demos.sl-tooltip"],["class","list-group-item"],23,null,["loc",[null,[72,4],[74,16]]]]
+        ["block","link-to",["demos.sl-menu"],["class","list-group-item"],11,null,["loc",[null,[36,4],[38,16]]]],
+        ["block","link-to",["demos.sl-modal"],["class","list-group-item"],12,null,["loc",[null,[39,4],[41,16]]]],
+        ["block","link-to",["demos.sl-pagination"],["class","list-group-item"],13,null,["loc",[null,[42,4],[44,16]]]],
+        ["block","link-to",["demos.sl-panel"],["class","list-group-item"],14,null,["loc",[null,[45,4],[47,16]]]],
+        ["block","link-to",["demos.sl-progress-bar"],["class","list-group-item"],15,null,["loc",[null,[48,4],[50,16]]]],
+        ["block","link-to",["demos.sl-radio"],["class","list-group-item"],16,null,["loc",[null,[51,4],[53,16]]]],
+        ["block","link-to",["demos.sl-radio-group"],["class","list-group-item"],17,null,["loc",[null,[54,4],[56,16]]]],
+        ["block","link-to",["demos.sl-select"],["class","list-group-item"],18,null,["loc",[null,[57,4],[59,16]]]],
+        ["block","link-to",["demos.sl-span"],["class","list-group-item"],19,null,["loc",[null,[60,4],[62,16]]]],
+        ["block","link-to",["demos.sl-tab-panel"],["class","list-group-item"],20,null,["loc",[null,[63,4],[65,16]]]],
+        ["block","link-to",["demos.sl-textarea"],["class","list-group-item"],21,null,["loc",[null,[66,4],[68,16]]]],
+        ["block","link-to",["demos.sl-tooltip"],["class","list-group-item"],22,null,["loc",[null,[69,4],[71,16]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19, child20, child21, child22, child23]
+      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19, child20, child21, child22]
     };
   }()));
 
@@ -6123,11 +6238,11 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 81,
+              "line": 92,
               "column": 4
             },
             "end": {
-              "line": 83,
+              "line": 94,
               "column": 4
             }
           },
@@ -6157,11 +6272,11 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 85,
+              "line": 96,
               "column": 4
             },
             "end": {
-              "line": 87,
+              "line": 98,
               "column": 4
             }
           },
@@ -6191,11 +6306,11 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 89,
+              "line": 100,
               "column": 4
             },
             "end": {
-              "line": 91,
+              "line": 102,
               "column": 4
             }
           },
@@ -6225,11 +6340,11 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 93,
+              "line": 104,
               "column": 4
             },
             "end": {
-              "line": 95,
+              "line": 106,
               "column": 4
             }
           },
@@ -6259,11 +6374,11 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 97,
+              "line": 108,
               "column": 4
             },
             "end": {
-              "line": 99,
+              "line": 110,
               "column": 4
             }
           },
@@ -6296,7 +6411,7 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 101,
+            "line": 112,
             "column": 0
           }
         },
@@ -6552,6 +6667,42 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-alert");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-alert.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -6585,7 +6736,7 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [26]);
+        var element0 = dom.childAt(fragment, [32]);
         var morphs = new Array(9);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -6603,11 +6754,11 @@ define('dummy/templates/demos/sl-alert', ['exports'], function (exports) {
         ["block","sl-alert",[],["theme","success"],1,null,["loc",[null,[34,8],[34,63]]]],
         ["block","sl-alert",[],["theme","warning"],2,null,["loc",[null,[48,8],[48,63]]]],
         ["block","sl-alert",[],["theme","danger"],3,null,["loc",[null,[62,8],[62,61]]]],
-        ["block","property-text",[],["name","dismiss","type","String","requires","dismissable=true"],4,null,["loc",[null,[81,4],[83,22]]]],
-        ["block","property-text",[],["name","dismissable","type","Boolean","default","false"],5,null,["loc",[null,[85,4],[87,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],6,null,["loc",[null,[89,4],[91,22]]]],
-        ["block","property-text",[],["name","theme","type","String","default","\"info\""],7,null,["loc",[null,[93,4],[95,22]]]],
-        ["block","property-text",[],["name","title","type","String"],8,null,["loc",[null,[97,4],[99,22]]]]
+        ["block","property-text",[],["name","dismiss","type","String","requires","dismissable=true"],4,null,["loc",[null,[92,4],[94,22]]]],
+        ["block","property-text",[],["name","dismissable","type","Boolean","default","false"],5,null,["loc",[null,[96,4],[98,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],6,null,["loc",[null,[100,4],[102,22]]]],
+        ["block","property-text",[],["name","theme","type","String","default","\"info\""],7,null,["loc",[null,[104,4],[106,22]]]],
+        ["block","property-text",[],["name","title","type","String"],8,null,["loc",[null,[108,4],[110,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8]
@@ -6933,11 +7084,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 131,
+              "line": 142,
               "column": 4
             },
             "end": {
-              "line": 133,
+              "line": 144,
               "column": 4
             }
           },
@@ -6967,11 +7118,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 135,
+              "line": 146,
               "column": 4
             },
             "end": {
-              "line": 137,
+              "line": 148,
               "column": 4
             }
           },
@@ -7001,11 +7152,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 139,
+              "line": 150,
               "column": 4
             },
             "end": {
-              "line": 141,
+              "line": 152,
               "column": 4
             }
           },
@@ -7041,11 +7192,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 143,
+              "line": 154,
               "column": 4
             },
             "end": {
-              "line": 145,
+              "line": 156,
               "column": 4
             }
           },
@@ -7075,11 +7226,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 147,
+              "line": 158,
               "column": 4
             },
             "end": {
-              "line": 149,
+              "line": 160,
               "column": 4
             }
           },
@@ -7109,11 +7260,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 151,
+              "line": 162,
               "column": 4
             },
             "end": {
-              "line": 153,
+              "line": 164,
               "column": 4
             }
           },
@@ -7149,11 +7300,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 155,
+              "line": 166,
               "column": 4
             },
             "end": {
-              "line": 157,
+              "line": 168,
               "column": 4
             }
           },
@@ -7183,11 +7334,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 159,
+              "line": 170,
               "column": 4
             },
             "end": {
-              "line": 161,
+              "line": 172,
               "column": 4
             }
           },
@@ -7218,11 +7369,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 164,
+                "line": 175,
                 "column": 37
               },
               "end": {
-                "line": 164,
+                "line": 175,
                 "column": 74
               }
             },
@@ -7251,11 +7402,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 163,
+              "line": 174,
               "column": 4
             },
             "end": {
-              "line": 165,
+              "line": 176,
               "column": 4
             }
           },
@@ -7280,7 +7431,7 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["block","link-to",["demos.sl-modal"],[],0,null,["loc",[null,[164,37],[164,86]]]]
+          ["block","link-to",["demos.sl-modal"],[],0,null,["loc",[null,[175,37],[175,86]]]]
         ],
         locals: [],
         templates: [child0]
@@ -7293,11 +7444,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 167,
+              "line": 178,
               "column": 4
             },
             "end": {
-              "line": 169,
+              "line": 180,
               "column": 4
             }
           },
@@ -7327,11 +7478,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 171,
+              "line": 182,
               "column": 4
             },
             "end": {
-              "line": 173,
+              "line": 184,
               "column": 4
             }
           },
@@ -7361,11 +7512,11 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 175,
+              "line": 186,
               "column": 4
             },
             "end": {
-              "line": 177,
+              "line": 188,
               "column": 4
             }
           },
@@ -7398,7 +7549,7 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 179,
+            "line": 190,
             "column": 0
           }
         },
@@ -7897,6 +8048,42 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-button");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-button.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -7958,7 +8145,7 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [36]);
+        var element0 = dom.childAt(fragment, [42]);
         var morphs = new Array(21);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3, 3]),0,0);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3, 3]),0,0);
@@ -7993,18 +8180,18 @@ define('dummy/templates/demos/sl-button', ['exports'], function (exports) {
         ["block","sl-button",[],["disabled",true],6,null,["loc",[null,[88,13],[88,70]]]],
         ["block","sl-button",[],["theme","hover"],7,null,["loc",[null,[100,13],[100,67]]]],
         ["block","sl-button",[],["theme","link"],8,null,["loc",[null,[112,13],[112,65]]]],
-        ["block","property-text",[],["name","action","type","Function"],9,null,["loc",[null,[131,4],[133,22]]]],
-        ["block","property-text",[],["name","bubbles","type","Boolean","default","true"],10,null,["loc",[null,[135,4],[137,22]]]],
-        ["block","property-text",[],["name","class","type","String"],11,null,["loc",[null,[139,4],[141,22]]]],
-        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],12,null,["loc",[null,[143,4],[145,22]]]],
-        ["block","property-text",[],["name","label","type","String"],13,null,["loc",[null,[147,4],[149,22]]]],
-        ["block","property-text",[],["name","pending","type","Boolean","default","false"],14,null,["loc",[null,[151,4],[153,22]]]],
-        ["block","property-text",[],["name","pendingLabel","type","Function","default","null"],15,null,["loc",[null,[155,4],[157,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],16,null,["loc",[null,[159,4],[161,22]]]],
-        ["block","property-text",[],["name","showModalWithStreamName","type","String"],17,null,["loc",[null,[163,4],[165,22]]]],
-        ["block","property-text",[],["name","size","type","String","default","\"medium\""],18,null,["loc",[null,[167,4],[169,22]]]],
-        ["block","property-text",[],["name","theme","type","String","default","\"default\""],19,null,["loc",[null,[171,4],[173,22]]]],
-        ["block","property-text",[],["name","title","type","String"],20,null,["loc",[null,[175,4],[177,22]]]]
+        ["block","property-text",[],["name","action","type","Function"],9,null,["loc",[null,[142,4],[144,22]]]],
+        ["block","property-text",[],["name","bubbles","type","Boolean","default","true"],10,null,["loc",[null,[146,4],[148,22]]]],
+        ["block","property-text",[],["name","class","type","String"],11,null,["loc",[null,[150,4],[152,22]]]],
+        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],12,null,["loc",[null,[154,4],[156,22]]]],
+        ["block","property-text",[],["name","label","type","String"],13,null,["loc",[null,[158,4],[160,22]]]],
+        ["block","property-text",[],["name","pending","type","Boolean","default","false"],14,null,["loc",[null,[162,4],[164,22]]]],
+        ["block","property-text",[],["name","pendingLabel","type","Function","default","null"],15,null,["loc",[null,[166,4],[168,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],16,null,["loc",[null,[170,4],[172,22]]]],
+        ["block","property-text",[],["name","showModalWithStreamName","type","String"],17,null,["loc",[null,[174,4],[176,22]]]],
+        ["block","property-text",[],["name","size","type","String","default","\"medium\""],18,null,["loc",[null,[178,4],[180,22]]]],
+        ["block","property-text",[],["name","theme","type","String","default","\"default\""],19,null,["loc",[null,[182,4],[184,22]]]],
+        ["block","property-text",[],["name","title","type","String"],20,null,["loc",[null,[186,4],[188,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19, child20]
@@ -8024,11 +8211,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 33,
+              "line": 44,
               "column": 4
             },
             "end": {
-              "line": 35,
+              "line": 46,
               "column": 4
             }
           },
@@ -8058,11 +8245,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 37,
+              "line": 48,
               "column": 4
             },
             "end": {
-              "line": 39,
+              "line": 50,
               "column": 4
             }
           },
@@ -8098,11 +8285,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 41,
+              "line": 52,
               "column": 4
             },
             "end": {
-              "line": 43,
+              "line": 54,
               "column": 4
             }
           },
@@ -8132,11 +8319,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 45,
+              "line": 56,
               "column": 4
             },
             "end": {
-              "line": 47,
+              "line": 58,
               "column": 4
             }
           },
@@ -8166,11 +8353,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 49,
+              "line": 60,
               "column": 4
             },
             "end": {
-              "line": 51,
+              "line": 62,
               "column": 4
             }
           },
@@ -8200,11 +8387,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 53,
+              "line": 64,
               "column": 4
             },
             "end": {
-              "line": 55,
+              "line": 66,
               "column": 4
             }
           },
@@ -8240,11 +8427,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 57,
+              "line": 68,
               "column": 4
             },
             "end": {
-              "line": 59,
+              "line": 70,
               "column": 4
             }
           },
@@ -8274,11 +8461,11 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 61,
+              "line": 72,
               "column": 4
             },
             "end": {
-              "line": 63,
+              "line": 74,
               "column": 4
             }
           },
@@ -8311,7 +8498,7 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 65,
+            "line": 76,
             "column": 0
           }
         },
@@ -8405,6 +8592,42 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-calendar");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-calendar.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -8450,7 +8673,7 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [14]);
+        var element0 = dom.childAt(fragment, [20]);
         var morphs = new Array(9);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(element0,1,1);
@@ -8465,14 +8688,14 @@ define('dummy/templates/demos/sl-calendar', ['exports'], function (exports) {
       },
       statements: [
         ["inline","sl-calendar",[],["action","logLabel","class","col-sm-6","content",["subexpr","@mut",[["get","content",["loc",[null,[24,65],[24,72]]]]],[],[]]],["loc",[null,[24,8],[24,74]]]],
-        ["block","property-text",[],["name","action","type","Function"],0,null,["loc",[null,[33,4],[35,22]]]],
-        ["block","property-text",[],["name","content","type","Object[]"],1,null,["loc",[null,[37,4],[39,22]]]],
-        ["block","property-text",[],["name","currentMonth","type","Number","default","current month"],2,null,["loc",[null,[41,4],[43,22]]]],
-        ["block","property-text",[],["name","currentYear","type","Number","default","current year"],3,null,["loc",[null,[45,4],[47,22]]]],
-        ["block","property-text",[],["name","dateValuePath","type","String","default","\"date\""],4,null,["loc",[null,[49,4],[51,22]]]],
-        ["block","property-text",[],["name","locale","type","String","default","\"en\""],5,null,["loc",[null,[53,4],[55,22]]]],
-        ["block","property-text",[],["name","locked","type","Boolean","default","false"],6,null,["loc",[null,[57,4],[59,22]]]],
-        ["block","property-text",[],["name","viewMode","type","String","default","\"days\""],7,null,["loc",[null,[61,4],[63,22]]]]
+        ["block","property-text",[],["name","action","type","Function"],0,null,["loc",[null,[44,4],[46,22]]]],
+        ["block","property-text",[],["name","content","type","Object[]"],1,null,["loc",[null,[48,4],[50,22]]]],
+        ["block","property-text",[],["name","currentMonth","type","Number","default","current month"],2,null,["loc",[null,[52,4],[54,22]]]],
+        ["block","property-text",[],["name","currentYear","type","Number","default","current year"],3,null,["loc",[null,[56,4],[58,22]]]],
+        ["block","property-text",[],["name","dateValuePath","type","String","default","\"date\""],4,null,["loc",[null,[60,4],[62,22]]]],
+        ["block","property-text",[],["name","locale","type","String","default","\"en\""],5,null,["loc",[null,[64,4],[66,22]]]],
+        ["block","property-text",[],["name","locked","type","Boolean","default","false"],6,null,["loc",[null,[68,4],[70,22]]]],
+        ["block","property-text",[],["name","viewMode","type","String","default","\"days\""],7,null,["loc",[null,[72,4],[74,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7]
@@ -8492,11 +8715,11 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 59,
+              "line": 70,
               "column": 4
             },
             "end": {
-              "line": 61,
+              "line": 72,
               "column": 4
             }
           },
@@ -8526,11 +8749,11 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 63,
+              "line": 74,
               "column": 4
             },
             "end": {
-              "line": 65,
+              "line": 76,
               "column": 4
             }
           },
@@ -8560,11 +8783,11 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 67,
+              "line": 78,
               "column": 4
             },
             "end": {
-              "line": 69,
+              "line": 80,
               "column": 4
             }
           },
@@ -8594,11 +8817,11 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 71,
+              "line": 82,
               "column": 4
             },
             "end": {
-              "line": 73,
+              "line": 84,
               "column": 4
             }
           },
@@ -8628,11 +8851,11 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 75,
+              "line": 86,
               "column": 4
             },
             "end": {
-              "line": 77,
+              "line": 88,
               "column": 4
             }
           },
@@ -8662,11 +8885,11 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 79,
+              "line": 90,
               "column": 4
             },
             "end": {
-              "line": 81,
+              "line": 92,
               "column": 4
             }
           },
@@ -8699,7 +8922,7 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 83,
+            "line": 94,
             "column": 0
           }
         },
@@ -8759,7 +8982,7 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-6");
+        dom.setAttribute(el2,"class","col-lg-6");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h6");
@@ -8826,6 +9049,42 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-chart");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-chart.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -8863,7 +9122,7 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [16]);
+        var element0 = dom.childAt(fragment, [22]);
         var morphs = new Array(7);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
         morphs[1] = dom.createMorphAt(element0,1,1);
@@ -8876,12 +9135,12 @@ define('dummy/templates/demos/sl-chart', ['exports'], function (exports) {
       },
       statements: [
         ["inline","sl-chart",[],["options",["subexpr","@mut",[["get","chartOptions",["loc",[null,[50,27],[50,39]]]]],[],[]],"series",["subexpr","@mut",[["get","content",["loc",[null,[50,47],[50,54]]]]],[],[]],"title","Fruit Consumption"],["loc",[null,[50,8],[50,82]]]],
-        ["block","property-text",[],["name","options","required",true,"type","Object"],0,null,["loc",[null,[59,4],[61,22]]]],
-        ["block","property-text",[],["name","series","required",true,"type","Array"],1,null,["loc",[null,[63,4],[65,22]]]],
-        ["block","property-text",[],["name","height","type","String"],2,null,["loc",[null,[67,4],[69,22]]]],
-        ["block","property-text",[],["name","isLoading","type","Boolean","default","false"],3,null,["loc",[null,[71,4],[73,22]]]],
-        ["block","property-text",[],["name","title","type","String"],4,null,["loc",[null,[75,4],[77,22]]]],
-        ["block","property-text",[],["name","width","type","String"],5,null,["loc",[null,[79,4],[81,22]]]]
+        ["block","property-text",[],["name","options","required",true,"type","Object"],0,null,["loc",[null,[70,4],[72,22]]]],
+        ["block","property-text",[],["name","series","required",true,"type","Array"],1,null,["loc",[null,[74,4],[76,22]]]],
+        ["block","property-text",[],["name","height","type","String"],2,null,["loc",[null,[78,4],[80,22]]]],
+        ["block","property-text",[],["name","loading","type","Boolean","default","false"],3,null,["loc",[null,[82,4],[84,22]]]],
+        ["block","property-text",[],["name","title","type","String"],4,null,["loc",[null,[86,4],[88,22]]]],
+        ["block","property-text",[],["name","width","type","String"],5,null,["loc",[null,[90,4],[92,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5]
@@ -8901,11 +9160,11 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 22,
+              "line": 23,
               "column": 8
             },
             "end": {
-              "line": 24,
+              "line": 25,
               "column": 8
             }
           },
@@ -8942,11 +9201,11 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 59,
+              "line": 73,
               "column": 4
             },
             "end": {
-              "line": 61,
+              "line": 75,
               "column": 4
             }
           },
@@ -8976,11 +9235,11 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 63,
+              "line": 77,
               "column": 4
             },
             "end": {
-              "line": 65,
+              "line": 79,
               "column": 4
             }
           },
@@ -9010,11 +9269,45 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 67,
+              "line": 81,
               "column": 4
             },
             "end": {
-              "line": 69,
+              "line": 83,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-checkbox.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        Display the checkbox inline with others.\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child4 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 85,
+              "column": 4
+            },
+            "end": {
+              "line": 87,
               "column": 4
             }
           },
@@ -9037,18 +9330,18 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child4 = (function() {
+    var child5 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 71,
+              "line": 89,
               "column": 4
             },
             "end": {
-              "line": 73,
+              "line": 91,
               "column": 4
             }
           },
@@ -9077,18 +9370,18 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child5 = (function() {
+    var child6 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 75,
+              "line": 93,
               "column": 4
             },
             "end": {
-              "line": 77,
+              "line": 95,
               "column": 4
             }
           },
@@ -9111,18 +9404,18 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child6 = (function() {
+    var child7 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 79,
+              "line": 97,
               "column": 4
             },
             "end": {
-              "line": 81,
+              "line": 99,
               "column": 4
             }
           },
@@ -9155,7 +9448,7 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 83,
+            "line": 101,
             "column": 0
           }
         },
@@ -9211,7 +9504,7 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("pre");
-        var el4 = dom.createTextNode("{{sl-checkbox\n    checked=checkboxValue\n    label=\"Checkbox\"\n    name=\"checkbox\"\n}}");
+        var el4 = dom.createTextNode("{{sl-checkbox\n    checked=checkboxValue\n    label=\"Checkbox\"\n    name=\"checkbox\"\n    inline=true\n}}");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -9308,10 +9601,53 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
         var el4 = dom.createTextNode("sl-input-based");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         var el4 = dom.createTextNode("sl-tooltip-enabled");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-checkbox");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-checkbox.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -9358,6 +9694,10 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
@@ -9365,8 +9705,8 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [8, 3]);
-        var element1 = dom.childAt(fragment, [22]);
-        var morphs = new Array(9);
+        var element1 = dom.childAt(fragment, [28]);
+        var morphs = new Array(10);
         morphs[0] = dom.createMorphAt(element0,3,3);
         morphs[1] = dom.createMorphAt(element0,5,5);
         morphs[2] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -9376,21 +9716,23 @@ define('dummy/templates/demos/sl-checkbox', ['exports'], function (exports) {
         morphs[6] = dom.createMorphAt(element1,7,7);
         morphs[7] = dom.createMorphAt(element1,9,9);
         morphs[8] = dom.createMorphAt(element1,11,11);
+        morphs[9] = dom.createMorphAt(element1,13,13);
         return morphs;
       },
       statements: [
-        ["inline","sl-checkbox",[],["checked",["subexpr","@mut",[["get","checkboxValue",["loc",[null,[20,30],[20,43]]]]],[],[]],"label","Checkbox","name","checkbox"],["loc",[null,[20,8],[20,78]]]],
-        ["block","if",[["get","checkboxValue",["loc",[null,[22,14],[22,27]]]]],[],0,null,["loc",[null,[22,8],[24,15]]]],
-        ["inline","sl-checkbox",[],["disabled",true,"label","Disabled checkbox"],["loc",[null,[39,8],[39,63]]]],
-        ["block","property-text",[],["name","checked","type","Boolean","default","false"],1,null,["loc",[null,[59,4],[61,22]]]],
-        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[63,4],[65,22]]]],
-        ["block","property-text",[],["name","label","type","String"],3,null,["loc",[null,[67,4],[69,22]]]],
-        ["block","property-text",[],["name","name","type","String"],4,null,["loc",[null,[71,4],[73,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],5,null,["loc",[null,[75,4],[77,22]]]],
-        ["block","property-text",[],["name","title","type","String"],6,null,["loc",[null,[79,4],[81,22]]]]
+        ["inline","sl-checkbox",[],["checked",["subexpr","@mut",[["get","checkboxValue",["loc",[null,[21,30],[21,43]]]]],[],[]],"label","Checkbox","name","checkbox","inline",true],["loc",[null,[21,8],[21,90]]]],
+        ["block","if",[["get","checkboxValue",["loc",[null,[23,14],[23,27]]]]],[],0,null,["loc",[null,[23,8],[25,15]]]],
+        ["inline","sl-checkbox",[],["disabled",true,"label","Disabled checkbox"],["loc",[null,[40,8],[40,63]]]],
+        ["block","property-text",[],["name","checked","type","Boolean","default","false"],1,null,["loc",[null,[73,4],[75,22]]]],
+        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[77,4],[79,22]]]],
+        ["block","property-text",[],["name","inline","type","Boolean","default","false"],3,null,["loc",[null,[81,4],[83,22]]]],
+        ["block","property-text",[],["name","label","type","String"],4,null,["loc",[null,[85,4],[87,22]]]],
+        ["block","property-text",[],["name","name","type","String"],5,null,["loc",[null,[89,4],[91,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],6,null,["loc",[null,[93,4],[95,22]]]],
+        ["block","property-text",[],["name","title","type","String"],7,null,["loc",[null,[97,4],[99,22]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5, child6]
+      templates: [child0, child1, child2, child3, child4, child5, child6, child7]
     };
   }()));
 
@@ -9407,11 +9749,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 45,
+              "line": 49,
               "column": 4
             },
             "end": {
-              "line": 47,
+              "line": 51,
               "column": 4
             }
           },
@@ -9441,11 +9783,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 49,
+              "line": 53,
               "column": 4
             },
             "end": {
-              "line": 51,
+              "line": 55,
               "column": 4
             }
           },
@@ -9475,11 +9817,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 53,
+              "line": 57,
               "column": 4
             },
             "end": {
-              "line": 55,
+              "line": 59,
               "column": 4
             }
           },
@@ -9509,11 +9851,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 57,
+              "line": 61,
               "column": 4
             },
             "end": {
-              "line": 59,
+              "line": 63,
               "column": 4
             }
           },
@@ -9549,11 +9891,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 61,
+              "line": 65,
               "column": 4
             },
             "end": {
-              "line": 63,
+              "line": 67,
               "column": 4
             }
           },
@@ -9583,11 +9925,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 65,
+              "line": 69,
               "column": 4
             },
             "end": {
-              "line": 67,
+              "line": 71,
               "column": 4
             }
           },
@@ -9617,11 +9959,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 69,
+              "line": 73,
               "column": 4
             },
             "end": {
-              "line": 71,
+              "line": 75,
               "column": 4
             }
           },
@@ -9651,11 +9993,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 73,
+              "line": 77,
               "column": 4
             },
             "end": {
-              "line": 75,
+              "line": 79,
               "column": 4
             }
           },
@@ -9691,11 +10033,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 77,
+              "line": 81,
               "column": 4
             },
             "end": {
-              "line": 86,
+              "line": 90,
               "column": 4
             }
           },
@@ -9761,11 +10103,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 88,
+              "line": 92,
               "column": 4
             },
             "end": {
-              "line": 90,
+              "line": 94,
               "column": 4
             }
           },
@@ -9795,11 +10137,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 92,
+              "line": 96,
               "column": 4
             },
             "end": {
-              "line": 94,
+              "line": 98,
               "column": 4
             }
           },
@@ -9829,11 +10171,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 96,
+              "line": 100,
               "column": 4
             },
             "end": {
-              "line": 98,
+              "line": 102,
               "column": 4
             }
           },
@@ -9863,11 +10205,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 100,
+              "line": 104,
               "column": 4
             },
             "end": {
-              "line": 102,
+              "line": 106,
               "column": 4
             }
           },
@@ -9897,11 +10239,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 104,
+              "line": 108,
               "column": 4
             },
             "end": {
-              "line": 106,
+              "line": 110,
               "column": 4
             }
           },
@@ -9931,11 +10273,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 108,
+              "line": 112,
               "column": 4
             },
             "end": {
-              "line": 110,
+              "line": 114,
               "column": 4
             }
           },
@@ -9965,11 +10307,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 112,
+              "line": 116,
               "column": 4
             },
             "end": {
-              "line": 114,
+              "line": 118,
               "column": 4
             }
           },
@@ -9999,11 +10341,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 116,
+              "line": 120,
               "column": 4
             },
             "end": {
-              "line": 118,
+              "line": 122,
               "column": 4
             }
           },
@@ -10033,11 +10375,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 120,
+              "line": 124,
               "column": 4
             },
             "end": {
-              "line": 122,
+              "line": 126,
               "column": 4
             }
           },
@@ -10073,11 +10415,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 124,
+              "line": 128,
               "column": 4
             },
             "end": {
-              "line": 126,
+              "line": 130,
               "column": 4
             }
           },
@@ -10107,11 +10449,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 128,
+              "line": 132,
               "column": 4
             },
             "end": {
-              "line": 130,
+              "line": 134,
               "column": 4
             }
           },
@@ -10141,11 +10483,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 132,
+              "line": 136,
               "column": 4
             },
             "end": {
-              "line": 134,
+              "line": 138,
               "column": 4
             }
           },
@@ -10175,11 +10517,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 136,
+              "line": 140,
               "column": 4
             },
             "end": {
-              "line": 138,
+              "line": 142,
               "column": 4
             }
           },
@@ -10209,11 +10551,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 140,
+              "line": 144,
               "column": 4
             },
             "end": {
-              "line": 142,
+              "line": 146,
               "column": 4
             }
           },
@@ -10243,11 +10585,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 144,
+              "line": 148,
               "column": 4
             },
             "end": {
-              "line": 146,
+              "line": 150,
               "column": 4
             }
           },
@@ -10277,11 +10619,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 148,
+              "line": 152,
               "column": 4
             },
             "end": {
-              "line": 150,
+              "line": 154,
               "column": 4
             }
           },
@@ -10311,11 +10653,11 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 152,
+              "line": 156,
               "column": 4
             },
             "end": {
-              "line": 154,
+              "line": 158,
               "column": 4
             }
           },
@@ -10348,7 +10690,7 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 156,
+            "line": 160,
             "column": 0
           }
         },
@@ -10457,6 +10799,19 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-component-input-id");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -10467,7 +10822,7 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Mixins used");
+        var el2 = dom.createTextNode("Custom CSS styling");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -10481,7 +10836,13 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("sl-component-input-id");
+        var el4 = dom.createTextNode("sl-ember-components-date-picker");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-date-picker.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -10647,32 +11008,32 @@ define('dummy/templates/demos/sl-date-picker', ['exports'], function (exports) {
       },
       statements: [
         ["inline","sl-date-picker",[],["label","Date picker"],["loc",[null,[16,8],[16,46]]]],
-        ["block","property-text",[],["name","action","type","Function"],0,null,["loc",[null,[45,4],[47,22]]]],
-        ["block","property-text",[],["name","autoclose","type","Boolean","default","true"],1,null,["loc",[null,[49,4],[51,22]]]],
-        ["block","property-text",[],["name","calendarWeeks","type","Boolean","default","false"],2,null,["loc",[null,[53,4],[55,22]]]],
-        ["block","property-text",[],["name","clearBtn","type","Boolean","default","false"],3,null,["loc",[null,[57,4],[59,22]]]],
-        ["block","property-text",[],["name","daysOfWeekDisabled","type","Array"],4,null,["loc",[null,[61,4],[63,22]]]],
-        ["block","property-text",[],["name","disabled","type","String","default","false"],5,null,["loc",[null,[65,4],[67,22]]]],
-        ["block","property-text",[],["name","endDate","type","Date/String"],6,null,["loc",[null,[69,4],[71,22]]]],
-        ["block","property-text",[],["name","forceParse","type","Boolean","default","true"],7,null,["loc",[null,[73,4],[75,22]]]],
-        ["block","property-text",[],["name","format","type","String","default","\"mm/dd/yyyy\""],8,null,["loc",[null,[77,4],[86,22]]]],
-        ["block","property-text",[],["name","helpText","type","String"],9,null,["loc",[null,[88,4],[90,22]]]],
-        ["block","property-text",[],["name","inputs","type","Array"],10,null,["loc",[null,[92,4],[94,22]]]],
-        ["block","property-text",[],["name","keyboardNavigation","type","Boolean","default","true"],11,null,["loc",[null,[96,4],[98,22]]]],
-        ["block","property-text",[],["name","label","type","String"],12,null,["loc",[null,[100,4],[102,22]]]],
-        ["block","property-text",[],["name","language","type","String","default","\"en\""],13,null,["loc",[null,[104,4],[106,22]]]],
-        ["block","property-text",[],["name","minViewMode","type","String"],14,null,["loc",[null,[108,4],[110,22]]]],
-        ["block","property-text",[],["name","multidate","type","Boolean/Number","default","false"],15,null,["loc",[null,[112,4],[114,22]]]],
-        ["block","property-text",[],["name","orientation","type","String","default","\"auto\""],16,null,["loc",[null,[116,4],[118,22]]]],
-        ["block","property-text",[],["name","placeholder","type","String"],17,null,["loc",[null,[120,4],[122,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],18,null,["loc",[null,[124,4],[126,22]]]],
-        ["block","property-text",[],["name","startDate","type","Date/String"],19,null,["loc",[null,[128,4],[130,22]]]],
-        ["block","property-text",[],["name","startView","type","String","default","\"month\""],20,null,["loc",[null,[132,4],[134,22]]]],
-        ["block","property-text",[],["name","title","type","String"],21,null,["loc",[null,[136,4],[138,22]]]],
-        ["block","property-text",[],["name","todayBtn","type","Boolean/String","default","false"],22,null,["loc",[null,[140,4],[142,22]]]],
-        ["block","property-text",[],["name","todayHighlight","type","Boolean","default","false"],23,null,["loc",[null,[144,4],[146,22]]]],
-        ["block","property-text",[],["name","value","type","String"],24,null,["loc",[null,[148,4],[150,22]]]],
-        ["block","property-text",[],["name","weekStart","type","Number/String"],25,null,["loc",[null,[152,4],[154,22]]]]
+        ["block","property-text",[],["name","action","type","Function"],0,null,["loc",[null,[49,4],[51,22]]]],
+        ["block","property-text",[],["name","autoclose","type","Boolean","default","true"],1,null,["loc",[null,[53,4],[55,22]]]],
+        ["block","property-text",[],["name","calendarWeeks","type","Boolean","default","false"],2,null,["loc",[null,[57,4],[59,22]]]],
+        ["block","property-text",[],["name","clearBtn","type","Boolean","default","false"],3,null,["loc",[null,[61,4],[63,22]]]],
+        ["block","property-text",[],["name","daysOfWeekDisabled","type","Array"],4,null,["loc",[null,[65,4],[67,22]]]],
+        ["block","property-text",[],["name","disabled","type","String","default","false"],5,null,["loc",[null,[69,4],[71,22]]]],
+        ["block","property-text",[],["name","endDate","type","Date/String"],6,null,["loc",[null,[73,4],[75,22]]]],
+        ["block","property-text",[],["name","forceParse","type","Boolean","default","true"],7,null,["loc",[null,[77,4],[79,22]]]],
+        ["block","property-text",[],["name","format","type","String","default","\"mm/dd/yyyy\""],8,null,["loc",[null,[81,4],[90,22]]]],
+        ["block","property-text",[],["name","helpText","type","String"],9,null,["loc",[null,[92,4],[94,22]]]],
+        ["block","property-text",[],["name","inputs","type","Array"],10,null,["loc",[null,[96,4],[98,22]]]],
+        ["block","property-text",[],["name","keyboardNavigation","type","Boolean","default","true"],11,null,["loc",[null,[100,4],[102,22]]]],
+        ["block","property-text",[],["name","label","type","String"],12,null,["loc",[null,[104,4],[106,22]]]],
+        ["block","property-text",[],["name","language","type","String","default","\"en\""],13,null,["loc",[null,[108,4],[110,22]]]],
+        ["block","property-text",[],["name","minViewMode","type","String"],14,null,["loc",[null,[112,4],[114,22]]]],
+        ["block","property-text",[],["name","multidate","type","Boolean/Number","default","false"],15,null,["loc",[null,[116,4],[118,22]]]],
+        ["block","property-text",[],["name","orientation","type","String","default","\"auto\""],16,null,["loc",[null,[120,4],[122,22]]]],
+        ["block","property-text",[],["name","placeholder","type","String"],17,null,["loc",[null,[124,4],[126,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],18,null,["loc",[null,[128,4],[130,22]]]],
+        ["block","property-text",[],["name","startDate","type","Date/String"],19,null,["loc",[null,[132,4],[134,22]]]],
+        ["block","property-text",[],["name","startView","type","String","default","\"month\""],20,null,["loc",[null,[136,4],[138,22]]]],
+        ["block","property-text",[],["name","title","type","String"],21,null,["loc",[null,[140,4],[142,22]]]],
+        ["block","property-text",[],["name","todayBtn","type","Boolean/String","default","false"],22,null,["loc",[null,[144,4],[146,22]]]],
+        ["block","property-text",[],["name","todayHighlight","type","Boolean","default","false"],23,null,["loc",[null,[148,4],[150,22]]]],
+        ["block","property-text",[],["name","value","type","String"],24,null,["loc",[null,[152,4],[154,22]]]],
+        ["block","property-text",[],["name","weekStart","type","Number/String"],25,null,["loc",[null,[156,4],[158,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19, child20, child21, child22, child23, child24, child25]
@@ -10726,11 +11087,11 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
           "loc": {
             "source": null,
             "start": {
-              "line": 43,
+              "line": 54,
               "column": 4
             },
             "end": {
-              "line": 45,
+              "line": 56,
               "column": 4
             }
           },
@@ -10766,11 +11127,11 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
           "loc": {
             "source": null,
             "start": {
-              "line": 47,
+              "line": 58,
               "column": 4
             },
             "end": {
-              "line": 49,
+              "line": 60,
               "column": 4
             }
           },
@@ -10800,11 +11161,11 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
           "loc": {
             "source": null,
             "start": {
-              "line": 51,
+              "line": 62,
               "column": 4
             },
             "end": {
-              "line": 60,
+              "line": 71,
               "column": 4
             }
           },
@@ -10870,11 +11231,11 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
           "loc": {
             "source": null,
             "start": {
-              "line": 62,
+              "line": 73,
               "column": 4
             },
             "end": {
-              "line": 64,
+              "line": 75,
               "column": 4
             }
           },
@@ -10904,11 +11265,11 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
           "loc": {
             "source": null,
             "start": {
-              "line": 66,
+              "line": 77,
               "column": 4
             },
             "end": {
-              "line": 68,
+              "line": 79,
               "column": 4
             }
           },
@@ -10938,11 +11299,11 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
           "loc": {
             "source": null,
             "start": {
-              "line": 70,
+              "line": 81,
               "column": 4
             },
             "end": {
-              "line": 72,
+              "line": 83,
               "column": 4
             }
           },
@@ -10978,11 +11339,11 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
           "loc": {
             "source": null,
             "start": {
-              "line": 74,
+              "line": 85,
               "column": 4
             },
             "end": {
-              "line": 76,
+              "line": 87,
               "column": 4
             }
           },
@@ -11015,7 +11376,7 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
             "column": 0
           },
           "end": {
-            "line": 78,
+            "line": 89,
             "column": 0
           }
         },
@@ -11131,6 +11492,42 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-date-range-picker");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-date-range-picker.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -11172,7 +11569,7 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [20]);
+        var element0 = dom.childAt(fragment, [26]);
         var morphs = new Array(9);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
@@ -11188,13 +11585,13 @@ define('dummy/templates/demos/sl-date-range-picker', ['exports'], function (expo
       statements: [
         ["block","link-to",["demos.sl-date-picker"],[],0,null,["loc",[null,[2,62],[2,123]]]],
         ["inline","sl-date-range-picker",[],["label","Select date range","startDatePlaceholder","Select start date","endDatePlaceholder","Select end date"],["loc",[null,[20,8],[24,10]]]],
-        ["block","property-text",[],["name","endDatePlaceholder","type","String"],1,null,["loc",[null,[43,4],[45,22]]]],
-        ["block","property-text",[],["name","endDateValue","type","String","default","null"],2,null,["loc",[null,[47,4],[49,22]]]],
-        ["block","property-text",[],["name","format","type","String","default","\"mm/dd/yyyy\""],3,null,["loc",[null,[51,4],[60,22]]]],
-        ["block","property-text",[],["name","maxDate","type","Date/String","default","null"],4,null,["loc",[null,[62,4],[64,22]]]],
-        ["block","property-text",[],["name","minDate","type","Date/String","default","null"],5,null,["loc",[null,[66,4],[68,22]]]],
-        ["block","property-text",[],["name","startDatePlaceholder","type","String"],6,null,["loc",[null,[70,4],[72,22]]]],
-        ["block","property-text",[],["name","startDateValue","type","String","default","null"],7,null,["loc",[null,[74,4],[76,22]]]]
+        ["block","property-text",[],["name","endDatePlaceholder","type","String"],1,null,["loc",[null,[54,4],[56,22]]]],
+        ["block","property-text",[],["name","endDateValue","type","String","default","null"],2,null,["loc",[null,[58,4],[60,22]]]],
+        ["block","property-text",[],["name","format","type","String","default","\"mm/dd/yyyy\""],3,null,["loc",[null,[62,4],[71,22]]]],
+        ["block","property-text",[],["name","maxDate","type","Date/String","default","null"],4,null,["loc",[null,[73,4],[75,22]]]],
+        ["block","property-text",[],["name","minDate","type","Date/String","default","null"],5,null,["loc",[null,[77,4],[79,22]]]],
+        ["block","property-text",[],["name","startDatePlaceholder","type","String"],6,null,["loc",[null,[81,4],[83,22]]]],
+        ["block","property-text",[],["name","startDateValue","type","String","default","null"],7,null,["loc",[null,[85,4],[87,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7]
@@ -11214,11 +11611,11 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 72,
+              "line": 85,
               "column": 4
             },
             "end": {
-              "line": 74,
+              "line": 87,
               "column": 4
             }
           },
@@ -11248,11 +11645,11 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 76,
+              "line": 89,
               "column": 4
             },
             "end": {
-              "line": 78,
+              "line": 91,
               "column": 4
             }
           },
@@ -11282,11 +11679,11 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 80,
+              "line": 93,
               "column": 4
             },
             "end": {
-              "line": 82,
+              "line": 95,
               "column": 4
             }
           },
@@ -11316,11 +11713,11 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 84,
+              "line": 97,
               "column": 4
             },
             "end": {
-              "line": 86,
+              "line": 99,
               "column": 4
             }
           },
@@ -11350,11 +11747,11 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 88,
+              "line": 101,
               "column": 4
             },
             "end": {
-              "line": 90,
+              "line": 103,
               "column": 4
             }
           },
@@ -11384,11 +11781,11 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 92,
+              "line": 105,
               "column": 4
             },
             "end": {
-              "line": 94,
+              "line": 107,
               "column": 4
             }
           },
@@ -11421,7 +11818,7 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 96,
+            "line": 109,
             "column": 0
           }
         },
@@ -11488,9 +11885,7 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h4");
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -11533,9 +11928,7 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h4");
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -11578,9 +11971,7 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h4");
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -11617,6 +12008,46 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-date-time");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-date-time.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
@@ -11658,11 +12089,11 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [22]);
+        var element0 = dom.childAt(fragment, [30]);
         var morphs = new Array(9);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3, 3]),0,0);
-        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3, 3]),0,0);
-        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [12, 3, 3]),0,0);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
+        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [12, 3]),3,3);
         morphs[3] = dom.createMorphAt(element0,1,1);
         morphs[4] = dom.createMorphAt(element0,3,3);
         morphs[5] = dom.createMorphAt(element0,5,5);
@@ -11672,15 +12103,15 @@ define('dummy/templates/demos/sl-date-time', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["inline","sl-date-time",[],["timezone","America/Chicago"],["loc",[null,[16,12],[16,55]]]],
-        ["inline","sl-date-time",[],["format","relative","timezone","America/Chicago","value",["subexpr","@mut",[["get","firstDayDate",["loc",[null,[35,18],[35,30]]]]],[],[]]],["loc",[null,[32,12],[36,10]]]],
-        ["inline","sl-date-time",[],["format","date","timezone","America/Chicago","value",["subexpr","@mut",[["get","threeMonthsAgoDate",["loc",[null,[55,18],[55,36]]]]],[],[]]],["loc",[null,[52,12],[56,10]]]],
-        ["block","property-text",[],["name","timezone","type","String","required",true],0,null,["loc",[null,[72,4],[74,22]]]],
-        ["block","property-text",[],["name","format","type","String","default","\"datetime\""],1,null,["loc",[null,[76,4],[78,22]]]],
-        ["block","property-text",[],["name","locale","type","String","default","\"en\""],2,null,["loc",[null,[80,4],[82,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],3,null,["loc",[null,[84,4],[86,22]]]],
-        ["block","property-text",[],["name","title","type","String"],4,null,["loc",[null,[88,4],[90,22]]]],
-        ["block","property-text",[],["name","value","type","Array/Date/Moment/Number/Object/String","default","now"],5,null,["loc",[null,[92,4],[94,22]]]]
+        ["inline","sl-date-time",[],["timezone","America/Chicago"],["loc",[null,[16,8],[16,51]]]],
+        ["inline","sl-date-time",[],["format","relative","timezone","America/Chicago","value",["subexpr","@mut",[["get","firstDayDate",["loc",[null,[35,18],[35,30]]]]],[],[]]],["loc",[null,[32,8],[36,10]]]],
+        ["inline","sl-date-time",[],["format","date","timezone","America/Chicago","value",["subexpr","@mut",[["get","threeMonthsAgoDate",["loc",[null,[55,18],[55,36]]]]],[],[]]],["loc",[null,[52,8],[56,10]]]],
+        ["block","property-text",[],["name","timezone","type","String","required",true],0,null,["loc",[null,[85,4],[87,22]]]],
+        ["block","property-text",[],["name","format","type","String","default","\"datetime\""],1,null,["loc",[null,[89,4],[91,22]]]],
+        ["block","property-text",[],["name","locale","type","String","default","\"en\""],2,null,["loc",[null,[93,4],[95,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],3,null,["loc",[null,[97,4],[99,22]]]],
+        ["block","property-text",[],["name","title","type","String"],4,null,["loc",[null,[101,4],[103,22]]]],
+        ["block","property-text",[],["name","value","type","Array/Date/Moment/Number/Object/String","default","now"],5,null,["loc",[null,[105,4],[107,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5]
@@ -11694,17 +12125,56 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
 
   exports['default'] = Ember.HTMLBars.template((function() {
     var child0 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.7",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 26,
+                "column": 12
+              },
+              "end": {
+                "line": 29,
+                "column": 12
+              }
+            },
+            "moduleName": "dummy/templates/demos/sl-drop-button.hbs"
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("                ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1,"class","fa fa-cubes");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n                Green\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() { return []; },
+          statements: [
+
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 22,
+              "line": 24,
               "column": 8
             },
             "end": {
-              "line": 28,
+              "line": 32,
               "column": 8
             }
           },
@@ -11719,15 +12189,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n            ");
+          var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n            ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n            ");
+          var el1 = dom.createTextNode("            ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -11740,23 +12206,21 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(5);
+          var morphs = new Array(4);
           morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
           morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
           morphs[2] = dom.createMorphAt(fragment,5,5,contextualElement);
           morphs[3] = dom.createMorphAt(fragment,7,7,contextualElement);
-          morphs[4] = dom.createMorphAt(fragment,9,9,contextualElement);
           return morphs;
         },
         statements: [
-          ["inline","sl-drop-option",[],["action","logRed","label","Red"],["loc",[null,[23,12],[23,58]]]],
-          ["inline","sl-drop-option",[],["action","logGreen","label","Green"],["loc",[null,[24,12],[24,62]]]],
-          ["inline","sl-drop-option",[],["action","logBlue","label","Blue"],["loc",[null,[25,12],[25,60]]]],
-          ["content","sl-drop-option",["loc",[null,[26,12],[26,30]]]],
-          ["inline","sl-drop-option",[],["action","logWhite","label","White"],["loc",[null,[27,12],[27,62]]]]
+          ["inline","sl-drop-option",[],["action","logRed","label","Red"],["loc",[null,[25,12],[25,58]]]],
+          ["block","sl-drop-option",[],["action","logGreen"],0,null,["loc",[null,[26,12],[29,31]]]],
+          ["content","sl-drop-option-divider",["loc",[null,[30,12],[30,38]]]],
+          ["inline","sl-drop-option",[],["action","logWhite","label","White"],["loc",[null,[31,12],[31,62]]]]
         ],
         locals: [],
-        templates: []
+        templates: [child0]
       };
     }());
     var child1 = (function() {
@@ -11766,11 +12230,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 47,
+              "line": 62,
               "column": 4
             },
             "end": {
-              "line": 49,
+              "line": 64,
               "column": 4
             }
           },
@@ -11800,11 +12264,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 51,
+              "line": 66,
               "column": 4
             },
             "end": {
-              "line": 53,
+              "line": 68,
               "column": 4
             }
           },
@@ -11836,11 +12300,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 55,
+              "line": 70,
               "column": 4
             },
             "end": {
-              "line": 57,
+              "line": 72,
               "column": 4
             }
           },
@@ -11870,11 +12334,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 59,
+              "line": 74,
               "column": 4
             },
             "end": {
-              "line": 61,
+              "line": 76,
               "column": 4
             }
           },
@@ -11904,11 +12368,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 63,
+              "line": 78,
               "column": 4
             },
             "end": {
-              "line": 65,
+              "line": 80,
               "column": 4
             }
           },
@@ -11938,11 +12402,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 67,
+              "line": 82,
               "column": 4
             },
             "end": {
-              "line": 69,
+              "line": 84,
               "column": 4
             }
           },
@@ -11972,11 +12436,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 71,
+              "line": 86,
               "column": 4
             },
             "end": {
-              "line": 73,
+              "line": 88,
               "column": 4
             }
           },
@@ -12006,11 +12470,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 81,
+              "line": 107,
               "column": 4
             },
             "end": {
-              "line": 83,
+              "line": 109,
               "column": 4
             }
           },
@@ -12040,11 +12504,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 85,
+              "line": 111,
               "column": 4
             },
             "end": {
-              "line": 87,
+              "line": 113,
               "column": 4
             }
           },
@@ -12077,7 +12541,7 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 89,
+            "line": 134,
             "column": 0
           }
         },
@@ -12137,11 +12601,11 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("{{sl-drop-option action=\"logRed\" label=\"Red\"}}\n    ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("{{sl-drop-option action=\"logGreen\" label=\"Green\"}}\n    ");
+        var el4 = dom.createTextNode("{{#sl-drop-option action=\"logGreen\"}}\n        <i class=\"fa fa-cubes\"></i>\n        Green\n    ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("{{sl-drop-option action=\"logBlue\" label=\"Blue\"}}\n    ");
+        var el4 = dom.createTextNode("{{/sl-drop-option}}\n    ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("{{sl-drop-option}}\n    ");
+        var el4 = dom.createTextNode("{{sl-drop-option-divider}}\n    ");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("{{sl-drop-option action=\"logWhite\" label=\"White\"}}\n");
         dom.appendChild(el3, el4);
@@ -12208,6 +12672,42 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("sl-drop-button Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-drop-button");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-drop-button.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("sl-drop-button Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -12251,6 +12751,42 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("sl-drop-option Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-drop-option");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-drop-option.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("sl-drop-option Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -12267,13 +12803,75 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("sl-drop-option-divider Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-drop-option-divider");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-drop-option-divider.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("sl-drop-option-divider");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("Places a divider in the list");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [20]);
-        var element1 = dom.childAt(fragment, [26]);
+        var element0 = dom.childAt(fragment, [26]);
+        var element1 = dom.childAt(fragment, [38]);
         var morphs = new Array(10);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(element0,1,1);
@@ -12288,16 +12886,16 @@ define('dummy/templates/demos/sl-drop-button', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","sl-drop-button",[],["label","Select a color"],0,null,["loc",[null,[22,8],[28,27]]]],
-        ["block","property-text",[],["name","align","type","String","default","\"left\""],1,null,["loc",[null,[47,4],[49,22]]]],
-        ["block","property-text",[],["name","content","type","Array"],2,null,["loc",[null,[51,4],[53,22]]]],
-        ["block","property-text",[],["name","label","type","String"],3,null,["loc",[null,[55,4],[57,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],4,null,["loc",[null,[59,4],[61,22]]]],
-        ["block","property-text",[],["name","size","type","String","default","\"medium\""],5,null,["loc",[null,[63,4],[65,22]]]],
-        ["block","property-text",[],["name","theme","type","String","default","\"default\""],6,null,["loc",[null,[67,4],[69,22]]]],
-        ["block","property-text",[],["name","title","type","String"],7,null,["loc",[null,[71,4],[73,22]]]],
-        ["block","property-text",[],["name","action","type","String"],8,null,["loc",[null,[81,4],[83,22]]]],
-        ["block","property-text",[],["name","label","type","String"],9,null,["loc",[null,[85,4],[87,22]]]]
+        ["block","sl-drop-button",[],["label","Select a color"],0,null,["loc",[null,[24,8],[32,27]]]],
+        ["block","property-text",[],["name","align","type","String","default","\"left\""],1,null,["loc",[null,[62,4],[64,22]]]],
+        ["block","property-text",[],["name","content","type","Array"],2,null,["loc",[null,[66,4],[68,22]]]],
+        ["block","property-text",[],["name","label","type","String"],3,null,["loc",[null,[70,4],[72,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],4,null,["loc",[null,[74,4],[76,22]]]],
+        ["block","property-text",[],["name","size","type","String","default","\"medium\""],5,null,["loc",[null,[78,4],[80,22]]]],
+        ["block","property-text",[],["name","theme","type","String","default","\"default\""],6,null,["loc",[null,[82,4],[84,22]]]],
+        ["block","property-text",[],["name","title","type","String"],7,null,["loc",[null,[86,4],[88,22]]]],
+        ["block","property-text",[],["name","action","type","String"],8,null,["loc",[null,[107,4],[109,22]]]],
+        ["block","property-text",[],["name","label","type","String"],9,null,["loc",[null,[111,4],[113,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9]
@@ -12520,11 +13118,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 68,
+              "line": 73,
               "column": 8
             },
             "end": {
-              "line": 82,
+              "line": 88,
               "column": 8
             }
           },
@@ -12560,11 +13158,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 91,
+              "line": 108,
               "column": 4
             },
             "end": {
-              "line": 102,
+              "line": 120,
               "column": 4
             }
           },
@@ -12626,10 +13224,10 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("li");
           var el3 = dom.createElement("strong");
-          var el4 = dom.createTextNode("size");
+          var el4 = dom.createTextNode("headerClass");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode(" - The width of the column; either a string for relative sizing (\"small\", \"medium\", or \"large\"), or a number for exact number of pixels; the default is null for auto width");
+          var el3 = dom.createTextNode(" - A class to pass through to the column header.  Allows for CSS control of column widths");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n            ");
@@ -12649,6 +13247,28 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("em");
           var el4 = dom.createTextNode("false");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(")");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n            ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("li");
+          var el3 = dom.createElement("strong");
+          var el4 = dom.createTextNode("sorted");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" - A ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("em");
+          var el4 = dom.createTextNode("string");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" that determines which direction the column is sorted (default: ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("em");
+          var el4 = dom.createTextNode("null");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode(")");
@@ -12718,11 +13338,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 104,
+              "line": 122,
               "column": 4
             },
             "end": {
-              "line": 106,
+              "line": 124,
               "column": 4
             }
           },
@@ -12733,7 +13353,7 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        Array of records to display as the rows.\n");
+          var el1 = dom.createTextNode("        Array of record objects to display as the rows.\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -12752,11 +13372,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 108,
+              "line": 126,
               "column": 4
             },
             "end": {
-              "line": 110,
+              "line": 128,
               "column": 4
             }
           },
@@ -12786,11 +13406,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 112,
+              "line": 130,
               "column": 4
             },
             "end": {
-              "line": 114,
+              "line": 132,
               "column": 4
             }
           },
@@ -12832,11 +13452,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 116,
+              "line": 134,
               "column": 4
             },
             "end": {
-              "line": 118,
+              "line": 136,
               "column": 4
             }
           },
@@ -12866,11 +13486,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 120,
+              "line": 138,
               "column": 4
             },
             "end": {
-              "line": 122,
+              "line": 140,
               "column": 4
             }
           },
@@ -12900,11 +13520,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 124,
+              "line": 142,
               "column": 4
             },
             "end": {
-              "line": 126,
+              "line": 144,
               "column": 4
             }
           },
@@ -12934,11 +13554,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 128,
+              "line": 146,
               "column": 4
             },
             "end": {
-              "line": 130,
+              "line": 148,
               "column": 4
             }
           },
@@ -12968,11 +13588,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 132,
+              "line": 150,
               "column": 4
             },
             "end": {
-              "line": 134,
+              "line": 152,
               "column": 4
             }
           },
@@ -13002,11 +13622,45 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 136,
+              "line": 154,
               "column": 4
             },
             "end": {
-              "line": 138,
+              "line": 156,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-grid.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        Determines if the table headers should be fixed position when the table is scrolled.\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child11 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 158,
+              "column": 4
+            },
+            "end": {
+              "line": 160,
               "column": 4
             }
           },
@@ -13035,18 +13689,18 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child11 = (function() {
+    var child12 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 140,
+              "line": 162,
               "column": 4
             },
             "end": {
-              "line": 142,
+              "line": 164,
               "column": 4
             }
           },
@@ -13057,7 +13711,7 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        Determines the overall height of the sl-grid component. When the value is \"auto\" (the default), then the component will responsively size its own height to the allowed space in the viewport. Setting it to a number will lock the height to that many pixels high.\n");
+          var el1 = dom.createTextNode("        Determines the overall height of the sl-grid component. This can be any CSS sizing value.\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -13069,18 +13723,18 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child12 = (function() {
+    var child13 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 144,
+              "line": 166,
               "column": 4
             },
             "end": {
-              "line": 148,
+              "line": 170,
               "column": 4
             }
           },
@@ -13125,18 +13779,18 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child13 = (function() {
+    var child14 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 150,
+              "line": 172,
               "column": 4
             },
             "end": {
-              "line": 156,
+              "line": 178,
               "column": 4
             }
           },
@@ -13201,18 +13855,18 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child14 = (function() {
+    var child15 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 158,
+              "line": 180,
               "column": 4
             },
             "end": {
-              "line": 203,
+              "line": 225,
               "column": 4
             }
           },
@@ -13315,40 +13969,6 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child15 = (function() {
-      return {
-        meta: {
-          "revision": "Ember@1.13.7",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 205,
-              "column": 4
-            },
-            "end": {
-              "line": 207,
-              "column": 4
-            }
-          },
-          "moduleName": "dummy/templates/demos/sl-grid.hbs"
-        },
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the detail-pane will open with the model context of the clicked row's record. If no valid detailPath is defined, then nothing will happen when a list-pane row is clicked.\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() { return []; },
-        statements: [
-
-        ],
-        locals: [],
-        templates: []
-      };
-    }());
     var child16 = (function() {
       return {
         meta: {
@@ -13356,11 +13976,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 209,
+              "line": 227,
               "column": 4
             },
             "end": {
-              "line": 211,
+              "line": 231,
               "column": 4
             }
           },
@@ -13371,7 +13991,7 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        The name of an action to trigger when a sortable column is selected for sorting. This action should accept two arguments: the column definition to sort on, and a boolean for whether the column is sorted ascending (true) or descending (false).\n");
+          var el1 = dom.createTextNode("        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the row will\n        be selected and the detail-pane will open with the model context of the clicked row's record. If no valid\n        detailPath is defined, then nothing will happen when a list-pane row is clicked.\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -13390,11 +14010,11 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 213,
+              "line": 233,
               "column": 4
             },
             "end": {
-              "line": 215,
+              "line": 237,
               "column": 4
             }
           },
@@ -13405,7 +14025,41 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        The total number of records for the content. This value is used to determine when new pages in a ");
+          var el1 = dom.createTextNode("        The name of an action to trigger when a sortable column is selected for sorting. This action should accept two\n        arguments: the column definition to sort on, and a boolean for whether the column is sorted ascending (true)\n        or descending (false).\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child18 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 239,
+              "column": 4
+            },
+            "end": {
+              "line": 242,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-grid.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        The total number of records for the content. This value is used to determine when new pages in a\n        ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("code");
           var el2 = dom.createTextNode("continuous");
@@ -13439,7 +14093,7 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 217,
+            "line": 244,
             "column": 0
           }
         },
@@ -13488,7 +14142,7 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("pre");
-        var el4 = dom.createTextNode("{{#sl-grid\n    columns=columns\n    content=sortedModel\n    detailComponent=\"demos/sl-grid-detail\"\n    detailFooterComponent=\"demos/sl-grid-detail-footer\"\n    detailHeaderComponent=\"demos/sl-grid-detail-header\"\n    footerPath=\"demos/sl-grid/footer\"\n    height=400\n    rowActions=rowActions\n    sendLog=(action \"logName\")\n    sortColumn=\"sortColumn\"\n    totalCount=totalCount\n}}\n    <h3>Colors</h3>\n");
+        var el4 = dom.createTextNode("{{#sl-grid\n    columns=columns\n    content=sortedModel\n    detailComponent=\"demos/sl-grid-detail\"\n    detailFooterComponent=\"demos/sl-grid-detail-footer\"\n    detailHeaderComponent=\"demos/sl-grid-detail-header\"\n    fixedHeader=true\n    footerPath=\"demos/sl-grid/footer\"\n    height=\"21em\"\n    rowActions=rowActions\n    sendLog=(action \"logName\")\n    sortColumn=\"sortColumn\"\n    totalCount=totalCount\n}}\n    <h3>Colors</h3>\n");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("{{/sl-grid}}");
         dom.appendChild(el3, el4);
@@ -13584,7 +14238,7 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("pre");
-        var el4 = dom.createTextNode("columns: [\n    {\n        primary: true,\n        title: 'Color',\n        valuePath: 'name'\n    }, {\n        size: 'small',\n        sortable: true,\n        title: 'Fruit',\n        valuePath: 'fruit'\n    }, {\n        size: 'small',\n        title: 'Hex Code',\n        valuePath: 'hexCode'\n    }\n],\n\nrowActions: [\n    {\n        action: 'sendLog',\n        label: 'Log'\n    }\n]");
+        var el4 = dom.createTextNode("columns: [\n    {\n        title: 'Color',\n        valuePath: 'name'\n    },\n    {\n        headerClass: 'smallWidth',\n        primary: true,\n        sortable: true,\n        sorted: 'asc',\n        title: 'Fruit',\n        valuePath: 'fruit'\n    },\n    {\n        headerClass: 'smallWidth',\n        sortable: true,\n        title: 'Hex Code',\n        valuePath: 'hexCode'\n    }\n],\n\nrowActions: [\n    {\n        action: 'sendLog',\n        label: 'Log'\n    }\n]");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -13605,6 +14259,42 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-grid");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-grid.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -13692,14 +14382,18 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [14]);
-        var morphs = new Array(18);
+        var element0 = dom.childAt(fragment, [20]);
+        var morphs = new Array(19);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(element0,1,1);
         morphs[2] = dom.createMorphAt(element0,3,3);
@@ -13718,30 +14412,32 @@ define('dummy/templates/demos/sl-grid', ['exports'], function (exports) {
         morphs[15] = dom.createMorphAt(element0,29,29);
         morphs[16] = dom.createMorphAt(element0,31,31);
         morphs[17] = dom.createMorphAt(element0,33,33);
+        morphs[18] = dom.createMorphAt(element0,35,35);
         return morphs;
       },
       statements: [
-        ["block","sl-grid",[],["columns",["subexpr","@mut",[["get","columns",["loc",[null,[69,20],[69,27]]]]],[],[]],"content",["subexpr","@mut",[["get","sortedModel",["loc",[null,[70,20],[70,31]]]]],[],[]],"detailComponent","demos/sl-grid-detail","detailFooterComponent","demos/sl-grid-detail-footer","detailHeaderComponent","demos/sl-grid-detail-header","footerPath","demos/sl-grid/footer","height",400,"rowActions",["subexpr","@mut",[["get","rowActions",["loc",[null,[76,23],[76,33]]]]],[],[]],"sendLog",["subexpr","action",["logName"],[],["loc",[null,[77,20],[77,38]]]],"sortColumn","sortColumn","totalCount",["subexpr","@mut",[["get","totalCount",["loc",[null,[79,23],[79,33]]]]],[],[]]],0,null,["loc",[null,[68,8],[82,20]]]],
-        ["block","property-text",[],["name","columns","type","Array","required",true],1,null,["loc",[null,[91,4],[102,22]]]],
-        ["block","property-text",[],["name","content","type","Array","required",true],2,null,["loc",[null,[104,4],[106,22]]]],
-        ["block","property-text",[],["name","actionButtonLabel","type","String","default","\"Actions\""],3,null,["loc",[null,[108,4],[110,22]]]],
-        ["block","property-text",[],["name","continuous","type","Boolean","default","false"],4,null,["loc",[null,[112,4],[114,22]]]],
-        ["block","property-text",[],["name","detailComponent","type","String"],5,null,["loc",[null,[116,4],[118,22]]]],
-        ["block","property-text",[],["name","detailFooterComponent","type","String"],6,null,["loc",[null,[120,4],[122,22]]]],
-        ["block","property-text",[],["name","detailHeaderComponent","type","String"],7,null,["loc",[null,[124,4],[126,22]]]],
-        ["block","property-text",[],["name","filterButtonLabel","type","String","default","Filter"],8,null,["loc",[null,[128,4],[130,22]]]],
-        ["block","property-text",[],["name","filterComponent","type","String"],9,null,["loc",[null,[132,4],[134,22]]]],
-        ["block","property-text",[],["name","footerPath","type","String"],10,null,["loc",[null,[136,4],[138,22]]]],
-        ["block","property-text",[],["name","height","type","Number/String","default","\"auto\""],11,null,["loc",[null,[140,4],[142,22]]]],
-        ["block","property-text",[],["name","pageSize","type","Number","default","25"],12,null,["loc",[null,[144,4],[148,22]]]],
-        ["block","property-text",[],["name","requestData","type","String"],13,null,["loc",[null,[150,4],[156,22]]]],
-        ["block","property-text",[],["name","rowActions","type","Array"],14,null,["loc",[null,[158,4],[203,22]]]],
-        ["block","property-text",[],["name","rowClick","type","String"],15,null,["loc",[null,[205,4],[207,22]]]],
-        ["block","property-text",[],["name","sortColumn","type","String"],16,null,["loc",[null,[209,4],[211,22]]]],
-        ["block","property-text",[],["name","totalCount","type","Number"],17,null,["loc",[null,[213,4],[215,22]]]]
+        ["block","sl-grid",[],["columns",["subexpr","@mut",[["get","columns",["loc",[null,[74,20],[74,27]]]]],[],[]],"content",["subexpr","@mut",[["get","sortedModel",["loc",[null,[75,20],[75,31]]]]],[],[]],"detailComponent","demos/sl-grid-detail","detailFooterComponent","demos/sl-grid-detail-footer","detailHeaderComponent","demos/sl-grid-detail-header","fixedHeader",true,"footerPath","demos/sl-grid/footer","height","21em","rowActions",["subexpr","@mut",[["get","rowActions",["loc",[null,[82,23],[82,33]]]]],[],[]],"sendLog",["subexpr","action",["logName"],[],["loc",[null,[83,20],[83,38]]]],"sortColumn","sortColumn","totalCount",["subexpr","@mut",[["get","totalCount",["loc",[null,[85,23],[85,33]]]]],[],[]]],0,null,["loc",[null,[73,8],[88,20]]]],
+        ["block","property-text",[],["name","columns","type","Array","required",true],1,null,["loc",[null,[108,4],[120,22]]]],
+        ["block","property-text",[],["name","content","type","Array","required",true],2,null,["loc",[null,[122,4],[124,22]]]],
+        ["block","property-text",[],["name","actionButtonLabel","type","String","default","\"Actions\""],3,null,["loc",[null,[126,4],[128,22]]]],
+        ["block","property-text",[],["name","continuous","type","Boolean","default","false"],4,null,["loc",[null,[130,4],[132,22]]]],
+        ["block","property-text",[],["name","detailComponent","type","String"],5,null,["loc",[null,[134,4],[136,22]]]],
+        ["block","property-text",[],["name","detailFooterComponent","type","String"],6,null,["loc",[null,[138,4],[140,22]]]],
+        ["block","property-text",[],["name","detailHeaderComponent","type","String"],7,null,["loc",[null,[142,4],[144,22]]]],
+        ["block","property-text",[],["name","filterButtonLabel","type","String","default","Filter"],8,null,["loc",[null,[146,4],[148,22]]]],
+        ["block","property-text",[],["name","filterComponent","type","String"],9,null,["loc",[null,[150,4],[152,22]]]],
+        ["block","property-text",[],["name","fixedHeader","type","Boolean","default","false"],10,null,["loc",[null,[154,4],[156,22]]]],
+        ["block","property-text",[],["name","footerPath","type","String"],11,null,["loc",[null,[158,4],[160,22]]]],
+        ["block","property-text",[],["name","height","type","Number/String","default","\"\""],12,null,["loc",[null,[162,4],[164,22]]]],
+        ["block","property-text",[],["name","pageSize","type","Number","default","25"],13,null,["loc",[null,[166,4],[170,22]]]],
+        ["block","property-text",[],["name","requestData","type","String"],14,null,["loc",[null,[172,4],[178,22]]]],
+        ["block","property-text",[],["name","rowActions","type","Array"],15,null,["loc",[null,[180,4],[225,22]]]],
+        ["block","property-text",[],["name","rowClick","type","String"],16,null,["loc",[null,[227,4],[231,22]]]],
+        ["block","property-text",[],["name","sortColumn","type","String"],17,null,["loc",[null,[233,4],[237,22]]]],
+        ["block","property-text",[],["name","totalCount","type","Number"],18,null,["loc",[null,[239,4],[242,22]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17]
+      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18]
     };
   }()));
 
@@ -13758,11 +14454,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 212,
+              "line": 227,
               "column": 4
             },
             "end": {
-              "line": 214,
+              "line": 229,
               "column": 4
             }
           },
@@ -13792,11 +14488,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 216,
+              "line": 231,
               "column": 4
             },
             "end": {
-              "line": 219,
+              "line": 234,
               "column": 4
             }
           },
@@ -13826,11 +14522,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 221,
+              "line": 236,
               "column": 4
             },
             "end": {
-              "line": 223,
+              "line": 238,
               "column": 4
             }
           },
@@ -13860,11 +14556,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 225,
+              "line": 240,
               "column": 4
             },
             "end": {
-              "line": 227,
+              "line": 242,
               "column": 4
             }
           },
@@ -13894,11 +14590,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 229,
+              "line": 244,
               "column": 4
             },
             "end": {
-              "line": 231,
+              "line": 246,
               "column": 4
             }
           },
@@ -13928,11 +14624,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 233,
+              "line": 248,
               "column": 4
             },
             "end": {
-              "line": 235,
+              "line": 250,
               "column": 4
             }
           },
@@ -13968,11 +14664,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 237,
+              "line": 252,
               "column": 4
             },
             "end": {
-              "line": 239,
+              "line": 254,
               "column": 4
             }
           },
@@ -14008,11 +14704,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 241,
+              "line": 256,
               "column": 4
             },
             "end": {
-              "line": 243,
+              "line": 258,
               "column": 4
             }
           },
@@ -14048,11 +14744,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 245,
+              "line": 260,
               "column": 4
             },
             "end": {
-              "line": 247,
+              "line": 262,
               "column": 4
             }
           },
@@ -14082,11 +14778,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 249,
+              "line": 264,
               "column": 4
             },
             "end": {
-              "line": 251,
+              "line": 266,
               "column": 4
             }
           },
@@ -14122,11 +14818,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 253,
+              "line": 268,
               "column": 4
             },
             "end": {
-              "line": 255,
+              "line": 270,
               "column": 4
             }
           },
@@ -14162,11 +14858,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 257,
+              "line": 272,
               "column": 4
             },
             "end": {
-              "line": 259,
+              "line": 274,
               "column": 4
             }
           },
@@ -14196,11 +14892,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 261,
+              "line": 276,
               "column": 4
             },
             "end": {
-              "line": 263,
+              "line": 278,
               "column": 4
             }
           },
@@ -14236,11 +14932,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 265,
+              "line": 280,
               "column": 4
             },
             "end": {
-              "line": 267,
+              "line": 282,
               "column": 4
             }
           },
@@ -14270,11 +14966,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 269,
+              "line": 284,
               "column": 4
             },
             "end": {
-              "line": 271,
+              "line": 286,
               "column": 4
             }
           },
@@ -14310,11 +15006,11 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 273,
+              "line": 288,
               "column": 4
             },
             "end": {
-              "line": 275,
+              "line": 290,
               "column": 4
             }
           },
@@ -14347,7 +15043,7 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 277,
+            "line": 292,
             "column": 0
           }
         },
@@ -14778,16 +15474,66 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
         var el4 = dom.createTextNode("sl-component-input-id");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         var el4 = dom.createTextNode("sl-input-based");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         var el4 = dom.createTextNode("sl-tooltip-enabled");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-input");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-input.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -14880,7 +15626,7 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [34]);
+        var element0 = dom.childAt(fragment, [40]);
         var morphs = new Array(24);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -14917,188 +15663,25 @@ define('dummy/templates/demos/sl-input', ['exports'], function (exports) {
         ["inline","sl-input",[],["label","Required input","required",true,"placeholder","You'd better enter something here"],["loc",[null,[145,8],[149,10]]]],
         ["inline","sl-input",[],["label","Optional input","optional",true,"placeholder","Meh, whatev"],["loc",[null,[165,8],[169,10]]]],
         ["inline","sl-input",[],["clickToEdit",true,"label","Click-to-edit input","placeholder","Enter value","value","Initial value"],["loc",[null,[186,8],[191,10]]]],
-        ["block","property-text",[],["name","blur","type","String"],0,null,["loc",[null,[212,4],[214,22]]]],
-        ["block","property-text",[],["name","clickToEdit","type","Boolean","default","false"],1,null,["loc",[null,[216,4],[219,22]]]],
-        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[221,4],[223,22]]]],
-        ["block","property-text",[],["name","helpText","type","String"],3,null,["loc",[null,[225,4],[227,22]]]],
-        ["block","property-text",[],["name","label","type","String"],4,null,["loc",[null,[229,4],[231,22]]]],
-        ["block","property-text",[],["name","name","type","String"],5,null,["loc",[null,[233,4],[235,22]]]],
-        ["block","property-text",[],["name","optional","type","Boolean","default","false"],6,null,["loc",[null,[237,4],[239,22]]]],
-        ["block","property-text",[],["name","placeholder","type","String"],7,null,["loc",[null,[241,4],[243,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],8,null,["loc",[null,[245,4],[247,22]]]],
-        ["block","property-text",[],["name","readonly","type","Boolean","default","false"],9,null,["loc",[null,[249,4],[251,22]]]],
-        ["block","property-text",[],["name","required","type","Boolean","default","false"],10,null,["loc",[null,[253,4],[255,22]]]],
-        ["block","property-text",[],["name","suggestionNamePath","type","String","default","\"name\""],11,null,["loc",[null,[257,4],[259,22]]]],
-        ["block","property-text",[],["name","suggestions","type","Array"],12,null,["loc",[null,[261,4],[263,22]]]],
-        ["block","property-text",[],["name","title","type","String"],13,null,["loc",[null,[265,4],[267,22]]]],
-        ["block","property-text",[],["name","type","type","String","default","\"text\""],14,null,["loc",[null,[269,4],[271,22]]]],
-        ["block","property-text",[],["name","value","type","String"],15,null,["loc",[null,[273,4],[275,22]]]]
+        ["block","property-text",[],["name","blur","type","String"],0,null,["loc",[null,[227,4],[229,22]]]],
+        ["block","property-text",[],["name","clickToEdit","type","Boolean","default","false"],1,null,["loc",[null,[231,4],[234,22]]]],
+        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[236,4],[238,22]]]],
+        ["block","property-text",[],["name","helpText","type","String"],3,null,["loc",[null,[240,4],[242,22]]]],
+        ["block","property-text",[],["name","label","type","String"],4,null,["loc",[null,[244,4],[246,22]]]],
+        ["block","property-text",[],["name","name","type","String"],5,null,["loc",[null,[248,4],[250,22]]]],
+        ["block","property-text",[],["name","optional","type","Boolean","default","false"],6,null,["loc",[null,[252,4],[254,22]]]],
+        ["block","property-text",[],["name","placeholder","type","String"],7,null,["loc",[null,[256,4],[258,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],8,null,["loc",[null,[260,4],[262,22]]]],
+        ["block","property-text",[],["name","readonly","type","Boolean","default","false"],9,null,["loc",[null,[264,4],[266,22]]]],
+        ["block","property-text",[],["name","required","type","Boolean","default","false"],10,null,["loc",[null,[268,4],[270,22]]]],
+        ["block","property-text",[],["name","suggestionNamePath","type","String","default","\"name\""],11,null,["loc",[null,[272,4],[274,22]]]],
+        ["block","property-text",[],["name","suggestions","type","Array"],12,null,["loc",[null,[276,4],[278,22]]]],
+        ["block","property-text",[],["name","title","type","String"],13,null,["loc",[null,[280,4],[282,22]]]],
+        ["block","property-text",[],["name","type","type","String","default","\"text\""],14,null,["loc",[null,[284,4],[286,22]]]],
+        ["block","property-text",[],["name","value","type","String"],15,null,["loc",[null,[288,4],[290,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15]
-    };
-  }()));
-
-});
-define('dummy/templates/demos/sl-loading-icon', ['exports'], function (exports) {
-
-  'use strict';
-
-  exports['default'] = Ember.HTMLBars.template((function() {
-    var child0 = (function() {
-      return {
-        meta: {
-          "revision": "Ember@1.13.7",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 25,
-              "column": 4
-            },
-            "end": {
-              "line": 27,
-              "column": 4
-            }
-          },
-          "moduleName": "dummy/templates/demos/sl-loading-icon.hbs"
-        },
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        When true, a light version of the icon will be used (useful with masks).\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() { return []; },
-        statements: [
-
-        ],
-        locals: [],
-        templates: []
-      };
-    }());
-    return {
-      meta: {
-        "revision": "Ember@1.13.7",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 29,
-            "column": 0
-          }
-        },
-        "moduleName": "dummy/templates/demos/sl-loading-icon.hbs"
-      },
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("h2");
-        var el2 = dom.createTextNode("sl-loading-icon");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("p");
-        dom.setAttribute(el1,"class","lead");
-        var el2 = dom.createTextNode("A simple loading icon span.");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("hr");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Example");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","row");
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-lg-6");
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h6");
-        var el4 = dom.createTextNode("Template");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("pre");
-        var el4 = dom.createTextNode("{{sl-loading-icon}}");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-lg-6");
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h6");
-        var el4 = dom.createTextNode("Rendered Component");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("hr");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("h3");
-        var el2 = dom.createTextNode("Properties");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","list-group");
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createComment("");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
-        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [14]),1,1);
-        return morphs;
-      },
-      statements: [
-        ["content","sl-loading-icon",["loc",[null,[16,8],[16,27]]]],
-        ["block","property-text",[],["name","inverse","type","Boolean","default","false"],0,null,["loc",[null,[25,4],[27,22]]]]
-      ],
-      locals: [],
-      templates: [child0]
     };
   }()));
 
@@ -15115,11 +15698,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 50,
+              "line": 61,
               "column": 4
             },
             "end": {
-              "line": 52,
+              "line": 63,
               "column": 4
             }
           },
@@ -15161,11 +15744,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 54,
+              "line": 65,
               "column": 4
             },
             "end": {
-              "line": 56,
+              "line": 67,
               "column": 4
             }
           },
@@ -15195,11 +15778,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 58,
+              "line": 69,
               "column": 4
             },
             "end": {
-              "line": 66,
+              "line": 77,
               "column": 4
             }
           },
@@ -15305,11 +15888,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 68,
+              "line": 79,
               "column": 4
             },
             "end": {
-              "line": 70,
+              "line": 81,
               "column": 4
             }
           },
@@ -15339,11 +15922,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 79,
+              "line": 90,
               "column": 0
             },
             "end": {
-              "line": 81,
+              "line": 92,
               "column": 0
             }
           },
@@ -15385,11 +15968,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 83,
+              "line": 94,
               "column": 0
             },
             "end": {
-              "line": 85,
+              "line": 96,
               "column": 0
             }
           },
@@ -15419,11 +16002,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 87,
+              "line": 98,
               "column": 0
             },
             "end": {
-              "line": 89,
+              "line": 100,
               "column": 0
             }
           },
@@ -15459,11 +16042,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 91,
+              "line": 102,
               "column": 0
             },
             "end": {
-              "line": 96,
+              "line": 107,
               "column": 0
             }
           },
@@ -15511,11 +16094,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 98,
+              "line": 109,
               "column": 0
             },
             "end": {
-              "line": 103,
+              "line": 114,
               "column": 0
             }
           },
@@ -15563,11 +16146,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 105,
+              "line": 116,
               "column": 0
             },
             "end": {
-              "line": 107,
+              "line": 118,
               "column": 0
             }
           },
@@ -15597,11 +16180,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 109,
+              "line": 120,
               "column": 0
             },
             "end": {
-              "line": 111,
+              "line": 122,
               "column": 0
             }
           },
@@ -15631,11 +16214,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 113,
+              "line": 124,
               "column": 0
             },
             "end": {
-              "line": 115,
+              "line": 126,
               "column": 0
             }
           },
@@ -15665,11 +16248,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 117,
+              "line": 128,
               "column": 0
             },
             "end": {
-              "line": 122,
+              "line": 133,
               "column": 0
             }
           },
@@ -15717,11 +16300,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 124,
+              "line": 135,
               "column": 0
             },
             "end": {
-              "line": 126,
+              "line": 137,
               "column": 0
             }
           },
@@ -15751,11 +16334,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 128,
+              "line": 139,
               "column": 0
             },
             "end": {
-              "line": 134,
+              "line": 145,
               "column": 0
             }
           },
@@ -15809,11 +16392,11 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 136,
+              "line": 147,
               "column": 0
             },
             "end": {
-              "line": 138,
+              "line": 149,
               "column": 0
             }
           },
@@ -15846,7 +16429,7 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 139,
+            "line": 150,
             "column": 0
           }
         },
@@ -16010,6 +16593,42 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-menu");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-menu.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -16108,46 +16727,46 @@ define('dummy/templates/demos/sl-menu', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [18]);
+        var element0 = dom.childAt(fragment, [24]);
         var morphs = new Array(17);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(element0,1,1);
         morphs[2] = dom.createMorphAt(element0,3,3);
         morphs[3] = dom.createMorphAt(element0,5,5);
         morphs[4] = dom.createMorphAt(element0,7,7);
-        morphs[5] = dom.createMorphAt(fragment,26,26,contextualElement);
-        morphs[6] = dom.createMorphAt(fragment,28,28,contextualElement);
-        morphs[7] = dom.createMorphAt(fragment,30,30,contextualElement);
-        morphs[8] = dom.createMorphAt(fragment,32,32,contextualElement);
-        morphs[9] = dom.createMorphAt(fragment,34,34,contextualElement);
-        morphs[10] = dom.createMorphAt(fragment,36,36,contextualElement);
-        morphs[11] = dom.createMorphAt(fragment,38,38,contextualElement);
-        morphs[12] = dom.createMorphAt(fragment,40,40,contextualElement);
-        morphs[13] = dom.createMorphAt(fragment,42,42,contextualElement);
-        morphs[14] = dom.createMorphAt(fragment,44,44,contextualElement);
-        morphs[15] = dom.createMorphAt(fragment,46,46,contextualElement);
-        morphs[16] = dom.createMorphAt(fragment,48,48,contextualElement);
+        morphs[5] = dom.createMorphAt(fragment,32,32,contextualElement);
+        morphs[6] = dom.createMorphAt(fragment,34,34,contextualElement);
+        morphs[7] = dom.createMorphAt(fragment,36,36,contextualElement);
+        morphs[8] = dom.createMorphAt(fragment,38,38,contextualElement);
+        morphs[9] = dom.createMorphAt(fragment,40,40,contextualElement);
+        morphs[10] = dom.createMorphAt(fragment,42,42,contextualElement);
+        morphs[11] = dom.createMorphAt(fragment,44,44,contextualElement);
+        morphs[12] = dom.createMorphAt(fragment,46,46,contextualElement);
+        morphs[13] = dom.createMorphAt(fragment,48,48,contextualElement);
+        morphs[14] = dom.createMorphAt(fragment,50,50,contextualElement);
+        morphs[15] = dom.createMorphAt(fragment,52,52,contextualElement);
+        morphs[16] = dom.createMorphAt(fragment,54,54,contextualElement);
         dom.insertBoundary(fragment, null);
         return morphs;
       },
       statements: [
         ["inline","sl-menu",[],["action","doSomething","allowShowAll",true,"items",["subexpr","@mut",[["get","menuItems",["loc",[null,[24,18],[24,27]]]]],[],[]],"streamName",["subexpr","@mut",[["get","menuStreamName",["loc",[null,[25,23],[25,37]]]]],[],[]]],["loc",[null,[21,8],[26,10]]]],
-        ["block","property-text",[],["name","action","type","String"],0,null,["loc",[null,[50,4],[52,22]]]],
-        ["block","property-text",[],["name","allowShowAll","type","Boolean","default","false"],1,null,["loc",[null,[54,4],[56,22]]]],
-        ["block","property-text",[],["name","items","type","Array"],2,null,["loc",[null,[58,4],[66,22]]]],
-        ["block","property-text",[],["name","streamName","type","String"],3,null,["loc",[null,[68,4],[70,22]]]],
-        ["block","property-text",[],["name","doAction"],4,null,["loc",[null,[79,0],[81,18]]]],
-        ["block","property-text",[],["name","hideAll"],5,null,["loc",[null,[83,0],[85,18]]]],
-        ["block","property-text",[],["name","select"],6,null,["loc",[null,[87,0],[89,18]]]],
-        ["block","property-text",[],["name","selectDown"],7,null,["loc",[null,[91,0],[96,18]]]],
-        ["block","property-text",[],["name","selectLeft"],8,null,["loc",[null,[98,0],[103,18]]]],
-        ["block","property-text",[],["name","selectNext"],9,null,["loc",[null,[105,0],[107,18]]]],
-        ["block","property-text",[],["name","selectParent"],10,null,["loc",[null,[109,0],[111,18]]]],
-        ["block","property-text",[],["name","selectPrevious"],11,null,["loc",[null,[113,0],[115,18]]]],
-        ["block","property-text",[],["name","selectRight"],12,null,["loc",[null,[117,0],[122,18]]]],
-        ["block","property-text",[],["name","selectSubMenu"],13,null,["loc",[null,[124,0],[126,18]]]],
-        ["block","property-text",[],["name","selectUp"],14,null,["loc",[null,[128,0],[134,18]]]],
-        ["block","property-text",[],["name","showAll"],15,null,["loc",[null,[136,0],[138,18]]]]
+        ["block","property-text",[],["name","action","type","String"],0,null,["loc",[null,[61,4],[63,22]]]],
+        ["block","property-text",[],["name","allowShowAll","type","Boolean","default","false"],1,null,["loc",[null,[65,4],[67,22]]]],
+        ["block","property-text",[],["name","items","type","Array"],2,null,["loc",[null,[69,4],[77,22]]]],
+        ["block","property-text",[],["name","streamName","type","String"],3,null,["loc",[null,[79,4],[81,22]]]],
+        ["block","property-text",[],["name","doAction"],4,null,["loc",[null,[90,0],[92,18]]]],
+        ["block","property-text",[],["name","hideAll"],5,null,["loc",[null,[94,0],[96,18]]]],
+        ["block","property-text",[],["name","select"],6,null,["loc",[null,[98,0],[100,18]]]],
+        ["block","property-text",[],["name","selectDown"],7,null,["loc",[null,[102,0],[107,18]]]],
+        ["block","property-text",[],["name","selectLeft"],8,null,["loc",[null,[109,0],[114,18]]]],
+        ["block","property-text",[],["name","selectNext"],9,null,["loc",[null,[116,0],[118,18]]]],
+        ["block","property-text",[],["name","selectParent"],10,null,["loc",[null,[120,0],[122,18]]]],
+        ["block","property-text",[],["name","selectPrevious"],11,null,["loc",[null,[124,0],[126,18]]]],
+        ["block","property-text",[],["name","selectRight"],12,null,["loc",[null,[128,0],[133,18]]]],
+        ["block","property-text",[],["name","selectSubMenu"],13,null,["loc",[null,[135,0],[137,18]]]],
+        ["block","property-text",[],["name","selectUp"],14,null,["loc",[null,[139,0],[145,18]]]],
+        ["block","property-text",[],["name","showAll"],15,null,["loc",[null,[147,0],[149,18]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15]
@@ -16600,11 +17219,11 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 141,
+              "line": 152,
               "column": 0
             },
             "end": {
-              "line": 143,
+              "line": 154,
               "column": 0
             }
           },
@@ -16634,11 +17253,11 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 145,
+              "line": 156,
               "column": 0
             },
             "end": {
-              "line": 147,
+              "line": 158,
               "column": 0
             }
           },
@@ -16668,11 +17287,11 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 149,
+              "line": 160,
               "column": 0
             },
             "end": {
-              "line": 151,
+              "line": 162,
               "column": 0
             }
           },
@@ -16702,11 +17321,11 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 153,
+              "line": 164,
               "column": 0
             },
             "end": {
-              "line": 155,
+              "line": 166,
               "column": 0
             }
           },
@@ -16736,11 +17355,11 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 157,
+              "line": 168,
               "column": 0
             },
             "end": {
-              "line": 159,
+              "line": 170,
               "column": 0
             }
           },
@@ -16770,11 +17389,11 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 161,
+              "line": 172,
               "column": 0
             },
             "end": {
-              "line": 163,
+              "line": 174,
               "column": 0
             }
           },
@@ -16804,11 +17423,45 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 165,
+              "line": 176,
               "column": 0
             },
             "end": {
-              "line": 167,
+              "line": 178,
+              "column": 0
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-modal.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    Bootstrap width size of the modal, designated by a size value; \"small\", \"medium\" (default) or \"large\".\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child11 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 180,
+              "column": 0
+            },
+            "end": {
+              "line": 182,
               "column": 0
             }
           },
@@ -16831,18 +17484,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child11 = (function() {
+    var child12 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 173,
+              "line": 199,
               "column": 0
             },
             "end": {
-              "line": 175,
+              "line": 201,
               "column": 0
             }
           },
@@ -16865,18 +17518,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child12 = (function() {
+    var child13 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 180,
+              "line": 228,
               "column": 0
             },
             "end": {
-              "line": 182,
+              "line": 230,
               "column": 0
             }
           },
@@ -16899,18 +17552,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child13 = (function() {
+    var child14 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 187,
+              "line": 235,
               "column": 0
             },
             "end": {
-              "line": 189,
+              "line": 237,
               "column": 0
             }
           },
@@ -16939,18 +17592,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child14 = (function() {
+    var child15 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 191,
+              "line": 239,
               "column": 0
             },
             "end": {
-              "line": 193,
+              "line": 241,
               "column": 0
             }
           },
@@ -16979,18 +17632,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child15 = (function() {
+    var child16 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 195,
+              "line": 243,
               "column": 0
             },
             "end": {
-              "line": 218,
+              "line": 266,
               "column": 0
             }
           },
@@ -17119,18 +17772,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child16 = (function() {
+    var child17 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 220,
+              "line": 268,
               "column": 0
             },
             "end": {
-              "line": 235,
+              "line": 283,
               "column": 0
             }
           },
@@ -17207,18 +17860,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child17 = (function() {
+    var child18 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 243,
+              "line": 291,
               "column": 0
             },
             "end": {
-              "line": 245,
+              "line": 293,
               "column": 0
             }
           },
@@ -17241,18 +17894,18 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child18 = (function() {
+    var child19 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 247,
+              "line": 295,
               "column": 0
             },
             "end": {
-              "line": 249,
+              "line": 297,
               "column": 0
             }
           },
@@ -17285,7 +17938,7 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 250,
+            "line": 298,
             "column": 0
           }
         },
@@ -17345,7 +17998,7 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("pre");
-        var el5 = dom.createTextNode("{{#sl-modal streamName=\"demoModal\" as |modal|}}\n    ");
+        var el5 = dom.createTextNode("{{#sl-modal streamName=\"demoModal\" size=\"small\" as |modal|}}\n    ");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("{{sl-modal-header title=\"Simple Example\" ariaLabelledBy=modal.ariaLabelledBy}}\n\n    ");
         dom.appendChild(el4, el5);
@@ -17408,7 +18061,7 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("pre");
-        var el5 = dom.createTextNode("{{#sl-modal streamName=\"customHeader\" as |modal|}}\n    ");
+        var el5 = dom.createTextNode("{{#sl-modal streamName=\"customHeader\" size=\"large\" as |modal|}}\n    ");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("{{#sl-modal-header}}\n        <button class=\"close\" data-dismiss=\"modal\" type=\"button\">\n            <span aria-hidden=\"true\" class=\"fa fa-close\"></span>\n            <span class=\"sr-only\">Close</span>\n        </button>\n        <span class=\"modal-title\" id=");
         dom.appendChild(el4, el5);
@@ -17573,8 +18226,48 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("sl-modal Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-modal");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-modal.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("sl-modal Properties");
         dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
@@ -17611,6 +18304,42 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode(" sl-modal-header Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-modal-header");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-modal-header.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("sl-modal-header Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -17619,6 +18348,78 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("sl-modal-body Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-modal-body");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-modal-body.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("sl-modal-footer Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-modal-footer");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-modal-footer.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("hr");
         dom.appendChild(el0, el1);
@@ -17694,7 +18495,7 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         var element1 = dom.childAt(fragment, [8, 1]);
         var element2 = dom.childAt(fragment, [10, 1]);
         var element3 = dom.childAt(fragment, [12, 1]);
-        var morphs = new Array(22);
+        var morphs = new Array(23);
         morphs[0] = dom.createMorphAt(dom.childAt(element1, [1]),5,5);
         morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]),3,3);
         morphs[2] = dom.createMorphAt(dom.childAt(element2, [1]),5,5);
@@ -17702,50 +18503,52 @@ define('dummy/templates/demos/sl-modal', ['exports'], function (exports) {
         morphs[4] = dom.createMorphAt(dom.childAt(element3, [1]),5,5);
         morphs[5] = dom.createMorphAt(dom.childAt(element3, [3]),3,3);
         morphs[6] = dom.createMorphAt(dom.childAt(fragment, [16, 3]),1,1);
-        morphs[7] = dom.createMorphAt(fragment,22,22,contextualElement);
-        morphs[8] = dom.createMorphAt(fragment,24,24,contextualElement);
-        morphs[9] = dom.createMorphAt(fragment,26,26,contextualElement);
-        morphs[10] = dom.createMorphAt(fragment,28,28,contextualElement);
-        morphs[11] = dom.createMorphAt(fragment,30,30,contextualElement);
-        morphs[12] = dom.createMorphAt(fragment,32,32,contextualElement);
-        morphs[13] = dom.createMorphAt(fragment,34,34,contextualElement);
-        morphs[14] = dom.createMorphAt(fragment,40,40,contextualElement);
-        morphs[15] = dom.createMorphAt(fragment,46,46,contextualElement);
-        morphs[16] = dom.createMorphAt(fragment,52,52,contextualElement);
-        morphs[17] = dom.createMorphAt(fragment,54,54,contextualElement);
-        morphs[18] = dom.createMorphAt(fragment,56,56,contextualElement);
-        morphs[19] = dom.createMorphAt(fragment,58,58,contextualElement);
-        morphs[20] = dom.createMorphAt(fragment,66,66,contextualElement);
-        morphs[21] = dom.createMorphAt(fragment,68,68,contextualElement);
+        morphs[7] = dom.createMorphAt(fragment,28,28,contextualElement);
+        morphs[8] = dom.createMorphAt(fragment,30,30,contextualElement);
+        morphs[9] = dom.createMorphAt(fragment,32,32,contextualElement);
+        morphs[10] = dom.createMorphAt(fragment,34,34,contextualElement);
+        morphs[11] = dom.createMorphAt(fragment,36,36,contextualElement);
+        morphs[12] = dom.createMorphAt(fragment,38,38,contextualElement);
+        morphs[13] = dom.createMorphAt(fragment,40,40,contextualElement);
+        morphs[14] = dom.createMorphAt(fragment,42,42,contextualElement);
+        morphs[15] = dom.createMorphAt(fragment,54,54,contextualElement);
+        morphs[16] = dom.createMorphAt(fragment,72,72,contextualElement);
+        morphs[17] = dom.createMorphAt(fragment,78,78,contextualElement);
+        morphs[18] = dom.createMorphAt(fragment,80,80,contextualElement);
+        morphs[19] = dom.createMorphAt(fragment,82,82,contextualElement);
+        morphs[20] = dom.createMorphAt(fragment,84,84,contextualElement);
+        morphs[21] = dom.createMorphAt(fragment,92,92,contextualElement);
+        morphs[22] = dom.createMorphAt(fragment,94,94,contextualElement);
         dom.insertBoundary(fragment, null);
         return morphs;
       },
       statements: [
-        ["block","sl-modal",[],["streamName","demoModal"],0,null,["loc",[null,[20,8],[31,21]]]],
+        ["block","sl-modal",[],["streamName","demoModal","size","small"],0,null,["loc",[null,[20,8],[31,21]]]],
         ["inline","sl-button",[],["label","Open Modal","showModalWithStreamName","demoModal"],["loc",[null,[35,12],[38,14]]]],
-        ["block","sl-modal",[],["streamName","customHeader"],1,null,["loc",[null,[63,0],[77,13]]]],
+        ["block","sl-modal",[],["streamName","customHeader","size","large"],1,null,["loc",[null,[63,0],[77,13]]]],
         ["inline","sl-button",[],["label","Open Modal","showModalWithStreamName","customHeader"],["loc",[null,[81,12],[84,14]]]],
         ["block","sl-modal",[],["streamName","customFooter"],2,null,["loc",[null,[106,12],[117,25]]]],
         ["inline","sl-button",[],["label","Open Modal","showModalWithStreamName","customFooter"],["loc",[null,[121,12],[124,14]]]],
         ["block","link-to",["demos.sl-button"],[],3,null,["loc",[null,[133,41],[133,92]]]],
-        ["block","property-text",[],["name","afterHide","type","Function"],4,null,["loc",[null,[141,0],[143,18]]]],
-        ["block","property-text",[],["name","afterShow","type","Function"],5,null,["loc",[null,[145,0],[147,18]]]],
-        ["block","property-text",[],["name","animated","type","Boolean","default","true"],6,null,["loc",[null,[149,0],[151,18]]]],
-        ["block","property-text",[],["name","backdrop","type","Boolean","default","true"],7,null,["loc",[null,[153,0],[155,18]]]],
-        ["block","property-text",[],["name","beforeHide","type","Function"],8,null,["loc",[null,[157,0],[159,18]]]],
-        ["block","property-text",[],["name","beforeShow","type","Function"],9,null,["loc",[null,[161,0],[163,18]]]],
-        ["block","property-text",[],["name","streamName","type","String"],10,null,["loc",[null,[165,0],[167,18]]]],
-        ["block","property-text",[],["name","title","type","String"],11,null,["loc",[null,[173,0],[175,18]]]],
-        ["block","property-text",[],["name","buttonText","type","String","default","Close"],12,null,["loc",[null,[180,0],[182,18]]]],
-        ["block","property-text",[],["name","role"],13,null,["loc",[null,[187,0],[189,18]]]],
-        ["block","property-text",[],["name","aria-hidden"],14,null,["loc",[null,[191,0],[193,18]]]],
-        ["block","property-text",[],["name","aria-labelledby"],15,null,["loc",[null,[195,0],[218,18]]]],
-        ["block","property-text",[],["name","aria-describedby"],16,null,["loc",[null,[220,0],[235,18]]]],
-        ["block","property-text",[],["name","hide"],17,null,["loc",[null,[243,0],[245,18]]]],
-        ["block","property-text",[],["name","show"],18,null,["loc",[null,[247,0],[249,18]]]]
+        ["block","property-text",[],["name","afterHide","type","Function"],4,null,["loc",[null,[152,0],[154,18]]]],
+        ["block","property-text",[],["name","afterShow","type","Function"],5,null,["loc",[null,[156,0],[158,18]]]],
+        ["block","property-text",[],["name","animated","type","Boolean","default","true"],6,null,["loc",[null,[160,0],[162,18]]]],
+        ["block","property-text",[],["name","backdrop","type","Boolean","default","true"],7,null,["loc",[null,[164,0],[166,18]]]],
+        ["block","property-text",[],["name","beforeHide","type","Function"],8,null,["loc",[null,[168,0],[170,18]]]],
+        ["block","property-text",[],["name","beforeShow","type","Function"],9,null,["loc",[null,[172,0],[174,18]]]],
+        ["block","property-text",[],["name","size","type","String","default","\"medium\""],10,null,["loc",[null,[176,0],[178,18]]]],
+        ["block","property-text",[],["name","streamName","type","String"],11,null,["loc",[null,[180,0],[182,18]]]],
+        ["block","property-text",[],["name","title","type","String"],12,null,["loc",[null,[199,0],[201,18]]]],
+        ["block","property-text",[],["name","buttonText","type","String","default","Close"],13,null,["loc",[null,[228,0],[230,18]]]],
+        ["block","property-text",[],["name","role"],14,null,["loc",[null,[235,0],[237,18]]]],
+        ["block","property-text",[],["name","aria-hidden"],15,null,["loc",[null,[239,0],[241,18]]]],
+        ["block","property-text",[],["name","aria-labelledby"],16,null,["loc",[null,[243,0],[266,18]]]],
+        ["block","property-text",[],["name","aria-describedby"],17,null,["loc",[null,[268,0],[283,18]]]],
+        ["block","property-text",[],["name","hide"],18,null,["loc",[null,[291,0],[293,18]]]],
+        ["block","property-text",[],["name","show"],19,null,["loc",[null,[295,0],[297,18]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18]
+      templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19]
     };
   }()));
 
@@ -17762,11 +18565,11 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 24,
+              "line": 35,
               "column": 4
             },
             "end": {
-              "line": 26,
+              "line": 37,
               "column": 4
             }
           },
@@ -17796,11 +18599,11 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 28,
+              "line": 39,
               "column": 4
             },
             "end": {
-              "line": 30,
+              "line": 41,
               "column": 4
             }
           },
@@ -17830,11 +18633,11 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 32,
+              "line": 43,
               "column": 4
             },
             "end": {
-              "line": 34,
+              "line": 45,
               "column": 4
             }
           },
@@ -17864,11 +18667,11 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 36,
+              "line": 47,
               "column": 4
             },
             "end": {
-              "line": 38,
+              "line": 49,
               "column": 4
             }
           },
@@ -17898,11 +18701,52 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 40,
+              "line": 51,
               "column": 4
             },
             "end": {
-              "line": 42,
+              "line": 53,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-pagination.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        Whether to use the ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("a");
+          dom.setAttribute(el1,"href","https://github.com/SpikedKira/jQuery.fn.twbsResponsivePagination");
+          var el2 = dom.createTextNode("responsive jQuery plugin");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode(".\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child5 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 55,
+              "column": 4
+            },
+            "end": {
+              "line": 57,
               "column": 4
             }
           },
@@ -17925,18 +18769,18 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child5 = (function() {
+    var child6 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 44,
+              "line": 59,
               "column": 4
             },
             "end": {
-              "line": 46,
+              "line": 61,
               "column": 4
             }
           },
@@ -17969,7 +18813,7 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 48,
+            "line": 63,
             "column": 0
           }
         },
@@ -18018,7 +18862,7 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("pre");
-        var el4 = dom.createTextNode("{{sl-pagination changePage=\"changePage\" totalPages=5}}");
+        var el4 = dom.createTextNode("{{sl-pagination changePage=\"changePage\" totalPages=20}}");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -18037,6 +18881,42 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-pagination");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-pagination.");
+        dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -18082,14 +18962,18 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [14]);
-        var morphs = new Array(7);
+        var element0 = dom.childAt(fragment, [20]);
+        var morphs = new Array(8);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(element0,1,1);
         morphs[2] = dom.createMorphAt(element0,3,3);
@@ -18097,19 +18981,21 @@ define('dummy/templates/demos/sl-pagination', ['exports'], function (exports) {
         morphs[4] = dom.createMorphAt(element0,7,7);
         morphs[5] = dom.createMorphAt(element0,9,9);
         morphs[6] = dom.createMorphAt(element0,11,11);
+        morphs[7] = dom.createMorphAt(element0,13,13);
         return morphs;
       },
       statements: [
-        ["inline","sl-pagination",[],["changePage","changePage","totalPages",5],["loc",[null,[15,8],[15,62]]]],
-        ["block","property-text",[],["name","totalPages","required",true,"type","Number"],0,null,["loc",[null,[24,4],[26,22]]]],
-        ["block","property-text",[],["name","busy","type","Boolean","default","false"],1,null,["loc",[null,[28,4],[30,22]]]],
-        ["block","property-text",[],["name","changePage","type","String"],2,null,["loc",[null,[32,4],[34,22]]]],
-        ["block","property-text",[],["name","currentPage","type","Number","default","1"],3,null,["loc",[null,[36,4],[38,22]]]],
-        ["block","property-text",[],["name","nextPage","type","String"],4,null,["loc",[null,[40,4],[42,22]]]],
-        ["block","property-text",[],["name","previousPage","type","String"],5,null,["loc",[null,[44,4],[46,22]]]]
+        ["inline","sl-pagination",[],["changePage","changePage","totalPages",20],["loc",[null,[15,8],[15,63]]]],
+        ["block","property-text",[],["name","totalPages","required",true,"type","Number"],0,null,["loc",[null,[35,4],[37,22]]]],
+        ["block","property-text",[],["name","busy","type","Boolean","default","false"],1,null,["loc",[null,[39,4],[41,22]]]],
+        ["block","property-text",[],["name","changePage","type","String"],2,null,["loc",[null,[43,4],[45,22]]]],
+        ["block","property-text",[],["name","currentPage","type","Number","default","1"],3,null,["loc",[null,[47,4],[49,22]]]],
+        ["block","property-text",[],["name","isResponsive","type","Boolean","default","true"],4,null,["loc",[null,[51,4],[53,22]]]],
+        ["block","property-text",[],["name","nextPage","type","String"],5,null,["loc",[null,[55,4],[57,22]]]],
+        ["block","property-text",[],["name","previousPage","type","String"],6,null,["loc",[null,[59,4],[61,22]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2, child3, child4, child5]
+      templates: [child0, child1, child2, child3, child4, child5, child6]
     };
   }()));
 
@@ -18166,11 +19052,125 @@ define('dummy/templates/demos/sl-panel', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 29,
+              "line": 34,
+              "column": 8
+            },
+            "end": {
+              "line": 36,
+              "column": 8
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-panel.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("            ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("p");
+          var el2 = dom.createTextNode("Hello world!");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child2 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 50,
+              "column": 8
+            },
+            "end": {
+              "line": 52,
+              "column": 8
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-panel.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("            ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("p");
+          var el2 = dom.createTextNode("Hello world!");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child3 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 72,
               "column": 4
             },
             "end": {
-              "line": 31,
+              "line": 74,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-panel.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        Text for the panel footer.\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child4 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 76,
+              "column": 4
+            },
+            "end": {
+              "line": 78,
               "column": 4
             }
           },
@@ -18193,18 +19193,18 @@ define('dummy/templates/demos/sl-panel', ['exports'], function (exports) {
         templates: []
       };
     }());
-    var child2 = (function() {
+    var child5 = (function() {
       return {
         meta: {
           "revision": "Ember@1.13.7",
           "loc": {
             "source": null,
             "start": {
-              "line": 33,
+              "line": 80,
               "column": 4
             },
             "end": {
-              "line": 35,
+              "line": 82,
               "column": 4
             }
           },
@@ -18227,6 +19227,40 @@ define('dummy/templates/demos/sl-panel', ['exports'], function (exports) {
         templates: []
       };
     }());
+    var child6 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.7",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 84,
+              "column": 4
+            },
+            "end": {
+              "line": 86,
+              "column": 4
+            }
+          },
+          "moduleName": "dummy/templates/demos/sl-panel.hbs"
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("        The Bootstrap contextual theme string to style the panel with.\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() { return []; },
+        statements: [
+
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
     return {
       meta: {
         "revision": "Ember@1.13.7",
@@ -18237,7 +19271,7 @@ define('dummy/templates/demos/sl-panel', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 37,
+            "line": 88,
             "column": 0
           }
         },
@@ -18293,7 +19327,97 @@ define('dummy/templates/demos/sl-panel', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("pre");
-        var el4 = dom.createTextNode("{{#sl-panel heading=\"Test Panel\"}}\n    <p>Hello world!</p>\n");
+        var el4 = dom.createTextNode("{{#sl-panel heading=\"Test Panel\" theme=\"primary\"}}\n    <p>Hello world!</p>\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("{{/sl-panel}}");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-lg-6");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("Rendered Template");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","row");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-lg-6");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("Template");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("pre");
+        var el4 = dom.createTextNode("{{#sl-panel footer=\"Test Panel\"}}\n    <p>Hello world!</p>\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("{{/sl-panel}}");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-lg-6");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("Rendered Template");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","row");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","col-lg-6");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h6");
+        var el4 = dom.createTextNode("Template");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("pre");
+        var el4 = dom.createTextNode("{{#sl-panel heading=\"Test Panel\" loading=true}}\n    <p>Hello world!</p>\n");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("{{/sl-panel}}");
         dom.appendChild(el3, el4);
@@ -18328,6 +19452,42 @@ define('dummy/templates/demos/sl-panel', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-panel");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-panel.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -18343,26 +19503,42 @@ define('dummy/templates/demos/sl-panel', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [14]);
-        var morphs = new Array(3);
+        var element0 = dom.childAt(fragment, [24]);
+        var morphs = new Array(7);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
-        morphs[1] = dom.createMorphAt(element0,1,1);
-        morphs[2] = dom.createMorphAt(element0,3,3);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
+        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [12, 3]),3,3);
+        morphs[3] = dom.createMorphAt(element0,1,1);
+        morphs[4] = dom.createMorphAt(element0,3,3);
+        morphs[5] = dom.createMorphAt(element0,5,5);
+        morphs[6] = dom.createMorphAt(element0,7,7);
         return morphs;
       },
       statements: [
-        ["block","sl-panel",[],["heading","Test Panel"],0,null,["loc",[null,[18,8],[20,21]]]],
-        ["block","property-text",[],["name","heading","type","String"],1,null,["loc",[null,[29,4],[31,22]]]],
-        ["block","property-text",[],["name","loading","type","Boolean","default","false"],2,null,["loc",[null,[33,4],[35,22]]]]
+        ["block","sl-panel",[],["heading","Test Panel","theme","primary"],0,null,["loc",[null,[18,8],[20,21]]]],
+        ["block","sl-panel",[],["footer","Test Panel"],1,null,["loc",[null,[34,8],[36,21]]]],
+        ["block","sl-panel",[],["heading","Test Panel","loading",true],2,null,["loc",[null,[50,8],[52,21]]]],
+        ["block","property-text",[],["name","footer","type","String"],3,null,["loc",[null,[72,4],[74,22]]]],
+        ["block","property-text",[],["name","heading","type","String"],4,null,["loc",[null,[76,4],[78,22]]]],
+        ["block","property-text",[],["name","loading","type","Boolean","default","false"],5,null,["loc",[null,[80,4],[82,22]]]],
+        ["block","property-text",[],["name","theme","type","String","default","\"default\""],6,null,["loc",[null,[84,4],[86,22]]]]
       ],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1, child2, child3, child4, child5, child6]
     };
   }()));
 
@@ -18379,11 +19555,11 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
           "loc": {
             "source": null,
             "start": {
-              "line": 96,
+              "line": 107,
               "column": 4
             },
             "end": {
-              "line": 98,
+              "line": 109,
               "column": 4
             }
           },
@@ -18413,11 +19589,11 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
           "loc": {
             "source": null,
             "start": {
-              "line": 100,
+              "line": 111,
               "column": 4
             },
             "end": {
-              "line": 102,
+              "line": 113,
               "column": 4
             }
           },
@@ -18447,11 +19623,11 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
           "loc": {
             "source": null,
             "start": {
-              "line": 104,
+              "line": 115,
               "column": 4
             },
             "end": {
-              "line": 106,
+              "line": 117,
               "column": 4
             }
           },
@@ -18481,11 +19657,11 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
           "loc": {
             "source": null,
             "start": {
-              "line": 108,
+              "line": 119,
               "column": 4
             },
             "end": {
-              "line": 110,
+              "line": 121,
               "column": 4
             }
           },
@@ -18515,11 +19691,11 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
           "loc": {
             "source": null,
             "start": {
-              "line": 112,
+              "line": 123,
               "column": 4
             },
             "end": {
-              "line": 114,
+              "line": 125,
               "column": 4
             }
           },
@@ -18549,11 +19725,11 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
           "loc": {
             "source": null,
             "start": {
-              "line": 116,
+              "line": 127,
               "column": 4
             },
             "end": {
-              "line": 118,
+              "line": 129,
               "column": 4
             }
           },
@@ -18589,11 +19765,11 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
           "loc": {
             "source": null,
             "start": {
-              "line": 120,
+              "line": 131,
               "column": 4
             },
             "end": {
-              "line": 122,
+              "line": 133,
               "column": 4
             }
           },
@@ -18626,7 +19802,7 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
             "column": 0
           },
           "end": {
-            "line": 124,
+            "line": 135,
             "column": 0
           }
         },
@@ -18908,6 +20084,42 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-progress-bar");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-progress-bar.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -18950,7 +20162,7 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [16, 3]);
-        var element1 = dom.childAt(fragment, [28]);
+        var element1 = dom.childAt(fragment, [34]);
         var morphs = new Array(13);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -18974,13 +20186,13 @@ define('dummy/templates/demos/sl-progress-bar', ['exports'], function (exports) 
         ["inline","sl-progress-bar",[],["animated",true,"label",true,"striped",true,"theme","danger","value",90],["loc",[null,[57,8],[63,10]]]],
         ["inline","sl-input",[],["type","Number","value",["subexpr","@mut",[["get","dynamicValue",["loc",[null,[76,60],[76,72]]]]],[],[]]],["loc",[null,[76,29],[76,74]]]],
         ["inline","sl-progress-bar",[],["label",true,"value",["subexpr","@mut",[["get","dynamicValue",["loc",[null,[77,43],[77,55]]]]],[],[]]],["loc",[null,[77,8],[77,57]]]],
-        ["block","property-text",[],["name","animated","type","Boolean","default","false","requires","striped=true"],0,null,["loc",[null,[96,4],[98,22]]]],
-        ["block","property-text",[],["name","label","type","Boolean","default","false"],1,null,["loc",[null,[100,4],[102,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],2,null,["loc",[null,[104,4],[106,22]]]],
-        ["block","property-text",[],["name","striped","type","Boolean","default","false"],3,null,["loc",[null,[108,4],[110,22]]]],
-        ["block","property-text",[],["name","theme","type","String","default","\"default\""],4,null,["loc",[null,[112,4],[114,22]]]],
-        ["block","property-text",[],["name","title","type","String"],5,null,["loc",[null,[116,4],[118,22]]]],
-        ["block","property-text",[],["name","value","type","Number"],6,null,["loc",[null,[120,4],[122,22]]]]
+        ["block","property-text",[],["name","animated","type","Boolean","default","false","requires","striped=true"],0,null,["loc",[null,[107,4],[109,22]]]],
+        ["block","property-text",[],["name","label","type","Boolean","default","false"],1,null,["loc",[null,[111,4],[113,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],2,null,["loc",[null,[115,4],[117,22]]]],
+        ["block","property-text",[],["name","striped","type","Boolean","default","false"],3,null,["loc",[null,[119,4],[121,22]]]],
+        ["block","property-text",[],["name","theme","type","String","default","\"default\""],4,null,["loc",[null,[123,4],[125,22]]]],
+        ["block","property-text",[],["name","title","type","String"],5,null,["loc",[null,[127,4],[129,22]]]],
+        ["block","property-text",[],["name","value","type","Number"],6,null,["loc",[null,[131,4],[133,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6]
@@ -19094,11 +20306,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 58,
+              "line": 71,
               "column": 4
             },
             "end": {
-              "line": 61,
+              "line": 74,
               "column": 4
             }
           },
@@ -19158,11 +20370,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 63,
+              "line": 76,
               "column": 4
             },
             "end": {
-              "line": 66,
+              "line": 79,
               "column": 4
             }
           },
@@ -19216,11 +20428,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 68,
+              "line": 81,
               "column": 4
             },
             "end": {
-              "line": 73,
+              "line": 86,
               "column": 4
             }
           },
@@ -19280,11 +20492,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 75,
+              "line": 88,
               "column": 4
             },
             "end": {
-              "line": 77,
+              "line": 90,
               "column": 4
             }
           },
@@ -19314,11 +20526,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 79,
+              "line": 92,
               "column": 4
             },
             "end": {
-              "line": 81,
+              "line": 94,
               "column": 4
             }
           },
@@ -19354,11 +20566,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 83,
+              "line": 96,
               "column": 4
             },
             "end": {
-              "line": 85,
+              "line": 98,
               "column": 4
             }
           },
@@ -19388,11 +20600,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 87,
+              "line": 100,
               "column": 4
             },
             "end": {
-              "line": 89,
+              "line": 102,
               "column": 4
             }
           },
@@ -19428,11 +20640,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 91,
+              "line": 104,
               "column": 4
             },
             "end": {
-              "line": 93,
+              "line": 106,
               "column": 4
             }
           },
@@ -19462,11 +20674,11 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 95,
+              "line": 108,
               "column": 4
             },
             "end": {
-              "line": 97,
+              "line": 110,
               "column": 4
             }
           },
@@ -19499,7 +20711,7 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 99,
+            "line": 112,
             "column": 0
           }
         },
@@ -19645,10 +20857,53 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
         var el4 = dom.createTextNode("sl-input-based");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         var el4 = dom.createTextNode("sl-tooltip-enabled");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-radio-group");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-radio-group.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -19714,7 +20969,7 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [10, 3]);
-        var element1 = dom.childAt(fragment, [22]);
+        var element1 = dom.childAt(fragment, [28]);
         var morphs = new Array(12);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [4]),5,5);
         morphs[1] = dom.createMorphAt(element0,3,3);
@@ -19734,15 +20989,15 @@ define('dummy/templates/demos/sl-radio-group', ['exports'], function (exports) {
         ["block","link-to",["demos.sl-radio"],[],0,null,["loc",[null,[4,93],[4,142]]]],
         ["block","sl-radio-group",[],["label","Color selection","name","colorRadio","value",["subexpr","@mut",[["get","currentColor",["loc",[null,[30,18],[30,30]]]]],[],[]]],1,null,["loc",[null,[27,8],[36,27]]]],
         ["content","currentColor",["loc",[null,[38,27],[38,43]]]],
-        ["block","property-text",[],["name","name","type","String","required",true],2,null,["loc",[null,[58,4],[61,22]]]],
-        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],3,null,["loc",[null,[63,4],[66,22]]]],
-        ["block","property-text",[],["name","inline","type","Boolean","default","null"],4,null,["loc",[null,[68,4],[73,22]]]],
-        ["block","property-text",[],["name","label","type","String"],5,null,["loc",[null,[75,4],[77,22]]]],
-        ["block","property-text",[],["name","optional","type","Boolean","default","false"],6,null,["loc",[null,[79,4],[81,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],7,null,["loc",[null,[83,4],[85,22]]]],
-        ["block","property-text",[],["name","required","type","Boolean","default","false"],8,null,["loc",[null,[87,4],[89,22]]]],
-        ["block","property-text",[],["name","title","type","String"],9,null,["loc",[null,[91,4],[93,22]]]],
-        ["block","property-text",[],["name","value","type","String"],10,null,["loc",[null,[95,4],[97,22]]]]
+        ["block","property-text",[],["name","name","type","String","required",true],2,null,["loc",[null,[71,4],[74,22]]]],
+        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],3,null,["loc",[null,[76,4],[79,22]]]],
+        ["block","property-text",[],["name","inline","type","Boolean","default","null"],4,null,["loc",[null,[81,4],[86,22]]]],
+        ["block","property-text",[],["name","label","type","String"],5,null,["loc",[null,[88,4],[90,22]]]],
+        ["block","property-text",[],["name","optional","type","Boolean","default","false"],6,null,["loc",[null,[92,4],[94,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],7,null,["loc",[null,[96,4],[98,22]]]],
+        ["block","property-text",[],["name","required","type","Boolean","default","false"],8,null,["loc",[null,[100,4],[102,22]]]],
+        ["block","property-text",[],["name","title","type","String"],9,null,["loc",[null,[104,4],[106,22]]]],
+        ["block","property-text",[],["name","value","type","String"],10,null,["loc",[null,[108,4],[110,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10]
@@ -19762,11 +21017,11 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 47,
+              "line": 58,
               "column": 4
             },
             "end": {
-              "line": 49,
+              "line": 60,
               "column": 4
             }
           },
@@ -19796,11 +21051,11 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 51,
+              "line": 62,
               "column": 4
             },
             "end": {
-              "line": 53,
+              "line": 64,
               "column": 4
             }
           },
@@ -19830,11 +21085,11 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 55,
+              "line": 66,
               "column": 4
             },
             "end": {
-              "line": 57,
+              "line": 68,
               "column": 4
             }
           },
@@ -19864,11 +21119,11 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 59,
+              "line": 70,
               "column": 4
             },
             "end": {
-              "line": 61,
+              "line": 72,
               "column": 4
             }
           },
@@ -19904,11 +21159,11 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 63,
+              "line": 74,
               "column": 4
             },
             "end": {
-              "line": 65,
+              "line": 76,
               "column": 4
             }
           },
@@ -19941,7 +21196,7 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 67,
+            "line": 78,
             "column": 0
           }
         },
@@ -20096,6 +21351,42 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-radio");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-radio.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -20129,7 +21420,7 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [22]);
+        var element0 = dom.childAt(fragment, [28]);
         var morphs = new Array(7);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -20143,11 +21434,11 @@ define('dummy/templates/demos/sl-radio', ['exports'], function (exports) {
       statements: [
         ["inline","sl-radio",[],["inline",true,"label","Test radio button"],["loc",[null,[16,8],[16,58]]]],
         ["inline","sl-radio",[],["disabled",true,"label","Disabled radio button"],["loc",[null,[28,8],[28,64]]]],
-        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],0,null,["loc",[null,[47,4],[49,22]]]],
-        ["block","property-text",[],["name","inline","type","Boolean","default","false"],1,null,["loc",[null,[51,4],[53,22]]]],
-        ["block","property-text",[],["name","label","type","String"],2,null,["loc",[null,[55,4],[57,22]]]],
-        ["block","property-text",[],["name","name","type","String"],3,null,["loc",[null,[59,4],[61,22]]]],
-        ["block","property-text",[],["name","value","type","String"],4,null,["loc",[null,[63,4],[65,22]]]]
+        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],0,null,["loc",[null,[58,4],[60,22]]]],
+        ["block","property-text",[],["name","inline","type","Boolean","default","false"],1,null,["loc",[null,[62,4],[64,22]]]],
+        ["block","property-text",[],["name","label","type","String"],2,null,["loc",[null,[66,4],[68,22]]]],
+        ["block","property-text",[],["name","name","type","String"],3,null,["loc",[null,[70,4],[72,22]]]],
+        ["block","property-text",[],["name","value","type","String"],4,null,["loc",[null,[74,4],[76,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4]
@@ -20167,11 +21458,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 68,
+              "line": 81,
               "column": 4
             },
             "end": {
-              "line": 74,
+              "line": 87,
               "column": 4
             }
           },
@@ -20237,11 +21528,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 76,
+              "line": 89,
               "column": 4
             },
             "end": {
-              "line": 78,
+              "line": 91,
               "column": 4
             }
           },
@@ -20271,11 +21562,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 80,
+              "line": 93,
               "column": 4
             },
             "end": {
-              "line": 82,
+              "line": 95,
               "column": 4
             }
           },
@@ -20305,11 +21596,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 84,
+              "line": 97,
               "column": 4
             },
             "end": {
-              "line": 86,
+              "line": 99,
               "column": 4
             }
           },
@@ -20339,11 +21630,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 88,
+              "line": 101,
               "column": 4
             },
             "end": {
-              "line": 90,
+              "line": 103,
               "column": 4
             }
           },
@@ -20373,11 +21664,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 92,
+              "line": 105,
               "column": 4
             },
             "end": {
-              "line": 94,
+              "line": 107,
               "column": 4
             }
           },
@@ -20413,11 +21704,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 96,
+              "line": 109,
               "column": 4
             },
             "end": {
-              "line": 98,
+              "line": 111,
               "column": 4
             }
           },
@@ -20447,11 +21738,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 100,
+              "line": 113,
               "column": 4
             },
             "end": {
-              "line": 102,
+              "line": 115,
               "column": 4
             }
           },
@@ -20487,11 +21778,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 104,
+              "line": 117,
               "column": 4
             },
             "end": {
-              "line": 106,
+              "line": 119,
               "column": 4
             }
           },
@@ -20521,11 +21812,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 108,
+              "line": 121,
               "column": 4
             },
             "end": {
-              "line": 110,
+              "line": 123,
               "column": 4
             }
           },
@@ -20555,11 +21846,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 112,
+              "line": 125,
               "column": 4
             },
             "end": {
-              "line": 114,
+              "line": 127,
               "column": 4
             }
           },
@@ -20589,11 +21880,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 116,
+              "line": 129,
               "column": 4
             },
             "end": {
-              "line": 118,
+              "line": 131,
               "column": 4
             }
           },
@@ -20629,11 +21920,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 120,
+              "line": 133,
               "column": 4
             },
             "end": {
-              "line": 122,
+              "line": 135,
               "column": 4
             }
           },
@@ -20669,11 +21960,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 124,
+              "line": 137,
               "column": 4
             },
             "end": {
-              "line": 126,
+              "line": 139,
               "column": 4
             }
           },
@@ -20703,11 +21994,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 128,
+              "line": 141,
               "column": 4
             },
             "end": {
-              "line": 130,
+              "line": 143,
               "column": 4
             }
           },
@@ -20743,11 +22034,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 132,
+              "line": 145,
               "column": 4
             },
             "end": {
-              "line": 134,
+              "line": 147,
               "column": 4
             }
           },
@@ -20783,11 +22074,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 136,
+              "line": 149,
               "column": 4
             },
             "end": {
-              "line": 138,
+              "line": 151,
               "column": 4
             }
           },
@@ -20817,11 +22108,11 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 140,
+              "line": 153,
               "column": 4
             },
             "end": {
-              "line": 142,
+              "line": 155,
               "column": 4
             }
           },
@@ -20854,7 +22145,7 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 144,
+            "line": 157,
             "column": 0
           }
         },
@@ -21003,10 +22294,53 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
         var el4 = dom.createTextNode("sl-input-based");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         var el4 = dom.createTextNode("sl-tooltip-enabled");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-select");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-select.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -21107,7 +22441,7 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [22]);
+        var element0 = dom.childAt(fragment, [28]);
         var morphs = new Array(20);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -21134,24 +22468,24 @@ define('dummy/templates/demos/sl-select', ['exports'], function (exports) {
       statements: [
         ["inline","sl-select",[],["content",["subexpr","@mut",[["get","content",["loc",[null,[21,20],[21,27]]]]],[],[]],"label","Single item select","placeholder","Select a color"],["loc",[null,[20,8],[24,10]]]],
         ["inline","sl-select",[],["content",["subexpr","@mut",[["get","numbers",["loc",[null,[43,20],[43,27]]]]],[],[]],"disableSearch",true,"label","Multiple number select, no search","multiple",true,"placeholder","Select number(s)"],["loc",[null,[42,8],[48,10]]]],
-        ["block","property-text",[],["name","content","required",true,"type","Array"],0,null,["loc",[null,[68,4],[74,22]]]],
-        ["block","property-text",[],["name","disableSearch","type","Boolean","default","false"],1,null,["loc",[null,[76,4],[78,22]]]],
-        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[80,4],[82,22]]]],
-        ["block","property-text",[],["name","helpText","type","String"],3,null,["loc",[null,[84,4],[86,22]]]],
-        ["block","property-text",[],["name","label","type","String"],4,null,["loc",[null,[88,4],[90,22]]]],
-        ["block","property-text",[],["name","maximumSelectionSize","type","Number","default","null"],5,null,["loc",[null,[92,4],[94,22]]]],
-        ["block","property-text",[],["name","multiple","type","Boolean","default","false"],6,null,["loc",[null,[96,4],[98,22]]]],
-        ["block","property-text",[],["name","name","type","String"],7,null,["loc",[null,[100,4],[102,22]]]],
-        ["block","property-text",[],["name","optionDescriptionPath","type","String","default","\"description\""],8,null,["loc",[null,[104,4],[106,22]]]],
-        ["block","property-text",[],["name","optionLabelPath","type","String","default","\"label\""],9,null,["loc",[null,[108,4],[110,22]]]],
-        ["block","property-text",[],["name","optionValuePath","type","String","default","\"value\""],10,null,["loc",[null,[112,4],[114,22]]]],
-        ["block","property-text",[],["name","optional","type","Boolean","default","false"],11,null,["loc",[null,[116,4],[118,22]]]],
-        ["block","property-text",[],["name","placeholder","type","String"],12,null,["loc",[null,[120,4],[122,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],13,null,["loc",[null,[124,4],[126,22]]]],
-        ["block","property-text",[],["name","readonly","type","Boolean","default","false"],14,null,["loc",[null,[128,4],[130,22]]]],
-        ["block","property-text",[],["name","required","type","Boolean","default","false"],15,null,["loc",[null,[132,4],[134,22]]]],
-        ["block","property-text",[],["name","title","type","String"],16,null,["loc",[null,[136,4],[138,22]]]],
-        ["block","property-text",[],["name","value","type","Array/String"],17,null,["loc",[null,[140,4],[142,22]]]]
+        ["block","property-text",[],["name","content","required",true,"type","Array"],0,null,["loc",[null,[81,4],[87,22]]]],
+        ["block","property-text",[],["name","disableSearch","type","Boolean","default","false"],1,null,["loc",[null,[89,4],[91,22]]]],
+        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[93,4],[95,22]]]],
+        ["block","property-text",[],["name","helpText","type","String"],3,null,["loc",[null,[97,4],[99,22]]]],
+        ["block","property-text",[],["name","label","type","String"],4,null,["loc",[null,[101,4],[103,22]]]],
+        ["block","property-text",[],["name","maximumSelectionSize","type","Number","default","null"],5,null,["loc",[null,[105,4],[107,22]]]],
+        ["block","property-text",[],["name","multiple","type","Boolean","default","false"],6,null,["loc",[null,[109,4],[111,22]]]],
+        ["block","property-text",[],["name","name","type","String"],7,null,["loc",[null,[113,4],[115,22]]]],
+        ["block","property-text",[],["name","optionDescriptionPath","type","String","default","\"description\""],8,null,["loc",[null,[117,4],[119,22]]]],
+        ["block","property-text",[],["name","optionLabelPath","type","String","default","\"label\""],9,null,["loc",[null,[121,4],[123,22]]]],
+        ["block","property-text",[],["name","optionValuePath","type","String","default","\"value\""],10,null,["loc",[null,[125,4],[127,22]]]],
+        ["block","property-text",[],["name","optional","type","Boolean","default","false"],11,null,["loc",[null,[129,4],[131,22]]]],
+        ["block","property-text",[],["name","placeholder","type","String"],12,null,["loc",[null,[133,4],[135,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],13,null,["loc",[null,[137,4],[139,22]]]],
+        ["block","property-text",[],["name","readonly","type","Boolean","default","false"],14,null,["loc",[null,[141,4],[143,22]]]],
+        ["block","property-text",[],["name","required","type","Boolean","default","false"],15,null,["loc",[null,[145,4],[147,22]]]],
+        ["block","property-text",[],["name","title","type","String"],16,null,["loc",[null,[149,4],[151,22]]]],
+        ["block","property-text",[],["name","value","type","Array/String"],17,null,["loc",[null,[153,4],[155,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17]
@@ -21171,11 +22505,11 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 33,
+              "line": 44,
               "column": 4
             },
             "end": {
-              "line": 35,
+              "line": 46,
               "column": 4
             }
           },
@@ -21211,11 +22545,11 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 37,
+              "line": 48,
               "column": 4
             },
             "end": {
-              "line": 39,
+              "line": 50,
               "column": 4
             }
           },
@@ -21245,11 +22579,11 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 41,
+              "line": 52,
               "column": 4
             },
             "end": {
-              "line": 43,
+              "line": 54,
               "column": 4
             }
           },
@@ -21260,7 +22594,7 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        The value to display once loaded/ready.\n");
+          var el1 = dom.createTextNode("        The value to display once loaded/ready.  This property will override the yielded content.\n");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -21282,7 +22616,7 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 45,
+            "line": 56,
             "column": 0
           }
         },
@@ -21376,6 +22710,42 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-span");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-span.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -21401,7 +22771,7 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [14]);
+        var element0 = dom.childAt(fragment, [20]);
         var morphs = new Array(4);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3, 3]),1,1);
         morphs[1] = dom.createMorphAt(element0,1,1);
@@ -21411,9 +22781,9 @@ define('dummy/templates/demos/sl-span', ['exports'], function (exports) {
       },
       statements: [
         ["inline","sl-span",[],["class","text-success","loading",["subexpr","@mut",[["get","isLoading",["loc",[null,[24,75],[24,84]]]]],[],[]],"value","Done!"],["loc",[null,[24,36],[24,100]]]],
-        ["block","property-text",[],["name","class","type","String"],0,null,["loc",[null,[33,4],[35,22]]]],
-        ["block","property-text",[],["name","loading","type","Boolean","default","false"],1,null,["loc",[null,[37,4],[39,22]]]],
-        ["block","property-text",[],["name","value","type","String"],2,null,["loc",[null,[41,4],[43,22]]]]
+        ["block","property-text",[],["name","class","type","String"],0,null,["loc",[null,[44,4],[46,22]]]],
+        ["block","property-text",[],["name","loading","type","Boolean","default","false"],1,null,["loc",[null,[48,4],[50,22]]]],
+        ["block","property-text",[],["name","value","type","String"],2,null,["loc",[null,[52,4],[54,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2]
@@ -21609,11 +22979,11 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 49,
+              "line": 60,
               "column": 4
             },
             "end": {
-              "line": 51,
+              "line": 62,
               "column": 4
             }
           },
@@ -21643,11 +23013,11 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 53,
+              "line": 64,
               "column": 4
             },
             "end": {
-              "line": 55,
+              "line": 66,
               "column": 4
             }
           },
@@ -21683,11 +23053,11 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 63,
+              "line": 74,
               "column": 4
             },
             "end": {
-              "line": 65,
+              "line": 76,
               "column": 4
             }
           },
@@ -21717,11 +23087,11 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 67,
+              "line": 78,
               "column": 4
             },
             "end": {
-              "line": 71,
+              "line": 82,
               "column": 4
             }
           },
@@ -21784,7 +23154,7 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 73,
+            "line": 84,
             "column": 0
           }
         },
@@ -21891,6 +23261,42 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-tab-panel");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-tab-panel.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("sl-tab-panel Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -21935,8 +23341,8 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [14]);
-        var element1 = dom.childAt(fragment, [20]);
+        var element0 = dom.childAt(fragment, [20]);
+        var element1 = dom.childAt(fragment, [26]);
         var morphs = new Array(5);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(element0,1,1);
@@ -21947,10 +23353,10 @@ define('dummy/templates/demos/sl-tab-panel', ['exports'], function (exports) {
       },
       statements: [
         ["block","sl-tab-panel",[],[],0,null,["loc",[null,[28,8],[40,25]]]],
-        ["block","property-text",[],["name","alignTabs","type","String","default","\"left\""],1,null,["loc",[null,[49,4],[51,22]]]],
-        ["block","property-text",[],["name","initialTabName","type","String"],2,null,["loc",[null,[53,4],[55,22]]]],
-        ["block","property-text",[],["name","label","type","String","required",true],3,null,["loc",[null,[63,4],[65,22]]]],
-        ["block","property-text",[],["name","name","type","String","required",true],4,null,["loc",[null,[67,4],[71,22]]]]
+        ["block","property-text",[],["name","alignTabs","type","String","default","\"left\""],1,null,["loc",[null,[60,4],[62,22]]]],
+        ["block","property-text",[],["name","initialTabName","type","String"],2,null,["loc",[null,[64,4],[66,22]]]],
+        ["block","property-text",[],["name","label","type","String","required",true],3,null,["loc",[null,[74,4],[76,22]]]],
+        ["block","property-text",[],["name","name","type","String","required",true],4,null,["loc",[null,[78,4],[82,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4]
@@ -21970,11 +23376,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 67,
+              "line": 82,
               "column": 4
             },
             "end": {
-              "line": 69,
+              "line": 84,
               "column": 4
             }
           },
@@ -22010,11 +23416,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 71,
+              "line": 86,
               "column": 4
             },
             "end": {
-              "line": 73,
+              "line": 88,
               "column": 4
             }
           },
@@ -22050,11 +23456,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 75,
+              "line": 90,
               "column": 4
             },
             "end": {
-              "line": 77,
+              "line": 92,
               "column": 4
             }
           },
@@ -22084,11 +23490,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 79,
+              "line": 94,
               "column": 4
             },
             "end": {
-              "line": 81,
+              "line": 96,
               "column": 4
             }
           },
@@ -22118,11 +23524,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 83,
+              "line": 98,
               "column": 4
             },
             "end": {
-              "line": 85,
+              "line": 100,
               "column": 4
             }
           },
@@ -22152,11 +23558,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 87,
+              "line": 102,
               "column": 4
             },
             "end": {
-              "line": 89,
+              "line": 104,
               "column": 4
             }
           },
@@ -22192,11 +23598,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 91,
+              "line": 106,
               "column": 4
             },
             "end": {
-              "line": 93,
+              "line": 108,
               "column": 4
             }
           },
@@ -22232,11 +23638,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 95,
+              "line": 110,
               "column": 4
             },
             "end": {
-              "line": 97,
+              "line": 112,
               "column": 4
             }
           },
@@ -22272,11 +23678,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 99,
+              "line": 114,
               "column": 4
             },
             "end": {
-              "line": 101,
+              "line": 116,
               "column": 4
             }
           },
@@ -22312,11 +23718,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 103,
+              "line": 118,
               "column": 4
             },
             "end": {
-              "line": 105,
+              "line": 120,
               "column": 4
             }
           },
@@ -22346,11 +23752,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 107,
+              "line": 122,
               "column": 4
             },
             "end": {
-              "line": 109,
+              "line": 124,
               "column": 4
             }
           },
@@ -22386,11 +23792,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 111,
+              "line": 126,
               "column": 4
             },
             "end": {
-              "line": 113,
+              "line": 128,
               "column": 4
             }
           },
@@ -22426,11 +23832,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 115,
+              "line": 130,
               "column": 4
             },
             "end": {
-              "line": 117,
+              "line": 132,
               "column": 4
             }
           },
@@ -22466,11 +23872,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 119,
+              "line": 134,
               "column": 4
             },
             "end": {
-              "line": 121,
+              "line": 136,
               "column": 4
             }
           },
@@ -22506,11 +23912,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 123,
+              "line": 138,
               "column": 4
             },
             "end": {
-              "line": 125,
+              "line": 140,
               "column": 4
             }
           },
@@ -22546,11 +23952,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 127,
+              "line": 142,
               "column": 4
             },
             "end": {
-              "line": 129,
+              "line": 144,
               "column": 4
             }
           },
@@ -22586,11 +23992,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 131,
+              "line": 146,
               "column": 4
             },
             "end": {
-              "line": 133,
+              "line": 148,
               "column": 4
             }
           },
@@ -22626,11 +24032,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 135,
+              "line": 150,
               "column": 4
             },
             "end": {
-              "line": 137,
+              "line": 152,
               "column": 4
             }
           },
@@ -22666,11 +24072,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 139,
+              "line": 154,
               "column": 4
             },
             "end": {
-              "line": 141,
+              "line": 156,
               "column": 4
             }
           },
@@ -22700,11 +24106,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 143,
+              "line": 158,
               "column": 4
             },
             "end": {
-              "line": 145,
+              "line": 160,
               "column": 4
             }
           },
@@ -22740,11 +24146,11 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 147,
+              "line": 162,
               "column": 4
             },
             "end": {
-              "line": 149,
+              "line": 164,
               "column": 4
             }
           },
@@ -22777,7 +24183,7 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 151,
+            "line": 166,
             "column": 0
           }
         },
@@ -22919,16 +24325,66 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
         var el4 = dom.createTextNode("sl-component-input-id");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         var el4 = dom.createTextNode("sl-input-based");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         var el4 = dom.createTextNode("sl-tooltip-enabled");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-textarea");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-textarea.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -23041,7 +24497,7 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [22]);
+        var element0 = dom.childAt(fragment, [28]);
         var morphs = new Array(23);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3]),3,3);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -23071,27 +24527,27 @@ define('dummy/templates/demos/sl-textarea', ['exports'], function (exports) {
       statements: [
         ["inline","sl-textarea",[],["label","First textarea","placeholder","Enter some text!","rows",6],["loc",[null,[20,8],[24,10]]]],
         ["inline","sl-textarea",[],["disabled",true,"label","Second textarea","placeholder","You can't enter anything...","rows",4],["loc",[null,[41,8],[46,10]]]],
-        ["block","property-text",[],["name","autofocus","type","Number","default","false"],0,null,["loc",[null,[67,4],[69,22]]]],
-        ["block","property-text",[],["name","cols","type","Number/String"],1,null,["loc",[null,[71,4],[73,22]]]],
-        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[75,4],[77,22]]]],
-        ["block","property-text",[],["name","helpText","type","String"],3,null,["loc",[null,[79,4],[81,22]]]],
-        ["block","property-text",[],["name","label","type","String"],4,null,["loc",[null,[83,4],[85,22]]]],
-        ["block","property-text",[],["name","maxlength","type","Number/String"],5,null,["loc",[null,[87,4],[89,22]]]],
-        ["block","property-text",[],["name","name","type","String"],6,null,["loc",[null,[91,4],[93,22]]]],
-        ["block","property-text",[],["name","optional","type","Boolean","default","false"],7,null,["loc",[null,[95,4],[97,22]]]],
-        ["block","property-text",[],["name","placeholder","type","String"],8,null,["loc",[null,[99,4],[101,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],9,null,["loc",[null,[103,4],[105,22]]]],
-        ["block","property-text",[],["name","readonly","type","Boolean","default","false"],10,null,["loc",[null,[107,4],[109,22]]]],
-        ["block","property-text",[],["name","required","type","Boolean","default","false"],11,null,["loc",[null,[111,4],[113,22]]]],
-        ["block","property-text",[],["name","rows","type","Number/String"],12,null,["loc",[null,[115,4],[117,22]]]],
-        ["block","property-text",[],["name","selectionDirection","type","String","default","\"forward\""],13,null,["loc",[null,[119,4],[121,22]]]],
-        ["block","property-text",[],["name","selectionEnd","type","Number/String"],14,null,["loc",[null,[123,4],[125,22]]]],
-        ["block","property-text",[],["name","selectionStart","type","Number/String"],15,null,["loc",[null,[127,4],[129,22]]]],
-        ["block","property-text",[],["name","spellcheck","type","Boolean","default","false"],16,null,["loc",[null,[131,4],[133,22]]]],
-        ["block","property-text",[],["name","tabindex","type","String"],17,null,["loc",[null,[135,4],[137,22]]]],
-        ["block","property-text",[],["name","title","type","String"],18,null,["loc",[null,[139,4],[141,22]]]],
-        ["block","property-text",[],["name","wrap","type","String","default","\"soft\""],19,null,["loc",[null,[143,4],[145,22]]]],
-        ["block","property-text",[],["name","value","type","String"],20,null,["loc",[null,[147,4],[149,22]]]]
+        ["block","property-text",[],["name","autofocus","type","Number","default","false"],0,null,["loc",[null,[82,4],[84,22]]]],
+        ["block","property-text",[],["name","cols","type","Number/String"],1,null,["loc",[null,[86,4],[88,22]]]],
+        ["block","property-text",[],["name","disabled","type","Boolean","default","false"],2,null,["loc",[null,[90,4],[92,22]]]],
+        ["block","property-text",[],["name","helpText","type","String"],3,null,["loc",[null,[94,4],[96,22]]]],
+        ["block","property-text",[],["name","label","type","String"],4,null,["loc",[null,[98,4],[100,22]]]],
+        ["block","property-text",[],["name","maxlength","type","Number/String"],5,null,["loc",[null,[102,4],[104,22]]]],
+        ["block","property-text",[],["name","name","type","String"],6,null,["loc",[null,[106,4],[108,22]]]],
+        ["block","property-text",[],["name","optional","type","Boolean","default","false"],7,null,["loc",[null,[110,4],[112,22]]]],
+        ["block","property-text",[],["name","placeholder","type","String"],8,null,["loc",[null,[114,4],[116,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],9,null,["loc",[null,[118,4],[120,22]]]],
+        ["block","property-text",[],["name","readonly","type","Boolean","default","false"],10,null,["loc",[null,[122,4],[124,22]]]],
+        ["block","property-text",[],["name","required","type","Boolean","default","false"],11,null,["loc",[null,[126,4],[128,22]]]],
+        ["block","property-text",[],["name","rows","type","Number/String"],12,null,["loc",[null,[130,4],[132,22]]]],
+        ["block","property-text",[],["name","selectionDirection","type","String","default","\"forward\""],13,null,["loc",[null,[134,4],[136,22]]]],
+        ["block","property-text",[],["name","selectionEnd","type","Number/String"],14,null,["loc",[null,[138,4],[140,22]]]],
+        ["block","property-text",[],["name","selectionStart","type","Number/String"],15,null,["loc",[null,[142,4],[144,22]]]],
+        ["block","property-text",[],["name","spellcheck","type","Boolean","default","false"],16,null,["loc",[null,[146,4],[148,22]]]],
+        ["block","property-text",[],["name","tabindex","type","String"],17,null,["loc",[null,[150,4],[152,22]]]],
+        ["block","property-text",[],["name","title","type","String"],18,null,["loc",[null,[154,4],[156,22]]]],
+        ["block","property-text",[],["name","wrap","type","String","default","\"soft\""],19,null,["loc",[null,[158,4],[160,22]]]],
+        ["block","property-text",[],["name","value","type","String"],20,null,["loc",[null,[162,4],[164,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15, child16, child17, child18, child19, child20]
@@ -23179,11 +24635,11 @@ define('dummy/templates/demos/sl-tooltip', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 63,
+              "line": 74,
               "column": 4
             },
             "end": {
-              "line": 65,
+              "line": 76,
               "column": 4
             }
           },
@@ -23219,11 +24675,11 @@ define('dummy/templates/demos/sl-tooltip', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 67,
+              "line": 78,
               "column": 4
             },
             "end": {
-              "line": 69,
+              "line": 80,
               "column": 4
             }
           },
@@ -23256,7 +24712,7 @@ define('dummy/templates/demos/sl-tooltip', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 71,
+            "line": 82,
             "column": 0
           }
         },
@@ -23425,6 +24881,42 @@ define('dummy/templates/demos/sl-tooltip', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h3");
+        var el2 = dom.createTextNode("Custom CSS styling");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","list-group");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2,"class","list-group-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("sl-ember-components-tooltip");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        var el4 = dom.createTextNode("The default class prefix is \"sl-ember-components\" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-tooltip.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("hr");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h3");
         var el2 = dom.createTextNode("Properties");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -23446,7 +24938,7 @@ define('dummy/templates/demos/sl-tooltip', ['exports'], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [22]);
+        var element0 = dom.childAt(fragment, [28]);
         var morphs = new Array(4);
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [8, 3, 3]),0,0);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [10, 3]),3,3);
@@ -23457,8 +24949,8 @@ define('dummy/templates/demos/sl-tooltip', ['exports'], function (exports) {
       statements: [
         ["block","sl-tooltip",[],["tagName","u","title","Tooltip text!"],0,null,["loc",[null,[21,11],[21,90]]]],
         ["block","sl-tooltip",[],["popover","Popover content!","tagName","u","title","Popover title"],1,null,["loc",[null,[39,8],[44,23]]]],
-        ["block","property-text",[],["name","title","type","String","required",true],2,null,["loc",[null,[63,4],[65,22]]]],
-        ["block","property-text",[],["name","popover","type","String"],3,null,["loc",[null,[67,4],[69,22]]]]
+        ["block","property-text",[],["name","title","type","String","required",true],2,null,["loc",[null,[74,4],[76,22]]]],
+        ["block","property-text",[],["name","popover","type","String"],3,null,["loc",[null,[78,4],[80,22]]]]
       ],
       locals: [],
       templates: [child0, child1, child2, child3]
@@ -23478,11 +24970,11 @@ define('dummy/templates/index', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 68,
+              "line": 67,
               "column": 8
             },
             "end": {
-              "line": 71,
+              "line": 70,
               "column": 8
             }
           },
@@ -23527,11 +25019,11 @@ define('dummy/templates/index', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 76,
+              "line": 75,
               "column": 8
             },
             "end": {
-              "line": 79,
+              "line": 78,
               "column": 8
             }
           },
@@ -23579,7 +25071,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 86,
+            "line": 85,
             "column": 0
           }
         },
@@ -23599,7 +25091,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h1");
-        var el4 = dom.createTextNode("sl-ember-components 0.10.2");
+        var el4 = dom.createTextNode("sl-ember-components 0.11.0");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
@@ -23622,12 +25114,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("section");
-        dom.setAttribute(el2,"class","col-md-2");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("section");
-        dom.setAttribute(el2,"class","col-md-2");
+        dom.setAttribute(el2,"class","col-md-3");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h4");
@@ -23640,157 +25127,139 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("alert");
+        var el5 = dom.createTextNode("sl-alert");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("button");
+        var el5 = dom.createTextNode("sl-button");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("calendar");
+        var el5 = dom.createTextNode("sl-calendar");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("chart");
+        var el5 = dom.createTextNode("sl-chart");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("checkbox");
+        var el5 = dom.createTextNode("sl-checkbox");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("date-picker");
+        var el5 = dom.createTextNode("sl-date-picker");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("date-range-picker");
+        var el5 = dom.createTextNode("sl-date-range-picker");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("date-time");
+        var el5 = dom.createTextNode("sl-date-time");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("drop-button");
+        var el5 = dom.createTextNode("sl-drop-button");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("drop-option");
+        var el5 = dom.createTextNode("sl-grid");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("grid");
+        var el5 = dom.createTextNode("sl-input");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("input");
+        var el5 = dom.createTextNode("sl-menu");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("loading-icon");
+        var el5 = dom.createTextNode("sl-modal");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("menu");
+        var el5 = dom.createTextNode("sl-pagination");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("modal");
+        var el5 = dom.createTextNode("sl-panel");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("pagination");
+        var el5 = dom.createTextNode("sl-progress-bar");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("panel");
+        var el5 = dom.createTextNode("sl-radio");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("progress-bar");
+        var el5 = dom.createTextNode("sl-radio-group");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("radio");
+        var el5 = dom.createTextNode("sl-select");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("radio-group");
+        var el5 = dom.createTextNode("sl-span");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("select");
+        var el5 = dom.createTextNode("sl-tab-panel");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("span");
+        var el5 = dom.createTextNode("sl-textarea");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("tab-pane");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("tab-panel");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("textarea");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("tooltip");
+        var el5 = dom.createTextNode("sl-tooltip");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n        ");
@@ -23802,7 +25271,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("section");
-        dom.setAttribute(el2,"class","col-md-2");
+        dom.setAttribute(el2,"class","col-md-3");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h4");
@@ -23821,13 +25290,19 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("input-based");
+        var el5 = dom.createTextNode("sl-input-based");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("tooltip-enabled");
+        var el5 = dom.createTextNode("sl-namespace");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("li");
+        var el5 = dom.createTextNode("sl-tooltip-enabled");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n        ");
@@ -23839,7 +25314,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("section");
-        dom.setAttribute(el2,"class","col-md-2");
+        dom.setAttribute(el2,"class","col-md-3");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h4");
@@ -23852,7 +25327,19 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("sl-menu-key-adapter");
+        var el5 = dom.createTextNode("containsValue");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("li");
+        var el5 = dom.createTextNode("error");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("li");
+        var el5 = dom.createTextNode("warn");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n        ");
@@ -23864,11 +25351,11 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("section");
-        dom.setAttribute(el2,"class","col-md-2");
+        dom.setAttribute(el2,"class","col-md-3");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h4");
-        var el4 = dom.createTextNode("Services");
+        var el4 = dom.createTextNode("CSS Classes");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
@@ -23877,7 +25364,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("li");
-        var el5 = dom.createTextNode("sl-modal-service");
+        var el5 = dom.createTextNode("sl-loading");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n        ");
@@ -23969,8 +25456,8 @@ define('dummy/templates/index', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["block","link-to",["demos"],["class","col-md-3 text-center"],0,null,["loc",[null,[68,8],[71,20]]]],
-        ["block","link-to",["browsers"],["class","col-md-3 text-center"],1,null,["loc",[null,[76,8],[79,20]]]]
+        ["block","link-to",["demos"],["class","col-md-3 text-center"],0,null,["loc",[null,[67,8],[70,20]]]],
+        ["block","link-to",["browsers"],["class","col-md-3 text-center"],1,null,["loc",[null,[75,8],[78,20]]]]
       ],
       locals: [],
       templates: [child0, child1]
@@ -24239,7 +25726,343 @@ define('dummy/tests/helpers/resolver.jshint', function () {
   });
 
 });
-define('dummy/tests/helpers/start-app', ['exports', 'ember', 'dummy/app', 'dummy/config/environment'], function (exports, Ember, Application, config) {
+define('dummy/tests/helpers/sl/register-test-helpers', ['exports', 'ember', 'dummy/tests/helpers/sl/synchronous'], function (exports, Ember, synchronous) {
+
+    'use strict';
+
+    exports['default'] = function () {
+        Ember['default'].Test.registerHelper('contains', synchronous.contains);
+        Ember['default'].Test.registerHelper('Ajax', synchronous.AjaxHelper);
+        Ember['default'].Test.registerHelper('requires', synchronous.requires);
+        Ember['default'].Test.registerHelper('globalLibraries', synchronous.globalLibraries);
+    }
+
+});
+define('dummy/tests/helpers/sl/synchronous/ajax', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+    var AjaxHelper = (function () {
+        function AjaxHelper() {
+            _classCallCheck(this, AjaxHelper);
+        }
+
+        _createClass(AjaxHelper, null, [{
+            key: 'begin',
+
+            /**
+             * Emulate the beginning of an AJAX request
+             *
+             * @function
+             * @static
+             * @param {String} [endpoint]
+             * @returns {undefined}
+             */
+            value: function begin(endpoint) {
+                Ember['default'].run(function () {
+                    if (endpoint) {
+                        Ember['default'].$(document).trigger('ajaxSend', [null, { url: endpoint }]);
+                    } else {
+                        Ember['default'].$(document).trigger('ajaxStart');
+                    }
+                });
+            }
+
+            /**
+             * Emulate the conclusion of an AJAX request
+             *
+             * @function
+             * @static
+             * @param {String} [endpoint]
+             * @returns {undefined}
+             */
+        }, {
+            key: 'end',
+            value: function end(endpoint) {
+                Ember['default'].run(function () {
+                    if (endpoint) {
+                        Ember['default'].$(document).trigger('ajaxComplete', [null, { url: endpoint }]);
+                    } else {
+                        Ember['default'].$(document).trigger('ajaxStop');
+                    }
+                });
+            }
+        }]);
+
+        return AjaxHelper;
+    })();
+
+    exports['default'] = AjaxHelper;
+
+});
+define('dummy/tests/helpers/sl/synchronous/contains', ['exports', 'ember', 'dummy/tests/helpers/sl/utils/utils'], function (exports, Ember, utils) {
+
+    'use strict';
+
+    exports['default'] = function () {
+        var index = 3 === arguments.length ? 1 : 0;
+        var underTest = arguments[index];
+        var testFor = arguments[index + 1];
+
+        /* jshint ignore:start */
+        Ember['default'].assert('First non-optional argument must be an array, string or object', ('object' === Ember['default'].typeOf(underTest) || 'string' === Ember['default'].typeOf(underTest) || 'array' === Ember['default'].typeOf(underTest)) && 'symbol' !== typeof underTest);
+
+        Ember['default'].assert('Second non-optional argument must be an array, string or object', ('object' === Ember['default'].typeOf(testFor) || 'string' === Ember['default'].typeOf(testFor) || 'array' === Ember['default'].typeOf(testFor)) && 'symbol' !== typeof testFor);
+        /* jshint ignore:end */
+
+        return utils.doArraysIntersect(utils.convertToArray(underTest), utils.convertToArray(testFor));
+    }
+
+});
+define('dummy/tests/helpers/sl/synchronous/global-libraries', ['exports', 'ember', 'sinon'], function (exports, Ember, sinon) {
+
+    'use strict';
+
+    exports.setupSpies = setupSpies;
+    exports.triggerEvents = triggerEvents;
+    exports.called = called;
+    exports.restoreSpies = restoreSpies;
+    exports.resetSpies = resetSpies;
+
+    var called = undefined;
+    var jqueryAliasSpy = undefined;
+    var jquerySpy = undefined;
+    var emberJquerySpy = undefined;
+
+    function setupSpies() {
+        exports.jqueryAliasSpy = jqueryAliasSpy = sinon['default'].spy(window, '$');
+        exports.jquerySpy = jquerySpy = sinon['default'].spy(window, 'jQuery');
+        exports.emberJquerySpy = emberJquerySpy = sinon['default'].spy(Ember['default'], '$');
+    }
+
+    function triggerEvents(component) {
+        Ember['default'].run(function () {
+            ['willInsertElement', 'didInsertElement', 'willClearRender', 'willDestroyElement'].map(function (event) {
+                component.trigger(event);
+            });
+        });
+    }
+
+    function called() {
+        return jqueryAliasSpy.called || jquerySpy.called || emberJquerySpy.called;
+    }
+
+    function restoreSpies() {
+        window.$.restore();
+        window.jQuery.restore();
+        Ember['default'].$.restore();
+    }
+
+    function resetSpies() {
+        jqueryAliasSpy.reset();
+        jquerySpy.reset();
+        emberJquerySpy.reset();
+    }
+
+    exports.jqueryAliasSpy = jqueryAliasSpy;
+    exports.jquerySpy = jquerySpy;
+    exports.emberJquerySpy = emberJquerySpy;
+
+});
+define('dummy/tests/helpers/sl/synchronous/requires', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    var requiresHelper = function requiresHelper(methodUnderTest, requiredTypes) {
+        var typesToTest = {
+            'number': {
+                required: false,
+                testValue: 123987465,
+                message: 'Parameter was a number'
+            },
+            'string': {
+                required: false,
+                testValue: 'testString',
+                message: 'Parameter was a string'
+            },
+            'array': {
+                required: false,
+                testValue: [],
+                message: 'Parameter was an array'
+            },
+            'object': {
+                required: false,
+                testValue: {},
+                message: 'Parameter was an object'
+            },
+            'function': {
+                required: false,
+                testValue: function testValue() {},
+                message: 'Parameter was a function'
+            },
+            'undefined': {
+                required: false,
+                testValue: undefined,
+                message: 'Parameter was undefined'
+            },
+            'boolean': {
+                required: false,
+                testValue: true,
+                message: 'Parameter was a boolean'
+            },
+            'null': {
+                required: false,
+                testValue: null,
+                message: 'Parameter was null'
+            }
+        };
+
+        Ember['default'].assert('First argument must be a function', 'function' === Ember['default'].typeOf(methodUnderTest));
+        Ember['default'].assert('Second argument must be an array', 'array' === Ember['default'].typeOf(requiredTypes));
+
+        // Set required parameter types
+        requiredTypes.forEach(function (item) {
+            typesToTest[item]['required'] = true;
+        });
+
+        var testsThatHaveFailed = [];
+        var property = undefined;
+
+        // Test each parameter type
+        for (property in typesToTest) {
+            if (typesToTest.hasOwnProperty(property)) {
+                // Reset flag
+                var assertionThrown = undefined;
+                assertionThrown = false;
+
+                // Assign cleaner object reference
+                var parameter = typesToTest[property];
+
+                // Test parameter
+                try {
+                    methodUnderTest(parameter['testValue']);
+                } catch (error) {
+                    assertionThrown = true;
+                }
+
+                var assertionPassed = undefined;
+                assertionPassed = parameter['required'] ? !assertionThrown : assertionThrown;
+
+                if (!assertionPassed) {
+                    testsThatHaveFailed.push(parameter['message']);
+                }
+            }
+        }
+
+        return {
+            requires: 0 === testsThatHaveFailed.length,
+            messages: testsThatHaveFailed.join('; ')
+        };
+    };
+
+    exports['default'] = requiresHelper;
+
+});
+define('dummy/tests/helpers/sl/synchronous', ['exports', 'dummy/tests/helpers/sl/synchronous/ajax', 'dummy/tests/helpers/sl/synchronous/contains', 'dummy/tests/helpers/sl/synchronous/requires', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (exports, AjaxHelper, contains, requires, globalLibraries) {
+
+	'use strict';
+
+
+
+	exports.AjaxHelper = AjaxHelper['default'];
+	exports.contains = contains['default'];
+	exports.requires = requires['default'];
+	exports.globalLibraries = globalLibraries;
+
+});
+define('dummy/tests/helpers/sl/utils/utils', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    var convertToArray = function convertToArray(underTest) {
+
+        /* jshint ignore:start */
+        Ember['default'].assert('Array, String, or Object must be supplied', ('array' === Ember['default'].typeOf(underTest) || 'string' === Ember['default'].typeOf(underTest) || 'object' === Ember['default'].typeOf(underTest)) && 'symbol' !== typeof underTest);
+        /* jshint ignore:end */
+
+        var returnArray = underTest;
+
+        switch (Ember['default'].typeOf(underTest)) {
+            case 'array':
+                returnArray = underTest;
+                break;
+
+            case 'string':
+                returnArray = convertStringToArray(underTest);
+                break;
+
+            case 'object':
+                returnArray = convertObjectKeysToArray(underTest);
+                break;
+        }
+
+        return returnArray;
+    };
+
+    /**
+     * Splits a string into an array of individual "words" as delineated by spaces
+     *
+     * Primarily exists to convert format of call to .prop( 'class' )
+     *
+     * @function
+     * @param {String} underTest
+     * @throws {ember.assert} If argument is not provided or is not a string
+     * @returns {Array}
+     */
+    var convertStringToArray = function convertStringToArray(underTest) {
+
+        Ember['default'].assert('String must be supplied', 'string' === Ember['default'].typeOf(underTest));
+
+        return underTest.split(' ');
+    };
+
+    /**
+     * Returns an array containing all of the property names of an object
+     *
+     * Property names are only extracted from the object provided.  No recursion into nested objects occurs.
+     *
+     * @function
+     * @param {Object} underTest
+     * @throws {ember.assert} If argument is not provided or is not an object
+     * @returns {Array}
+     */
+    var convertObjectKeysToArray = function convertObjectKeysToArray(underTest) {
+
+        /* jshint ignore:start */
+        Ember['default'].assert('Object must be supplied', 'object' === Ember['default'].typeOf(underTest) && 'array' !== Ember['default'].typeOf(underTest) && 'symbol' !== typeof underTest);
+        /* jshint ignore:end */
+
+        return Object.keys(underTest);
+    };
+
+    /**
+     * Whether at least one element of the array exists in the other
+     *
+     * @function
+     * @param {Array} underTest
+     * @param {Array} testFor
+     * @returns {Boolean}
+     */
+    var doArraysIntersect = function doArraysIntersect(underTest, testFor) {
+
+        Ember['default'].assert('Parameters must be Arrays', 'array' === Ember['default'].typeOf(underTest) && 'array' === Ember['default'].typeOf(testFor));
+
+        return testFor.some(function (v) {
+            return underTest.indexOf(v) >= 0;
+        });
+    };
+
+    exports.convertToArray = convertToArray;
+    exports.convertStringToArray = convertStringToArray;
+    exports.convertObjectKeysToArray = convertObjectKeysToArray;
+    exports.doArraysIntersect = doArraysIntersect;
+
+});
+define('dummy/tests/helpers/start-app', ['exports', 'ember', 'dummy/tests/helpers/sl/register-test-helpers', 'dummy/app', 'dummy/config/environment'], function (exports, Ember, slRegisterTestHelpers, Application, config) {
 
     'use strict';
 
@@ -24254,6 +26077,7 @@ define('dummy/tests/helpers/start-app', ['exports', 'ember', 'dummy/app', 'dummy
         Ember['default'].run(function () {
             application = Application['default'].create(attributes);
             application.setupForTesting();
+            slRegisterTestHelpers['default']();
             application.injectTestHelpers();
         });
 
@@ -24356,6 +26180,8 @@ define('dummy/tests/integration/components/sl-alert-test', ['ember-qunit'], func
             };
         })()));
 
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-alert'), 'Has class "sl-ember-components-alert"');
+
         assert.ok(this.$('>:first-child').hasClass('alert'), 'Has class "alert"');
 
         assert.ok(this.$('>:first-child').hasClass('alert-info'), 'Default theme class is applied');
@@ -24433,13 +26259,13 @@ define('dummy/tests/integration/components/sl-alert-test', ['ember-qunit'], func
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['block', 'sl-alert', [], ['theme', 'testValue'], 0, null, ['loc', [null, [2, 8], [4, 21]]]]],
+                statements: [['block', 'sl-alert', [], ['theme', 'warning'], 0, null, ['loc', [null, [2, 8], [4, 21]]]]],
                 locals: [],
                 templates: [child0]
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('alert-testValue'), 'Warning theme class is applied');
+        assert.ok(this.$('>:first-child').hasClass('alert-warning'), 'Warning theme class is applied');
     });
 
     ember_qunit.test('"dismissable" set to true', function (assert) {
@@ -25045,9 +26871,9 @@ define('dummy/tests/integration/components/sl-button-test', ['ember-qunit'], fun
     ember_qunit.test('Default rendered state', function (assert) {
         this.render(template);
 
-        assert.ok(this.$('>:first-child').hasClass('btn'), 'Has class "btn"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-button'), 'Has class "sl-ember-components-button"');
 
-        assert.ok(this.$('>:first-child').hasClass('sl-button'), 'Has class "sl-button"');
+        assert.ok(this.$('>:first-child').hasClass('btn'), 'Has class "btn"');
 
         assert.ok(this.$('>:first-child').hasClass('btn-default'), 'Has default theme class');
     });
@@ -25055,8 +26881,12 @@ define('dummy/tests/integration/components/sl-button-test', ['ember-qunit'], fun
     ember_qunit.test('Default action is triggered when element is clicked', function (assert) {
         assert.expect(1);
 
+        var done = assert.async();
+
         this.on('externalAction', function () {
             assert.ok(true, 'External action was called');
+
+            done();
         });
 
         this.render(Ember.HTMLBars.template((function () {
@@ -25860,7 +27690,7 @@ define('dummy/tests/integration/components/sl-button-test', ['ember-qunit'], fun
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('pending'));
+        assert.ok(this.$('>:first-child').hasClass('pending'), 'Pending class is present in pending state');
     });
 
     ember_qunit.test('Tooltip properties are set correctly when title parameter is set', function (assert) {
@@ -26204,13 +28034,71 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('sl-calendar'), 'Has class "sl-calendar"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-calendar'), 'Has class "sl-ember-components-calendar"');
 
         assert.ok(this.$('>:first-child').find('> div:first-child').hasClass('datepicker'), 'First child of component has class "datepicker"');
 
         assert.ok(this.$('>:first-child').find('> div:first-child').hasClass('datepicker-inline'), 'First child of component has class "datepicker-inline"');
 
         assert.ok(this.$('>:first-child').find('> .datepicker > div:first-child').hasClass('datepicker-days'), 'Day view is visible');
+    });
+
+    ember_qunit.test('Next and Previous buttons have appropriate classes', function (assert) {
+        this.render(Ember['default'].HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['content', 'sl-calendar', ['loc', [null, [2, 8], [2, 23]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.ok(this.$('.table-condensed > thead > tr > th:first-child span').hasClass('sl-icon-previous'), 'day view has previous button class');
+
+        assert.ok(this.$('.table-condensed > thead > tr > th:last-child span').hasClass('sl-icon-next'), 'day view has next button class');
+
+        this.$('.datepicker-switch').click();
+
+        assert.ok(this.$('.table-condensed > thead > tr > th:first-child span').hasClass('sl-icon-previous'), 'month view has previous button class');
+
+        assert.ok(this.$('.table-condensed > thead > tr > th:last-child span').hasClass('sl-icon-next'), 'month view has next button class');
+
+        this.$('.datepicker-switch').click();
+
+        assert.ok(this.$('.table-condensed > thead > tr > th:first-child span').hasClass('sl-icon-previous'), 'year view has previous button class');
+
+        assert.ok(this.$('.table-condensed > thead > tr > th:last-child span').hasClass('sl-icon-next'), 'year view has next button class');
     });
 
     ember_qunit.test('Check for classes set on items outside of range in picker', function (assert) {
@@ -26632,6 +28520,8 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.expect(1);
 
+        var done = assert.async();
+
         this.set('currentYear', 2022);
 
         this.set('currentMonth', 9);
@@ -26680,6 +28570,8 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         this.on('testAction', function () {
             assert.ok(true, 'The test action was called');
+
+            done();
         });
 
         this.$('>:first-child').find('.active').click();
@@ -26688,6 +28580,8 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
     qunit.skip('Action passes through expected objects in content array', function (assert) {
 
         assert.expect(8);
+
+        var done = assert.async();
 
         this.set('currentYear', 2022);
 
@@ -26756,6 +28650,8 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
                     assert.strictEqual(dateContent[0].label, 'Event 1 Another Day!', 'The label property was passed through');
                 }
+
+            done();
         });
 
         this.$('>:first-child').find('.active').click();
@@ -27078,7 +28974,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'September ' + currentYear, 'The current month is set correctly');
 
-        this.$('>:first-child').find('.next').click();
+        this.$('>:first-child').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'October ' + currentYear, 'The next month is set correctly');
     });
@@ -27132,7 +29028,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'September ' + currentYear, 'The current month is set correctly');
 
-        this.$('>:first-child').find('.prev').click();
+        this.$('>:first-child').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'August ' + currentYear, 'The previous month is set correctly');
     });
@@ -27184,7 +29080,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), currentYear.toString(), 'The current year is set correctly');
 
-        this.$('>:first-child').find('.next').click();
+        this.$('>:first-child').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), (currentYear + 1).toString(), 'The next year is set correctly');
     });
@@ -27236,7 +29132,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), currentYear.toString(), 'The current year is set correctly');
 
-        this.$('>:first-child').find('.prev').click();
+        this.$('>:first-child').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), (currentYear - 1).toString(), 'The previous year is set correctly');
     });
@@ -27287,7 +29183,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), '2020-2029', 'The current Decade is set correctly');
 
-        this.$('>:first-child').find('.next').click();
+        this.$('>:first-child').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), '2030-2039', 'The next Decade is set correctly');
     });
@@ -27338,7 +29234,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), '2020-2029', 'The current Decade is set correctly');
 
-        this.$('>:first-child').find('.prev').click();
+        this.$('>:first-child').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), '2010-2019', 'The previous Decade is set correctly');
     });
@@ -27436,11 +29332,11 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'August ' + currentYear, 'The current month is set correctly');
 
-        this.$('>:first-child').find('.next').click();
+        this.$('>:first-child').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'August ' + currentYear, 'The next month is set correctly');
 
-        this.$('>:first-child').find('.next').click();
+        this.$('>:first-child').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'August ' + currentYear, 'The next month is set correctly');
 
@@ -27714,7 +29610,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'December ' + currentYear, 'The current month is set correctly');
 
-        this.$('>:first-child').find('.next').click();
+        this.$('>:first-child').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'January ' + (currentYear + 1), 'The next month is in the next year');
     });
@@ -27768,7 +29664,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'January ' + currentYear, 'The current month is set correctly');
 
-        this.$('>:first-child').find('.prev').click();
+        this.$('>:first-child').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'December ' + (currentYear - 1), 'The previous month is in the previous year');
     });
@@ -27817,7 +29713,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('.day').text().trim(), '28293031123456789101112131415161718192021222324252627282930311234567', 'All days listed in order for specified month as expected');
+        assert.strictEqual(this.$('>:first-child').find('td').text().trim(), '28293031123456789101112131415161718192021222324252627282930311234567', 'All days listed in order for specified month as expected');
     });
 
     ember_qunit.test('All Twelve Months are Displayed in Order', function (assert) {
@@ -27862,7 +29758,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('span').text().trim(), 'JanFebMarAprMayJunJulAugSepOctNovDec', 'Twelve months are listed in order');
+        assert.strictEqual(this.$('>:first-child').find('tbody span').text().trim(), 'JanFebMarAprMayJunJulAugSepOctNovDec', 'Twelve months are listed in order');
     });
 
     ember_qunit.test('Twelve Years are Displayed in Order', function (assert) {
@@ -27909,7 +29805,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('span').text().trim(), '201920202021202220232024202520262027202820292030', 'Twelve years are listed in order');
+        assert.strictEqual(this.$('>:first-child').find('tbody span').text().trim(), '201920202021202220232024202520262027202820292030', 'Twelve years are listed in order');
     });
 
     // -------------------------------------------------------------------------
@@ -28038,7 +29934,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.next').click();
+        this.$('>:nth-child(2)').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'September ' + currentYear, 'Component instance one: current month has not changed');
 
@@ -28100,7 +29996,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.prev').click();
+        this.$('>:nth-child(2)').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'September ' + currentYear, 'Component instance one: current month has not changed');
 
@@ -28158,7 +30054,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.next').click();
+        this.$('>:nth-child(2)').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), currentYear.toString(), 'Component instance one: year did not change');
 
@@ -28216,7 +30112,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.prev').click();
+        this.$('>:nth-child(2)').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), currentYear.toString(), 'Component instance one: year did not change');
 
@@ -28274,7 +30170,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.next').click();
+        this.$('>:nth-child(2)').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), '2020-2029', 'Component instance one: decade did not change');
 
@@ -28332,7 +30228,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.prev').click();
+        this.$('>:nth-child(2)').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), '2020-2029', 'Component instance one: decade did not change');
 
@@ -28638,7 +30534,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.next').click();
+        this.$('>:nth-child(2)').find('.sl-icon-next').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'December ' + currentYear, 'Component instance one: current month did not change');
 
@@ -28700,7 +30596,7 @@ define('dummy/tests/integration/components/sl-calendar-test', ['ember', 'ember-q
             };
         })()));
 
-        this.$('>:nth-child(2)').find('.prev').click();
+        this.$('>:nth-child(2)').find('.sl-icon-previous').click();
 
         assert.strictEqual(this.$('>:first-child').find('.datepicker-switch').text().trim(), 'January ' + currentYear, 'Component instance one: current month did not change');
 
@@ -28771,13 +30667,11 @@ define('dummy/tests/integration/components/sl-chart-test', ['ember-qunit'], func
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('sl-chart'), 'has class sl-chart');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-chart'), 'Has class "sl-ember-components-chart"');
 
-        assert.ok(this.$('>:first-child').hasClass('panel'), 'has class panel');
+        assert.ok(this.$('>:first-child').hasClass('panel'), 'has class "panel"');
 
-        assert.ok(this.$('>:first-child').hasClass('panel-default'), 'has class panel-default');
-
-        assert.ok(this.$('>:first-child').hasClass('sl-panel'), 'has class sl-panel');
+        assert.ok(this.$('>:first-child').hasClass('panel-default'), 'has class "panel-default"');
     });
 
     ember_qunit.test('Loading state adds loading class', function (assert) {
@@ -28818,13 +30712,13 @@ define('dummy/tests/integration/components/sl-chart-test', ['ember-qunit'], func
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-chart', [], ['series', ['subexpr', '@mut', [['get', 'testseries', ['loc', [null, [2, 26], [2, 36]]]]], [], []], 'isLoading', false, 'options', ['subexpr', '@mut', [['get', 'testoptions', ['loc', [null, [2, 61], [2, 72]]]]], [], []]], ['loc', [null, [2, 8], [2, 74]]]]],
+                statements: [['inline', 'sl-chart', [], ['series', ['subexpr', '@mut', [['get', 'testseries', ['loc', [null, [2, 26], [2, 36]]]]], [], []], 'loading', false, 'options', ['subexpr', '@mut', [['get', 'testoptions', ['loc', [null, [2, 59], [2, 70]]]]], [], []]], ['loc', [null, [2, 8], [2, 72]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').hasClass('sl-loading'), false, 'Default rendered component does not have "sl-loading" class');
+        assert.notOk(this.$('>:first-child').find('> .panel-body').hasClass('sl-loading'), 'Default rendered component does not have "sl-loading" class');
 
         this.render(Ember.HTMLBars.template((function () {
             return {
@@ -28860,13 +30754,13 @@ define('dummy/tests/integration/components/sl-chart-test', ['ember-qunit'], func
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-chart', [], ['series', ['subexpr', '@mut', [['get', 'testseries', ['loc', [null, [2, 26], [2, 36]]]]], [], []], 'isLoading', true, 'options', ['subexpr', '@mut', [['get', 'testoptions', ['loc', [null, [2, 60], [2, 71]]]]], [], []]], ['loc', [null, [2, 8], [2, 73]]]]],
+                statements: [['inline', 'sl-chart', [], ['series', ['subexpr', '@mut', [['get', 'testseries', ['loc', [null, [2, 26], [2, 36]]]]], [], []], 'loading', true, 'options', ['subexpr', '@mut', [['get', 'testoptions', ['loc', [null, [2, 58], [2, 69]]]]], [], []]], ['loc', [null, [2, 8], [2, 71]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').hasClass('sl-loading'), true, 'Default rendered component does have "sl-loading" class');
+        assert.ok(this.$('>:first-child').find('> .panel-body').hasClass('sl-loading'), 'Default rendered component does have "sl-loading" class');
     });
 
     ember_qunit.test('Title property is set', function (assert) {
@@ -29005,12 +30899,12 @@ define('dummy/tests/integration/components/sl-chart-test', ['ember-qunit'], func
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('div.chart').width(), width, 'Chart div has correct width by default');
+        assert.strictEqual(this.$('>:first-child').find('> .panel-body > div').width(), width, 'Chart div has correct width by default');
 
         width = 50;
         this.set('width', width);
 
-        assert.strictEqual(this.$('>:first-child').find('div.chart').width(), width, 'Chart div width updates correctly');
+        assert.strictEqual(this.$('>:first-child').find('> .panel-body > div').width(), width, 'Chart div width updates correctly');
     });
 
     ember_qunit.test('Height property is set on the internal chart', function (assert) {
@@ -29060,12 +30954,12 @@ define('dummy/tests/integration/components/sl-chart-test', ['ember-qunit'], func
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('div.chart').height(), height, 'Chart div has correct height by default');
+        assert.strictEqual(this.$('>:first-child').find('> .panel-body > div').height(), height, 'Chart div has correct height by default');
 
         height = 50;
         this.set('height', height);
 
-        assert.strictEqual(this.$('>:first-child').find('div.chart').height(), height, 'Chart div height updates correctly');
+        assert.strictEqual(this.$('>:first-child').find('> .panel-body > div').height(), height, 'Chart div height updates correctly');
     });
 
 });
@@ -29129,11 +31023,11 @@ define('dummy/tests/integration/components/sl-checkbox-test', ['ember-qunit'], f
             };
         })()));
 
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-checkbox'), 'Has class "sl-ember-components-checkbox"');
+
         assert.ok(this.$('>:first-child').hasClass('checkbox'), 'Has class "checkbox"');
 
         assert.ok(this.$('>:first-child').hasClass('form-group'), 'Has class "form-group"');
-
-        assert.ok(this.$('>:first-child').hasClass('sl-checkbox'), 'Has class "sl-checkbox"');
     });
 
     ember_qunit.test('Disabled state applies class and disables input', function (assert) {
@@ -29310,6 +31204,52 @@ define('dummy/tests/integration/components/sl-checkbox-test', ['ember-qunit'], f
         })()));
 
         assert.strictEqual(this.$('>:first-child').find('input').prop('checked'), true, 'Rendered input is checked');
+    });
+
+    ember_qunit.test('Inline property sets relevant class', function (assert) {
+        this.render(Ember.HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['inline', 'sl-checkbox', [], ['inline', true], ['loc', [null, [2, 8], [2, 35]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.ok(this.$('>:first-child').hasClass('checkbox-inline'), 'has class "checkbox-inline"');
+
+        assert.notOk(this.$('>:first-child').hasClass('form-group'), 'inline checkbox does not have class "form-group"');
     });
 
     ember_qunit.test('name applies property to input', function (assert) {
@@ -29624,16 +31564,7 @@ define('dummy/tests/integration/components/sl-date-picker-test', ['ember-qunit',
     ember_qunit.test('Default rendered state', function (assert) {
         this.render(defaultTemplate);
 
-        var first = this.$('>:first-child');
-        var input = first.find('input');
-
-        assert.ok(first.hasClass('form-group'), 'Default rendered component has class "form-group"');
-
-        assert.ok(first.hasClass('sl-date-picker'), 'Default rendered component has class "sl-date-picker"');
-
-        assert.ok(input.hasClass('date-picker'), 'Default rendered input has class "date-picker"');
-
-        assert.ok(input.hasClass('form-control'), 'Default rendered input has class "form-control"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-date-picker'), 'Has class "sl-ember-components-date-picker"');
     });
 
     ember_qunit.test('disabled is accepted as a parameter', function (assert) {
@@ -29938,7 +31869,7 @@ define('dummy/tests/integration/components/sl-date-picker-test', ['ember-qunit',
 
         this.set('endDate', endDateTwo);
 
-        assert.ok(spy.calledWith(endDateTwo));
+        assert.ok(spy.calledWith(endDateTwo), 'endDate is set when property is updated');
 
         datePicker.setEndDate.restore();
     });
@@ -29995,7 +31926,7 @@ define('dummy/tests/integration/components/sl-date-picker-test', ['ember-qunit',
 
         this.set('startDate', startDateTwo);
 
-        assert.ok(spy.calledWith(startDateTwo));
+        assert.ok(spy.calledWith(startDateTwo), 'startDate is set when property is updated');
 
         datePicker.setStartDate.restore();
     });
@@ -30297,7 +32228,7 @@ define('dummy/tests/integration/components/sl-date-range-picker-test', ['ember',
                             'column': 0
                         },
                         'end': {
-                            'line': 3,
+                            'line': 7,
                             'column': 4
                         }
                     }
@@ -30320,13 +32251,13 @@ define('dummy/tests/integration/components/sl-date-range-picker-test', ['ember',
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['content', 'sl-date-range-picker', ['loc', [null, [2, 8], [2, 32]]]]],
+                statements: [['inline', 'sl-date-range-picker', [], ['label', 'Select date range', 'startDatePlaceholder', '__StartPlaceholder__', 'endDatePlaceholder', '__EndPlaceholder__'], ['loc', [null, [2, 8], [6, 10]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('sl-date-range-picker'), 'Has class "sl-date-range-picker"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-date-range-picker'), 'Has class "sl-ember-components-date-range-picker"');
     });
 
     ember_qunit.test('placeholders are accepted', function (assert) {
@@ -31134,7 +33065,7 @@ define('dummy/tests/integration/components/sl-date-time-test', ['ember-qunit'], 
 
         var element = this.$('>:first-child');
 
-        assert.ok(element.hasClass('sl-datetime'), 'Default rendered component has class "sl-datetime"');
+        assert.ok(element.hasClass('sl-ember-components-date-time'), 'Default rendered component has class "sl-ember-components-date-time"');
 
         var defaultRendered = element.text().trim();
         var defaultRegEx = /^[a-zA-Z]+[,]\s[a-zA-Z]+\s\d{1,2}[a-z]{2}\s\d{4}[,]\s\d{1,2}[:]\d{2}\s(AM|PM)\s[A-Z]+$/;
@@ -31525,7 +33456,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n      ');
+                    var el1 = dom.createTextNode('\n        ');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
@@ -31538,23 +33469,21 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['content', 'sl-drop-button', ['loc', [null, [2, 6], [2, 24]]]]],
+                statements: [['content', 'sl-drop-button', ['loc', [null, [2, 8], [2, 26]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-drop-button'), 'Has class "sl-ember-components-drop-button"');
+
         assert.ok(this.$('>:first-child').hasClass('btn-group'), 'Has class "btn-group"');
-
-        assert.ok(this.$('>:first-child').hasClass('dropdown'), 'Has class "dropdown"');
-
-        assert.ok(this.$('>:first-child').hasClass('sl-drop-button'), 'Has class "sl-drop-button"');
 
         assert.ok(this.$('>:first-child').find('button').hasClass('dropdown-toggle'), 'Has class "dropdown-toggle"');
 
-        assert.ok(this.$('>:first-child').find('ul').hasClass('dropdown-menu'), 'Has class "dropdown-menu"');
+        assert.ok(this.$('>:first-child').find('button').hasClass('btn-default'), 'Button has class "btn-default"');
 
-        assert.ok(this.$('>:first-child').hasClass('dropdown-default'), 'Has class "dropdown-default"');
+        assert.ok(this.$('>:first-child').find('ul').hasClass('dropdown-menu'), 'Has class "dropdown-menu"');
 
         assert.strictEqual(this.$('>:first-child').find('ul').attr('role'), 'menu', 'ARIA role is properly set to "menu"');
     });
@@ -31581,7 +33510,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n      ');
+                    var el1 = dom.createTextNode('\n        ');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
@@ -31594,13 +33523,13 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-drop-button', [], ['theme', 'hover'], ['loc', [null, [2, 6], [2, 38]]]]],
+                statements: [['inline', 'sl-drop-button', [], ['theme', 'hover'], ['loc', [null, [2, 8], [2, 40]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('dropdown-hover'), 'Rendered drop-button has new theme class');
+        assert.ok(this.$('>:first-child').find('button').hasClass('btn-hover'), 'Rendered drop-button has new theme class');
     });
 
     ember_qunit.test('Label property is supported', function (assert) {
@@ -31625,7 +33554,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n      ');
+                    var el1 = dom.createTextNode('\n        ');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
@@ -31638,7 +33567,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-drop-button', [], ['label', 'test'], ['loc', [null, [2, 6], [2, 37]]]]],
+                statements: [['inline', 'sl-drop-button', [], ['label', 'test'], ['loc', [null, [2, 8], [2, 39]]]]],
                 locals: [],
                 templates: []
             };
@@ -31669,7 +33598,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n      ');
+                    var el1 = dom.createTextNode('\n        ');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
@@ -31682,7 +33611,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-drop-button', [], ['size', 'large'], ['loc', [null, [2, 6], [2, 37]]]]],
+                statements: [['inline', 'sl-drop-button', [], ['size', 'large'], ['loc', [null, [2, 8], [2, 39]]]]],
                 locals: [],
                 templates: []
             };
@@ -31713,7 +33642,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n      ');
+                    var el1 = dom.createTextNode('\n        ');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
@@ -31726,7 +33655,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-drop-button', [], ['align', 'right'], ['loc', [null, [2, 6], [2, 38]]]]],
+                statements: [['inline', 'sl-drop-button', [], ['align', 'right'], ['loc', [null, [2, 8], [2, 40]]]]],
                 locals: [],
                 templates: []
             };
@@ -31757,7 +33686,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n      ');
+                    var el1 = dom.createTextNode('\n        ');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
@@ -31770,15 +33699,13 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-drop-button', [], ['label', 'test'], ['loc', [null, [2, 6], [2, 37]]]]],
+                statements: [['inline', 'sl-drop-button', [], ['label', 'test'], ['loc', [null, [2, 8], [2, 39]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('span').hasClass('caret'), true, 'Default component has iconClass "caret"');
-
-        assert.strictEqual(this.$('>:first-child').find('span.caret').length, 1, 'Default rendered component includes caret icon span');
+        assert.strictEqual(this.$('>:first-child').find('span.sl-icon-dropdown').length, 1, 'Default rendered component includes sl-icon-dropdown icon span');
 
         this.render(Ember.HTMLBars.template((function () {
             return {
@@ -31801,7 +33728,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n      ');
+                    var el1 = dom.createTextNode('\n        ');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
@@ -31814,7 +33741,7 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-drop-button', [], ['label', 'test', 'iconClass', 'test'], ['loc', [null, [2, 6], [2, 54]]]]],
+                statements: [['inline', 'sl-drop-button', [], ['label', 'test', 'iconClass', 'test'], ['loc', [null, [2, 8], [2, 56]]]]],
                 locals: [],
                 templates: []
             };
@@ -31989,57 +33916,6 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
         assert.strictEqual(this.$('>:first-child').find('.test').length, 1);
     });
 
-    ember_qunit.test('sl-drop-option icon is supported', function (assert) {
-        var testContent = {
-            label: 'test',
-            icon: 'caret'
-        };
-
-        this.set('content', [testContent]);
-
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['inline', 'sl-drop-button', [], ['content', ['subexpr', '@mut', [['get', 'content', ['loc', [null, [2, 33], [2, 40]]]]], [], []]], ['loc', [null, [2, 8], [2, 42]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.strictEqual(this.$('>:first-child').find(':first-child').find('img').attr('src'), 'caret', '"icon" property on sl-drop-option is supported');
-    });
-
     ember_qunit.test('sl-drop-option label is supported', function (assert) {
         var testContent = {
             label: 'test'
@@ -32092,6 +33968,8 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
 
     ember_qunit.test('Click action triggers bound action', function (assert) {
         assert.expect(1);
+
+        var done = assert.async();
 
         this.render(Ember.HTMLBars.template((function () {
             var child0 = (function () {
@@ -32175,6 +34053,8 @@ define('dummy/tests/integration/components/sl-drop-button-test', ['ember-qunit']
 
         this.on('testAction', function () {
             assert.ok(true, 'The test action was called');
+
+            done();
         });
 
         this.$('>:first-child').find('a').click();
@@ -32453,6 +34333,74 @@ define('dummy/tests/integration/components/sl-drop-button-test.jshint', function
   });
 
 });
+define('dummy/tests/integration/components/sl-drop-option-divider-test', ['ember-qunit'], function (ember_qunit) {
+
+    'use strict';
+
+    ember_qunit.moduleForComponent('sl-drop-option-divider', 'Integration | Component | sl drop option divider', {
+        integration: true
+    });
+
+    ember_qunit.test('Default rendered state', function (assert) {
+        this.render(Ember.HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['content', 'sl-drop-option-divider', ['loc', [null, [2, 8], [2, 34]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-drop-option-divider'), 'Has class "sl-ember-components-drop-option-divider"');
+
+        assert.ok(this.$('>:first-child').hasClass('divider'), 'Rendered component initially has class "divider"');
+
+        assert.strictEqual(this.$('>:first-child').attr('role'), 'separator', 'ARIA role is properly set to "separator"');
+    });
+
+});
+define('dummy/tests/integration/components/sl-drop-option-divider-test.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - integration/components');
+  QUnit.test('integration/components/sl-drop-option-divider-test.js should pass jshint', function(assert) { 
+    assert.expect(1);
+    assert.ok(true, 'integration/components/sl-drop-option-divider-test.js should pass jshint.'); 
+  });
+
+});
 define('dummy/tests/integration/components/sl-drop-option-test', ['ember-qunit'], function (ember_qunit) {
 
     'use strict';
@@ -32502,277 +34450,15 @@ define('dummy/tests/integration/components/sl-drop-option-test', ['ember-qunit']
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('sl-drop-option'), 'Rendered component has class "sl-drop-option"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-drop-option'), 'Default rendered component has class "sl-ember-components-drop-option"');
 
-        assert.strictEqual(this.$('>:first-child').attr('role'), 'menuitem', 'ARIA role is properly set to "menuitem"');
-    });
-
-    ember_qunit.test('Option type class value depends on `label` value', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['content', 'sl-drop-option', ['loc', [null, [2, 8], [2, 26]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.strictEqual(this.$('>:first-child').hasClass('presentation'), false, 'Rendered component initially does not have class "presentation"');
-
-        assert.ok(this.$('>:first-child').hasClass('divider'), 'Rendered component initially has class "divider"');
-
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['inline', 'sl-drop-option', [], ['label', 'test'], ['loc', [null, [2, 8], [2, 39]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.strictEqual(this.$('>:first-child').hasClass('divider'), false, 'Rendered component does not have class "divider"');
-
-        assert.ok(this.$('>:first-child').hasClass('presentation'), 'Rendered compnonet has class "presentation" with valid "label" value');
-    });
-
-    ember_qunit.test('label is present thus hyperlink tag is rendered', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['content', 'sl-drop-option', ['loc', [null, [2, 8], [2, 26]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.notOk(this.$('>:first-child').find('a').attr('role'), 'Hyperlink is not rendered if label is not set');
-
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['inline', 'sl-drop-option', [], ['label', 'test'], ['loc', [null, [2, 8], [2, 39]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.strictEqual(this.$('>:first-child').find('a').attr('role'), 'menuitem', 'Hyperlink is rendered if label is set');
-
-        assert.strictEqual(this.$('>:first-child').find('a').text().trim(), 'test', 'Hyperlink text is that of label value');
-    });
-
-    ember_qunit.test('if label is present and icon is set icon image tag is rendered with sample path', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['inline', 'sl-drop-option', [], ['label', 'test'], ['loc', [null, [2, 8], [2, 39]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.notOk(this.$('>:first-child').find('img').attr('src'), 'Icon is not present thus img tag not set');
-
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['inline', 'sl-drop-option', [], ['label', 'test', 'icon', 'testDir/testImg.jpeg'], ['loc', [null, [2, 8], [2, 67]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.strictEqual(this.$('>:first-child').find('img').attr('src'), 'testDir/testImg.jpeg', 'Icon is present with correct path and img tag is rendered with same path');
+        assert.strictEqual(this.$('>:first-child').find('a').attr('role'), 'menuitem', 'ARIA role is properly set to "menuitem"');
     });
 
     ember_qunit.test('Action is wired into template hyperlink tag', function (assert) {
         assert.expect(1);
+
+        var done = assert.async();
 
         this.render(Ember.HTMLBars.template((function () {
             return {
@@ -32816,9 +34502,89 @@ define('dummy/tests/integration/components/sl-drop-option-test', ['ember-qunit']
 
         this.on('testAction', function () {
             assert.ok(true, 'The test action was called');
+
+            done();
         });
 
         this.$('>:first-child').find('a').click();
+    });
+
+    ember_qunit.test('Content is yielded', function (assert) {
+        this.render(Ember.HTMLBars.template((function () {
+            var child0 = (function () {
+                return {
+                    meta: {
+                        'revision': 'Ember@1.13.7',
+                        'loc': {
+                            'source': null,
+                            'start': {
+                                'line': 2,
+                                'column': 8
+                            },
+                            'end': {
+                                'line': 4,
+                                'column': 8
+                            }
+                        }
+                    },
+                    arity: 0,
+                    cachedFragment: null,
+                    hasRendered: false,
+                    buildFragment: function buildFragment(dom) {
+                        var el0 = dom.createDocumentFragment();
+                        var el1 = dom.createTextNode('            Some yielded text\n');
+                        dom.appendChild(el0, el1);
+                        return el0;
+                    },
+                    buildRenderNodes: function buildRenderNodes() {
+                        return [];
+                    },
+                    statements: [],
+                    locals: [],
+                    templates: []
+                };
+            })();
+
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 5,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['block', 'sl-drop-option', [], [], 0, null, ['loc', [null, [2, 8], [4, 27]]]]],
+                locals: [],
+                templates: [child0]
+            };
+        })()));
+
+        assert.strictEqual(this.$('>:first-child').find('a').text().trim(), 'Some yielded text', 'Content is yielded correctly');
     });
 
 });
@@ -32845,11 +34611,11 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
         valuePath: 'value'
     });
 
-    var defaultRow = Ember['default'].Object.extend({
+    var defaultRecord = Ember['default'].Object.extend({
         value: 'Test'
     });
 
-    var defaultTemplate = Ember['default'].HTMLBars.template((function () {
+    var columnTemplate = Ember['default'].HTMLBars.template((function () {
         return {
             meta: {
                 'revision': 'Ember@1.13.7',
@@ -32870,7 +34636,7 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
                 var el0 = dom.createDocumentFragment();
-                var el1 = dom.createTextNode('\n    ');
+                var el1 = dom.createTextNode('\n        ');
                 dom.appendChild(el0, el1);
                 var el1 = dom.createComment('');
                 dom.appendChild(el0, el1);
@@ -32883,7 +34649,7 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
                 morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                 return morphs;
             },
-            statements: [['inline', 'sl-grid-cell', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 26], [2, 32]]]]], [], []], 'row', ['subexpr', '@mut', [['get', 'row', ['loc', [null, [2, 37], [2, 40]]]]], [], []]], ['loc', [null, [2, 4], [2, 42]]]]],
+            statements: [['inline', 'sl-grid-cell', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 30], [2, 36]]]]], [], []]], ['loc', [null, [2, 8], [2, 38]]]]],
             locals: [],
             templates: []
         };
@@ -32893,12 +34659,10 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
         var column = defaultColumn.create({
             align: 'right'
         });
-        var row = defaultRow.create();
 
         this.set('column', column);
-        this.set('row', row);
 
-        this.render(defaultTemplate);
+        this.render(columnTemplate);
 
         assert.ok(this.$('>:first-child').hasClass('text-right'), 'Component has expected class "text-right" with right-aligned column');
     });
@@ -32907,22 +34671,20 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
         var column = defaultColumn.create({
             primary: true
         });
-        var row = defaultRow.create();
 
         this.set('column', column);
-        this.set('row', row);
 
-        this.render(defaultTemplate);
+        this.render(columnTemplate);
 
         assert.ok(this.$('>:first-child').hasClass('primary-column'), 'Component has expected class "primary-column"');
     });
 
     ember_qunit.test('Content value is handled for valuePath', function (assert) {
         var column = defaultColumn.create();
-        var row = defaultRow.create();
+        var record = defaultRecord.create();
 
         this.set('column', column);
-        this.set('row', row);
+        this.set('record', record);
 
         this.render(Ember['default'].HTMLBars.template((function () {
             return {
@@ -32958,22 +34720,22 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-grid-cell', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 30], [2, 36]]]]], [], []], 'row', ['subexpr', '@mut', [['get', 'row', ['loc', [null, [2, 41], [2, 44]]]]], [], []]], ['loc', [null, [2, 8], [2, 46]]]]],
+                statements: [['inline', 'sl-grid-cell', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 30], [2, 36]]]]], [], []], 'record', ['subexpr', '@mut', [['get', 'record', ['loc', [null, [2, 44], [2, 50]]]]], [], []]], ['loc', [null, [2, 8], [2, 52]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.equal(this.$('>:first-child').text().trim(), row.get('value'), 'row value matches content value');
+        assert.equal(this.$('>:first-child').text().trim(), record.get('value'), 'record value matches content value');
     });
 
     ember_qunit.test('Clicking on grid-cell invokes onClick handler', function (assert) {
         var column = defaultColumn.create();
-        var row = defaultRow.create();
+        var record = defaultRecord.create();
         var spyOnClick = sinon['default'].spy();
 
         this.set('column', column);
-        this.set('row', row);
+        this.set('record', record);
 
         this.on('onClick', spyOnClick);
 
@@ -33011,7 +34773,7 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-grid-cell', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 30], [2, 36]]]]], [], []], 'row', ['subexpr', '@mut', [['get', 'row', ['loc', [null, [2, 41], [2, 44]]]]], [], []], 'onClick', 'onClick'], ['loc', [null, [2, 8], [2, 64]]]]],
+                statements: [['inline', 'sl-grid-cell', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 30], [2, 36]]]]], [], []], 'record', ['subexpr', '@mut', [['get', 'record', ['loc', [null, [2, 44], [2, 50]]]]], [], []], 'onClick', 'onClick'], ['loc', [null, [2, 8], [2, 70]]]]],
                 locals: [],
                 templates: []
             };
@@ -33020,29 +34782,6 @@ define('dummy/tests/integration/components/sl-grid-cell-test', ['ember', 'ember-
         this.$('>:first-child').click();
 
         assert.ok(spyOnClick.called, 'onClick action handler was called');
-    });
-
-    ember_qunit.test('Column size is applied when column size is a number or string', function (assert) {
-
-        var column = defaultColumn.create();
-        var row = defaultRow.create();
-
-        column.set('size', 42);
-
-        this.set('column', column);
-        this.set('row', row);
-
-        this.render(defaultTemplate);
-
-        assert.equal(this.$('>:first-child').width(), 42, 'Setting column size to a number is supported');
-
-        column = defaultColumn.create();
-        column.set('size', 'small');
-        this.set('column', column);
-
-        this.render(defaultTemplate);
-
-        assert.ok(this.$('>:first-child').hasClass('column-small'), 'Setting column size to a valid string value adds appropriate class');
     });
 
 });
@@ -33065,47 +34804,10 @@ define('dummy/tests/integration/components/sl-grid-column-header-test', ['ember-
         integration: true
     });
 
-    var template = Ember.HTMLBars.template((function () {
-        return {
-            meta: {
-                'revision': 'Ember@1.13.7',
-                'loc': {
-                    'source': null,
-                    'start': {
-                        'line': 1,
-                        'column': 0
-                    },
-                    'end': {
-                        'line': 3,
-                        'column': 0
-                    }
-                }
-            },
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-                var el0 = dom.createDocumentFragment();
-                var el1 = dom.createTextNode('\n    ');
-                dom.appendChild(el0, el1);
-                var el1 = dom.createComment('');
-                dom.appendChild(el0, el1);
-                var el1 = dom.createTextNode('\n');
-                dom.appendChild(el0, el1);
-                return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                var morphs = new Array(1);
-                morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                return morphs;
-            },
-            statements: [['inline', 'sl-grid-column-header', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 35], [2, 41]]]]], [], []]], ['loc', [null, [2, 4], [2, 43]]]]],
-            locals: [],
-            templates: []
-        };
-    })());
+    ember_qunit.test('Sorted icon class is applied correctly', function (assert) {
+        this.set('sortable', true);
+        this.set('sorted', null);
 
-    ember_qunit.test('Default rendered state', function (assert) {
         this.render(Ember.HTMLBars.template((function () {
             return {
                 meta: {
@@ -33140,89 +34842,59 @@ define('dummy/tests/integration/components/sl-grid-column-header-test', ['ember-
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['content', 'sl-grid-column-header', ['loc', [null, [2, 8], [2, 33]]]]],
+                statements: [['inline', 'sl-grid-column-header', [], ['sortable', ['subexpr', '@mut', [['get', 'sortable', ['loc', [null, [2, 41], [2, 49]]]]], [], []], 'sorted', ['subexpr', '@mut', [['get', 'sorted', ['loc', [null, [2, 57], [2, 63]]]]], [], []]], ['loc', [null, [2, 8], [2, 65]]]]],
                 locals: [],
                 templates: []
             };
         })()));
-
-        assert.ok(this.$('>:first-child').hasClass('sl-grid-column-header'), 'sl-grid-column-header class is present');
-    });
-
-    ember_qunit.test('Sorted class is present when column is in sorted state', function (assert) {
-        var column = {
-            sortable: true,
-            sortAscending: true
-        };
-
-        this.set('column', column);
-
-        this.render(template);
-
-        this.set('column', column);
-
-        assert.ok(this.$('>:first-child').hasClass('column-ascending'), 'column-ascending class is present when sortAscending is true');
-
-        column = {
-            sortable: true,
-            sortAscending: false
-        };
-
-        this.set('column', column);
-
-        assert.ok(this.$('>:first-child').hasClass('column-descending'), 'column-descending class is present when sortAscending is false');
-    });
-
-    ember_qunit.test('Sortable column class is present when column is sortable', function (assert) {
-        var column = {
-            sortable: true
-        };
-
-        this.set('column', column);
-
-        this.render(template);
 
         assert.ok(this.$('>:first-child').hasClass('sortable-column'), true, 'Component has class "sortable-column" with sortable column');
+
+        this.set('sorted', 'asc');
+
+        assert.ok(this.$('>:first-child').hasClass('column-ascending'), 'column-ascending class is present when sorted is "asc"');
+
+        this.set('sorted', 'desc');
+
+        assert.ok(this.$('>:first-child').hasClass('column-descending'), 'column-descending class is present when sorted is "desc"');
     });
 
-    ember_qunit.test('Sorted icon class is applied correctly', function (assert) {
-        var column = {
-            sortable: true
-        };
-
-        this.render(template);
-
-        this.set('column', column);
-
-        assert.ok(this.$('>:first-child').find('i').hasClass('fa-sort'), 'Class fa-sort is present when column is sortable');
-
-        column = {
-            sortable: true,
-            sortAscending: true
-        };
-
-        this.set('column', column);
-
-        assert.ok(this.$('>:first-child').find('i').hasClass('fa-sort-asc'), 'Class fa-sort is present when column is sortable');
-
-        column = {
-            sortable: true,
-            sortAscending: false
-        };
-
-        this.set('column', column);
-
-        assert.ok(this.$('>:first-child').find('i').hasClass('fa-sort-desc'), 'Class fa-sort is present when column is sortable');
-    });
-
-    ember_qunit.test('Column title is rendered when provided', function (assert) {
-        var column = {
-            title: 'column title'
-        };
-
-        this.set('column', column);
-
+    ember_qunit.test('Content is yielded', function (assert) {
         this.render(Ember.HTMLBars.template((function () {
+            var child0 = (function () {
+                return {
+                    meta: {
+                        'revision': 'Ember@1.13.7',
+                        'loc': {
+                            'source': null,
+                            'start': {
+                                'line': 2,
+                                'column': 8
+                            },
+                            'end': {
+                                'line': 4,
+                                'column': 8
+                            }
+                        }
+                    },
+                    arity: 0,
+                    cachedFragment: null,
+                    hasRendered: false,
+                    buildFragment: function buildFragment(dom) {
+                        var el0 = dom.createDocumentFragment();
+                        var el1 = dom.createTextNode('            test text\n');
+                        dom.appendChild(el0, el1);
+                        return el0;
+                    },
+                    buildRenderNodes: function buildRenderNodes() {
+                        return [];
+                    },
+                    statements: [],
+                    locals: [],
+                    templates: []
+                };
+            })();
+
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -33233,7 +34905,7 @@ define('dummy/tests/integration/components/sl-grid-column-header-test', ['ember-
                             'column': 0
                         },
                         'end': {
-                            'line': 3,
+                            'line': 5,
                             'column': 4
                         }
                     }
@@ -33243,11 +34915,11 @@ define('dummy/tests/integration/components/sl-grid-column-header-test', ['ember-
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
+                    var el1 = dom.createTextNode('\n');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
+                    var el1 = dom.createTextNode('    ');
                     dom.appendChild(el0, el1);
                     return el0;
                 },
@@ -33256,13 +34928,13 @@ define('dummy/tests/integration/components/sl-grid-column-header-test', ['ember-
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-grid-column-header', [], ['column', ['subexpr', '@mut', [['get', 'column', ['loc', [null, [2, 39], [2, 45]]]]], [], []]], ['loc', [null, [2, 8], [2, 47]]]]],
+                statements: [['block', 'sl-grid-column-header', [], [], 0, null, ['loc', [null, [2, 8], [4, 34]]]]],
                 locals: [],
-                templates: []
+                templates: [child0]
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').text().trim(), column.title, 'Title was rendered correctly');
+        assert.strictEqual(this.$('>:first-child').text().trim(), 'test text', 'Title was rendered correctly');
     });
 
 });
@@ -33285,56 +34957,11 @@ define('dummy/tests/integration/components/sl-grid-row-test', ['ember-qunit', 's
         integration: true
     });
 
-    var defaultTemplate = Ember.HTMLBars.template((function () {
-        return {
-            meta: {
-                'revision': 'Ember@1.13.7',
-                'loc': {
-                    'source': null,
-                    'start': {
-                        'line': 1,
-                        'column': 0
-                    },
-                    'end': {
-                        'line': 3,
-                        'column': 0
-                    }
-                }
-            },
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-                var el0 = dom.createDocumentFragment();
-                var el1 = dom.createTextNode('\n    ');
-                dom.appendChild(el0, el1);
-                var el1 = dom.createComment('');
-                dom.appendChild(el0, el1);
-                var el1 = dom.createTextNode('\n');
-                dom.appendChild(el0, el1);
-                return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                var morphs = new Array(1);
-                morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                return morphs;
-            },
-            statements: [['content', 'sl-grid-row', ['loc', [null, [2, 4], [2, 19]]]]],
-            locals: [],
-            templates: []
-        };
-    })());
-
-    ember_qunit.test('Default rendered state', function (assert) {
-        this.render(defaultTemplate);
-
-        assert.ok(this.$('>:first-child').hasClass('sl-grid-row'), 'sl-grid-row class is present');
-    });
-
     ember_qunit.test('Active row class is supported', function (assert) {
         var row = {};
 
         this.set('row', row);
+        this.set('active', false);
 
         this.render(Ember.HTMLBars.template((function () {
             return {
@@ -33370,26 +34997,25 @@ define('dummy/tests/integration/components/sl-grid-row-test', ['ember-qunit', 's
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-grid-row', [], ['row', ['subexpr', '@mut', [['get', 'row', ['loc', [null, [2, 26], [2, 29]]]]], [], []]], ['loc', [null, [2, 8], [2, 31]]]]],
+                statements: [['inline', 'sl-grid-row', [], ['record', ['subexpr', '@mut', [['get', 'row', ['loc', [null, [2, 29], [2, 32]]]]], [], []], 'active', ['subexpr', '@mut', [['get', 'active', ['loc', [null, [2, 40], [2, 46]]]]], [], []]], ['loc', [null, [2, 8], [2, 48]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.equal(this.$('>:first-child').hasClass('active'), false, 'Component with non-active row does not have "active" class');
+        assert.notOk(this.$('>:first-child').hasClass('active'), 'Component with non-active state does not have "active" class');
 
-        row = { active: true };
-        this.set('row', row);
+        this.set('active', true);
 
-        assert.equal(this.$('>:first-child').hasClass('active'), true, 'Component with active row has "active" class');
+        assert.ok(this.$('>:first-child').hasClass('active'), 'Component with active state has "active" class');
     });
 
-    ember_qunit.test('rowClick action handler is called when row is clicked', function (assert) {
-        var row = { active: true };
+    ember_qunit.test('onClick action handler is called when row is clicked', function (assert) {
+        var row = {};
         var spy = sinon['default'].spy();
 
         this.set('row', row);
-        this.on('rowClick', spy);
+        this.on('onClick', spy);
 
         this.render(Ember.HTMLBars.template((function () {
             return {
@@ -33425,13 +35051,13 @@ define('dummy/tests/integration/components/sl-grid-row-test', ['ember-qunit', 's
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-grid-row', [], ['row', ['subexpr', '@mut', [['get', 'row', ['loc', [null, [2, 26], [2, 29]]]]], [], []], 'rowClick', 'rowClick'], ['loc', [null, [2, 8], [2, 51]]]]],
+                statements: [['inline', 'sl-grid-row', [], ['record', ['subexpr', '@mut', [['get', 'row', ['loc', [null, [2, 29], [2, 32]]]]], [], []], 'onClick', 'onClick'], ['loc', [null, [2, 8], [2, 52]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        this.$('>:first-child').click();
+        this.$('>:first-child').trigger('click');
 
         assert.ok(spy.called);
     });
@@ -33548,51 +35174,15 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
     });
 
     ember_qunit.test('Default rendered state', function (assert) {
-        this.render(Ember['default'].HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 1,
-                            'column': 11
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-                    dom.insertBoundary(fragment, 0);
-                    dom.insertBoundary(fragment, null);
-                    return morphs;
-                },
-                statements: [['content', 'sl-grid', ['loc', [null, [1, 0], [1, 11]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
+        this.render(defaultTemplate);
 
-        assert.ok(this.$('>:first-child').hasClass('sl-grid'));
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-grid'), 'Has class "sl-ember-components-grid"');
     });
 
     ember_qunit.test('Content is yielded', function (assert) {
         this.render(defaultTemplate);
 
-        assert.strictEqual(this.$('>:first-child').find('h1').text(), 'Header');
+        assert.strictEqual(this.$('>:first-child').find('h1').text(), 'Header', 'Content yields successfully');
     });
 
     ember_qunit.test('Header columns and row counts match data passed in', function (assert) {
@@ -33639,9 +35229,9 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
 
         var first = this.$('>:first-child');
 
-        assert.strictEqual(first.find('.sl-grid-row').length, content.length, 'rendered row count matches content row count');
+        assert.strictEqual(first.find('table tbody tr').length, content.length + 1, 'rendered row count matches content row count (plus one for duplicated header)');
 
-        assert.strictEqual(first.find('.sl-grid-column-header').length, columns.length, 'header column count matches columns count of columns passed in');
+        assert.strictEqual(first.find('table thead th').length, columns.length, 'header column count matches columns count of columns passed in');
     });
 
     ember_qunit.test('Setting "sortable" property within the columns property to true applies the sortable-column class', function (assert) {
@@ -33690,10 +35280,10 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
 
         var first = this.$('>:first-child');
 
-        assert.ok(first.find('.sl-grid-column-header:nth-child(2)').hasClass('sortable-column'));
+        assert.ok(first.find('thead th:nth-child(2)').hasClass('sortable-column'), 'Setting columns property to "sortable" true applies the sortable-column class');
     });
 
-    ember_qunit.test('Only primary column remains visible when detail-pane is open', function (assert) {
+    ember_qunit.test('Primary column header and cells all get class "primary-column"', function (assert) {
         var columns = Ember['default'].A([{ title: 'Name', valuePath: 'name' }, { title: 'ID', valuePath: 'id', primary: true }]);
 
         var contentTemplate = Ember['default'].HTMLBars.template((function () {
@@ -33781,11 +35371,10 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
         })()));
 
         var first = this.$('>:first-child');
-        first.find('.sl-grid-row:first td:first').trigger('click');
 
-        assert.strictEqual(first.find('th:visible').length, 1, 'Only one column is visible when detail pane is open');
+        assert.strictEqual(first.find('table thead th.primary-column').length, 1, 'Exactly one column header gets class "primary-column"');
 
-        assert.strictEqual(first.find('th:visible').text().trim(), columns[1].title, 'Visible column is expected primary column');
+        assert.strictEqual(first.find('table tbody tr td.primary-column').length, content.length, 'Exactly one cell in each content row gets class "primary-column"');
     });
 
     ember_qunit.test('Action requestData is fired in continuous mode when user scrolls to the bottom of the grid', function (assert) {
@@ -33810,7 +35399,7 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
                             'column': 0
                         },
                         'end': {
-                            'line': 9,
+                            'line': 10,
                             'column': 4
                         }
                     }
@@ -33833,14 +35422,14 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-grid', [], ['columns', ['subexpr', '@mut', [['get', 'columns', ['loc', [null, [3, 20], [3, 27]]]]], [], []], 'requestData', 'requestData', 'totalCount', ['subexpr', '@mut', [['get', 'totalCount', ['loc', [null, [5, 23], [5, 33]]]]], [], []], 'content', ['subexpr', '@mut', [['get', 'content', ['loc', [null, [6, 20], [6, 27]]]]], [], []], 'continuous', true], ['loc', [null, [2, 8], [8, 10]]]]],
+                statements: [['inline', 'sl-grid', [], ['columns', ['subexpr', '@mut', [['get', 'columns', ['loc', [null, [3, 20], [3, 27]]]]], [], []], 'requestData', 'requestData', 'totalCount', ['subexpr', '@mut', [['get', 'totalCount', ['loc', [null, [5, 23], [5, 33]]]]], [], []], 'content', ['subexpr', '@mut', [['get', 'content', ['loc', [null, [6, 20], [6, 27]]]]], [], []], 'continuous', true, 'height', '10px'], ['loc', [null, [2, 8], [9, 10]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
         Ember['default'].run(function () {
-            _this.$('>:first-child').find('.list-pane .content').trigger('scroll');
+            _this.$('>:first-child').find('> div > table').parent().trigger('scroll');
         });
 
         assert.ok(spy.calledOnce, 'requestData action fired');
@@ -33896,11 +35485,11 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
 
         var first = this.$('>:first-child');
 
-        assert.strictEqual(first.find('.sl-pagination').length, 1, 'Pagination is displayed');
+        assert.strictEqual(first.find('.pagination').length, 1, 'Pagination is displayed');
 
-        var text = first.find('.sl-pagination :nth-child(2) a').text().replace(/\s+/g, '');
+        var text = first.find('.pagination li').filter(':not(:first-child, :last-child)').find('a').text();
 
-        assert.strictEqual(text, '1/4', 'Page count is correct on pagination');
+        assert.strictEqual(text, '1234', 'Page count is correct on pagination');
     });
 
     ember_qunit.test('Action requestData is fired with correct arguments in paging mode', function (assert) {
@@ -33958,7 +35547,7 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
 
         var first = $('>:first-child');
 
-        first.find('.sl-pagination :nth-child(3) a').click();
+        first.find('.pagination li:last-child a').click();
 
         assert.ok(spy.calledOnce, 'requestData action fired');
 
@@ -34014,11 +35603,11 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
             };
         })()));
 
-        this.$('>:first-child').find('td:first').trigger('click');
+        this.$('>:first-child').find('tbody tr + tr').first().trigger('click');
 
         assert.ok(spy.calledOnce, 'rowClick action was fired');
 
-        assert.strictEqual(spy.getCall(0).args[0].id, firstRowId, 'rowClick action was called with correct row');
+        assert.strictEqual(spy.getCall(0).args[0].record.id, firstRowId, 'rowClick action was called with correct row');
     });
 
     ember_qunit.test('detailComponent, detailHeaderComponent, detailFooterComponent' + 'is rendered and correct data is displayed on row click', function (assert) {
@@ -34199,9 +35788,9 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
         })()));
 
         var first = this.$('>:first-child');
-        var detailHeaderH1 = first.find('header').find('h1');
-        var detailContentH1 = first.find('.detail-content').find('h1');
-        var detailFooterH1 = first.find('footer').find('h1');
+        var detailHeaderH1 = first.find('.panel-heading').find('h1');
+        var detailContentH1 = first.find('.panel-body').find('h1');
+        var detailFooterH1 = first.find('.panel-footer').find('h1');
 
         first.find('td:first').trigger('click');
 
@@ -34264,9 +35853,9 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
 
         first.find('button:contains(Filter)').click();
 
-        assert.ok(first.find('.filter-pane').is(':visible'), 'Filter pane is visible');
+        assert.ok(first.find('.filter-content').is(':visible'), 'Filter pane is visible');
 
-        assert.strictEqual(first.find('.filter-pane').find('h1:contains(FilterComponent)').length, 1, 'Filter pane component passed in was rendered');
+        assert.strictEqual(first.find('.filter-content').find('h1:contains(FilterComponent)').length, 1, 'Filter pane component passed in was rendered');
 
         this.registry.unregister('component:filter-component');
         this.registry.unregister('template:filter-component');
@@ -34282,12 +35871,15 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
 
         var first = this.$('>:first-child');
 
-        assert.strictEqual(first.find('.grid-header button').text().trim(), label);
+        assert.strictEqual(first.find('> header button').text().trim(), label);
     });
 
     ember_qunit.test('Setting height property gives the grid a fixed height', function (assert) {
+        var height = '25em';
+
         this.set('columns', columns);
         this.set('content', content);
+        this.set('height', height);
 
         this.render(Ember['default'].HTMLBars.template((function () {
             return {
@@ -34323,16 +35915,20 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-grid', [], ['columns', ['subexpr', '@mut', [['get', 'columns', ['loc', [null, [2, 26], [2, 33]]]]], [], []], 'content', ['subexpr', '@mut', [['get', 'content', ['loc', [null, [2, 42], [2, 49]]]]], [], []], 'height', 1000], ['loc', [null, [2, 8], [2, 63]]]]],
+                statements: [['inline', 'sl-grid', [], ['columns', ['subexpr', '@mut', [['get', 'columns', ['loc', [null, [2, 26], [2, 33]]]]], [], []], 'content', ['subexpr', '@mut', [['get', 'content', ['loc', [null, [2, 42], [2, 49]]]]], [], []], 'height', ['subexpr', '@mut', [['get', 'height', ['loc', [null, [2, 57], [2, 63]]]]], [], []]], ['loc', [null, [2, 8], [2, 65]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
         var first = this.$('>:first-child');
-        var totalHeight = parseInt(first.find('.grid-header').css('height')) + parseInt(first.find('.list-pane .column-headers').css('height')) + parseInt(first.find('.list-pane .content').css('height')) + parseInt(first.find('.list-pane footer').css('height'));
 
-        assert.equal(totalHeight, 1000, 'Total calculated height is expected value');
+        var total = $('<p>').css({
+            'height': '1em',
+            'display': 'block'
+        }).appendTo(first).height() * 25;
+
+        assert.strictEqual(first.height(), total, 'Height style was correctly set');
     });
 
     ember_qunit.test('Row actions are rendered and actions are triggered as expected', function (assert) {
@@ -34385,11 +35981,11 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
         })()));
 
         var first = this.$('>:first-child');
-        var firstRow = first.find('.content tr:first');
+        var firstRow = first.find('> div > table tbody tr + tr').first();
 
-        assert.strictEqual(firstRow.find('.sl-drop-option:first a').text().trim(), rowActions[0].label, 'Row action link was present');
+        assert.strictEqual(firstRow.find('a:first').text().trim(), rowActions[0].label, 'Row action link was present');
 
-        firstRow.find('.sl-drop-option:first a').click();
+        firstRow.find('a:first').click();
 
         assert.ok(sendLogSpy.called, 'Action was triggered on click of row action');
 
@@ -34545,21 +36141,13 @@ define('dummy/tests/integration/components/sl-grid-test', ['ember', 'ember-qunit
 
         var first = this.$('>:first-child');
 
-        first.find('.sl-grid-column-header:nth-child(2)').click();
+        first.find('thead th:nth-child(2)').click();
 
         var row = sortColumnSpy.getCall(0).args[0];
-        var sortOrder = sortColumnSpy.getCall(0).args[1] ? 'ascending' : 'descending';
 
         assert.ok(sortColumnSpy.calledOnce, 'sortColumn action was fired');
 
         assert.strictEqual(row.id, columns[1].id, 'sortColumn action handler received correct row');
-
-        assert.strictEqual(sortOrder, 'ascending', 'Sort order is ascending');
-
-        first.find('.sl-grid-column-header:nth-child(2)').click();
-        sortOrder = sortColumnSpy.getCall(1).args[1] ? 'ascending' : 'descending';
-
-        assert.strictEqual(sortOrder, 'descending', 'Sort order is descending on consecutive click');
     });
 
 });
@@ -34623,13 +36211,13 @@ define('dummy/tests/integration/components/sl-input-test', ['ember-qunit', 'quni
             };
         })()));
 
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-input'), 'Has class "sl-ember-components-input"');
+
         assert.strictEqual(this.$('>:first-child').attr('data-trigger'), 'focus', 'dataTrigger defaults to focus');
 
         assert.strictEqual(this.$('>:first-child').find('input').prop('type'), 'text', 'type defaults to text');
 
         assert.ok(this.$('>:first-child').hasClass('form-group'), 'Has class "form-group"');
-
-        assert.ok(this.$('>:first-child').hasClass('sl-input'), 'Has class "sl-input"');
 
         assert.ok(this.$('>:first-child').find('input').hasClass('form-control'), 'Has class "form-control"');
     });
@@ -35401,162 +36989,6 @@ define('dummy/tests/integration/components/sl-input-test.jshint', function () {
   });
 
 });
-define('dummy/tests/integration/components/sl-loading-icon-test', ['ember-qunit'], function (ember_qunit) {
-
-    'use strict';
-
-    ember_qunit.moduleForComponent('sl-loading-icon', 'Integration | Component | sl loading icon', {
-        integration: true
-    });
-
-    ember_qunit.test('Default rendered state', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['content', 'sl-loading-icon', ['loc', [null, [2, 8], [2, 27]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.ok(this.$('>:first-child').hasClass('sl-loading-icon'), 'Has class "sl-loading-icon"');
-
-        assert.ok(this.$('>:first-child').hasClass('sl-loading-icon-dark'), 'Has class "sl-loading-icon-dark"');
-    });
-
-    ember_qunit.test('Inverse property renders light icon scheme', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['content', 'sl-loading-icon', ['loc', [null, [2, 8], [2, 27]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.ok(this.$('>:first-child').hasClass('sl-loading-icon-dark'), 'Inverse renders default scheme "sl-loading-icon-dark" icon');
-
-        assert.notOk(this.$('>:first-child').hasClass('sl-loading-icon-light'), 'Inverse true renders scheme "sl-loading-icon-light" icon');
-
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['inline', 'sl-loading-icon', [], ['inverse', true], ['loc', [null, [2, 8], [2, 40]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.ok(this.$('>:first-child').hasClass('sl-loading-icon-light'), 'Inverse true renders scheme "sl-loading-icon-light" icon');
-
-        assert.notOk(this.$('>:first-child').hasClass('sl-loading-icon-dark'), 'Inverse renders default scheme "sl-loading-icon-dark" icon');
-    });
-
-});
-define('dummy/tests/integration/components/sl-loading-icon-test.jshint', function () {
-
-  'use strict';
-
-  QUnit.module('JSHint - integration/components');
-  QUnit.test('integration/components/sl-loading-icon-test.js should pass jshint', function(assert) { 
-    assert.expect(1);
-    assert.ok(true, 'integration/components/sl-loading-icon-test.js should pass jshint.'); 
-  });
-
-});
 define('dummy/tests/integration/components/sl-menu-item-show-all-test', ['ember-qunit', 'sinon'], function (ember_qunit, sinon) {
 
     'use strict';
@@ -35565,57 +36997,7 @@ define('dummy/tests/integration/components/sl-menu-item-show-all-test', ['ember-
         integration: true
     });
 
-    ember_qunit.test('Default rendered state', function (assert) {
-
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['content', 'sl-menu-item-show-all', ['loc', [null, [2, 8], [2, 33]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.ok(this.$('>:first-child').find('a').hasClass('fa'), 'Has class "fa"');
-
-        assert.ok(this.$('>:first-child').find('a').hasClass('fa-chevron-circle-down'), 'Has class "fa-chevron-circle-down"');
-
-        assert.ok(this.$('>:first-child').hasClass('show-all'), 'Has class "show-all"');
-    });
-
     ember_qunit.test('mouseEnter triggers calling of sendAction', function (assert) {
-
         this.set('onMouseEnterSpy', sinon['default'].spy());
 
         this.render(Ember.HTMLBars.template((function () {
@@ -35705,51 +37087,6 @@ define('dummy/tests/integration/components/sl-menu-item-test', ['ember-qunit'], 
         integration: true
     });
 
-    ember_qunit.test('Default rendered state', function (assert) {
-
-        this.render(Ember.HTMLBars.template((function () {
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 3,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['content', 'sl-menu-item', ['loc', [null, [2, 8], [2, 24]]]]],
-                locals: [],
-                templates: []
-            };
-        })()));
-
-        assert.ok(this.$('>:first-child').hasClass('sl-menu-item'), 'Has class "sl-menu-item"');
-    });
-
     ember_qunit.test('Mouse enter/leave events toggles setting of "active" class', function (assert) {
 
         this.set('menuItems', menuItems);
@@ -35796,16 +37133,16 @@ define('dummy/tests/integration/components/sl-menu-item-test', ['ember-qunit'], 
 
         assert.notOk(this.$('>:first-child').hasClass('active'), 'Rendered element does not have class "active" by default');
 
-        this.$('>:first-child').find('.has-sub-menu').find('a').first().trigger('mouseenter');
+        this.$('>:first-child').find('>a').first().trigger('mouseenter');
 
         assert.ok(this.$('>:first-child').hasClass('active'), 'Rendered element has class "active" after mouseenter');
 
-        this.$('>:first-child').find('.has-sub-menu').find('a').first().trigger('mouseleave');
+        this.$('>:first-child').find('>a').first().trigger('mouseleave');
 
         assert.notOk(this.$('>:first-child').hasClass('active'), 'Rendered element does not have class "active" after mouseleave');
     });
 
-    ember_qunit.test('"has-sub-menu" and "sub-menu" classes are set when menu has sub menus', function (assert) {
+    ember_qunit.test('"contains-dropdown" and "dropdown-toggle" classes are set when menu has sub menus', function (assert) {
 
         this.set('menuItem', menuItem);
 
@@ -35849,17 +37186,23 @@ define('dummy/tests/integration/components/sl-menu-item-test', ['ember-qunit'], 
             };
         })()));
 
-        assert.notOk(this.$('>:first-child').hasClass('has-sub-menu'), 'Rendered element does not have class "has-sub-menu"');
+        assert.notOk(this.$('>:first-child').hasClass('contains-dropdown'), 'Rendered element does not have class "contains-dropdown"');
+
+        assert.notOk(this.$('>:first-child').find('>a').hasClass('dropdown-toggle'), 'Rendered element does not have class "dropdown-toggle"');
 
         this.set('menuItem', menuItems);
 
-        assert.ok(this.$('>:first-child').hasClass('has-sub-menu'), 'Rendered element has class "has-sub-menu"');
+        assert.ok(this.$('>:first-child').hasClass('contains-dropdown'), 'Rendered element has class "contains-dropdown"');
 
-        assert.ok(this.$('>:first-child').find('li').find('ul').hasClass('sub-menu'), 'Rendered element has class "sub-menu"');
+        assert.ok(this.$('>:first-child').find('>a').hasClass('dropdown-toggle'), 'Rendered element has class "dropdown-toggle"');
+
+        assert.ok(this.$('>:first-child').find('ul').hasClass('dropdown-menu'), 'Rendered element has class "dropdown-menu"');
     });
 
     ember_qunit.test('clickLink() action is fired from top level menu item', function (assert) {
         assert.expect(1);
+
+        var done = assert.async();
 
         this.set('menuItem', menuItem);
 
@@ -35905,6 +37248,8 @@ define('dummy/tests/integration/components/sl-menu-item-test', ['ember-qunit'], 
 
         this.on('testAction', function () {
             assert.ok(true, 'The test action was called');
+
+            done();
         });
 
         this.$('>:first-child').find('a').first().click();
@@ -35912,6 +37257,8 @@ define('dummy/tests/integration/components/sl-menu-item-test', ['ember-qunit'], 
 
     ember_qunit.test('handleAction() action is fired from sub menu (Sub 1) item', function (assert) {
         assert.expect(3);
+
+        var done = assert.async();
 
         this.set('menuItems', menuItems);
 
@@ -35961,14 +37308,18 @@ define('dummy/tests/integration/components/sl-menu-item-test', ['ember-qunit'], 
             assert.strictEqual(actionName, 'testActionName1', 'ActionName is passed');
 
             assert.strictEqual(data, '"testData1"', 'Data is passed');
+
+            done();
         });
 
         // Sub 1
-        this.$('>:first-child').find('.sub-menu:first li:first a:first').click();
+        this.$('>:first-child').find('> ul > li:first > a').click();
     });
 
     ember_qunit.test('handleAction() action is fired from sub sub menu (Sub 2-1) item', function (assert) {
         assert.expect(3);
+
+        var done = assert.async();
 
         this.set('menuItems', menuItems);
 
@@ -36018,10 +37369,12 @@ define('dummy/tests/integration/components/sl-menu-item-test', ['ember-qunit'], 
             assert.strictEqual(actionName, 'testActionName2', 'ActionName is passed');
 
             assert.strictEqual(data, '"testData2"', 'Data is passed');
+
+            done();
         });
 
         // Sub 2-1
-        this.$('>:first-child').find('.sub-menu:last li:first a:first').click();
+        this.$('>:first-child').find('> ul > li:last > ul > li:first > a').click();
     });
 
 });
@@ -36115,9 +37468,11 @@ define('dummy/tests/integration/components/sl-menu-test', ['ember', 'ember-qunit
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('sl-menu'), 'Has class "sl-menu"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-menu'), 'Has class "sl-ember-components-menu"');
 
-        assert.ok(this.$('>:first-child').find('ul').hasClass('list-inline'), 'Has class "list-inline"');
+        assert.ok(this.$('>:first-child').find('ul').hasClass('list-unstyled'), 'Has class "list-unstyled"');
+
+        assert.ok(this.$('>:first-child').find('ul').hasClass('btn-group'), 'Has class "btn-group"');
     });
 
     ember_qunit.test('"items" property is supported', function (assert) {
@@ -36164,7 +37519,7 @@ define('dummy/tests/integration/components/sl-menu-test', ['ember', 'ember-qunit
             };
         })()));
 
-        var menuItem = this.$('>:first-child').find('.sl-menu-item');
+        var menuItem = this.$('>:first-child').find('li');
 
         assert.strictEqual(menuItem.find('a').text().trim(), 'Main OneSub 1Sub 2Sub 2 - 1Sub 2 - 2Main Two', 'First menu item is rendered');
     });
@@ -36214,15 +37569,17 @@ define('dummy/tests/integration/components/sl-menu-test', ['ember', 'ember-qunit
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('.show-all').length, 0, 'menu item with class ".show-all" is not included by default');
+        assert.strictEqual(this.$('>:first-child').find('a:contains("Show All")').length, 0, 'menu item is not included by default');
 
         this.set('testAllowShowAll', true);
 
-        assert.strictEqual(this.$('>:first-child').find('.show-all').length, 1, 'menu item with class ".show-all" is included when "allowShowAll" is true');
+        assert.strictEqual(this.$('>:first-child').find('a:contains("Show All")').length, 1, 'menu item is included when "allowShowAll" is true');
     });
 
     ember_qunit.test('Actions are handled properly from menu items', function (assert) {
         assert.expect(3);
+
+        var done = assert.async();
 
         this.set('menuItems', menuItems);
 
@@ -36272,9 +37629,11 @@ define('dummy/tests/integration/components/sl-menu-test', ['ember', 'ember-qunit
             assert.strictEqual(actionName, 'testActionName', 'ActionName is passed');
 
             assert.strictEqual(data, '"testData"', 'Data is passed');
+
+            done();
         });
 
-        this.$('>:first-child').find('.sub-menu').find('a').first().click();
+        this.$('>:first-child').find('> ul > li:first > ul > li:first > a').trigger('click');
     });
 
     ember_qunit.test('Component responds to "doAction" stream action', function (assert) {
@@ -36900,6 +38259,52 @@ define('dummy/tests/integration/components/sl-modal-body-test', ['ember-qunit'],
         integration: true
     });
 
+    ember_qunit.test('Default rendered state', function (assert) {
+        this.render(Ember.HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['content', 'sl-modal-body', ['loc', [null, [2, 8], [2, 25]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-modal-body'), 'Component has class "sl-ember-components-modal-body"');
+
+        assert.ok(this.$('>:first-child').hasClass('modal-body'), 'Component has class "modal-body"');
+    });
+
     ember_qunit.test('Content is yielded', function (assert) {
         this.render(Ember.HTMLBars.template((function () {
             var child0 = (function () {
@@ -37043,6 +38448,8 @@ define('dummy/tests/integration/components/sl-modal-footer-test', ['ember-qunit'
                 templates: []
             };
         })()));
+
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-modal-footer'), 'Component has class "sl-ember-components-modal-footer"');
 
         assert.ok(this.$('>:first-child').hasClass('modal-footer'), 'Component has class "modal-footer"');
     });
@@ -37281,6 +38688,8 @@ define('dummy/tests/integration/components/sl-modal-header-test', ['ember-qunit'
                 templates: []
             };
         })()));
+
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-modal-header'), 'Component has class "sl-ember-components-modal-header"');
 
         assert.ok(this.$('>:first-child').hasClass('modal-header'), 'Component has class "modal-header"');
 
@@ -37770,6 +39179,8 @@ define('dummy/tests/integration/components/sl-modal-test', ['ember', 'ember-quni
 
         assert.ok(this.$('>:first-child').hasClass('modal'), 'Has class "modal"');
 
+        assert.ok(this.$('>:first-child').find('>div').hasClass('modal-md'), 'Has class "modal-md"');
+
         Ember['default'].run(function () {
             _this.$('>:first-child').modal('show');
         });
@@ -37886,6 +39297,56 @@ define('dummy/tests/integration/components/sl-modal-test', ['ember', 'ember-quni
         this.set('animate', true);
 
         assert.ok(this.$('>:first-child').hasClass('fade'), 'fade class present when animated set to true');
+    });
+
+    ember_qunit.test('Size property changes size class', function (assert) {
+        this.set('size', 'large');
+
+        this.render(Ember['default'].HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['inline', 'sl-modal', [], ['size', ['subexpr', '@mut', [['get', 'size', ['loc', [null, [2, 24], [2, 28]]]]], [], []]], ['loc', [null, [2, 8], [2, 30]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.ok(this.$('>:first-child').find('>div').hasClass('modal-lg'), 'Has class "modal-lg"');
+
+        this.set('size', 'small');
+
+        assert.ok(this.$('>:first-child').find('>div').hasClass('modal-sm'), 'Has class "modal-sm"');
     });
 
     ember_qunit.test('Listeners are setup and firing appropriately', function (assert) {
@@ -39119,7 +40580,7 @@ define('dummy/tests/integration/components/sl-modal-test.jshint', function () {
   });
 
 });
-define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 'sinon'], function (ember_qunit, sinon) {
+define('dummy/tests/integration/components/sl-pagination-test', ['ember', 'ember-qunit', 'sinon'], function (Ember, ember_qunit, sinon) {
 
     'use strict';
 
@@ -39128,7 +40589,7 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
     });
 
     ember_qunit.test('Default classes are applied', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39168,15 +40629,15 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('pagination'), 'Default rendered component has class "pagination"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-pagination'), 'Default rendered component has class "sl-ember-components-pagination"');
 
-        assert.ok(this.$('>:first-child').hasClass('sl-pagination'), 'Default rendered component has class "sl-pagination"');
+        assert.ok(this.$('>:first-child').hasClass('pagination'), 'Default rendered component has class "pagination"');
     });
 
     ember_qunit.test('The totalPages property is bound to the total pages display', function (assert) {
         this.set('totalPages', 1);
 
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39216,17 +40677,17 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '1 / 1', 'totalPages is initialized to 1');
+        assert.strictEqual(this.$('>:first-child').find('li:not(:first-child, :last-child) a').text().trim(), '1', 'totalPages is initialized to 1');
 
         this.set('totalPages', 2);
 
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '1 / 2', 'totalPages is now set to 2');
+        assert.strictEqual(this.$('>:first-child').find('li:not(:first-child, :last-child) a').text().trim(), '12', 'totalPages is now set to 2');
     });
 
     ember_qunit.test('The currentPage property is bound to the current page display', function (assert) {
         this.set('currentPage', 1);
 
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39266,15 +40727,15 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '1 / 2', 'currentPage is initialized to 1');
+        assert.strictEqual(this.$('>:first-child').find('li.active a').text().trim(), '1', 'currentPage is initialized to 1');
 
         this.set('currentPage', 2);
 
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '2 / 2', 'currentPage is now set to 2');
+        assert.strictEqual(this.$('>:first-child').find('li.active a').text().trim(), '2', 'currentPage is now set to 2');
     });
 
     ember_qunit.test('When totalPages is 1 the previous and next buttons are disabled', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39316,15 +40777,11 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
 
         assert.ok(this.$('>:first-child').find('li:first-child').hasClass('disabled'), 'The previous button has the "disabled" class');
 
-        assert.ok(this.$('>:first-child').find('li:nth-child(3)').hasClass('disabled'), 'The next button has the "disabled" class');
+        assert.ok(this.$('>:first-child').find('li:last-child').hasClass('disabled'), 'The next button has the "disabled" class');
     });
 
     ember_qunit.test('The previous button is disabled when on the first page', function (assert) {
-        var testActionHandler = sinon['default'].spy();
-
-        this.on('testAction', testActionHandler);
-
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39358,27 +40815,17 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-pagination', [], ['totalPages', 2, 'changePage', 'testAction'], ['loc', [null, [2, 8], [2, 62]]]]],
+                statements: [['inline', 'sl-pagination', [], ['totalPages', 2], ['loc', [null, [2, 8], [2, 38]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
         assert.ok(this.$('>:first-child').find('li:first-child').hasClass('disabled'), 'The previous button has the "disabled" class');
-
-        this.$('>:first-child').find('.previous-page-button').click();
-
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '1 / 2', 'The current page displayed has not changed');
-
-        assert.strictEqual(testActionHandler.callCount, 0, 'changePage action was not called');
     });
 
     ember_qunit.test('The next button is disabled when on the last page', function (assert) {
-        var testActionHandler = sinon['default'].spy();
-
-        this.on('testAction', testActionHandler);
-
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39412,23 +40859,17 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-pagination', [], ['totalPages', 2, 'currentPage', 2, 'changePage', 'testAction'], ['loc', [null, [2, 8], [2, 76]]]]],
+                statements: [['inline', 'sl-pagination', [], ['totalPages', 2, 'currentPage', 2], ['loc', [null, [2, 8], [2, 52]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.ok(this.$('>:first-child').find('li:nth-child(3)').hasClass('disabled'), 'The next button has the "disabled" class');
-
-        this.$('>:first-child').find('.next-page-button').click();
-
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '2 / 2', 'The current page displayed was has not changed');
-
-        assert.strictEqual(testActionHandler.callCount, 0, 'changePage action was not called');
+        assert.ok(this.$('>:first-child').find('li:last-child').hasClass('disabled'), 'The next button has the "disabled" class');
     });
 
     ember_qunit.test('Neither the previous nor the next button are disabled when not on an internal page', function (assert) {
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39470,7 +40911,7 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
 
         assert.ok(!this.$('>:first-child').find('li:first-child').hasClass('disabled'), 'The previous button does not have the "disabled" class');
 
-        assert.ok(!this.$('>:first-child').find('li:nth-child(3)').hasClass('disabled'), 'The next button does not have the "disabled" class');
+        assert.ok(!this.$('>:first-child').find('li:last-child').hasClass('disabled'), 'The next button does not have the "disabled" class');
     });
 
     ember_qunit.test('Next button click increments the current page and calls the changePage action', function (assert) {
@@ -39478,7 +40919,7 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
 
         this.on('testAction', testActionHandler);
 
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39518,9 +40959,9 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
             };
         })()));
 
-        this.$('>:first-child').find('.next-page-button').click();
+        this.$('>:first-child').find('li:last-child a').click();
 
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '2 / 2', 'The current page displayed was incremented');
+        assert.strictEqual(this.$('>:first-child').find('li.active a').text().trim(), '2', 'The current page displayed was incremented');
 
         assert.strictEqual(testActionHandler.getCall(0).args[0], 2, 'The changePage action is called with the correct argument');
     });
@@ -39530,7 +40971,7 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
 
         this.on('testAction', testActionHandler);
 
-        this.render(Ember.HTMLBars.template((function () {
+        this.render(Ember['default'].HTMLBars.template((function () {
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -39570,11 +41011,183 @@ define('dummy/tests/integration/components/sl-pagination-test', ['ember-qunit', 
             };
         })()));
 
-        this.$('>:first-child').find('.previous-page-button').click();
+        this.$('>:first-child').find('li:first-child a').click();
 
-        assert.strictEqual(this.$('>:first-child').find('li:nth-child(2) a').text().trim(), '1 / 2', 'The current page displayed was decremented');
+        assert.strictEqual(this.$('>:first-child').find('li.active a').text().trim(), '1', 'The current page displayed was decremented');
 
         assert.strictEqual(testActionHandler.getCall(0).args[0], 1, 'The changePage action is called with the correct argument');
+    });
+
+    ember_qunit.test('Responsive plugin is initialized', function (assert) {
+        var spy = sinon['default'].spy(Ember['default'].$.fn, 'twbsResponsivePagination');
+
+        this.set('totalPages', 2);
+
+        this.render(Ember['default'].HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['inline', 'sl-pagination', [], ['totalPages', ['subexpr', '@mut', [['get', 'totalPages', ['loc', [null, [2, 35], [2, 45]]]]], [], []], 'currentPage', 1], ['loc', [null, [2, 8], [2, 61]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.deepEqual(spy.thisValues[0].get(0), this.$('>:first-child').get(0), 'Correct jQuery object was used to call the responsive plugin');
+
+        // init called directly || initialized with options object || initialized with no params
+        assert.ok(spy.calledWith('init') || spy.calledWithMatch({}) || spy.calledWithExactly(), 'Responsive plugin was initialized on creation');
+
+        spy.reset();
+
+        this.set('totalPages', 3);
+
+        assert.deepEqual(spy.thisValues[0].get(0), this.$('>:first-child').get(0), 'Correct jQuery object was used to call the responsive plugin');
+
+        // init called directly || initialized with options object || initialized with no params
+        assert.ok(spy.calledWith('init') || spy.calledWithMatch({}) || spy.calledWithExactly(), 'Responsive plugin was initialized on totalPages change');
+
+        Ember['default'].$.fn.twbsResponsivePagination.restore();
+    });
+
+    ember_qunit.test('Responsive plugin is updated when currentPage changes', function (assert) {
+        var spy = sinon['default'].spy(Ember['default'].$.fn, 'twbsResponsivePagination');
+
+        this.set('currentPage', 1);
+
+        this.render(Ember['default'].HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['inline', 'sl-pagination', [], ['totalPages', 3, 'currentPage', ['subexpr', '@mut', [['get', 'currentPage', ['loc', [null, [2, 49], [2, 60]]]]], [], []]], ['loc', [null, [2, 8], [2, 62]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        spy.reset();
+
+        this.set('currentPage', 2);
+
+        assert.deepEqual(spy.thisValues[0].get(0), this.$('>:first-child').get(0), 'Correct jQuery object was used to call the responsive plugin');
+
+        assert.ok(spy.calledWith('update'), 'Responsive plugin was updated');
+
+        Ember['default'].$.fn.twbsResponsivePagination.restore();
+    });
+
+    ember_qunit.test('Responsive plugin is not used when isResponsive is false', function (assert) {
+        var spy = sinon['default'].spy(Ember['default'].$.fn, 'twbsResponsivePagination');
+
+        this.set('currentPage', 1);
+        this.set('totalPages', 2);
+
+        this.render(Ember['default'].HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 7,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['inline', 'sl-pagination', [], ['totalPages', ['subexpr', '@mut', [['get', 'totalPages', ['loc', [null, [3, 23], [3, 33]]]]], [], []], 'currentPage', ['subexpr', '@mut', [['get', 'currentPage', ['loc', [null, [4, 24], [4, 35]]]]], [], []], 'isResponsive', false], ['loc', [null, [2, 8], [6, 10]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        this.set('totalPages', 3);
+        this.set('currentPage', 2);
+
+        assert.notOk(spy.called, 'Responsive plugin is never called');
+
+        Ember['default'].$.fn.twbsResponsivePagination.restore();
     });
 
 });
@@ -39638,19 +41251,15 @@ define('dummy/tests/integration/components/sl-panel-test', ['ember-qunit'], func
             };
         })()));
 
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-panel'), 'Default rendered component has class "sl-ember-components-panel"');
+
         assert.ok(this.$('>:first-child').hasClass('panel'), 'Default rendered component has class "panel"');
 
         assert.ok(this.$('>:first-child').hasClass('panel-default'), 'Default rendered component has class "panel-default"');
 
-        assert.ok(this.$('>:first-child').hasClass('sl-panel'), 'Default rendered component has class "sl-panel"');
-
         var panelBody = this.$('>:first-child').find('> .panel-body');
 
         assert.strictEqual(panelBody.length, 1, 'Default rendered component has child with class "panel-body"');
-
-        assert.strictEqual(panelBody.find('> .sl-maskable-content').length, 1, 'Default rendered component has child with class "sl-maskable-content"');
-
-        assert.strictEqual(panelBody.find('> .sl-mask').length, 1, 'Default rendered component has child with class "sl-mask"');
     });
 
     ember_qunit.test('Valid heading value renders panel-heading', function (assert) {
@@ -39740,7 +41349,7 @@ define('dummy/tests/integration/components/sl-panel-test', ['ember-qunit'], func
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('sl-loading'), 'Rendered component has class "sl-loading"');
+        assert.ok(this.$('>:first-child').find('> .panel-body').hasClass('sl-loading'), 'Rendered component body has class "sl-loading"');
     });
 
     ember_qunit.test('Content is yielded', function (assert) {
@@ -39892,7 +41501,7 @@ define('dummy/tests/integration/components/sl-progress-bar-test', ['ember', 'emb
 
         assert.ok(child.hasClass('progress'), 'Has class "progress"');
 
-        assert.ok(child.hasClass('sl-progress-bar'), 'Has class "sl-progress-bar"');
+        assert.ok(child.hasClass('sl-ember-components-progress-bar'), 'Has class "sl-ember-components-progress-bar"');
 
         assert.ok(child.hasClass('sl-progress-bar-low-percentage'), 'Has class "sl-progress-bar-low-percentage"');
 
@@ -39972,7 +41581,7 @@ define('dummy/tests/integration/components/sl-progress-bar-test', ['ember', 'emb
 
         assert.strictEqual(grandchild.attr('aria-valuenow'), '47', '"aria-valuenow" is 47');
 
-        assert.strictEqual(grandchild.find('.sl-progress-bar-value').text().trim(), '47%', '"value" property displayed when "label" property is provided');
+        assert.strictEqual(grandchild.find('span:not(.sr-only)').text().trim(), '47%', '"value" property displayed when "label" property is provided');
     });
 
     ember_qunit.test('"striped" property is supported', function (assert) {
@@ -40230,11 +41839,11 @@ define('dummy/tests/integration/components/sl-progress-bar-test', ['ember', 'emb
 
         assert.strictEqual(grandchild.find('.sr-only').text().trim(), '0% Complete', 'Part 1 - Expected visual representation when "label" property is not provided');
 
-        assert.strictEqual(grandchild.find('.sl-progress-bar-value').length, 0, 'Part 2 - Expected visual representation when "label" property is not provided');
+        assert.strictEqual(grandchild.find('span:not(.sr-only)').length, 0, 'Part 2 - Expected visual representation when "label" property is not provided');
 
         this.set('testLabel', 'test label');
 
-        assert.strictEqual(grandchild.find('.sl-progress-bar-value').text().trim(), '0%', 'Part 1 - Expected visual representation when "label" property is provided');
+        assert.strictEqual(grandchild.find('span:not(.sr-only)').text().trim(), '0%', 'Part 1 - Expected visual representation when "label" property is provided');
 
         assert.strictEqual(grandchild.find('.sr-only').length, 0, 'Part 2 - Expected visual representation when "label" property is provided');
     });
@@ -40543,9 +42152,9 @@ define('dummy/tests/integration/components/sl-radio-group-test', ['ember', 'embe
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('form-group'), 'Has class "form-group"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-radio-group'), 'Has class "sl-ember-components-radio-group"');
 
-        assert.ok(this.$('>:first-child').hasClass('sl-radio-group'), 'Has class "sl-radio-group"');
+        assert.ok(this.$('>:first-child').hasClass('form-group'), 'Has class "form-group"');
     });
 
     ember_qunit.test('The disabled state applies the disabled attribute and class', function (assert) {
@@ -41149,9 +42758,9 @@ define('dummy/tests/integration/components/sl-radio-group-test', ['ember', 'embe
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('.sl-radio.radio').length, 0, 'Rendered component children buttons are not inline');
+        assert.strictEqual(this.$('>:first-child').find('.sl-ember-components-radio.radio').length, 0, 'Rendered component children buttons are not inline');
 
-        assert.strictEqual(this.$('>:first-child').find('.sl-radio.radio-inline').length, 3, 'Rendered component children buttons are inline');
+        assert.strictEqual(this.$('>:first-child').find('.sl-ember-components-radio.radio-inline').length, 3, 'Rendered component children buttons are inline');
     });
 
     ember_qunit.test("Inline false sets sl-radio children's inline property to false", function (assert) {
@@ -41245,9 +42854,9 @@ define('dummy/tests/integration/components/sl-radio-group-test', ['ember', 'embe
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('.sl-radio.radio-inline').length, 0, 'Rendered component has zero inline radio buttons');
+        assert.strictEqual(this.$('>:first-child').find('.sl-ember-components-radio.radio-inline').length, 0, 'Rendered component has zero inline radio buttons');
 
-        assert.strictEqual(this.$('>:first-child').find('.sl-radio.radio').length, 3, 'Rendered component has three default (non-inline) radio buttons');
+        assert.strictEqual(this.$('>:first-child').find('.sl-ember-components-radio.radio').length, 3, 'Rendered component has three default (non-inline) radio buttons');
     });
 
     ember_qunit.test('Value changes when sl-radio child selected', function (assert) {
@@ -41852,7 +43461,9 @@ define('dummy/tests/integration/components/sl-radio-test', ['ember-qunit'], func
     ember_qunit.test('Default rendered state', function (assert) {
         this.render(defaultTemplate);
 
-        assert.ok(this.$('>:first-child').hasClass('sl-radio'), 'Has class "sl-radio"');
+        assert.ok(this.$('>:first-child').hasClass('form-group'), 'Has class "form-group"');
+
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-radio'), 'Has class "sl-ember-components-radio"');
 
         assert.ok(this.$('>:first-child').hasClass('radio'), 'Has class "radio"');
 
@@ -41947,6 +43558,8 @@ define('dummy/tests/integration/components/sl-radio-test', ['ember-qunit'], func
         })()));
 
         assert.ok(this.$('>:first-child').hasClass('radio-inline'), 'has class "radio-inline"');
+
+        assert.notOk(this.$('>:first-child').hasClass('form-group'), 'inline radio does not have class "form-group"');
     });
 
     ember_qunit.test('name applies property to input', function (assert) {
@@ -42146,7 +43759,87 @@ define('dummy/tests/integration/components/sl-span-test', ['ember-qunit'], funct
             };
         })()));
 
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-span'), 'Has class "sl-ember-components-span"');
+
         assert.strictEqual(this.$('>:first-child').text().trim(), '', '"value" defaults to null');
+    });
+
+    ember_qunit.test('Content is yielded', function (assert) {
+        this.render(Ember.HTMLBars.template((function () {
+            var child0 = (function () {
+                return {
+                    meta: {
+                        'revision': 'Ember@1.13.7',
+                        'loc': {
+                            'source': null,
+                            'start': {
+                                'line': 2,
+                                'column': 8
+                            },
+                            'end': {
+                                'line': 4,
+                                'column': 8
+                            }
+                        }
+                    },
+                    arity: 0,
+                    cachedFragment: null,
+                    hasRendered: false,
+                    buildFragment: function buildFragment(dom) {
+                        var el0 = dom.createDocumentFragment();
+                        var el1 = dom.createTextNode('            Some yielded text\n');
+                        dom.appendChild(el0, el1);
+                        return el0;
+                    },
+                    buildRenderNodes: function buildRenderNodes() {
+                        return [];
+                    },
+                    statements: [],
+                    locals: [],
+                    templates: []
+                };
+            })();
+
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 5,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['block', 'sl-span', [], [], 0, null, ['loc', [null, [2, 8], [4, 20]]]]],
+                locals: [],
+                templates: [child0]
+            };
+        })()));
+
+        assert.strictEqual(this.$('>:first-child').text().trim(), 'Some yielded text', 'Content yields successfully');
     });
 
     ember_qunit.test('"value" property is supported', function (assert) {
@@ -42193,8 +43886,42 @@ define('dummy/tests/integration/components/sl-span-test', ['ember-qunit'], funct
         assert.strictEqual(this.$('>:first-child').text().trim(), 'value text', '"value" text is displayed');
     });
 
-    ember_qunit.test('"loading" property is supported', function (assert) {
+    ember_qunit.test('"value" property overrides yield', function (assert) {
         this.render(Ember.HTMLBars.template((function () {
+            var child0 = (function () {
+                return {
+                    meta: {
+                        'revision': 'Ember@1.13.7',
+                        'loc': {
+                            'source': null,
+                            'start': {
+                                'line': 2,
+                                'column': 8
+                            },
+                            'end': {
+                                'line': 4,
+                                'column': 8
+                            }
+                        }
+                    },
+                    arity: 0,
+                    cachedFragment: null,
+                    hasRendered: false,
+                    buildFragment: function buildFragment(dom) {
+                        var el0 = dom.createDocumentFragment();
+                        var el1 = dom.createTextNode('            Some yielded text\n');
+                        dom.appendChild(el0, el1);
+                        return el0;
+                    },
+                    buildRenderNodes: function buildRenderNodes() {
+                        return [];
+                    },
+                    statements: [],
+                    locals: [],
+                    templates: []
+                };
+            })();
+
             return {
                 meta: {
                     'revision': 'Ember@1.13.7',
@@ -42205,7 +43932,7 @@ define('dummy/tests/integration/components/sl-span-test', ['ember-qunit'], funct
                             'column': 0
                         },
                         'end': {
-                            'line': 3,
+                            'line': 5,
                             'column': 4
                         }
                     }
@@ -42215,11 +43942,11 @@ define('dummy/tests/integration/components/sl-span-test', ['ember-qunit'], funct
                 hasRendered: false,
                 buildFragment: function buildFragment(dom) {
                     var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n        ');
+                    var el1 = dom.createTextNode('\n');
                     dom.appendChild(el0, el1);
                     var el1 = dom.createComment('');
                     dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('\n    ');
+                    var el1 = dom.createTextNode('    ');
                     dom.appendChild(el0, el1);
                     return el0;
                 },
@@ -42228,16 +43955,58 @@ define('dummy/tests/integration/components/sl-span-test', ['ember-qunit'], funct
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-span', [], ['loading', true], ['loc', [null, [2, 8], [2, 32]]]]],
+                statements: [['block', 'sl-span', [], ['value', 'value text'], 0, null, ['loc', [null, [2, 8], [4, 20]]]]],
                 locals: [],
-                templates: []
+                templates: [child0]
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('.sl-loading-icon').length, 1, 'Loading icon is present while span is loading');
+        assert.strictEqual(this.$('>:first-child').text().trim(), 'value text', '"value" text is displayed instead of yield');
     });
 
-    ember_qunit.test('"Inverse" property is supported', function (assert) {
+    ember_qunit.test('loading property applies loading class', function (assert) {
+        this.render(Ember.HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['content', 'sl-span', ['loc', [null, [2, 8], [2, 19]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.notOk(this.$('>:first-child').hasClass('sl-loading'), 'Component does not have class "sl-loading"');
+
         this.render(Ember.HTMLBars.template((function () {
             return {
                 meta: {
@@ -42278,7 +44047,51 @@ define('dummy/tests/integration/components/sl-span-test', ['ember-qunit'], funct
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('.sl-loading-icon-dark').length, 1, 'Loading icon is dark initially');
+        assert.ok(this.$('>:first-child').hasClass('sl-loading'), 'Component has class "sl-loading"');
+    });
+
+    ember_qunit.test('inverse property applies inverse class', function (assert) {
+        this.render(Ember.HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['content', 'sl-span', ['loc', [null, [2, 8], [2, 19]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.notOk(this.$('>:first-child').hasClass('inverse'), 'Component does not have class "inverse"');
 
         this.render(Ember.HTMLBars.template((function () {
             return {
@@ -42314,13 +44127,13 @@ define('dummy/tests/integration/components/sl-span-test', ['ember-qunit'], funct
                     morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
                     return morphs;
                 },
-                statements: [['inline', 'sl-span', [], ['inverse', true, 'loading', true], ['loc', [null, [2, 8], [2, 45]]]]],
+                statements: [['inline', 'sl-span', [], ['inverse', true], ['loc', [null, [2, 8], [2, 32]]]]],
                 locals: [],
                 templates: []
             };
         })()));
 
-        assert.strictEqual(this.$('>:first-child').find('.sl-loading-icon-light').length, 1, 'Loading icon is light when inverse');
+        assert.ok(this.$('>:first-child').hasClass('inverse'), 'Component has class "inverse"');
     });
 
 });
@@ -42390,8 +44203,6 @@ define('dummy/tests/integration/components/sl-tab-pane-test', ['ember-qunit'], f
                 templates: []
             };
         })()));
-
-        assert.ok(this.$('>:first-child').hasClass('sl-tab-pane'), 'Has class "sl-tab-pane"');
 
         assert.ok(this.$('>:first-child').hasClass('tab-pane'), 'Has class "tab-pane"');
 
@@ -42695,17 +44506,17 @@ define('dummy/tests/integration/components/sl-tab-panel-test', ['ember', 'ember-
 
         var wrapper = this.$('>:first-child');
 
-        assert.ok(wrapper.hasClass('sl-tab-panel'), 'Has class "sl-tab-panel"');
+        assert.ok(wrapper.hasClass('sl-ember-components-tab-panel'), 'Has class "sl-ember-components-tab-panel"');
 
         assert.ok(wrapper.hasClass('sl-align-tabs-left'), 'Has class "sl-align-tabs-left"');
 
         assert.strictEqual(wrapper.find('.nav-tabs[role="tablist"]').length, 1, 'Rendered component has "tablist" ARIA role');
 
-        assert.strictEqual(wrapper.find('.tab a[role="tab"]').length, 3, 'Rendered component has three <a> with "tab" ARIA role');
+        assert.strictEqual(wrapper.find('> ul > li a[role="tab"]').length, 3, 'Rendered component has three <a> with "tab" ARIA role');
 
         var labels = [];
 
-        wrapper.find('.tab[data-tab-name]').each(function () {
+        wrapper.find('> ul > li[data-tab-name]').each(function () {
             labels.push(Ember['default'].$(this).attr('data-tab-name'));
         });
 
@@ -42908,20 +44719,20 @@ define('dummy/tests/integration/components/sl-tab-panel-test', ['ember', 'ember-
         })()));
 
         var wrapper = this.$('>:first-child');
-        var tabPaneA = wrapper.find('.sl-tab-pane[data-tab-name="a"]');
+        var tabPaneA = wrapper.find('.tab-pane[data-tab-name="a"]');
         var done = assert.async();
 
-        assert.strictEqual(wrapper.find('.tab[data-tab-name]').length, 3, 'Three tabs are rendered');
+        assert.strictEqual(wrapper.find('> ul > li[data-tab-name]').length, 3, 'Three tabs are rendered');
 
-        assert.strictEqual(wrapper.find('.sl-tab-pane[data-tab-name]').length, 3, 'Three tab panes are rendered');
+        assert.strictEqual(wrapper.find('.tab-pane[data-tab-name]').length, 3, 'Three tab panes are rendered');
 
-        assert.strictEqual(wrapper.find('.sl-tab-pane[data-tab-name="b"]').text().trim(), 'B content', 'Expected content is present in second tab pane');
+        assert.strictEqual(wrapper.find('.tab-pane[data-tab-name="b"]').text().trim(), 'B content', 'Expected content is present in second tab pane');
 
         // queue asserts after animation
         tabPaneA.queue(function () {
-            assert.strictEqual(wrapper.find('.tab.active[data-tab-name="a"]').length, 1, 'Rendered component has tab "a" as its active tab');
+            assert.strictEqual(wrapper.find('> ul > li.active[data-tab-name="a"]').length, 1, 'Rendered component has tab "a" as its active tab');
 
-            assert.strictEqual(wrapper.find('.sl-tab-pane.active[data-tab-name="a"]').length, 1, 'Rendered component has panel for tab "a" as its active panel');
+            assert.strictEqual(wrapper.find('.tab-pane.active[data-tab-name="a"]').length, 1, 'Rendered component has panel for tab "a" as its active panel');
 
             done();
         });
@@ -43123,12 +44934,12 @@ define('dummy/tests/integration/components/sl-tab-panel-test', ['ember', 'ember-
         })()));
 
         var wrapper = this.$('>:first-child');
-        var tabPaneB = wrapper.find('.sl-tab-pane[data-tab-name="b"]');
+        var tabPaneB = wrapper.find('.tab-pane[data-tab-name="b"]');
         var done = assert.async();
 
         // queue asserts after animation
         tabPaneB.queue(function () {
-            assert.strictEqual(wrapper.find('.tab.active[data-tab-name="b"]').length, 1, 'Initial tab is expected "b"');
+            assert.strictEqual(wrapper.find('> ul > li.active[data-tab-name="b"]').length, 1, 'Initial tab is expected "b"');
 
             assert.ok(tabPaneB.hasClass('active'), 'Initial tab pane is expected "b"');
 
@@ -43330,15 +45141,8 @@ define('dummy/tests/integration/components/sl-tab-panel-test', ['ember', 'ember-
         })()));
 
         var wrapper = this.$('>:first-child');
-        var tabAOffset = wrapper.find('.tab[data-tab-name="a"]').offset().left;
-        var tabBOffset = wrapper.find('.tab[data-tab-name="b"]').offset().left;
-        var tabCOffset = wrapper.find('.tab[data-tab-name="c"]').offset().left;
 
         assert.ok(wrapper.hasClass('sl-align-tabs-right'), 'Tab alignment class is applied');
-
-        assert.ok(tabAOffset > tabBOffset, 'Tab A is positioned to the right of tab B');
-
-        assert.ok(tabBOffset > tabCOffset, 'Tab B is positioned to the right of tab C');
     });
 
     ember_qunit.test('Clicking tab changes active tab', function (assert) {
@@ -43347,247 +45151,26 @@ define('dummy/tests/integration/components/sl-tab-panel-test', ['ember', 'ember-
         this.render(template);
 
         var wrapper = this.$('>:first-child');
-        var tabPaneB = wrapper.find('.sl-tab-pane[data-tab-name="b"]');
-        var tabPaneA = wrapper.find('.sl-tab-pane[data-tab-name="a"]');
+        var tabPaneB = wrapper.find('.tab-pane[data-tab-name="b"]');
+        var tabPaneA = wrapper.find('.tab-pane[data-tab-name="a"]');
 
         var done = assert.async();
 
-        wrapper.find('.tab[data-tab-name="b"] a').trigger('click');
+        wrapper.find('> ul > li[data-tab-name="b"] a').trigger('click');
 
         // queue asserts after animation
         tabPaneA.queue(function () {
             tabPaneB.queue(function () {
-                var activeTab = wrapper.find('.tab.active');
-                var activePane = wrapper.find('.sl-tab-pane.active');
+                var activeTab = wrapper.find('> ul > li.active');
+                var activePane = wrapper.find('.tab-pane.active');
 
-                assert.strictEqual(activeTab.data('tab-name'), 'b', 'Active tab is "b"');
+                assert.strictEqual(activeTab.attr('data-tab-name'), 'b', 'Active tab is "b"');
 
-                assert.strictEqual(activePane.data('tab-name'), 'b', 'Active pane is "b"');
+                assert.strictEqual(activePane.attr('data-tab-name'), 'b', 'Active pane is "b"');
 
                 assert.strictEqual(activeTab.length, 1, "There's only one active tab'");
 
                 assert.strictEqual(activePane.length, 1, "There's only one active pane");
-
-                done();
-            });
-        });
-    });
-
-    ember_qunit.test('Tab content height is adjusted after new tab selection', function (assert) {
-        assert.expect(1);
-
-        var done = assert.async();
-
-        this.render(Ember['default'].HTMLBars.template((function () {
-            var child0 = (function () {
-                var child0 = (function () {
-                    return {
-                        meta: {
-                            'revision': 'Ember@1.13.7',
-                            'loc': {
-                                'source': null,
-                                'start': {
-                                    'line': 3,
-                                    'column': 12
-                                },
-                                'end': {
-                                    'line': 3,
-                                    'column': 56
-                                }
-                            }
-                        },
-                        arity: 0,
-                        cachedFragment: null,
-                        hasRendered: false,
-                        buildFragment: function buildFragment(dom) {
-                            var el0 = dom.createDocumentFragment();
-                            var el1 = dom.createTextNode('A content');
-                            dom.appendChild(el0, el1);
-                            return el0;
-                        },
-                        buildRenderNodes: function buildRenderNodes() {
-                            return [];
-                        },
-                        statements: [],
-                        locals: [],
-                        templates: []
-                    };
-                })();
-
-                var child1 = (function () {
-                    return {
-                        meta: {
-                            'revision': 'Ember@1.13.7',
-                            'loc': {
-                                'source': null,
-                                'start': {
-                                    'line': 4,
-                                    'column': 12
-                                },
-                                'end': {
-                                    'line': 6,
-                                    'column': 12
-                                }
-                            }
-                        },
-                        arity: 0,
-                        cachedFragment: null,
-                        hasRendered: false,
-                        buildFragment: function buildFragment(dom) {
-                            var el0 = dom.createDocumentFragment();
-                            var el1 = dom.createTextNode('                B content');
-                            dom.appendChild(el0, el1);
-                            var el1 = dom.createElement('br');
-                            dom.appendChild(el0, el1);
-                            var el1 = dom.createElement('br');
-                            dom.appendChild(el0, el1);
-                            var el1 = dom.createTextNode('Taller content\n');
-                            dom.appendChild(el0, el1);
-                            return el0;
-                        },
-                        buildRenderNodes: function buildRenderNodes() {
-                            return [];
-                        },
-                        statements: [],
-                        locals: [],
-                        templates: []
-                    };
-                })();
-
-                var child2 = (function () {
-                    return {
-                        meta: {
-                            'revision': 'Ember@1.13.7',
-                            'loc': {
-                                'source': null,
-                                'start': {
-                                    'line': 7,
-                                    'column': 12
-                                },
-                                'end': {
-                                    'line': 7,
-                                    'column': 56
-                                }
-                            }
-                        },
-                        arity: 0,
-                        cachedFragment: null,
-                        hasRendered: false,
-                        buildFragment: function buildFragment(dom) {
-                            var el0 = dom.createDocumentFragment();
-                            var el1 = dom.createTextNode('C content');
-                            dom.appendChild(el0, el1);
-                            return el0;
-                        },
-                        buildRenderNodes: function buildRenderNodes() {
-                            return [];
-                        },
-                        statements: [],
-                        locals: [],
-                        templates: []
-                    };
-                })();
-
-                return {
-                    meta: {
-                        'revision': 'Ember@1.13.7',
-                        'loc': {
-                            'source': null,
-                            'start': {
-                                'line': 2,
-                                'column': 8
-                            },
-                            'end': {
-                                'line': 8,
-                                'column': 8
-                            }
-                        }
-                    },
-                    arity: 0,
-                    cachedFragment: null,
-                    hasRendered: false,
-                    buildFragment: function buildFragment(dom) {
-                        var el0 = dom.createDocumentFragment();
-                        var el1 = dom.createTextNode('            ');
-                        dom.appendChild(el0, el1);
-                        var el1 = dom.createComment('');
-                        dom.appendChild(el0, el1);
-                        var el1 = dom.createTextNode('\n');
-                        dom.appendChild(el0, el1);
-                        var el1 = dom.createComment('');
-                        dom.appendChild(el0, el1);
-                        var el1 = dom.createTextNode('            ');
-                        dom.appendChild(el0, el1);
-                        var el1 = dom.createComment('');
-                        dom.appendChild(el0, el1);
-                        var el1 = dom.createTextNode('\n');
-                        dom.appendChild(el0, el1);
-                        return el0;
-                    },
-                    buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                        var morphs = new Array(3);
-                        morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                        morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
-                        morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
-                        return morphs;
-                    },
-                    statements: [['block', 'sl-tab-pane', [], ['label', 'A', 'name', 'a'], 0, null, ['loc', [null, [3, 12], [3, 72]]]], ['block', 'sl-tab-pane', [], ['label', 'B', 'name', 'b'], 1, null, ['loc', [null, [4, 12], [6, 28]]]], ['block', 'sl-tab-pane', [], ['label', 'C', 'name', 'c'], 2, null, ['loc', [null, [7, 12], [7, 72]]]]],
-                    locals: [],
-                    templates: [child0, child1, child2]
-                };
-            })();
-
-            return {
-                meta: {
-                    'revision': 'Ember@1.13.7',
-                    'loc': {
-                        'source': null,
-                        'start': {
-                            'line': 1,
-                            'column': 0
-                        },
-                        'end': {
-                            'line': 9,
-                            'column': 4
-                        }
-                    }
-                },
-                arity: 0,
-                cachedFragment: null,
-                hasRendered: false,
-                buildFragment: function buildFragment(dom) {
-                    var el0 = dom.createDocumentFragment();
-                    var el1 = dom.createTextNode('\n');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createComment('');
-                    dom.appendChild(el0, el1);
-                    var el1 = dom.createTextNode('    ');
-                    dom.appendChild(el0, el1);
-                    return el0;
-                },
-                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                    var morphs = new Array(1);
-                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-                    return morphs;
-                },
-                statements: [['block', 'sl-tab-panel', [], [], 0, null, ['loc', [null, [2, 8], [8, 25]]]]],
-                locals: [],
-                templates: [child0]
-            };
-        })()));
-
-        var wrapper = this.$('>:first-child');
-        var tabPaneA = wrapper.find('.sl-tab-pane[data-tab-name="a"]');
-        var tabPaneB = wrapper.find('.sl-tab-pane[data-tab-name="b"]');
-
-        var initialHeight = wrapper.find('.tab-content').height();
-
-        wrapper.find('.tab[data-tab-name="b"] a').trigger('click');
-
-        // queue assert after animation
-        tabPaneA.queue(function () {
-            tabPaneB.queue(function () {
-                assert.notEqual(wrapper.find('.tab-content').height(), initialHeight);
 
                 done();
             });
@@ -43655,9 +45238,9 @@ define('dummy/tests/integration/components/sl-textarea-test', ['ember-qunit', 'q
             };
         })()));
 
-        assert.ok(this.$('>:first-child').hasClass('form-group'), 'Has class "form-group"');
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-textarea'), 'Has class "sl-ember-components-textarea"');
 
-        assert.ok(this.$('>:first-child').hasClass('sl-textarea'), 'Has class "sl-textarea"');
+        assert.ok(this.$('>:first-child').hasClass('form-group'), 'Has class "form-group"');
 
         assert.ok(this.$('>:first-child').find('textarea').hasClass('form-control'), 'Has class "form-control"');
 
@@ -44806,6 +46389,52 @@ define('dummy/tests/integration/components/sl-tooltip-test', ['ember-qunit'], fu
         integration: true
     });
 
+    ember_qunit.test('Default rendered state', function (assert) {
+        this.set('title', 'test title');
+
+        this.render(Ember.HTMLBars.template((function () {
+            return {
+                meta: {
+                    'revision': 'Ember@1.13.7',
+                    'loc': {
+                        'source': null,
+                        'start': {
+                            'line': 1,
+                            'column': 0
+                        },
+                        'end': {
+                            'line': 3,
+                            'column': 4
+                        }
+                    }
+                },
+                arity: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                buildFragment: function buildFragment(dom) {
+                    var el0 = dom.createDocumentFragment();
+                    var el1 = dom.createTextNode('\n        ');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createComment('');
+                    dom.appendChild(el0, el1);
+                    var el1 = dom.createTextNode('\n    ');
+                    dom.appendChild(el0, el1);
+                    return el0;
+                },
+                buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+                    var morphs = new Array(1);
+                    morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+                    return morphs;
+                },
+                statements: [['inline', 'sl-tooltip', [], ['title', ['subexpr', '@mut', [['get', 'title', ['loc', [null, [2, 27], [2, 32]]]]], [], []]], ['loc', [null, [2, 8], [2, 34]]]]],
+                locals: [],
+                templates: []
+            };
+        })()));
+
+        assert.ok(this.$('>:first-child').hasClass('sl-ember-components-tooltip'), 'Has class "sl-ember-components-tooltip"');
+    });
+
     ember_qunit.test('"Title" capabilities are supported', function (assert) {
         this.set('title', 'test title');
 
@@ -45006,15 +46635,24 @@ define('dummy/tests/test-helper.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-alert-test', ['ember-qunit', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/components/sl-alert', 'sinon'], function (ember_qunit, TooltipEnabledMixin, sl_alert, sinon) {
+define('dummy/tests/unit/components/sl-alert-test', ['ember-qunit', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/components/sl-alert', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries', 'ember', 'sl-ember-components/utils/warn'], function (ember_qunit, ClassPrefix, TooltipEnabledMixin, sl_alert, sinon, globalLibraries, Ember, warn) {
 
     'use strict';
+
+    var Theme = {
+        DANGER: 'danger',
+        INFO: 'info',
+        SUCCESS: 'success',
+        WARNING: 'warning'
+    };
 
     ember_qunit.moduleForComponent('sl-alert', 'Unit | Component | sl alert', {
         unit: true
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject()), 'TooltipEnabled Mixin is present');
     });
 
@@ -45023,9 +46661,13 @@ define('dummy/tests/unit/components/sl-alert-test', ['ember-qunit', 'sl-ember-co
 
         assert.strictEqual(component.get('ariaRole'), 'alert', 'ariaRole: "alert"');
 
+        assert.strictEqual(component.get('componentClass'), 'alert', 'componentClass is set to alert');
+
         assert.strictEqual(component.get('dismissable'), false, 'dismissable: false');
 
-        assert.strictEqual(component.get('theme'), sl_alert.Theme.INFO, 'theme: "' + sl_alert.Theme.INFO + '"');
+        assert.strictEqual(component.get('theme'), Theme.INFO, 'theme: "' + Theme.INFO + '"');
+
+        assert.deepEqual(sl_alert.Theme, Theme, 'Theme enum values are correct');
     });
 
     ember_qunit.test('Bound "dismiss" action is triggered when dismiss action is triggered', function (assert) {
@@ -45054,6 +46696,43 @@ define('dummy/tests/unit/components/sl-alert-test', ['ember-qunit', 'sl-ember-co
         assert.deepEqual(component.themeClassName._dependentKeys, themeClassNameDependentKeys, 'Dependent keys are correct for themeClassName()');
     });
 
+    ember_qunit.test('themeClassName() returns the correct class', function (assert) {
+        var component = this.subject();
+
+        Object.keys(Theme).forEach(function (key) {
+            var theme = Theme[key];
+
+            Ember['default'].run(function () {
+                return component.set('theme', theme);
+            });
+
+            assert.strictEqual(component.get('themeClassName'), 'alert-' + theme, 'themeClassName() returns expected value');
+        });
+
+        var spy = sinon['default'].spy(warn, 'default');
+
+        component.set('theme', 'invalid value');
+        component.get('themeClassName');
+
+        assert.ok(spy.calledOnce, 'warn() was called when invalid theme was set');
+
+        warn['default'].restore();
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-alert-test.jshint', function () {
 
@@ -45066,7 +46745,7 @@ define('dummy/tests/unit/components/sl-alert-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-button-test', ['ember', 'ember-qunit', 'sinon', 'ember-stream/mixins/stream-enabled', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/components/sl-button', 'sl-ember-components/utils/all'], function (Ember, ember_qunit, sinon, StreamEnabledMixin, TooltipEnabledMixin, sl_button, utils) {
+define('dummy/tests/unit/components/sl-button-test', ['ember', 'ember-qunit', 'sinon', 'sl-ember-components/mixins/class-prefix', 'ember-stream/mixins/stream-enabled', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/components/sl-button', 'sl-ember-components/utils/warn', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, sinon, ClassPrefix, StreamEnabledMixin, TooltipEnabledMixin, sl_button, warn, globalLibraries) {
 
     'use strict';
 
@@ -45097,13 +46776,17 @@ define('dummy/tests/unit/components/sl-button-test', ['ember', 'ember-qunit', 's
     };
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(StreamEnabledMixin['default'].detect(this.subject()), 'StreamEnabled Mixin is present');
 
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject()), 'TooltipEnabled Mixin is present');
     });
 
-    ember_qunit.test('Default property values', function (assert) {
+    ember_qunit.test('Default property values are set correctly', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'button', 'componentClass is set to button');
 
         assert.strictEqual(component.get('tagName'), 'button', 'Default tagName is button');
 
@@ -45184,14 +46867,14 @@ define('dummy/tests/unit/components/sl-button-test', ['ember', 'ember-qunit', 's
             assert.strictEqual(component.get('themeClass'), 'btn-' + theme);
         });
 
-        var spy = sinon['default'].spy(utils, 'warn');
+        var spy = sinon['default'].spy(warn, 'default');
 
         component.set('theme', 'invalid value');
         component.get('themeClass');
 
         assert.ok(spy.calledOnce, 'warn() was called when invalid theme was set');
 
-        utils.warn.restore();
+        warn['default'].restore();
     });
 
     ember_qunit.test('sizeClass() returns the correct class', function (assert) {
@@ -45219,14 +46902,14 @@ define('dummy/tests/unit/components/sl-button-test', ['ember', 'ember-qunit', 's
             assert.strictEqual(component.get('sizeClass'), cls, size + ' returned correct value of ' + cls);
         });
 
-        var spy = sinon['default'].spy(utils, 'warn');
+        var spy = sinon['default'].spy(warn, 'default');
 
         component.set('size', 'invalid value');
         component.get('sizeClass');
 
         assert.ok(spy.calledOnce, 'warn() was called when invalid size was set');
 
-        utils.warn.restore();
+        warn['default'].restore();
     });
 
     ember_qunit.test('send() and sendAction() are called when component click() is invoked', function (assert) {
@@ -45247,6 +46930,20 @@ define('dummy/tests/unit/components/sl-button-test', ['ember', 'ember-qunit', 's
         mockStreamService.send.restore();
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-button-test.jshint', function () {
 
@@ -45259,7 +46956,7 @@ define('dummy/tests/unit/components/sl-button-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-calendar-day-test', ['ember', 'ember-qunit'], function (Ember, ember_qunit) {
+define('dummy/tests/unit/components/sl-calendar-day-test', ['ember', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -45314,6 +47011,10 @@ define('dummy/tests/unit/components/sl-calendar-day-test', ['ember', 'ember-quni
     });
 
     ember_qunit.test('Action bindings sends action with expected day content', function (assert) {
+        assert.expect(1);
+
+        var done = assert.async();
+
         var dayContent = { day: 42 };
 
         this.subject({
@@ -45322,13 +47023,27 @@ define('dummy/tests/unit/components/sl-calendar-day-test', ['ember', 'ember-quni
             targetObject: {
                 test: function test(content) {
                     assert.strictEqual(content, dayContent, 'Test action fired with expected value');
+
+                    done();
                 }
             }
         });
 
-        assert.expect(1);
-
         this.$().trigger('click');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -45343,7 +47058,7 @@ define('dummy/tests/unit/components/sl-calendar-day-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-calendar-month-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/sl-calendar-month-test', ['ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -45357,10 +47072,6 @@ define('dummy/tests/unit/components/sl-calendar-month-test', ['ember-qunit'], fu
         assert.strictEqual(component.get('active'), false, 'Component is not active');
 
         assert.strictEqual(this.$().hasClass('active'), false, 'Component does not have "active" class');
-    });
-
-    ember_qunit.test('Component has "month" class by default', function (assert) {
-        assert.ok(this.$().hasClass('month'), '"month" class is present');
     });
 
     ember_qunit.test('Active state is set correctly', function (assert) {
@@ -45407,6 +47118,20 @@ define('dummy/tests/unit/components/sl-calendar-month-test', ['ember-qunit'], fu
         assert.deepEqual(component.shortName._dependentKeys, shortNameDependentKeys, 'Dependent keys are correct for shortName()');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-calendar-month-test.jshint', function () {
 
@@ -45419,7 +47144,7 @@ define('dummy/tests/unit/components/sl-calendar-month-test.jshint', function () 
   });
 
 });
-define('dummy/tests/unit/components/sl-calendar-test', ['ember', 'ember-qunit', 'sinon', 'qunit'], function (Ember, ember_qunit, sinon, qunit) {
+define('dummy/tests/unit/components/sl-calendar-test', ['ember', 'sl-ember-components/mixins/class-prefix', 'ember-qunit', 'sinon', 'qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ClassPrefix, ember_qunit, sinon, qunit, globalLibraries) {
 
     'use strict';
 
@@ -45429,6 +47154,10 @@ define('dummy/tests/unit/components/sl-calendar-test', ['ember', 'ember-qunit', 
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default property values are set correctly', function (assert) {
         var component = this.subject();
 
@@ -45436,6 +47165,8 @@ define('dummy/tests/unit/components/sl-calendar-test', ['ember', 'ember-qunit', 
 
         var today = new Date();
         var month = today.getMonth() + 1;
+
+        assert.strictEqual(component.get('componentClass'), 'calendar', '"componentClass" property defaults to calendar');
 
         assert.strictEqual(component.get('currentMonth'), month, 'currentMonth: ' + month);
 
@@ -45960,6 +47691,20 @@ define('dummy/tests/unit/components/sl-calendar-test', ['ember', 'ember-qunit', 
         assert.deepEqual(component.yearsInDecadeView._dependentKeys, yearsInDecadeViewDependentKeys, 'Dependent keys are correct for yearsInDecadeView()');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-calendar-test.jshint', function () {
 
@@ -45972,7 +47717,7 @@ define('dummy/tests/unit/components/sl-calendar-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-calendar-year-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/sl-calendar-year-test', ['ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -45997,9 +47742,11 @@ define('dummy/tests/unit/components/sl-calendar-year-test', ['ember-qunit'], fun
     });
 
     ember_qunit.test('Click event sends action with year value', function (assert) {
-        var exampleYear = 2000;
-
         assert.expect(1);
+
+        var done = assert.async();
+
+        var exampleYear = 2000;
 
         this.subject({
             action: 'test',
@@ -46007,6 +47754,8 @@ define('dummy/tests/unit/components/sl-calendar-year-test', ['ember-qunit'], fun
             targetObject: {
                 test: function test(year) {
                     assert.strictEqual(year, exampleYear, 'Received year');
+
+                    done();
                 }
             },
 
@@ -46014,6 +47763,20 @@ define('dummy/tests/unit/components/sl-calendar-year-test', ['ember-qunit'], fun
         });
 
         this.$().trigger('click');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -46028,7 +47791,7 @@ define('dummy/tests/unit/components/sl-calendar-year-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'sinon'], function (Ember, ember_qunit, sinon) {
+define('dummy/tests/unit/components/sl-chart-test', ['ember', 'sl-ember-components/mixins/class-prefix', 'ember-qunit', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ClassPrefix, ember_qunit, sinon, globalLibraries) {
 
     'use strict';
 
@@ -46059,23 +47822,34 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        var component = this.subject({
+            options: testOptions,
+            series: testSeries
+        });
+
+        assert.ok(ClassPrefix['default'].detect(component), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default property values are set correctly', function (assert) {
         var component = this.subject({
             options: testOptions,
             series: testSeries
         });
 
+        assert.strictEqual(component.get('componentClass'), 'chart', 'componentClass is set to chart');
+
         assert.strictEqual(component.get('chart'), null, 'chart: null');
 
         assert.strictEqual(component.get('height'), 'auto', 'height: "auto"');
 
-        assert.strictEqual(component.get('isLoading'), false, 'isLoading: false');
+        assert.strictEqual(component.get('loading'), false, 'isLoading: false');
 
         assert.deepEqual(component.get('series'), testSeries, 'series: null');
 
         assert.strictEqual(component.get('width'), 'auto', 'width: "auto"');
 
-        assert.strictEqual(component.get('highchartsOptions').title, null, 'title property in highchartsOptions is set to null in order to\n            suppress default behavior for our usage');
+        assert.strictEqual(component.highchartsOptions().title, null, 'title property in highchartsOptions is set to null in order to\n            suppress default behavior for our usage');
     });
 
     ember_qunit.test('updateData() is called after series property is modified', function (assert) {
@@ -46087,11 +47861,25 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
         this.render();
 
         var spy = sinon['default'].spy(component, 'updateData');
-        var changedTestSeries = [];
 
-        component.set('series', changedTestSeries);
+        component.set('series', []);
 
         assert.ok(spy.calledOnce, 'updateData() is called once after series modified');
+    });
+
+    ember_qunit.test('updateOptions() is called after options property is modified', function (assert) {
+        var component = this.subject({
+            options: testOptions,
+            series: testSeries
+        });
+
+        this.render();
+
+        var spy = sinon['default'].spy(component, 'updateOptions');
+
+        component.set('options', {});
+
+        assert.ok(spy.calledOnce, 'updateOptions() is called once after options modified');
     });
 
     ember_qunit.test('"Options" property needs to be an object', function (assert) {
@@ -46198,33 +47986,64 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
         assert.ok(callSubject(), 'property was an Array');
     });
 
-    ember_qunit.test('setupChart initializes chart and updates data upon render', function (assert) {
-        var spyHighcharts = sinon['default'].spy(Ember['default'].$.fn, 'highcharts');
-
+    ember_qunit.test('setupChart initializes chart upon render', function (assert) {
         var component = this.subject({
             options: testOptions,
             series: testSeries,
-            updateData: function updateData() {
+            updateOptions: function updateOptions() {
                 return;
             }
         });
 
         var setupSpy = sinon['default'].spy(component, 'setupChart');
-        var updateSpy = sinon['default'].spy(component, 'updateData');
-
-        assert.strictEqual(component.get('chart'), null, 'Chart is null upon initilization');
+        var setHeightSpy = sinon['default'].spy(component, 'setHeight');
+        var setWidthSpy = sinon['default'].spy(component, 'setWidth');
+        var updateOptionsSpy = sinon['default'].spy(component, 'updateOptions');
 
         this.render();
 
         assert.ok(setupSpy.calledOnce, 'setupChart was called once upon render');
 
-        assert.ok(updateSpy.calledOnce, 'updateData was called once upon render');
+        assert.ok(setHeightSpy.calledOnce, 'setHeight was called once upon render');
 
-        assert.ok(spyHighcharts.calledTwice, 'highcharts was called twice upon render');
+        assert.ok(setWidthSpy.calledOnce, 'setWidth was called once upon render');
 
-        assert.ok(spyHighcharts.calledWithExactly(component.get('highchartsOptions')), 'highcharts was called once with options');
+        assert.ok(updateOptionsSpy.calledOnce, 'updateOptions was called once upon render');
+    });
 
-        assert.ok(spyHighcharts.calledWithExactly(), 'highcharts was called once with no parameters');
+    ember_qunit.test('updateOptions initializes chart correctly', function (assert) {
+        var component = this.subject({
+            options: testOptions,
+            series: testSeries
+        });
+        var originalUpdateOptions = component.updateOptions;
+
+        component.updateOptions = function () {};
+
+        this.render();
+
+        component.updateOptions = originalUpdateOptions;
+
+        assert.strictEqual(component.get('chart'), null, 'Chart is null before options are updated');
+
+        var spyHighcharts = sinon['default'].spy(Ember['default'].$.fn, 'highcharts');
+        var optionsMatcher = function optionsMatcher(options) {
+            var optionsFromMethod = component.highchartsOptions();
+
+            // Highcharts modifies options.chart and adds a options.chart.renderTo method
+            // Since this is not a property that we pass in, copy over that property before doing a deepEqual
+            optionsFromMethod.chart.renderTo = options.chart.renderTo;
+
+            return sinon['default'].deepEqual(optionsFromMethod, options);
+        };
+
+        component.updateOptions();
+
+        assert.ok(spyHighcharts.calledOnce, 'highcharts was called once upon render');
+
+        assert.ok(spyHighcharts.calledWithMatch(optionsMatcher), 'highcharts was called once with options');
+
+        assert.strictEqual(Ember['default'].typeOf(component.get('chart')), 'object', 'chart is set after options are updated');
     });
 
     ember_qunit.test('highchartsOptions returns expected options', function (assert) {
@@ -46233,7 +48052,7 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
             series: testSeries
         });
         var chartStyle = {
-            fontFamily: '"Benton Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+            fontFamily: 'Helvetica, Arial, sans-serif',
             fontSize: '13px'
         };
         var options = Ember['default'].$.extend(true, {
@@ -46258,6 +48077,7 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
                     animation: false
                 }
             },
+            series: testSeries,
             tooltip: {
                 animation: false,
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -46279,7 +48099,7 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
             }
         }, component.get('options') || {});
 
-        assert.deepEqual(options, component.get('highchartsOptions'), 'highchartsOptions returns expected options');
+        assert.deepEqual(options, component.highchartsOptions(), 'highchartsOptions returns expected options');
     });
 
     ember_qunit.test('Observer keys are correct', function (assert) {
@@ -46292,6 +48112,10 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
 
         assert.deepEqual(component.updateData.__ember_observes__, updateDataKeys, 'Observer keys are correct for updateData()');
 
+        var updateOptionsKeys = ['options'];
+
+        assert.deepEqual(component.updateOptions.__ember_observes__, updateOptionsKeys, 'Observer keys are correct for updateOptions()');
+
         var setHeightKeys = ['height'];
 
         assert.deepEqual(component.setHeight.__ember_observes__, setHeightKeys, 'Observer keys are correct for setHeight()');
@@ -46299,6 +48123,23 @@ define('dummy/tests/unit/components/sl-chart-test', ['ember', 'ember-qunit', 'si
         var setWidthKeys = ['width'];
 
         assert.deepEqual(component.setWidth.__ember_observes__, setWidthKeys, 'Observer keys are correct for setWidth()');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject({
+            options: testOptions,
+            series: testSeries
+        });
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -46313,7 +48154,7 @@ define('dummy/tests/unit/components/sl-chart-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-checkbox-test', ['ember-qunit', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (ember_qunit, InputBasedMixin, TooltipEnabledMixin) {
+define('dummy/tests/unit/components/sl-checkbox-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, ClassPrefix, InputBasedMixin, TooltipEnabledMixin, globalLibraries) {
 
     'use strict';
 
@@ -46322,16 +48163,65 @@ define('dummy/tests/unit/components/sl-checkbox-test', ['ember-qunit', 'sl-ember
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(InputBasedMixin['default'].detect(this.subject()), 'InputBased Mixin is present');
+
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject()), 'TooltipEnabled Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
 
+        assert.strictEqual(component.get('componentClass'), 'checkbox', 'componentClass is set to checkbox');
+
         assert.strictEqual(component.get('checked'), false, '"checked" property is false by default');
 
         assert.strictEqual(component.get('label'), null, '"label" property is null by default');
+
+        assert.strictEqual(component.get('tagName'), 'div', 'tagName is "div" in default state');
+    });
+
+    ember_qunit.test('checkboxType property sets relevant class', function (assert) {
+        var component = this.subject();
+
+        assert.strictEqual(component.get('checkboxType'), 'checkbox', 'checkboxType defaults to "checkbox"');
+
+        Ember['default'].run(function () {
+            component.set('inline', true);
+        });
+
+        assert.strictEqual(component.get('checkboxType'), 'checkbox-inline', 'checkboxType is inline');
+    });
+
+    ember_qunit.test('Inline property changes tagName', function (assert) {
+        var component = this.subject({
+            inline: true
+        });
+
+        assert.strictEqual(component.get('tagName'), 'label', 'tagName is "label" when component is inline');
+    });
+
+    ember_qunit.test('Dependent keys are correct', function (assert) {
+        var component = this.subject();
+
+        var checkboxTypeDependentKeys = ['inline'];
+
+        assert.deepEqual(component.checkboxType._dependentKeys, checkboxTypeDependentKeys, 'Dependent keys are correct for checkboxType()');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -46346,7 +48236,7 @@ define('dummy/tests/unit/components/sl-checkbox-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-date-picker-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/sl-component-input-id', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sinon'], function (Ember, ember_qunit, ComponentInputId, TooltipEnabled, sinon) {
+define('dummy/tests/unit/components/sl-date-picker-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-component-input-id', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, ClassPrefix, ComponentInputId, TooltipEnabled, sinon, globalLibraries) {
 
     'use strict';
 
@@ -46355,6 +48245,8 @@ define('dummy/tests/unit/components/sl-date-picker-test', ['ember', 'ember-qunit
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(ComponentInputId['default'].detect(this.subject()), 'sl-component-input-id mixin is present');
 
         assert.ok(TooltipEnabled['default'].detect(this.subject()), 'sl-tooltip-enabled mixin is present');
@@ -46363,11 +48255,15 @@ define('dummy/tests/unit/components/sl-date-picker-test', ['ember', 'ember-qunit
     ember_qunit.test('Default properties are set correctly', function (assert) {
         var component = this.subject();
 
+        assert.equal(component.get('componentClass'), 'date-picker', 'componentClass is set to date-picker');
+
         assert.equal(component.get('autoclose'), true, '"autoclose" default vaue is correct');
 
         assert.equal(component.get('calendarWeeks'), false, '"calendarWeeks" default value is correct');
 
         assert.equal(component.get('clearBtn'), false, '"clearBtn" default value is correct');
+
+        assert.strictEqual(component.get('componentClass'), 'date-picker', 'componentClass is set to date-picker');
 
         assert.deepEqual(component.get('daysOfWeekDisabled'), [], '"daysOfWeekDisabled" default value is correct');
 
@@ -46690,6 +48586,20 @@ define('dummy/tests/unit/components/sl-date-picker-test', ['ember', 'ember-qunit
         assert.deepEqual(component.updateDateRange.__ember_observes__, updateDateRangeKeys, 'Observer keys are correct for updateDateRange()');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-date-picker-test.jshint', function () {
 
@@ -46702,7 +48612,7 @@ define('dummy/tests/unit/components/sl-date-picker-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-date-range-picker-test', ['ember', 'ember-qunit', 'qunit', 'sinon', 'sl-ember-components/mixins/sl-component-input-id'], function (Ember, ember_qunit, qunit, sinon, ComponentInputId) {
+define('dummy/tests/unit/components/sl-date-range-picker-test', ['ember', 'ember-qunit', 'qunit', 'sinon', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-component-input-id', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, qunit, sinon, ClassPrefix, ComponentInputId, globalLibraries) {
 
     'use strict';
 
@@ -46713,11 +48623,15 @@ define('dummy/tests/unit/components/sl-date-range-picker-test', ['ember', 'ember
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(ComponentInputId['default'].detect(this.subject()), 'sl-component-input-id mixin is present');
     });
 
     ember_qunit.test('Default property values are set correctly', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'date-range-picker', 'componentClass is set to date-range-picker');
 
         assert.strictEqual(component.get('endDateValue'), null, 'endDateValue: null');
 
@@ -46878,6 +48792,20 @@ define('dummy/tests/unit/components/sl-date-range-picker-test', ['ember', 'ember
         // waiting for 1.13 for a way to mock and spy on child components
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-date-range-picker-test.jshint', function () {
 
@@ -46890,7 +48818,7 @@ define('dummy/tests/unit/components/sl-date-range-picker-test.jshint', function 
   });
 
 });
-define('dummy/tests/unit/components/sl-date-time-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (Ember, ember_qunit, TooltipEnabledMixin) {
+define('dummy/tests/unit/components/sl-date-time-test', ['ember', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/mixins/class-prefix'], function (Ember, ember_qunit, globalLibraries, TooltipEnabledMixin, ClassPrefix) {
 
     'use strict';
 
@@ -46899,13 +48827,15 @@ define('dummy/tests/unit/components/sl-date-time-test', ['ember', 'ember-qunit',
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject({ timezone: 'America/Chicago' })), 'ClassPrefix Mixin is present');
+
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject({ timezone: 'America/Chicago' })), 'TooltipEnabled Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
-        this.subject({ timezone: 'America/Chicago' });
+        var component = this.subject({ timezone: 'America/Chicago' });
 
-        assert.ok(this.$().hasClass('sl-datetime'), 'Default rendered component has class "sl-datetime"');
+        assert.strictEqual(component.get('componentClass'), 'date-time', '"componentClass" property defaults to date-time');
     });
 
     ember_qunit.test('Attribute "datetime" is properly set', function (assert) {
@@ -47096,6 +49026,22 @@ define('dummy/tests/unit/components/sl-date-time-test', ['ember', 'ember-qunit',
         assert.ok(callSubject(), 'timezone property is valid');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject({
+            timezone: 'America/Chicago'
+        });
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-date-time-test.jshint', function () {
 
@@ -47108,7 +49054,7 @@ define('dummy/tests/unit/components/sl-date-time-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-drop-button-test', ['ember', 'ember-qunit', 'sl-ember-components/components/sl-drop-button', 'sl-ember-components/components/sl-button'], function (Ember, ember_qunit, sl_drop_button, sl_button) {
+define('dummy/tests/unit/components/sl-drop-button-test', ['ember', 'ember-qunit', 'sl-ember-components/components/sl-drop-button', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/components/sl-button', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, sl_drop_button, ClassPrefix, sl_button, globalLibraries) {
 
     'use strict';
 
@@ -47118,8 +49064,14 @@ define('dummy/tests/unit/components/sl-drop-button-test', ['ember', 'ember-qunit
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default properties are set correctly', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'drop-button', 'componentClass is set to drop-button');
 
         assert.strictEqual(component.get('title'), null, '"title" default value is correct');
 
@@ -47129,7 +49081,7 @@ define('dummy/tests/unit/components/sl-drop-button-test', ['ember', 'ember-qunit
 
         assert.strictEqual(component.get('content'), null, '"content" default value is correct');
 
-        assert.strictEqual(component.get('iconClass'), 'caret', '"iconClass" default value is correct');
+        assert.strictEqual(component.get('iconClass'), 'sl-icon-dropdown', '"iconClass" default value is correct');
 
         assert.strictEqual(component.get('label'), null, '"label" default value is correct');
 
@@ -47150,23 +49102,7 @@ define('dummy/tests/unit/components/sl-drop-button-test', ['ember', 'ember-qunit
 
         var rightAlignedDependentKeys = ['align'];
 
-        var themeClassDependentKeys = ['theme'];
-
         assert.deepEqual(component.rightAligned._dependentKeys, rightAlignedDependentKeys, 'Dependent keys are correct for rightAligned()');
-
-        assert.deepEqual(component.themeClass._dependentKeys, themeClassDependentKeys, 'Dependent keys are correct for themeClass()');
-    });
-
-    ember_qunit.test('themeClass() returns expected interpolated string', function (assert) {
-        var component = this.subject({ theme: 'hover' });
-
-        assert.strictEqual(component.get('themeClass'), 'dropdown-hover', 'themeClass() returns expected string');
-
-        Ember['default'].run(function () {
-            component.set('theme', 'invalidTheme');
-        });
-
-        assert.strictEqual(component.get('themeClass'), null, 'themeClass() returns null upon invalid "theme" property');
     });
 
     ember_qunit.test('rightAligned() returns expected boolean based on right and left alignment', function (assert) {
@@ -47181,6 +49117,20 @@ define('dummy/tests/unit/components/sl-drop-button-test', ['ember', 'ember-qunit
         assert.strictEqual(component.get('rightAligned'), false, 'rightAligned() returns expected boolean');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-drop-button-test.jshint', function () {
 
@@ -47193,7 +49143,7 @@ define('dummy/tests/unit/components/sl-drop-button-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-drop-option-test', ['ember', 'sinon', 'ember-qunit'], function (Ember, sinon, ember_qunit) {
+define('dummy/tests/unit/components/sl-drop-option-test', ['sl-ember-components/mixins/class-prefix', 'sinon', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ClassPrefix, sinon, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -47201,40 +49151,20 @@ define('dummy/tests/unit/components/sl-drop-option-test', ['ember', 'sinon', 'em
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'drop-option', 'componentClass is set to drop-option');
 
         assert.strictEqual(component.get('data'), null, '"Data" property defaults to null');
 
         assert.strictEqual(component.get('actionContext'), null, '"Actioncontext" property defaults to null');
 
         assert.strictEqual(component.get('tagName'), 'li', '"tagName" property defaults to li');
-    });
-
-    ember_qunit.test('optionType function returns expected values', function (assert) {
-        var component = this.subject();
-
-        assert.strictEqual(component.get('optionType'), 'divider', '"optionType" defaults to "divider" if label isnt set');
-
-        Ember['default'].run(function () {
-            component.set('label', '');
-        });
-
-        assert.strictEqual(component.get('optionType'), 'divider', '"optionType" returns "divider" if label is false');
-
-        Ember['default'].run(function () {
-            component.set('label', 'testLabel');
-        });
-
-        assert.strictEqual(component.get('optionType'), 'presentation', '"optionType" returns "presentation" if label is true');
-    });
-
-    ember_qunit.test('Dependent keys are correct', function (assert) {
-        var component = this.subject();
-
-        var optionTypeDependentKeys = ['label'];
-
-        assert.deepEqual(component.optionType._dependentKeys, optionTypeDependentKeys, 'Dependent keys are correct for optionType()');
     });
 
     ember_qunit.test('Click triggers bound action with correct arguments', function (assert) {
@@ -47260,6 +49190,20 @@ define('dummy/tests/unit/components/sl-drop-option-test', ['ember', 'sinon', 'em
         assert.ok(testActionSpy.calledWith(testDataObject, 'testActionContext'), 'Test action fired correctly with the correct arguments');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-drop-option-test.jshint', function () {
 
@@ -47272,7 +49216,7 @@ define('dummy/tests/unit/components/sl-drop-option-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-grid-cell-test', ['ember', 'ember-qunit', 'sl-ember-components/components/sl-grid-cell', 'sl-ember-components/utils/all', 'sinon'], function (Ember, ember_qunit, sl_grid_cell, utils, sinon) {
+define('dummy/tests/unit/components/sl-grid-cell-test', ['ember', 'ember-qunit', 'sl-ember-components/components/sl-grid-cell', 'sl-ember-components/utils/warn', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, sl_grid_cell, warn, sinon, globalLibraries) {
 
     'use strict';
 
@@ -47285,12 +49229,6 @@ define('dummy/tests/unit/components/sl-grid-cell-test', ['ember', 'ember-qunit',
         RIGHT: 'right'
     });
 
-    var ColumnSize = Object.freeze({
-        LARGE: 'large',
-        MEDIUM: 'medium',
-        SMALL: 'small'
-    });
-
     var defaultColumn = Ember['default'].Object.extend();
 
     ember_qunit.test('Default property values', function (assert) {
@@ -47298,11 +49236,9 @@ define('dummy/tests/unit/components/sl-grid-cell-test', ['ember', 'ember-qunit',
 
         assert.strictEqual(component.get('tagName'), 'td', 'tagName is td');
 
-        assert.strictEqual(component.get('column'), null, 'column is null');
+        assert.deepEqual(component.get('column'), {}, 'column is an empty object');
 
-        assert.strictEqual(component.get('row'), null, 'row is null');
-
-        assert.deepEqual(sl_grid_cell.ColumnSize, ColumnSize, 'Column size enum has correct values');
+        assert.deepEqual(component.get('record'), {}, 'record is an empty object');
 
         assert.deepEqual(sl_grid_cell.ColumnAlign, ColumnAlign, 'Column align enum has correct values');
     });
@@ -47323,56 +49259,14 @@ define('dummy/tests/unit/components/sl-grid-cell-test', ['ember', 'ember-qunit',
 
         assert.strictEqual(component.get('alignmentClass'), null, 'null is returned when alignment is set to left');
 
-        var spy = sinon['default'].spy(utils, 'warn');
+        var spy = sinon['default'].spy(warn, 'default');
         column.set('align', 'invalidValue');
 
         assert.strictEqual(component.get('alignmentClass'), null, 'null was returned when invalid alignment value provided');
 
         assert.ok(spy.called, 'warn was called when invalid value provided');
 
-        utils.warn.restore();
-    });
-
-    ember_qunit.test('sizeClass() returns correct size value', function (assert) {
-        var column = defaultColumn.create();
-        var component = this.subject({
-            column: column
-        });
-
-        assert.strictEqual(component.get('sizeClass'), null, 'size value is null when "size" property is not set on column');
-
-        for (var size in sl_grid_cell.ColumnSize) {
-            var sizeValue = sl_grid_cell.ColumnSize[size];
-            column.set('size', sizeValue);
-
-            assert.strictEqual(component.get('sizeClass'), 'column-' + sizeValue, 'Setting a size of ' + sizeValue + ' returns column-' + sizeValue);
-        }
-
-        var spy = sinon['default'].spy(utils, 'warn');
-        column.set('size', 'invalidValue');
-
-        assert.strictEqual(component.get('sizeClass'), 'column-invalidValue', 'size value is "column-invalidValue" when "size" property is set to an invalid value');
-
-        assert.ok(spy.called, 'warn was called when invalid value provided');
-
-        utils.warn.restore();
-    });
-
-    ember_qunit.test('style() returns the correct value', function (assert) {
-        var column = defaultColumn.create();
-        var component = this.subject({
-            column: column
-        });
-
-        assert.strictEqual(component.get('style').string, '', 'style() is an empty string when column size is not set');
-
-        column.set('size', 100);
-
-        assert.strictEqual(component.get('style').string, 'width: 100px;', 'style() returns a correct style value when a number is set');
-
-        column.set('size', 'notNumber');
-
-        assert.strictEqual(component.get('style').string, '', 'style() returns an empty string when size is not a number');
+        warn['default'].restore();
     });
 
     ember_qunit.test('contentValue() returns the correct value', function (assert) {
@@ -47380,42 +49274,42 @@ define('dummy/tests/unit/components/sl-grid-cell-test', ['ember', 'ember-qunit',
             valuePath: 'name'
         });
 
-        var row = Ember['default'].Object.extend().create({
+        var record = Ember['default'].Object.extend().create({
             name: 'test'
         });
 
         var component = this.subject({
             column: column,
-            row: row
+            record: record
         });
 
-        assert.strictEqual(component.get('contentValue'), row.name, 'contentValue() returned correct result for row');
+        assert.strictEqual(component.get('contentValue'), record.name, 'contentValue() returned correct result for row');
 
-        row = Ember['default'].Object.extend().create({
+        record = Ember['default'].Object.extend().create({
             model: {
                 name: 'anotherTest'
             }
         });
 
         Ember['default'].run(function () {
-            component.set('row', row);
+            component.set('record', record);
         });
 
-        assert.strictEqual(component.get('contentValue'), row.get('model.name'), 'contentValue() returns model data when row model is set');
+        assert.strictEqual(component.get('contentValue'), record.get('model.name'), 'contentValue() returns model data when row model is set');
     });
 
     ember_qunit.test('Click event action is supported', function (assert) {
         var defaultColumn = { valuePath: 'value' };
-        var defaultRow = { value: 'Test' };
+        var defaultRecord = { value: 'Test' };
 
         this.subject({
             column: defaultColumn,
             onClick: 'test',
-            row: defaultRow,
+            record: defaultRecord,
 
             targetObject: {
-                test: function test(row) {
-                    assert.equal(row, defaultRow, 'Click event sent expected value');
+                test: function test(record) {
+                    assert.equal(record, defaultRecord, 'Click event sent expected value');
                 }
             }
         });
@@ -47428,15 +49322,31 @@ define('dummy/tests/unit/components/sl-grid-cell-test', ['ember', 'ember-qunit',
 
         var alignmentClassDependentKeys = ['column.align'];
 
-        var contentValueDependentKeys = ['column', 'row'];
-
-        var sizeClassDependentKeys = ['column.size'];
+        var contentValueDependentKeys = ['column', 'record'];
 
         assert.deepEqual(component.alignmentClass._dependentKeys, alignmentClassDependentKeys, 'Dependent keys are correct for alignmentClass()');
 
         assert.deepEqual(component.contentValue._dependentKeys, contentValueDependentKeys, 'Dependent keys are correct for contentValue()');
+    });
 
-        assert.deepEqual(component.sizeClass._dependentKeys, sizeClassDependentKeys, 'Dependent keys are correct for sizeClass()');
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var column = { valuePath: 'value' };
+        var record = { value: 'Test' };
+
+        var component = this.subject({
+            column: column,
+            record: record
+        });
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -47451,7 +49361,7 @@ define('dummy/tests/unit/components/sl-grid-cell-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-grid-column-header-test', ['ember', 'ember-qunit'], function (Ember, ember_qunit) {
+define('dummy/tests/unit/components/sl-grid-column-header-test', ['ember', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -47467,72 +49377,64 @@ define('dummy/tests/unit/components/sl-grid-column-header-test', ['ember', 'embe
         assert.strictEqual(component.get('column'), null, 'column is null');
     });
 
-    ember_qunit.test('sortedClass() returns the correct value', function (assert) {
-        var column = Ember['default'].Object.extend().create({
-            sortable: true
+    ember_qunit.test('Sorted class is present when column is in sorted state', function (assert) {
+        var sortable = true;
+        var sorted = null;
+
+        var component = this.subject({ sortable: sortable, sorted: sorted });
+
+        assert.equal(this.$().hasClass('column-ascending'), false, 'Class "column-ascending" is not present with non-sorted column');
+
+        assert.equal(this.$().hasClass('column-descending'), false, 'Class "column-descending" is not present with non-sorted column');
+
+        Ember['default'].run(function () {
+            return component.set('sorted', 'asc');
         });
 
-        var component = this.subject({
-            column: column
+        assert.equal(this.$().hasClass('column-descending'), false, 'Class "column-descending" is not present with ascending-sorted column');
+
+        assert.equal(this.$().hasClass('column-ascending'), true, 'Class "column-ascending" is present with ascending-sorted column');
+
+        Ember['default'].run(function () {
+            return component.set('sorted', 'desc');
         });
 
-        assert.strictEqual(component.get('sortedClass'), null, 'sortedClass returns null when sortAscending is not set ');
+        assert.equal(this.$().hasClass('column-ascending'), false, 'Class "column-ascending" is not present with descending-sorted column');
 
-        column.set('sortAscending', true);
-
-        assert.strictEqual(component.get('sortedClass'), 'column-ascending', 'sortedClass returns column-ascending');
-
-        column.set('sortAscending', false);
-
-        assert.strictEqual(component.get('sortedClass'), 'column-descending', 'sortedClass returns column-descending');
-    });
-
-    ember_qunit.test('sortedIconClass() returns the correct value', function (assert) {
-        var column = Ember['default'].Object.extend().create({
-            sortable: true
-        });
-
-        var component = this.subject({
-            column: column
-        });
-
-        assert.strictEqual(component.get('sortIconClass'), 'fa-sort', 'sortIconClass returns fa-sort when sortAscending is set to true');
-
-        column.set('sortAscending', true);
-
-        assert.strictEqual(component.get('sortIconClass'), 'fa-sort-asc', 'sortIconClass returns column-asc');
-
-        column.set('sortAscending', false);
-
-        assert.strictEqual(component.get('sortIconClass'), 'fa-sort-desc', 'sortIconClass returns column-desc');
+        assert.equal(this.$().hasClass('column-descending'), true, 'Class "column-descending" is present with descending-sorted column');
     });
 
     ember_qunit.test('Click event returns column with sortable column', function (assert) {
-        assert.expect(2);
-
         var column = {};
+        var sortable = false;
+
         var targetObject = {
             test: function test() {
                 assert.ok(false, 'Bound click action was fired without a valid sortable column');
             }
         };
 
-        this.subject({
+        var component = this.subject({
             column: column,
+            sortable: sortable,
             onClick: 'test',
             targetObject: targetObject
         });
+
+        assert.expect(1);
+
+        var done = assert.async();
 
         // This click should not cause the initial assertion to run
         this.$().trigger('click');
 
         Ember['default'].run(function () {
-            Ember['default'].set(column, 'sortable', true);
+            component.set('sortable', true);
 
             targetObject.test = function (passedColumn) {
-                assert.ok(true, 'onClick action handler was called');
+                assert.equal(passedColumn, column, 'onClick passed expected column definition');
 
-                assert.deepEqual(passedColumn, column, 'onClick passed expected column definition');
+                done();
             };
         });
 
@@ -47542,13 +49444,23 @@ define('dummy/tests/unit/components/sl-grid-column-header-test', ['ember', 'embe
     ember_qunit.test('Dependent keys are correct', function (assert) {
         var component = this.subject();
 
-        var sortedClassDependentKeys = ['column.sortAscending', 'column.sortable'];
-
-        var sortIconClassDependentKeys = ['column.sortAscending', 'column.sortable'];
+        var sortedClassDependentKeys = ['sortable', 'sorted'];
 
         assert.deepEqual(component.sortedClass._dependentKeys, sortedClassDependentKeys);
+    });
 
-        assert.deepEqual(component.sortIconClass._dependentKeys, sortIconClassDependentKeys);
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -47563,7 +49475,7 @@ define('dummy/tests/unit/components/sl-grid-column-header-test.jshint', function
   });
 
 });
-define('dummy/tests/unit/components/sl-grid-row-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/sl-grid-row-test', ['ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -47576,24 +49488,38 @@ define('dummy/tests/unit/components/sl-grid-row-test', ['ember-qunit'], function
 
         assert.strictEqual(component.get('tagName'), 'tr', 'tagName is tr');
 
-        assert.strictEqual(component.get('row'), null, 'row is null');
+        assert.strictEqual(component.get('record'), null, 'record is null');
     });
 
     ember_qunit.test('Click event triggers rowClick action with row record', function (assert) {
-        var row = { testValue: true };
+        var record = { testValue: true };
 
         this.subject({
-            row: row,
-            rowClick: 'test',
+            record: record,
+            onClick: 'test',
 
             targetObject: {
                 test: function test(passedRow) {
-                    assert.equal(passedRow, row, 'Row record passed from rowClick is expected value');
+                    assert.equal(passedRow.record, record, 'Row record passed from onClick is expected value');
                 }
             }
         });
 
         this.$().trigger('click');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -47608,7 +49534,7 @@ define('dummy/tests/unit/components/sl-grid-row-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sinon'], function (Ember, ember_qunit, sinon) {
+define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/class-prefix', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, ClassPrefix, sinon, globalLibraries) {
 
     'use strict';
 
@@ -47622,14 +49548,20 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default values are set correctly', function (assert) {
         var component = this.subject();
 
         assert.strictEqual(component.get('actionsButtonLabel'), 'Actions', 'actionsButtonLabel is set to "Actions"');
 
-        assert.strictEqual(component.get('activeRecord'), null, 'activeRecord is set to null');
+        assert.strictEqual(component.get('activeRow'), null, 'activeRow is set to null');
 
         assert.deepEqual(component.get('columns'), [], 'columns is set to an empty array');
+
+        assert.strictEqual(component.get('componentClass'), 'grid', 'componentClass is set to grid');
 
         assert.strictEqual(component.get('content'), null, 'content is set to null');
 
@@ -47653,7 +49585,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
 
         assert.strictEqual(component.get('footerPath'), null, 'footerPath is null');
 
-        assert.strictEqual(component.get('height'), 'auto', 'height is "auto"');
+        assert.strictEqual(component.get('height'), '', 'height is ""');
 
         assert.strictEqual(component.get('loading'), false, 'loading is false');
 
@@ -47664,10 +49596,6 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         assert.strictEqual(component.get('rowActions'), null, 'rowActions is null');
 
         assert.strictEqual(component.get('rowClick'), null, 'rowClick is null');
-
-        assert.strictEqual(component.get('sortAscending'), true, 'sortAscending is true');
-
-        assert.strictEqual(component.get('sortedColumnTitle'), null, 'sortedColumnTitle is null');
     });
 
     ember_qunit.test('changePage() triggers requestData action with correct arguments', function (assert) {
@@ -47713,26 +49641,20 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
     ember_qunit.test('openDetailPane() updates component state', function (assert) {
         var row = { title: 'Name', valuePath: 'name', active: false };
         var activeRecord = { title: 'Id', valuePath: 'id', active: true };
-        var updateHeightSpy = sinon['default'].spy();
 
         var component = this.subject({
-            activeRecord: activeRecord,
-            updateHeight: updateHeightSpy
+            activeRow: activeRecord
         });
 
         Ember['default'].run(function () {
-            component.send('openDetailPane', row);
+            component.send('selectRow', row);
         });
 
         assert.strictEqual(activeRecord.active, false, 'Active flag on previously active record was set to false');
 
         assert.strictEqual(row.active, true, 'Active flag on row was set to true');
 
-        assert.deepEqual(component.get('activeRecord'), row, 'Active record was set to passed in row');
-
-        assert.strictEqual(component.get('detailPaneOpen'), true, 'detailPaneOpen is set to true');
-
-        assert.ok(updateHeightSpy.calledOnce, true, 'Update height was called');
+        assert.deepEqual(component.get('activeRow'), row, 'Active record was set to passed in row');
     });
 
     ember_qunit.test('rowClick() fires rowClick action', function (assert) {
@@ -47751,26 +49673,22 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         assert.ok(rowClickSpy.calledWith(row), 'rowClick action was fired with correct row data');
     });
 
-    ember_qunit.test('closeDetailPane() updates component state', function (assert) {
+    ember_qunit.test('deselectRow() updates component state', function (assert) {
         var activeRecord = { 'active': true };
-        var updateHeightSpy = sinon['default'].spy();
 
         var component = this.subject({
-            activeRecord: activeRecord,
-            updateHeight: updateHeightSpy
+            activeRow: activeRecord
         });
 
         Ember['default'].run(function () {
-            component.send('closeDetailPane');
+            component.send('deselectRow');
         });
 
         assert.strictEqual(activeRecord.active, false, 'Active record key "active" was set to false');
 
-        assert.strictEqual(component.get('activeRecord'), null, 'Active record was set to null');
+        assert.strictEqual(component.get('activeRow'), null, 'Active record was set to null');
 
         assert.strictEqual(component.get('detailPaneOpen'), false, 'detailPaneOpen was set to false');
-
-        assert.ok(updateHeightSpy.calledOnce, 'Update height was called');
     });
 
     ember_qunit.test('showPagination() returns correct value', function (assert) {
@@ -47789,23 +49707,6 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         component.set('totalPages', 0);
 
         assert.strictEqual(component.get('showPagination'), false, 'showPagination is false when continuous is true and totalPages is 0');
-    });
-
-    ember_qunit.test('sortedColumns() returns the correct column', function (assert) {
-        var component = this.subject({
-            sortedColumnTitle: null,
-            columns: columns
-        });
-
-        assert.strictEqual(component.get('sortedColumn'), null, 'null is returned when sortedColumnTitle is null');
-
-        component.set('sortedColumnTitle', 'Gender');
-
-        assert.strictEqual(component.get('sortedColumn'), null, 'null is returned when title provided is not present within the columns');
-
-        component.set('sortedColumnTitle', 'Name');
-
-        assert.deepEqual(component.get('sortedColumn'), columns.findBy('title', 'Name'), 'Column returned is the correct column');
     });
 
     ember_qunit.test('totalPages() returns the correct value', function (assert) {
@@ -47872,7 +49773,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         Ember['default'].$.fn.off.restore();
     });
 
-    ember_qunit.test('setupAutoHeight() - updateHeight() is called on window resize when height is not specified', function (assert) {
+    ember_qunit.test('setupCalculatedHeight() - updateHeight() is called on window resize', function (assert) {
         var spy = sinon['default'].spy();
 
         this.subject({
@@ -47929,205 +49830,20 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         assert.notOk(spy.called, 'enableContinuousPaging was not called when continuous is false');
     });
 
-    ember_qunit.test('updateHeight() sets correct height on content elements', function (assert) {
-        var heights = {
-            detailContentHeight: 100,
-            listContentHeight: 200
-        };
+    ember_qunit.test('updateHeight() sets grid table height when not empty', function (assert) {
+        var height = '200px';
 
-        var stub = sinon['default'].stub().returns(heights);
-        var component = this.subject({
+        this.subject({
             columns: columns,
             content: content,
-            getContentHeights: stub
+            height: height
         });
 
         this.render();
 
-        this.$('.detail-pane .content').height(0);
-        this.$('.list-pane .content').height(0);
+        assert.ok(this.$('> div > table').parent().height() < 200, 'detail content height is something less than what was given for total');
 
-        component.updateHeight();
-
-        assert.strictEqual(this.$('.detail-pane .content').height(), heights.detailContentHeight, 'detail content height was set correctly');
-
-        assert.strictEqual(this.$('.list-pane .content').height(), heights.listContentHeight, 'list content height was set correctly');
-    });
-
-    ember_qunit.test('getHeights() returns correct height values', function (assert) {
-        var elements = {};
-
-        var component = this.subject({
-            columns: columns,
-            content: content
-        });
-
-        this.render();
-
-        elements.gridHeader = {
-            height: parseInt(this.$('.grid-header').css('height'))
-        };
-
-        elements.detailHeader = {
-            height: parseInt(this.$('.detail-pane header').css('height'))
-        };
-
-        elements.detailFooter = {
-            height: parseInt(this.$('.detail-pane footer').css('height'))
-        };
-
-        elements.listHeader = {
-            height: parseInt(this.$('.list-pane .column-headers').css('height'))
-        };
-
-        elements.listFooter = {
-            height: parseInt(this.$('.list-pane footer').css('height'))
-        };
-
-        elements.filterPane = {
-            height: parseInt(this.$('.filter-pane').css('height'))
-        };
-
-        var heights = component.getHeights();
-
-        for (var key in elements) {
-            var element = elements[key];
-            var keyName = key + 'Height';
-
-            assert.strictEqual(heights[keyName], element.height, key + ' height was returned correctly');
-        }
-    });
-
-    ember_qunit.test('getMaxHeight() returns correct height', function (assert) {
-        var component = this.subject({
-            columns: columns,
-            content: content
-        });
-
-        this.render();
-
-        var computedHeight = Ember['default'].$(window).innerHeight() - this.$().position().top;
-
-        assert.strictEqual(component.getMaxHeight(), computedHeight, 'When height is not set, computed height returned is correct');
-
-        Ember['default'].run(function () {
-            return component.set('height', 200);
-        });
-
-        assert.strictEqual(component.getMaxHeight(), 200, 'Static height is returned when height is set');
-    });
-
-    ember_qunit.test('getContentHeights() returns correct value for content heights', function (assert) {
-        var heights = {};
-        var maxHeight = 1000;
-        var component = this.subject({
-            filterPaneOpen: false
-        });
-
-        sinon['default'].stub(component, 'getMaxHeight').returns(maxHeight);
-        sinon['default'].stub(component, 'getHeights').returns(heights);
-
-        var resetHeights = function resetHeights() {
-            heights.detailHeaderHeight = 0;
-            heights.detailFooterHeight = 0;
-            heights.listHeaderHeight = 0;
-            heights.listFooterHeight = 0;
-            heights.gridHeaderHeight = 0;
-            heights.filterPaneHeight = 0;
-        };
-
-        resetHeights();
-
-        var _component$getContentHeights = component.getContentHeights();
-
-        var detailContentHeight = _component$getContentHeights.detailContentHeight;
-        var listContentHeight = _component$getContentHeights.listContentHeight;
-
-        assert.strictEqual(detailContentHeight, 1000, 'detailContentHeight is ' + maxHeight);
-
-        assert.strictEqual(listContentHeight, 1000, 'listContentHeight is ' + maxHeight);
-
-        /* jshint ignore:start */
-
-        // Test detailContentHeight is computed correctly when detailContentHeight is set
-
-        heights.detailHeaderHeight = 100;
-
-        var _component$getContentHeights2 = component.getContentHeights();
-
-        detailContentHeight = _component$getContentHeights2.detailContentHeight;
-
-        assert.strictEqual(detailContentHeight, maxHeight - 100, 'detailContentHeight is ' + (maxHeight - 100) + ' when detailHeaderHeight is set');
-
-        // Test detailContentHeight is computed correctly when detaiFooterHeight is set
-
-        resetHeights();
-        heights.detailFooterHeight = 100;
-
-        var _component$getContentHeights3 = component.getContentHeights();
-
-        detailContentHeight = _component$getContentHeights3.detailContentHeight;
-
-        assert.strictEqual(detailContentHeight, maxHeight - 100, 'detailContentHeight is ' + (maxHeight - 100) + ' when detailFooterHeight is set');
-
-        // Test listContentHeight and detailContentHeight is computed correctly
-        // when filterPaneHeight is set
-
-        resetHeights();
-        heights.filterPaneHeight = 100;
-        Ember['default'].run(function () {
-            return component.set('filterPaneOpen', true);
-        });
-
-        var _component$getContentHeights4 = component.getContentHeights();
-
-        detailContentHeight = _component$getContentHeights4.detailContentHeight;
-        listContentHeight = _component$getContentHeights4.listContentHeight;
-
-        assert.strictEqual(detailContentHeight, maxHeight - 100, 'detailContentHeight is ' + (maxHeight - 100) + ' when filterPaneHeight is set');
-
-        assert.strictEqual(listContentHeight, maxHeight - 100, 'listContentHeight is ' + (maxHeight - 100) + ' when filterPaneHeight is set');
-
-        // Test listContentHeight and detailContentHeight is computed correctly
-        // when gridHeaderHeight is set
-
-        resetHeights();
-        heights.gridHeaderHeight = 100;
-
-        var _component$getContentHeights5 = component.getContentHeights();
-
-        detailContentHeight = _component$getContentHeights5.detailContentHeight;
-        listContentHeight = _component$getContentHeights5.listContentHeight;
-
-        assert.strictEqual(detailContentHeight, maxHeight - 100, 'detailContentHeight is ' + (maxHeight - 100) + ' when gridHeaderHeight is set');
-
-        assert.strictEqual(listContentHeight, maxHeight - 100, 'listContentHeight is ' + (maxHeight - 100) + ' when gridHeaderHeight is set');
-
-        // Test listContentHeight is computed correctly
-        // when listHeaderHeight is set
-
-        resetHeights();
-        heights.listHeaderHeight = 100;
-
-        var _component$getContentHeights6 = component.getContentHeights();
-
-        listContentHeight = _component$getContentHeights6.listContentHeight;
-
-        assert.strictEqual(listContentHeight, maxHeight - 100, 'listContentHeight is ' + (maxHeight - 100) + ' when listHeaderHeight is set');
-
-        // Test listContentHeight is computed correctly
-        // when listFooterHeight is set
-
-        resetHeights();
-        heights.listFooterHeight = 100;
-
-        var _component$getContentHeights7 = component.getContentHeights();
-
-        listContentHeight = _component$getContentHeights7.listContentHeight;
-
-        assert.strictEqual(listContentHeight, maxHeight - 100, 'listContentHeight is ' + (maxHeight - 100) + ' when listFooterHeight is set');
-
-        /* jshint ignore:end */
+        assert.strictEqual(parseInt(this.$('> div > table').parent().css('height')), this.$('> div > table').parent().height(), 'detail content height was set to something specific');
     });
 
     ember_qunit.test('enableContinuousPaging() binds scroll event', function (assert) {
@@ -48144,7 +49860,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
 
         component.enableContinuousPaging();
 
-        this.$('.list-pane .content').trigger('scroll');
+        this.$('> div > table').parent().trigger('scroll');
 
         assert.ok(handleListContentSpy.called, 'handleListContentScroll was called when scroll event was triggered');
     });
@@ -48228,7 +49944,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         assert.strictEqual(component.get('loading'), true, 'component is in loading state');
     });
 
-    ember_qunit.test('sortColumn() sets correct component state and fires sortColumn action', function (assert) {
+    ember_qunit.test('sortColumn() fires sortColumn action', function (assert) {
         var columns = Ember['default'].A([{ title: 'Name', valuePath: 'name' }, { title: 'ID', valuePath: 'id' }]);
 
         var sortColumnSpy = sinon['default'].spy();
@@ -48246,27 +49962,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
             component.send('sortColumn', columns[0]);
         });
 
-        assert.strictEqual(component.get('sortedColumnTitle'), columns[0].title, 'Sorted column title matches title of row passed in');
-
-        assert.strictEqual(component.get('sortDirection'), true, 'On first sort, sort direction is ascending');
-
-        assert.strictEqual(columns[0].sortAscending, true, 'sortAscending is set to true on column that was passed in');
-
-        Ember['default'].run(function () {
-            component.send('sortColumn', columns[0]);
-        });
-
-        assert.strictEqual(component.get('sortedColumnTitle'), columns[0].title, 'Sorted column title has not changed');
-
-        assert.strictEqual(component.get('sortDirection'), false, 'sortDirection is descending');
-
-        assert.strictEqual(columns[0].sortAscending, false, 'sortAscending is set to false on column that was passed in');
-
-        Ember['default'].run(function () {
-            component.send('sortColumn', columns[1]);
-        });
-
-        assert.strictEqual(columns[0].sortAscending, null, 'sortAscending is set to null on previously sorted column');
+        assert.ok(sortColumnSpy.calledOnce, 'sortColumn action fired');
     });
 
     ember_qunit.test('toggleFilterPane() toggles filter pane and updates height of container', function (assert) {
@@ -48298,7 +49994,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
 
         assert.equal(component.get('currentPage'), 1, 'Initial currentPage is 1');
 
-        this.$('.next-page-button').trigger('click');
+        this.$('.pagination li:last-child a').trigger('click');
 
         assert.equal(component.get('currentPage'), 2, 'Current page incremented correctly');
 
@@ -48306,7 +50002,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
             component.set('loading', false);
         });
 
-        this.$('.next-page-button').trigger('click');
+        this.$('.pagination li:last-child a').trigger('click');
 
         assert.equal(component.get('hasMoreData'), false, 'Current page is the last page');
 
@@ -48314,7 +50010,7 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
             component.set('loading', false);
         });
 
-        this.$('.previous-page-button').trigger('click');
+        this.$('.pagination li:first-child a').trigger('click');
 
         assert.equal(component.get('currentPage'), 2, 'Current page decremented correctly');
     });
@@ -48390,33 +50086,16 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
         Ember['default'].$.fn.off.restore();
     });
 
-    ember_qunit.test('Only required references to Ember.$, $ or jQuery exist', function (assert) {
-        var jqueryAliasSpy = sinon['default'].spy(window, '$');
-        var jquerySpy = sinon['default'].spy(window, 'jQuery');
-        var emberJquery = sinon['default'].spy(Ember['default'], '$');
-
-        this.subject();
-        this.render();
-
-        assert.notOk(jquerySpy.called, 'there are no references to jQuery');
-
-        assert.notOk(jqueryAliasSpy.called, 'there are no references to $');
-
-        assert.notOk(emberJquery.calledOn(window), 'Ember.$ was called on the window object');
-
-        assert.notOk(emberJquery.calledOnce, 'Ember.$ was once called once');
-
-        window.$.restore();
-        window.jQuery.restore();
-        Ember['default'].$.restore();
-    });
-
     ember_qunit.test('Observer keys are correct', function (assert) {
         var component = this.subject();
 
         var handleNewContentKeys = ['content.[]'];
 
+        var displayFooterKeys = ['footerPath', 'showPagination'];
+
         assert.deepEqual(component.handleNewContent.__ember_observes__, handleNewContentKeys, 'Observer keys are correct for handleNewContent()');
+
+        assert.deepEqual(component.displayFooter.__ember_observes__, displayFooterKeys, 'Observer keys are correct for displayFooter()');
     });
 
     ember_qunit.test('Dependent keys are correct', function (assert) {
@@ -48424,15 +50103,33 @@ define('dummy/tests/unit/components/sl-grid-test', ['ember', 'ember-qunit', 'sin
 
         var showPaginationDependentKeys = ['continuous', 'totalPages'];
 
-        var sortedColumnDependentKeys = ['columns', 'sortedColumnTitle'];
-
         var totalPagesDependentKeys = ['continuous', 'pageSize', 'totalCount'];
+
+        var hasMoreDataDependentKeys = ['content.length', 'totalCount'];
 
         assert.deepEqual(component.showPagination._dependentKeys, showPaginationDependentKeys);
 
-        assert.deepEqual(component.sortedColumn._dependentKeys, sortedColumnDependentKeys);
-
         assert.deepEqual(component.totalPages._dependentKeys, totalPagesDependentKeys);
+
+        assert.deepEqual(component.hasMoreData._dependentKeys, hasMoreDataDependentKeys);
+    });
+
+    ember_qunit.test('There are no references to $ or jQuery, and only some references to Ember.$', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].jqueryAliasSpy.called, '"$" was not referenced in code');
+
+        assert.notOk(globalLibraries['default'].jquerySpy.called, '"jQuery" was not referenced in code');
+
+        assert.ok(globalLibraries['default'].emberJquerySpy.calledThrice, 'Ember.$ was called thrice');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -48447,7 +50144,7 @@ define('dummy/tests/unit/components/sl-grid-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-input-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/mixins/sl-component-input-id', 'sinon', 'qunit'], function (Ember, ember_qunit, InputBasedMixin, TooltipEnabledMixin, ComponentInputId, sinon, qunit) {
+define('dummy/tests/unit/components/sl-input-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-component-input-id', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sinon', 'qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, ClassPrefix, ComponentInputId, InputBasedMixin, TooltipEnabledMixin, sinon, qunit, globalLibraries) {
 
     'use strict';
 
@@ -48461,10 +50158,14 @@ define('dummy/tests/unit/components/sl-input-test', ['ember', 'ember-qunit', 'sl
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject()), 'TooltipEnabled Mixin is present');
 
         assert.ok(ComponentInputId['default'].detect(this.subject()), 'ComponentInputId Mixin is present');
+
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'input', 'componentClass is set to input');
 
         assert.strictEqual(component.get('clickToEdit'), false, 'clickToEdit property false by default');
 
@@ -48616,7 +50317,7 @@ define('dummy/tests/unit/components/sl-input-test', ['ember', 'ember-qunit', 'sl
 
         var setupTypeaheadKeys = ['suggestions'];
 
-        assert.deepEqual(component.setupTypeahead.__ember_observes__, setupTypeaheadKeys, 'Observer keys are correct for setupTypeahead()');
+        assert.deepEqual(component.setupTypeaheadObserver.__ember_observes__, setupTypeaheadKeys, 'Observer keys are correct for setupTypeahead()');
     });
 
     qunit.skip('setupTypeahead() - typeahead "displayKey" initialization is correct', function () {});
@@ -48626,6 +50327,20 @@ define('dummy/tests/unit/components/sl-input-test', ['ember', 'ember-qunit', 'sl
     qunit.skip('setupTypeahead() - "typeahead:autocomplete" action sets value successfully', function () {});
 
     qunit.skip('setupTypeahead() - "typeahead:select" action sets value successfully', function () {});
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
 
 });
 define('dummy/tests/unit/components/sl-input-test.jshint', function () {
@@ -48639,35 +50354,41 @@ define('dummy/tests/unit/components/sl-input-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-loading-icon-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/sl-menu-item-show-all-test', ['ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ember_qunit, globalLibraries) {
 
     'use strict';
 
-    ember_qunit.moduleForComponent('sl-loading-icon', 'Unit | Component | sl loading icon', {
+    ember_qunit.moduleForComponent('sl-menu-item-show-all', 'Unit | Component | sl menu item show all', {
         unit: true
     });
 
-    ember_qunit.test('Default property values', function (assert) {
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
         var component = this.subject();
 
-        assert.strictEqual(component.get('inverse'), false, '"inverse" property defaults to false');
+        this.render();
 
-        assert.strictEqual(component.get('tagName'), 'span', '"tagName" property defaults to span');
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
-define('dummy/tests/unit/components/sl-loading-icon-test.jshint', function () {
+define('dummy/tests/unit/components/sl-menu-item-show-all-test.jshint', function () {
 
   'use strict';
 
   QUnit.module('JSHint - unit/components');
-  QUnit.test('unit/components/sl-loading-icon-test.js should pass jshint', function(assert) { 
+  QUnit.test('unit/components/sl-menu-item-show-all-test.js should pass jshint', function(assert) { 
     assert.expect(1);
-    assert.ok(true, 'unit/components/sl-loading-icon-test.js should pass jshint.'); 
+    assert.ok(true, 'unit/components/sl-menu-item-show-all-test.js should pass jshint.'); 
   });
 
 });
-define('dummy/tests/unit/components/sl-menu-item-test', ['ember', 'ember-qunit'], function (Ember, ember_qunit) {
+define('dummy/tests/unit/components/sl-menu-item-test', ['ember', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -48699,16 +50420,16 @@ define('dummy/tests/unit/components/sl-menu-item-test', ['ember', 'ember-qunit']
         assert.ok(this.$().hasClass('active'), 'Rendered element has class "active" when component is active');
     });
 
-    ember_qunit.test('Class "has-sub-menu" is present when bound item has items array', function (assert) {
+    ember_qunit.test('Class "contains-dropdown" is present when bound item has items array', function (assert) {
         var component = this.subject();
 
-        assert.ok(false === this.$().hasClass('has-sub-menu'), 'Rendered element does not have class "has-sub-menu" by default');
+        assert.ok(false === this.$().hasClass('contains-dropdown'), 'Rendered element does not have class "contains-dropdown" by default');
 
         Ember['default'].run(function () {
             component.set('item', { items: [{ label: '' }] });
         });
 
-        assert.ok(this.$().hasClass('has-sub-menu'), 'Rendered element has class "has-sub-menu"');
+        assert.ok(this.$().hasClass('contains-dropdown'), 'Rendered element has class "contains-dropdown"');
     });
 
     ember_qunit.test('Class "active" is present when bound item is selected', function (assert) {
@@ -48789,6 +50510,20 @@ define('dummy/tests/unit/components/sl-menu-item-test', ['ember', 'ember-qunit']
         assert.deepEqual(component.subItems._dependentKeys, subItemsDependentKeys, 'Dependent keys are correct for subItems()');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-menu-item-test.jshint', function () {
 
@@ -48801,7 +50536,7 @@ define('dummy/tests/unit/components/sl-menu-item-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-menu-test', ['ember', 'ember-qunit', 'ember-stream/mixins/stream-enabled', 'sinon'], function (Ember, ember_qunit, StreamEnabledMixin, sinon) {
+define('dummy/tests/unit/components/sl-menu-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/class-prefix', 'ember-stream/mixins/stream-enabled', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, ClassPrefix, StreamEnabledMixin, sinon, globalLibraries) {
 
     'use strict';
 
@@ -48844,11 +50579,15 @@ define('dummy/tests/unit/components/sl-menu-test', ['ember', 'ember-qunit', 'emb
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(StreamEnabledMixin['default'].detect(this.subject()), 'StreamEnabled Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'menu', 'componentClass is set to menu');
 
         assert.strictEqual(component.get('allowShowAll'), false, '"allowShowAll" is "false"');
 
@@ -49223,6 +50962,22 @@ define('dummy/tests/unit/components/sl-menu-test', ['ember', 'ember-qunit', 'emb
         assert.deepEqual(component.selectedItem._dependentKeys, selectedItemKeys, 'Dependent keys are correct for selectedItem()');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject({
+            items: testItems
+        });
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-menu-test.jshint', function () {
 
@@ -49235,7 +50990,51 @@ define('dummy/tests/unit/components/sl-menu-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-modal-footer-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/sl-modal-body-test', ['sl-ember-components/mixins/class-prefix', 'dummy/tests/helpers/sl/synchronous/global-libraries', 'ember-qunit'], function (ClassPrefix, globalLibraries, ember_qunit) {
+
+    'use strict';
+
+    ember_qunit.moduleForComponent('sl-modal-body', 'Unit | Component | sl modal body', {
+        unit: true
+    });
+
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
+    ember_qunit.test('Default property values are set correctly', function (assert) {
+        var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'modal-body', 'componentClass is set to modal-body');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
+});
+define('dummy/tests/unit/components/sl-modal-body-test.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - unit/components');
+  QUnit.test('unit/components/sl-modal-body-test.js should pass jshint', function(assert) { 
+    assert.expect(1);
+    assert.ok(true, 'unit/components/sl-modal-body-test.js should pass jshint.'); 
+  });
+
+});
+define('dummy/tests/unit/components/sl-modal-footer-test', ['sl-ember-components/mixins/class-prefix', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ClassPrefix, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -49247,6 +51046,28 @@ define('dummy/tests/unit/components/sl-modal-footer-test', ['ember-qunit'], func
         var component = this.subject();
 
         assert.strictEqual(component.get('buttonText'), 'Close', 'Default buttonText is "Close"');
+
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
+    ember_qunit.test('Default property values are set correctly', function (assert) {
+        var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'modal-footer', 'componentClass is set to modal-footer');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -49261,7 +51082,41 @@ define('dummy/tests/unit/components/sl-modal-footer-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-modal-test', ['ember', 'ember-qunit', 'sinon', 'ember-stream/mixins/stream-enabled'], function (Ember, ember_qunit, sinon, streamEnabled) {
+define('dummy/tests/unit/components/sl-modal-header-test', ['ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ember_qunit, globalLibraries) {
+
+    'use strict';
+
+    ember_qunit.moduleForComponent('sl-modal-header', 'Unit | Component | sl modal header', {
+        unit: true
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
+});
+define('dummy/tests/unit/components/sl-modal-header-test.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - unit/components');
+  QUnit.test('unit/components/sl-modal-header-test.js should pass jshint', function(assert) { 
+    assert.expect(1);
+    assert.ok(true, 'unit/components/sl-modal-header-test.js should pass jshint.'); 
+  });
+
+});
+define('dummy/tests/unit/components/sl-modal-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/class-prefix', 'sinon', 'ember-stream/mixins/stream-enabled', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, ClassPrefix, sinon, streamEnabled, globalLibraries) {
 
     'use strict';
 
@@ -49287,10 +51142,14 @@ define('dummy/tests/unit/components/sl-modal-test', ['ember', 'ember-qunit', 'si
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
         assert.ok(streamEnabled['default'].detect(this.subject()), 'StreamEnabled Mixin is present');
+
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
     });
 
     ember_qunit.test('Default property values are set correctly', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'modal', 'componentClass is set to modal');
 
         assert.strictEqual(component.get('animated'), true, 'animated is true by default');
 
@@ -49410,6 +51269,20 @@ define('dummy/tests/unit/components/sl-modal-test', ['ember', 'ember-qunit', 'si
         component.hide.restore();
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-modal-test.jshint', function () {
 
@@ -49422,7 +51295,7 @@ define('dummy/tests/unit/components/sl-modal-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'ember-qunit'], function (Ember, sinon, ember_qunit) {
+define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'sl-ember-components/mixins/class-prefix', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, sinon, ClassPrefix, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -49430,20 +51303,33 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'pagination', 'componentClass is set to pagination');
 
         assert.strictEqual(component.get('tagName'), 'ul', 'tagName is ul by default');
 
         assert.strictEqual(component.get('busy'), false, 'busy is false by default');
 
+        assert.strictEqual(component.get('changePage'), null, 'changePage is null by default');
+
         assert.strictEqual(component.get('currentPage'), 1, 'currentPage is 1 by default');
+
+        assert.strictEqual(component.get('isResponsive'), true, 'isResponsive is true by default');
 
         assert.strictEqual(component.get('totalPages'), null, 'totalPages is null by default');
     });
 
     ember_qunit.test('nextPage action increments currentPage', function (assert) {
-        var component = this.subject({ totalPages: 2 });
+        var component = this.subject({
+            totalPages: 2,
+            updateResponsivePlugin: function updateResponsivePlugin() {}
+        });
 
         Ember['default'].run(function () {
             component.send('nextPage');
@@ -49453,7 +51339,11 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
     });
 
     ember_qunit.test('previousPage action decrements currentPage', function (assert) {
-        var component = this.subject({ totalPages: 2, currentPage: 2 });
+        var component = this.subject({
+            totalPages: 2,
+            currentPage: 2,
+            updateResponsivePlugin: function updateResponsivePlugin() {}
+        });
 
         Ember['default'].run(function () {
             component.send('previousPage');
@@ -49463,7 +51353,11 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
     });
 
     ember_qunit.test('onFirstPage property returns the expected values', function (assert) {
-        var component = this.subject({ currentPage: 2 });
+        var component = this.subject({
+            currentPage: 2,
+            totalPages: 3,
+            updateResponsivePlugin: function updateResponsivePlugin() {}
+        });
 
         assert.strictEqual(component.get('onFirstPage'), false, 'Returns false when not on the first page');
 
@@ -49477,7 +51371,9 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
     ember_qunit.test('onLastPage property returns the expected values', function (assert) {
         var component = this.subject({
             currentPage: 1,
-            totalPages: 2
+            totalPages: 2,
+            updateResponsivePlugin: function updateResponsivePlugin() {},
+            setupResponsivePlugin: function setupResponsivePlugin() {}
         });
 
         assert.strictEqual(component.get('onLastPage'), false, 'Returns false when not on the last page');
@@ -49497,7 +51393,8 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
 
     ember_qunit.test('changePageBy() adds to currentPage when positive', function (assert) {
         var component = this.subject({
-            totalPages: 2
+            totalPages: 2,
+            updateResponsivePlugin: function updateResponsivePlugin() {}
         });
 
         Ember['default'].run(function () {
@@ -49510,7 +51407,8 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
     ember_qunit.test('changePageBy() subtracts from currentPage when negative', function (assert) {
         var component = this.subject({
             totalPages: 2,
-            currentPage: 2
+            currentPage: 2,
+            updateResponsivePlugin: function updateResponsivePlugin() {}
         });
 
         Ember['default'].run(function () {
@@ -49520,7 +51418,7 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
         assert.strictEqual(component.get('currentPage'), 1, 'currentPage was decreased by 1');
     });
 
-    ember_qunit.test('changePageBy() sends the changePage action', function (assert) {
+    ember_qunit.test('gotoPage() sends the changePage action', function (assert) {
         var targetObject = {
             testAction: sinon['default'].spy()
         };
@@ -49528,17 +51426,18 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
         var component = this.subject({
             totalPages: 2,
             changePage: 'testAction',
+            updateResponsivePlugin: function updateResponsivePlugin() {},
             targetObject: targetObject
         });
 
         Ember['default'].run(function () {
-            component.changePageBy(1);
+            component.gotoPage(2);
         });
 
         assert.strictEqual(targetObject.testAction.getCall(0).args[0], 2, 'the changePage action was sent with the new currentPage value');
     });
 
-    ember_qunit.test('changePageBy() does nothing when busy is true', function (assert) {
+    ember_qunit.test('gotoPage() does nothing when busy is true', function (assert) {
         var targetObject = {
             testAction: sinon['default'].spy()
         };
@@ -49551,12 +51450,29 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
 
         Ember['default'].run(function () {
             component.set('busy', true);
-            component.changePageBy(1);
+            component.gotoPage(2);
         });
 
         assert.strictEqual(component.get('currentPage'), 1, 'currentPage was not changed');
 
-        assert.strictEqual(targetObject.testAction.calledOnce, false, 'changePage action was not sent');
+        assert.notOk(targetObject.testAction.calledOnce, 'changePage action was not sent');
+    });
+
+    ember_qunit.test('gotoPage() does nothing when page is outside of range', function (assert) {
+        var targetObject = {
+            testAction: sinon['default'].spy()
+        };
+
+        var component = this.subject({
+            totalPages: 2,
+            changePage: 'testAction',
+            targetObject: targetObject
+        });
+
+        component.gotoPage(3);
+        component.gotoPage(0);
+
+        assert.notOk(targetObject.testAction.called, 'changePage action not called when page number is outside of range');
     });
 
     ember_qunit.test('Dependent keys are correct', function (assert) {
@@ -49566,9 +51482,43 @@ define('dummy/tests/unit/components/sl-pagination-test', ['ember', 'sinon', 'emb
 
         var onLastPageDependentKeys = ['currentPage', 'totalPages'];
 
+        var rangeDependentKeys = ['totalPages'];
+
         assert.deepEqual(component.onFirstPage._dependentKeys, onFirstPageDependentKeys, 'Dependent keys are correct for onFirstPage()');
 
         assert.deepEqual(component.onLastPage._dependentKeys, onLastPageDependentKeys, 'Dependent keys are correct for onLastPage()');
+
+        assert.deepEqual(component.range._dependentKeys, rangeDependentKeys, 'Dependent keys are correct for range()');
+    });
+
+    ember_qunit.test('Observer keys are correct', function (assert) {
+        var component = this.subject();
+
+        var reinitializeResponsivePluginKeys = ['totalPages'];
+
+        var updateCurrentPageKeys = ['currentPage'];
+
+        var updateResponsivePluginKeys = ['currentPage'];
+
+        assert.deepEqual(component.reinitializeResponsivePlugin.__ember_observes__, reinitializeResponsivePluginKeys, 'Observer keys are correct for reinitializeResponsivePlugin()');
+
+        assert.deepEqual(component.updateCurrentPage.__ember_observes__, updateCurrentPageKeys, 'Observer keys are correct for updateCurrentPage()');
+
+        assert.deepEqual(component.updateResponsivePlugin.__ember_observes__, updateResponsivePluginKeys, 'Observer keys are correct for updateResponsivePlugin()');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -49583,7 +51533,7 @@ define('dummy/tests/unit/components/sl-pagination-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-panel-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/sl-panel-test', ['sl-ember-components/mixins/class-prefix', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ClassPrefix, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -49591,12 +51541,32 @@ define('dummy/tests/unit/components/sl-panel-test', ['ember-qunit'], function (e
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'panel', 'componentClass is set to panel');
 
         assert.strictEqual(component.get('heading'), null, 'Default heading value is null');
 
         assert.strictEqual(component.get('loading'), false, 'Default loading value is null');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -49611,7 +51581,7 @@ define('dummy/tests/unit/components/sl-panel-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-progress-bar-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/components/sl-progress-bar', 'sinon'], function (Ember, ember_qunit, TooltipEnabledMixin, sl_progress_bar, sinon) {
+define('dummy/tests/unit/components/sl-progress-bar-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/components/sl-progress-bar', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, ClassPrefix, TooltipEnabledMixin, sl_progress_bar, sinon, globalLibraries) {
 
     'use strict';
 
@@ -49628,11 +51598,15 @@ define('dummy/tests/unit/components/sl-progress-bar-test', ['ember', 'ember-quni
     };
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject()), 'TooltipEnabled Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'progress-bar', 'componentClass is set to progress-bar');
 
         assert.deepEqual(sl_progress_bar.Theme, Theme, 'Theme enum values are correct');
 
@@ -49706,20 +51680,17 @@ define('dummy/tests/unit/components/sl-progress-bar-test', ['ember', 'ember-quni
     });
 
     ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
-        var jqueryAliasSpy = sinon['default'].spy(window, '$');
-        var jquerySpy = sinon['default'].spy(window, 'jQuery');
-        var emberJquery = sinon['default'].spy(Ember['default'], '$');
+        globalLibraries['default'].setupSpies();
 
-        this.subject();
+        var component = this.subject();
+
         this.render();
 
-        var called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
+        globalLibraries['default'].triggerEvents(component);
 
-        assert.notOk(called);
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
 
-        window.$.restore();
-        window.jQuery.restore();
-        Ember['default'].$.restore();
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -49734,7 +51705,7 @@ define('dummy/tests/unit/components/sl-progress-bar-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-radio-group-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/mixins/sl-namespace', 'sinon'], function (Ember, ember_qunit, InputBasedMixin, TooltipEnabledMixin, NamespaceMixin, sinon) {
+define('dummy/tests/unit/components/sl-radio-group-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/mixins/sl-namespace', 'sl-ember-components/mixins/class-prefix', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, InputBasedMixin, TooltipEnabledMixin, NamespaceMixin, ClassPrefix, sinon, globalLibraries) {
 
     'use strict';
 
@@ -49744,6 +51715,8 @@ define('dummy/tests/unit/components/sl-radio-group-test', ['ember', 'ember-qunit
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(InputBasedMixin['default'].detect(this.subject()), 'InputBased Mixin is present');
 
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject()), 'TooltipEnabled Mixin is present');
@@ -49753,6 +51726,8 @@ define('dummy/tests/unit/components/sl-radio-group-test', ['ember', 'ember-qunit
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'radio-group', 'componentClass is set to radio-group');
 
         assert.strictEqual(component.get('tagName'), 'fieldset', 'tagName: fieldset');
 
@@ -49866,6 +51841,22 @@ define('dummy/tests/unit/components/sl-radio-group-test', ['ember', 'ember-qunit
         Ember['default'].$.fn.off.restore();
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject({
+            name: 'testName'
+        });
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-radio-group-test.jshint', function () {
 
@@ -49878,7 +51869,7 @@ define('dummy/tests/unit/components/sl-radio-group-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-radio-test', ['ember', 'sl-ember-components/mixins/sl-input-based', 'ember-qunit'], function (Ember, InputBasedMixin, ember_qunit) {
+define('dummy/tests/unit/components/sl-radio-test', ['ember', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-input-based', 'ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ClassPrefix, InputBasedMixin, ember_qunit, globalLibraries) {
 
     'use strict';
 
@@ -49887,31 +51878,41 @@ define('dummy/tests/unit/components/sl-radio-test', ['ember', 'sl-ember-componen
     });
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+
         assert.ok(InputBasedMixin['default'].detect(this.subject()), 'InputBased Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
 
+        assert.strictEqual(component.get('componentClass'), 'radio', 'ComponentClass is set to radio');
+
         assert.strictEqual(component.get('label'), null, 'Default property "label" is null');
+
+        assert.strictEqual(component.get('tagName'), 'div', 'tagName is "div" in default state');
 
         assert.strictEqual(component.get('value'), null, 'Default property "value" is null');
     });
 
-    ember_qunit.test('RadioType property sets relevant class', function (assert) {
+    ember_qunit.test('radioType property sets relevant class', function (assert) {
         var component = this.subject();
 
         assert.strictEqual(component.get('radioType'), 'radio', 'RadioType defaults to "radio"');
-
-        assert.notStrictEqual(component.get('radioType'), 'radio-inline', 'RadioType is not inline');
 
         Ember['default'].run(function () {
             component.set('inline', true);
         });
 
         assert.strictEqual(component.get('radioType'), 'radio-inline', 'RadioType is inline');
+    });
 
-        assert.notStrictEqual(component.get('radioType'), 'radio', 'RadioType is not inline');
+    ember_qunit.test('inline property changes tagName', function (assert) {
+        var component = this.subject({
+            inline: true
+        });
+
+        assert.strictEqual(component.get('tagName'), 'label', 'tagName is "label" when component is inline');
     });
 
     ember_qunit.test('Dependent keys are correct', function (assert) {
@@ -49920,6 +51921,20 @@ define('dummy/tests/unit/components/sl-radio-test', ['ember', 'sl-ember-componen
         var radioTypeDependentKeys = ['inline'];
 
         assert.deepEqual(component.radioType._dependentKeys, radioTypeDependentKeys, 'Dependent keys are correct for radioType()');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -49934,7 +51949,41 @@ define('dummy/tests/unit/components/sl-radio-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-span-test', ['ember-qunit'], function (ember_qunit) {
+define('dummy/tests/unit/components/sl-select-test', ['ember-qunit', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ember_qunit, globalLibraries) {
+
+    'use strict';
+
+    ember_qunit.moduleForComponent('sl-select', 'Unit | Component | sl select', {
+        unit: true
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
+});
+define('dummy/tests/unit/components/sl-select-test.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - unit/components');
+  QUnit.test('unit/components/sl-select-test.js should pass jshint', function(assert) { 
+    assert.expect(1);
+    assert.ok(true, 'unit/components/sl-select-test.js should pass jshint.'); 
+  });
+
+});
+define('dummy/tests/unit/components/sl-span-test', ['sl-ember-components/mixins/class-prefix', 'dummy/tests/helpers/sl/synchronous/global-libraries', 'ember-qunit'], function (ClassPrefix, globalLibraries, ember_qunit) {
 
     'use strict';
 
@@ -49942,8 +51991,14 @@ define('dummy/tests/unit/components/sl-span-test', ['ember-qunit'], function (em
         unit: true
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'span', 'ComponentClass is set to span');
 
         assert.strictEqual(component.get('tagName'), 'span', 'Default property "tagName" is "span"');
 
@@ -49952,6 +52007,20 @@ define('dummy/tests/unit/components/sl-span-test', ['ember-qunit'], function (em
         assert.strictEqual(component.get('loading'), false, 'Default property "loading" is false');
 
         assert.strictEqual(component.get('value'), null, 'Default property "value" is null');
+    });
+
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -49966,7 +52035,7 @@ define('dummy/tests/unit/components/sl-span-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-tab-pane-test', ['ember', 'ember-qunit', 'dummy/tests/helpers/start-app'], function (Ember, ember_qunit, startApp) {
+define('dummy/tests/unit/components/sl-tab-pane-test', ['ember', 'ember-qunit', 'dummy/tests/helpers/start-app', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (Ember, ember_qunit, startApp, globalLibraries) {
 
     'use strict';
 
@@ -49997,6 +52066,20 @@ define('dummy/tests/unit/components/sl-tab-pane-test', ['ember', 'ember-qunit', 
         assert.strictEqual(component.get('data-tab-name'), 'Test Name', '"data-tab-name" is set to the value of "name"');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-tab-pane-test.jshint', function () {
 
@@ -50009,11 +52092,11 @@ define('dummy/tests/unit/components/sl-tab-pane-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-tab-panel-test', ['ember', 'ember-qunit', 'sl-ember-components/components/sl-tab-panel', 'sl-ember-components/utils/all', 'sinon'], function (Ember, ember_qunit, sl_tab_panel, utils, sinon) {
+define('dummy/tests/unit/components/sl-tab-panel-test', ['ember-qunit', 'sl-ember-components/components/sl-tab-panel', 'sl-ember-components/utils/warn', 'sl-ember-components/mixins/class-prefix', 'sinon', 'dummy/tests/helpers/sl/synchronous/global-libraries'], function (ember_qunit, sl_tab_panel, warn, ClassPrefix, sinon, globalLibraries) {
 
     'use strict';
 
-    var template = Ember['default'].HTMLBars.template((function () {
+    var template = Ember.HTMLBars.template((function () {
         var child0 = (function () {
             return {
                 meta: {
@@ -50178,14 +52261,16 @@ define('dummy/tests/unit/components/sl-tab-panel-test', ['ember', 'ember-qunit',
         assert.deepEqual(sl_tab_panel.Alignment, Alignment);
     });
 
+    ember_qunit.test('Expected Mixins are present', function (assert) {
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
+    });
+
     ember_qunit.test('Default values are set correctly', function (assert) {
         var component = this.subject();
 
-        assert.strictEqual(component.get('activeTabName'), null, 'activeTabName is null');
-
         assert.strictEqual(component.get('alignTabs'), sl_tab_panel.Alignment.LEFT, 'alignmentTabs is left by default');
 
-        assert.strictEqual(component.get('contentHeight'), 0, 'contentHeight is 0 by default');
+        assert.strictEqual(component.get('componentClass'), 'tab-panel', 'componentClass is set to tab-panel');
 
         assert.strictEqual(component.get('initialTabName'), null, 'initialTabName is null by default');
     });
@@ -50208,23 +52293,25 @@ define('dummy/tests/unit/components/sl-tab-panel-test', ['ember', 'ember-qunit',
 
         this.render();
 
-        assert.deepEqual(tabs, component.get('tabs'), '"tabs" property is set with the correct data');
+        var componentTabs = component.get('tabs');
 
-        this.registry.unregister('template:test-template');
-    });
+        assert.deepEqual(tabs.map(function (i) {
+            return i.label;
+        }), componentTabs.map(function (i) {
+            return i.label;
+        }), '"tabs" property has proper labels');
 
-    ember_qunit.test('getTabs() returns correct data', function (assert) {
-        var tabs = [{ label: 'One', name: 'one', active: true }, { label: 'Two', name: 'two', active: false }, { label: 'Three', name: 'three', active: false }];
+        assert.deepEqual(tabs.map(function (i) {
+            return i.name;
+        }), componentTabs.map(function (i) {
+            return i.name;
+        }), '"tabs" property has proper names');
 
-        this.registry.register('template:test-template', template);
-
-        var component = this.subject({
-            templateName: 'test-template'
-        });
-
-        this.render();
-
-        assert.deepEqual(component.getTabs(), tabs, 'Correct data returned when initialTabName "one" passed in as a parameter');
+        assert.deepEqual(tabs.map(function (i) {
+            return i.active;
+        }), componentTabs.map(function (i) {
+            return i.active;
+        }), '"tabs" property has proper active states');
 
         this.registry.unregister('template:test-template');
     });
@@ -50238,8 +52325,8 @@ define('dummy/tests/unit/components/sl-tab-panel-test', ['ember', 'ember-qunit',
 
         this.render();
 
-        var tabOne = this.$('.tab[data-tab-name="one"]');
-        var tabTwo = this.$('.tab[data-tab-name="two"]');
+        var tabOne = this.$('> .nav-tabs > li[data-tab-name="one"]');
+        var tabTwo = this.$('> .nav-tabs > li[data-tab-name="two"]');
 
         assert.notOk(tabTwo.hasClass('active'), 'Second tab did not have active class');
 
@@ -50270,102 +52357,6 @@ define('dummy/tests/unit/components/sl-tab-panel-test', ['ember', 'ember-qunit',
         this.registry.unregister('template:test-template');
     });
 
-    ember_qunit.test('updateContentHeight() updates tab content height when contentHeight changes', function (assert) {
-        var component = this.subject();
-
-        var initialHeight = this.$('.tab-content').height();
-        var newHeight = initialHeight + 300;
-
-        component.set('contentHeight', newHeight);
-
-        assert.strictEqual(this.$('.tab-content').height(), newHeight);
-    });
-
-    ember_qunit.test('activatePane() activates pane as expected', function (assert) {
-        assert.expect(2);
-
-        this.registry.register('template:test-template', template);
-
-        var component = this.subject({
-            templateName: 'test-template'
-        });
-
-        var done = assert.async();
-        var tabPaneA = this.$('.sl-tab-pane[data-tab-name="one"]');
-
-        component.activatePane('one');
-
-        // queue assert after animation
-        tabPaneA.queue(function () {
-            assert.ok(tabPaneA.is(':visible'), 'Tab panel is visible after animation');
-
-            assert.ok(tabPaneA.hasClass('active'), 'Tab panel has active class');
-
-            done();
-        });
-
-        this.registry.unregister('template:test-template');
-    });
-
-    ember_qunit.test('deactivatePane() deactivates pane as expected', function (assert) {
-        assert.expect(3);
-
-        this.registry.register('template:test-template', template);
-
-        var component = this.subject({
-            templateName: 'test-template'
-        });
-
-        var done = assert.async();
-        var tabPaneA = this.$('.sl-tab-pane[data-tab-name="one"]');
-
-        component.deactivatePane(function () {
-            assert.ok('Callback passed to deactivatePane was called');
-
-            assert.ok(tabPaneA.is(':hidden'), 'Active panel was hidden');
-
-            assert.notOk(tabPaneA.hasClass('active'), 'Active panel no longer has active class');
-
-            done();
-        });
-
-        this.registry.unregister('template:test-template');
-    });
-
-    ember_qunit.test('paneFor() returns the correct DOM element', function (assert) {
-        this.registry.register('template:test-template', template);
-
-        var component = this.subject({
-            templateName: 'test-template'
-        });
-
-        this.render();
-
-        var tab = 'two';
-        var pane = component.paneFor(tab);
-
-        assert.ok(pane.is($('.tab-pane[data-tab-name="' + tab + '"]')));
-
-        this.registry.unregister('template:test-template');
-    });
-
-    ember_qunit.test('tabFor() returns the correct DOM element', function (assert) {
-        this.registry.register('template:test-template', template);
-
-        var component = this.subject({
-            templateName: 'test-template'
-        });
-
-        this.render();
-
-        var tab = 'two';
-        var pane = component.tabFor(tab);
-
-        assert.ok(pane.is($('.tab[data-tab-name="' + tab + '"]')));
-
-        this.registry.unregister('template:test-template');
-    });
-
     ember_qunit.test('tabAlignmentClass() returns the correct value', function (assert) {
         var component = this.subject();
 
@@ -50377,17 +52368,17 @@ define('dummy/tests/unit/components/sl-tab-panel-test', ['ember', 'ember-qunit',
 
         assert.strictEqual(component.get('tabAlignmentClass'), 'sl-align-tabs-right', 'Correct string returned for value of right');
 
-        var spy = sinon['default'].spy(utils, 'warn');
+        var spy = sinon['default'].spy(warn, 'default');
 
         component.set('alignTabs', 'Invalid value');
         component.get('tabAlignmentClass');
 
         assert.ok(spy.calledOnce, 'warn() was called when invalid alignment class was provided');
 
-        utils.warn.restore();
+        warn['default'].restore();
     });
 
-    ember_qunit.test('contentHeight is set to an integer value when activatePane() is called', function (assert) {
+    ember_qunit.test('getActiveTabName returns the correct value after setActiveTab() is called', function (assert) {
         this.registry.register('template:test-template', template);
 
         var component = this.subject({
@@ -50396,35 +52387,25 @@ define('dummy/tests/unit/components/sl-tab-panel-test', ['ember', 'ember-qunit',
 
         this.render();
 
-        component.activatePane('b');
+        component.setActiveTab('two');
 
-        assert.equal(Ember['default'].typeOf(component.get('contentHeight')), 'number');
-
-        this.registry.unregister('template:test-template');
-    });
-
-    ember_qunit.test('activeTabName is set to correct value when activatePane() is called', function (assert) {
-        this.registry.register('template:test-template', template);
-
-        var component = this.subject({
-            templateName: 'test-template'
-        });
-
-        this.render();
-
-        component.activatePane('b');
-
-        assert.equal(component.get('activeTabName'), 'b');
+        assert.equal(component.getActiveTabName(), 'two');
 
         this.registry.unregister('template:test-template');
     });
 
-    ember_qunit.test('Observer keys are correct', function (assert) {
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
         var component = this.subject();
 
-        var updateContentHeightKeys = ['contentHeight'];
+        this.render();
 
-        assert.deepEqual(component.updateContentHeight.__ember_observes__, updateContentHeightKeys, 'Observer keys are correct for updateContentHeight()');
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
     });
 
 });
@@ -50439,7 +52420,7 @@ define('dummy/tests/unit/components/sl-tab-panel-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-textarea-test', ['ember-qunit', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/mixins/sl-component-input-id', 'sl-ember-components/components/sl-textarea'], function (ember_qunit, InputBasedMixin, TooltipEnabledMixin, ComponentInputId, sl_textarea) {
+define('dummy/tests/unit/components/sl-textarea-test', ['sl-ember-components/mixins/class-prefix', 'sl-ember-components/mixins/sl-component-input-id', 'dummy/tests/helpers/sl/synchronous/global-libraries', 'sl-ember-components/mixins/sl-input-based', 'sl-ember-components/mixins/sl-tooltip-enabled', 'sl-ember-components/components/sl-textarea', 'ember-qunit'], function (ClassPrefix, ComponentInputId, globalLibraries, InputBasedMixin, TooltipEnabledMixin, sl_textarea, ember_qunit) {
 
     'use strict';
 
@@ -50464,10 +52445,14 @@ define('dummy/tests/unit/components/sl-textarea-test', ['ember-qunit', 'sl-ember
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject()), 'TooltipEnabled Mixin is present');
 
         assert.ok(ComponentInputId['default'].detect(this.subject()), 'ComponentInputId Mixin is present');
+
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject();
+
+        assert.strictEqual(component.get('componentClass'), 'textarea', 'componentClass is set to textarea');
 
         assert.strictEqual(component.get('autofocus'), false, 'Default property "autofocus" is false');
 
@@ -50488,6 +52473,20 @@ define('dummy/tests/unit/components/sl-textarea-test', ['ember-qunit', 'sl-ember
         assert.deepEqual(sl_textarea.Direction, Direction, 'Direction enum values are correct');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject();
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-textarea-test.jshint', function () {
 
@@ -50500,7 +52499,7 @@ define('dummy/tests/unit/components/sl-textarea-test.jshint', function () {
   });
 
 });
-define('dummy/tests/unit/components/sl-tooltip-test', ['ember', 'ember-qunit', 'sl-ember-components/mixins/sl-tooltip-enabled'], function (Ember, ember_qunit, TooltipEnabledMixin) {
+define('dummy/tests/unit/components/sl-tooltip-test', ['ember', 'sl-ember-components/mixins/class-prefix', 'dummy/tests/helpers/sl/synchronous/global-libraries', 'sl-ember-components/mixins/sl-tooltip-enabled', 'ember-qunit'], function (Ember, ClassPrefix, globalLibraries, TooltipEnabledMixin, ember_qunit) {
 
     'use strict';
 
@@ -50510,10 +52509,14 @@ define('dummy/tests/unit/components/sl-tooltip-test', ['ember', 'ember-qunit', '
 
     ember_qunit.test('Expected Mixins are present', function (assert) {
         assert.ok(TooltipEnabledMixin['default'].detect(this.subject({ title: 'Tooltip Text' })), 'Expected Mixin is present');
+
+        assert.ok(ClassPrefix['default'].detect(this.subject()), 'ClassPrefix Mixin is present');
     });
 
     ember_qunit.test('Default property values', function (assert) {
         var component = this.subject({ title: 'test' });
+
+        assert.strictEqual(component.get('componentClass'), 'tooltip', 'componentClass is set to tooltip');
 
         assert.equal(component.get('tagName'), 'span');
     });
@@ -50641,6 +52644,22 @@ define('dummy/tests/unit/components/sl-tooltip-test', ['ember', 'ember-qunit', '
         assert.ok(callSubject(), 'Property was a string');
     });
 
+    ember_qunit.test('There are no references to Ember.$, $ or jQuery', function (assert) {
+        globalLibraries['default'].setupSpies();
+
+        var component = this.subject({
+            title: 'tooltip'
+        });
+
+        this.render();
+
+        globalLibraries['default'].triggerEvents(component);
+
+        assert.notOk(globalLibraries['default'].called(), 'Global libraries are not referenced in component');
+
+        globalLibraries['default'].restoreSpies();
+    });
+
 });
 define('dummy/tests/unit/components/sl-tooltip-test.jshint', function () {
 
@@ -50650,6 +52669,56 @@ define('dummy/tests/unit/components/sl-tooltip-test.jshint', function () {
   QUnit.test('unit/components/sl-tooltip-test.js should pass jshint', function(assert) { 
     assert.expect(1);
     assert.ok(true, 'unit/components/sl-tooltip-test.js should pass jshint.'); 
+  });
+
+});
+define('dummy/tests/unit/mixins/sl-component-class-prefix-test', ['ember', 'sl-ember-components/mixins/class-prefix', 'sl-ember-components/utils/class-prefix', 'sinon', 'qunit'], function (Ember, mixinUnderTest, prefixModule, sinon, qunit) {
+
+    'use strict';
+
+    qunit.module('Unit | Mixin | sl component class prefix');
+
+    qunit.test('Can be successfully mixed', function (assert) {
+        var testObject = Ember['default'].Component.extend(mixinUnderTest['default']);
+        var subject = testObject.create();
+
+        assert.ok(subject);
+    });
+
+    qunit.test('prefix() is called when getComponentClassName() invoked', function (assert) {
+        var testObject = Ember['default'].Component.extend(mixinUnderTest['default'], {
+            componentClass: 'test-component'
+        });
+
+        var subject = testObject.create();
+        var prefixSpy = sinon['default'].spy(prefixModule, 'default');
+
+        subject.getComponentClassName();
+
+        assert.ok(prefixSpy.called, 'prefix() was called');
+    });
+
+    qunit.test('Prefixed component class is present in classNames array', function (assert) {
+        var testObject = Ember['default'].Component.extend(mixinUnderTest['default'], {
+            componentClass: 'test-component'
+        });
+
+        var subject = testObject.create();
+        var prefix = prefixModule['default'];
+        var prefixedComponentClass = prefix('test-component');
+
+        assert.ok(subject.get('classNames').contains(prefixedComponentClass), 'Prefixed component class is present in classNames array');
+    });
+
+});
+define('dummy/tests/unit/mixins/sl-component-class-prefix-test.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - unit/mixins');
+  QUnit.test('unit/mixins/sl-component-class-prefix-test.js should pass jshint', function(assert) { 
+    assert.expect(1);
+    assert.ok(true, 'unit/mixins/sl-component-class-prefix-test.js should pass jshint.'); 
   });
 
 });
@@ -50663,7 +52732,7 @@ define('dummy/tests/unit/mixins/sl-component-input-id-test', ['ember', 'sl-ember
         var testObject = Ember['default'].Object.extend(mixinUnderTest['default']);
         var subject = testObject.create();
 
-        assert.ok(subject);
+        assert.ok(subject, 'sl-component-input-id mixin is present');
     });
 
     qunit.test('inputId is set on component', function (assert) {
@@ -50798,7 +52867,7 @@ define('dummy/tests/unit/mixins/sl-tooltip-enabled-test', ['ember', 'sl-ember-co
         var testObject = Ember['default'].Object.extend(mixinUnderTest['default']);
         var subject = testObject.create();
 
-        assert.ok(subject);
+        assert.ok(subject, 'sl-tooltip-enabled mixin is present');
     });
 
     qunit.test('Default property values', function (assert) {
@@ -50968,6 +53037,171 @@ define('dummy/tests/unit/mixins/sl-tooltip-enabled-test.jshint', function () {
   });
 
 });
+define('dummy/tests/unit/utils/class-prefix-test', ['sl-ember-components/utils/class-prefix', 'qunit', 'ember-get-config'], function (prefix, qunit, config) {
+
+    'use strict';
+
+    qunit.module('Unit | Utility | class-prefix');
+
+    qunit.test('prefix() returns a correctly structured prefixed component class name', function (assert) {
+        config['default'].componentClassPrefix = 'test-prefix';
+
+        assert.strictEqual(prefix['default']('test-component'), 'test-prefix-test-component', 'prefix returns a correctly structured prefixed component class name');
+    });
+
+});
+define('dummy/tests/unit/utils/class-prefix-test.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - unit/utils');
+  QUnit.test('unit/utils/class-prefix-test.js should pass jshint', function(assert) { 
+    assert.expect(1);
+    assert.ok(true, 'unit/utils/class-prefix-test.js should pass jshint.'); 
+  });
+
+});
+define('dummy/tests/unit/utils/error-test', ['sl-ember-components/utils/error', 'qunit'], function (utils__error, qunit) {
+
+    'use strict';
+
+    qunit.module('Unit | Utility | error', {
+        beforeEach: function beforeEach() {
+            utils__error.setErrorTypeThrown(null);
+        }
+    });
+
+    qunit.test('errorWasThrown() returns false when "errorTypeThrown" is not set', function (assert) {
+
+        assert.strictEqual(utils__error.errorWasThrown(), false, 'errorWasThrown() returns correct result when "errorTypeThrown" is not set');
+    });
+
+    qunit.test('isErrorInstanceOf() returns false when "errorTypeThrown" is null', function (assert) {
+
+        assert.strictEqual(utils__error.isErrorInstanceOf('chart'), false, 'isErrorInstanceOf() returns correct result when "errorTypeThrown" uses default value');
+    });
+
+    qunit.test('errorWasThrown() returns true when "errorTypeThrown" is set', function (assert) {
+        assert.expect(1);
+
+        try {
+            utils__error.throwChartError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(utils__error.errorWasThrown(), true, 'errorWasThrown() returns correct result when "errorTypeThrown" is set');
+        }
+    });
+
+    qunit.test('isErrorInstanceOf() returns true when "errorTypeThrown" equals the error thrown', function (assert) {
+        assert.expect(1);
+
+        try {
+            utils__error.throwChartError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(utils__error.isErrorInstanceOf('chart'), true, 'isErrorInstanceOf() returns correct result when "errorTypeThrown" is set');
+        }
+    });
+
+    qunit.test('isErrorInstanceOf() returns false when "errorTypeThrown" is not equivalent', function (assert) {
+        assert.expect(1);
+
+        try {
+            utils__error.throwDateTimeError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(utils__error.isErrorInstanceOf('chart'), false, 'isErrorInstanceOf() returns correct result when "errorTypeThrown" is not set');
+        }
+    });
+
+    qunit.test('throwChartError() sets attributes on chart error', function (assert) {
+        assert.expect(2);
+
+        try {
+            utils__error.throwChartError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(error.name, 'sl-chart', 'throwChartError() returns an instance with name set correctly');
+
+            assert.strictEqual(error.message, 'This is a test', 'throwChartError() returns an instance with message set correctly');
+        }
+    });
+
+    qunit.test('throwDateTimeError() sets attributes on dateTime error', function (assert) {
+        assert.expect(2);
+
+        try {
+            utils__error.throwDateTimeError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(error.name, 'sl-date-time', 'throwDateTimeError() returns an instance with name set correctly');
+
+            assert.strictEqual(error.message, 'This is a test', 'throwDateTimeError() returns an instance with message set correctly');
+        }
+    });
+
+    qunit.test('throwMenuError() sets attributes on menu error', function (assert) {
+        assert.expect(2);
+
+        try {
+            utils__error.throwMenuError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(error.name, 'sl-menu', 'throwMenuError() returns an instance with name set correctly');
+
+            assert.strictEqual(error.message, 'This is a test', 'throwMenuError() returns an instance with message set correctly');
+        }
+    });
+
+    qunit.test('throwRadioGroupError() sets attributes on radioGroup error', function (assert) {
+        assert.expect(2);
+
+        try {
+            utils__error.throwRadioGroupError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(error.name, 'sl-radio-group', 'throwRadioGroupError() returns an instance with name set correctly');
+
+            assert.strictEqual(error.message, 'This is a test', 'throwRadioGroupError() returns an instance with message set correctly');
+        }
+    });
+
+    qunit.test('throwTooltipError() sets attributes on tooltip error', function (assert) {
+        assert.expect(2);
+
+        try {
+            utils__error.throwTooltipError('This is a test');
+        } catch (error) {
+
+            assert.strictEqual(error.name, 'sl-tooltip', 'throwTooltipError() returns an instance with name set correctly');
+
+            assert.strictEqual(error.message, 'This is a test', 'throwTooltipError() returns an instance with message set correctly');
+        }
+    });
+
+    qunit.test('buildErrorFunction() sets message to empty string when message is not provided', function (assert) {
+        assert.expect(1);
+
+        try {
+            utils__error.throwTooltipError();
+        } catch (error) {
+
+            assert.strictEqual(error.message, '', 'buildErrorFunction() returns an instance with message set to empty string');
+        }
+    });
+
+});
+define('dummy/tests/unit/utils/error-test.jshint', function () {
+
+  'use strict';
+
+  QUnit.module('JSHint - unit/utils');
+  QUnit.test('unit/utils/error-test.js should pass jshint', function(assert) { 
+    assert.expect(1);
+    assert.ok(true, 'unit/utils/error-test.js should pass jshint.'); 
+  });
+
+});
 /* jshint ignore:start */
 
 /* jshint ignore:end */
@@ -50996,7 +53230,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"sl-ember-components","version":"0.10.2+d2b107b6"});
+  require("dummy/app")["default"].create({"name":"sl-ember-components","version":"0.11.0+032a960e"});
 }
 
 /* jshint ignore:end */
