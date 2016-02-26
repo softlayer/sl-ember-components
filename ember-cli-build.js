@@ -1,13 +1,14 @@
+/*jshint node:true*/
 /* global require, module */
-const EmberApp = require('ember-cli/lib/broccoli/ember-addon');
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 const replace = require( 'broccoli-string-replace' );
 const env = require( './config/environment' );
 const packageConfig = require( './package.json' );
 
 module.exports = function( defaults ) {
-    const app = new EmberApp( defaults, {
+    const app = new EmberAddon( defaults, {
         babel: {
-          includePolyfill: true
+            browserPolyfill: true
         },
 
         fingerprint: {
