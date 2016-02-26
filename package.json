@@ -76,7 +76,7 @@
     "ember-sinon": "0.2.1",
     "ember-try": "~0.0.8",
     "phantomjs": "1.9.18",
-    "sl-ember-test-helpers": "1.11.0",
+    "sl-ember-test-helpers": "1.11.1",
     "sl-eslint": "0.4.0"
   }
 }
