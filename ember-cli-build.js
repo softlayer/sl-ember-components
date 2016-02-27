@@ -8,7 +8,7 @@ const packageConfig = require( './package.json' );
 module.exports = function( defaults ) {
     const app = new EmberAddon( defaults, {
         babel: {
-            browserPolyfill: true
+            includePolyfill: true
         },
 
         fingerprint: {
