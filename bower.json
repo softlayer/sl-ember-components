@@ -14,7 +14,6 @@
     "moment-timezone": "~0.4.0",
     "rxjs": "~2.5.2",
     "select2": "~3.5.2",
-    "sinonjs": "~1.14.1",
     "typeahead.js": "~0.11.1"
   },
   "devDependencies": {
