@@ -41,7 +41,7 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        wrapper.find( '.tab-pane[data-tab-name="a"]' ),
+        wrapper.find( '.tab-pane[data-tab-name="a"]' ).hasClass( 'active' ),
         'First tab pane has class "active"'
     );
 
