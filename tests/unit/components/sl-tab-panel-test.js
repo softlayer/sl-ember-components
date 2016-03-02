@@ -117,39 +117,6 @@ test( 'setupTabs() sets "tabs" property with correct data', function( assert ) {
     this.registry.unregister( 'template:test-template' );
 });
 
-test( 'setActiveTab() does so correctly', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    const tabOne = this.$( '> .nav-tabs > li[data-tab-name="one"]' );
-    const tabTwo = this.$( '> .nav-tabs > li[data-tab-name="two"]' );
-
-    assert.notOk(
-        tabTwo.hasClass( 'active' ),
-        'Second tab did not have active class'
-    );
-
-    component.setActiveTab( 'two' );
-
-    assert.ok(
-        tabTwo.hasClass( 'active' ),
-        'Second tab now has active class'
-    );
-
-    assert.notOk(
-        tabOne.hasClass( 'active' ),
-        'First tab does not have active class'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
 test( 'getInitialTabName() returns the correct tab name', function( assert ) {
     this.registry
         .register( 'template:test-template', template );
