@@ -116,7 +116,7 @@ test( 'enable() - title defined calls enableTooltip()', function( assert ) {
 });
 
 
-test( 'enabledTooltip() - Renders tooltip', function( assert ) {
+test( 'enableTooltip() - Renders tooltip', function( assert ) {
     const testTitle = 'Tooltip Text';
     const testObject = Ember.Object.extend( mixinUnderTest, {
         title: testTitle,
@@ -139,7 +139,7 @@ test( 'enabledTooltip() - Renders tooltip', function( assert ) {
     );
 });
 
-test( 'enabledTooltip() - Title is reset', function( assert ) {
+test( 'enableTooltip() - Title is reset', function( assert ) {
     const testTitle = 'Tooltip Text';
     const testObject = Ember.Object.extend( mixinUnderTest, {
         title: testTitle,
