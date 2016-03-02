@@ -57,13 +57,7 @@ test( 'Default rendered state', function( assert ) {
 test( 'setupTabs() sets up tabs correctly', function( assert ) {
     assert.expect( 10 );
 
-    this.render( hbs`
-        {{#sl-tab-panel}}
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content {{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        {{/sl-tab-panel}}
-    ` );
+    this.render( template );
 
     const wrapper = this.$( '>:first-child' );
     const tabPaneA = wrapper.find( '.tab-pane[data-tab-name="a"]' );
