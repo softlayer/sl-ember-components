@@ -209,26 +209,6 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
     warn.default.restore();
 });
 
-test( 'getActiveTabName returns the correct value after setActiveTab() is called', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    component.setActiveTab( 'two' );
-
-    assert.equal(
-        component.getActiveTabName(),
-        'two'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
 test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
     globalLibraries.setupSpies();
 
