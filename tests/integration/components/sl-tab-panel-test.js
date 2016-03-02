@@ -40,6 +40,11 @@ test( 'Default rendered state', function( assert ) {
         'First tab has class "active"'
     );
 
+    assert.ok(
+        wrapper.find( '.tab-pane[data-tab-name="a"]' ),
+        'First tab pane has class "active"'
+    );
+
     assert.strictEqual(
         wrapper.find( '> ul > li a[role="tab"]' ).length,
         3,
