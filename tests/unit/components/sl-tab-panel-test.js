@@ -150,33 +150,6 @@ test( 'setActiveTab() does so correctly', function( assert ) {
     this.registry.unregister( 'template:test-template' );
 });
 
-test( 'getInitialTabName() returns the correct tab name', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    assert.strictEqual(
-        component.getInitialTabName(),
-        'one',
-        'First tab is initial tab by default'
-    );
-
-    component.set( 'initialTabName', 'two' );
-
-    assert.strictEqual(
-        component.getInitialTabName(),
-        'two',
-        'If initialTabName is set, it is returned'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
 test( 'tabAlignmentClass() returns the correct value', function( assert ) {
     const component = this.subject();
 
