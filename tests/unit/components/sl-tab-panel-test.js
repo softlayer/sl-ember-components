@@ -6,20 +6,6 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
-const template = hbs`
-    {{#sl-tab-pane label="One" name="one"}}
-        One
-    {{/sl-tab-pane}}
-
-    {{#sl-tab-pane label="Two" name="two"}}
-        Two
-    {{/sl-tab-pane}}
-
-    {{#sl-tab-pane label="Three" name="three"}}
-        Three
-    {{/sl-tab-pane}}
-`;
-
 moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
     unit: true,
     needs: [ 'component:sl-tab-pane' ]
