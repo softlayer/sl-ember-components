@@ -495,32 +495,6 @@ test( 'Changing "weekStart" to a non default value works as expected', function(
     );
 });
 
-test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
-    const jqueryAliasSpy = sinon.spy( window, '$' );
-    const jquerySpy = sinon.spy( window, 'jQuery' );
-    const emberJquery = sinon.spy( Ember, '$' );
-    const startDate = window.moment( '2016-01-01' ).toDate();
-
-    const component = this.subject();
-
-    this.render();
-
-    Ember.run( () => {
-        component.set( 'startDate', startDate );
-        component.trigger( 'willClearRender' );
-    });
-
-    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
-
-    assert.notOk(
-        called
-    );
-
-    window.$.restore();
-    window.jQuery.restore();
-    Ember.$.restore();
-});
-
 test( 'Observer keys are correct', function( assert ) {
     const component = this.subject();
 

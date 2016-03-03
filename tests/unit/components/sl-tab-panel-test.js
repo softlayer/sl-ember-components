@@ -78,39 +78,6 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
-test( 'setActiveTab() does so correctly', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    const tabOne = this.$( '> .nav-tabs > li[data-tab-name="one"]' );
-    const tabTwo = this.$( '> .nav-tabs > li[data-tab-name="two"]' );
-
-    assert.notOk(
-        tabTwo.hasClass( 'active' ),
-        'Second tab did not have active class'
-    );
-
-    component.setActiveTab( 'two' );
-
-    assert.ok(
-        tabTwo.hasClass( 'active' ),
-        'Second tab now has active class'
-    );
-
-    assert.notOk(
-        tabOne.hasClass( 'active' ),
-        'First tab does not have active class'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
 test( 'getInitialTabName() returns the correct tab name', function( assert ) {
     this.registry
         .register( 'template:test-template', template );
@@ -168,26 +135,6 @@ test( 'tabAlignmentClass() returns the correct value', function( assert ) {
     );
 
     warn.default.restore();
-});
-
-test( 'getActiveTabName returns the correct value after setActiveTab() is called', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    component.setActiveTab( 'two' );
-
-    assert.equal(
-        component.getActiveTabName(),
-        'two'
-    );
-
-    this.registry.unregister( 'template:test-template' );
 });
 
 test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
