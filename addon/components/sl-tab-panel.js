@@ -147,17 +147,6 @@ export default Ember.Component.extend( ClassPrefix, {
     },
 
     /**
-     * Update the internal active tab name and handle tabs' statuses
-     *
-     * @function
-     * @param {String} tabName - The name of the tab to switch state to
-     * @returns {undefined}
-     */
-    setActiveTab( tabName ) {
-        this.$( '> .nav-tabs > li[data-tab-name=' + tabName + '] a' ).trigger( 'click' );
-    },
-
-    /**
      * Sets up the initial tab, and parses the content of the tab panel to
      * determine tab labels and names.
      *
