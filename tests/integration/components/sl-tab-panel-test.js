@@ -55,15 +55,9 @@ test( 'Default rendered state', function( assert ) {
 });
 
 test( 'setupTabs() sets up tabs correctly', function( assert ) {
-    assert.expect( 5 );
+    assert.expect( 10 );
 
-    this.render( hbs`
-        {{#sl-tab-panel tabs=tabs}}
-            {{#sl-tab-pane label="A" name="a"}}A content{{/sl-tab-pane}}
-            {{#sl-tab-pane label="B" name="b"}}B content {{/sl-tab-pane}}
-            {{#sl-tab-pane label="C" name="c"}}C content{{/sl-tab-pane}}
-        {{/sl-tab-panel}}
-    ` );
+    this.render( template );
 
     const wrapper = this.$( '>:first-child' );
     const tabPaneA = wrapper.find( '.tab-pane[data-tab-name="a"]' );
@@ -82,9 +76,39 @@ test( 'setupTabs() sets up tabs correctly', function( assert ) {
     );
 
     assert.strictEqual(
+        wrapper.find( '.tab-pane[data-tab-name="a"]' ).text().trim(),
+        'A content',
+        '"data-tab-name" is set in the first tab pane'
+    );
+
+    assert.strictEqual(
         wrapper.find( '.tab-pane[data-tab-name="b"]' ).text().trim(),
         'B content',
-        'Expected content is present in second tab pane'
+        '"data-tab-name" is set in the second tab pane'
+    );
+
+    assert.strictEqual(
+        wrapper.find( '.tab-pane[data-tab-name="c"]' ).text().trim(),
+        'C content',
+        '"data-tab-name" is set in the third tab pane'
+    );
+
+    assert.strictEqual(
+        wrapper.find( '.tab-pane[data-tab-label="A"]' ).text().trim(),
+        'A content',
+        '"data-tab-label" is set in the first tab pane'
+    );
+
+    assert.strictEqual(
+        wrapper.find( '.tab-pane[data-tab-label="B"]' ).text().trim(),
+        'B content',
+        '"data-tab-label" is set in the second tab pane'
+    );
+
+    assert.strictEqual(
+        wrapper.find( '.tab-pane[data-tab-label="C"]' ).text().trim(),
+        'C content',
+        '"data-tab-label" is set in the third tab pane'
     );
 
     // queue asserts after animation

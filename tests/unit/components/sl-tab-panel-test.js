@@ -78,45 +78,6 @@ test( 'Dependent keys are correct', function( assert ) {
     );
 });
 
-test( 'setupTabs() sets "tabs" property with correct data', function( assert ) {
-    const tabs = [
-        { label: 'One', name: 'one', active: true },
-        { label: 'Two', name: 'two', active: false },
-        { label: 'Three', name: 'three', active: false }
-    ];
-
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    const componentTabs = component.get( 'tabs' );
-
-    assert.deepEqual(
-        tabs.map( ( i ) => i.label ),
-        componentTabs.map( ( i ) => i.label ),
-        '"tabs" property has proper labels'
-    );
-
-    assert.deepEqual(
-        tabs.map( ( i ) => i.name ),
-        componentTabs.map( ( i ) => i.name ),
-        '"tabs" property has proper names'
-    );
-
-    assert.deepEqual(
-        tabs.map( ( i ) => i.active ),
-        componentTabs.map( ( i ) => i.active ),
-        '"tabs" property has proper active states'
-    );
-
-    this.registry.unregister( 'template:test-template' );
-});
-
 test( 'getInitialTabName() returns the correct tab name', function( assert ) {
     this.registry
         .register( 'template:test-template', template );
