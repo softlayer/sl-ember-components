@@ -156,7 +156,7 @@ rowActions: [
     {{/property-text}}
 
     {{#property-text name="footerPath" type="String"}}
-        The application path to a template to use for list-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
+        The application path to a template to use for the table's footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
     {{/property-text}}
 
     {{#property-text name="height" type="Number/String" default="\"\""}}
@@ -225,9 +225,9 @@ rowActions: [
     {{/property-text}}
 
     {{#property-text name="rowClick" type="String"}}
-        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the row will
+        The name of an action to trigger when a row on the table is clicked. If this is omitted, then the row will
         be selected and the detail-pane will open with the model context of the clicked row's record. If no valid
-        detailPath is defined, then nothing will happen when a list-pane row is clicked.
+        detailPath is defined, then nothing will happen when a table row is clicked.
     {{/property-text}}
 
     {{#property-text name="sortColumn" type="String"}}
