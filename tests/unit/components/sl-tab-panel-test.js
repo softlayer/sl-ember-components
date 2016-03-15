@@ -3,7 +3,6 @@ import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-ta
 import * as warn from 'sl-ember-components/utils/warn';
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
