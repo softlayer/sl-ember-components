@@ -4,3 +4,4 @@ against PRs received from developers.
 
 * jkgisme 
 * notmessenger
+* juwara0

@@ -45,6 +45,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "broccoli-autoprefixer": "4.1.0",
     "broccoli-funnel": "^1.0.1",
     "broccoli-less-single": "^0.5.0",
     "broccoli-merge-trees": "^1.1.0",
@@ -55,7 +56,6 @@
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "broccoli-autoprefixer": "4.1.0",
     "broccoli-string-replace": "0.1.1",
     "ember-ajax": "0.7.1",
     "ember-cli": "2.4.2",
