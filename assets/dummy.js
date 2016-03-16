@@ -4234,7 +4234,7 @@ define('dummy/templates/browsers', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("p");
-        var el3 = dom.createTextNode("Latest versions of browsers plus one version prior. Version 0.11.0 supports Internet Explorer 10+.");
+        var el3 = dom.createTextNode("Latest versions of browsers plus one version prior. Version 0.11.1 supports Internet Explorer 10+.");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -53230,7 +53230,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"sl-ember-components","version":"0.11.0+032a960e"});
+  require("dummy/app")["default"].create({"name":"sl-ember-components","version":"0.11.1+032a960e"});
 }
 
 /* jshint ignore:end */
