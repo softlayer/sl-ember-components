@@ -3,22 +3,7 @@ import { Alignment as AlignmentEnum } from 'sl-ember-components/components/sl-ta
 import * as warn from 'sl-ember-components/utils/warn';
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
-
-const template = hbs`
-    {{#sl-tab-pane label="One" name="one"}}
-        One
-    {{/sl-tab-pane}}
-
-    {{#sl-tab-pane label="Two" name="two"}}
-        Two
-    {{/sl-tab-pane}}
-
-    {{#sl-tab-pane label="Three" name="three"}}
-        Three
-    {{/sl-tab-pane}}
-`;
 
 moduleForComponent( 'sl-tab-panel', 'Unit | Component | sl tab panel', {
     unit: true,
@@ -76,33 +61,6 @@ test( 'Dependent keys are correct', function( assert ) {
         component.tabAlignmentClass._dependentKeys,
         tabAlignmentDependentKeys
     );
-});
-
-test( 'getInitialTabName() returns the correct tab name', function( assert ) {
-    this.registry
-        .register( 'template:test-template', template );
-
-    const component = this.subject({
-        templateName: 'test-template'
-    });
-
-    this.render();
-
-    assert.strictEqual(
-        component.getInitialTabName(),
-        'one',
-        'First tab is initial tab by default'
-    );
-
-    component.set( 'initialTabName', 'two' );
-
-    assert.strictEqual(
-        component.getInitialTabName(),
-        'two',
-        'If initialTabName is set, it is returned'
-    );
-
-    this.registry.unregister( 'template:test-template' );
 });
 
 test( 'tabAlignmentClass() returns the correct value', function( assert ) {
