@@ -1,5 +1,13 @@
 # sl-ember-components Changelog
 
+### 0.11.1
+
+**BUG FIX**
+
+Move `broccoli-autoprefixer` from `devDependencies` to `dependencies`
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.11.0...v0.11.1)
+
 ### 0.11.0
 
 **BREAKING ENHANCEMENT**
