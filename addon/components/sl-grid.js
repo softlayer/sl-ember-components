@@ -255,8 +255,6 @@ export default Ember.Component.extend( ClassPrefix, Namespace, {
      * @property {Boolean} [sortable] - Whether the column is able to be sorted
      * @property {?String} [sorted] - Which direction the column is sorted;
      *           null for none, 'asc', 'desc'
-     * @property {String} [template] - Template name to use for the cell value;
-     *           uses the `rowController` as its controller
      * @property {String} title - The displayed title of the column
      * @property {String} [valuePath] - Name of a property to lookup on the
      *           rows to populate the cell with
