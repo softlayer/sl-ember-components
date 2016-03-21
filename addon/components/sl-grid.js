@@ -608,7 +608,7 @@ export default Ember.Component.extend( ClassPrefix, Namespace, {
     },
 
     /**
-     * Whether to show the pagination in the list-pane footer
+     * Whether to show the pagination in the table's footer
      *
      * @function
      * @returns {Boolean}

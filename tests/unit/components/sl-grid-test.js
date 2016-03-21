@@ -541,7 +541,7 @@ test( 'handleListContentScroll() requests data as expected', function( assert ) 
     this.render();
 
     const evt = {
-        target: this.$( '.list-pane .content' )
+        target: this.$( '> header + div' )
     };
 
     Ember.run( () => {
