@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-    - "5.9.1"
+    - "5"
 
 sudo: required
 
@@ -10,6 +10,7 @@ cache:
         - node_modules
 
 env:
+    - CXX=g++-4.8
     - EMBER_TRY_SCENARIO=default
     - EMBER_TRY_SCENARIO=ember-release
 
