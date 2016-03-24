@@ -65,7 +65,7 @@
     "ember-cli-doc-server": "1.1.0",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.3.1",
-    "ember-cli-jsdoc": "1.3.1",
+    "ember-cli-jsdoc": "1.4.0",
     "ember-cli-less": "^1.5.3",
     "ember-cli-qunit": "^1.2.1",
     "ember-cli-uglify": "^1.2.0",
