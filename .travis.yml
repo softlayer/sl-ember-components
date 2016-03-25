@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-    - "4"
+    - "5"
 
 sudo: required
 
@@ -35,6 +35,9 @@ install:
     - npm install -g bower
     - npm install
     - bower install
+
+before_script:
+    - "ls -laF node_modules/.bin"
 
 script:
     - npm run lint-all
