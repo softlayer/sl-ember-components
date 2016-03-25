@@ -1,0 +1,11 @@
+machine:
+  pre:
+    - sudo rm -rf /usr/local/bin/phantomjs
+  node:
+    version: 5.9.1
+dependencies:
+  pre:
+    - npm install -g bower
+  override:
+    - npm i
+    - bower i
