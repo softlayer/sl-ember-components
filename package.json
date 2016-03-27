@@ -6,8 +6,8 @@
   "scripts": {
     "build": "ember build",
     "docs": "ember ember-cli-jsdoc",
-    "lint": "node_modules/.bin/sl-eslint",
-    "lint-all": "node_modules/.bin/sl-eslint addon app tests",
+    "lint": "sl-eslint",
+    "lint-all": "sl-eslint addon app tests",
     "start": "ember server",
     "test": "ember ember-cli-jsdoc && npm run lint-all && ember test"
   },
@@ -77,7 +77,6 @@
     "ember-sinon": "0.5.0",
     "ember-try": "^0.1.2",
     "loader.js": "^4.0.0",
-    "phantomjs": "1.9.18",
     "sl-ember-test-helpers": "1.12.0",
     "sl-eslint": "0.4.0"
   }
