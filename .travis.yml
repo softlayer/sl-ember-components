@@ -5,9 +5,7 @@ node_js:
 
 sudo: required
 
-cache:
-    directories:
-        - node_modules
+cache: false
 
 env:
     - CXX=g++-4.8
