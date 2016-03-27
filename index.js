@@ -114,7 +114,7 @@ module.exports = {
     included: function( app ) {
         this._super.included( app );
         var addonOptions = app.options[ 'sl-ember-components' ];
-
+console.log( 'VERSION: ', process.version );
         if ( addonOptions && addonOptions.componentClassPrefix ) {
             componentClassPrefix = addonOptions.componentClassPrefix;
         } else {
