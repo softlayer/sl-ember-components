@@ -40,6 +40,7 @@ install:
 
 before_script:
     - "ls -laF node_modules/.bin"
+    - "ls -laF node_modules"
 
 script:
     - npm run test
