@@ -16,8 +16,10 @@ addons:
   apt:
     sources:
         - ubuntu-toolchain-r-test
+        - google-chrome
     packages:
         - g++-4.8
+        - google-chrome-stable
 
 matrix:
     fast_finish: true
@@ -25,9 +27,11 @@ matrix:
         - env: EMBER_TRY_SCENARIO=ember-release
 
 before_install:
-    - "sudo rm -rf /usr/local/phantomjs"
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
     - "npm config set spin false"
     - "npm install -g npm@^2"
+
 
 install:
     - npm install -g bower
