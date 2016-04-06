@@ -9,7 +9,7 @@
     "lint": "sl-eslint",
     "lint-all": "sl-eslint addon app tests",
     "start": "ember server",
-    "test": "ember build"
+    "test": "ember ember-cli-jsdoc && npm run lint-all && ember test"
   },
   "bugs": "https://github.com/softlayer/sl-ember-components/issues",
   "repository": {
