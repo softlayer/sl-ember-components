@@ -1,6 +1,4 @@
 machine:
-  pre:
-    - sudo rm -rf /usr/local/bin/phantomjs
   node:
     version: 5.9.1
 dependencies:
@@ -9,3 +7,15 @@ dependencies:
   override:
     - npm i
     - bower i
+test:
+  override:
+    - ? >
+        PATH="./node_modules/.bin:$PATH";
+
+        case $CIRCLE_NODE_INDEX in
+        0) ember try default ;;
+        1) ember try ember-release ;;
+        2) ember try ember-beta ;;
+        3) ember try ember-canary || echo "WARNING: Tests failed on canary." ;;
+        esac
+      : parallel: true

@@ -17,7 +17,7 @@
     "url": "http://github.com/softlayer/sl-ember-components.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 5.0.0"
   },
   "keywords": [
     "ember-addon",

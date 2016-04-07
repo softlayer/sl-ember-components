@@ -13,7 +13,6 @@ We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softl
 
 
 
-
 # What sl-ember-components is
 
 An [Ember CLI Addon](http://ember-cli.com) that provides UI components compatible with
@@ -381,7 +380,6 @@ Examples and documentation on how to use each component can be viewed at
 
 # Versioning
 Employs [Semantic Versioning 2.0.0](http://semver.org/)
-
 
 
 
