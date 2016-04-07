@@ -9,7 +9,7 @@ dependencies:
     - bower i
 test:
   pre:
-    - ember ember-cli-jsdoc && npm run lint-all
+    - node_modules/.bin/ember ember-cli-jsdoc && npm run lint-all
   override:
     - ? >
         PATH="./node_modules/.bin:$PATH";
