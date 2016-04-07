@@ -8,6 +8,8 @@ dependencies:
     - npm i
     - bower i
 test:
+  pre:
+    - ember ember-cli-jsdoc && npm run lint-all
   override:
     - ? >
         PATH="./node_modules/.bin:$PATH";
