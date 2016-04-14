@@ -38,10 +38,8 @@
     "demoURL": "http://softlayer.github.io/sl-ember-components/"
   },
   "contributors": [
-    "Joshua Forisha <josh@forisha.com> (http://joshforisha.com)",
-    "Matthew Marcum (http://strangelooper.com)",
     "Jeremy Brown <jeremy@notmessenger.com> (http://www.notmessenger.com)",
-    "Joshua Cochran"
+    "Michael Carroll (https://github.com/juwara0)"
   ],
   "license": "MIT",
   "dependencies": {
