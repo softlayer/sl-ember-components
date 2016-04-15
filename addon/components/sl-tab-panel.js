@@ -120,17 +120,6 @@ export default Ember.Component.extend( ClassPrefix, {
     },
 
     /**
-     * Update the internal active tab name and handle tabs' statuses
-     *
-     * @function
-     * @param {String} tabName - The name of the tab to switch state to
-     * @returns {undefined}
-     */
-    getActiveTabName() {
-        return this.$( '> .nav-tabs > li.active' ).attr( 'data-tab-name' );
-    },
-
-    /**
      * Get initial tab name
      *
      * @function
@@ -144,17 +133,6 @@ export default Ember.Component.extend( ClassPrefix, {
         }
 
         return tabName;
-    },
-
-    /**
-     * Update the internal active tab name and handle tabs' statuses
-     *
-     * @function
-     * @param {String} tabName - The name of the tab to switch state to
-     * @returns {undefined}
-     */
-    setActiveTab( tabName ) {
-        this.$( '> .nav-tabs > li[data-tab-name=' + tabName + '] a' ).trigger( 'click' );
     },
 
     /**

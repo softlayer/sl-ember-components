@@ -113,7 +113,6 @@ rowActions: [
             <li><strong>headerClass</strong> - A class to pass through to the column header.  Allows for CSS control of column widths</li>
             <li><strong>sortable</strong> - A <em>boolean</em> that determines whether the column is sortable or not (default: <em>false</em>)</li>
             <li><strong>sorted</strong> - A <em>string</em> that determines which direction the column is sorted (default: <em>null</em>)</li>
-            <li><strong>template</strong> - The name of a template to use for the cell value, for more complex content; uses the <code>rowController</code> as its controller</li>
             <li><strong>title</strong> - The displayed title of the column</li>
             <li><strong>valuePath</strong> - The lookup string for the column's basic output; only used if <strong>template</strong> is omitted</li>
         </ul>
@@ -156,7 +155,7 @@ rowActions: [
     {{/property-text}}
 
     {{#property-text name="footerPath" type="String"}}
-        The application path to a template to use for list-pane footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
+        The application path to a template to use for the table's footer. This template is rendered in the context of the sl-grid component. If this property is omitted, the component will look for a file <code>./footer.hbs</code>, and if not found, will not render anything for the footer.
     {{/property-text}}
 
     {{#property-text name="height" type="Number/String" default="\"\""}}
@@ -225,15 +224,14 @@ rowActions: [
     {{/property-text}}
 
     {{#property-text name="rowClick" type="String"}}
-        The name of an action to trigger when a row on the list-pane is clicked. If this is omitted, then the row will
+        The name of an action to trigger when a row on the table is clicked. If this is omitted, then the row will
         be selected and the detail-pane will open with the model context of the clicked row's record. If no valid
-        detailPath is defined, then nothing will happen when a list-pane row is clicked.
+        detailPath is defined, then nothing will happen when a table row is clicked.
     {{/property-text}}
 
-    {{#property-text name="sortColumn" type="String"}}
-        The name of an action to trigger when a sortable column is selected for sorting. This action should accept two
-        arguments: the column definition to sort on, and a boolean for whether the column is sorted ascending (true)
-        or descending (false).
+    {{#property-text name="sortColumn" type="Object"}}
+        The name of an action to trigger when a sortable column is selected for sorting. This action should accept one
+        argument: the column definition to sort on.
     {{/property-text}}
 
     {{#property-text name="totalCount" type="Number"}}

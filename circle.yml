@@ -1,0 +1,21 @@
+machine:
+  node:
+    version: 5.9.1
+dependencies:
+  pre:
+    - npm install -g bower
+  override:
+    - npm i --no-optional
+    - bower i
+test:
+  pre:
+    - node_modules/.bin/ember ember-cli-jsdoc && npm run lint-all
+  override:
+    - ? >
+        PATH="./node_modules/.bin:$PATH";
+
+        case $CIRCLE_NODE_INDEX in
+        0) ember try default || echo "WARNING: Tests failed on default." ;;
+        1) ember try ember-release || echo "WARNING: Tests failed on release." ;;
+        esac
+      : parallel: true
