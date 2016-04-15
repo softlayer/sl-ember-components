@@ -1,5 +1,20 @@
 # sl-ember-components Changelog
 
+### 0.12.0
+
+**BREAKING ENHANCEMENT**
+
+* [#1663](https://github.com/softlayer/sl-ember-components/issues/1663) Upgrade Ember CLI to v2.4.3
+
+
+**DOCUMENTATION**
+
+* [#1654](https://github.com/softlayer/sl-ember-components/issues/1654) Update `sl-grid` documentation
+
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.11.1...v0.12.0)
+
+
 ### 0.11.1
 
 **BUG FIX**
