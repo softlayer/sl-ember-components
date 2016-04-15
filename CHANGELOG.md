@@ -1,5 +1,11 @@
 # sl-ember-components Changelog
 
+### 0.12.1
+
+All of the changes from the 0.12.0 release that were inadvertenly not merged into the branch.
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.12.0...v0.12.1)
+
 ### 0.12.0
 
 **BREAKING ENHANCEMENT**
