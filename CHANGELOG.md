@@ -1,5 +1,12 @@
 # sl-ember-components Changelog
 
+### 0.12.2
+
+* [#1672](https://github.com/softlayer/sl-ember-components/issues/1672) Broccoli plugin fails when running in Node >= 5
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.12.1...v0.12.2)
+
+
 ### 0.12.1
 
 All of the changes from the 0.12.0 release that were inadvertenly not merged into the branch.
