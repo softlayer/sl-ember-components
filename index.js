@@ -79,8 +79,10 @@ module.exports = {
         var vendorTree = tree;
 
         if ( !this.isAddon() && !isLessAddonInstalled ) {
+            var folder = ( Number( process.version.match( /^v(\d+)/ )[1] ) >= 5 ) ? this.name : '../';
+
             var compiledLessTree = compileLess(
-                new Funnel( path.join( this.nodeModulesPath, '../', 'app' ) ),
+                new Funnel( path.join( this.nodeModulesPath, folder, 'app' ) ),
                 'styles/' + this.name + '.less',
                 this.getCssFileName(), {
                     modifyVars: {
