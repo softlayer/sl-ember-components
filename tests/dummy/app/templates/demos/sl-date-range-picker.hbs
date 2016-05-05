@@ -8,19 +8,35 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-date-range-picker
+<pre>\{{sl-date-range-picker
     label="Select date range"
+    selectConstraint=selectConstraint
     startDatePlaceholder="Select start date"
     endDatePlaceholder="Select end date"
+    startDate=startDate
+    endDate=endDate
 }}</pre>
+
+        <h6>Controller</h6>
+<pre>selectConstraint: {
+    start: '01/05/2016',
+    end: '02/05/2016'
+},
+
+startDate: window.moment( '01/07/2016', 'MM/DD/YYYY' ),
+endDate: window.moment( '01/28/2016', 'MM/DD/YYYY' )
+</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
         {{sl-date-range-picker
             label="Select date range"
+            selectConstraint=selectConstraint
             startDatePlaceholder="Select start date"
             endDatePlaceholder="Select end date"
+            startDate=startDate
+            endDate=endDate
         }}
     </div>
 </div>
@@ -51,38 +67,41 @@
 <h3>Properties</h3>
 
 <div class="list-group">
+    {{#property-text name="endDate" type="moment"}}
+        The selected date in the end date picker.
+    {{/property-text}}
+
     {{#property-text name="endDatePlaceholder" type="String"}}
         The <code>placeholder</code> attribute text for the end date input.
     {{/property-text}}
 
-    {{#property-text name="endDateValue" type="String" default="null"}}
-        The binding value for the endDate input.
+    {{#property-text name="format" type="String"}}
+        The formatting to be applied to typed dates and selected dates in the input fields.
+        This value is passed through to each sl-date-picker.
     {{/property-text}}
 
-    {{#property-text name="format" type="String" default="\"mm/dd/yyyy\""}}
-        The date format used for both inputs; combination of d, dd, D, DD, m, mm, M, MM, yy, yyyy
-        <ul>
-            <li>d, dd : Numeric date, no leading zero and leading zero, respectively</li>
-            <li>D, DD : Abbreviated and full weekday names, respectively</li>
-            <li>m, mm : Numeric month, no leading zero and leading zero, respectively</li>
-            <li>M, MM : Abbreviated and full month names, respectively</li>
-            <li>yy, yyyy : 2- and 4-digit years, respectively</li>
-        </ul>
+    {{#property-text name="helpText" type="String"}}
+        The help text below the date-range-picker's input fields.
     {{/property-text}}
 
-    {{#property-text name="maxDate" type="Date/String" default="null"}}
-        The latest possible date for the range.
+    {{#property-text name="label" type="String"}}
+        The label text above the date-range-picker's input fields.
     {{/property-text}}
 
-    {{#property-text name="minDate" type="Date/String" default="null"}}
-        The earliest possible date for the range.
+    {{#property-text name="locale" type="String" default="\"en\""}}
+        The locale string to use for <em>moment</em> date formats.
+        This value is passed through to each sl-date-picker.
+    {{/property-text}}
+
+    {{#property-text name="selectConstraint" type="Object"}}
+        Object representation of a date constraint.  Has properties: start, end.
+    {{/property-text}}
+
+    {{#property-text name="startDate" type="moment"}}
+        The selected date in the start date picker.
     {{/property-text}}
 
     {{#property-text name="startDatePlaceholder" type="String"}}
         The <code>placeholder</code> attribute text for the start date input.
-    {{/property-text}}
-
-    {{#property-text name="startDateValue" type="String" default="null"}}
-        The binding value for the startDate input.
     {{/property-text}}
 </div>

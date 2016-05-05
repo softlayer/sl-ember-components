@@ -8,33 +8,19 @@ moduleForComponent(
     }
 );
 
-test( 'Default state is inactive', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
         false,
-        'Component is not active'
+        'active is false by default'
     );
 
     assert.strictEqual(
-        this.$().hasClass( 'active' ),
-        false,
-        'Component does not have "active" class'
-    );
-});
-
-test( 'Active state is set correctly', function( assert ) {
-    const component = this.subject({ active: true });
-
-    assert.ok(
-        component.get( 'active' ),
-        'Component is active'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'active' ),
-        '"active" class is present'
+        component.get( 'month' ),
+        null,
+        'month is null by default'
     );
 });
 
@@ -56,40 +42,6 @@ test( 'Action binding sends action with month', function( assert ) {
     assert.expect( 1 );
 
     this.$().trigger( 'click' );
-});
-
-test( 'Short name property is invalid without month', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'shortName' ),
-        'Invalid date',
-        'Invalid month results in invalid shortName'
-    );
-});
-
-test( 'Short name property is defined with valid month', function( assert ) {
-    const component = this.subject({ month: 1 });
-
-    assert.strictEqual(
-        component.get( 'shortName' ),
-        'Jan',
-        'Valid shortName with valid month'
-    );
-});
-
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const shortNameDependentKeys = [
-        'month'
-    ];
-
-    assert.deepEqual(
-        component.shortName._dependentKeys,
-        shortNameDependentKeys,
-        'Dependent keys are correct for shortName()'
-    );
 });
 
 test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {

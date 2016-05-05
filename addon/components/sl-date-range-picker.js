@@ -24,28 +24,23 @@ export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace,
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
+    actions: {
+
+        /**
+         * Move focus to the endDate picker when startDate is selected
+         *
+         * @function actions:startSelected
+         * @returns {undefined}
+         */
+        startSelected() {
+            this.$( '.sl-daterange-end-date input' ).focus();
+        }
+
+    },
+
     // -------------------------------------------------------------------------
     // Events
-
-    /**
-     * didInsertElement event hook
-     *
-     * @returns {undefined}
-     */
-    didInsertElement() {
-        this._super( ...arguments );
-        this.setupFocusTransition();
-    },
-
-    /**
-     * willClearRender event hook
-     *
-     * @returns {undefined}
-     */
-    willClearRender() {
-        this._super( ...arguments );
-        this.unregisterEvents();
-    },
 
     // -------------------------------------------------------------------------
     // Properties
@@ -58,39 +53,71 @@ export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace,
     componentClass: 'date-range-picker',
 
     /**
-     * The value for the endDate input
+     * The currently selected date in the end datepicker
+     *
+     * @type {moment}
+     */
+    endDate: null,
+
+    /**
+     * The placeholder text that the end datepicker input should show
      *
      * @type {?String}
      */
-    endDateValue: null,
+    endDatePlaceholder: null,
 
     /**
      * The string format for date values
      *
      * @type {String}
      */
-    format: 'mm/dd/yyyy',
+    format: null,
 
     /**
-     * The last valid date for the date range
-     *
-     * @type {?Date|String}
-     */
-    maxDate: null,
-
-    /**
-     * The earliest date selectable in the range
-     *
-     * @type {?Date|String}
-     */
-    minDate: null,
-
-    /**
-     * The value for the startDate input
+     * The help text below the date-range-pickers
      *
      * @type {?String}
      */
-    startDateValue: null,
+    helpText: null,
+
+    /**
+     * The label text above the date-range-pickers' input fields
+     *
+     * @type {?String}
+     */
+    label: null,
+
+    /**
+     * The locale string to use for moment date values
+     *
+     * @type {String}
+     */
+    locale: 'en',
+
+    /**
+     * Constraints to enforce against selection of dates.
+     * An object of start and end Moment properties.
+     *
+     * @type {Object}
+     */
+    selectConstraint: {
+        start: null,
+        end: null
+    },
+
+    /**
+     * The currently selected date in the start datepicker
+     *
+     * @type {moment}
+     */
+    startDate: null,
+
+    /**
+     * The placeholder text that the start datepicker input should show
+     *
+     * @type {?String}
+     */
+    startDatePlaceholder: null,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -99,80 +126,43 @@ export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace,
     // Methods
 
     /**
-     * The earliest selectable endDate, based on minDate and
-     * current startDateValue
+     * Modification of selectConstraint for the startDate picker
      *
      * @function
-     * @returns {?Date|String} Defaults to null
+     * @returns {Object}
      */
-    earliestEndDate: Ember.computed(
-        'minDate',
-        'startDateValue',
+    endSelectConstraint: Ember.computed(
+        'endDate',
+        'selectConstraint',
         function() {
-            const minDate = this.get( 'minDate' );
-            const startDateValue = this.get( 'startDateValue' );
+            const endDate = this.get( 'endDate' );
+            const selectConstraint = this.get( 'selectConstraint' );
 
-            if ( startDateValue ) {
-                return startDateValue;
-            }
-
-            if ( minDate ) {
-                return minDate;
-            }
-
-            return null;
+            return {
+                start: selectConstraint.start,
+                end: endDate ? endDate : selectConstraint.end
+            };
         }
     ),
 
     /**
-     * The latest selectable startDate, based on maxDate and
-     * current endDateValue
+     * Modification of selectConstraint for the endDate picker
      *
      * @function
-     * @returns {Date|String} Defaults to null
+     * @returns {Object}
      */
-    latestStartDate: Ember.computed(
-        'endDateValue',
-        'maxDate',
+    startSelectConstraint: Ember.computed(
+        'startDate',
+        'selectConstraint',
         function() {
-            const endDateValue = this.get( 'endDateValue' );
-            const maxDate = this.get( 'maxDate' );
+            const startDate = this.get( 'startDate' );
+            const selectConstraint = this.get( 'selectConstraint' );
 
-            if ( endDateValue ) {
-                return endDateValue;
-            }
-
-            if ( maxDate ) {
-                return maxDate;
-            }
-
-            return null;
+            return {
+                start: startDate ? startDate : selectConstraint.start,
+                end: selectConstraint.end
+            };
         }
-    ),
-
-    /**
-     * Set up a transition that moves focus to the endDate input when the
-     * startDate input is changed
-     *
-     * @private
-     * @returns {undefined}
-     */
-    setupFocusTransition() {
-        this.set( 'startDateInput', this.$( '.sl-daterange-start-date input' ) );
-        this.set( 'endDateInput', this.$( '.sl-daterange-end-date input' ) );
-        this.get( 'startDateInput' ).on( this.namespaceEvent( 'changeDate' ), () => {
-            this.get( 'endDateInput' ).trigger( 'focus' );
-        });
-    },
-
-    /**
-     * Remove events
-     *
-     * @private
-     * @returns {undefined}
-     */
-    unregisterEvents() {
-        this.get( 'startDateInput' ).off( this.namespaceEvent( 'changeDate' ) );
-    }
+    )
 
 });

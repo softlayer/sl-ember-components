@@ -4,6 +4,9 @@ import ComponentInputId from '../mixins/sl-component-input-id';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import Namespace from '../mixins/sl-namespace';
 import layout from '../templates/components/sl-date-picker';
+import {
+    View as View
+} from './sl-calendar';
 
 /**
  * @module
@@ -31,56 +34,115 @@ export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace,
     // -------------------------------------------------------------------------
     // Actions
 
+    /** @type {Object} */
+    actions: {
+
+        /**
+         * Watch focus-out from input helper
+         *
+         * @function actions:inputBlurred
+         * @returns {undefined}
+         */
+        inputBlurred() {
+            this.trigger( 'focusOut' );
+        },
+
+        /**
+         * Watch focus-in from input helper
+         *
+         * @function actions:inputFocused
+         * @returns {undefined}
+         */
+        inputFocused() {
+            this.trigger( 'focusIn' );
+        },
+
+        /**
+         * Watch for keyUp events from input helper
+         * Triggers parsing of input value if a non-command key was pressed
+         *
+         * @function actions:inputKeyUp
+         * @param {String} value - Current value property of the input
+         * @param {Event} event - keyUp event object
+         * @returns {undefined}
+         */
+        inputKeyUp( value, event ) {
+            // not a tab or modifier key
+            if ( event.keyCode !== 9 && ( event.keyCode > 18 || event.keyCode < 16 ) ) {
+                this.checkInput();
+            }
+        },
+
+        /**
+         * sl-calendar has triggered a date selection
+         * Triggers bound action "action"
+         *
+         * @function actions:selectDate
+         * @param {moment} date - date selected by sl-calendar
+         * @returns {undefined}
+         */
+        selectDate( date ) {
+            this.selectDate( date );
+
+            if ( this.get( 'autoClose' ) ) {
+                this.set( 'hasFocus', false );
+            }
+
+            this.sendAction( 'action', date );
+        }
+
+    },
+
     // -------------------------------------------------------------------------
     // Events
 
     /**
-     * didInsertElement event hook
+     * Track focus on the component for opening sl-calendar
      *
      * @returns {undefined}
      */
-    didInsertElement() {
+    focusIn( event ) {
         this._super( ...arguments );
-        this.setupDatepicker();
+
+        this.set( 'hasFocus', true );
+
+        const losingFocus = this.get( 'losingFocus' );
+        Ember.run.cancel( losingFocus );
+
+        if ( event === undefined ) {
+            return;
+        }
+
+        if ( event.target === this.$().get( 0 ) ) {
+            this.$( '> input' ).get( 0 ).focus();
+        }
     },
 
     /**
-     * willClearRender event hook
+     * Track focus on the component for closing sl-calendar
      *
      * @returns {undefined}
      */
-    willClearRender() {
+    focusOut() {
         this._super( ...arguments );
-        this.unregisterEvents();
+
+        const runNext = Ember.run.next( this, () => {
+            this.set( 'hasFocus', false );
+        });
+
+        this.set( 'losingFocus', runNext );
     },
 
     // -------------------------------------------------------------------------
     // Properties
 
-    /**
-     * Whether or not to close the datepicker immediately when a date
-     * is selected
-     *
-     * @type {Boolean}
-     */
-    autoclose: true,
 
     /**
-     * Whether or not to show week numbers to the left of week rows
+     * Whether to close the datepicker immediately when a date is selected
      *
      * @type {Boolean}
      */
-    calendarWeeks: false,
-
-    /**
-     * When true, displays a "Clear" button at the bottom of the datepicker
-     *
-     * If "autoclose" is also set to true, this button will also close
-     * the datepicker.
-     *
-     * @type {Boolean}
-     */
-    clearBtn: false,
+    autoClose: true,
 
     /**
      * Component class that will be prefixed with base component class
@@ -90,16 +152,6 @@ export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace,
     componentClass: 'date-picker',
 
     /**
-     * Days of the week that should be disabled
-     *
-     * Values are 0 (Sunday) to 6 (Saturday). Multiple values should be
-     * comma-separated.
-     *
-     * @type {Array|String}
-     */
-    daysOfWeekDisabled: [],
-
-    /**
      * When true, the input field is disabled and the datepicker will never display
      *
      * @type {Boolean}
@@ -107,243 +159,198 @@ export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace,
     disabled: false,
 
     /**
-     * The latest date that may be selected; all later dates will be disabled
+     * The date format for input field
+     * Only effects how selected day is represented in the input value
+     * This is a moment-based format string
      *
-     * @type {?Date|String}
+     * @type {?String}
      */
-    endDate: null,
+    format: null,
 
     /**
-     * Whether or not to force parsing of the input value when the picker is
-     * closed
-     *
-     * When an invalid date is left in the input field by the user, the picker
-     * will forcibly parse that value, and set the input's value to the new,
-     * valid date, conforming to the given _format_.
+     * Whether the component has focus and should display the sl-calendar
      *
      * @type {Boolean}
      */
-    forceParse: true,
-
-    /**
-     * The date format
-     *
-     * Combination of the following:
-     * - d, dd: Numeric date, no leading zero and leading zero, respectively
-     * - D, DD: Abbreviated and full weekday names, respectively
-     * - m, mm: Numeric month, no leading zero and leading zero, respectively
-     * - M, MM: Abbreviated and full month names, respectively
-     * - yy, yyyy: 2- and 4-digit years, respectively
-     *
-     * @type {String}
-     */
-    format: 'mm/dd/yyyy',
+    hasFocus: false,
 
     /**
      * The help text below the datepicker
      *
-     * @type {String}
+     * @type {?String}
      */
     helpText: null,
 
     /**
-     * A list of inputs to be used in a range picker
-     *
-     * The inputs will be attached to the selected element. Allows for
-     * explicitly creating a range picker on a non-standard element.
-     *
-     * @type {?Array}
-     */
-    inputs: null,
-
-    /**
-     * Whether or not to allow date navigation by arrow keys
-     *
-     * @type {Boolean}
-     */
-    keyboardNavigation: true,
-
-    /**
      * The label text above the datepicker's input field
      *
-     * @type {String}
+     * @type {?String}
      */
     label: null,
 
     /**
-     * The IETF code of the language to use for month and day names
+     * The locale string to use for moment date values
      *
      * @type {String}
      */
-    language: 'en',
+    locale: 'en',
 
     /**
-     * Set a limit for the view mode; accepts "days", "months", or "years"
+     * An Ember.run object for cancelling closing of sl-calendar
      *
-     * @type {String}
+     * @private
+     * @type {Boolean|Object}
      */
-    minViewMode: 'days',
+    losingFocus: false,
 
     /**
-     * Enable multidate picking
-     *
-     * Each date in month view acts as a toggle button, keeping track of which
-     * dates the user has selected in order. If a number is given, the picker
-     * will limit how many dates can be selected to that number, dropping the
-     * oldest dates from the list when the number is exceeded. true equates to
-     * no limit. The input’s value (if present) is set to a string generated by
-     * joining the dates, formatted, with multidateSeparator.
-     *
-     * @type {Boolean|Number}
-     */
-    multidate: false,
-
-    /**
-     * A space-separated string for the popup's anchor position
-     *
-     * Consists of one or two of "left" or "right", "top" or "bottom",
-     * and "auto" (may be omitted).
-     *
-     * @type {String}
-     */
-    orientation: 'auto',
-
-    /**
-     * The placeholder text that the datepicker should show
+     * The placeholder text that the datepicker input should show
      *
      * @type {?String}
      */
     placeholder: null,
 
     /**
-     * The earliest date that may be selected; all earlier dates will
-     * be disabled
+     * A constraint object to pass throught to sl-calendar
      *
-     * @type {?Date|String}
+     * @type {Object}
      */
-    startDate: null,
+    selectConstraint: {
+        start: null,
+        end: null
+    },
 
     /**
-     * The view that the datepicker should show when it is opened; accepts
-     * "month", "year", or "decade"
+     * The currently selected date
+     *
+     * @type {moment}
+     */
+    selectedDate: null,
+
+    /**
+     * The calendar view when open
      *
      * @type {String}
      */
-    startView: 'month',
-
-    /**
-     * When true or "linked", displays a "Today" button at the bottom of the
-     * datepicker to select the current date
-     *
-     * If true, the "Today" button will only move the current date into view.
-     * If "linked", the current date will also be selected.
-     *
-     * @type {Boolean|String}
-     */
-    todayBtn: false,
-
-    /**
-     * Whether to highlight the current date or not
-     *
-     * @type {Boolean}
-     */
-    todayHighlight: false,
-
-    /**
-     * The date either selected by the datepicker or entered by the user
-     *
-     * @type {?String}
-     */
-    value: null,
-
-    /**
-     * Day of the week to start on; 0 (Sunday) to 6 (Saturday)
-     *
-     * @type {Number}
-     */
-    weekStart: 0,
+    viewMode: View.DAYS,
 
     // -------------------------------------------------------------------------
     // Observers
-
-    /**
-     * Datepicker plugin options
-     *
-     * @function
-     * @returns {Object}
-     */
-    options: Ember.computed(
-        function() {
-            return {
-                autoclose: this.get( 'autoclose' ),
-                calendarWeeks: this.get( 'calendarWeeks' ),
-                clearBtn: this.get( 'clearBtn' ),
-                daysOfWeekDisabled: this.get( 'daysOfWeekDisabled' ),
-                endDate: this.get( 'endDate' ),
-                forceParse: this.get( 'forceParse' ),
-                format: this.get( 'format' ),
-                inputs: this.get( 'inputs' ),
-                keyboardNavigation: this.get( 'keyboardNavigation' ),
-                language: this.get( 'language' ),
-                minViewMode: this.get( 'minViewMode' ),
-                multidate: this.get( 'multidate' ),
-                orientation: this.get( 'orientation' ),
-                startDate: this.get( 'startDate' ),
-                startView: this.get( 'startView' ),
-                todayBtn: this.get( 'todayBtn' ),
-                todayHighlight: this.get( 'todayHighlight' ),
-                weekStart: this.get( 'weekStart' )
-            };
-        }
-    ),
-
-    /**
-     * Dynamically update the startDate and endDate values for the datepicker
-     *
-     * @function
-     * @returns {undefined}
-     */
-    updateDateRange: Ember.observer(
-        'endDate',
-        'startDate',
-        function() {
-            const input = this.$( 'input.date-picker' );
-            const datepicker = input.data( 'datepicker' );
-
-            datepicker.setStartDate( this.get( 'startDate' ) );
-            datepicker.setEndDate( this.get( 'endDate' ) );
-
-            if ( 'Invalid Date' === datepicker.getDate().toString() ) {
-                input.val( '' );
-            }
-        }
-    ),
 
     // -------------------------------------------------------------------------
     // Methods
 
     /**
-     * Setup the bootstrap-datepicker plugin and events
+     * Check if the client entered string can be parsed to a moment
      *
-     * @private
      * @returns {undefined}
      */
-    setupDatepicker() {
-        const datepicker = this.$( 'input.date-picker' )
-            .datepicker( this.get( 'options' ) );
+    checkInput() {
+        let value = this.get( 'value' );
+        const parseFormats = this.get( 'parseFormats' );
+        const selectConstraint = this.get( 'selectConstraint' );
 
-        datepicker.on( this.namespaceEvent( 'changeDate' ), () => {
-            this.sendAction();
-        });
+        if ( !value ) {
+            return;
+        }
+
+        value = value.replace( /\W+/g, '-' );
+
+        const date = window.moment( value, parseFormats, this.get( 'locale' ), true );
+
+        if ( selectConstraint.start ) {
+            if ( date.isBefore( selectConstraint.start ) ) {
+                return;
+            }
+        }
+
+        if ( selectConstraint.end ) {
+            if ( date.isAfter( selectConstraint.end ) ) {
+                return;
+            }
+        }
+
+        if ( !date.isValid() ) {
+            return;
+        }
+
+        this.set( 'selectedDate', date );
+    },
+
+
+    /**
+     * The string to parse client input against
+     * Defaults to long format from moment
+     *
+     * @returns {String}
+     */
+    formatString: Ember.computed(
+        'format',
+        function() {
+            return this.get( 'format' ) || window.moment().localeData().longDateFormat( 'L' );
+        }
+    ),
+
+    /**
+     * Create an array of format strings to compare typed input against.
+     *
+     * @returns {String[]}
+     */
+    parseFormats: Ember.computed(
+        'locale',
+        function() {
+            const formats = Ember.A();
+            const localeData = window.moment().localeData();
+
+            formats.push(
+                localeData.longDateFormat( 'L' ).replace( /\W+/g, '-' ),
+                localeData.longDateFormat( 'LL' ).replace( /\W+/g, '-' ),
+                localeData.longDateFormat( 'L' ).replace( 'DD', 'D' ).replace( 'MM', 'M' ).replace( /\W+/g, '-' )
+            );
+
+            return formats;
+        }
+    ),
+
+    /**
+     * Select a date.
+     *
+     * @param {moment} date - date to select
+     * @returns {undefined}
+     */
+    selectDate( date ) {
+        this.set( 'selectedDate', date );
     },
 
     /**
-     * Remove events
+     * Generate value for input field.
      *
-     * @private
-     * @returns {undefined}
+     * @returns {String}
      */
-    unregisterEvents() {
-        this.$( 'input.date-picker' ).off( this.namespaceEvent( 'changeDate' ) );
-    }
+    value: Ember.computed(
+        'selectedDate',
+        'formatString',
+        function() {
+            const selectedDate = this.get( 'selectedDate' );
+            const format = this.get( 'formatString' );
+
+            if ( null === selectedDate ) {
+                return;
+            }
+
+            return selectedDate.format( format );
+        }
+    ),
+
+    /**
+     * Sets the viewingDate to the selectedDate.
+     *
+     * @returns {moment}
+     */
+    viewingDate: Ember.computed(
+        'selectedDate',
+        function() {
+            return this.get( 'selectedDate' );
+        }
+    )
 });

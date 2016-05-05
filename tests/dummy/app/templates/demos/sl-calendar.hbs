@@ -8,20 +8,35 @@
 <div class="row">
     <div class="col-lg-6">
         <h6>Template</h6>
-        <pre>\{{sl-calendar action="logLabel" content=content}}</pre>
+        <pre>\{{sl-calendar action="logLabel" events=content locale="en" selectConstraint=tempdates}}</pre>
 
-        <h6>Route/Controller</h6>
-        <pre>model: [
+        <h6>Route</h6>
+<pre>model: [
     {
-        date: new Date(),
-        label: 'Today!'
+        startDate: window.moment().subtract( 5, 'days' ),
+        title: 'Some meeting five days ago'
+    },
+    {
+        startDate: window.moment().add( 3, 'days' ),
+        title: 'Lunch meeting three days from now'
     }
 ]</pre>
+
+        <h6>Controller</h6>
+<pre>actions: {
+    logLabel( date, data ) {
+        window.console.log( 'logLabel: ', date, data );
+    }
+},
+
+tempdates: {
+    start: '01/05/2016'
+}</pre>
     </div>
 
     <div class="col-lg-6">
         <h6>Rendered Component</h6>
-        {{sl-calendar action="logLabel" class="col-sm-6" content=content}}
+        {{sl-calendar action="logLabel" events=content locale="en" selectConstraint=tempdates}}
     </div>
 </div>
 
@@ -42,31 +57,41 @@
 
 <div class="list-group">
     {{#property-text name="action" type="Function"}}
-        Action to call when a day is clicked that contains one of the content dates. An array of content objects with dates occurring on the clicked date will be returned to this action.
+        Action to call when a day is clicked. The date and an array of events occurring on the clicked date will be returned to this action.
     {{/property-text}}
 
-    {{#property-text name="content" type="Object[]"}}
-        Bound array of objects with date values, looked up using the <code>dateValuePath</code> property.
+    {{#property-text name="events" type="Object[]"}}
+        Array of objects with properties: startDate, endDate, title.
     {{/property-text}}
 
-    {{#property-text name="currentMonth" type="Number" default="current month"}}
-        The month number to display (1-12).
+    {{#property-text name="fixedWeekCount" type="Boolean" default="false"}}
+        Whether to show a full six weeks for every month.
     {{/property-text}}
 
-    {{#property-text name="currentYear" type="Number" default="current year"}}
-        The year to display.
-    {{/property-text}}
-
-    {{#property-text name="dateValuePath" type="String" default="\"date\""}}
-        Path to the content objects' date value.
+    {{#property-text name="focusable" type="Boolean" default="true"}}
+        Whether to allow the calendar to gain focus.  Also allows keyboard navigation of the calendar.
     {{/property-text}}
 
     {{#property-text name="locale" type="String" default="\"en\""}}
         The locale string to use for <em>moment</em> date formats.
     {{/property-text}}
 
-    {{#property-text name="locked" type="Boolean" default="false"}}
-        When true, the view is locked in the initial mode, and forward and back buttons are disabled.
+    {{#property-text name="selectConstraint" type="Object"}}
+        Object representation of a date constraint.  Has properties: start, end.
+        Dates outside of this range will not be selectable.
+    {{/property-text}}
+
+    {{#property-text name="selectedDate" type="Moment"}}
+        A moment object representing the currently selected date.
+    {{/property-text}}
+
+    {{#property-text name="showControls" type="Boolean" default="true"}}
+        Whether to show the calendar controls for changing the view.
+    {{/property-text}}
+
+    {{#property-text name="viewingDate" type="Moment"}}
+        A moment object representing the currently viewed date.
+        The calendar determines which month and year to show based on this date.
     {{/property-text}}
 
     {{#property-text name="viewMode" type="String" default="\"days\""}}

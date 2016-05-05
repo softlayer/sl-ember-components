@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
@@ -6,114 +5,87 @@ moduleForComponent( 'sl-calendar-day', 'Unit | Component | sl calendar day', {
     unit: true
 });
 
-test( 'Default state of calendar-day is not active, new or old', function( assert ) {
+test( 'Default property values', function( assert ) {
     const component = this.subject();
 
     assert.strictEqual(
         component.get( 'active' ),
         false,
-        'Default component is not active'
+        'active is false by default'
     );
 
     assert.strictEqual(
-        this.$().hasClass( 'active' ),
+        component.get( 'ariaRole' ),
+        'gridcell',
+        'ariaRole is "gridcell" by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'date' ),
+        null,
+        'date is null by default'
+    );
+
+    assert.deepEqual(
+        component.get( 'events' ),
+        [],
+        'events is an empty array by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'focused' ),
         false,
-        'Default component does not have "active" class'
+        'focused is false by default'
     );
 
     assert.strictEqual(
         component.get( 'new' ),
         false,
-        'Default component is not "new"'
-    );
-
-    assert.strictEqual(
-        this.$().hasClass( 'new' ),
-        false,
-        'Default component does not have "new" class'
+        'new is false by default'
     );
 
     assert.strictEqual(
         component.get( 'old' ),
         false,
-        'Default component is not "old"'
+        'old is false by default'
     );
 
     assert.strictEqual(
-        this.$().hasClass( 'old' ),
+        component.get( 'restricted' ),
         false,
-        'Default component does not have "old" class'
-    );
-});
-
-test( 'Active state is applied correctly', function( assert ) {
-    const component = this.subject({ active: true });
-
-    assert.ok(
-        component.get( 'active' ),
-        'Component is set to active state'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'active' ),
-        'Component element has class "active"'
-    );
-});
-
-test( 'New state is applied correctly', function( assert ) {
-    const component = this.subject({ 'new': true });
-
-    assert.ok(
-        component.get( 'new' ),
-        'Component is set to new state'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'new' ),
-        'Component element has class "new"'
-    );
-});
-
-test( 'Old state is applied correctly', function( assert ) {
-    const component = this.subject({ old: true });
-
-    assert.ok(
-        component.get( 'old' ),
-        'Component is set to old state'
-    );
-
-    assert.ok(
-        this.$().hasClass( 'old' ),
-        'Component element has class "old"'
-    );
-});
-
-test( 'Property "day" populates component content', function( assert ) {
-    this.subject({ day: 42 });
-
-    assert.strictEqual(
-        Ember.$.trim( this.$().text() ),
-        '42',
-        '"day" value is set to element content'
+        'restricted is false by default'
     );
 });
 
 test( 'Action bindings sends action with expected day content', function( assert ) {
-    assert.expect( 1 );
+    assert.expect( 2 );
 
     const done = assert.async();
 
-    const dayContent = { day: 42 };
+    const events = [
+        {
+            startDate: window.moment( [ 2015, 0, 1 ] )
+        }
+    ];
+
+    const currentDate = window.moment( [ 2014, 1, 4 ] );
 
     this.subject({
         action: 'test',
-        content: dayContent,
+        events: events,
+        date: currentDate,
         targetObject: {
-            test( content ) {
+            test( date, eventData ) {
                 assert.strictEqual(
-                    content,
-                    dayContent,
-                    'Test action fired with expected value'
+                    date,
+                    currentDate,
+                    'Test action fired with proper date'
+                );
+
+                assert.strictEqual(
+                    eventData,
+                    events,
+                    'Test action fired with expected events'
                 );
 
                 done();
@@ -122,6 +94,64 @@ test( 'Action bindings sends action with expected day content', function( assert
     });
 
     this.$().trigger( 'click' );
+});
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const focusKeys = [
+        'tabIndex'
+    ];
+
+    assert.deepEqual(
+        component.focus.__ember_observes__,
+        focusKeys,
+        'Observer keys are correct for focus()'
+    );
+});
+
+test( 'Dependent keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const ariaSelectedDependentKeys = [
+        'active'
+    ];
+
+    const hasEventsDependentKeys = [
+        'events'
+    ];
+
+    const isTodayDependentKeys = [
+        'date'
+    ];
+
+    const tabIndexDependentKeys = [
+        'focused'
+    ];
+
+    assert.deepEqual(
+        component.ariaSelected._dependentKeys,
+        ariaSelectedDependentKeys,
+        'Dependent keys are correct for ariaSelected()'
+    );
+
+    assert.deepEqual(
+        component.hasEvents._dependentKeys,
+        hasEventsDependentKeys,
+        'Dependent keys are correct for hasEvents()'
+    );
+
+    assert.deepEqual(
+        component.isToday._dependentKeys,
+        isTodayDependentKeys,
+        'Dependent keys are correct for isToday()'
+    );
+
+    assert.deepEqual(
+        component.tabIndex._dependentKeys,
+        tabIndexDependentKeys,
+        'Dependent keys are correct for tabIndex()'
+    );
 });
 
 test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {

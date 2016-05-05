@@ -1,32 +1,23 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { skip } from 'qunit';
-import sinon from 'sinon';
 
-const testContent = Ember.A([
+const testEvents = Ember.A([
     {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Today!'
-    }
-]);
-
-const multipleTestContent = Ember.A([
-    {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Event 1 Today!'
+        startDate: window.moment( [ 2015, 2, 12 ] ),
+        title: 'Event 1 Today!'
     },
     {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Event 2 Today!'
+        startDate: window.moment( [ 2015, 2, 12 ] ),
+        title: 'Event 2 Today!'
     },
     {
-        date: new Date( 2022, 8, 17 ),
-        label: 'Event 3 Today!'
+        startDate: window.moment( [ 2015, 2, 17 ] ),
+        title: 'Event 3 Today!'
     },
     {
-        date: new Date( 2022, 8, 20 ),
-        label: 'Event 1 Another Day!'
+        startDate: window.moment( [ 2015, 2, 20 ] ),
+        title: 'Event 1 Another Day!'
     }
 ]);
 
@@ -45,18 +36,13 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'datepicker' ),
-        'First child of component has class "datepicker"'
+        this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'calendar-days' ),
+        'First child of component has class "calendar-days"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).find( '> div:first-child' ).hasClass( 'datepicker-inline' ),
-        'First child of component has class "datepicker-inline"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).find( '> .datepicker > div:first-child' ).hasClass( 'datepicker-days' ),
-        'Day view is visible'
+        this.$( '>:first-child' ).find( '.calendar-days > table:first-child' ).hasClass( 'calendar-controls' ),
+        'Controls are visible'
     );
 });
 
@@ -65,49 +51,118 @@ test( 'Next and Previous buttons have appropriate classes', function( assert ) {
         {{sl-calendar}}
     ` );
 
+    const hasButtonClasses = function( button ) {
+        let hasClasses = true;
+
+        if ( !button.hasClass( 'btn' ) ) {
+            hasClasses = false;
+        }
+
+        if ( !button.hasClass( 'btn-xs' ) ) {
+            hasClasses = false;
+        }
+
+        if ( !button.hasClass( 'btn-default' ) ) {
+            hasClasses = false;
+        }
+
+        return hasClasses;
+    };
+
+    let previousButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).first();
+    let nextButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).last();
+
     assert.ok(
-        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
-        'day view has previous button class'
+        hasButtonClasses( previousButton ),
+        'day view previous button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
-        'day view has next button class'
-    );
-
-    this.$( '.datepicker-switch' ).click();
-
-    assert.ok(
-        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
-        'month view has previous button class'
+        previousButton.find( 'span' ).hasClass( 'sl-icon-previous' ),
+        'day view previous button has span with "sl-icon-previous" class'
     );
 
     assert.ok(
-        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
-        'month view has next button class'
-    );
-
-    this.$( '.datepicker-switch' ).click();
-
-    assert.ok(
-        this.$( '.table-condensed > thead > tr > th:first-child span' ).hasClass( 'sl-icon-previous' ),
-        'year view has previous button class'
+        hasButtonClasses( nextButton ),
+        'day view next button has "btn", "btn-xs", and "btn-default" classes'
     );
 
     assert.ok(
-        this.$( '.table-condensed > thead > tr > th:last-child span' ).hasClass( 'sl-icon-next' ),
-        'year view has next button class'
+        nextButton.find( 'span' ).hasClass( 'sl-icon-next' ),
+        'day view next button has span with "sl-icon-next" class'
+    );
+
+    this.$( '>:first-child' ).find( '.calendar-controls a' ).click();
+
+    previousButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).first();
+    nextButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).last();
+
+    assert.ok(
+        hasButtonClasses( previousButton ),
+        'month view previous button has "btn", "btn-xs", and "btn-default" classes'
+    );
+
+    assert.ok(
+        previousButton.find( 'span' ).hasClass( 'sl-icon-previous' ),
+        'month view previous button has span with "sl-icon-previous" class'
+    );
+
+    assert.ok(
+        hasButtonClasses( nextButton ),
+        'month view next button has "btn", "btn-xs", and "btn-default" classes'
+    );
+
+    assert.ok(
+        nextButton.find( 'span' ).hasClass( 'sl-icon-next' ),
+        'month view next button has span with "sl-icon-next" class'
+    );
+
+    this.$( '>:first-child' ).find( '.calendar-controls a' ).click();
+
+    previousButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).first();
+    nextButton = this.$( '>:first-child' ).find( '.calendar-controls button' ).last();
+
+    assert.ok(
+        hasButtonClasses( previousButton ),
+        'year view previous button has "btn", "btn-xs", and "btn-default" classes'
+    );
+
+    assert.ok(
+        previousButton.find( 'span' ).hasClass( 'sl-icon-previous' ),
+        'year view previous button has span with "sl-icon-previous" class'
+    );
+
+    assert.ok(
+        hasButtonClasses( nextButton ),
+        'year view next button has "btn", "btn-xs", and "btn-default" classes'
+    );
+
+    assert.ok(
+        nextButton.find( 'span' ).hasClass( 'sl-icon-next' ),
+        'year view next button has span with "sl-icon-next" class'
+    );
+});
+
+test( 'Controls are not available when showControls is false', function( assert ) {
+    this.render( hbs`
+        {{sl-calendar showControls=false}}
+    ` );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.calendar-controls' ).length,
+        0,
+        'calendar controls not available when showControls is false'
     );
 });
 
 test( 'Check for classes set on items outside of range in picker', function( assert ) {
-    this.set( 'currentYear', 2015 );
-    this.set( 'currentMonth', 1 );
+    this.set( 'viewingDate', window.moment( [ 2015, 1, 1 ] ) );
+    this.set( 'viewMode', 'days' );
 
     this.render( hbs`
         {{sl-calendar
-            currentYear=currentYear
-            currentMonth=currentMonth
+            viewingDate=viewingDate
+            viewMode=viewMode
         }}
     ` );
 
@@ -116,7 +171,7 @@ test( 'Check for classes set on items outside of range in picker', function( ass
 
     // test the days
 
-    const days = this.$( '>:first-child' ).find( '.datepicker-days .day' );
+    const days = this.$( '>:first-child' ).find( '.calendar-days .day' );
 
     let firstReached = false;
     let lastReached = false;
@@ -157,11 +212,12 @@ test( 'Check for classes set on items outside of range in picker', function( ass
 
     // test the years
 
-    this.$( '>:first-child' ).find( '.datepicker-switch' ).trigger( 'click' ); // open month picker
-    this.$( '>:first-child' ).find( '.datepicker-switch' ).trigger( 'click' ); // open year picker
-    const yearSpan = this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim().split( '-' );
+    this.set( 'viewMode', 'years' );
 
-    const years = this.$( '>:first-child' ).find( '.datepicker-years > table > tbody > tr > td > *' );
+    const startYear = 2010;
+    const endYear = 2019;
+
+    const years = this.$( '>:first-child' ).find( 'td.year' );
 
     missingOld = false;
     missingNew = false;
@@ -169,13 +225,13 @@ test( 'Check for classes set on items outside of range in picker', function( ass
     years.each( function() {
         const testYear = parseInt( $( this ).text() );
 
-        if ( testYear > parseInt( yearSpan[1] ) ) {
+        if ( testYear > endYear ) {
             if ( !$( this ).hasClass( 'new' ) ) {
                 missingNew = true;
             }
         }
 
-        if ( testYear < parseInt( yearSpan[0] ) ) {
+        if ( testYear < startYear ) {
             if ( !$( this ).hasClass( 'old' ) ) {
                 missingOld = true;
             }
@@ -193,166 +249,73 @@ test( 'Check for classes set on items outside of range in picker', function( ass
     );
 });
 
-test( 'Setting currentYear and currentMonth modifies the view correctly', function( assert ) {
-
-    const currentYear = 2025;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 1 );
+test( 'Setting viewingDate modifies the view correctly', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2025, 3, 1 ] ) );
 
     this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
+        {{sl-calendar viewingDate=viewingDate}}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'January ' + currentYear,
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'April 2025',
         'Current month and year are set correctly in the view'
     );
 });
 
-skip( 'Setting dateValuePath modifies the view correctly', function( assert ) {
-
-    const modifiedValuePath = Ember.A([
-        {
-            modifiedDatePath: new Date( 2022, 8, 17 ),
-            label: 'Today!'
-        }
-    ]);
-
-    this.set( 'currentYear', 2022 );
-
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', modifiedValuePath );
+test( 'selectedDate is set correctly', function( assert ) {
+    this.set( 'selectedDate', window.moment( [ 2015, 1, 15 ] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 1, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
-            content=content
-            dateValuePath="modifiedDatePath"
-            currentYear=currentYear
-            currentMonth=currentMonth
+            viewingDate=viewingDate
+        }}
+    ` );
+
+    assert.notOk(
+        this.$( '>:first-child' ).find( 'td.selected' ).length,
+        'No days are set as selected'
+    );
+
+    this.render( hbs`
+        {{sl-calendar
+            viewingDate=viewingDate
+            selectedDate=selectedDate
         }}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.active' ).text().trim(),
-        17,
-        'Active day is set correctly'
-    );
-});
-
-skip( 'Active day is set correctly', function( assert ) {
-
-    this.set( 'currentYear', 2022 );
-
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', Ember.A() );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.active' ).text().trim(),
-        '',
-        'No active day is set'
-    );
-
-    this.set( 'content', testContent );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.active' ).text().trim(),
-        17,
-        'Active day is set correctly'
-    );
-
-    this.set( 'content', multipleTestContent );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    const active = this.$( '>:first-child' ).find( '.active' );
-
-    assert.strictEqual(
-        active.length,
-        2,
-        'There are two unique dates assigned the .active class'
-    );
-
-    assert.strictEqual(
-        active[ 0 ].innerHTML,
-        '17',
-        'First unique date instance is correct'
-    );
-
-    assert.strictEqual(
-        active[ 1 ].innerHTML,
-        '20',
-        'Second unique date instance is correct'
+        this.$( '>:first-child' ).find( 'td.selected' ).text().trim(),
+        '15',
+        'Proper date is set as selected'
     );
 });
 
 test( 'Setting locale to Spanish modifies the view correctly', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 9 );
+    this.set( 'viewingDate', window.moment( [ 2022, 8, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
             locale="es"
-            currentYear=currentYear
-            currentMonth=currentMonth
+            viewingDate=viewingDate
         }}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'Septiembre ' + currentYear,
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'Septiembre 2022',
         'Current month in Spanish is set correctly in the view'
     );
 });
 
 test( 'Action fires when day is clicked', function( assert ) {
-
     assert.expect( 1 );
 
     const done = assert.async();
 
-    this.set( 'currentYear', 2022 );
-
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', testContent );
-
     this.render( hbs`
-        {{sl-calendar
-            action="testAction"
-            content=content
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
+        {{sl-calendar action="testAction"}}
     ` );
 
     this.on( 'testAction', () => {
@@ -364,615 +327,306 @@ test( 'Action fires when day is clicked', function( assert ) {
         done();
     });
 
-    this.$( '>:first-child' ).find( '.active' ).click();
+    this.$( '>:first-child' ).find( '.today' ).click();
 });
 
-skip( 'Action passes through expected objects in content array', function( assert ) {
-
-    assert.expect( 8 );
+test( 'Action passes through expected objects in content array', function( assert ) {
+    assert.expect( 1 );
 
     const done = assert.async();
 
-    this.set( 'currentYear', 2022 );
+    this.set( 'viewingDate', window.moment( [ 2015, 2, 15 ] ) );
+    this.set( 'selectedDate', window.moment( [ 2015, 2, 12 ] ) );
 
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', multipleTestContent );
+    this.set( 'events', testEvents );
 
     this.render( hbs`
         {{sl-calendar
             action="testAction"
-            content=content
-            currentYear=currentYear
-            currentMonth=currentMonth
+            events=events
+            viewingDate=viewingDate
+            selectedDate=selectedDate
         }}
     ` );
 
-    this.on( 'testAction', ( dateContent ) => {
-
-        // This group of asserts verifies the multiple events on Sep. 17th
-        if ( 'Event 1 Today!' === dateContent[ 0 ].label ) {
-            assert.strictEqual(
-                dateContent[ 0 ].date.toString(),
-                'Sat Sep 17 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 0 ].label,
-                'Event 1 Today!',
-                'The label property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 1 ].date.toString(),
-                'Sat Sep 17 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 1 ].label,
-                'Event 2 Today!',
-                'The label property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 2 ].date.toString(),
-                'Sat Sep 17 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 2 ].label,
-                'Event 3 Today!',
-                'The label property was passed through'
-            );
-        // This group of asserts verifies the event on Sep. 20th
-        } else {
-            assert.strictEqual(
-                dateContent[ 0 ].date.toString(),
-                'Tue Sep 20 2022 00:00:00 GMT-0500 (CDT)',
-                'The date property was passed through'
-            );
-
-            assert.strictEqual(
-                dateContent[ 0 ].label,
-                'Event 1 Another Day!',
-                'The label property was passed through'
-            );
-        }
+    this.on( 'testAction', ( date, events ) => {
+        assert.strictEqual(
+            events.length,
+            2,
+            'two events retrieved'
+        );
 
         done();
     });
 
-    this.$( '>:first-child' ).find( '.active' ).click();
+    this.$( '>:first-child' ).find( '.selected' ).click();
 });
 
-skip( 'Setting viewMode modifies the view correctly', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', testContent );
+test( 'Setting viewMode modifies the view correctly', function( assert ) {
+    this.set( 'selectedDate', window.moment( [ 2015, 1, 15 ] ) );
+    this.set( 'viewingDate', window.moment( [ 2015, 1, 1 ] ) );
+    this.set( 'viewMode', 'days' );
 
     this.render( hbs`
         {{sl-calendar
-            content=content
+            selectedDate=selectedDate
+            viewingDate=viewingDate
+            viewMode=viewMode
         }}
     ` );
 
-    assert.ok(
-        this.$( '>:first-child' ),
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.selected' ).text().trim(),
+        '15',
         '"viewMode" of days renders'
     );
 
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            viewMode="months"
-        }}
-    ` );
+    this.set( 'viewMode', 'months' );
 
-    assert.ok(
-        this.$( '>:first-child' ),
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.selected' ).text().trim(),
+        'Feb',
         '"viewMode" of months renders'
     );
 
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            viewMode="years"
-        }}
-    ` );
+    this.set( 'viewMode', 'years' );
 
-    assert.ok(
-        this.$( '>:first-child' ),
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.selected' ).text().trim(),
+        '2015',
         '"viewMode" of years renders'
     );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'The current month and year are set correctly'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.active' ).text().trim(),
-        17,
-        'The current day is set correctly'
-    );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            viewMode="months"
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'The current year is set correctly'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.active' ).text().trim(),
-        'Sep',
-        'The current month is set correctly'
-    );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            viewMode="years"
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'The year range is set correctly'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.active' ).text().trim(),
-        currentYear.toString(),
-        'The current year is set correctly'
-    );
 });
 
-test( 'Navigating Forward by Month', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 9 );
+test( 'Navigating Forward and Backward by Month', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
-            currentYear=currentYear
-            currentMonth=currentMonth
+            viewingDate=viewingDate
         }}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'September 2015',
         'The current month is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-next' ).trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'October ' + currentYear,
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'October 2015',
         'The next month is set correctly'
     );
-});
 
-test( 'Navigating Backward by Month', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 9 );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).trigger( 'click' ).trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'The current month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'August 2015',
         'The previous month is set correctly'
     );
+
+    this.set( 'viewingDate', window.moment( [ 2015, 11, 1 ] ) );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'December 2015',
+        'The month is set correctly'
+    );
+
+    this.$( '>:first-child' ).find( '.sl-icon-next' ).trigger( 'click' );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'January 2016',
+        'The month and year are set correctly'
+    );
+
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).trigger( 'click' );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        'December 2015',
+        'The month and year are set correctly'
+    );
 });
 
-test( 'Navigating Forward by Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
+test( 'Navigating Forward and Backward by Year', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
+    this.set( 'viewMode', 'months' );
 
     this.render( hbs`
         {{sl-calendar
-            currentYear=currentYear
-            viewMode="months"
+            viewingDate=viewingDate
+            viewMode=viewMode
         }}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        '2015',
         'The current year is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-next' ).trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        ( currentYear + 1 ).toString(),
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        '2016',
         'The next year is set correctly'
     );
-});
 
-test( 'Navigating Backward by Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear
-            viewMode="months"
-        }}
-    ` );
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).trigger( 'click' ).trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'The current year is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        ( currentYear - 1 ).toString(),
+        this.$( '>:first-child' ).find( '.calendar-controls a' ).text().trim(),
+        '2014',
         'The previous year is set correctly'
     );
 });
 
-test( 'Navigating Forward by Decade', function( assert ) {
-
-    this.set( 'currentYear', 2022 );
+test( 'Navigating Forward and Backward by Decade', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
+    this.set( 'viewMode', 'years' );
 
     this.render( hbs`
         {{sl-calendar
-            currentYear=currentYear
-            viewMode="years"
+            viewingDate=viewingDate
+            viewMode=viewMode
         }}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'The current Decade is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2030-2039',
-        'The next Decade is set correctly'
-    );
-});
-
-test( 'Navigating Backward by Decade', function( assert ) {
-
-    this.set( 'currentYear', 2022 );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear
-            viewMode="years"
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'The current Decade is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2010-2019',
-        'The previous Decade is set correctly'
-    );
-});
-
-test( 'When Locked, interacting with the view is not Possible', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 8 );
-
-    this.render( hbs`
-        {{sl-calendar}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).hasClass( 'sl-calendar-locked' ),
-        false,
-        'Default rendered component does not have class "sl-calendar-locked"'
-    );
-
-    this.render( hbs`
-        {{sl-calendar
-            locked=true
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-calendar-locked' ),
-        'Locked, rendered component has class "sl-calendar-locked"'
-    );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The current month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The next month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The next month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.datepicker-switch' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'The next month is set correctly'
-    );
-});
-
-test( 'Navigating from Month to Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 9 );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear
-            currentMonth=currentMonth
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'The current month is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.datepicker-switch' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'The current year is set correctly'
-    );
-});
-
-test( 'Navigating from Year to Month', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 9 );
-
-    this.set( 'content', testContent );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            currentYear=currentYear
-            currentMonth=currentMonth
-            viewMode="months"
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'The current year is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.active' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'The current month is set correctly'
-    );
-});
-
-test( 'Navigating from Year to Decade', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear
-            viewMode="months"
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'The current year is set correctly'
-    );
-
-    this.$( '>:first-child' ).find( '.datepicker-switch' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'The current decade is set correctly'
-    );
-});
-
-test( 'Navigating from Decade to Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'content', testContent );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            currentYear=currentYear
-            viewMode="years"
-        }}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
+        this.$( '>:first-child' ).find( '.calendar-controls th:first-child + th' ).text().trim(),
+        '2010 - 2019',
         'The current decade is set correctly'
     );
 
-    this.$( '>:first-child' ).find( '.active' ).click();
+    this.$( '>:first-child' ).find( '.sl-icon-next' ).trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'The current year is set correctly'
+        this.$( '>:first-child' ).find( '.calendar-controls th:first-child + th' ).text().trim(),
+        '2020 - 2029',
+        'The next decade is set correctly'
+    );
+
+    this.$( '>:first-child' ).find( '.sl-icon-previous' ).trigger( 'click' ).trigger( 'click' );
+
+    assert.strictEqual(
+        this.$( '>:first-child' ).find( '.calendar-controls th:first-child + th' ).text().trim(),
+        '2000 - 2009',
+        'The previous decade is set correctly'
     );
 });
 
-test( 'Navigating Forward by Month Crosses to Next Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 12 );
+test( 'Changing viewMode by View Switcher', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
+    this.set( 'viewMode', 'days' );
 
     this.render( hbs`
         {{sl-calendar
-            currentYear=currentYear
-            currentMonth=currentMonth
+            viewingDate=viewingDate
+            viewMode=viewMode
         }}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'December ' + currentYear,
-        'The current month is set correctly'
+        this.get( 'viewMode' ),
+        'days',
+        'The current viewMode is "days"'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-next' ).click();
+    this.$( '>:first-child' ).find( '.calendar-controls a' ).trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'January ' + ( currentYear + 1 ),
-        'The next month is in the next year'
+        this.get( 'viewMode' ),
+        'months',
+        'The current viewMode is "months"'
+    );
+
+    this.$( '>:first-child' ).find( '.calendar-controls a' ).trigger( 'click' );
+
+    assert.strictEqual(
+        this.get( 'viewMode' ),
+        'years',
+        'The current viewMode is "years"'
     );
 });
 
-test( 'Navigating Backward by Month Crosses to Previous Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear', currentYear );
-
-    this.set( 'currentMonth', 1 );
+test( 'Changing viewMode by Selection', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2015, 8, 1 ] ) );
+    this.set( 'selectedDate', window.moment( [ 2015, 8, 1 ] ) );
+    this.set( 'viewMode', 'years' );
 
     this.render( hbs`
         {{sl-calendar
-            currentYear=currentYear
-            currentMonth=currentMonth
+            viewingDate=viewingDate
+            selectedDate=selectedDate
+            viewMode=viewMode
         }}
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'January ' + currentYear,
-        'The current month is set correctly'
+        this.get( 'viewMode' ),
+        'years',
+        'The current viewMode is "years"'
     );
 
-    this.$( '>:first-child' ).find( '.sl-icon-previous' ).click();
+    this.$( '>:first-child' ).find( 'td.selected' ).trigger( 'click' );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'December ' + ( currentYear - 1 ),
-        'The previous month is in the previous year'
+        this.get( 'viewMode' ),
+        'months',
+        'The current viewMode is "months"'
+    );
+
+    this.$( '>:first-child' ).find( 'td.selected' ).trigger( 'click' );
+
+    assert.strictEqual(
+        this.get( 'viewMode' ),
+        'days',
+        'The current viewMode is "days"'
     );
 });
 
 test( 'All Days are Displayed in Order', function( assert ) {
-    this.set( 'currentYear', 2015 );
-    this.set( 'currentMonth', 1 );
+    this.set( 'viewingDate', window.moment( [ 2015, 0, 1 ] ) );
+    this.set( 'fixedWeekCount', false );
 
     this.render( hbs`
         {{sl-calendar
-            viewMode="days"
-            currentYear=currentYear
-            currentMonth=currentMonth
+            fixedWeekCount=fixedWeekCount
+            viewingDate=viewingDate
         }}
     ` );
 
+    let daysString = '';
+
+    this.$( '>:first-child' ).find( 'td.day' ).each( function() {
+        daysString += $( this ).text().trim();
+    });
+
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'td' ).text().trim(),
-        '28293031123456789101112131415161718192021222324252627282930311234567',
+        daysString,
+        '2829303112345678910111213141516171819202122232425262728293031',
         'All days listed in order for specified month as expected'
+    );
+
+    this.set( 'fixedWeekCount', true );
+
+    daysString = '';
+
+    this.$( '>:first-child' ).find( 'td.day' ).each( function() {
+        daysString += $( this ).text().trim();
+    });
+
+    assert.strictEqual(
+        daysString,
+        '28293031123456789101112131415161718192021222324252627282930311234567',
+        'All days listed in order for specified month when fixedWeekCount as expected'
     );
 });
 
@@ -984,492 +638,166 @@ test( 'All Twelve Months are Displayed in Order', function( assert ) {
         }}
     ` );
 
+    let monthsString = '';
+
+    this.$( '>:first-child' ).find( 'td.month' ).each( function() {
+        monthsString += $( this ).text().trim();
+    });
+
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'tbody span' ).text().trim(),
+        monthsString,
         'JanFebMarAprMayJunJulAugSepOctNovDec',
         'Twelve months are listed in order'
     );
 });
 
 test( 'Twelve Years are Displayed in Order', function( assert ) {
-
-    this.set( 'currentYear', 2022 );
+    this.set( 'viewingDate', window.moment( [ 2022, 0, 1 ] ) );
 
     this.render( hbs`
         {{sl-calendar
             viewMode="years"
-            currentYear=currentYear
+            viewingDate=viewingDate
         }}
     ` );
 
+    let yearsString = '';
+
+    this.$( '>:first-child' ).find( 'td.year' ).each( function() {
+        yearsString += $( this ).text().trim();
+    });
+
     assert.strictEqual(
-        this.$( '>:first-child' ).find( 'tbody span' ).text().trim(),
+        yearsString,
         '201920202021202220232024202520262027202820292030',
         'Twelve years are listed in order'
     );
 });
 
-// -------------------------------------------------------------------------
-// Start of Dual Component Tests
-
-test( 'Dual instance: Action fires when day is clicked', function( assert ) {
-
-    const testAction1 = sinon.spy();
-    const testAction2 = sinon.spy();
-
-    this.set( 'currentYear1', 2035 );
-    this.set( 'currentMonth1', 1 );
-
-    this.set( 'currentYear2', 2022 );
-    this.set( 'currentMonth2', 9 );
-
-    this.set( 'content', testContent );
+test( 'Wai-Aria keyboard navigation', function( assert ) {
+    this.set( 'viewingDate', window.moment( [ 2016, 0, 15 ] ) );
+    this.set( 'selectedDate', window.moment( [ 2016, 0, 15 ] ) );
 
     this.render( hbs`
         {{sl-calendar
-            action="testAction1"
-            content=content
-            currentYear=currentYear1
-            currentMonth=currentMonth1
-        }}
-        {{sl-calendar
-            action="testAction2"
-            content=content
-            currentYear=currentYear2
-            currentMonth=currentMonth2
+            viewingDate=viewingDate
+            selectedDate=selectedDate
         }}
     ` );
 
-    this.on( 'testAction1', testAction1 );
-    this.on( 'testAction2', testAction2 );
+    const calendar = this.$( '>:first-child' );
 
-    this.$( '>:nth-child(2)' ).find( '.active' ).click();
+    calendar.trigger( 'focusin' );
 
-    assert.notOk(
-        testAction1.called,
-        'Component instance one: did not fire an action'
-    );
+    let event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 33;
+    calendar.trigger( event );
 
     assert.ok(
-        testAction2.called,
-        'Component instance two: fired an action'
-    );
-});
-
-test( 'Dual instance: Navigating Forward by Month', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    const currentMonth = 9;
-    this.set( 'currentMonth1', currentMonth );
-    this.set( 'currentMonth2', currentMonth );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentMonth=currentMonth1
-            currentYear=currentYear1
-        }}
-        {{sl-calendar
-            currentMonth=currentMonth2
-            currentYear=currentYear2
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'Component instance one: current month has not changed'
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 15 ] ), 'day' ),
+        'correctly decreased the date by one month'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        'October ' + currentYear,
-        'Component instance two: Current month advances one month'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 34;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating Backward by Month', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    const currentMonth = 9;
-    this.set( 'currentMonth1', currentMonth );
-    this.set( 'currentMonth2', currentMonth );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentMonth=currentMonth1
-            currentYear=currentYear1
-        }}
-        {{sl-calendar
-            currentMonth=currentMonth2
-            currentYear=currentYear2
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'Component instance one: current month has not changed'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 15 ] ), 'day' ),
+        'correctly increased the date by one month'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        'August ' + currentYear,
-        'Component instance two: Current month adjusts to previous month'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 35;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating Forward by Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            viewMode="months"
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            viewMode="months"
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'Component instance one: year did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 31 ] ), 'day' ),
+        'correctly moved to the last day in the current month'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        ( currentYear + 1 ).toString(),
-        'Component instance two: year advances by one year'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 36;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating Backward by Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            viewMode="months"
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            viewMode="months"
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'Component instance one: year did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly moved to the first day in the current month'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        ( currentYear - 1 ).toString(),
-        'Component instance two: year adjusts to previous year'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 37;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating Forward by Decade', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            viewMode="years"
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            viewMode="years"
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'Component instance one: decade did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 31 ] ), 'day' ),
+        'correctly decreased the date by one day'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        '2030-2039',
-        'Component instance two: next decade is set correctly'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 38;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating Backward by Decade', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            viewMode="years"
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            viewMode="years"
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'Component instance one: decade did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 24 ] ), 'day' ),
+        'correctly decreased the date by one week'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        '2010-2019',
-        'Component instance two: decade is set to the previous decade'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 39;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating from Month to Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    const currentMonth = 9;
-    this.set( 'currentMonth1', currentMonth );
-    this.set( 'currentMonth2', currentMonth );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            currentMonth=currentMonth1
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            currentMonth=currentMonth2
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'Component instance one: current month did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 11, 25 ] ), 'day' ),
+        'correctly increased the date by one day'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'Component instance two: current year is set correctly'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 40;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating from Year to Month', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    const currentMonth = 9;
-    this.set( 'currentMonth1', currentMonth );
-    this.set( 'currentMonth2', currentMonth );
-
-    this.set( 'content', testContent );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            currentYear=currentYear1
-            currentMonth=currentMonth1
-            viewMode="months"
-        }}
-        {{sl-calendar
-            content=content
-            currentYear=currentYear2
-            currentMonth=currentMonth2
-            viewMode="months"
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.active' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'Component instance one: current year did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly increased the date by one week'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        'September ' + currentYear,
-        'Component instance two: current month is set correctly'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 33;
+    event.ctrlKey = true;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating from Year to Decade', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            viewMode="months"
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            viewMode="months"
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'Component instance one: current year did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2015, 0, 1 ] ), 'day' ),
+        'correctly decreased the date by one year'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'Component instance two: current decade is set correctly'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 34;
+    event.ctrlKey = true;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating from Decade to Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    this.set( 'content', testContent );
-
-    this.render( hbs`
-        {{sl-calendar
-            content=content
-            currentYear=currentYear1
-            viewMode="years"
-        }}
-        {{sl-calendar
-            content=content
-            currentYear=currentYear2
-            viewMode="years"
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.active' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        '2020-2029',
-        'Component instance two: current decade did not change'
+    assert.ok(
+        this.get( 'viewingDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly increased the date by one year'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        currentYear.toString(),
-        'Component instance two: current year is set correctly'
-    );
-});
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 32;
+    calendar.trigger( event );
 
-test( 'Dual instance: Navigating Forward by Month Crosses to Next Year', function( assert ) {
-
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    const currentMonth = 12;
-    this.set( 'currentMonth1', currentMonth );
-    this.set( 'currentMonth2', currentMonth );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            currentMonth=currentMonth1
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            currentMonth=currentMonth2
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-next' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'December ' + currentYear,
-        'Component instance one: current month did not change'
+    assert.ok(
+        this.get( 'selectedDate' ).isSame( window.moment( [ 2016, 0, 1 ] ), 'day' ),
+        'correctly set the selectedDate to the currently focused date'
     );
 
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        'January ' + ( currentYear + 1 ),
-        'Component instance two: next month is in the next year'
-    );
-});
+    this.set( 'viewingDate', window.moment( [ 2016, 0, 15 ] ) );
 
-test( 'Dual instance: Navigating Backward by Month Crosses to Previous Year', function( assert ) {
+    event = new Ember.$.Event( 'keydown' );
+    event.keyCode = 13;
+    calendar.trigger( event );
 
-    const currentYear = 2022;
-    this.set( 'currentYear1', currentYear );
-    this.set( 'currentYear2', currentYear );
-
-    const currentMonth = 1;
-    this.set( 'currentMonth1', currentMonth );
-    this.set( 'currentMonth2', currentMonth );
-
-    this.render( hbs`
-        {{sl-calendar
-            currentYear=currentYear1
-            currentMonth=currentMonth1
-        }}
-        {{sl-calendar
-            currentYear=currentYear2
-            currentMonth=currentMonth2
-        }}
-    ` );
-
-    this.$( '>:nth-child(2)' ).find( '.sl-icon-previous' ).click();
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( '.datepicker-switch' ).text().trim(),
-        'January ' + currentYear,
-        'Component instance one: current month did not change'
-    );
-
-    assert.strictEqual(
-        this.$( '>:nth-child(2)' ).find( '.datepicker-switch' ).text().trim(),
-        'December ' + ( currentYear - 1 ),
-        'Component instance two: previous month is in the previous year'
+    assert.ok(
+        this.get( 'selectedDate' ).isSame( window.moment( [ 2016, 0, 15 ] ), 'day' ),
+        'correctly set the selectedDate to the currently focused date'
     );
 });

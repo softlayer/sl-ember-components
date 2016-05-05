@@ -5,9 +5,6 @@ module.exports = {
                 name: 'bootstrap',
                 target: '3.3.6'
             }, {
-                name: 'bootstrap-datepicker',
-                target: '~1.3.0'
-            }, {
                 name: 'highcharts',
                 target: '~4.1.10'
             }, {

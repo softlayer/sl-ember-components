@@ -2,8 +2,26 @@ import Ember from 'ember';
 import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
-import { skip } from 'qunit';
 import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
+
+const testEvents = Ember.A([
+    {
+        startDate: window.moment( [ 2015, 2, 12 ] ),
+        title: 'Event 1 Today!'
+    },
+    {
+        startDate: window.moment( [ 2015, 2, 12 ] ),
+        title: 'Event 2 Today!'
+    },
+    {
+        startDate: window.moment( [ 2015, 2, 17 ] ),
+        title: 'Event 3 Today!'
+    },
+    {
+        startDate: window.moment( [ 2015, 2, 20 ] ),
+        title: 'Event 1 Another Day!'
+    }
+]);
 
 moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     needs: [
@@ -26,13 +44,15 @@ test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
     assert.deepEqual(
-        component.get( 'content' ),
+        component.get( 'events' ),
         [],
-        'content: []'
+        'content is [] by default'
     );
 
-    const today = new Date();
-    const month = today.getMonth() + 1;
+    assert.notOk(
+        component.get( 'fixedWeekCount' ),
+        'fixedWeekCount is false by default'
+    );
 
     assert.strictEqual(
         component.get( 'componentClass' ),
@@ -40,190 +60,473 @@ test( 'Default property values are set correctly', function( assert ) {
         '"componentClass" property defaults to calendar'
     );
 
-    assert.strictEqual(
-        component.get( 'currentMonth' ),
-        month,
-        `currentMonth: ${month}`
+    assert.ok(
+        component.get( 'focusable' ),
+        'focusable is true by default'
     );
 
-    const year = today.getFullYear();
-
-    assert.strictEqual(
-        component.get( 'currentYear' ),
-        year,
-        `currentYear: ${year}`
-    );
-
-    assert.strictEqual(
-        component.get( 'dateValuePath' ),
-        'date',
-        'dateValuePath: "date"'
+    assert.notOk(
+        component.get( 'hasFocus' ),
+        'hasFocus is false by default'
     );
 
     assert.strictEqual(
         component.get( 'locale' ),
         'en',
-        'locale: "en"'
+        'locale is "en" by default'
+    );
+
+    assert.deepEqual(
+        component.get( 'selectConstraint' ),
+        {
+            start: null,
+            end: null
+        },
+        'selectConstraint is an object with start and end properties by default'
     );
 
     assert.strictEqual(
-        component.get( 'locked' ),
-        false,
-        'locked: false'
+        component.get( 'selectedDate' ),
+        null,
+        'selectedDate is null by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'showControls' ),
+        true,
+        'showControls is true by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'showingMonth' ),
+        null,
+        'showingMonth is null by default'
+    );
+
+    assert.ok(
+        window.moment().isSame( component.get( 'viewingDate' ), 'day' ),
+        'viewingDate is a moment object representing today by default'
     );
 
     assert.strictEqual(
         component.get( 'viewMode' ),
         'days',
-        'viewMode: "days"'
+        'viewMode is "days" by default'
     );
 });
 
-test( 'Lock mode prevents changing state', function( assert ) {
-    const component = this.subject({ locked: true });
+test( 'setDate method sets the viewingDate and selectedDate', function( assert ) {
+    const selectConstraint = {
+        start: window.moment( [ 2014, 2, 1 ] )
+    };
 
-    const initialDecadeStart = component.get( 'decadeStart' );
-    component.send( 'changeDecade', 1 );
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        selectConstraint: selectConstraint
+    });
+
+    const newDate = window.moment( [ 2014, 3, 3 ] );
+
+    component.setDate( newDate );
+
+    assert.ok(
+        component.get( 'selectedDate' ).isSame( newDate, 'day' ),
+        'selectedDate was set to the new date'
+    );
+
+    assert.ok(
+        component.get( 'viewingDate' ).isSame( newDate, 'day' ),
+        'viewingDate was set to the new date'
+    );
+
+    const tooEarlyDate = window.moment( [ 2014, 1, 1 ] );
+
+    component.setDate( tooEarlyDate );
+
+    assert.notOk(
+        component.get( 'selectedDate' ).isSame( tooEarlyDate, 'day' ),
+        'selectedDate was not set to the new date'
+    );
+
+    assert.notOk(
+        component.get( 'viewingDate' ).isSame( tooEarlyDate, 'day' ),
+        'viewingDate was not set to the new date'
+    );
+});
+
+test( 'setMonth method modifies the viewingDate', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
+
+    const newMonth = 4;
+
+    component.setMonth( newMonth );
+
     assert.strictEqual(
-        initialDecadeStart,
-        component.get( 'decadeStart' ),
-        'Value decadeStart is unchanged from actions.changeDecade'
+        component.get( 'viewingDate' ).month() + 1,
+        newMonth,
+        'view set to the selected month'
     );
+});
 
-    const initialMonth = component.get( 'currentMonth' );
-    component.send( 'changeMonth', 1 );
+test( 'setYear method modifies the viewingDate', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
+
+    const newYear = 2013;
+
+    component.setYear( newYear );
+
     assert.strictEqual(
-        initialMonth,
-        component.get( 'currentMonth' ),
-        'Value currentMonth is unchanged from actions.changeMonth'
+        component.get( 'viewingDate' ).year(),
+        newYear,
+        'view set to the selected year'
     );
+});
 
-    const initialYear = component.get( 'currentYear' );
-    component.send( 'changeYear', 1 );
+test( 'calendar title is correctly generated for each viewMode', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 15 ] ),
+        viewMode: 'days'
+    });
+
     assert.strictEqual(
-        initialYear,
-        component.get( 'currentYear' ),
-        'Value currentYear is unchanged from actions.changeYear'
+        component.get( 'calendarTitle' ),
+        'March 2015',
+        'Calendar title is correct in days view'
     );
 
-    component.send( 'setMonth', initialMonth + 1 );
+    component.set( 'viewMode', 'months' );
+
     assert.strictEqual(
-        initialMonth,
-        component.get( 'currentMonth' ),
-        'Value currentMonth is unchanged from actions.setMonth'
+        component.get( 'calendarTitle' ),
+        '2015',
+        'Calendar title is correct in days view'
     );
 
-    const initialViewMode = component.get( 'viewMode' );
-    component.send( 'setView', 'something' );
+    component.set( 'viewMode', 'years' );
+
     assert.strictEqual(
-        initialViewMode,
-        component.get( 'viewMode' ),
-        'Value viewMode is unchanged from actions.setView'
+        component.get( 'calendarTitle' ),
+        '2010 - 2019',
+        'Calendar title is correct in days view'
+    );
+});
+
+test( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function( assert ) {
+    const component = this.subject({});
+
+    assert.deepEqual(
+        component.get( 'shortWeekDayNames' ),
+        [ 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa' ],
+        'short week day names are generated correctly'
+    );
+});
+
+test( 'activeDateChange - active property is set on the correct day object', function( assert ) {
+    const startingSelected = window.moment( [ 2015, 0, 15 ] );
+
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        selectedDate: startingSelected
+    });
+
+    function findDay( dateNeedle ) {
+        const weeksInMonthView = component.get( 'weeksInMonthView' );
+
+        for ( let week = 0; week < weeksInMonthView.length; week++ ) {
+            for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
+                if ( weeksInMonthView[ week ][ day ].date.isSame( dateNeedle, 'day' ) ) {
+                    return weeksInMonthView[ week ][ day ];
+                }
+            }
+        }
+    }
+
+    assert.ok(
+        findDay( startingSelected ).active,
+        'the correct day is set to "active"'
     );
 
-    component.send( 'setYear', initialYear + 1 );
+    const newSelected = window.moment( [ 2015, 1, 12 ] );
+
+    component.set( 'viewingDate', newSelected );
+    component.set( 'selectedDate', newSelected );
+
+    assert.ok(
+        findDay( newSelected ).active,
+        'the correct day is set to "active"'
+    );
+});
+
+test( 'applyEvents - events are set on each day object', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 1 ] ),
+        events: testEvents
+    });
+
+    function findDay( dateNeedle ) {
+        const weeksInMonthView = component.get( 'weeksInMonthView' );
+
+        for ( let week = 0; week < weeksInMonthView.length; week++ ) {
+            for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
+                if ( weeksInMonthView[ week ][ day ].date.isSame( dateNeedle, 'day' ) ) {
+                    return weeksInMonthView[ week ][ day ];
+                }
+            }
+        }
+    }
+
     assert.strictEqual(
-        initialYear,
-        component.get( 'currentYear' ),
-        'Value currentYear is unchanged from actions.setYear'
+        findDay( testEvents[ 0 ].startDate ).events.length,
+        2,
+        'event day has 3 events as expected'
+    );
+
+    assert.strictEqual(
+        findDay( testEvents[ 3 ].startDate ).events.length,
+        1,
+        'event day has 1 event as expected'
     );
 });
 
-skip( 'locale - Setting causes default of en (English) to be updated', function() {
+test( 'focusedDateChange - focused property is set on the correct day object', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
+
+    const newViewing = window.moment( [ 2015, 0, 15 ] );
+
+    component.set( 'viewingDate', newViewing );
+
+    function findDay( dateNeedle ) {
+        const weeksInMonthView = component.get( 'weeksInMonthView' );
+
+        for ( let week = 0; week < weeksInMonthView.length; week++ ) {
+            for ( let day = 0; day < weeksInMonthView[ week ].length; day++ ) {
+                if ( weeksInMonthView[ week ][ day ].date.isSame( dateNeedle, 'day' ) ) {
+                    return weeksInMonthView[ week ][ day ];
+                }
+            }
+        }
+    }
+
+    assert.ok(
+        findDay( newViewing ).focused,
+        'the correct day is set to "focused"'
+    );
 });
 
-skip( 'currentMonthString - current month string formatted as full word (January, November, ...)', function() {
-});
+test( 'updateShowingMonth - showingMonth is updated', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
 
-skip( 'contentDates - Verify dates array', function() {
-});
+    const newMonth = 5;
 
-skip( 'setYear - viewMode and currentYear set correctly', function() {
-});
+    component.set( 'viewingDate', window.moment( [ 2015, newMonth, 1 ] ) );
 
-skip( 'setView - viewMode set correctly', function() {
-});
-
-skip( 'setMonth - currentMonth and viewMode set correctly', function() {
+    assert.strictEqual(
+        component.get( 'showingMonth' ),
+        newMonth,
+        'showingMonth updated correctly'
+    );
 });
 
 test( 'changeDecade action works', function( assert ) {
-    const component = this.subject({ currentYear: 2015 });
-
-    assert.strictEqual(
-        component.get( 'decadeStart' ),
-        2010,
-        'Initial decadeStart is expected value'
-    );
-
-    assert.strictEqual(
-        component.get( 'decadeEnd' ),
-        2019,
-        'Initial decadeEnd is expected value'
-    );
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
 
     Ember.run( () => {
         component.send( 'changeDecade', 1 );
     });
 
     assert.strictEqual(
-        component.get( 'decadeStart' ),
-        2020,
-        'Altered decadeStart is expected value'
-    );
-
-    assert.strictEqual(
-        component.get( 'decadeEnd' ),
-        2029,
-        'Altered decadeEnd is expected value'
+        component.get( 'viewingDate' ).year(),
+        2025,
+        'Altered viewingDate is expected value'
     );
 });
 
 test( 'changeMonth action works', function( assert ) {
-    const component = this.subject({ currentMonth: 1 });
-
-    assert.strictEqual(
-        component.get( 'currentMonth' ),
-        1,
-        'Initial currentMonth is expected value'
-    );
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
 
     Ember.run( () => {
         component.send( 'changeMonth', 1 );
     });
 
     assert.strictEqual(
-        component.get( 'currentMonth' ),
-        2,
-        'Altered currentMonth is expected value'
+        component.get( 'viewingDate' ).month(),
+        1,
+        'Altered viewingDate is expected value'
     );
 });
 
 test( 'changeYear action works', function( assert ) {
-    const component = this.subject({ currentYear: 2015 });
-
-    assert.strictEqual(
-        component.get( 'currentYear' ),
-        2015,
-        'Initial currentYear is expected value'
-    );
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
+    });
 
     Ember.run( () => {
         component.send( 'changeYear', 1 );
     });
 
     assert.strictEqual(
-        component.get( 'currentYear' ),
+        component.get( 'viewingDate' ).year(),
         2016,
-        'Altered currentYear is expected value'
+        'Altered viewingDate is expected value'
     );
 });
 
+test( 'selectDate action works', function( assert ) {
+    assert.expect( 2 );
+
+    const done = assert.async();
+
+    const selectedDate = window.moment( [ 2015, 0, 1 ] );
+    const events = [
+        {
+            startDate: window.moment( [ 2015, 1, 4 ] )
+        }
+    ];
+
+    const component = this.subject({
+        action: 'test',
+        events: events,
+        date: selectedDate,
+        targetObject: {
+            test( sentDate, sentEvents ) {
+                assert.strictEqual(
+                    sentDate,
+                    selectedDate,
+                    'date value is as expected'
+                );
+
+                assert.deepEqual(
+                    sentEvents,
+                    events,
+                    'events are sent as expected'
+                );
+
+                done();
+            }
+        }
+    });
+
+    component.send( 'selectDate', selectedDate, events );
+});
+
+test( 'selectMonth action works', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        $: function() {
+            return {
+                focus: sinon.spy()
+            };
+        }
+    });
+
+    const newMonth = 8;
+
+    component.send( 'selectMonth', newMonth );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'days',
+        'viewMode is switched to "days" when a month is selected'
+    );
+
+    assert.strictEqual(
+        component.get( 'viewingDate' ).month() + 1,
+        newMonth,
+        'viewingDate was changed to the selected month'
+    );
+});
+
+test( 'selectYear action works', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        $: function() {
+            return {
+                focus: sinon.spy()
+            };
+        }
+    });
+
+    const newYear = 2013;
+
+    component.send( 'selectYear', newYear );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'months',
+        'viewMode is switched to "months" when a year is selected'
+    );
+
+    assert.strictEqual(
+        component.get( 'viewingDate' ).year(),
+        newYear,
+        'viewingDate was changed to the selected year'
+    );
+});
+
+test( 'setView action works', function( assert ) {
+    const focusSpy = sinon.spy();
+
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 0, 1 ] ),
+        $: function() {
+            return {
+                focus: focusSpy
+            };
+        }
+    });
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'days',
+        'viewMode is "days"'
+    );
+
+    component.send( 'setView', 'months' );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'months',
+        'viewMode is "months"'
+    );
+
+    component.send( 'setView', 'years' );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'years',
+        'viewMode is "years"'
+    );
+
+    component.send( 'setView', 'days' );
+
+    assert.strictEqual(
+        component.get( 'viewMode' ),
+        'days',
+        'viewMode is "days"'
+    );
+
+    assert.strictEqual(
+        focusSpy.callCount,
+        3,
+        'component was focused 3 times'
+    );
+});
 
 test( 'Decrementing month from January causes year to decrement', function( assert ) {
     const component = this.subject({
-        currentMonth: 1,
-        currentYear: 2015
+        viewingDate: window.moment( [ 2015, 0, 1 ] )
     });
 
     Ember.run( () => {
@@ -231,16 +534,15 @@ test( 'Decrementing month from January causes year to decrement', function( asse
     });
 
     assert.strictEqual(
-        component.get( 'currentYear' ),
+        component.get( 'viewingDate' ).year(),
         2014,
-        'currentYear is decremented'
+        'viewingDate is the appropriate year'
     );
 });
 
 test( 'Incrementing month from December causes year to increment', function( assert ) {
     const component = this.subject({
-        currentMonth: 12,
-        currentYear: 2015
+        viewingDate: window.moment( [ 2015, 11, 1 ] )
     });
 
     Ember.run( () => {
@@ -248,71 +550,10 @@ test( 'Incrementing month from December causes year to increment', function( ass
     });
 
     assert.strictEqual(
-        component.get( 'currentYear' ),
+        component.get( 'viewingDate' ).year(),
         2016,
-        'currentYear is incremented'
+        'viewingDate is the appropriate year'
     );
-});
-
-test( 'daysInMonth - Number of days in month is set correctly', function( assert ) {
-    const daysInMonthStub = sinon.stub().returns( 31 );
-
-    const momentStub = sinon.stub( window, 'moment' )
-        .returns( { daysInMonth: daysInMonthStub } );
-
-    const component = this.subject({
-        currentMonth: 12,
-        currentYear: 2015
-    });
-
-    assert.strictEqual(
-        component.get( 'daysInMonth' ),
-        31,
-        '"daysInMonth" is set correctly'
-    );
-
-    assert.deepEqual(
-        momentStub.args[ 0 ][ 0 ],
-        [
-            component.get( 'currentYear' ),
-            component.get( 'currentMonth' ) - 1
-        ],
-        'Moment called with currentYear and currentMonth'
-    );
-
-    window.moment.restore();
-});
-
-test( 'Decade range is correctly based on currentYear', function( assert ) {
-    const component = this.subject({ currentYear: 2023 });
-
-    assert.strictEqual(
-        component.get( 'decadeStart' ),
-        2020,
-        'decadeStart is expected value'
-    );
-
-    assert.strictEqual(
-        component.get( 'decadeEnd' ),
-        2029,
-        'decadeEnd is expected value'
-    );
-});
-
-test( 'Months for year view are generated validly', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'monthsInYearView' ).length,
-        12,
-        'Twelve months are created'
-    );
-});
-
-skip( 'monthsInYearView - active month set correctly', function() {
-    /* Expand 'Months for year view are generated validly' test to also
-        check that the active month is set correctly.
-    */
 });
 
 test( 'View mode is settable to "days"', function( assert ) {
@@ -372,400 +613,203 @@ test( 'View mode is settable to "years"', function( assert ) {
     );
 });
 
-test( 'weeksInMonthView - set previousMonth when: currentMonth is anything other than 1', function( assert ) {
-    const daysInMonthStub = sinon.stub().returns( 31 );
-
-    const momentStub = sinon.stub( window, 'moment' )
-        .returns( { daysInMonth: daysInMonthStub } );
-
-    const weeksInMonthView = [
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 30,
-                'new': false,
-                'old': true
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 31,
-                'new': false,
-                'old': true
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 1,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 2,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 3,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 4,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 5,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 6,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 7,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 8,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 9,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 10,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 11,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 12,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 13,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 14,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 15,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 16,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 17,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 18,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 19,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 20,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 21,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 22,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 23,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 24,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 25,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 26,
-                'new': false,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 27,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 28,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 29,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 30,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 31,
-                'new': false,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 1,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 2,
-                'new': true,
-                'old': false
-            }
-        ],
-        [
-            {
-                'active': false,
-                'content': null,
-                'day': 3,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 4,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 5,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 6,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 7,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 8,
-                'new': true,
-                'old': false
-            },
-            {
-                'active': false,
-                'content': null,
-                'day': 9,
-                'new': true,
-                'old': false
-            }
-        ]
-    ];
-
+test( 'Weeks for month view are assembled correctly', function( assert ) {
     const component = this.subject({
-        currentMonth: 12,
-        currentYear: 2015
+        viewingDate: window.moment( [ 2015, 1, 1 ] )
     });
 
-    assert.deepEqual(
-        component.get( 'weeksInMonthView' ),
-        weeksInMonthView,
-        '"weeksInMonthView" is set correctly'
+    let allWeeks = component.get( 'weeksInMonthView' );
+    let flattenedWeeks = [];
+
+    for ( let weekGroup = 0; weekGroup < allWeeks.length; weekGroup++ ) {
+        for ( let week = 0; week < allWeeks[ weekGroup ].length; week++ ) {
+            flattenedWeeks.push( allWeeks[ weekGroup ][ week ] );
+        }
+    }
+
+    assert.strictEqual(
+        flattenedWeeks.length,
+        28,
+        'Twenty eight days were generated for the month view'
     );
 
-    assert.deepEqual(
-        momentStub.args[ 0 ][ 0 ],
-        [
-            component.get( 'currentYear' ),
-            component.get( 'currentMonth' ) - 1
-        ],
-        'Moment called with currentYear and currentMonth'
+    component.set( 'fixedWeekCount', true );
+
+    allWeeks = component.get( 'weeksInMonthView' );
+    flattenedWeeks = [];
+
+    for ( let weekGroup = 0; weekGroup < allWeeks.length; weekGroup++ ) {
+        for ( let week = 0; week < allWeeks[ weekGroup ].length; week++ ) {
+            flattenedWeeks.push( allWeeks[ weekGroup ][ week ] );
+        }
+    }
+
+    assert.strictEqual(
+        flattenedWeeks.length,
+        42,
+        'Forty two days were generated for the month view'
+    );
+});
+
+test( 'Weeks for month view are assembled with correct properties', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2016, 2, 1 ] ),
+        selectedDate: window.moment( [ 2016, 2, 16 ] ),
+        fixedWeekCount: true
+    });
+
+    const allWeeks = component.get( 'weeksInMonthView' );
+    const flattenedWeeks = [];
+
+    for ( let weekGroup = 0; weekGroup < allWeeks.length; weekGroup++ ) {
+        for ( let week = 0; week < allWeeks[ weekGroup ].length; week++ ) {
+            flattenedWeeks.push( allWeeks[ weekGroup ][ week ] );
+        }
+    }
+
+    const firstTwo = flattenedWeeks.slice( 0, 1 );
+    const lastTwo = flattenedWeeks.slice( 33 );
+
+    assert.ok(
+        firstTwo.every( ( day ) => {
+            return day.old;
+        }),
+        'Expected days have the old property set'
     );
 
-    window.moment.restore();
+    assert.ok(
+        lastTwo.every( ( day ) => {
+            return day.new;
+        }),
+        'Expected days have the new property set'
+    );
+
+    assert.ok(
+        flattenedWeeks[ 17 ].active,
+        'Expected day has active property set'
+    );
 });
 
-skip( 'weeksInMonthView - set previousMonth when: currentMonth equals 1', function() {
-});
+test( 'Months for year view are assembled correctly', function( assert ) {
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 1 ] ),
+        selectedDate: window.moment( [ 2015, 2, 1 ] )
+    });
 
-skip( 'weeksInMonthView - set nextMonth when: currentMonth is anything other than 12', function() {
-});
+    const allMonths = component.get( 'monthsInYearView' );
+    const flattenedMonths = [];
 
-skip( 'weeksInMonthView - when firstWeekdayOfCurrentMonth is 0 (Sunday)', function() {
-});
+    for ( let monthGroup = 0; monthGroup < allMonths.length; monthGroup++ ) {
+        for ( let month = 0; month < allMonths[ monthGroup ].length; month++ ) {
+            flattenedMonths.push( allMonths[ monthGroup ][ month ] );
+        }
+    }
 
-skip( 'shortWeekDayNames - returns array of day names in short name format (Su, Mo, Tu...)', function() {
+    assert.strictEqual(
+        flattenedMonths.length,
+        12,
+        'Twelve months were generated for the year view'
+    );
+
+    assert.ok(
+        flattenedMonths[2].active,
+        'Expected month is set as active'
+    );
 });
 
 test( 'Years for decade view are assembled correctly', function( assert ) {
-    const component = this.subject();
+    const component = this.subject({
+        viewingDate: window.moment( [ 2015, 2, 1 ] ),
+        selectedDate: window.moment( [ 2015, 2, 1 ] )
+    });
+
+    const allYears = component.get( 'yearsInDecadeView' );
+    const flattenedYears = [];
+
+    for ( let yearGroup = 0; yearGroup < allYears.length; yearGroup++ ) {
+        for ( let year = 0; year < allYears[ yearGroup ].length; year++ ) {
+            flattenedYears.push( allYears[ yearGroup ][ year ] );
+        }
+    }
 
     assert.strictEqual(
-        component.get( 'yearsInDecadeView' ).length,
+        flattenedYears.length,
         12,
         'Twelve years were generated for the decade view'
+    );
+
+    assert.ok(
+        flattenedYears[6].active,
+        'Expected year is set as active'
+    );
+});
+
+test( 'Observer keys are correct', function( assert ) {
+    const component = this.subject();
+
+    const activeDateChangeKeys = [
+        'selectedDate'
+    ];
+
+    const applyEventsKeys = [
+        'events',
+        'weeksInMonthView'
+    ];
+
+    const focusedDateChangeKeys = [
+        'viewingDate'
+    ];
+
+    const updateShowingMonthKeys = [
+        'viewingDate'
+    ];
+
+    assert.deepEqual(
+        component.activeDateChange.__ember_observes__,
+        activeDateChangeKeys,
+        'Observer keys are correct for activeDateChange()'
+    );
+
+    assert.deepEqual(
+        component.applyEvents.__ember_observes__,
+        applyEventsKeys,
+        'Observer keys are correct for applyEvents()'
+    );
+
+    assert.deepEqual(
+        component.focusedDateChange.__ember_observes__,
+        focusedDateChangeKeys,
+        'Observer keys are correct for focusedDateChange()'
+    );
+
+    assert.deepEqual(
+        component.updateShowingMonth.__ember_observes__,
+        updateShowingMonthKeys,
+        'Observer keys are correct for updateShowingMonth()'
     );
 });
 
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
-    const contentDatesDependentKeys = [
-        'content',
-        'dateValuePath'
-    ];
-
-    const currentMonthStringDependentKeys = [
-        'currentMonth',
-        'currentYear',
-        'locale'
-    ];
-
-    const daysInMonthDependentKeys = [
-        'currentMonth',
-        'currentYear'
-    ];
-
-    const decadeEndDependentKeys = [
-        'decadeStart'
-    ];
-
-    const decadeStartDependentKeys = [
-        'currentYear'
+    const calendarTitleDependentKeys = [
+        'viewingDate',
+        'locale',
+        'viewMode'
     ];
 
     const monthsInYearViewDependentKeys = [
-        'contentDates',
-        'currentYear'
+        'viewingDate',
+        'selectedDate',
+        'locale'
     ];
 
     const shortWeekDayNamesDependentKeys = [
         'locale'
+    ];
+
+    const tabIndexDependentKeys = [
+        'focusable'
     ];
 
     const viewingDaysDependentKeys = [
@@ -781,46 +825,22 @@ test( 'Dependent keys are correct', function( assert ) {
     ];
 
     const weeksInMonthViewDependentKeys = [
-        'contentDates',
-        'currentMonth',
-        'currentYear',
-        'daysInMonth'
+        'fixedWeekCount',
+        'locale',
+        'selectConstraint',
+        'showingMonth',
+        'viewingDays'
     ];
 
     const yearsInDecadeViewDependentKeys = [
-        'contentDates',
-        'decadeEnd',
-        'decadeStart'
+        'viewingDate',
+        'selectedDate'
     ];
 
     assert.deepEqual(
-        component.contentDates._dependentKeys,
-        contentDatesDependentKeys,
-        'Dependent keys are correct for contentDates()'
-    );
-
-    assert.deepEqual(
-        component.currentMonthString._dependentKeys,
-        currentMonthStringDependentKeys,
-        'Dependent keys are correct for currentMonthString()'
-    );
-
-    assert.deepEqual(
-        component.daysInMonth._dependentKeys,
-        daysInMonthDependentKeys,
-        'Dependent keys are correct for daysInMonth()'
-    );
-
-    assert.deepEqual(
-        component.decadeEnd._dependentKeys,
-        decadeEndDependentKeys,
-        'Dependent keys are correct for decadeEnd()'
-    );
-
-    assert.deepEqual(
-        component.decadeStart._dependentKeys,
-        decadeStartDependentKeys,
-        'Dependent keys are correct for decadeStart()'
+        component.calendarTitle._dependentKeys,
+        calendarTitleDependentKeys,
+        'Dependent keys are correct for calendarTitle()'
     );
 
     assert.deepEqual(
@@ -833,6 +853,12 @@ test( 'Dependent keys are correct', function( assert ) {
         component.shortWeekDayNames._dependentKeys,
         shortWeekDayNamesDependentKeys,
         'Dependent keys are correct for shortWeekDayNames()'
+    );
+
+    assert.deepEqual(
+        component.tabIndex._dependentKeys,
+        tabIndexDependentKeys,
+        'Dependent keys are correct for tabIndex()'
     );
 
     assert.deepEqual(

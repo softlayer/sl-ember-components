@@ -24,11 +24,11 @@ export default Ember.Controller.extend({
         },
         {
             name: 'sl-date-picker',
-            lib: { 'bd': true }
+            lib: { 'sec': true }
         },
         {
             name: 'sl-date-range-picker',
-            lib: { 'bd': true }
+            lib: { 'sec': true }
         },
         {
             name: 'sl-date-time',

@@ -7,7 +7,10 @@ export default Ember.Controller.extend({
         }
     },
 
-    tempdates: {
-        start: '01/05/2016'
-    }
+    selectConstraint: {
+        start: '01/05/2016',
+        end: '02/05/2016'
+    },
+
+    selectedDate: window.moment( '01/11/2016', 'MM/DD/YYYY' )
 });
