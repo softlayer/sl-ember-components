@@ -230,7 +230,7 @@ export default Ember.Component.extend({
             case 32: // space
 
             case 13: // enter
-                this.setDate( viewingDate );
+                this.send( 'selectDate', this.get( 'viewingDate' ) );
                 break;
 
             default:
@@ -404,7 +404,7 @@ export default Ember.Component.extend({
                 }
 
                 for ( let day = 0; day < eventsPerDay.length; day++ ) {
-                    if ( currentEvent.startDate.isSame( eventsPerDay[ day ].date ) ) {
+                    if ( currentEvent.startDate.isSame( eventsPerDay[ day ].date, 'day' ) ) {
                         eventsPerDay[ day ].events.push( currentEvent );
                         continue eventsLoop;
                     }
