@@ -1,10 +1,7 @@
 import Ember from 'ember';
+import prefix from '../utils/class-prefix';
 
-/**
- * @module
- * @augments ember/Component
- */
-export default Ember.Component.extend({
+export default Ember.Mixin.create({
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -12,40 +9,37 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Attributes
 
-    /** @type {String[]} */
-    classNameBindings: [
-        'inverse:loading-icon-light:loading-icon-dark'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'loading-icon',
-        'sl-ember-components'
-    ],
-
-    /** @type {String} */
-    tagName: 'span',
-
     // -------------------------------------------------------------------------
     // Actions
 
     // -------------------------------------------------------------------------
     // Events
 
+    /**
+     * init event hook
+     *
+     * @function
+     * @returns {undefined}
+     */
+    init() {
+        this._super( ...arguments );
+        this.classNames.push( this.getComponentClassName() );
+    },
+
     // -------------------------------------------------------------------------
     // Properties
 
-    /**
-     * Whether to use the inverse (lighter colored) icon
-     *
-     * @type {Boolean}
-     */
-    inverse: false
-
-    // -------------------------------------------------------------------------
-    // Observers
-
     // -------------------------------------------------------------------------
     // Methods
+
+    /**
+     * Dynamically prefix component class name
+     *
+     * @function
+     * @returns {String}
+     */
+    getComponentClassName() {
+        return prefix( this.componentClass );
+    }
 
 });

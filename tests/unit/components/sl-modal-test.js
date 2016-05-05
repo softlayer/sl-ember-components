@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import streamEnabled from 'ember-stream/mixins/stream-enabled';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const mockStream = {
     actions: {},
@@ -28,10 +30,21 @@ test( 'Expected Mixins are present', function( assert ) {
         streamEnabled.detect( this.subject() ),
         'StreamEnabled Mixin is present'
     );
+
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
 });
 
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'modal',
+        'componentClass is set to modal'
+    );
 
     assert.strictEqual(
         component.get( 'animated' ),
@@ -219,4 +232,21 @@ test( 'Stream action "hide" triggers hide()', function( assert ) {
     );
 
     component.hide.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

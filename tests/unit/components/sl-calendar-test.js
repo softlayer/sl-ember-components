@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const testEvents = Ember.A([
     {
@@ -31,6 +33,13 @@ moduleForComponent( 'sl-calendar', 'Unit | Component | sl calendar', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
 
@@ -43,6 +52,12 @@ test( 'Default property values are set correctly', function( assert ) {
     assert.notOk(
         component.get( 'fixedWeekCount' ),
         'fixedWeekCount is false by default'
+    );
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'calendar',
+        '"componentClass" property defaults to calendar'
     );
 
     assert.ok(
@@ -875,4 +890,21 @@ test( 'Dependent keys are correct', function( assert ) {
         yearsInDecadeViewDependentKeys,
         'Dependent keys are correct for yearsInDecadeView()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

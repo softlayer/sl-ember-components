@@ -13,13 +13,13 @@ test( 'Default rendered state', function( assert ) {
     this.render( defaultTemplate );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-radio' ),
-        'Has class "sl-radio"'
+        this.$( '>:first-child' ).hasClass( 'form-group' ),
+        'Has class "form-group"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'form-group' ),
-        'Has class "form-group"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-radio' ),
+        'Has class "sl-ember-components-radio"'
     );
 
     assert.ok(

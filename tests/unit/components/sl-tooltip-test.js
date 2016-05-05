@@ -1,6 +1,8 @@
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
+import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent( 'sl-tooltip', 'Unit | Component | sl tooltip', {
     unit: true
@@ -11,10 +13,21 @@ test( 'Expected Mixins are present', function( assert ) {
         TooltipEnabledMixin.detect( this.subject( { title: 'Tooltip Text' } ) ),
         'Expected Mixin is present'
     );
+
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
 });
 
 test( 'Default property values', function( assert ) {
     const component = this.subject( { title: 'test' } );
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'tooltip',
+        'componentClass is set to tooltip'
+    );
 
     assert.equal(
         component.get( 'tagName' ),
@@ -189,4 +202,23 @@ test( '"popover" property needs to be a string or undefined', function( assert )
         callSubject(),
         'Property was a string'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject({
+        title: 'tooltip'
+    });
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

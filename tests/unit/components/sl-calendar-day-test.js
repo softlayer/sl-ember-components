@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-calendar-day', 'Unit | Component | sl calendar day', {
     unit: true
@@ -151,4 +152,21 @@ test( 'Dependent keys are correct', function( assert ) {
         tabIndexDependentKeys,
         'Dependent keys are correct for tabIndex()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

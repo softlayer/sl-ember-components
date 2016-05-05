@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import layout from '../templates/components/sl-radio';
 
@@ -7,7 +8,7 @@ import layout from '../templates/components/sl-radio';
  * @augments ember/Component
  * @augments module:mixins/sl-input-based
  */
-export default Ember.Component.extend( InputBased, {
+export default Ember.Component.extend( ClassPrefix, InputBased, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -19,11 +20,6 @@ export default Ember.Component.extend( InputBased, {
     classNameBindings: [
         'radioType',
         'inline::form-group'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-radio'
     ],
 
     /** @type {Object} */
@@ -40,6 +36,13 @@ export default Ember.Component.extend( InputBased, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'radio',
 
     /**
      * Whether to show the component in-line

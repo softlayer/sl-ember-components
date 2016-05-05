@@ -1,30 +1,18 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-drop-option';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
 
     // -------------------------------------------------------------------------
     // Attributes
-
-    /** @type {String} */
-    ariaRole: 'menuitem',
-
-    /** @type {String[]} */
-    classNameBindings: [
-        'optionType'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-drop-option'
-    ],
 
     /** @type {Object} */
     layout,
@@ -68,30 +56,30 @@ export default Ember.Component.extend({
     actionContext: null,
 
     /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'drop-option',
+
+    /**
      * Any data to be passed along with the action
      *
      * @type {?Object}
      */
     data: null,
 
+    /**
+     * Text label for the option
+     *
+     * @type {?String}
+     */
+    label: null
+
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
-
-    /**
-     * Represents the type of option; "divider" if the label is undefined, or
-     * "presentation" otherwise
-     *
-     * @function
-     * @returns {String}
-     */
-    optionType: Ember.computed(
-        'label',
-        function() {
-            return this.get( 'label' ) ? 'presentation' : 'divider';
-        }
-    )
 
 });

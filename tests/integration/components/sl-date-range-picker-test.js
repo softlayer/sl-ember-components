@@ -12,12 +12,16 @@ moduleForComponent( 'sl-date-range-picker', 'Integration | Component | sl date r
 
 test( 'Default rendered state', function( assert ) {
     this.render( hbs`
-        {{sl-date-range-picker}}
+        {{sl-date-range-picker
+            label="Select date range"
+            startDatePlaceholder="__StartPlaceholder__"
+            endDatePlaceholder="__EndPlaceholder__"
+        }}
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-date-range-picker' ),
-        'Has class "sl-date-range-picker"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-date-range-picker' ),
+        'Has class "sl-ember-components-date-range-picker"'
     );
 });
 

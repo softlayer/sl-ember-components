@@ -60,16 +60,16 @@ export default Ember.Component.extend({
     /**
      * The column object, passed in through the sl-grid component
      *
-     * @type {?Object}
+     * @type {Object}
      */
-    column: null,
+    column: {},
 
     /**
      * The row record model instance, passed in through the sl-grid-component
      *
-     * @type {?Object}
+     * @type {Object}
      */
-    record: null,
+    record: {},
 
     // -------------------------------------------------------------------------
     // Observers
@@ -116,10 +116,13 @@ export default Ember.Component.extend({
         'column',
         'record',
         function() {
-            return Ember.get(
-                this.get( 'record.model' ) || this.get( 'record' ),
-                this.get( 'column.valuePath' )
-            );
+            const record = this.get( 'record' );
+            if ( record ) {
+                return Ember.get(
+                    record.model || record,
+                    this.get( 'column.valuePath' )
+                );
+            }
         }
     )
 

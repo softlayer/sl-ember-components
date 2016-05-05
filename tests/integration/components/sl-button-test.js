@@ -15,13 +15,13 @@ test( 'Default rendered state', function( assert ) {
     this.render( template );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'btn' ),
-        'Has class "btn"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-button' ),
+        'Has class "sl-ember-components-button"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "alert"'
+        this.$( '>:first-child' ).hasClass( 'btn' ),
+        'Has class "btn"'
     );
 
     assert.ok(
@@ -187,7 +187,8 @@ test( 'Pending class is present when in pending state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'pending' )
+        this.$( '>:first-child' ).hasClass( 'pending' ),
+        'Pending class is present in pending state'
     );
 });
 

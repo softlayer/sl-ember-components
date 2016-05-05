@@ -11,6 +11,11 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-panel' ),
+        'Default rendered component has class "sl-ember-components-panel"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'panel' ),
         'Default rendered component has class "panel"'
     );
@@ -18,11 +23,6 @@ test( 'Default rendered state', function( assert ) {
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'panel-default' ),
         'Default rendered component has class "panel-default"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Default rendered component has class "sl-ember-components"'
     );
 
     const panelBody = this.$( '>:first-child' ).find( '> .panel-body' );

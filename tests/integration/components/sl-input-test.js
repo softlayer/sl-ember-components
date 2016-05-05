@@ -11,6 +11,11 @@ test( 'Default rendered state', function( assert ) {
         {{sl-input}}
     ` );
 
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-input' ),
+        'Has class "sl-ember-components-input"'
+    );
+
     assert.strictEqual(
         this.$( '>:first-child' ).attr( 'data-trigger' ),
         'focus',
@@ -26,11 +31,6 @@ test( 'Default rendered state', function( assert ) {
     assert.ok(
         this.$( '>:first-child' ).hasClass( 'form-group' ),
         'Has class "form-group"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-input' ),
-        'Has class "sl-input"'
     );
 
     assert.ok(

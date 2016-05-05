@@ -1,9 +1,9 @@
 
-[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-1.13.8-blue.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
+[![Latest Release](https://img.shields.io/github/release/softlayer/sl-ember-components.svg)](https://github.com/softlayer/sl-ember-components/releases) ![Ember CLI version](https://img.shields.io/badge/ember%20cli-2.4.3-blue.svg) [![License](https://img.shields.io/npm/l/sl-ember-components.svg)](LICENSE.md) [![Downloads](https://img.shields.io/npm/dm/sl-ember-components.svg)](https://www.npmjs.com/package/sl-ember-components)
 
 [![Dependencies](https://img.shields.io/david/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components) [![Dev Dependencies](https://img.shields.io/david/dev/softlayer/sl-ember-components.svg)](https://david-dm.org/softlayer/sl-ember-components#info=devDependencies)
 
-[![Build Status](https://img.shields.io/travis/softlayer/sl-ember-components/master.svg)](https://travis-ci.org/softlayer/sl-ember-components) [![Code Climate](https://img.shields.io/codeclimate/github/softlayer/sl-ember-components.svg)](https://codeclimate.com/github/softlayer/sl-ember-components) [![Ember Observer](http://emberobserver.com/badges/sl-ember-components.svg)](http://emberobserver.com/addons/sl-ember-components) [![Inch CI](http://inch-ci.org/github/softlayer/sl-ember-components.svg?branch=master)](http://inch-ci.org/github/softlayer/sl-ember-components) [![Join the chat at https://gitter.im/softlayer/sl-ember-components](https://badges.gitter.im/softlayer/sl-ember-components.svg)](https://gitter.im/softlayer/sl-ember-components?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://circleci.com/gh/softlayer/sl-ember-components.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/softlayer/sl-ember-components) [![Code Climate](https://img.shields.io/codeclimate/github/softlayer/sl-ember-components.svg)](https://codeclimate.com/github/softlayer/sl-ember-components) [![Ember Observer](http://emberobserver.com/badges/sl-ember-components.svg)](http://emberobserver.com/addons/sl-ember-components) [![Inch CI](http://inch-ci.org/github/softlayer/sl-ember-components.svg?branch=master)](http://inch-ci.org/github/softlayer/sl-ember-components) [![Join us on Slack](https://sl-ember-components-signup.herokuapp.com/badge.svg)](https://sl-ember-components-signup.herokuapp.com/)
 
 We use [https://waffle.io/softlayer/sl-ember-components](https://waffle.io/softlayer/sl-ember-components) to work our issues.
 
@@ -37,7 +37,6 @@ is served from the *gh-pages* branch of this repository.
 * sl-drop-button
 * sl-grid
 * sl-input
-* sl-loading-icon
 * sl-menu
 * sl-modal
 * sl-pagination
@@ -83,13 +82,18 @@ Check whether a value is a valid value in object.
 
 *warn*
 
-Check whether a value is a valid value in object.
-
 Provides a mechanism for initiating `console.warn()`s
 
 *error*
 
 Provides a way for individual components to throw errors that are able to be recognized by methods inside of a consuming application's `Ember.onerror()` function. For more details reference the [Error Handling](#error-handling) section below.
+
+
+**CSS Classes provided**
+
+*sl-loading*
+
+Apply a loading indicator to an element.  See the [Loading Indicator section](#loading-indicator) for more information.
 
 
 ---
@@ -113,7 +117,7 @@ While this library is MIT licensed not all of the third-party component librarie
 
 # Supported browsers
 
-See [http://softlayer.github.io/sl-ember-components/browsers.html](http://softlayer.github.io/sl-ember-components/browsers.html)
+See [http://softlayer.github.io/sl-ember-components/#/browsers](http://softlayer.github.io/sl-ember-components/#/browsers)
 
 
 
@@ -187,6 +191,33 @@ Ember.onerror = function( error ) {
 };
 ```
 
+## Fingerprinting Assets
+If fingerprinting is enabled in the consuming application, then by default the following font types are fingerprinted:
+
+    eot, svg, ttf, woff, woff2
+
+**IMPORTANT**: If you list extensions that are not exact matches to [the default ones](https://github.com/rickharrison/broccoli-asset-rev/blob/master/lib/default-options.js)
+set by broccoli-asset-rev, you will need to add the desired font extensions to the extensions property in the consuming application's fingerprinting settings in the `ember-cli-build.js` file, as demonstrated below:
+
+```
+const EmberApp = require( 'ember-cli/lib/broccoli/ember-app' );
+const env = require( './config/environment' );
+
+module.exports = function( defaults ) {
+    const app = new EmberApp( defaults, {
+        fingerprint: {
+            enabled: true,
+            exclude: [],
+            extensions: [ 'png', 'jpg', 'gif', 'eot', 'svg', 'ttf', 'woff', 'woff2' ],
+            prepend: env().baseAssetsURL,
+            replaceExtensions: [ 'html', 'css', 'js' ]
+        }
+    });
+
+    return app.toTree();
+};
+```
+
 ## Styling
 
 If you wish to modify the styling of the components you have two options for doing so.
@@ -204,15 +235,65 @@ then create a `app/styles/app.less` file and add this to it:
 
     @import 'sl-ember-components';
 
+Finally, you will need to run [broccoli-autoprefixer](https://github.com/sindresorhus/broccoli-autoprefixer) against the updated Twitter Bootstrap and/or LESS files.  To do so, run
 
+    npm install --save-dev broccoli-autoprefixer
 
-### Namespaces
+and set the `browsers` option in your *ember-cli-build.js* file to:
 
-Each component has its own CSS namespacing so that it is easy to target specific components
-for styling.  Refer to each component's respective documentation at
+```
+var autoprefixer = require( 'broccoli-autoprefixer' );
+...
+tree = autoprefixer(
+    tree,
+    {
+        browsers: [
+            'Android 2.3',
+            'Android >= 4',
+            'Chrome >= 20',
+            'Firefox >= 24',
+            'Explorer >= 8',
+            'iOS >= 6',
+            'Opera >= 12',
+            'Safari >= 6'
+        ]
+    }
+);
+```
+
+The options listed in `browsers` above are the recommended settings by [Twitter Bootstrap](https://github.com/twbs/bootstrap-sass#sass-autoprefixer)
+
+### Component Classes
+
+Each component has its own unique CSS class selector so that it is easy to target and style specific components.  Refer to each component's respective documentation at
 [http://softlayer.github.io/sl-ember-components](http://softlayer.github.io/sl-ember-components)
 for these values.
 
+### Customizing a component's CSS prefix
+All components share a common CSS prefix, namely, `sl-ember-components`. To target and style a particular component, for example the `sl-grid` component, one would use the CSS class selector `.sl-ember-components-grid`. The reason for such a verbose selector is to prevent styling conflicts with other libraries. You can customize the prefix value and change it from the default `sl-ember-components` to whatever you would like. Depending on what option you picked in the [Styling](#styling) section, the steps below describe how you would go about customizing the CSS prefix.
+
+To get started, you will need to add a config value to your `ember-cli-build.js`
+
+```
+var app = new EmberApp(defaults, {
+    'sl-ember-components': {
+        componentClassPrefix: 'custom-prefix' // specify your custom prefix here
+    }
+});
+```
+
+If you are *not* using LESS as a preprocessor then nothing else needs to be done on your part. You should now be able to target components using your custom prefix (e.g. in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`).
+
+If you are using LESS then you will need to set a `@component-class-prefix` variable *below* the line of code which imports the `sl-ember-components` as shown below.
+
+```
+@import 'sl-ember-components'
+@component-class-prefix: custom-prefix;
+```
+
+You should now be able to target components using your custom prefix (e.g. in the case of `sl-grid` you should now be able to use the CSS class selector `.custom-prefix-grid`).
+
+*Note: If you have already served your application, remember to re-serve after making changes to the `ember-cli-build.js` file so changes can take affect.*
 
 
 ### Icons
@@ -222,7 +303,7 @@ the `content` definition for the appropriate styles.  For example, to replace th
 used for the `sl-menu` component, use the following declaration:
 
 ```
-.sl-ember-components.menu .sl-icon-show-all:before {
+.sl-ember-components-menu .sl-icon-show-all:before {
     content: "\e011";
 }
 ```
@@ -249,10 +330,38 @@ Then you only need to redefine the `content` definition in the appropriate style
 previously explained above:
 
 ```
-.sl-ember-components.menu .sl-icon-show-all:before {
+.sl-ember-components-menu .sl-icon-show-all:before {
     content: "\f270";
 }
 ```
+
+### Loading indicator
+
+A loading indicator can be made to display over an element's content, masking it from view, by simply adding the
+*"sl-loading"* class to it.  This class blurs the content via a dark-colored mask.  If a lighter mask is desired then add
+the additional *"inverse"* class to the same element.
+
+*Examples*
+
+![Dark Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskDark.png "Dark Mask Example") ![Light Mask Example](https://raw.githubusercontent.com/softlayer/sl-ember-components/gh-pages/readmeAssets/loadingMaskLight.png "Light Mask Example")
+
+
+If you wish to modify the loading image displayed when applying the *"sl-loading"* class you can do so by either
+defining CSS declarations or setting LESS variable values, depending on which [Styling](#styling) approach you are using
+in your application.
+
+To do so via CSS declarations, define the `background-image` property for the `.sl-loading:after` and
+`.sl-loading.inverse:after` selectors.
+
+To do so via LESS, assign values to the `@loading-spinner-light` and `@loading-spinner-dark` variables.
+
+Additional modifications can be applied to any of these selectors as well:
+
+* .sl-loading
+* .sl-loading:before
+* .sl-loading:after
+* .sl-loading.inverse:before
+* .sl-loading.inverse:after
 
 
 

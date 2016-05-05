@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
@@ -39,7 +40,7 @@ export const Wrap = {
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInputId, {
+export default Ember.Component.extend( ClassPrefix, ComponentInputId, InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -49,8 +50,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
 
     /** @type {String[]} */
     classNames: [
-        'form-group',
-        'sl-textarea'
+        'form-group'
     ],
 
     /** @type {Object} */
@@ -71,6 +71,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, ComponentInpu
      * @type {Boolean}
      */
     autofocus: false,
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'textarea',
 
     /**
      * The `selectionDirection` HTML attribute value

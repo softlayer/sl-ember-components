@@ -21,8 +21,8 @@ test( 'Default rendered state', function( assert ) {
     );
 
     assert.ok(
-        child.hasClass( 'sl-ember-components' ),
-        'Has class "sl-ember-components"'
+        child.hasClass( 'sl-ember-components-progress-bar' ),
+        'Has class "sl-ember-components-progress-bar"'
     );
 
     assert.ok(
@@ -122,7 +122,7 @@ test( '"value" property is supported', function( assert ) {
     );
 
     assert.strictEqual(
-        grandchild.find( '.sl-progress-bar-value' ).text().trim(),
+        grandchild.find( 'span:not(.sr-only)' ).text().trim(),
         '47%',
         '"value" property displayed when "label" property is provided'
     );
@@ -234,7 +234,7 @@ test( '"label" property is supported', function( assert ) {
     );
 
     assert.strictEqual(
-        grandchild.find( '.sl-progress-bar-value' ).length,
+        grandchild.find( 'span:not(.sr-only)' ).length,
         0,
         'Part 2 - Expected visual representation when "label" property is not provided'
     );
@@ -242,7 +242,7 @@ test( '"label" property is supported', function( assert ) {
     this.set( 'testLabel', 'test label' );
 
     assert.strictEqual(
-        grandchild.find( '.sl-progress-bar-value' ).text().trim(),
+        grandchild.find( 'span:not(.sr-only)' ).text().trim(),
         '0%',
         'Part 1 - Expected visual representation when "label" property is provided'
     );

@@ -11,6 +11,11 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-modal-header' ),
+        'Component has class "sl-ember-components-modal-header"'
+    );
+
+    assert.ok(
         this.$( '>:first-child' ).hasClass( 'modal-header' ),
         'Component has class "modal-header"'
     );

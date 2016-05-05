@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const testOptions = {
     chartOptions: {
@@ -31,11 +33,29 @@ moduleForComponent( 'sl-chart', 'Unit | Component | sl chart', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    assert.ok(
+        ClassPrefix.detect( component ),
+        'ClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries
     });
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'chart',
+        'componentClass is set to chart'
+    );
 
     assert.strictEqual(
         component.get( 'chart' ),
@@ -68,7 +88,7 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
-        component.get( 'highchartsOptions' ).title,
+        component.highchartsOptions().title,
         null,
         `title property in highchartsOptions is set to null in order to
             suppress default behavior for our usage`
@@ -84,13 +104,30 @@ test( 'updateData() is called after series property is modified', function( asse
     this.render();
 
     const spy = sinon.spy( component, 'updateData' );
-    const changedTestSeries = [];
 
-    component.set( 'series', changedTestSeries );
+    component.set( 'series', [] );
 
     assert.ok(
         spy.calledOnce,
         'updateData() is called once after series modified'
+    );
+});
+
+test( 'updateOptions() is called after options property is modified', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    this.render();
+
+    const spy = sinon.spy( component, 'updateOptions' );
+
+    component.set( 'options', {} );
+
+    assert.ok(
+        spy.calledOnce,
+        'updateOptions() is called once after options modified'
     );
 });
 
@@ -240,25 +277,19 @@ test( '"Series" property needs to be an array', function( assert ) {
     );
 });
 
-test( 'setupChart initializes chart and updates data upon render', function( assert ) {
-    const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
-
+test( 'setupChart initializes chart upon render', function( assert ) {
     const component = this.subject({
         options: testOptions,
         series: testSeries,
-        updateData: function() {
+        updateOptions: function() {
             return;
         }
     });
 
     const setupSpy = sinon.spy( component, 'setupChart' );
-    const updateSpy = sinon.spy( component, 'updateData' );
-
-    assert.strictEqual(
-        component.get( 'chart' ),
-        null,
-        'Chart is null upon initilization'
-    );
+    const setHeightSpy = sinon.spy( component, 'setHeight' );
+    const setWidthSpy = sinon.spy( component, 'setWidth' );
+    const updateOptionsSpy = sinon.spy( component, 'updateOptions' );
 
     this.render();
 
@@ -268,23 +299,67 @@ test( 'setupChart initializes chart and updates data upon render', function( ass
     );
 
     assert.ok(
-        updateSpy.calledOnce,
-        'updateData was called once upon render'
+        setHeightSpy.calledOnce,
+        'setHeight was called once upon render'
     );
 
     assert.ok(
-        spyHighcharts.calledTwice,
-        'highcharts was called twice upon render'
+        setWidthSpy.calledOnce,
+        'setWidth was called once upon render'
     );
 
     assert.ok(
-        spyHighcharts.calledWithExactly( component.get( 'highchartsOptions' ) ),
+        updateOptionsSpy.calledOnce,
+        'updateOptions was called once upon render'
+    );
+});
+
+test( 'updateOptions initializes chart correctly', function( assert ) {
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+    const originalUpdateOptions = component.updateOptions;
+
+    component.updateOptions = () => {};
+
+    this.render();
+
+    component.updateOptions = originalUpdateOptions;
+
+    assert.strictEqual(
+        component.get( 'chart' ),
+        null,
+        'Chart is null before options are updated'
+    );
+
+    const spyHighcharts = sinon.spy( Ember.$.fn, 'highcharts' );
+    const optionsMatcher = ( options ) => {
+        const optionsFromMethod = component.highchartsOptions();
+
+        // Highcharts modifies options.chart and adds a options.chart.renderTo method
+        // Since this is not a property that we pass in, copy over that property before doing a deepEqual
+        optionsFromMethod.chart.renderTo = options.chart.renderTo;
+
+        return sinon.deepEqual( optionsFromMethod, options );
+    };
+
+    component.updateOptions();
+
+    assert.ok(
+        spyHighcharts.calledOnce,
+        'highcharts was called once upon render'
+    );
+
+    assert.ok(
+        spyHighcharts.calledWithMatch( optionsMatcher ),
         'highcharts was called once with options'
     );
 
-    assert.ok(
-        spyHighcharts.calledWithExactly(),
-        'highcharts was called once with no parameters'
+    assert.strictEqual(
+        Ember.typeOf( component.get( 'chart' ) ),
+        'object',
+        'chart is set after options are updated'
     );
 });
 
@@ -326,6 +401,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
                 animation: false
             }
         },
+        series: testSeries,
         tooltip: {
             animation: false,
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -349,7 +425,7 @@ test( 'highchartsOptions returns expected options', function( assert ) {
 
     assert.deepEqual(
         options,
-        component.get( 'highchartsOptions' ),
+        component.highchartsOptions(),
         'highchartsOptions returns expected options'
     );
 });
@@ -368,6 +444,16 @@ test( 'Observer keys are correct', function( assert ) {
         component.updateData.__ember_observes__,
         updateDataKeys,
         'Observer keys are correct for updateData()'
+    );
+
+    const updateOptionsKeys = [
+        'options'
+    ];
+
+    assert.deepEqual(
+        component.updateOptions.__ember_observes__,
+        updateOptionsKeys,
+        'Observer keys are correct for updateOptions()'
     );
 
     const setHeightKeys = [
@@ -389,4 +475,24 @@ test( 'Observer keys are correct', function( assert ) {
         setWidthKeys,
         'Observer keys are correct for setWidth()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject({
+        options: testOptions,
+        series: testSeries
+    });
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

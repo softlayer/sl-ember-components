@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-calendar-year', 'Unit | Component | sl calendar year', {
     unit: true
@@ -52,4 +53,21 @@ test( 'Click event sends action with year value', function( assert ) {
     });
 
     this.$().trigger( 'click' );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

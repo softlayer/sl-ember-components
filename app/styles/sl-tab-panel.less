@@ -1,12 +1,10 @@
-.sl-tab-panel > .nav > li {
-    float: none;
-    display: inline-block;
-}
+.@{component-class-prefix}-tab-panel{
+    &> .nav > li {
+        float: none;
+        display: inline-block;
+    }
 
-.sl-tab-panel.sl-align-tabs-right > .nav {
-    text-align: right;
-}
-
-.sl-tab-panel.sl-align-tabs-right > .nav > li {
-    text-align: left;
+    &.sl-align-tabs-right > .nav {
+        text-align: right;
+    }
 }

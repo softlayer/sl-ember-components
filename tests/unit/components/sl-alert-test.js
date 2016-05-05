@@ -1,13 +1,29 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import { Theme } from 'sl-ember-components/components/sl-alert';
+import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-alert';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
+import Ember from 'ember';
+import * as warn from 'sl-ember-components/utils/warn';
+
+const Theme = {
+    DANGER: 'danger',
+    INFO: 'info',
+    SUCCESS: 'success',
+    WARNING: 'warning'
+};
 
 moduleForComponent( 'sl-alert', 'Unit | Component | sl alert', {
     unit: true
 });
 
 test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+
     assert.ok(
         TooltipEnabledMixin.detect( this.subject() ),
         'TooltipEnabled Mixin is present'
@@ -24,6 +40,12 @@ test( 'Default property values are set correctly', function( assert ) {
     );
 
     assert.strictEqual(
+        component.get( 'componentClass' ),
+        'alert',
+        'componentClass is set to alert'
+    );
+
+    assert.strictEqual(
         component.get( 'dismissable' ),
         false,
         'dismissable: false'
@@ -33,6 +55,12 @@ test( 'Default property values are set correctly', function( assert ) {
         component.get( 'theme' ),
         Theme.INFO,
         `theme: "${Theme.INFO}"`
+    );
+
+    assert.deepEqual(
+        ThemeEnum,
+        Theme,
+        'Theme enum values are correct'
     );
 });
 
@@ -74,4 +102,49 @@ test( 'Dependent keys are correct', function( assert ) {
         themeClassNameDependentKeys,
         'Dependent keys are correct for themeClassName()'
     );
+});
+
+test( 'themeClassName() returns the correct class', function( assert ) {
+    const component = this.subject();
+
+    Object.keys( Theme ).forEach( ( key ) => {
+        const theme = Theme[ key ];
+
+        Ember.run( () => component.set( 'theme',  theme ) );
+
+        assert.strictEqual(
+            component.get( 'themeClassName' ),
+            `alert-${theme}`,
+            'themeClassName() returns expected value'
+        );
+    });
+
+    const spy = sinon.spy( warn, 'default' );
+
+    component.set( 'theme', 'invalid value' );
+    component.get( 'themeClassName' );
+
+    assert.ok(
+        spy.calledOnce,
+        'warn() was called when invalid theme was set'
+    );
+
+    warn.default.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

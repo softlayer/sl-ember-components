@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import InputBased from '../mixins/sl-input-based';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import layout from '../templates/components/sl-select';
@@ -9,7 +10,7 @@ import layout from '../templates/components/sl-select';
  * @augments module:mixins/sl-input-based
  * @augments module:mixins/sl-tooltip-based
  */
-export default Ember.Component.extend( InputBased, TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -19,8 +20,7 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     /** @type {String[]} */
     classNames: [
-        'form-group',
-        'sl-select'
+        'form-group'
     ],
 
     /** @type {Object} */
@@ -56,6 +56,13 @@ export default Ember.Component.extend( InputBased, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'select',
 
     /**
      * Whether to show the search filter input or not

@@ -3,8 +3,10 @@ import { moduleForComponent, test } from 'ember-qunit';
 import InputBasedMixin from 'sl-ember-components/mixins/sl-input-based';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import NamespaceMixin from 'sl-ember-components/mixins/sl-namespace';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
     needs: [ 'component:sl-radio' ],
@@ -12,6 +14,11 @@ moduleForComponent( 'sl-radio-group', 'Unit | Component | sl radio group', {
 });
 
 test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+
     assert.ok(
         InputBasedMixin.detect( this.subject() ),
         'InputBased Mixin is present'
@@ -30,6 +37,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'radio-group',
+        'componentClass is set to radio-group'
+    );
 
     assert.strictEqual(
         component.get( 'tagName' ),
@@ -126,4 +139,23 @@ test( 'Event handlers are registered and unregistered', function( assert ) {
 
     Ember.$.fn.on.restore();
     Ember.$.fn.off.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject({
+        name: 'testName'
+    });
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

@@ -15,7 +15,6 @@ export default SlMenuItem.extend({
 
     /** @type {String[]} */
     classNames: [
-        'sl-menu-show-all',
         'btn',
         'btn-default'
     ],
@@ -25,6 +24,19 @@ export default SlMenuItem.extend({
 
     // -------------------------------------------------------------------------
     // Actions
+
+    /** @type {Object} */
+    actions: {
+
+        /**
+         * Click event handler
+         *
+         * @function actions:click
+         * @returns {undefined}
+         */
+        click() {}
+
+    },
 
     // -------------------------------------------------------------------------
     // Events

@@ -5,6 +5,22 @@ moduleForComponent( 'sl-modal-body', 'Integration | Component | sl modal body', 
     integration: true
 });
 
+test( 'Default rendered state', function( assert ) {
+    this.render( hbs`
+        {{sl-modal-body}}
+    ` );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-modal-body' ),
+        'Component has class "sl-ember-components-modal-body"'
+    );
+
+    assert.ok(
+        this.$( '>:first-child' ).hasClass( 'modal-body' ),
+        'Component has class "modal-body"'
+    );
+});
+
 test( 'Content is yielded', function( assert ) {
     this.render( hbs`
         {{#sl-modal-body}}

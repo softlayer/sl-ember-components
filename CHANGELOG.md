@@ -1,5 +1,122 @@
 # sl-ember-components Changelog
 
+### 0.12.2
+
+* [#1672](https://github.com/softlayer/sl-ember-components/issues/1672) Broccoli plugin fails when running in Node >= 5
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.12.1...v0.12.2)
+
+
+### 0.12.1
+
+All of the changes from the 0.12.0 release that were inadvertenly not merged into the branch.
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.12.0...v0.12.1)
+
+### 0.12.0
+
+**BREAKING ENHANCEMENT**
+
+* [#1663](https://github.com/softlayer/sl-ember-components/issues/1663) Upgrade Ember CLI to v2.4.3
+
+
+**DOCUMENTATION**
+
+* [#1654](https://github.com/softlayer/sl-ember-components/issues/1654) Update `sl-grid` documentation
+
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.11.1...v0.12.0)
+
+
+### 0.11.1
+
+**BUG FIX**
+
+Move `broccoli-autoprefixer` from `devDependencies` to `dependencies`
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.11.0...v0.11.1)
+
+### 0.11.0
+
+**BREAKING ENHANCEMENT**
+
+* **No longer require `ember-cli-less` to be installed in an application in order to use this addon!!**
+* [#564](https://github.com/softlayer/sl-ember-components/issues/564) The page number(s) indicator visually reacts like a button even though is not interactive as such
+* [#974](https://github.com/softlayer/sl-ember-components/issues/974) Refactor DOM structure and supporting CSS and JS logic of `sl-grid` component
+* [#1338](https://github.com/softlayer/sl-ember-components/issues/1338) Create instructions for using loading class
+* [#1395](https://github.com/softlayer/sl-ember-components/issues/1395) Remove *addon/utils/all.js* file
+* [#1399](https://github.com/softlayer/sl-ember-components/issues/1399) Refactor to support "sl-ember-components-[component]" class pattern for `sl-alert` component
+* [#1374](https://github.com/softlayer/sl-ember-components/issues/1374) Refactor to support "sl-ember-components-[component]" class pattern for `sl-button` component
+* [#1400](https://github.com/softlayer/sl-ember-components/issues/1400) Refactor to support "sl-ember-components-[component]" class pattern for `sl-calendar` component
+* [#1401](https://github.com/softlayer/sl-ember-components/issues/1401) Refactor to support "sl-ember-components-[component]" class pattern for `sl-chart` component
+* [#1375](https://github.com/softlayer/sl-ember-components/issues/1375) Refactor to support "sl-ember-components-[component]" class pattern for `sl-checkbox` component
+* [#1376](https://github.com/softlayer/sl-ember-components/issues/1376) Refactor to support "sl-ember-components-[component]" class pattern for `sl-date-picker` component
+* [#1377](https://github.com/softlayer/sl-ember-components/issues/1377) Refactor to support "sl-ember-components-[component]" class pattern for `sl-date-range-picker` component
+* [#1378](https://github.com/softlayer/sl-ember-components/issues/1378) Refactor to support "sl-ember-components-[component]" class pattern for `sl-date-time` component
+* [#1379](https://github.com/softlayer/sl-ember-components/issues/1379) Refactor to support "sl-ember-components-[component]" class pattern for `sl-drop-button` component
+* [#1380](https://github.com/softlayer/sl-ember-components/issues/1380) Refactor to support "sl-ember-components-[component]" class pattern for `sl-input` component
+* [#1403](https://github.com/softlayer/sl-ember-components/issues/1403) Refactor to support "sl-ember-components-[component]" class pattern for `sl-grid` component
+* [#1404](https://github.com/softlayer/sl-ember-components/issues/1404) Refactor to support "sl-ember-components-[component]" class pattern for `sl-loading-icon` component
+* [#1405](https://github.com/softlayer/sl-ember-components/issues/1405) Refactor to support "sl-ember-components-[component]" class pattern for `sl-menu` component
+* [#1406](https://github.com/softlayer/sl-ember-components/issues/1406) Refactor to support "sl-ember-components-[component]" class pattern for `sl-modal` component
+* [#1407](https://github.com/softlayer/sl-ember-components/issues/1407) Refactor to support "sl-ember-components-[component]" class pattern for `sl-pagination` component
+* [#1408](https://github.com/softlayer/sl-ember-components/issues/1408) Refactor to support "sl-ember-components-[component]" class pattern for `sl-progress-bar` component
+* [#1381](https://github.com/softlayer/sl-ember-components/issues/1381) Refactor to support "sl-ember-components-[component]" class pattern for `sl-radio` component
+* [#1382](https://github.com/softlayer/sl-ember-components/issues/1382) Refactor to support "sl-ember-components-[component]" class pattern for `sl-select` component
+* [#1383](https://github.com/softlayer/sl-ember-components/issues/1383) Refactor to support "sl-ember-components-[component]" class pattern for `sl-span` component
+* [#1384](https://github.com/softlayer/sl-ember-components/issues/1384) Refactor to support "sl-ember-components-[component]" class pattern for `sl-tab-panel` component
+* [#1385](https://github.com/softlayer/sl-ember-components/issues/1385) Refactor to support "sl-ember-components-[component]" class pattern for `sl-textarea` component
+* [#1386](https://github.com/softlayer/sl-ember-components/issues/1386) Refactor to support "sl-ember-components-[component]" class pattern for `sl-tooltip` component
+* [#1446](https://github.com/softlayer/sl-ember-components/issues/1446) Missing "icon" property in component definition for `sl-drop-option`, `sl-drop-button`, and `sl-drop-option-divider`
+* [#1477](https://github.com/softlayer/sl-ember-components/issues/1477) Allow `sl-chart` options to be updated after render
+* [#1486](https://github.com/softlayer/sl-ember-components/issues/1486) Prevent click event in `sl-menu-item-show-all` component
+
+
+**ENHANCEMENT**
+
+* All components now correctly leverage Twitter Bootstrap DOM and classes
+* [#315](https://github.com/softlayer/sl-ember-components/issues/315) Autoprefixer support
+* [#864](https://github.com/softlayer/sl-ember-components/issues/864) Add ability to specify initial sorted column and direction
+* [#1173](https://github.com/softlayer/sl-ember-components/issues/1173) Standardize bootstrap glyphs across components
+* [#1179](https://github.com/softlayer/sl-ember-components/issues/1179) Add size support to `sl-modal` component
+* [#1201](https://github.com/softlayer/sl-ember-components/issues/1201) and [#1478](https://github.com/softlayer/sl-ember-components/pull/1478) Upgrade version of Twitter Bootstrap to v3.3.5
+* [#1243](https://github.com/softlayer/sl-ember-components/issues/1243) `sl-select` background color
+* [#1350](https://github.com/softlayer/sl-ember-components/issues/1350) Create error architecture for sl-ember-components
+
+
+**BUG FIX**
+
+* [#1035](https://github.com/softlayer/sl-ember-components/issues/1035) Invalid CSS property declaration at: *
+
+
+**DEPRECATION**
+
+* [#1197](https://github.com/softlayer/sl-ember-components/issues/1197) Remove `sl-loading-icon` component offering
+
+
+**DOCUMENTATION**
+
+* [#11](https://github.com/softlayer/sl-ember-components/issues/11) Demo app doesn't like being in a "narrower" browser window
+* [#33](https://github.com/softlayer/sl-ember-components/issues/33) Provide directions on how to modify the CSS to swap the loading image
+* [#47](https://github.com/softlayer/sl-ember-components/issues/47) Document how consuming application should reference .LESS files
+* [#1387](https://github.com/softlayer/sl-ember-components/issues/1387) Add documentation to each component about its CSS namespacing
+* [#1417](https://github.com/softlayer/sl-ember-components/issues/1417) Improve the content on the Error Handling wiki page
+* [#1419](https://github.com/softlayer/sl-ember-components/issues/1419) Add content to Built in Icon Support page
+* [#1430](https://github.com/softlayer/sl-ember-components/issues/1420) Create instructions on swapping base font
+* [#1434](https://github.com/softlayer/sl-ember-components/issues/1434) Link in README.md to support browsers is incorrect.
+* [#1452](https://github.com/softlayer/sl-ember-components/issues/1452) Remove copy/paste error in warn section of *README*
+* [#1344](https://github.com/softlayer/sl-ember-components/pull/1344) Remove `select2` from list of dependencies that are not MIT licensed in *README*
+
+
+**INTERNAL**
+
+* Improved test coverage
+* [#1279](https://github.com/softlayer/sl-ember-components/issues/1279) Fix file naming
+* [#1283](https://github.com/softlayer/sl-ember-components/issues/1283) Reduce `app.import()` calls to single entries vs per-environment
+
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.10.2...v0.11.0)
+
 ### 0.10.2
 
 **BUG FIX**

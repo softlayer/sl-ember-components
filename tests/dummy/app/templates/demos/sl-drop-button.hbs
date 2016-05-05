@@ -10,9 +10,11 @@
         <h6>Template</h6>
         <pre>\{{#sl-drop-button label="Select a color"}}
     \{{sl-drop-option action="logRed" label="Red"}}
-    \{{sl-drop-option action="logGreen" label="Green"}}
-    \{{sl-drop-option action="logBlue" label="Blue"}}
-    \{{sl-drop-option}}
+    \{{#sl-drop-option action="logGreen"}}
+        &lt;i class=&quot;fa fa-cubes&quot;&gt;&lt;/i&gt;
+        Green
+    \{{/sl-drop-option}}
+    \{{sl-drop-option-divider}}
     \{{sl-drop-option action="logWhite" label="White"}}
 \{{/sl-drop-button}}</pre>
     </div>
@@ -21,9 +23,11 @@
         <h6>Rendered Component</h6>
         {{#sl-drop-button label="Select a color"}}
             {{sl-drop-option action="logRed" label="Red"}}
-            {{sl-drop-option action="logGreen" label="Green"}}
-            {{sl-drop-option action="logBlue" label="Blue"}}
-            {{sl-drop-option}}
+            {{#sl-drop-option action="logGreen"}}
+                <i class="fa fa-cubes"></i>
+                Green
+            {{/sl-drop-option}}
+            {{sl-drop-option-divider}}
             {{sl-drop-option action="logWhite" label="White"}}
         {{/sl-drop-button}}
     </div>
@@ -36,6 +40,17 @@
 <div class="list-group">
     <div class="list-group-item">
         <p>sl-tooltip-enabled</p>
+    </div>
+</div>
+
+<hr>
+
+<h3>sl-drop-button Custom CSS styling</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-ember-components-drop-button</p>
+        <p>The default class prefix is "sl-ember-components" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-drop-button.</p>
     </div>
 </div>
 
@@ -75,6 +90,17 @@
 
 <hr>
 
+<h3>sl-drop-option Custom CSS styling</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-ember-components-drop-option</p>
+        <p>The default class prefix is "sl-ember-components" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-drop-option.</p>
+    </div>
+</div>
+
+<hr>
+
 <h3>sl-drop-option Properties</h3>
 
 <div class="list-group">
@@ -85,4 +111,23 @@
     {{#property-text name="label" type="String"}}
         Text label for the option in the menu. If this property is omitted, the option becomes a divider.
     {{/property-text}}
+</div>
+
+<hr>
+
+<h3>sl-drop-option-divider Custom CSS styling</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>sl-ember-components-drop-option-divider</p>
+        <p>The default class prefix is "sl-ember-components" unless the consuming application passes in a custom prefix. In which case, the CSS class would be [customprefix]-drop-option-divider.</p>
+    </div>
+</div>
+
+<h3>sl-drop-option-divider</h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <p>Places a divider in the list</p>
+    </div>
 </div>

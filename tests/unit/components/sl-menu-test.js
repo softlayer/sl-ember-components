@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const mockStream = {
     actions: {},
@@ -54,6 +56,11 @@ moduleForComponent( 'sl-menu', 'Unit | Component | sl menu', {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+
+    assert.ok(
         StreamEnabledMixin.detect( this.subject() ),
         'StreamEnabled Mixin is present'
     );
@@ -61,6 +68,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'menu',
+        'componentClass is set to menu'
+    );
 
     assert.strictEqual(
         component.get( 'allowShowAll' ),
@@ -628,4 +641,23 @@ test( 'Dependent keys are correct', function( assert ) {
         selectedItemKeys,
         'Dependent keys are correct for selectedItem()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject({
+        items: testItems
+    });
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

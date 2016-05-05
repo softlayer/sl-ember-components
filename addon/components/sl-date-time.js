@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
-import layout from '../templates/components/sl-date-time';
 import { throwDateTimeError } from '../utils/error';
+import layout from '../templates/components/sl-date-time';
 
 /**
  * Valid date format strings
@@ -23,7 +24,7 @@ export const Format = Object.freeze({
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -34,11 +35,6 @@ export default Ember.Component.extend( TooltipEnabled, {
     /** @type {String[]} */
     attributeBindings: [
         'datetime'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-datetime'
     ],
 
     /** @type {Object} */
@@ -76,6 +72,13 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'date-time',
 
     /**
      * String name for the format to render inline; can be "date", "datetime",

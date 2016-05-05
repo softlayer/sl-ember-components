@@ -31,13 +31,8 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "sl-ember-components"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'calendar' ),
-        'Has class "calendar"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-calendar' ),
+        'Has class "sl-ember-components-calendar"'
     );
 
     assert.ok(

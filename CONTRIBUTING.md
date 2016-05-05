@@ -77,7 +77,7 @@ enforce compliance with these guides.  Simply run `npm run lint-all` to confirm 
 6. Document your code and make sure the documentation is still able to generate and creates the result you are
 expecting.  This addon leverages the [ember-cli-jsdoc](https://github.com/softlayer/ember-cli-jsdoc) addon to
 generate documentation.  Simply run either `ember ember-cli-jsdoc` or `npm run docs` (shortcut setup in this repo)
-and then visit *http://localhost:4200/docs*.
+and then visit *http://localhost:4200/docs*.  You will need to be running Node version 5+ for the documentation to generate correctly.
 
 7. Commit your changes.
     * If your pull request fixes an issue specify it in the commit message. Here's an example:

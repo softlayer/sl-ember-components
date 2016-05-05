@@ -3,6 +3,8 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
+const { getOwner } = Ember;
+
 const menuItems = Ember.A([
     {
         label: 'Main One',
@@ -28,7 +30,6 @@ const mockStream = {
     actions: {},
 
     on( actionName, handler ) {
-        console.log( 'here' );
         this.actions[ actionName ] = handler;
     },
 
@@ -52,13 +53,8 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-menu' ),
-        'Has class "sl-menu"'
-    );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-ember-components' ),
-        'Has class "sl-ember-components"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-menu' ),
+        'Has class "sl-ember-components-menu"'
     );
 
     assert.ok(
@@ -104,17 +100,17 @@ test( '"allowShowAll" property is supported', function( assert ) {
     ` );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-menu-show-all' ).length,
+        this.$( '>:first-child' ).find( 'a:contains("Show All")' ).length,
         0,
-        'menu item with class ".sl-menu-show-all" is not included by default'
+        'menu item is not included by default'
     );
 
     this.set( 'testAllowShowAll', true );
 
     assert.strictEqual(
-        this.$( '>:first-child' ).find( '.sl-menu-show-all' ).length,
+        this.$( '>:first-child' ).find( 'a:contains("Show All")' ).length,
         1,
-        'menu item with class ".sl-menu-show-all" is included when "allowShowAll" is true'
+        'menu item is included when "allowShowAll" is true'
     );
 });
 
@@ -167,7 +163,7 @@ test( 'Component responds to "doAction" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'doAction' );
 
     assert.ok(
@@ -187,7 +183,7 @@ test( 'Component responds to "hideAll" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'hideAll' );
 
     assert.ok(
@@ -207,7 +203,7 @@ test( 'Component responds to "select" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'select', 0 );
 
     assert.ok(
@@ -232,7 +228,7 @@ test( 'Component responds to "selectDown" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectDown' );
 
     assert.ok(
@@ -252,7 +248,7 @@ test( 'Component responds to "selectLeft" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectLeft' );
 
     assert.ok(
@@ -272,7 +268,7 @@ test( 'Component responds to "selectNext" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectNext' );
 
     assert.ok(
@@ -292,7 +288,7 @@ test( 'Component responds to "selectParent" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectParent' );
 
     assert.ok(
@@ -312,7 +308,7 @@ test( 'Component responds to "selectPrevious" stream action', function( assert )
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectPrevious' );
 
     assert.ok(
@@ -332,7 +328,7 @@ test( 'Component responds to "selectRight" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectRight' );
 
     assert.ok(
@@ -352,7 +348,7 @@ test( 'Component responds to "selectSubMenu" stream action', function( assert ) 
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectSubMenu' );
 
     assert.ok(
@@ -372,7 +368,7 @@ test( 'Component responds to "selectUp" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'selectUp' );
 
     assert.ok(
@@ -392,7 +388,7 @@ test( 'Component responds to "showAll" stream action', function( assert ) {
         }}
     ` );
 
-    const streamService = this.container.lookup( 'service:stream' );
+    const streamService = getOwner( this ).lookup( 'service:stream' );
     streamService.send( 'testStreamName', 'showAll' );
 
     assert.ok(

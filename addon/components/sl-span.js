@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-span';
 
 /**
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -33,6 +34,13 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'span',
 
     /**
      * Whether "inverse" class should be applied (only for sl-loading in this context)

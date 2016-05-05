@@ -11,13 +11,13 @@ test( 'Default rendered state', function( assert ) {
     ` );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'btn-group' ),
-        'Has class "btn-group"'
+        this.$( '>:first-child' ).hasClass( 'sl-ember-components-drop-button' ),
+        'Has class "sl-ember-components-drop-button"'
     );
 
     assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-drop-button' ),
-        'Has class "sl-drop-button"'
+        this.$( '>:first-child' ).hasClass( 'btn-group' ),
+        'Has class "btn-group"'
     );
 
     assert.ok(
@@ -133,25 +133,6 @@ test( 'Content is yielded when label is not set', function( assert ) {
     assert.strictEqual(
         this.$( '>:first-child' ).find( '.test' ).length,
         1
-    );
-});
-
-test( 'sl-drop-option icon is supported', function( assert ) {
-    const testContent = {
-        label : 'test',
-        icon : 'caret'
-    };
-
-    this.set( 'content', [ testContent ] );
-
-    this.render( hbs`
-        {{sl-drop-button content=content}}
-    ` );
-
-    assert.strictEqual(
-        this.$( '>:first-child' ).find( ':first-child' ).find( 'img' ).attr( 'src' ),
-        'caret',
-        '"icon" property on sl-drop-option is supported'
     );
 });
 

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import { throwTooltipError } from '../utils/error';
 
@@ -7,7 +8,7 @@ import { throwTooltipError } from '../utils/error';
  * @augments ember/Component
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( TooltipEnabled, {
+export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -36,6 +37,13 @@ export default Ember.Component.extend( TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'tooltip',
 
     // -------------------------------------------------------------------------
     // Observers

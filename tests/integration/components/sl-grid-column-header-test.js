@@ -5,17 +5,6 @@ moduleForComponent( 'sl-grid-column-header', 'Integration | Component | sl grid 
     integration: true
 });
 
-test( 'Default rendered state', function( assert ) {
-    this.render( hbs`
-        {{sl-grid-column-header}}
-    ` );
-
-    assert.ok(
-        this.$( '>:first-child' ).hasClass( 'sl-grid-column-header' ),
-        'sl-grid-column-header class is present'
-    );
-});
-
 test( 'Sorted icon class is applied correctly', function( assert ) {
     this.set( 'sortable', true );
     this.set( 'sorted', null );

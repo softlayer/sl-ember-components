@@ -33,9 +33,6 @@
     {{#link-to "demos.sl-input" class="list-group-item"}}
         sl-input
     {{/link-to}}
-    {{#link-to "demos.sl-loading-icon" class="list-group-item"}}
-        sl-loading-icon
-    {{/link-to}}
     {{#link-to "demos.sl-menu" class="list-group-item"}}
         sl-menu
     {{/link-to}}
@@ -76,10 +73,51 @@
 
 <hr>
 
+<h3>Mixins</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h6>sl-component-input-id</h6>
+        <p>Provides unique id that a component can assign to an input and a label's "for" attribute.</p>
+    </div>
+    <div class="list-group-item">
+        <h6>sl-input-based</h6>
+        <p>Provides state properties for input element based components.</p>
+    </div>
+    <div class="list-group-item">
+        <h6>sl-namespace</h6>
+        <p>Namespace component events by elementId.</p>
+    </div>
+    <div class="list-group-item">
+        <h6>sl-tooltip-enabled</h6>
+        <p>Provides Bootstrap tooltip functionality bindings, for both popovers and plain tooltips.</p>
+    </div>
+</div>
+
+<hr>
+
 <h3>Utility Classes</h3>
 <div class="list-group">
     <div class="list-group-item">
-        <h6>sl-menu-key-adapter</h6>
-        <p>Provides an abstraction between the events the <em>sl-menu</em> component listens for and the ability to associate any keyboard shortcuts in your application to trigger them.</p>
+        <h6>containsValue</h6>
+        <p>Check whether a value is a valid value in object.</p>
+    </div>
+    <div class="list-group-item">
+        <h6>error</h6>
+        <p>Provides a way for individual components to throw errors that are able to be recognized by methods
+        inside of a consuming application's Ember.onerror() function.</p>
+    </div>
+    <div class="list-group-item">
+        <h6>warn</h6>
+        <p>Provides a mechanism for initiating console.warn()s.</p>
+    </div>
+</div>
+
+<hr>
+
+<h3>CSS Classes</h3>
+<div class="list-group">
+    <div class="list-group-item">
+        <h6>sl-loading</h6>
+        <p>Apply a loading indicator to an element.</p>
     </div>
 </div>

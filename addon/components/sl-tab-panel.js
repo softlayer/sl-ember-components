@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-tab-panel';
 import containsValue from '../utils/containsValue';
 import warn from '../utils/warn';
@@ -20,7 +21,7 @@ export const Alignment = Object.freeze({
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -31,11 +32,6 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     classNameBindings: [
         'tabAlignmentClass'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-tab-panel'
     ],
 
     /** @type {Object} */
@@ -68,6 +64,13 @@ export default Ember.Component.extend({
      * @type {Alignment}
      */
     alignTabs: Alignment.LEFT,
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'tab-panel',
 
     /**
      * The name of the tab to open when the component is first rendered
@@ -117,17 +120,6 @@ export default Ember.Component.extend({
     },
 
     /**
-     * Update the internal active tab name and handle tabs' statuses
-     *
-     * @function
-     * @param {String} tabName - The name of the tab to switch state to
-     * @returns {undefined}
-     */
-    getActiveTabName() {
-        return this.$( '> .nav-tabs > li.active' ).attr( 'data-tab-name' );
-    },
-
-    /**
      * Get initial tab name
      *
      * @function
@@ -141,17 +133,6 @@ export default Ember.Component.extend({
         }
 
         return tabName;
-    },
-
-    /**
-     * Update the internal active tab name and handle tabs' statuses
-     *
-     * @function
-     * @param {String} tabName - The name of the tab to switch state to
-     * @returns {undefined}
-     */
-    setActiveTab( tabName ) {
-        this.$( '> .nav-tabs > li[data-tab-name=' + tabName + '] a' ).trigger( 'click' );
     },
 
     /**

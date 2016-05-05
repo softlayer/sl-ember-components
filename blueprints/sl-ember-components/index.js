@@ -3,13 +3,16 @@ module.exports = {
         return this.addBowerPackagesToProject([
             {
                 name: 'bootstrap',
-                target: '~3.2.0'
+                target: '3.3.6'
             }, {
                 name: 'highcharts',
                 target: '~4.1.10'
             }, {
                 name: 'jquery-mousewheel',
                 target: '^3.1.12'
+            }, {
+                name: 'jquery.fn.twbs-responsive-pagination',
+                target: '~0.1.2'
             }, {
                 name: 'moment',
                 target: '~2.10.3'

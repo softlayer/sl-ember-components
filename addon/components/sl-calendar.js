@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import layout from '../templates/components/sl-calendar';
 
 /**
@@ -20,7 +21,7 @@ export const View = Object.freeze({
  * @module
  * @augments ember/Component
  */
-export default Ember.Component.extend({
+export default Ember.Component.extend( ClassPrefix, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -31,12 +32,6 @@ export default Ember.Component.extend({
     /** @type {String[]} */
     attributeBindings: [
         'tabIndex'
-    ],
-
-    /** @type {String[]} */
-    classNames: [
-        'sl-ember-components',
-        'calendar'
     ],
 
     /** @type {Object} */
@@ -260,6 +255,13 @@ export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
     // Properties
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'calendar',
 
     /**
      * Array of events to represent on the calendar

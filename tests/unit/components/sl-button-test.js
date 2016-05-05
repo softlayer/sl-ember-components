@@ -1,11 +1,13 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import sinon from 'sinon';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import StreamEnabledMixin from 'ember-stream/mixins/stream-enabled';
 import TooltipEnabledMixin from 'sl-ember-components/mixins/sl-tooltip-enabled';
 import { Theme as ThemeEnum } from 'sl-ember-components/components/sl-button';
 import { Size as SizeEnum } from 'sl-ember-components/components/sl-button';
 import * as warn from 'sl-ember-components/utils/warn';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 const Size = {
     EXTRA_SMALL: 'extra-small',
@@ -35,6 +37,11 @@ const mockStreamService = {
 
 test( 'Expected Mixins are present', function( assert ) {
     assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+
+    assert.ok(
        StreamEnabledMixin.detect( this.subject() ),
        'StreamEnabled Mixin is present'
     );
@@ -45,8 +52,14 @@ test( 'Expected Mixins are present', function( assert ) {
     );
 });
 
-test( 'Default property values', function( assert ) {
+test( 'Default property values are set correctly', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'button',
+        'componentClass is set to button'
+    );
 
     assert.strictEqual(
         component.get( 'tagName' ),
@@ -281,4 +294,21 @@ test( 'send() and sendAction() are called when component click() is invoked', fu
     );
 
     mockStreamService.send.restore();
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

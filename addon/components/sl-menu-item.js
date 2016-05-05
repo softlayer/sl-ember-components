@@ -22,10 +22,6 @@ export default Ember.Component.extend({
         'isTop:btn-default'
     ],
 
-    /** @type {String[]} */
-    classNames: [
-    ],
-
     /** @type {Boolean} */
     isTop: false,
 

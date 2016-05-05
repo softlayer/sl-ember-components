@@ -1,13 +1,27 @@
-import Ember from 'ember';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import sinon from 'sinon';
 import { moduleForComponent, test } from 'ember-qunit';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-drop-option', 'Unit | Component | sl drop option', {
     unit: true
 });
 
+test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+});
+
 test( 'Default property values', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'drop-option',
+        'componentClass is set to drop-option'
+    );
 
     assert.strictEqual(
         component.get( 'data' ),
@@ -25,50 +39,6 @@ test( 'Default property values', function( assert ) {
         component.get( 'tagName' ),
         'li',
         '"tagName" property defaults to li'
-    );
-});
-
-test( 'optionType function returns expected values', function( assert ) {
-    const component = this.subject();
-
-    assert.strictEqual(
-        component.get( 'optionType' ),
-        'divider',
-        '"optionType" defaults to "divider" if label isnt set'
-    );
-
-    Ember.run ( () => {
-        component.set( 'label', '' );
-    });
-
-    assert.strictEqual(
-        component.get( 'optionType' ),
-        'divider',
-        '"optionType" returns "divider" if label is false'
-    );
-
-    Ember.run ( () => {
-        component.set( 'label', 'testLabel' );
-    });
-
-    assert.strictEqual(
-        component.get( 'optionType' ),
-        'presentation',
-        '"optionType" returns "presentation" if label is true'
-    );
-});
-
-test( 'Dependent keys are correct', function( assert ) {
-    const component = this.subject();
-
-    const optionTypeDependentKeys = [
-        'label'
-    ];
-
-    assert.deepEqual(
-        component.optionType._dependentKeys,
-        optionTypeDependentKeys,
-        'Dependent keys are correct for optionType()'
     );
 });
 
@@ -96,4 +66,21 @@ test( 'Click triggers bound action with correct arguments', function( assert ) {
         testActionSpy.calledWith( testDataObject, 'testActionContext' ),
         'Test action fired correctly with the correct arguments'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });

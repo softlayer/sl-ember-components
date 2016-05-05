@@ -1,17 +1,17 @@
 <li class="{{if onFirstPage "disabled"}}">
-    <a {{action "previousPage"}} aria-label="Previous" class="previous-page-button sl-pagination-button">
+    <a {{action "previousPage"}} href="#" aria-label="Previous">
         <span class="sl-icon-previous">previous page</span>
     </a>
 </li>
 
-{{#each range as |page|}}
+{{~#each range as |page|~}}
     <li class="{{if page.active "active"}}">
         <a href="#" {{action "gotoPage" page.index}}>{{page.index}}</a>
     </li>
-{{/each}}
+{{~/each~}}
 
 <li class="{{if onLastPage "disabled"}}">
-    <a {{action "nextPage"}} aria-label="Next" class="next-page-button sl-pagination-button">
+    <a {{action "nextPage"}} href="#" aria-label="Next">
         <span class="sl-icon-next">next page</span>
     </a>
 </li>

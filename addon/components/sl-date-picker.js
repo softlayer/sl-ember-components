@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ClassPrefix from '../mixins/class-prefix';
 import ComponentInputId from '../mixins/sl-component-input-id';
 import TooltipEnabled from '../mixins/sl-tooltip-enabled';
 import Namespace from '../mixins/sl-namespace';
@@ -14,7 +15,7 @@ import {
  * @augments module:mixins/sl-namespace
  * @augments module:mixins/sl-tooltip-enabled
  */
-export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespace, {
+export default Ember.Component.extend( ClassPrefix, ComponentInputId, Namespace, TooltipEnabled, {
 
     // -------------------------------------------------------------------------
     // Dependencies
@@ -24,8 +25,7 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
 
     /** @type {String[]} */
     classNames: [
-        'form-group',
-        'sl-date-picker'
+        'form-group'
     ],
 
     /** @type {Object} */
@@ -136,12 +136,20 @@ export default Ember.Component.extend( ComponentInputId, TooltipEnabled, Namespa
     // -------------------------------------------------------------------------
     // Properties
 
+
     /**
      * Whether to close the datepicker immediately when a date is selected
      *
      * @type {Boolean}
      */
     autoClose: true,
+
+    /**
+     * Component class that will be prefixed with base component class
+     *
+     * @type {String}
+     */
+    componentClass: 'date-picker',
 
     /**
      * When true, the input field is disabled and the datepicker will never display

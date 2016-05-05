@@ -1,14 +1,19 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import ClassPrefix from 'sl-ember-components/mixins/class-prefix';
 import ComponentInputId from 'sl-ember-components/mixins/sl-component-input-id';
 import TooltipEnabled from 'sl-ember-components/mixins/sl-tooltip-enabled';
-import sinon from 'sinon';
+import globalLibraries from '../../helpers/sl/synchronous/global-libraries';
 
 moduleForComponent( 'sl-date-picker', 'Unit | Component | sl date picker', {
     unit: true
 });
 
 test( 'Expected Mixins are present', function( assert ) {
+    assert.ok(
+        ClassPrefix.detect( this.subject() ),
+        'ClassPrefix Mixin is present'
+    );
+
     assert.ok(
         ComponentInputId.detect( this.subject() ),
         'sl-component-input-id mixin is present'
@@ -22,6 +27,12 @@ test( 'Expected Mixins are present', function( assert ) {
 
 test( 'Default properties are set correctly', function( assert ) {
     const component = this.subject();
+
+    assert.strictEqual(
+        component.get( 'componentClass' ),
+        'date-picker',
+        'componentClass is set to date-picker'
+    );
 
     assert.strictEqual(
         component.get( 'autoClose' ),
@@ -87,32 +98,6 @@ test( 'Default properties are set correctly', function( assert ) {
     );
 });
 
-test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
-    const jqueryAliasSpy = sinon.spy( window, '$' );
-    const jquerySpy = sinon.spy( window, 'jQuery' );
-    const emberJquery = sinon.spy( Ember, '$' );
-    const startDate = window.moment( [ 2015, 0, 1 ] );
-
-    const component = this.subject();
-
-    this.render();
-
-    Ember.run( () => {
-        component.set( 'startDate', startDate );
-        component.trigger( 'willClearRender' );
-    });
-
-    const called = jqueryAliasSpy.called || jquerySpy.called || emberJquery.called;
-
-    assert.notOk(
-        called
-    );
-
-    window.$.restore();
-    window.jQuery.restore();
-    Ember.$.restore();
-});
-
 test( 'Dependent keys are correct', function( assert ) {
     const component = this.subject();
 
@@ -156,4 +141,21 @@ test( 'Dependent keys are correct', function( assert ) {
         viewingDateDependentKeys,
         'Dependent keys are correct for viewingDate()'
     );
+});
+
+test( 'There are no references to Ember.$, $ or jQuery', function( assert ) {
+    globalLibraries.setupSpies();
+
+    const component = this.subject();
+
+    this.render();
+
+    globalLibraries.triggerEvents( component );
+
+    assert.notOk(
+        globalLibraries.called(),
+        'Global libraries are not referenced in component'
+    );
+
+    globalLibraries.restoreSpies();
 });
