@@ -1,5 +1,14 @@
 # sl-ember-components Changelog
 
+### 0.12.3
+
+**BUG FIX**
+
+* Support Ember 2.11.0+ ([#1681](https://github.com/softlayer/sl-ember-components/issues/1681), [#1682](https://github.com/softlayer/sl-ember-components/issues/1682), [#1683](https://github.com/softlayer/sl-ember-components/issues/1683))
+
+[View complete changeset](https://github.com/softlayer/sl-ember-components/compare/v0.12.2...v0.12.3)
+
+
 ### 0.12.2
 
 * [#1672](https://github.com/softlayer/sl-ember-components/issues/1672) Broccoli plugin fails when running in Node >= 5
