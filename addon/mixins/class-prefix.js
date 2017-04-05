@@ -15,22 +15,8 @@ export default Ember.Mixin.create({
     // -------------------------------------------------------------------------
     // Events
 
-    /**
-     * init event hook
-     *
-     * @function
-     * @returns {undefined}
-     */
-    init() {
-        this._super( ...arguments );
-        this.classNames.push( this.getComponentClassName() );
-    },
-
     // -------------------------------------------------------------------------
     // Properties
-
-    // -------------------------------------------------------------------------
-    // Methods
 
     /**
      * Dynamically prefix component class name
@@ -38,8 +24,14 @@ export default Ember.Mixin.create({
      * @function
      * @returns {String}
      */
-    getComponentClassName() {
-        return prefix( this.componentClass );
-    }
+    componentClassName: Ember.computed(
+        '',
+        function() {
+            return prefix( this.componentClass );
+        }
+    )
+
+    // -------------------------------------------------------------------------
+    // Methods
 
 });

@@ -39,6 +39,7 @@ export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'isLowPercentage:sl-progress-bar-low-percentage'
     ],
 

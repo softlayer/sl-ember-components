@@ -71,6 +71,7 @@ export default Ember.Component.extend( ClassPrefix, StreamEnabled, TooltipEnable
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'pending',
         'sizeClass',
         'themeClass'

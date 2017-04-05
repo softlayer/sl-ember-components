@@ -47,6 +47,7 @@ export default Ember.Component.extend( ClassPrefix, Namespace, StreamEnabled, {
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'animated:fade'
     ],
 

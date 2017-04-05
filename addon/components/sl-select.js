@@ -19,6 +19,11 @@ export default Ember.Component.extend( ClassPrefix, InputBased, TooltipEnabled, 
     // Attributes
 
     /** @type {String[]} */
+    classNameBindings: [
+        'componentClassName'
+    ],
+
+    /** @type {String[]} */
     classNames: [
         'form-group'
     ],

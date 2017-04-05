@@ -40,6 +40,7 @@ export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'themeClassName',
         'dismissable:alert-dismissable'
     ],

@@ -16,6 +16,11 @@ export default Ember.Component.extend( ClassPrefix, TooltipEnabled, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
+    classNameBindings: [
+        'componentClassName'
+    ],
+
     /** @type {String} */
     tagName: 'span',
 
