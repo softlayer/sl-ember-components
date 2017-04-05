@@ -16,6 +16,7 @@ export default Ember.Component.extend( ClassPrefix, {
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'inverse',
         'loading:sl-loading'
     ],

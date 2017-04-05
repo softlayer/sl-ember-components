@@ -15,6 +15,11 @@ export default Ember.Component.extend( ClassPrefix, {
     // Attributes
 
     /** @type {String[]} */
+    classNameBindings: [
+        'componentClassName'
+    ],
+
+    /** @type {String[]} */
     classNames: [
         'modal-body'
     ],

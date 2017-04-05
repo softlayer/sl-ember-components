@@ -18,6 +18,7 @@ export default Ember.Component.extend( ClassPrefix, InputBased, {
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'radioType',
         'inline::form-group'
     ],

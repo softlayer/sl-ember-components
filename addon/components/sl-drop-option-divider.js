@@ -18,6 +18,11 @@ export default Ember.Component.extend( ClassPrefix, {
     ariaRole: 'separator',
 
     /** @type {String[]} */
+    classNameBindings: [
+        'componentClassName'
+    ],
+
+    /** @type {String[]} */
     classNames: [
         'divider'
     ],

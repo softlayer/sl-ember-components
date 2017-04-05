@@ -14,6 +14,11 @@ export default Ember.Component.extend( ClassPrefix, {
     // -------------------------------------------------------------------------
     // Attributes
 
+    /** @type {String[]} */
+    classNameBindings: [
+        'componentClassName'
+    ],
+
     /** @type {Object} */
     layout,
 

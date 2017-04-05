@@ -31,6 +31,7 @@ export default Ember.Component.extend( ClassPrefix, Namespace, {
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'detailPaneOpen:details-open',
         'detailComponent:hasDetails'
     ],

@@ -20,6 +20,7 @@ export default Ember.Component.extend( StreamEnabled, ClassPrefix, {
 
     /** @type {String[]} */
     classNameBindings: [
+        'componentClassName',
         'showingAll:show-all'
     ],
 

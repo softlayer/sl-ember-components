@@ -22,6 +22,11 @@ export default Ember.Component.extend( ClassPrefix, {
     buttonText: 'Close',
 
     /** @type {String[]} */
+    classNameBindings: [
+        'componentClassName'
+    ],
+
+    /** @type {String[]} */
     classNames: [
         'modal-footer'
     ],
